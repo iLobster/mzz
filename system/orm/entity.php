@@ -193,7 +193,7 @@ class entity
                 }
             }
         } else {
-            throw new mzzRuntimeException('Unknown method was invoked: ' . get_class($this) . '::' . $name . '()');
+            throw new mzzORMNotExistMethodException($this, $name);
         }
     }
 

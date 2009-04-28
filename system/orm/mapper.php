@@ -21,6 +21,7 @@ fileLoader::load('db/simpleSelect');
 fileLoader::load('db/simpleInsert');
 fileLoader::load('db/simpleUpdate');
 fileLoader::load('db/simpleDelete');
+fileLoader::load('orm/mzzORMNotExistMethodException');
 
 /**
  * mapper: implementation of the Data Mapper pattern

@@ -34,7 +34,16 @@ class jipPlugin extends observer
         $class = is_null($class) ? get_class($object): $class;
 
         $action = systemToolkit::getInstance()->getAction($object->module());
-        $jip = new jip($obj_id, $class, $action->getActions(array('class' => $class, 'jip' => $menu_id)), $object, $tpl);
+
+        $actions = $action->getActions(array('class' => $class, 'jip' => $menu_id));
+
+        try {
+            $object->getObjId();
+        } catch(mzzORMNotExistMethodException $e) {
+            unset($actions['editACL']);
+        }
+
+        $jip = new jip($obj_id, $class, $actions, $object, $tpl);
         return $jip->draw();
     }
 

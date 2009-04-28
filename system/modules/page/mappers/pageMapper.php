@@ -13,9 +13,6 @@
  */
 
 fileLoader::load('page');
-fileLoader::load('orm/plugins/acl_extPlugin');
-fileLoader::load('orm/plugins/i18nPlugin');
-fileLoader::load('orm/plugins/jipPlugin');
 
 /**
  * pageMapper: маппер для страниц
@@ -40,72 +37,55 @@ class pageMapper extends mapper
             'mutator' => 'setId',
             'options' => array(
                 'pk',
-                'once',
-            ),
-        ),
+                'once')),
         'name' => array(
             'accessor' => 'getName',
-            'mutator' => 'setName',
-        ),
+            'mutator' => 'setName'),
         'content' => array(
             'accessor' => 'getContent',
             'mutator' => 'setContent',
             'options' => array(
-                'i18n'
-            )
-        ),
+                'i18n')),
         'keywords' => array(
             'accessor' => 'getKeywords',
             'mutator' => 'setKeywords',
             'options' => array(
-                'i18n'
-            )
-        ),
+                'i18n')),
         'description' => array(
             'accessor' => 'getDescription',
             'mutator' => 'setDescription',
             'options' => array(
-                'i18n'
-            )
-        ),
+                'i18n')),
         'title' => array(
             'accessor' => 'getTitle',
             'mutator' => 'setTitle',
             'options' => array(
-                'i18n'
-            )
-        ),
+                'i18n')),
         'compiled' => array(
             'accessor' => 'getCompiled',
-            'mutator' => 'setCompiled',
-        ),
+            'mutator' => 'setCompiled'),
         'allow_comment' => array(
             'accessor' => 'getAllowComment',
-            'mutator' => 'setAllowComment',
-        ),
+            'mutator' => 'setAllowComment'),
         'folder_id' => array(
             'accessor' => 'getFolder',
             'mutator' => 'setFolder',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'page/pageFolderMapper'
-        ),
+            'mapper' => 'page/pageFolderMapper'),
         'keywords_reset' => array(
             'accessor' => 'isKeywordsReset',
-            'mutator' => 'setKeywordsReset',
-        ),
+            'mutator' => 'setKeywordsReset'),
         'description_reset' => array(
             'accessor' => 'isDescriptionReset',
-            'mutator' => 'setDescriptionReset',
-        ),
-    );
+            'mutator' => 'setDescriptionReset'));
 
     public function __construct()
     {
         parent::__construct();
-        $this->attach(new acl_extPlugin(), 'acl');
-        $this->attach(new i18nPlugin(), 'i18n');
-        $this->attach(new jipPlugin(), 'jip');
+        $this->plugins('acl_simple');
+        $this->plugins('i18n');
+        $this->plugins('jip');
     }
 
     /**

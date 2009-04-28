@@ -153,7 +153,6 @@ class acl
                        INNER JOIN `sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
                         LEFT JOIN `sys_access` `a` ON `a`.`obj_id` = `r`.`obj_id` AND `a`.`action_id` = `ca`.`action_id` AND (`a`.`uid` = :uid';
 
-
             if (sizeof($this->groups) && !$clean) {
                 $qry .= ' OR `a`.`gid` IN (' . $grp . ')';
             }
@@ -169,9 +168,9 @@ class acl
                       INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `r`.`class_id`
                        INNER JOIN `sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
                         LEFT JOIN `sys_access` `a` ON `a`.`obj_id` = 0 AND `a`.`action_id` = `ca`.`action_id` AND `a`.`class_id` = `r`.`class_id`
-                         WHERE `r`.`obj_id` = ' . $this->obj_id. ' AND (`a`.`uid` = ' . $this->uid;
+                         WHERE `r`.`obj_id` = ' . $this->obj_id . ' AND (`a`.`uid` = ' . $this->uid;
 
-                if (sizeof($this->groups) && !$clean) {
+                if (sizeof($this->groups)) {
                     $qry .= ' OR `a`.`gid` IN (' . $grp . ')';
                 }
 
@@ -194,13 +193,17 @@ class acl
 
             while ($row = $stmt->fetch()) {
                 if ($full) {
-                    $value = array('allow' => (bool)$row['allow'], 'deny' => (bool)$row['deny']);
+                    $value = array(
+                        'allow' => (bool)$row['allow'],
+                        'deny' => (bool)$row['deny']);
                 } else {
                     $value = (bool)$row['access'];
                 }
 
                 if ($this->isRoot && !$clean) {
-                    $result[$clean][$full][$row['name']] = $full ? array('allow' => true, 'deny' => false) : true;
+                    $result[$clean][$full][$row['name']] = $full ? array(
+                        'allow' => true,
+                        'deny' => false) : true;
                 } else {
                     $result[$clean][$full][$row['name']] = $value;
                 }
@@ -217,6 +220,42 @@ class acl
         }
     }
 
+    public function getForClass($class, $action)
+    {
+        $identifier = $class;
+        $result = $this->cache->get($identifier);
+
+        if (!$result) {
+            $grp = '';
+
+            foreach ($this->groups->keys() as $val) {
+                $grp .= $this->db->quote($val) . ', ';
+            }
+            $grp = substr($grp, 0, -2);
+
+            $qry = 'SELECT IFNULL((MAX(`allow`) - MAX(`deny`) = 1), 0) AS `access`, IFNULL(MAX(`allow`), 0) AS `allow`, IFNULL(MAX(`deny`), 0) AS `deny`, `aa`.`name`
+                 FROM `sys_classes` `c`
+                  INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id`
+                   INNER JOIN `sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
+                    LEFT JOIN `sys_access` `a` ON `a`.`obj_id` = 0 AND `a`.`class_id` = `c`.`id` AND `a`.`action_id` = `ca`.`action_id` AND (`a`.`uid` = ' . (int)$this->uid;
+
+            if (sizeof($this->groups)) {
+                $qry .= ' OR `a`.`gid` IN (' . $grp . ')';
+            }
+
+            $qry .= ') WHERE `c`.`name` = ' . $this->db->quote($class) . '  GROUP BY `aa`.`id`';
+
+            $stmt = $this->db->query($qry);
+            while ($row = $stmt->fetch()) {
+                $result[$row['name']] = $this->isRoot ? true : $row['access'];
+            }
+
+            $this->cache->set($identifier, $result);
+        }
+
+        return isset($result[$action]) ? $result[$action] : false;
+    }
+
     /**
      * Метод удаления группы из ACL
      *
@@ -230,7 +269,7 @@ class acl
             throw new mzzRuntimeException("Идентификатор группы должен быть > 0 (gid = '" . $gid . "')");
         }
 
-        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = ' . $this->obj_id . ' AND `gid` = ' .  $gid);
+        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = ' . $this->obj_id . ' AND `gid` = ' . $gid);
     }
 
     /**
@@ -241,7 +280,7 @@ class acl
     public function deleteGroupDefault($gid)
     {
         $class_id = $this->getConcreteClass();
-        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = 0 AND `gid` = ' .  (int)$gid . ' AND `class_id` = ' . $class_id);
+        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = 0 AND `gid` = ' . (int)$gid . ' AND `class_id` = ' . $class_id);
     }
 
     /**
@@ -251,7 +290,7 @@ class acl
     public function deleteDefault()
     {
         $class_id = $this->getConcreteClass();
-        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = 0 AND `uid` = ' .  (int)$this->uid . ' AND `class_id` = ' . $class_id);
+        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = 0 AND `uid` = ' . (int)$this->uid . ' AND `class_id` = ' . $class_id);
     }
 
     /**
@@ -267,7 +306,7 @@ class acl
             throw new mzzRuntimeException("Идентификатор пользователя должен быть > 0 (uid = '" . $uid . "')");
         }
 
-        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = ' . $this->obj_id . ' AND `uid` = ' .  $uid);
+        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = ' . $this->obj_id . ' AND `uid` = ' . $uid);
     }
 
     /**
@@ -296,7 +335,9 @@ class acl
 
             while ($row = $stmt->fetch()) {
                 if ($full) {
-                    $value = array('allow' => (bool)$row['allow'], 'deny' => (bool)$row['deny']);
+                    $value = array(
+                        'allow' => (bool)$row['allow'],
+                        'deny' => (bool)$row['deny']);
                 } else {
                     $value = (bool)$row['access'];
                 }
@@ -329,7 +370,9 @@ class acl
         $result = array();
         while ($row = $stmt->fetch()) {
             if ($full) {
-                $value = array('allow' => (bool)$row['allow'], 'deny' => (bool)$row['deny']);
+                $value = array(
+                    'allow' => (bool)$row['allow'],
+                    'deny' => (bool)$row['deny']);
             } else {
                 $value = (bool)$row['access'];
             }
@@ -358,7 +401,9 @@ class acl
         $result = array();
         while ($row = $stmt->fetch()) {
             if ($full) {
-                $value = array('allow' => (bool)$row['allow'], 'deny' => (bool)$row['deny']);
+                $value = array(
+                    'allow' => (bool)$row['allow'],
+                    'deny' => (bool)$row['deny']);
             } else {
                 $value = (bool)$row['access'];
             }
@@ -495,7 +540,8 @@ class acl
         }
 
         if (!is_array($param)) {
-            $param = array($param => $value);
+            $param = array(
+                $param => $value);
         }
 
         $actionsToDelete = array();
@@ -751,7 +797,6 @@ class acl
             throw new mzzRuntimeException('Класс <i>' . $class . '</i> не зарегистрирован в acl (в таблице sys_classes)');
         }
 
-
         return $id;
     }
 
@@ -802,12 +847,12 @@ class acl
         $qry = 'INSERT INTO `sys_access` (`action_id`, `class_id`, `uid`, `gid`, `allow`, `obj_id`) VALUES ';
 
         $exists = false;
-        while($row = $stmt->fetch()) {
+        while ($row = $stmt->fetch()) {
             $qry .= "(" . $row['action_id'] . ', ' . $row['class_id'] . ", "; // . $this->db->quote($row['type']) . ", ";
             if (!$row['uid'] && !$row['gid']) {
                 $qry .= $this->db->quote($this->uid) . ', NULL';
             } else {
-                $qry .= ((int)$row['uid'] > 0 ? (int)$row['uid'] : 'NULL' ). ", " . ((int)$row['gid'] > 0 ? (int)$row['gid'] : 'NULL');
+                $qry .= ((int)$row['uid'] > 0 ? (int)$row['uid'] : 'NULL') . ", " . ((int)$row['gid'] > 0 ? (int)$row['gid'] : 'NULL');
             }
             $qry .= ", " . (int)$row['allow'] . ", " . (int)$obj_id . "), ";
             $exists = true;
