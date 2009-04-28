@@ -129,7 +129,7 @@ class formValidator
     }
 
     /**
-     * Отключает проверку от CSRF-аттак
+     * Отключает проверку от CSRF-атак
      */
     public function disableCSRF()
     {
@@ -137,7 +137,7 @@ class formValidator
     }
 
     /**
-     * Включает проверку от CSRF-аттак
+     * Включает проверку от CSRF-атак
      */
     public function enableCSRF()
     {
