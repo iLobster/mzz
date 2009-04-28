@@ -99,6 +99,12 @@ class systemConfig
     public static $defaultSkin = 1;
 
     /**
+     * Имя драйвера хранилища сессий
+     * 
+     * @var string
+     */
+    public static $sessionStorageDrive = null;
+    /**
      * При вызове определяет и устанавливает путь до ядра
      *
      */

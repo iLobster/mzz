@@ -123,7 +123,7 @@ class stdToolkit extends toolkit
     {
         if (empty($this->session)) {
             fileLoader::load('session');
-            $this->session = new session();
+            $this->session = new session(systemConfig::$sessionStorageDrive);
         }
 
         return $this->session;
