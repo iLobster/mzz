@@ -24,16 +24,19 @@ class configListController extends simpleController
 {
     protected function getView()
     {
-        $id = $this->request->getInteger('id');
+        $name = $this->request->getString('name');
         $configFolderMapper = $this->toolkit->getMapper('config', 'configFolder');
 
-        $configFolder = $configFolderMapper->searchById($id);
+        $configFolder = $configFolderMapper->searchByName($name);
         if (!$configFolder) {
             return $this->forward404($configFolderMapper);
         }
 
+        $options = $configFolder->getOptions();
+        var_dump($options->export());
+
         $this->smarty->assign('folder', $configFolder);
-        $this->smarty->assign('options', $configFolder->getOptions());
+        $this->smarty->assign('options', $options);
         return $this->smarty->fetch('config/list.tpl');
     }
 }

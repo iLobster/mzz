@@ -19,35 +19,51 @@ fileLoader::load('config/configOption');
  *
  * @package modules
  * @subpackage config
- * @version 0.1
+ * @version 0.3
  */
-
-class configOptionMapper extends simpleMapper
+class configOptionMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'config';
-
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'configOption';
+    protected $class = 'configFolder';
+    protected $table = 'sys_config';
 
-    /**
-     * Конструктор
-     *
-     * @param string $section секция
-     */
-    public function __construct($section)
-    {
-        parent::__construct($section);
-        $this->table = 'sys_config';
-    }
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array('pk','once')
+         ),
+        'module_name' => array(
+            'accessor' => 'getModuleName',
+            'mutator' => 'setModuleName',
+            'options' => array('once'),
+        ),
+        'name' => array(
+            'accessor' => 'getName',
+            'mutator' => 'setName'
+        ),
+        'title' => array(
+            'accessor' => 'getTitle',
+            'mutator' => 'setTitle'
+        ),
+        'type_id' => array(
+            'accessor' => 'getType',
+            'mutator' => 'setType'
+        ),
+        'value' => array(
+            'accessor' => 'getValue',
+            'mutator' => 'setValue'
+        ),
+        'args' => array(
+            'accessor' => 'getArgs',
+            'mutator' => 'setArgs'
+        )
+    );
+
 
     public function searchById($id)
     {
@@ -57,16 +73,6 @@ class configOptionMapper extends simpleMapper
     public function searchAllByModuleName($moduleName)
     {
         return $this->searchAllByField('module_name', $moduleName);
-    }
-
-    public function getTypes()
-    {
-        return array(
-            configOption::TYPE_INT => 'число',
-            configOption::TYPE_STRING => 'строка',
-            configOption::TYPE_BOOL => 'bool',
-            configOption::TYPE_LIST => 'варианты',
-        );
     }
 
     /**

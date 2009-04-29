@@ -19,58 +19,66 @@ fileLoader::load('config/configFolder');
  *
  * @package modules
  * @subpackage config
- * @version 0.1
+ * @version 0.3
  */
-
-class configFolderMapper extends simpleMapper
+class configFolderMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'config';
-
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'configFolder';
+    protected $class = 'configFolder';
+    protected $table = 'sys_modules';
 
-    protected $obj_id_field = null;
-
-    /**
-     * Конструктор
-     *
-     * @param string $section секция
-     */
-    public function __construct($section)
-    {
-        parent::__construct($section);
-        $this->table = 'sys_modules';
-    }
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array('pk','once')
+         ),
+        'name' => array(
+            'accessor' => 'getName',
+            'mutator' => 'setName',
+            'options' => array('once'),
+        ),
+        'title' => array(
+            'accessor' => 'getTitle',
+            'mutator' => 'setTitle',
+            'options' => array('once'),
+        ),
+        'options' => array(
+            'accessor' => 'getOptions',
+            'mutator' => 'setOptions',
+            'relation' => 'many',
+            'mapper' => 'config/configOptionMapper',
+            'foreign_key' => 'module_name',
+            'local_key' => 'name'
+        )
+    );
 
     public function searchById($id)
     {
-        return $this->searchOneByField('id', $id);
+        return $this->searchByKey($id);
     }
 
-    public function getOptions(configFolder $folder)
+    public function searchByName($name)
     {
-        $configFolderMapper = systemToolkit::getInstance()->getMapper('config', 'configOption', $this->section);
-        return $configFolderMapper->searchAllByModuleName($folder->getName());
+        return $this->searchOneByField('name', $name);
+    }
+
+    public static function getTypes()
+    {
+        return array(
+            configOption::TYPE_INT => 'число',
+            configOption::TYPE_STRING => 'строка',
+            configOption::TYPE_BOOL => 'bool',
+            configOption::TYPE_LIST => 'варианты',
+        );
     }
 
     public function save($object, $user = null)
     {
-    }
-
-    private function generateObjId()
-    {
-        $obj_id = systemToolkit::getInstance()->getObjectId($this->section . '_' . $this->className);
-        $this->register($obj_id);
-        return $obj_id;
     }
 
     /**
@@ -81,7 +89,6 @@ class configFolderMapper extends simpleMapper
     public function convertArgsToObj($args)
     {
         $obj = $this->create();
-        $obj->import(array('obj_id' => $this->generateObjId()));
         return $obj;
     }
 }

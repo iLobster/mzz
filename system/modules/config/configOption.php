@@ -17,10 +17,9 @@
  *
  * @package modules
  * @subpackage configOption
- * @version 0.1
+ * @version 0.3
  */
-
-class configOption extends simple
+class configOption extends entity
 {
     const TYPE_INT = 1;
     const TYPE_STRING = 2;
@@ -31,7 +30,8 @@ class configOption extends simple
 
     public function getTypeTitle()
     {
-        $types = $this->mapper->getTypes();
+        $types = systemToolkit::getInstance()->getMapper('config', 'configFolder')->getTypes();
+
         $type = $this->getType();
         if (!isset($types[$type])) {
             return $types[self::TYPE_INT];

@@ -17,26 +17,20 @@
  *
  * @package modules
  * @subpackage config
- * @version 0.1
+ * @version 0.3
  */
-
-class configFolder extends simple
+class configFolder extends entity
 {
     protected $name = 'config';
-    protected $options = null;
+    protected $options = false;
 
     public function getOptions()
     {
-        if (is_null($this->options)) {
-            $this->options = $this->mapper->getOptions($this);
+        if ($this->options === false) {
+            $this->options = parent::__call('getOptions', array());
         }
 
         return $this->options;
-    }
-
-    public function getObjId()
-    {
-        return $this->fakeField('obj_id');
     }
 }
 
