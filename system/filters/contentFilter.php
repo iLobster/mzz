@@ -12,6 +12,8 @@
  * @version $Id$
  */
 
+fileLoader::load('core/loadDispatcher');
+
 /**
  * contentFilter: фильтр получения и отображения контента
  *
@@ -43,23 +45,12 @@ class contentFilter implements iFilter
     public function run(filterChain $filter_chain, $response, iRequest $request)
     {
         $toolkit = systemToolkit::getInstance();
+        $smarty = $toolkit->getSmarty();
 
         $tplPath = systemConfig::$pathToApplication . '/templates';
 
-        try {
-            $template = $this->getTemplateName($request, $tplPath);
-        } catch (mzzRuntimeException $e) {
-            if (DEBUG_MODE) {
-                throw $e;
-            }
+        $template = $this->getTemplateName($request, $tplPath);
 
-            $output = $this->get404();
-            if ($output === false) {
-                $template = $this->getTemplateName($request, $tplPath);
-            }
-        }
-
-        $smarty = $toolkit->getSmarty();
         // @todo подумать нужны ли в шаблоне теперь эти переменные
         //страйкер: конечно нужны. как без них? в большинстве {url используется section=$current_section. Но предлагаю просто передать объект $request в смарти.
         $smarty->assign('current_section', $request->getRequestedSection());
@@ -67,6 +58,24 @@ class contentFilter implements iFilter
         $smarty->assign('current_path', $request->getPath());
         $smarty->assign('current_lang', $toolkit->getLocale()->getName());
         $smarty->assign('available_langs', $toolkit->getLocale()->searchAll());
+
+        if (empty($template)) {
+            try {
+                $output = $this->setActiveTemplateAndRunAction($request);
+            } catch (mzzNoActionException $e) {
+                if (DEBUG_MODE) {
+                    throw $e;
+                }
+
+                $output = $this->get404();
+                if ($output === false) {
+                    $template = $this->getTemplateName($request, $tplPath);
+                    if (empty($template)) {
+                        $output = $this->setActiveTemplateAndRunAction($request);
+                    }
+                }
+            }
+        }
 
         // если вывода ещё не было (не 404 страница), или был (404, но вернувшая false - что значит что должен быть запущен стандартный запуск через активный шаблон)
         if (!isset($output) || $output === false) {
@@ -105,7 +114,28 @@ class contentFilter implements iFilter
         if (file_exists($path . '/' . $tpl_name)) {
             return $tpl_name;
         }
-        throw new mzzRuntimeException('Не найден активный шаблон: <i>' . $path . '/' . $tpl_name . '</i>');
+        return false;
+    }
+
+    public function setActiveTemplateAndRunAction($request)
+    {
+        $toolkit = systemToolkit::getInstance();
+        $smarty = $toolkit->getSmarty();
+        $section = $request->getRequestedSection();
+        $actionName = $request->getRequestedAction();
+        include(fileLoader::resolve('configs/modules'));
+
+        if (!isset($modules[$section])) {
+            throw new mzzNoActionException('There is no action in unknown sections');
+        }
+        $action = $toolkit->getAction($modules[$section]);
+        $activeTemplate = $action->getActiveTemplate($actionName);
+        $smarty->setActiveTemplate($activeTemplate['template'], $activeTemplate['placeholder']);
+        return loadDispatcher::dispatch($section, $modules[$section], $actionName);
+
+        $smarty->assign($activeTemplate['placeholder'], loadDispatcher::dispatch($section, $modules[$section], $actionName));
+        return $smarty->fetch($activeTemplate['template']);
+
     }
 }
 

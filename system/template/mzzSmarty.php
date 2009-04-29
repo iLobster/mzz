@@ -49,11 +49,13 @@ class mzzSmarty extends Smarty
     protected $fetchedTemplates = array();
 
     /**
-     * Массив из имени XML-шаблона и имени placeholder-а в нем
+     * The template and placeholder name of the active template
      *
      * @var array
      */
-    protected $xmlTemplate = false;
+    protected $mainTemplate = false;
+
+    protected $originalMainTemplate = null;
 
     /**
      * Используемый скин
@@ -158,6 +160,7 @@ class mzzSmarty extends Smarty
             throw new mzzRuntimeException($error);
         }
         $this->fetchedTemplates[$params['main']] = true;
+        $this->originalMainTemplate = array('main' => $params['main'], 'placeholder' => $params['placeholder']);
 
         if (!$this->withMain) {
             return $result;
@@ -188,12 +191,6 @@ class mzzSmarty extends Smarty
      */
     public function parse($str)
     {
-        if ($this->withMain && $this->xmlTemplate !== false) {
-            $xmlTemplate = $this->xmlTemplate;
-            // для предотвращения рекурсии
-            $this->xmlTemplate = true;
-            return $xmlTemplate;
-        }
         $params = array();
         if (preg_match('/\{\*\s*(.*?)\s*\*\}/', $str, $matches)) {
             $clean_str = preg_split('/\s+/', $matches[1]);
@@ -214,34 +211,41 @@ class mzzSmarty extends Smarty
      */
     public function isActive($template)
     {
-        $isActive = (strpos($template, "{* main=") === false);
-        return ($this->xmlTemplate !== true && !$isActive)
-        || (is_array($this->xmlTemplate));
+        return (strpos($template, "{* main=") !== false);
     }
 
     /**
-     * Устанавливает XML-шаблон и имя placeholder-а
+     * Устанавливает активный шаблон и имя placeholder-а
      *
-     * @param string $template_name имя XML-шаблона
+     * @param string $template_name имя шаблона
      * @param string $placeholder имя placeholder-а. По умолчанию <i>content</i>
      */
-    public function setXmlTemplate($template_name, $placeholder = 'content')
+    public function setActiveTemplate($template_name, $placeholder = 'content')
     {
-        if (!$this->xmlTemplate) {
-            $this->xmlTemplate = array('main' => $template_name, 'placeholder' => $placeholder);
-            $this->enableMain();
+        if ($template_name === null) {
+            $this->mainTemplate = null;
+            return false;
         }
+        $this->mainTemplate = array('main' => $template_name, 'placeholder' => $placeholder);
+        $this->enableMain();
     }
 
     /**
-     * Возвращает true если установлен активный XML-шаблон
+     * Возвращает активный шаблон и имя placeholder-а
      *
-     * @return boolean
-     * @see setXmlTemplate()
      */
-    public function isXml()
+    public function getActiveTemplate()
     {
-        return $this->xmlTemplate !== false;
+        return $this->mainTemplate;
+    }
+
+    /**
+     * Returns the original main template and placeholder names of the active template
+     *
+     */
+    public function getOriginalMainTemplate()
+    {
+        return $this->originalMainTemplate;
     }
 
     /**

@@ -48,6 +48,7 @@ class actionTest extends unitTestCase
             'secondActions' => array (
                 'secondAction' => array ('controller' => 'secondController', '403handle' => 'none', 'admin' => '1'),
                 'jipActionFull' => array ( 'controller' => 'bar', 'jip' => '2', 'title' => 'someTitle', 'confirm' => 'confirm message'),
+                'anotherMain' => array ( 'controller' => 'anotherMain', 'main' => 'blah.tpl', 'main_placeholder' => 'data'),
                 'editACL' => array ( 'controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL')))
         );
     }
@@ -69,7 +70,8 @@ class actionTest extends unitTestCase
 
         $this->assertEqual($this->action->getActions(array('class' => 'secondActions', 'acl' => true)), array (
             'jipActionFull' => array ( 'controller' => 'bar', 'jip' => '2', 'title' => 'someTitle', 'confirm' => 'confirm message'),
-            'editACL' => array ( 'controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL'))
+            'editACL' => array ( 'controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL'),
+            'anotherMain' => array ( 'controller' => 'anotherMain', 'main' => 'blah.tpl', 'main_placeholder' => 'data'))
         );
     }
 
@@ -81,6 +83,7 @@ class actionTest extends unitTestCase
                 'editACL' => array ('controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL')),
             'secondActions' => array (
                 'jipActionFull' => array ( 'controller' => 'bar', 'jip' => '2', 'title' => 'someTitle', 'confirm' => 'confirm message'),
+                'anotherMain' => array ( 'controller' => 'anotherMain', 'main' => 'blah.tpl', 'main_placeholder' => 'data'),
                 'editACL' => array ( 'controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL')))
         );
     }
@@ -109,6 +112,22 @@ class actionTest extends unitTestCase
             'secondActions' => array (
                 'secondAction' => array ('controller' => 'secondController', '403handle' => 'none', 'admin' => '1')))
         );
+    }
+
+    public function testGetActiveTemplate()
+    {
+        $this->assertEqual($this->action->getActiveTemplate('secondAction'), array ('template' => 'main.tpl', 'placeholder' => 'content'));
+        $this->assertEqual($this->action->getActiveTemplate('anotherMain'), array ('template' => 'blah.tpl', 'placeholder' => 'data'));
+    }
+
+    public function testGetActiveTemplateException()
+    {
+        try {
+            $this->action->getActiveTemplate('_not_exists_');
+            $this->fail('no exception');
+        } catch (mzzNoActionException $e) {
+            $this->pass();
+        }
     }
 
     public function testGetActionsNone()

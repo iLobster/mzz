@@ -20,6 +20,9 @@
 */
 class action
 {
+    const DEFAULT_MAIN_TPL = 'main.tpl';
+    const DEFAULT_MAIN_PLACEHOLDER = 'content';
+
     /**
      * Module's actions
      *
@@ -103,6 +106,23 @@ class action
     }
 
     /**
+     * Возвращает имя активного шаблона
+     *
+     * @return array
+     */
+    public function getActiveTemplate($action)
+    {
+        $main = array('template' => action::DEFAULT_MAIN_TPL, 'placeholder' => action::DEFAULT_MAIN_PLACEHOLDER);
+        if (isset($this->actions[$this->getClass($action)][$action]['main'])) {
+            $main['template'] = $this->actions[$this->getClass($action)][$action]['main'];
+        }
+        if (isset($this->actions[$this->getClass($action)][$action]['main_placeholder'])) {
+            $main['placeholder'] = $this->actions[$this->getClass($action)][$action]['main_placeholder'];
+        }
+        return $main;
+    }
+
+    /**
      * Возвращает все допустимые действия модуля
      *
      * @param boolean $onlyACL выбрать только ACL действия
@@ -169,7 +189,7 @@ class action
             }
         }
 
-        throw new mzzSystemException('The "' . $this->module . '" module has not the "' . $action . '" action');
+        throw new mzzNoActionException('The "' . $this->module . '" module doesn\'t have the "' . $action . '" action');
     }
 
     protected function buildActionsConfigs()

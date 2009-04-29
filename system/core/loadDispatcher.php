@@ -41,7 +41,7 @@ class loadDispatcher
      * @param array $params
      * @return string|null
      */
-    static public function dispatch($section, $module, $actionName, $params)
+    static public function dispatch($section, $module, $actionName, $params = array())
     {
         if (empty($module)) {
             throw new mzzRuntimeException("Module loading error: the name of the module is not specified.");
