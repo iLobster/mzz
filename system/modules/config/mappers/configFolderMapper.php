@@ -67,14 +67,14 @@ class configFolderMapper extends mapper
         return $this->searchOneByField('name', $name);
     }
 
-    public static function getTypes()
+    public function searchAllWithOptions()
     {
-        return array(
-            configOption::TYPE_INT => 'число',
-            configOption::TYPE_STRING => 'строка',
-            configOption::TYPE_BOOL => 'bool',
-            configOption::TYPE_LIST => 'варианты',
-        );
+        $configOptionMapper = systemToolkit::getInstance()->getMapper('config', 'configOption');
+
+        $criteria = new criteria;
+        $criteria->addJoin($configOptionMapper->table(), new criterion('sys_modules.name', 'configOption.module_name', criteria::EQUAL, true), 'configOption', criteria::JOIN_INNER);
+        return $this->searchAllByCriteria($criteria);
+
     }
 
     public function save($object, $user = null)

@@ -30,17 +30,17 @@ class configSaveController extends simpleController
         $configOptionMapper = $this->toolkit->getMapper('config', 'configOption');
         $configFolderMapper = $this->toolkit->getMapper('config', 'configFolder');
 
-        $id = $this->request->getInteger('id');
-
         if ($isEdit) {
+            $id = $this->request->getInteger('id');
             $option = $configOptionMapper->searchById($id);
 
             if (!$option) {
                 return $this->forward404($configOptionMapper);
             }
-            $folder = $option->getModule();
+            $folder = $configFolderMapper->searchByName($option->getModuleName());
         } else {
-            $folder = $configFolderMapper->searchById($id);
+            $name = $this->request->getString('name');
+            $folder = $configFolderMapper->searchByName($name);
 
             if (!$folder) {
                 return $this->forward404($configFolderMapper);
@@ -62,23 +62,29 @@ class configSaveController extends simpleController
         if ($validator->validate()) {
             $name = $this->request->getString('name', SC_POST);
             $title = $this->request->getString('title', SC_POST);
-            $type_id = $this->request->getInt('type_id', SC_POST);
+            $type_id = $this->request->getInteger('type_id', SC_POST);
 
             $option->setName($name);
             $option->setTitle($title);
             $option->setType($type_id);
 
             if (!$isEdit) {
-                $option->setFolder($folder);
+                $option->setModuleName($folder->getName());
             }
 
             $configOptionMapper->save($option);
             return jipTools::closeWindow();
         }
 
-        $url = new url('withId');
-        $url->setAction($action);
-        $url->add('id', $id);
+        if ($isEdit) {
+            $url = new url('withId');
+            $url->setAction('edit');
+            $url->add('id', $id);
+        } else {
+            $url = new url('withAnyParam');
+            $url->setAction('add');
+            $url->add('name', $name);
+        }
 
         $this->smarty->assign('types', $types);
         $this->smarty->assign('form_action', $url->get());

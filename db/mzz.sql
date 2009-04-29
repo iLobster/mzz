@@ -1,4 +1,4 @@
-# SQL Manager 2007 for MySQL 4.4.0.3
+# SQL Manager 2007 for MySQL 4.4.0.5
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -326,23 +326,14 @@ CREATE TABLE `comments_comments` (
   `folder_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=11 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=2 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `comments_comments` table  (LIMIT 0,500)
 #
 
 INSERT INTO `comments_comments` (`id`, `obj_id`, `text`, `user_id`, `created`, `folder_id`) VALUES 
-  (1,1421,'test',2,1238811066,1),
-  (2,1422,'sdfasdf',2,1238811078,1),
-  (3,1423,'test',2,1238811106,1),
-  (4,1424,'2',1,1238932761,1),
-  (5,1425,'3',1,1238932768,1),
-  (6,1426,'4',1,1238932774,1),
-  (7,1427,'5',1,1238932780,1),
-  (8,1428,'6',1,1238932788,1),
-  (9,1429,'7',1,1238932794,1),
-  (10,1430,'8',1,1238932802,1);
+  (1,1439,'sadfasdf',2,1240981271,1);
 COMMIT;
 
 #
@@ -369,7 +360,7 @@ AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 #
 
 INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`, `module`, `type`, `by_field`) VALUES 
-  (1,1401,9,'page','page','obj_id');
+  (1,1438,1,'page','page','id');
 COMMIT;
 
 #
@@ -386,16 +377,16 @@ CREATE TABLE `comments_comments_tree` (
   `spath` TEXT COLLATE utf8_general_ci,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=13 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=15 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `comments_comments_tree` table  (LIMIT 0,500)
 #
 
 INSERT INTO `comments_comments_tree` (`id`, `path`, `foreign_key`, `level`, `spath`) VALUES 
-  (1,'1/',1,1,'3/'),
+  (1,'1/',1,1,'14/'),
   (2,'3/',3,1,'5/'),
-  (3,'1/',1,1,'3/'),
+  (3,'1/',1,1,'14/'),
   (4,'2/',2,1,'4/'),
   (5,'3/',3,1,'5/'),
   (6,'1/4/',4,2,'3/6/'),
@@ -404,7 +395,9 @@ INSERT INTO `comments_comments_tree` (`id`, `path`, `foreign_key`, `level`, `spa
   (9,'1/4/5/6/7/',7,5,'3/6/7/8/9/'),
   (10,'1/4/5/6/7/8/',8,6,'3/6/7/8/9/10/'),
   (11,'1/4/5/6/7/8/9/',9,7,'3/6/7/8/9/10/11/'),
-  (12,'1/4/5/6/7/8/9/10/',10,8,'3/6/7/8/9/10/11/12/');
+  (12,'1/4/5/6/7/8/9/10/',10,8,'3/6/7/8/9/10/11/12/'),
+  (13,'11/',11,1,'13/'),
+  (14,'1/',1,1,'14/');
 COMMIT;
 
 #
@@ -1715,7 +1708,7 @@ CREATE TABLE `sys_access` (
   KEY `obj_id_gid` (`obj_id`, `gid`),
   KEY `obj_id_uid` (`obj_id`, `uid`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=8862 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=8990 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_access` table  (LIMIT 0,500)
@@ -9026,7 +9019,135 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`,
   (8858,5,13,1434,2,NULL,1,0),
   (8859,6,13,1434,2,NULL,1,0),
   (8860,7,13,1434,2,NULL,1,0),
-  (8861,9,13,1434,2,NULL,1,0);
+  (8861,9,13,1434,2,NULL,1,0),
+  (8862,3,1,1436,2,NULL,1,0),
+  (8863,1,1,1436,2,NULL,1,0),
+  (8864,29,1,1436,2,NULL,1,0),
+  (8865,2,1,1436,2,NULL,1,0),
+  (8866,9,1,1436,2,NULL,0,0),
+  (8867,4,2,1436,2,NULL,1,0),
+  (8868,5,2,1436,2,NULL,1,0),
+  (8869,6,2,1436,2,NULL,1,0),
+  (8870,7,2,1436,2,NULL,1,0),
+  (8871,30,2,1436,2,NULL,1,0),
+  (8872,8,2,1436,2,NULL,1,0),
+  (8873,9,2,1436,2,NULL,0,0),
+  (8874,10,3,1436,2,NULL,1,0),
+  (8875,11,3,1436,2,NULL,1,0),
+  (8876,5,3,1436,2,NULL,1,0),
+  (8877,1,3,1436,2,NULL,1,0),
+  (8878,12,3,1436,2,NULL,1,0),
+  (8879,2,3,1436,2,NULL,1,0),
+  (8880,9,3,1436,2,NULL,1,0),
+  (8881,3,6,1436,2,NULL,1,0),
+  (8882,1,6,1436,2,NULL,1,0),
+  (8883,2,6,1436,2,NULL,1,0),
+  (8884,9,6,1436,2,NULL,0,0),
+  (8885,1,10,1436,2,NULL,1,0),
+  (8886,2,10,1436,2,NULL,1,0),
+  (8887,9,10,1436,2,NULL,1,0),
+  (8888,9,11,1436,2,NULL,1,0),
+  (8889,4,13,1436,2,NULL,1,0),
+  (8890,5,13,1436,2,NULL,1,0),
+  (8891,6,13,1436,2,NULL,1,0),
+  (8892,7,13,1436,2,NULL,1,0),
+  (8893,9,13,1436,2,NULL,1,0),
+  (8894,1,1,1437,2,NULL,1,0),
+  (8895,2,1,1437,2,NULL,1,0),
+  (8896,3,1,1437,2,NULL,1,0),
+  (8897,9,1,1437,2,NULL,0,0),
+  (8898,29,1,1437,2,NULL,1,0),
+  (8899,4,2,1437,2,NULL,1,0),
+  (8900,5,2,1437,2,NULL,1,0),
+  (8901,6,2,1437,2,NULL,1,0),
+  (8902,7,2,1437,2,NULL,1,0),
+  (8903,8,2,1437,2,NULL,1,0),
+  (8904,9,2,1437,2,NULL,0,0),
+  (8905,30,2,1437,2,NULL,1,0),
+  (8906,1,3,1437,2,NULL,1,0),
+  (8907,2,3,1437,2,NULL,1,0),
+  (8908,5,3,1437,2,NULL,1,0),
+  (8909,9,3,1437,2,NULL,1,0),
+  (8910,10,3,1437,2,NULL,1,0),
+  (8911,11,3,1437,2,NULL,1,0),
+  (8912,12,3,1437,2,NULL,1,0),
+  (8913,1,6,1437,2,NULL,1,0),
+  (8914,2,6,1437,2,NULL,1,0),
+  (8915,3,6,1437,2,NULL,1,0),
+  (8916,9,6,1437,2,NULL,0,0),
+  (8917,1,10,1437,2,NULL,1,0),
+  (8918,2,10,1437,2,NULL,1,0),
+  (8919,9,10,1437,2,NULL,1,0),
+  (8920,9,11,1437,2,NULL,1,0),
+  (8921,4,13,1437,2,NULL,1,0),
+  (8922,5,13,1437,2,NULL,1,0),
+  (8923,6,13,1437,2,NULL,1,0),
+  (8924,7,13,1437,2,NULL,1,0),
+  (8925,9,13,1437,2,NULL,1,0),
+  (8926,1,1,1438,2,NULL,1,0),
+  (8927,2,1,1438,2,NULL,1,0),
+  (8928,3,1,1438,2,NULL,1,0),
+  (8929,9,1,1438,2,NULL,0,0),
+  (8930,29,1,1438,2,NULL,1,0),
+  (8931,4,2,1438,2,NULL,1,0),
+  (8932,5,2,1438,2,NULL,1,0),
+  (8933,6,2,1438,2,NULL,1,0),
+  (8934,7,2,1438,2,NULL,1,0),
+  (8935,8,2,1438,2,NULL,1,0),
+  (8936,9,2,1438,2,NULL,0,0),
+  (8937,30,2,1438,2,NULL,1,0),
+  (8938,1,3,1438,2,NULL,1,0),
+  (8939,2,3,1438,2,NULL,1,0),
+  (8940,5,3,1438,2,NULL,1,0),
+  (8941,9,3,1438,2,NULL,1,0),
+  (8942,10,3,1438,2,NULL,1,0),
+  (8943,11,3,1438,2,NULL,1,0),
+  (8944,12,3,1438,2,NULL,1,0),
+  (8945,1,6,1438,2,NULL,1,0),
+  (8946,2,6,1438,2,NULL,1,0),
+  (8947,3,6,1438,2,NULL,1,0),
+  (8948,9,6,1438,2,NULL,0,0),
+  (8949,1,10,1438,2,NULL,1,0),
+  (8950,2,10,1438,2,NULL,1,0),
+  (8951,9,10,1438,2,NULL,1,0),
+  (8952,9,11,1438,2,NULL,1,0),
+  (8953,4,13,1438,2,NULL,1,0),
+  (8954,5,13,1438,2,NULL,1,0),
+  (8955,6,13,1438,2,NULL,1,0),
+  (8956,7,13,1438,2,NULL,1,0),
+  (8957,9,13,1438,2,NULL,1,0),
+  (8958,1,1,1439,2,NULL,1,0),
+  (8959,2,1,1439,2,NULL,1,0),
+  (8960,3,1,1439,2,NULL,1,0),
+  (8961,9,1,1439,2,NULL,0,0),
+  (8962,29,1,1439,2,NULL,1,0),
+  (8963,4,2,1439,2,NULL,1,0),
+  (8964,5,2,1439,2,NULL,1,0),
+  (8965,6,2,1439,2,NULL,1,0),
+  (8966,7,2,1439,2,NULL,1,0),
+  (8967,8,2,1439,2,NULL,1,0),
+  (8968,9,2,1439,2,NULL,0,0),
+  (8969,30,2,1439,2,NULL,1,0),
+  (8970,1,3,1439,2,NULL,1,0),
+  (8971,2,3,1439,2,NULL,1,0),
+  (8972,5,3,1439,2,NULL,1,0),
+  (8973,9,3,1439,2,NULL,1,0),
+  (8974,10,3,1439,2,NULL,1,0),
+  (8975,11,3,1439,2,NULL,1,0),
+  (8976,12,3,1439,2,NULL,1,0),
+  (8977,1,6,1439,2,NULL,1,0),
+  (8978,2,6,1439,2,NULL,1,0),
+  (8979,3,6,1439,2,NULL,1,0),
+  (8980,9,6,1439,2,NULL,0,0),
+  (8981,1,10,1439,2,NULL,1,0),
+  (8982,2,10,1439,2,NULL,1,0),
+  (8983,9,10,1439,2,NULL,1,0),
+  (8984,9,11,1439,2,NULL,1,0),
+  (8985,4,13,1439,2,NULL,1,0),
+  (8986,5,13,1439,2,NULL,1,0),
+  (8987,6,13,1439,2,NULL,1,0),
+  (8988,7,13,1439,2,NULL,1,0),
+  (8989,9,13,1439,2,NULL,1,0);
 COMMIT;
 
 #
@@ -9040,7 +9161,7 @@ CREATE TABLE `sys_access_registry` (
   `class_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1435 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1440 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_access_registry` table  (LIMIT 0,500)
@@ -9674,7 +9795,11 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_id`) VALUES
   (1430,10),
   (1432,18),
   (1433,18),
-  (1434,17);
+  (1434,17),
+  (1436,11),
+  (1437,10),
+  (1438,11),
+  (1439,10);
 COMMIT;
 
 #
@@ -9689,7 +9814,7 @@ CREATE TABLE `sys_actions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=108 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=109 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_actions` table  (LIMIT 0,500)
@@ -9776,7 +9901,8 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (104,'adminTypes'),
   (105,'adminProperties'),
   (106,'add'),
-  (107,'menu');
+  (107,'menu'),
+  (108,'configure');
 COMMIT;
 
 #
@@ -9988,7 +10114,7 @@ CREATE TABLE `sys_classes_actions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `class_id` (`class_id`, `action_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=296 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=301 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_classes_actions` table  (LIMIT 0,500)
@@ -10180,10 +10306,9 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (289,19,105),
   (290,55,9),
   (291,56,9),
-  (292,56,5),
-  (293,55,1),
-  (294,56,106),
-  (295,10,1);
+  (295,10,1),
+  (296,55,2),
+  (300,56,108);
 COMMIT;
 
 #
@@ -10203,14 +10328,14 @@ CREATE TABLE `sys_config` (
   `args` TEXT COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=2 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_config` table  (LIMIT 0,500)
 #
 
 INSERT INTO `sys_config` (`id`, `obj_id`, `module_name`, `name`, `title`, `type_id`, `value`, `args`) VALUES 
-  (1,1306,'config','test2123','test1',1,'test2','');
+  (3,0,'news','items_per_page','Количество элементов на страницу',1,'20','');
 COMMIT;
 
 #
@@ -10293,7 +10418,7 @@ INSERT INTO `sys_modules` (`id`, `name`, `title`, `icon`, `order`) VALUES
   (18,'captcha','Captcha','',0),
   (19,'pager','Пейджер',NULL,NULL),
   (20,'simple','simple',NULL,NULL),
-  (22,'config','Конфиг','',0);
+  (22,'config','Конфигурация','config.gif',0);
 COMMIT;
 
 #
@@ -10306,7 +10431,7 @@ CREATE TABLE `sys_obj_id` (
   `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1435 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1440 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_obj_id` table  (LIMIT 0,500)
@@ -11746,7 +11871,12 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1431),
   (1432),
   (1433),
-  (1434);
+  (1434),
+  (1435),
+  (1436),
+  (1437),
+  (1438),
+  (1439);
 COMMIT;
 
 #
@@ -11761,7 +11891,7 @@ CREATE TABLE `sys_obj_id_named` (
   PRIMARY KEY (`obj_id`),
   UNIQUE KEY `name` (`name`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1401 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1436 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_obj_id_named` table  (LIMIT 0,500)
@@ -11790,7 +11920,8 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (1397,'access_voting'),
   (1398,'access_'),
   (1399,'userFolder'),
-  (1400,'groupFolder');
+  (1400,'groupFolder'),
+  (1435,'configFolder');
 COMMIT;
 
 #

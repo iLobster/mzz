@@ -35,32 +35,32 @@ fileLoader::load('service/sideHelper');
  */
 function smarty_function_load($params, $smarty)
 {
-        $allParams = $params;
-        $allParams['params'] = $params;
-        foreach (array('module', 'section', 'action', '_side') as $name) {
-            unset($allParams['params'][$name]);
-        }
-        $allParams = new arrayDataspace($allParams);
+    $allParams = $params;
+    $allParams['params'] = $params;
+    foreach (array('module', 'section', 'action', '_side') as $name) {
+        unset($allParams['params'][$name]);
+    }
+    $allParams = new arrayDataspace($allParams);
 
-        $section = $allParams['section'];
-        $module = $allParams['module'];
-        $side = $allParams['_side'];
-        $actionName = $allParams['action'];
+    $section = $allParams['section'];
+    $module = $allParams['module'];
+    $side = $allParams['_side'];
+    $actionName = $allParams['action'];
 
-        $sideHelper = sideHelper::getInstance();
-        if ($side && $sideHelper->isHidden($module . '_' . $actionName)) {
-            // loading this action of this module has been disabled by sideHelper
-            return null;
-        }
+    $sideHelper = sideHelper::getInstance();
+    if ($side && $sideHelper->isHidden($module . '_' . $actionName)) {
+        // loading this action of this module has been disabled by sideHelper
+        return null;
+    }
 
-        $view = loadDispatcher::dispatch($section, $module, $actionName, $allParams['params']);
+    $view = loadDispatcher::dispatch($section, $module, $actionName, $allParams['params']);
 
-        // отдаём контент в вызывающий шаблон, либо сохраняем его в sideHelper
-        if ($side) {
-            $sideHelper->set($side, $module . '_' . $actionName, $view);
-        } else {
-            return $view;
-        }
+    // отдаём контент в вызывающий шаблон, либо сохраняем его в sideHelper
+    if ($side) {
+        $sideHelper->set($side, $module . '_' . $actionName, $view);
+    } else {
+        return $view;
+    }
 }
 
 ?>

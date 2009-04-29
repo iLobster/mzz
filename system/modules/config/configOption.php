@@ -30,7 +30,7 @@ class configOption extends entity
 
     public function getTypeTitle()
     {
-        $types = systemToolkit::getInstance()->getMapper('config', 'configFolder')->getTypes();
+        $types = systemToolkit::getInstance()->getMapper('config', 'configOption')->getTypes();
 
         $type = $this->getType();
         if (!isset($types[$type])) {

@@ -28,7 +28,7 @@ class configOptionMapper extends mapper
      *
      * @var string
      */
-    protected $class = 'configFolder';
+    protected $class = 'configOption';
     protected $table = 'sys_config';
 
     protected $map = array(
@@ -73,6 +73,38 @@ class configOptionMapper extends mapper
     public function searchAllByModuleName($moduleName)
     {
         return $this->searchAllByField('module_name', $moduleName);
+    }
+
+    public function getModuleOptions($moduleName)
+    {
+        $config = array();
+        foreach ($this->searchAllByModuleName($moduleName) as $option) {
+            switch ($option->getType()) {
+                case configOption::TYPE_INT:
+                    $config[$option->getName()] = (int)$option->getValue();
+                    break;
+
+                case configOption::TYPE_STRING:
+                    $config[$option->getName()] = $option->getValue();
+                    break;
+
+                case configOption::TYPE_BOOL:
+                    $config[$option->getName()] = (bool)$option->getValue();
+                    break;
+            }
+        }
+
+        return new arrayDataspace($config);
+    }
+
+    public static function getTypes()
+    {
+        return array(
+            configOption::TYPE_INT => 'число',
+            configOption::TYPE_STRING => 'строка',
+            configOption::TYPE_BOOL => 'bool',
+            configOption::TYPE_LIST => 'варианты',
+        );
     }
 
     /**

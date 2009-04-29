@@ -15,7 +15,7 @@
                         <a href="{url route="withId" section="admin" id=$module.id action="deleteModule"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить модуль" title="Удалить модуль" /></a>
                     {/if}
                     <a href="{url route="withId" section="admin" id=$module.id action="addClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="Добавить класс" title="Добавить класс" /></a>
-                    <a href="{url route="withId" section="admin" id=$module.id action="listCfg"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/config.gif" alt="Параметры конфигурации" title="Параметры конфигурации" /></a>
+                    <a href="{url route="withId" section="config" id=$name action="list"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/config.gif" alt="Параметры конфигурации" title="Параметры конфигурации" /></a>
                     <a href="{url route="withId" section="admin" id=$module.id action="editModule"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать модуль" title="Редактировать модуль" /></a>
 
                     {if not empty($module.editACL)}

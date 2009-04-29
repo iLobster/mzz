@@ -1,4 +1,4 @@
-<div class="jipTitle">{if $isEdit}Редактирование опции {$option->getName()|h}{else}Создание новой опции{/if} модуля {$folder->getName()|h}</div>
+<div class="jipTitle">{if $isEdit}Редактирование опции {$option->getName()|h}{else}Создание новой опции{/if} для модуля {$folder->getName()|h}</div>
 {form action=$form_action method="post" jip=true}
 <table width="99%" cellpadding="4" cellspacing="0">
     <tr>
@@ -11,7 +11,7 @@
     </tr>
     <tr>
         <th>{form->caption name="type_id" value="Тип"}</th>
-        <td>{form->select options=$types name="type_id" value=$option->getType()} {$errors->get('type_id')}</th>
+        <td>{form->select options=$types name="type_id" value=$option->getType() emptyFirst=true} {$errors->get('type_id')}</th>
     </tr>
     <tr>
         <td colspan="2" style="text-align:center;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>

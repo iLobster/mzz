@@ -48,7 +48,7 @@ class mzzPdoStatement extends PDOStatement
                     $type = PDO::PARAM_STR;
                     break;
             }
-            $this->bindValue(':' . $key, $data[$key], $type);
+            $this->bindValue(':' . $key, $val, $type);
         }
     }
 

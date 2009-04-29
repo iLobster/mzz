@@ -33,7 +33,6 @@ class configListController extends simpleController
         }
 
         $options = $configFolder->getOptions();
-        var_dump($options->export());
 
         $this->smarty->assign('folder', $configFolder);
         $this->smarty->assign('options', $options);
