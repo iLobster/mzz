@@ -24,9 +24,7 @@ class formCsrfRule extends formAbstractRule
     public function validate()
     {
         $session = systemToolkit::getInstance()->getSession();
-        $valid = $session->get('CSRFToken') === $this->value;
-        $session->destroy('CSRFToken');
-        return $valid;
+        return $session->get('CSRFToken') === $this->value;
     }
 }
 

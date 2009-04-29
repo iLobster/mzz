@@ -79,7 +79,7 @@ class newsSaveFolderController extends simpleController
     public function checkUniqueFolderName($name, $path, $isEdit)
     {
         $mapper = $this->toolkit->getMapper('news', 'newsFolder');
-        $this->acceptLang($folderMapper);
+        $this->acceptLang($mapper);
         if ($isEdit) {
             $path = explode('/', $path);
             $current = array_pop($path);
