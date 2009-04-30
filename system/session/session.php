@@ -34,10 +34,12 @@ class session
      * Запуск сессии
      *
      */
-    public function __construct(iSessionStorage $storageDriver = null)
+    public function __construct($storageDriver = null)
     {
         if(!empty($storageDriver)) {
-            $this->storageDriver = $storageDriver;
+            $driver = 'session' . uc_first($storageDriver) . 'Storage';
+            fileLoader::load('session/' . $driver);
+            $this->storageDriver = new $driver();
         }
     }
 

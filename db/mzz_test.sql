@@ -642,7 +642,7 @@ CREATE TABLE `sys_sessions` (
   `valid` ENUM('yes','no') NOT NULL DEFAULT 'yes',
   `data` TEXT COLLATE utf8_general_ci,
   PRIMARY KEY (`id`),
-  KEY `valid` (`valid`),
+  UNIQUE KEY `valid` (`valid`),
   KEY `sid` (`sid`)
 )ENGINE=MyISAM
 AUTO_INCREMENT=356 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';

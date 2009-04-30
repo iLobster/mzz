@@ -90,7 +90,7 @@ class sessionDbStorage implements iSessionStorage
      */
     public function storageWrite($sid, $value)
     {
-        $this->db->exec(' INSERT INTO `sys_sessions` (`sid`,`data`,`ts`)'.
+        $this->db->exec(' REPLACE INTO `sys_sessions` (`sid`,`data`,`ts`)'.
         " VALUES('". $sid ."','" . $value . "',UNIX_TIMESTAMP())");
 
         return true;
