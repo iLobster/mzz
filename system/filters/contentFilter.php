@@ -61,7 +61,7 @@ class contentFilter implements iFilter
 
         if (empty($template)) {
             try {
-                $output = $this->setActiveTemplateAndRunAction($request);
+                $output = $this->runActiveTemplate($request);
             } catch (mzzNoActionException $e) {
                 if (DEBUG_MODE) {
                     throw $e;
@@ -71,7 +71,7 @@ class contentFilter implements iFilter
                 if ($output === false) {
                     $template = $this->getTemplateName($request, $tplPath);
                     if (empty($template)) {
-                        $output = $this->setActiveTemplateAndRunAction($request);
+                        $output = $this->runActiveTemplate($request);
                     }
                 }
             }
@@ -117,7 +117,7 @@ class contentFilter implements iFilter
         return false;
     }
 
-    public function setActiveTemplateAndRunAction($request)
+    public function runActiveTemplate($request)
     {
         $toolkit = systemToolkit::getInstance();
         $smarty = $toolkit->getSmarty();
@@ -130,12 +130,12 @@ class contentFilter implements iFilter
         }
         $action = $toolkit->getAction($modules[$section]);
         $activeTemplate = $action->getActiveTemplate($actionName);
-        $smarty->setActiveTemplate($activeTemplate['template'], $activeTemplate['placeholder']);
-        return loadDispatcher::dispatch($section, $modules[$section], $actionName);
 
-        $smarty->assign($activeTemplate['placeholder'], loadDispatcher::dispatch($section, $modules[$section], $actionName));
-        return $smarty->fetch($activeTemplate['template']);
+        $smarty->assign('section', $section);
+        $smarty->assign('module', $modules[$section]);
+        $smarty->assign('action', $actionName);
 
+        return $smarty->fetch($activeTemplate);
     }
 }
 

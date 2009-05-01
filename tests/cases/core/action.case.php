@@ -116,8 +116,8 @@ class actionTest extends unitTestCase
 
     public function testGetActiveTemplate()
     {
-        $this->assertEqual($this->action->getActiveTemplate('secondAction'), array ('template' => 'main.tpl', 'placeholder' => 'content'));
-        $this->assertEqual($this->action->getActiveTemplate('anotherMain'), array ('template' => 'blah.tpl', 'placeholder' => 'data'));
+        $this->assertEqual($this->action->getActiveTemplate('secondAction'), 'active.main.tpl');
+        $this->assertEqual($this->action->getActiveTemplate('anotherMain'), 'blah.tpl');
     }
 
     public function testGetActiveTemplateException()

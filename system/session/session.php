@@ -37,7 +37,7 @@ class session
     public function __construct($storageDriver = null)
     {
         if(!empty($storageDriver)) {
-            $driver = 'session' . uc_first($storageDriver) . 'Storage';
+            $driver = 'session' . ucfirst($storageDriver) . 'Storage';
             fileLoader::load('session/' . $driver);
             $this->storageDriver = new $driver();
         }

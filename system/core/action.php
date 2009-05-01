@@ -20,8 +20,7 @@
 */
 class action
 {
-    const DEFAULT_MAIN_TPL = 'main.tpl';
-    const DEFAULT_MAIN_PLACEHOLDER = 'content';
+    const DEFAULT_ACTIVE_TPL = 'active.main.tpl';
 
     /**
      * Module's actions
@@ -112,14 +111,11 @@ class action
      */
     public function getActiveTemplate($action)
     {
-        $main = array('template' => action::DEFAULT_MAIN_TPL, 'placeholder' => action::DEFAULT_MAIN_PLACEHOLDER);
         if (isset($this->actions[$this->getClass($action)][$action]['main'])) {
-            $main['template'] = $this->actions[$this->getClass($action)][$action]['main'];
+            return $this->actions[$this->getClass($action)][$action]['main'];
         }
-        if (isset($this->actions[$this->getClass($action)][$action]['main_placeholder'])) {
-            $main['placeholder'] = $this->actions[$this->getClass($action)][$action]['main_placeholder'];
-        }
-        return $main;
+
+        return action::DEFAULT_ACTIVE_TPL;
     }
 
     /**

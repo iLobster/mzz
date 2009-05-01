@@ -30,30 +30,12 @@ class contentFilterTest extends unitTestCase
 
     public function testSectionMapperFalse()
     {
-        $this->request->expectCallCount('getSection', 2);
+        $this->request->expectCallCount('getSection', 1);
         $this->request->setReturnValue('getSection', '__not_exists__');
-        $this->request->expectCallCount('getAction', 2);
+        $this->request->expectCallCount('getAction', 1);
         $this->request->setReturnValue('getAction', '__not_exists__');
 
-        try {
-            $this->contentFilter->getTemplateName($this->request, $this->path);
-            $this->fail('Не было брошено исключение');
-        } catch (mzzRuntimeException $e) {
-            $this->assertPattern('/Не найден активный шаблон/', $e->getMessage());
-        } catch (Exception $e) {
-            $this->fail('Брошено не ожидаемое исключение');
-        }
-
-        $this->request->setReturnValue('getSection', 'test');
-
-        try {
-            $this->contentFilter->getTemplateName($this->request, $this->path);
-            $this->fail('Не было брошено исключение');
-        } catch (mzzRuntimeException $e) {
-            $this->assertPattern('/Не найден активный шаблон/', $e->getMessage());
-        } catch (Exception $e) {
-            $this->fail('Брошено не ожидаемое исключение');
-        }
+        $this->assertFalse($this->contentFilter->getTemplateName($this->request, $this->path));
     }
 
 }

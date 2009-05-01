@@ -49,13 +49,11 @@ class mzzSmarty extends Smarty
     protected $fetchedTemplates = array();
 
     /**
-     * The template and placeholder name of the active template
+     * Массив из имени активного шаблона и имени placeholder-а в нем
      *
      * @var array
      */
-    protected $mainTemplate = false;
-
-    protected $originalMainTemplate = null;
+    protected $actTemplate = false;
 
     /**
      * Используемый скин
@@ -160,7 +158,6 @@ class mzzSmarty extends Smarty
             throw new mzzRuntimeException($error);
         }
         $this->fetchedTemplates[$params['main']] = true;
-        $this->originalMainTemplate = array('main' => $params['main'], 'placeholder' => $params['placeholder']);
 
         if (!$this->withMain) {
             return $result;
@@ -191,6 +188,12 @@ class mzzSmarty extends Smarty
      */
     public function parse($str)
     {
+        if ($this->withMain && $this->actTemplate !== false) {
+            $actTemplate = $this->actTemplate;
+            // для предотвращения рекурсии
+            $this->actTemplate = true;
+            return $actTemplate;
+        }
         $params = array();
         if (preg_match('/\{\*\s*(.*?)\s*\*\}/', $str, $matches)) {
             $clean_str = preg_split('/\s+/', $matches[1]);
@@ -211,41 +214,23 @@ class mzzSmarty extends Smarty
      */
     public function isActive($template)
     {
-        return (strpos($template, "{* main=") !== false);
+        $isActive = (strpos($template, "{* main=") === false);
+        return ($this->actTemplate !== true && !$isActive)
+        || (is_array($this->actTemplate));
     }
 
     /**
      * Устанавливает активный шаблон и имя placeholder-а
      *
-     * @param string $template_name имя шаблона
+     * @param string $template_name имя активного шаблона
      * @param string $placeholder имя placeholder-а. По умолчанию <i>content</i>
      */
     public function setActiveTemplate($template_name, $placeholder = 'content')
     {
-        if ($template_name === null) {
-            $this->mainTemplate = null;
-            return false;
+        if (!$this->actTemplate) {
+            $this->actTemplate = array('main' => $template_name, 'placeholder' => $placeholder);
+            $this->enableMain();
         }
-        $this->mainTemplate = array('main' => $template_name, 'placeholder' => $placeholder);
-        $this->enableMain();
-    }
-
-    /**
-     * Возвращает активный шаблон и имя placeholder-а
-     *
-     */
-    public function getActiveTemplate()
-    {
-        return $this->mainTemplate;
-    }
-
-    /**
-     * Returns the original main template and placeholder names of the active template
-     *
-     */
-    public function getOriginalMainTemplate()
-    {
-        return $this->originalMainTemplate;
     }
 
     /**

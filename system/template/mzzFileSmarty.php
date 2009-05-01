@@ -63,18 +63,11 @@ class mzzFileSmarty implements IMzzSmarty
         }
         $template = new SplFileObject($fileName, 'r');
         $template = $template->fgets(256);
-        $isActive = $this->smarty->isActive($template);
-
-        if ($main = $this->smarty->getActiveTemplate()) {
-            $template = '{* main="' . $main['main'] . '" placeholder="' . $main['placeholder'] . '" *}'  . '\r\n' . $template;
-            $this->smarty->setActiveTemplate(null);
-        }
 
         $result = $this->smarty->fetchPassive($resource[1], $cache_id, $compile_id, $display);
 
         // Если шаблон вложен, обработать получателя
-        $isActive = $this->smarty->isActive($template);
-        if ($isActive) {
+        if ($this->smarty->isActive($template)) {
             $result = $this->smarty->fetchActive($template, $cache_id, $compile_id, $display, $result);
         }
         return $result;
