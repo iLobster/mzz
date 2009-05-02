@@ -85,7 +85,7 @@ class configOptionMapper extends mapper
                     break;
 
                 case configOption::TYPE_STRING:
-                    $config[$option->getName()] = $option->getValue();
+                    $config[$option->getName()] = (string)$option->getValue();
                     break;
 
                 case configOption::TYPE_BOOL:
@@ -103,7 +103,7 @@ class configOptionMapper extends mapper
             configOption::TYPE_INT => 'число',
             configOption::TYPE_STRING => 'строка',
             configOption::TYPE_BOOL => 'bool',
-            configOption::TYPE_LIST => 'варианты',
+            //configOption::TYPE_LIST => 'варианты',
         );
     }
 

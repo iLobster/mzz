@@ -10,7 +10,7 @@ class sessionTest extends unitTestCase
 
     public function setUp()
     {
-        $this->session = new session(new sessionDbStorage());
+        $this->session = new session('db');
         if(isset($_SESSION)) {
             $this->_old_session_data = $_SESSION;
         } else {

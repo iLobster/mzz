@@ -30,7 +30,7 @@ class ratingsViewController extends simpleController
 
         $object = $this->request->getRaw('object');
         if (!$object instanceof entity) {
-            throw new mzzInvalidParameterException('Invalid object for comments');
+            throw new mzzInvalidParameterException('Invalid object for ratings');
         }
 
         $objectModule = $object->module();
@@ -49,13 +49,13 @@ class ratingsViewController extends simpleController
 
         $map = $objectMapper->map();
         if (!isset($map[$byField])) {
-            throw new mzzInvalidParameterException('Invalid byField value for comments');
+            throw new mzzInvalidParameterException('Invalid byField value for ratings');
         }
 
         $objectId = $object->$map[$byField]['accessor']();
 
         if (!is_numeric($objectId)) {
-            throw new mzzInvalidParameterException('Invalid objectId for comments');
+            throw new mzzInvalidParameterException('Invalid objectId for ratings');
         }
 
         $ratingsFolder = $ratingsFolderMapper->searchFolder($objectType, $objectId);

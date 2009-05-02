@@ -31,9 +31,6 @@ fileLoader::setResolver($resolver);
 fileLoader::load('exceptions/init');
 $dispatcher = new errorDispatcher();
 
-fileLoader::load('config/config');
-
-
 set_error_handler('simpletest_error_handler');
 
 fileLoader::load('dataspace/arrayDataspace');

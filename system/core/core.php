@@ -130,8 +130,6 @@ class core
         fileLoader::load('i18n');
         fileLoader::load('i18n/locale');
 
-        fileLoader::load('config');
-
         fileLoader::load('db/DB');
         fileLoader::load('db/simpleSelect');
 
