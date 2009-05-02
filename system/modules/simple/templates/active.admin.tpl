@@ -1,2 +1,2 @@
 {* main="admin/main/admin.tpl" placeholder="content" *}
-{load module="user" action="groupsList"}
+{load module=$module action=$action section=$section}

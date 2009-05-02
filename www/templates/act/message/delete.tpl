@@ -1,1 +1,0 @@
-{load module="message" action="delete"}

@@ -1,1 +1,0 @@
-{load module="news" action="deleteFolder"}

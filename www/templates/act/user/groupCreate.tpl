@@ -1,1 +1,0 @@
-{load module="user" action="groupCreate"}

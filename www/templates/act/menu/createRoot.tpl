@@ -1,1 +1,0 @@
-{load module="menu" action="createRoot"}
