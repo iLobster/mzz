@@ -11,7 +11,7 @@
 //
 /* Configuration file */
 
-define('SYSTEM_PATH',  realpath(dirname(__FILE__) . '/../system'));
+define('SYSTEM_PATH',  realpath(dirname(__FILE__) . '/../../system'));
 
 /**
  * Additional adress
@@ -43,7 +43,7 @@ systemConfig::$i18n = 'en';
 systemConfig::$i18nEnable = true;
 
 systemConfig::$pathToApplication = realpath($application_path);
-systemConfig::$pathToTests = dirname(__FILE__);
+systemConfig::$pathToTests = dirname(__FILE__) . '/..';
 systemConfig::$pathToTemp = systemConfig::$pathToTests . '/tmp';
 systemConfig::$pathToConf = systemConfig::$pathToTests . '/configs';
 systemConfig::init();

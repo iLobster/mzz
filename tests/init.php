@@ -8,7 +8,7 @@ function simpletest_error_handler($errno, $errstr, $errfile, $errline) {
     return $count++;
 }
 
-require_once dirname(__FILE__)  . '/config.php';
+require_once dirname(__FILE__)  . '/configs/config.php';
 require_once systemConfig::$pathToSystem . '/core/fileLoader.php';
 require_once systemConfig::$pathToSystem . '/version.php';
 
