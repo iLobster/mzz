@@ -48,6 +48,7 @@ class stdToolkit extends toolkit
      */
     private $actionNames = array();
     private $mappers = array();
+    private $modules = array();
     /**#@-*/
 
     /**
@@ -446,6 +447,35 @@ class stdToolkit extends toolkit
         return $this->charsetDriver;
     }
 
+    public function getSectionName($module_name)
+    {
+        $this->initModulesList();
+
+        if (($key = array_search($module_name, $this->modules)) === false) {
+            throw new mzzRuntimeException('No section for the module ' . $module_name);
+        }
+
+        return $key;
+    }
+
+    public function getModuleName($module_name)
+    {
+        $this->initModulesList();
+
+        if (!isset($this->modules[$module_name])) {
+            throw new mzzRuntimeException('No section for the module ' . $module_name);
+        }
+
+        return $this->modules[$module_name];
+    }
+
+    protected function initModulesList()
+    {
+        if (empty($this->modules)) {
+            include(fileLoader::resolve('configs/modules'));
+            $this->modules = $modules;
+        }
+    }
 }
 
 ?>

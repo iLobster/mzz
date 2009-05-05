@@ -54,7 +54,7 @@ class urlTest extends unitTestCase
     {
         $url = new url('urlRoute');
 
-        $url->setSection($section = 'foo');
+        $url->setModule($module = 'foo');
         $url->setAction($action = 'bar');
         $url->add('param', $param = 'val1');
         $url->add('other', $other = 'val2');
@@ -75,7 +75,7 @@ class urlTest extends unitTestCase
         $this->toolkit->getRequest()->refresh();
         $url = new url('urlHttpsWithoutParams');
 
-        $url->setSection($section = 'foo');
+        $url->setModule($module = 'foo');
         $url->add('action', $action = 'bar');
 
         $this->assertEqual($url->get(), 'https://localhost'. SITE_PATH . '/foo/bar');
@@ -109,7 +109,7 @@ class urlTest extends unitTestCase
 
         $url = new url('urlHttpsWithoutGet');
 
-        $url->setSection($section = 'foo');
+        $url->setModule($module = 'foo');
         $url->add('action', $action = 'bar');
         $url->add('name', 'value', true);
         $url->add('name2', 'value2', true);
@@ -119,7 +119,7 @@ class urlTest extends unitTestCase
     public function testAnchor()
     {
         $url = new url('urlHttpsWithoutParams');
-        $url->setSection($section = 'foo');
+        $url->setModule($module = 'foo');
         $url->setAction($action = 'bar');
         $url->add('#', 'anchor');
         $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH . '/foo/bar#anchor');
@@ -127,6 +127,22 @@ class urlTest extends unitTestCase
         $url = new url('default');
         $url->add('#', 'anchor');
         $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH . '/#anchor');
+    }
+
+    public function testModuleSection()
+    {
+        $url = new url('urlHttpsWithoutParams');
+        $url->setModule($module = 'test');
+        $url->setAction($action = 'bar');
+        $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH . '/test_section/bar');
+    }
+
+    public function testSetSection()
+    {
+        $url = new url('urlHttpsWithoutParams');
+        $url->setSection('section');
+        $url->setAction('bar');
+        $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH . '/section/bar');
     }
 }
 

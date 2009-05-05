@@ -128,11 +128,12 @@ class contentFilter implements iFilter
         if (!isset($modules[$section])) {
             throw new mzzNoActionException('There is no action in unknown sections');
         }
-        $action = $toolkit->getAction($modules[$section]);
+        $module = $toolkit->getModuleName($section);
+        $action = $toolkit->getAction($module);
         $activeTemplate = $action->getActiveTemplate($actionName);
 
         $smarty->assign('section', $section);
-        $smarty->assign('module', $modules[$section]);
+        $smarty->assign('module', $module);
         $smarty->assign('action', $actionName);
 
         return $smarty->fetch($activeTemplate);

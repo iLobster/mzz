@@ -101,6 +101,12 @@ function smarty_function_url($params, $smarty)
         }
     }
 
+    if (isset($params['module']) && !isset($params['section'])) {
+        $section = $toolkit->getSectionName($params['module']);
+        $params['section'] = $section;
+        unset($params['module']);
+    }
+
     foreach ($params as $name => $value) {
         if ($isGet = $name[0] == '_') {
             $name = substr($name, 1);

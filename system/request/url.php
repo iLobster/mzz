@@ -155,6 +155,17 @@ class url
     }
 
     /**
+     * Устанавливает секцию которая соответствует модулю
+     *
+     * @param string $name
+     */
+    public function setModule($name)
+    {
+        $section = systemToolkit::getInstance()->getSectionName($name);
+        $this->setSection($section);
+    }
+
+    /**
      * Установка имени действия
      *
      * @param string $value
