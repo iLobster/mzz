@@ -24,8 +24,7 @@ class adminAdminController extends simpleController
     protected function getView()
     {
         $module = $this->request->getString('module_name');
-
-        $user = $this->toolkit->getUser();
+        $action = $this->request->getString('action_name');
 
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
 
@@ -38,19 +37,7 @@ class adminAdminController extends simpleController
         }
 
         if (isset($modules[$module])) {
-            $obj_id = $this->toolkit->getObjectId('access_' . $module);
-            $adminMapper->register($obj_id, 'access');
-
-            $user = $this->toolkit->getUser();
-            $acl = new acl($user, $obj_id);
-
-            if ($acl->get('admin')) {
-                return $this->smarty->fetch('admin/admin.tpl');
-            }
-
-            fileLoader::load('simple/simple403Controller');
-            $controller = new simple403Controller();
-            return $controller->run();
+            return $this->forward($module, $action);
         }
 
         return $this->smarty->fetch('admin/noModule.tpl');

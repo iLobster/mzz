@@ -4,7 +4,7 @@
 <div class="pageTitle">{_ news_list}</div>
 </div>
 
-{include file="breadcrumbs.tpl" breadCrumbs=$breadCrumbs section=$current_section module="news"}
+{include file="admin/breadcrumbs.tpl" breadCrumbs=$breadCrumbs action="admin" module="news"}
 
 <div class="pageContent">
     <table cellspacing="0" cellpadding="3" class="tableList">
@@ -20,7 +20,7 @@
         {if $newsFolder->getTreeLevel() ne 1}
             <tr align="center">
                 <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
-                <td style="text-align: left;"><a href="{url route='admin' params=$newsFolder->getTreeParent()->getTreePath() section_name=$current_section module_name=news}">..</a></td>
+                <td style="text-align: left;"><a href="{url route='admin' params=$newsFolder->getTreeParent()->getTreePath() action_name=admin module_name=news}">..</a></td>
                 <td>-</td>
                 <td>{$newsFolder->getJip()}</td>
             </tr>
@@ -30,7 +30,7 @@
             {if $current_folder->getId() != $newsFolder->getId()}
                 <tr align="center">
                     <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" /></td>
-                    <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getTreePath() section_name=$current_section module_name=news}">{$current_folder->getTitle()|htmlspecialchars}</a></td>
+                    <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getTreePath() action_name=admin module_name=news}">{$current_folder->getTitle()|htmlspecialchars}</a></td>
                     <td>-</td>
                     <td>{$current_folder->getJip()}</td>
                 </tr>
@@ -40,7 +40,7 @@
         {foreach from=$news item=current_news}
             <tr align="center">
                 <td style="width: 30px; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/news.gif" alt="" title="{_ author}: {$current_news->getEditor()->getLogin()}" /></td>
-                <td style="text-align: left;"><a href="{url route='withId' id=$current_news->getId()}">{$current_news->getTitle()|htmlspecialchars}</a></td>
+                <td style="text-align: left;"><a href="{url route='withId' section=$current_section id=$current_news->getId()}">{$current_news->getTitle()|htmlspecialchars}</a></td>
                 <td>{$current_news->getUpdated()|date_format:"%d/%m/%Y %H:%M"}</td>
                 <td>{$current_news->getJip()}</td>
             </tr>

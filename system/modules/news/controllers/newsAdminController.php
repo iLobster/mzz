@@ -28,6 +28,10 @@ class newsAdminController extends simpleController
 
         $path = $this->request->getString('params');
 
+        if (empty($path)) {
+            $path = 'root';
+        }
+
         $newsFolder = $newsFolderMapper->searchByPath($path);
         if (empty($newsFolder)) {
             return $newsFolderMapper->get404()->run();

@@ -52,6 +52,7 @@ class adminMenuController extends simpleController
         $module = $this->request->getString('module_name');
         $module = !empty($module) ? $module : $this->request->getRequestedModule();
         $this->smarty->assign('requested_module', $module);
+        $this->smarty->assign('requested_action', $this->request->getString('action_name'));
         $this->smarty->assign('menu', $menu);
         return $this->smarty->fetch('admin/menu.tpl');
     }

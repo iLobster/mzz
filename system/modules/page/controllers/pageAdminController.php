@@ -29,7 +29,7 @@ class pageAdminController extends simpleController
 
         $path = $this->request->getString('params');
 
-        if (is_null($path)) {
+        if (empty($path)) {
             $path = 'root';
         }
 
