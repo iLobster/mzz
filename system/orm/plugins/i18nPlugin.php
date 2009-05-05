@@ -69,13 +69,30 @@ class i18nPlugin extends observer
         $this->addSelectFields($criteria);
     }
 
+    public function preSqlJoin(array & $data)
+    {
+        $criteria = $data[0];
+        $alias = $data[1];
+
+        $table_name = $alias . '_i18n';
+
+        $criterion = new criterion($table_name . '.id', $alias . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
+        $criterion->addAnd(new criterion($table_name . '.lang_id', $this->getLangId()));
+        $criteria->addJoin($this->table(), $criterion, $table_name);
+        $this->addSelectFields($criteria, $alias);
+    }
+
     private function addSelectFields(criteria $criteria, $alias = null)
     {
         if (is_null($alias)) {
             $alias = $this->mapper->table();
+            $self = 'i18n';
+        } else {
+            $self = $alias . '_i18n';
         }
+
         foreach (array_merge(array('lang_id'), $this->i18nFields) as $field) {
-            $criteria->addSelectField('i18n.' . $field, $alias . mapper::TABLE_KEY_DELIMITER . $field);
+            $criteria->addSelectField($self . '.' . $field, $alias . mapper::TABLE_KEY_DELIMITER . $field);
         }
     }
 
