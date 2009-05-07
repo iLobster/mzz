@@ -11,7 +11,7 @@ class directoryGenerator
 
     public function __construct($name, $mode = null)
     {
-        $this->directory = $name;
+        $this->directory = rtrim($name, '\\/');
 
         if (!is_null($mode)) {
             $this->default_mode = $mode;

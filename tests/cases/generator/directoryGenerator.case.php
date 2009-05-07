@@ -4,6 +4,8 @@ fileLoader::load('codegenerator/directoryGenerator');
 
 class directoryGeneratorTest extends UnitTestCase
 {
+    private $for_windows = array('testSimpleCreate', 'testDenyNotNestedDirs', 'testNoRepeat');
+    
     private $dir;
 
     private $generator;
@@ -12,6 +14,15 @@ class directoryGeneratorTest extends UnitTestCase
     {
         $this->dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'sandbox';
         $this->tearDown();
+    }
+
+    public function _isTest($method)
+    {
+        if (strpos(PHP_OS, 'WIN') !== false && !in_array($method, $this->for_windows)) {
+            return false;
+        }
+
+        return parent::_isTest($method);
     }
 
     public function setUp()

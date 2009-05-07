@@ -13,7 +13,7 @@
  */
 
 fileLoader::load('forms/validators/formValidator');
-fileLoader::load('codegenerator/moduleGenerator');
+fileLoader::load('codegenerator/directoryGenerator');
 
 /**
  * adminAddModuleController: контроллер для метода addModule модуля admin
@@ -73,7 +73,6 @@ class adminAddModuleController extends simpleController
 
         $validator = new formValidator();
 
-
         if (!$nameRO) {
             $validator->add('required', 'name', 'поле обязательно к заполнению');
             $validator->add('regex', 'name', 'Разрешено использовать только a-zA-Z0-9_-', '#^[a-z0-9_-]+$#i');
@@ -87,11 +86,20 @@ class adminAddModuleController extends simpleController
             $order = $this->request->getInteger('order', SC_POST);
             $newDest = $this->request->getString('dest', SC_POST);
 
-            $moduleGenerator = new moduleGenerator($dest[$newDest]);
+            $generator = new directoryGenerator($dest[$newDest]);
 
             if (!$isEdit) {
                 try {
-                    $log = $moduleGenerator->generate($name);
+                    $generator->create($name);
+                    $generator->create($name . '/actions');
+                    $generator->create($name . '/controllers');
+                    $generator->create($name . '/i18n');
+                    $generator->create($name . '/mappers');
+                    $generator->create($name . '/templates');
+
+                    $generator->run();
+
+                    $log = 'ololo';
                 } catch (Exception $e) {
                     return $e->getMessage();
                 }
