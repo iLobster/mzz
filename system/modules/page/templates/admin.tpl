@@ -36,8 +36,8 @@
         {foreach from=$pages item=current_page}
             <tr align="center">
                 <td><img src="{$SITE_PATH}/templates/images/page/page.gif" alt="" /></td>
-                <td align="left">{if $current_page->getTitle()}<a href="{url route=withAnyParam module=page section=page name=$current_page->getFullPath()}">{$current_page->getTitle()|htmlspecialchars}</a>{else}<span style="color: #848484;">&lt;Не указано&gt;</span>{/if}</td>
-                <td align="left"><a href="{url route=withAnyParam section=$current_section name=$current_page->getFullPath()}">{$current_page->getName()|htmlspecialchars}</a></td>
+                <td align="left">{if $current_page->getTitle()}<a href="{url route=withAnyParam module=page name=$current_page->getFullPath()}">{$current_page->getTitle()|htmlspecialchars}</a>{else}<span style="color: #848484;">&lt;Не указано&gt;</span>{/if}</td>
+                <td align="left"><a href="{url route=withAnyParam module=page name=$current_page->getFullPath()}">{$current_page->getName()|htmlspecialchars}</a></td>
                 <td>{$current_page->getJip()}</td>
             </tr>
         {/foreach}

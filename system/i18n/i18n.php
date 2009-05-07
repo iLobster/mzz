@@ -366,7 +366,7 @@ class i18n
                 return self::getMessage('days_ago', 'i18n', null, $days);
             }
 
-            $format = 'date';
+            $format = 'short_date_short_time';
         }
 
         $tz = systemToolkit::getInstance()->getUserPreferences()->getTimezone();

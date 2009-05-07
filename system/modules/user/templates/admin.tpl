@@ -1,4 +1,4 @@
-<div class="pageTitle"><strong>Пользователи</strong>{$userFolder->getJip()}{if $groupFolder->getAcl('groupsList')} / <a href="{url route="default2" section=user action="groupsList"}">Группы</a>{/if}</div>
+<div class="pageTitle"><strong>Пользователи</strong>{$userFolder->getJip()}</div>
 
 <div class="pageContent">
 <table cellspacing="0" cellpadding="3" class="tableList">
@@ -19,8 +19,8 @@
             <td>{$user->getLogin()}</td>
             <td style="text-align: center;">{if $user->isActive()}Да{else}Нет{/if}</td>
             <td style="text-align: center;">{if $user->isActive()}{$user->getOnline()->getIp()}{else}—{/if}</td>
-            <td style="text-align: center;">{$user->getCreated()|date_format:"%d/%m/%Y %H:%M"}</td>
-            <td style="text-align: center;">{$user->getLastLogin()|date_format:"%d/%m/%Y %H:%M"}</td>
+            <td style="text-align: center;">{$user->getCreated()|date_i18n:relative_hour}</td>
+            <td style="text-align: center;">{$user->getLastLogin()|date_i18n:relative_hour}</td>
             <td style="text-align: center;">{$user->getJip()}</td>
         </tr>
     {/foreach}

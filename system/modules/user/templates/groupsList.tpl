@@ -1,4 +1,4 @@
-<div class="pageTitle">{if $userFolder->getAcl('admin')}<a href="{url route="withAnyParam" section='admin' name="user" action="admin"}">Пользователи</a> / {/if}<strong>Группы</strong>{$groupFolder->getJip()}</div>
+<div class="pageTitle"><strong>Группы</strong>{$groupFolder->getJip()}</div>
 
 <div class="pageContent">
 <table cellspacing="0" cellpadding="3" class="tableList">
