@@ -43,7 +43,7 @@ systemConfig::$i18n = 'en';
 systemConfig::$i18nEnable = true;
 
 systemConfig::$pathToApplication = realpath($application_path);
-systemConfig::$pathToTests = dirname(__FILE__) . '/..';
+systemConfig::$pathToTests = realpath(dirname(__FILE__) . '/..');
 systemConfig::$pathToTemp = systemConfig::$pathToTests . '/tmp';
 systemConfig::$pathToConf = systemConfig::$pathToTests . '/configs';
 systemConfig::init();
