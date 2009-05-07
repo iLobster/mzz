@@ -133,8 +133,6 @@ class adminAddModuleController extends simpleController
         }
         $url->setAction($action);
 
-        $dest = $adminMapper->getDests(true);
-
         if (!sizeof($dest)) {
             $controller = new messageController('Нет доступа на запись в каталоги для создания модуля', messageController::WARNING);
             return $controller->run();
