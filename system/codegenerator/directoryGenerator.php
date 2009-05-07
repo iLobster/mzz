@@ -7,7 +7,7 @@ class directoryGenerator
     private $directory;
     private $default_mode = 0755;
 
-    private $data = array();
+    private $scenario = array();
 
     public function __construct($name, $mode = null)
     {
@@ -20,13 +20,33 @@ class directoryGenerator
 
     public function create($name, $mode = null)
     {
-        $name = $this->directory . DIRECTORY_SEPARATOR . $name;
+        $this->validateUpThanRoot($name);
 
-        if (strpos($name, '..')) {
-            throw new directoryGeneratorException('Directory name can\'t contain ".."');
-        }
+        $name = $this->sub($name);
 
-        $path = $name;
+        $this->validateIsWriteable($name);
+
+        $this->scenario[] = array(
+            'type' => 'create',
+            'name' => $name,
+            'mode' => is_null($mode) ? $this->default_mode : $mode);
+    }
+
+    public function rename($old, $new)
+    {
+        $this->scenario[] = array(
+            'type' => 'rename',
+            'old' => $this->sub($old),
+            'new' => $this->sub($new));
+    }
+
+    private function sub($directory)
+    {
+        return $this->directory . DIRECTORY_SEPARATOR . $directory;
+    }
+
+    private function validateIsWriteable($path)
+    {
         while ($path = substr($path, 0, strrpos($path, '/'))) {
             if (is_dir($path)) {
                 if (!is_writable($path)) {
@@ -36,23 +56,36 @@ class directoryGenerator
                 break;
             }
         }
+    }
 
-        $this->data[] = array(
-            'name' => $name,
-            'mode' => is_null($mode) ? $this->default_mode : $mode);
+    private function validateUpThanRoot($name)
+    {
+        if (strpos($name, '..') !== false) {
+            throw new directoryGeneratorException('Directory name can\'t contain ".."');
+        }
     }
 
     public function run()
     {
         $umask = umask(0);
 
-        foreach ($this->data as $key => $directory) {
-            mkdir($directory['name'], $directory['mode'], true);
+        foreach ($this->scenario as $action) {
+            $this->{'run_' . $action['type']}($action);
         }
 
-        $this->data = array();
+        $this->scenario = array();
 
         umask($umask);
+    }
+
+    private function run_create($data)
+    {
+        mkdir($data['name'], $data['mode'], true);
+    }
+
+    private function run_rename($data)
+    {
+        rename($data['old'], $data['new']);
     }
 }
 

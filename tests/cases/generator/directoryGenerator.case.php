@@ -4,8 +4,8 @@ fileLoader::load('codegenerator/directoryGenerator');
 
 class directoryGeneratorTest extends UnitTestCase
 {
-    private $for_windows = array('testSimpleCreate', 'testDenyNotNestedDirs', 'testNoRepeat');
-    
+    private $for_windows = array('testSimpleCreate', 'testDenyNotNestedDirs', 'testNoRepeat', 'testRename');
+
     private $dir;
 
     private $generator;
@@ -73,6 +73,17 @@ class directoryGeneratorTest extends UnitTestCase
         $this->assertTrue($this->isDirectoryExists('foo'));
         $this->assertTrue($this->isDirectoryExists('foo/bar'));
         $this->assertEqual($this->getAccessMode('foo/bar'), 'rwx------');
+    }
+
+    public function testRename()
+    {
+        $this->generator->create('foo');
+        $this->generator->run();
+
+        $this->generator->rename('foo', 'bar');
+        $this->generator->run();
+
+        $this->assertTrue($this->isDirectoryExists('bar'));
     }
 
     public function testDenyNotNestedDirs()

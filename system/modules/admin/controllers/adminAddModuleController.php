@@ -38,7 +38,7 @@ class adminAddModuleController extends simpleController
 
         $data = null;
 
-        $isEdit = ($action == 'editModule');
+        $isEdit = $action == 'editModule';
 
         $nameRO = false;
 
@@ -76,7 +76,7 @@ class adminAddModuleController extends simpleController
         if (!$nameRO) {
             $validator->add('required', 'name', 'поле обязательно к заполнению');
             $validator->add('regex', 'name', 'Разрешено использовать только a-zA-Z0-9_-', '#^[a-z0-9_-]+$#i');
-            $validator->add('callback', 'name', 'Имя модуля должно быть уникально', array('checkUniqueModuleName', $db, $data['name']));
+            $validator->add('callback', 'name', 'Имя модуля должно быть уникально', array(array($this, 'checkUniqueModuleName'), $db, $data['name']));
         }
 
         if ($validator->validate()) {
@@ -116,7 +116,8 @@ class adminAddModuleController extends simpleController
             }
 
             if (!$nameRO && $isEdit) {
-                $moduleGenerator->rename($data['name'], $name);
+                $generator->rename($data['name'], $name);
+                $generator->run();
 
                 $stmt = $db->prepare('UPDATE `sys_modules` SET `name` = :name WHERE `id` = :id');
                 $stmt->bindValue(':id', $id, PDO::PARAM_INT);
@@ -158,32 +159,20 @@ class adminAddModuleController extends simpleController
         $this->smarty->assign('nameRO', $nameRO);
         return $this->smarty->fetch('admin/addModule.tpl');
     }
-}
 
-function checkUniqueModuleName($name, $db, $module_name)
-{
-    if ($name == $module_name) {
-        return true;
+    public function checkUniqueModuleName($name, $db, $module_name)
+    {
+        if ($name == $module_name) {
+            return true;
+        }
+
+        $stmt = $db->prepare('SELECT COUNT(*) AS `cnt` FROM `sys_modules` WHERE `name` = :name');
+        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+        $stmt->execute();
+        $res = $stmt->fetch();
+
+        return $res['cnt'] == 0;
     }
-
-    $stmt = $db->prepare('SELECT COUNT(*) AS `cnt` FROM `sys_modules` WHERE `name` = :name');
-    $stmt->bindValue(':name', $name, PDO::PARAM_STR);
-    $stmt->execute();
-    $res = $stmt->fetch();
-
-    return $res['cnt'] == 0;
 }
-
-function checkValidMainClass($id, $db, $data)
-{
-    $stmt = $db->prepare('SELECT COUNT(*) AS `cnt` FROM `sys_classes` WHERE `id` = :id AND `module_id` = :module');
-    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-    $stmt->bindValue(':module', $data['id'], PDO::PARAM_INT);
-    $stmt->execute();
-    $res = $stmt->fetch();
-
-    return $res['cnt'] == 1 || !$id;
-}
-
 
 ?>
