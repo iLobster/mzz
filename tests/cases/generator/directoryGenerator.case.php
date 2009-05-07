@@ -4,7 +4,7 @@ fileLoader::load('codegenerator/directoryGenerator');
 
 class directoryGeneratorTest extends UnitTestCase
 {
-    private $for_windows = array('testSimpleCreate', 'testDenyNotNestedDirs', 'testNoRepeat', 'testRename');
+    private $for_windows = array('testSimpleCreate', 'testDenyNotNestedDirs', 'testNoRepeat', 'testRename', 'testDelete', 'testDeleteNoEmptyException', 'testDeleteRecursive');
 
     private $dir;
 
@@ -84,6 +84,44 @@ class directoryGeneratorTest extends UnitTestCase
         $this->generator->run();
 
         $this->assertTrue($this->isDirectoryExists('bar'));
+    }
+
+    public function testDelete()
+    {
+        $this->generator->create('foo');
+        $this->generator->run();
+
+        $this->generator->delete('foo');
+        $this->generator->run();
+
+        $this->assertFalse($this->isDirectoryExists('foo'));
+    }
+
+    public function testDeleteRecursive()
+    {
+        $this->generator->create('foo/bar');
+        $this->generator->run();
+
+        $this->generator->delete('foo', true);
+        $this->generator->run();
+
+        $this->assertFalse($this->isDirectoryExists('foo'));
+    }
+
+    public function testDeleteNoEmptyException()
+    {
+        $this->generator->create('foo/bar/baz');
+        $this->generator->run();
+
+        try {
+            $this->generator->delete('foo');
+            $this->generator->run();
+            $this->fail();
+        } catch (directoryGeneratorNotEmptyException $e) {
+            $this->pass();
+        }
+
+        $this->assertTrue($this->isDirectoryExists('foo'));
     }
 
     public function testDenyNotNestedDirs()

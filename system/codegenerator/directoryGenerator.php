@@ -40,9 +40,28 @@ class directoryGenerator
             'new' => $this->sub($new));
     }
 
+    public function delete($name, $recursive = false)
+    {
+        if (!$recursive) {
+            $this->validateIsEmpty($name);
+        }
+
+        $this->scenario[] = array(
+            'type' => 'delete',
+            'name' => $this->sub($name),
+            'recursive' => $recursive);
+    }
+
     private function sub($directory)
     {
         return $this->directory . DIRECTORY_SEPARATOR . $directory;
+    }
+
+    private function validateIsEmpty($path)
+    {
+        if (sizeof(glob($this->sub($path) . '/*'))) {
+            throw new directoryGeneratorNotEmptyException($path);
+        }
     }
 
     private function validateIsWriteable($path)
@@ -86,6 +105,24 @@ class directoryGenerator
     private function run_rename($data)
     {
         rename($data['old'], $data['new']);
+    }
+
+    private function run_delete($data)
+    {
+        if ($data['recursive']) {
+            return $this->delete_recursive($data['name']);
+        }
+
+        rmdir($data['name']);
+    }
+
+    private function delete_recursive($dir)
+    {
+        foreach (glob($dir . '/*') as $nested) {
+            $this->delete_recursive($nested);
+        }
+
+        rmdir($dir);
     }
 }
 

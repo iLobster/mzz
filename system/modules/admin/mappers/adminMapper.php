@@ -421,32 +421,6 @@ class adminMapper extends mapper
         return $objects;
     }
 
-    /**
-     * Получение списка каталогов, используемых для генерации модулей
-     *
-     * @param boolean $onlyWritable показывать только те, для которых есть права на запись
-     * @param string $subfolder подкаталог в каталоге modules, права на запись в который будет проверяться
-     * @return array
-     */
-    public function getDests($onlyWritable = false, $subfolder = '')
-    {
-        if ($onlyWritable) {
-            $dest = $this->getDests(false, $subfolder);
-
-            foreach ($dest as $key => $val) {
-                if (!is_writable($val)) {
-                    unset($dest[$key]);
-                }
-            }
-
-            return $dest;
-        }
-
-        return array(
-            'sys' => systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $subfolder,
-            'app' => systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $subfolder);
-    }
-
     public function convertArgsToObj($args)
     {
         $toolkit = systemToolkit::getInstance();

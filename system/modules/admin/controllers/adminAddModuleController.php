@@ -28,13 +28,12 @@ class adminAddModuleController extends simpleController
     protected function getView()
     {
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+        $adminGeneratorMapper = $this->toolkit->getMapper('admin', 'adminGenerator');
 
-        $dest = $adminMapper->getDests();
+        $dest = $adminGeneratorMapper->getDests();
 
         $id = $this->request->getInteger('id');
         $action = $this->request->getAction();
-
-        $db = DB::factory();
 
         $data = null;
 
@@ -45,7 +44,7 @@ class adminAddModuleController extends simpleController
         $classes_select = array();
 
         if ($isEdit) {
-            $data = $db->getRow('SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
+            $data = $adminMapper->searchModuleById($id);
 
             if ($data === false) {
                 $controller = new messageController('Модуль не существует', messageController::WARNING);
@@ -76,7 +75,7 @@ class adminAddModuleController extends simpleController
         if (!$nameRO) {
             $validator->add('required', 'name', 'поле обязательно к заполнению');
             $validator->add('regex', 'name', 'Разрешено использовать только a-zA-Z0-9_-', '#^[a-z0-9_-]+$#i');
-            $validator->add('callback', 'name', 'Имя модуля должно быть уникально', array(array($this, 'checkUniqueModuleName'), $db, $data['name']));
+            $validator->add('callback', 'name', 'Имя модуля должно быть уникально', array(array($this, 'checkUniqueModuleName'), $adminMapper, $data['name']));
         }
 
         if ($validator->validate()) {
@@ -104,9 +103,7 @@ class adminAddModuleController extends simpleController
                     return $e->getMessage();
                 }
 
-                $stmt = $db->prepare('INSERT INTO `sys_modules` (`name`) VALUES (:name)');
-                $stmt->bindValue(':name', $name, PDO::PARAM_STR);
-                $id = $stmt->execute();
+                $adminGeneratorMapper->createModule($name);
 
                 $this->smarty->assign('log', $log);
                 $this->smarty->assign('id', $id);
@@ -119,18 +116,11 @@ class adminAddModuleController extends simpleController
                 $generator->rename($data['name'], $name);
                 $generator->run();
 
-                $stmt = $db->prepare('UPDATE `sys_modules` SET `name` = :name WHERE `id` = :id');
-                $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-                $stmt->bindValue(':name', $name, PDO::PARAM_STR);
-                $stmt->execute();
+                $adminGeneratorMapper->renameModule($id, $name);
             }
 
-            $stmt = $db->prepare('UPDATE `sys_modules` SET `icon` = :icon, `title` = :title, `order` = :order WHERE `id` = :id');
-            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-            $stmt->bindValue(':icon', $icon, PDO::PARAM_STR);
-            $stmt->bindValue(':title', $title, PDO::PARAM_STR);
-            $stmt->bindValue(':order', $order, PDO::PARAM_INT);
-            $stmt->execute();
+
+            $adminGeneratorMapper->updateModule($id, array('icon' => $icon, 'title' => $title, 'order' => $order));
 
             return jipTools::closeWindow();
         }
@@ -160,18 +150,15 @@ class adminAddModuleController extends simpleController
         return $this->smarty->fetch('admin/addModule.tpl');
     }
 
-    public function checkUniqueModuleName($name, $db, $module_name)
+    public function checkUniqueModuleName($name, $adminMapper, $module_name)
     {
         if ($name == $module_name) {
             return true;
         }
 
-        $stmt = $db->prepare('SELECT COUNT(*) AS `cnt` FROM `sys_modules` WHERE `name` = :name');
-        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
-        $stmt->execute();
-        $res = $stmt->fetch();
+        $modules = $adminMapper->getModules();
 
-        return $res['cnt'] == 0;
+        return !isset($modules[$name]);
     }
 }
 

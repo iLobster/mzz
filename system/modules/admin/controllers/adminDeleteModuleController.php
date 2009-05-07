@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('codegenerator/moduleGenerator');
+fileLoader::load('codegenerator/directoryGenerator');
 
 /**
  * adminDeleteModuleController: контроллер для метода deleteModule модуля admin
@@ -29,6 +29,7 @@ class adminDeleteModuleController extends simpleController
         $id = $this->request->getInteger('id');
 
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+        $adminGeneratorMapper = $this->toolkit->getMapper('admin', 'adminGenerator');
         $modules = $adminMapper->getModulesList();
 
         if (!isset($modules[$id])) {
@@ -41,20 +42,19 @@ class adminDeleteModuleController extends simpleController
             return $controller->run();
         }
 
-        $db = DB::factory();
+        $dest = current($adminGeneratorMapper->getDests(true, $modules[$id]['name']));
+        $dest = substr($dest, 0, strrpos($dest, DIRECTORY_SEPARATOR));
 
-        $const = DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
-        $dest = (file_exists(systemConfig::$pathToApplication . $const . $modules[$id]['name'])) ? systemConfig::$pathToApplication : systemConfig::$pathToSystem;
-
-        $moduleGenerator = new moduleGenerator($dest);
+        $generator = new directoryGenerator($dest);
         try {
-            $moduleGenerator->delete($modules[$id]['name']);
+            $generator->delete($modules[$id]['name'], true);
+            $generator->run();
         } catch (Exception $e) {
             $controller = new messageController('Во время удаления модуля произошла непредвиденная ошибка. Один из каталогов не может быть удалён: ' . $e->getMessage(), messageController::WARNING);
             return $controller->run();
         }
 
-        $db->query('DELETE FROM `sys_modules` WHERE `id` = ' .$id);
+        $adminGeneratorMapper->deleteModule($id);
 
         $url = new url('default2');
         $url->setAction('devToolbar');
