@@ -1,10 +1,7 @@
-{include file='jipTitle.tpl' title='Создание модуля'}
-{foreach from=$log item="item"}
-    {$item}<br />
-{/foreach}
+{include file='jipTitle.tpl' title='admin/module.adding'|i18n}
 <br />
 <div class="generatorSuccessResult">
-Модуль "{$name}" успешно создан в каталоге {$dest}
+{_ module.create_successfully $name $dest}
 </div>
 
 <script type="text/javascript">

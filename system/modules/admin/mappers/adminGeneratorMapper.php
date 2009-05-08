@@ -4,9 +4,11 @@ class adminGeneratorMapper extends mapper
 {
     protected $table = 'admin';
 
-    public function createModule($name)
+    public function createModule($name, $title, $icon, $order)
     {
-        $this->db()->query('INSERT INTO `sys_modules` (`name`) VALUES (' . $this->db()->quote($name) . ')');
+        $this->db()->query('INSERT INTO `sys_modules` (`name`, `title`, `icon`, `order`) VALUES
+                                (' . $this->db()->quote($name) . ', ' . $this->db()->quote($title) . ', ' . $this->db()->quote($icon) . ', ' . (int)$order . ')');
+        return $this->db()->lastInsertId();
     }
 
     public function renameModule($id, $name)
