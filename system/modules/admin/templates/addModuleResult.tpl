@@ -1,5 +1,4 @@
 {include file='jipTitle.tpl' title='admin/module.adding'|i18n}
-<br />
 <div class="generatorSuccessResult">
 {_ module.create_successfully $name $dest}
 </div>

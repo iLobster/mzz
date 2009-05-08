@@ -20,7 +20,7 @@ class directoryGeneratorNotEmptyException extends directoryGeneratorException
     {
         $message = 'Cannot delete directory \'' . $directory . '\'. Directory not empty.';
         parent::__construct($message);
-        $this->setName('No empty directory generator Exception');
+        $this->setName('Not empty directory generator Exception');
     }
 }
 

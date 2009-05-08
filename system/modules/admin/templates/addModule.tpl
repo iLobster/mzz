@@ -1,5 +1,5 @@
 {if $isEdit}
-{include file='jipTitle.tpl' title='admin/module.editing'i18n}
+{include file='jipTitle.tpl' title='admin/module.editing'|i18n}
 {else}
 {include file='jipTitle.tpl' title='admin/module.adding'|i18n}
 {/if}
@@ -16,7 +16,13 @@
         </tr>
         <tr>
             <td>{form->caption name="dest" value="_ module.dest"}</td>
-            <td>{form->select name="dest" options=$dests one_item_freeze=1}{$errors->get('dest')}</td>
+            <td>
+                {if !$isEdit}
+                    {$data.dest}
+                {else}
+                    {form->select name="dest" options=$dests one_item_freeze=1}{$errors->get('dest')}
+                {/if}
+            </td>
         </tr>
         <tr>
             <td style="width: 30%;">{form->caption name="title" value="_ module.title"}</td>

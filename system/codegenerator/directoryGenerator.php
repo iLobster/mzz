@@ -40,16 +40,16 @@ class directoryGenerator
             'new' => $this->sub($new));
     }
 
-    public function delete($name, $recursive = false)
+    public function delete($name, array $options = array())
     {
-        if (!$recursive) {
+        if (!in_array('recursive', $options)) {
             $this->validateIsEmpty($name);
         }
 
         $this->scenario[] = array(
             'type' => 'delete',
             'name' => $this->sub($name),
-            'recursive' => $recursive);
+            'options' => $options);
     }
 
     private function sub($directory)
@@ -109,7 +109,11 @@ class directoryGenerator
 
     private function run_delete($data)
     {
-        if ($data['recursive']) {
+        if (in_array('skip', $data['options']) && !is_dir($data['name'])) {
+            return;
+        }
+
+        if (in_array('recursive', $data['options'])) {
             return $this->delete_recursive($data['name']);
         }
 

@@ -19,7 +19,7 @@ fileLoader::load('codegenerator/directoryGenerator');
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.2
+ * @version 0.2
  */
 
 class adminDeleteModuleController extends simpleController
@@ -33,21 +33,21 @@ class adminDeleteModuleController extends simpleController
         $modules = $adminMapper->getModulesList();
 
         if (!isset($modules[$id])) {
-            $controller = new messageController('Модуля не существует', messageController::WARNING);
+            $controller = new messageController(i18n::getMessage('module.error.not_exists', 'admin'), messageController::WARNING);
             return $controller->run();
         }
 
         if (sizeof($modules[$id]['classes'])) {
-            $controller = new messageController('Нельзя удалить модуль', messageController::WARNING);
+            $controller = new messageController(i18n::getMessage('module.error.cannot_delete', 'admin'), messageController::WARNING);
             return $controller->run();
         }
 
         $dest = current($adminGeneratorMapper->getDests(true, $modules[$id]['name']));
-        $dest = substr($dest, 0, strrpos($dest, DIRECTORY_SEPARATOR));
+        $dest = pathinfo($dest, PATHINFO_DIRNAME);
 
         $generator = new directoryGenerator($dest);
         try {
-            $generator->delete($modules[$id]['name'], true);
+            $generator->delete($modules[$id]['name'], array('recursive', 'skip'));
             $generator->run();
         } catch (Exception $e) {
             $controller = new messageController('Во время удаления модуля произошла непредвиденная ошибка. Один из каталогов не может быть удалён: ' . $e->getMessage(), messageController::WARNING);
