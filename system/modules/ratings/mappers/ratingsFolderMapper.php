@@ -56,6 +56,10 @@ class ratingsFolderMapper extends mapper
             'accessor' => 'getByField',
             'mutator' => 'setByField',
             'options' => array('once'),
+        ),
+        'rating' => array(
+            'accessor' => 'getRating',
+            'mutator' => 'setRating'
         )
     );
 

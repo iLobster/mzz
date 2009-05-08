@@ -24,6 +24,25 @@ class ratingsRateController extends simpleController
 {
     protected function getView()
     {
+        $id = $this->request->getInteger('id');
+        $ratingsFolderMapper = $this->toolkit->getMapper('ratings', 'ratingsFolder');
+
+        $ratingsFolder = $ratingsFolderMapper->searchById($id);
+
+        if (!$ratingsFolder) {
+            return $this->forward404($ratingsFolderMapper);
+        }
+
+        $rate = $this->request->getInteger('rate');
+
+        switch ($ratingsFolder->getType()) {
+            case 'quote':
+                $newRating = $ratingsFolder->getRating() + $rate;
+                $ratingsFolder->setRating($newRating);
+                $ratingsFolderMapper->save($ratingsFolder);
+                break;
+        }
+
         return $this->smarty->fetch('ratings/rate.tpl');
     }
 }
