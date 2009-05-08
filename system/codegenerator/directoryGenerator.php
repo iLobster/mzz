@@ -66,7 +66,7 @@ class directoryGenerator
 
     private function validateIsWriteable($path)
     {
-        while ($path = substr($path, 0, strrpos($path, '/'))) {
+        while ($path = pathinfo($path, PATHINFO_DIRNAME)) {
             if (is_dir($path)) {
                 if (!is_writable($path)) {
                     throw new directoryGeneratorNoAccessException($path);
