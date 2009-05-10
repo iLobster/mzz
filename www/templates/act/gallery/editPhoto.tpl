@@ -1,1 +1,0 @@
-{load module="gallery" action="editPhoto"}

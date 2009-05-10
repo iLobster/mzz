@@ -1,1 +1,0 @@
-{load module="config" action="list"}

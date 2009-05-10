@@ -1,1 +1,0 @@
-{load module="catalogue" action="deleteType"}

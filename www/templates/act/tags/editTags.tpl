@@ -1,1 +1,0 @@
-{load module="tags" action="editTags"}
