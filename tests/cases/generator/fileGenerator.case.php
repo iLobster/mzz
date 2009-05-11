@@ -16,7 +16,7 @@ class fileGeneratorTest extends UnitTestCase
 
     public function setUp()
     {
-        //$this->generator = new directoryGenerator($this->dir);
+        $this->generator = new fileGenerator($this->dir);
     }
 
     public function tearDown()
@@ -41,9 +41,8 @@ class fileGeneratorTest extends UnitTestCase
 
     public function testCreateSimple()
     {
-        $generator = new fileGenerator($this->dir);
-        $generator->create('file', 'contents');
-        $generator->run();
+        $this->generator->create('file', 'contents');
+        $this->generator->run();
 
         $this->assertTrue($this->isFileExists('file'));
         $this->assertEqual($this->getContents('file'), 'contents');
@@ -51,9 +50,8 @@ class fileGeneratorTest extends UnitTestCase
 
     public function testCreateWithSubfolder()
     {
-        $generator = new fileGenerator($this->dir);
-        $generator->create('subdir/file', 'contents');
-        $generator->run();
+        $this->generator->create('subdir/file', 'contents');
+        $this->generator->run();
 
         $this->assertTrue($this->isFileExists('subdir/file'));
         $this->assertEqual($this->getContents('subdir/file'), 'contents');
@@ -61,19 +59,30 @@ class fileGeneratorTest extends UnitTestCase
 
     public function testOverwriteException()
     {
-        $generator = new fileGenerator($this->dir);
-        $generator->create('file', 'contents');
-        $generator->run();
+        $this->generator->create('file', 'contents');
+        $this->generator->run();
 
         try {
-            $generator->create('file', 'new');
-            $generator->run();
-            //$this->fail();
+            $this->generator->create('file', 'new');
+            $this->generator->run();
+            $this->fail();
         } catch (fileGeneratorExistsException $e) {
             $this->pass();
         }
 
         $this->assertEqual($this->getContents('file'), 'contents');
+    }
+
+    public function testRename()
+    {
+        $this->generator->create('file');
+        $this->generator->run();
+
+        $this->generator->rename('file', 'new');
+        $this->generator->run();
+
+        $this->assertFalse($this->isFileExists('file'));
+        $this->assertTrue($this->isFileExists('new'));
     }
 
     private function isFileExists($expected)

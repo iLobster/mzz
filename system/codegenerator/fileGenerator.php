@@ -43,6 +43,14 @@ class fileGenerator
             'mode' => is_null($mode) ? $this->default_mode : $mode);
     }
 
+    public function rename($old, $new)
+    {
+        $this->scenario[] = array(
+            'type' => 'rename',
+            'old' => $this->sub($old),
+            'new' => $this->sub($new));
+    }
+
     public function run()
     {
         foreach ($this->scenario as $action) {
@@ -59,6 +67,11 @@ class fileGenerator
         }
 
         file_put_contents($data['name'], $data['contents']);
+    }
+
+    private function run_rename($data)
+    {
+        rename($data['old'], $data['new']);
     }
 
     private function sub($file)

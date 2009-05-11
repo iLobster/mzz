@@ -38,10 +38,8 @@ class adminAddClassController extends simpleController
             $data = $adminMapper->searchClassById($id);
 
             if ($data === false) {
-                if ($data === false) {
-                    $controller = new messageController('Класс не существует', messageController::WARNING);
-                    return $controller->run();
-                }
+                $controller = new messageController('Класс не существует', messageController::WARNING);
+                return $controller->run();
             }
 
             $module = $adminMapper->searchModuleById($data['module_id']);
@@ -65,6 +63,15 @@ class adminAddClassController extends simpleController
 
         $validator = new formValidator();
 
+        $validator->add('required', 'name', i18n::getMessage('class.error.name_required', 'admin'));
+        $validator->add('callback', 'name', i18n::getMessage('class.error.unique', 'admin'), array(array($this, 'checkUniqueClassName'), $adminMapper, $isEdit ? $data['name'] : ''));
+        $validator->add('regex', 'name', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
+
+        if (!$isEdit) {
+            $validator->add('required', 'table', i18n::getMessage('class.error.table_required', 'admin'));
+            $validator->add('regex', 'table', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
+        }
+
         if ($validator->validate()) {
             $name = $this->request->getString('name', SC_POST);
             $table = $this->request->getString('table', SC_POST);
@@ -80,7 +87,7 @@ class adminAddClassController extends simpleController
                         'module' => $module_name);
                     $this->smarty->assign('do_data', $doData);
                     $doContents = $this->smarty->fetch('admin/generator/do.tpl');
-                    $fileGenerator->create($name . '.php', $doContents);
+                    $fileGenerator->create($this->entity($name), $doContents);
 
                     $doData = array(
                         'name' => $name,
@@ -88,9 +95,9 @@ class adminAddClassController extends simpleController
                         'table' => $table);
                     $this->smarty->assign('mapper_data', $doData);
                     $mapperContents = $this->smarty->fetch('admin/generator/mapper.tpl');
-                    $fileGenerator->create('mappers/' . $name . 'Mapper.php', $mapperContents);
+                    $fileGenerator->create($this->mappers($name), $mapperContents);
 
-                    $fileGenerator->create('actions/' . $name . '.ini');
+                    $fileGenerator->create($this->actions($name));
 
                     $fileGenerator->run();
                 } catch (Exception $e) {
@@ -104,10 +111,16 @@ class adminAddClassController extends simpleController
                 return jipTools::redirect();
             }
 
+            // @todo: написать трансформатор на изменение имён классов
             $fileGenerator = new fileGenerator($data['dest']);
-            //$fileGenerator->ren
+            $fileGenerator->rename($this->actions($data['name']), $this->actions($name));
+            $fileGenerator->rename($this->mappers($data['name']), $this->mappers($name));
+            $fileGenerator->rename($this->entity($data['name']), $this->entity($name));
+            $fileGenerator->run();
 
-            return 'ok';
+            $adminGeneratorMapper->renameClass($id, $name);
+
+            return jipTools::redirect();
         }
 
         $url = new url('withId');
@@ -123,6 +136,21 @@ class adminAddClassController extends simpleController
         $this->smarty->assign('isEdit', $isEdit);
 
         return $this->smarty->fetch('admin/addClass.tpl');
+    }
+
+    private function actions($name)
+    {
+        return 'actions/' . $name . '.ini';
+    }
+
+    private function mappers($name)
+    {
+        return 'mappers/' . $name . 'Mapper.php';
+    }
+
+    private function entity($name)
+    {
+        return $name . '.php';
     }
 
     private function smartyBrackets($back = false)
@@ -135,138 +163,17 @@ class adminAddClassController extends simpleController
         $this->smarty->left_delimiter = '{{';
         $this->smarty->right_delimiter = '}}';
     }
-}
 
-class aaadminAddClassController extends simpleController
-{
-    protected function getView()
+    public function checkUniqueClassName($name, $adminMapper, $class_name)
     {
-        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
-        $adminGeneratorMapper = $this->toolkit->getMapper('admin', 'adminGenerator');
-
-        $dest = $adminGeneratorMapper->getDests();
-
-        $id = $this->request->getInteger('id');
-        $action = $this->request->getAction();
-        $isEdit = ($action == 'editClass');
-
-        $db = DB::factory();
-
-        $modules = $adminMapper->getModulesList();
-
-        if ($isEdit) {
-            $data = $db->getRow('SELECT * FROM `sys_classes` WHERE `id` = ' . $id);
-
-            if ($data === false) {
-                $controller = new messageController('Класса не существует', messageController::WARNING);
-                return $controller->run();
-            }
-
-            /*
-            if (isset($modules[$data['module_id']]['classes'][$data['id']]) && $modules[$data['module_id']]['classes'][$data['id']]['exists']) {
-            $controller = new messageController('Нельзя изменить имя класса', messageController::WARNING);
-            return $controller->run();
-            }*/
-
-            $module_name = $modules[$data['module_id']]['name'];
-        } else {
-            $data = $db->getRow('SELECT * FROM `sys_modules` WHERE `id` = ' . $id);
-            $module_name = $data['name'];
+        if ($name == $class_name) {
+            return true;
         }
 
-        $data['dest'] = $adminGeneratorMapper->getDests(true, $module_name);
+        $class = $adminMapper->searchClassByName($name);
 
-        $validator = new formValidator();
-        $validator->add('required', 'name', 'Обязательное для заполнения поле');
-        $validator->add('callback', 'name', 'Название должно быть уникально', array(
-            'checkUniqueClass',
-            $db,
-            $data['name'],
-            $isEdit));
-        $validator->add('regex', 'name', 'Разрешено использовать только a-zA-Z0-9_-', '#^[a-z0-9_-]+$#i');
-        $validator->add('required', 'dest', 'Нет прав на запись в директорию');
-        $validator->add('callback', 'dest', 'Нет прав на запись в директорию', array(
-            array(
-                $this,
-                'checkdest'),
-            $data['dest']));
-
-        if ($validator->validate()) {
-            $name = trim($this->request->getString('name', SC_POST));
-            $newDest = $this->request->getString('dest', SC_POST);
-            $bd_only = $this->request->getString('bd_only', SC_POST);
-
-            if (!$isEdit) {
-                $classGenerator = new classGenerator($data['name'], $dest[$newDest]);
-
-                if ($bd_only == 'no') {
-                    try {
-                        $log = $classGenerator->generate($name);
-                    } catch (Exception $e) {
-                        return $e->getMessage();
-                    }
-                } else {
-                    $log = "generate files skipped ";
-                }
-
-                $stmt = $db->prepare('INSERT INTO `sys_classes` (`name`, `module_id`) VALUES (:name, :module_id)');
-                $stmt->bindValue(':module_id', $data['id'], PDO::PARAM_INT);
-                $stmt->bindValue(':name', $name, PDO::PARAM_STR);
-                $class_id = $stmt->execute();
-
-                $editAclId = $db->getOne("SELECT `id` FROM `sys_actions` WHERE `name` = 'editACL'");
-                $db->query('INSERT INTO `sys_classes_actions` (`class_id`, `action_id`) VALUES (' . $class_id . ', ' . $editAclId . ')');
-
-                $this->smarty->assign('log', $log);
-                $this->smarty->assign('id', $class_id);
-                $this->smarty->assign('module', $module_name);
-                $this->smarty->assign('name', $name);
-                return $this->smarty->fetch('admin/addClassResult.tpl');
-            }
-
-            $classGenerator = new classGenerator($modules[$data['module_id']]['name'], $dest[$newDest]);
-            $classGenerator->rename($data['name'], $name);
-
-            $stmt = $db->prepare('UPDATE `sys_classes` SET `name` = :name WHERE `id` = :id');
-            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-            $stmt->bindValue(':name', $name, PDO::PARAM_STR);
-            $stmt->execute();
-
-            return jipTools::redirect();
-        }
-
-        $url = new url('withId');
-        $url->add('id', $data['id']);
-        $url->setAction($action);
-
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('errors', $validator->getErrors());
-        $this->smarty->assign('isEdit', $isEdit);
-
-        if (!$isEdit) {
-            $data['name'] = '';
-        }
-
-        $this->smarty->assign('data', $data);
-        return $this->smarty->fetch('admin/addClass.tpl');
-    }
-
-    public function checkdest($val, $dest)
-    {
-        return count($dest) > 0;
+        return !$class;
     }
 }
 
-function checkUniqueClass($name, $db, $currentName, $isEdit)
-{
-    if ($isEdit && $name == $currentName) {
-        return true;
-    }
-    $stmt = $db->prepare('SELECT COUNT(*) AS `cnt` FROM `sys_classes` WHERE `name` = :name');
-    $stmt->bindValue(':name', $name, PDO::PARAM_STR);
-    $stmt->execute();
-    $res = $stmt->fetch();
-
-    return $res['cnt'] == 0;
-}
 ?>

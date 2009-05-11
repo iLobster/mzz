@@ -15,7 +15,7 @@
             </td>
         </tr>
         <tr>
-            <td>{form->caption name="dest" value="_ module.dest"}</td>
+            <td>{form->caption name="dest" value="_ dest"}</td>
             <td>
                 {if $isEdit}
                     {$data.dest}
