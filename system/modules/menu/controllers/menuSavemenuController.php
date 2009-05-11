@@ -32,7 +32,7 @@ class menuSavemenuController extends simpleController
         $isEdit = ($action == 'editmenu');
 
         $name = $this->request->getString('name');
-        $menu = $isEdit ? $menuMapper->searchByName($name) : $menuMapper->create();
+        $menu = $isEdit ? $menuMapper->searchByName($name) : $menuMapper->createItemFromRow(array());
 
         $validator = new formValidator();
         $validator->add('required', 'name', 'Необходимо имя');

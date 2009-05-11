@@ -52,6 +52,8 @@ class menuSaveController extends simpleController
         $types = $itemMapper->getMenuItemsTypes();
         $this->smarty->assign('types', $types);
 
+        $typeId = $this->request->getInteger('type', SC_POST);
+        $this->smarty->assign('typeId', $typeId);
         if ($isEdit) {
             $item = $itemMapper->searchById($id);
             if (!$item) {
@@ -59,21 +61,14 @@ class menuSaveController extends simpleController
             }
             $menu = $item->getMenu();
 
-            $typeId = $this->request->getInteger('type', SC_POST);
             if ($typeId) {
-                $objectArray = $item->exportOld();
+                $objectArray = $item->export();
                 $objectArray['type_id'] = $typeId;
                 $item = $itemMapper->createItemFromRow($objectArray);
             }
-
-            $typeId = $item->getTypeId();
-            $this->smarty->assign('typeId', $typeId);
+            $typeId = $item->getType();
         } else {
             $types = $itemMapper->getMenuItemsTypes();
-
-            $typeId = $this->request->getInteger('type', SC_POST);
-            $this->smarty->assign('typeId', $typeId);
-
             $item = (isset($types[$typeId])) ? $itemMapper->create($typeId) : null;
         }
 
@@ -92,7 +87,6 @@ class menuSaveController extends simpleController
 
             $helper = $this->createMenuItemHelper($item);
             $helper->injectItem($validator, $item, $this->smarty, $args);
-
             if ($validator->validate()) {
                 $helper->setArguments($item, $args);
 
@@ -100,7 +94,7 @@ class menuSaveController extends simpleController
                 $item->setTitle($title);
                 $item->setMenu($menu);
 
-                $item->setType($item->getTypeId());
+                $item->setType($item->getType());
                 if (!$isEdit) {
                     $parent = ($isRoot) ? 0 : $parentItem->getId();
                     $item->setParent($parent);

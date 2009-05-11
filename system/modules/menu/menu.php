@@ -36,7 +36,7 @@ class menu extends entity
 
     public function getJip()
     {
-        return $this->getJipView($this->name, $this->getName(), get_class($this));
+        return parent::__call('getJip', array(1, $this->getName()));
     }
 }
 

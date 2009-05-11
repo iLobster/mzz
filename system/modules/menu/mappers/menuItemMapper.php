@@ -86,7 +86,9 @@ class menuItemMapper extends mapper
     public function __construct()
     {
         parent::__construct();
-        $this->attach(new i18nPlugin(), 'i18n');
+        $this->plugins('jip');
+        $this->plugins('i18n');
+        $this->plugins('acl_ext');
     }
 
     public function searchById($id)
@@ -243,7 +245,34 @@ class menuItemMapper extends mapper
         $oldClassName = $this->class;
         $this->class = $className;
         $object = parent::createItemFromRow($row);
-        //$object->setLangId($this->getLangId());
+        $this->class = $oldClassName;
+        return $object;
+    }
+
+    public function create($type = null)
+    {
+        if ($type === null) {
+            return parent::create();
+        }
+        switch ($type) {
+            case self::ITEMTYPE_ADVANCED:
+                $className = 'advancedMenuItem';
+                break;
+
+            case self::ITEMTYPE_EXTERNAL :
+                $className = 'externalMenuItem';
+                break;
+
+            default:
+                $type_id = self::ITEMTYPE_SIMPLE;
+                $className = 'simpleMenuItem';
+                break;
+        }
+        fileLoader::load('menu/items/' . $className);
+
+        $oldClassName = $this->class;
+        $this->class = $className;
+        $object = parent::create();
         $this->class = $oldClassName;
         return $object;
     }
@@ -258,7 +287,7 @@ class menuItemMapper extends mapper
     public function convertArgsToObj($args)
     {
         if ($args['id'] == 0) {
-            $obj = $this->create();
+            $obj = $this->createItemFromRow(array());
             $obj->import(array('obj_id' => $this->getObjId()));
             return $obj;
         }

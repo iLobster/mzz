@@ -40,6 +40,12 @@ class menuMapper extends mapper
 
     protected $table = 'menu_menu';
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->plugins('jip');
+        $this->plugins('acl_ext');
+    }
 
     public function searchById($id)
     {
@@ -110,8 +116,12 @@ class menuMapper extends mapper
             'mutator' => 'setId',
             'options' => array(
                 'once', 'pk'
-            )
+            ),
         ),
+        'name' => array(
+            'accessor' => 'getName',
+            'mutator' => 'setName',
+         )
     );
 }
 

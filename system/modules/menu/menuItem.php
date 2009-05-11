@@ -30,6 +30,8 @@ abstract class menuItem extends entity
     protected $urlLang;
     protected $urlLangSpecified;
 
+    protected $module = 'menu';
+/*
     public function setTypeId($typeId)
     {
         $this->typeId = $typeId;
@@ -38,7 +40,7 @@ abstract class menuItem extends entity
     public function getTypeId()
     {
         return $this->typeId;
-    }
+    }*/
 
     public function getArgument($argument, $default = null)
     {
@@ -119,7 +121,7 @@ abstract class menuItem extends entity
      */
     public function getJip($tpl = jip::DEFAULT_TEMPLATE)
     {
-        return $this->getJipView($this->name, $this->getId(), __CLASS__, $tpl);
+        return parent::__call('getJip', array(1, $this->getId(), __CLASS__, $tpl));
     }
 
     public function setUrlLang($lang, $specified)
@@ -130,7 +132,7 @@ abstract class menuItem extends entity
 
     public function getTypeTitle()
     {
-        return $this->mapper->getTitleByType($this->getTypeId());
+        return $this->mapper->getTitleByType($this->getType());
     }
 
     abstract function getUrl();
