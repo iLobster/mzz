@@ -100,7 +100,7 @@ class pager
             $baseurl = substr($baseurl, 0, -1);
         }
 
-        $this->baseurl = $baseurl . (strpos($baseurl, '?') ? '&' : '?') . 'page=';
+        $this->baseurl = $baseurl;
         $this->page = (int)$page;
         $this->setPerPage($perPage);
         $this->itemsCount = 0;
@@ -162,7 +162,7 @@ class pager
             $page = $this->page + 1;
         }
 
-        return isset($page) ? ($withUrl ? $this->baseurl . $page : $page): null;
+        return isset($page) ? ($withUrl ? $this->appendPageToUrl($page) : $page): null;
     }
 
     /**
@@ -179,17 +179,25 @@ class pager
             $page = $this->page - 1;
         }
 
-        return isset($page) ? ($withUrl ? $this->baseurl . $page : $page): null;
+        return isset($page) ? ($withUrl ? $this->appendPageToUrl($page) : $page): null;
     }
 
     public function getLast($withUrl = true)
     {
-        return ($withUrl ? $this->baseurl : null) . ($this->reverse ? 1 : $this->getPagesTotal());
+        $page = ($this->reverse ? 1 : $this->getPagesTotal());
+        if ($withUrl) {
+            return $this->appendPageToUrl($page);
+        }
+        return $page;
     }
 
     public function getFirst($withUrl = true)
     {
-        return ($withUrl ? $this->baseurl : null) . ($this->reverse ? $this->getPagesTotal() : 1);
+        $page = ($this->reverse ? $this->getPagesTotal() : 1);
+        if ($withUrl) {
+            return $this->appendPageToUrl($page);
+        }
+        return $page;
     }
 
 
@@ -280,7 +288,7 @@ class pager
 
             if ($this->itemsCount > 0) {
                 $firstPage = $this->reverse ? $pagesTotal : 1;
-                $result[$firstPage] = array('page' => $firstPage, 'url' => $this->baseurl . $firstPage);
+                $result[$firstPage] = array('page' => $firstPage, 'url' => $this->appendPageToUrl($firstPage));
 
                 $leftSkip = ($this->reverse ? $pagesTotal - $this->page - 1 : $this->page - 2) > $this->roundItems;
                 $rightSkip = ($this->reverse ? $this->page - 2 : $pagesTotal - $this->page - 1) > $this->roundItems;
@@ -300,14 +308,14 @@ class pager
 
 
                 while ($sign * ($right - $left) >= 0) {
-                    $result[$left] = array('page' => $left, 'url' => $this->baseurl . $left);
+                    $result[$left] = array('page' => $left, 'url' => $this->appendPageToUrl($left));
                     $left += $sign;
                 }
 
                 if ($rightSkip) {
                     $result[] = array('skip' => true);
                     $lastPage = abs($firstPage - $pagesTotal) + 1;
-                    $result[$lastPage] = array('page' => $lastPage, 'url' => $this->baseurl . $lastPage);
+                    $result[$lastPage] = array('page' => $lastPage, 'url' => $this->appendPageToUrl($lastPage));
                 }
 
                 if (isset($result[$this->page])) {
@@ -333,6 +341,14 @@ class pager
         $smarty = $toolkit->getSmarty();
         $smarty->assign('pages', $this->toArray());
         return $smarty->fetch($tpl);
+    }
+
+    protected function appendPageToUrl($page)
+    {
+        if ((int)$page === (int)$this->getFirst(false)) {
+            return $this->baseurl;
+        }
+        return $this->baseurl . (strpos($this->baseurl, '?') ? '&' : '?') . 'page=' . $page;
     }
 }
 
