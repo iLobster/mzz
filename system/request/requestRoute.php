@@ -319,7 +319,7 @@ class requestRoute implements iRoute
                         $url = substr($url, 0, -1);
                     }
                 } else {
-                    throw new mzzRuntimeException('Отсутствует значение для Route: ' . $part['name']);
+                    throw new mzzRuntimeException('Отсутствует значение для ' . $this->name . ' route: ' . $part['name']);
                 }
             } else {
                 $url .= $part['name'];

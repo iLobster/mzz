@@ -58,6 +58,7 @@ class contentFilter implements iFilter
         $smarty->assign('current_path', $request->getPath());
         $smarty->assign('current_lang', $toolkit->getLocale()->getName());
         $smarty->assign('available_langs', $toolkit->getLocale()->searchAll());
+        $request->setRequestedParams($request->getParams());
 
         if (empty($template)) {
             try {
@@ -121,8 +122,8 @@ class contentFilter implements iFilter
     {
         $toolkit = systemToolkit::getInstance();
         $smarty = $toolkit->getSmarty();
-        $section = $request->getRequestedSection();
-        $actionName = $request->getRequestedAction();
+        $section = $request->getSection();
+        $actionName = $request->getAction();
         include(fileLoader::resolve('configs/modules'));
 
         if (!isset($modules[$section])) {
@@ -131,7 +132,9 @@ class contentFilter implements iFilter
         $module = $toolkit->getModuleName($section);
         $action = $toolkit->getAction($module);
         $activeTemplate = $action->getActiveTemplate($actionName);
-
+        if ($activeTemplate == 'deny') {
+            throw new mzzNoActionException('Direct access to this action is deny');
+        }
         $smarty->assign('section', $section);
         $smarty->assign('module', $module);
         $smarty->assign('action', $actionName);

@@ -65,7 +65,6 @@ class loadDispatcher
         foreach ($params as $name => $value) {
             $request->setParam($name, $value);
         }
-        $request->setRequestedParams($request->getParams());
         if (empty(self::$request)) {
             self::$request = $request;
         }
