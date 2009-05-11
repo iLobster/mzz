@@ -1,3 +1,9 @@
+{add file="prototype.js"}
+{add file="effects.js"}
+{add file="dragdrop.js"}
+{add file="jip.css"}
+{add file="jip.js"}
+
 {add file="admin/toolbar.css"}
 {add file="admin/devToolbar.js"}
 <!-- модули и классы -->

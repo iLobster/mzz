@@ -24,4 +24,14 @@ class directoryGeneratorNotEmptyException extends directoryGeneratorException
     }
 }
 
+class fileGeneratorExistsException extends directoryGeneratorException
+{
+    public function __construct($file)
+    {
+        $message = 'Cannot write to file \'' . $file . '\'. File already exists.';
+        parent::__construct($message);
+        $this->setName('Exists file generator Exception');
+    }
+}
+
 ?>

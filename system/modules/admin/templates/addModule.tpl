@@ -17,7 +17,7 @@
         <tr>
             <td>{form->caption name="dest" value="_ module.dest"}</td>
             <td>
-                {if !$isEdit}
+                {if $isEdit}
                     {$data.dest}
                 {else}
                     {form->select name="dest" options=$dests one_item_freeze=1}{$errors->get('dest')}

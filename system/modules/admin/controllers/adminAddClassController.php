@@ -12,24 +12,139 @@
  * @version $Id$
  */
 
-fileLoader::load('codegenerator/classGenerator');
-fileLoader::load('forms/validators/formValidator');
+fileLoader::load('codegenerator/directoryGenerator');
+fileLoader::load('codegenerator/fileGenerator');
 
 /**
  * adminAddClassController: контроллер для метода addClass модуля admin
  *
  * @package modules
  * @subpackage admin
- * @version 0.2
+ * @version 0.3
  */
-
 class adminAddClassController extends simpleController
 {
     protected function getView()
     {
-        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+        $id = $this->request->getInteger('id');
 
-        $dest = $adminMapper->getDests();
+        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+        $adminGeneratorMapper = $this->toolkit->getMapper('admin', 'adminGenerator');
+
+        $action = $this->request->getAction();
+        $isEdit = $action == 'editClass';
+
+        if ($isEdit) {
+            $data = $adminMapper->searchClassById($id);
+
+            if ($data === false) {
+                if ($data === false) {
+                    $controller = new messageController('Класс не существует', messageController::WARNING);
+                    return $controller->run();
+                }
+            }
+
+            $module = $adminMapper->searchModuleById($data['module_id']);
+
+            $module_name = $module['name'];
+            // @todo: написать парсилку классов DO
+            $data['table'] = '';
+        } else {
+            $data = $adminMapper->searchModuleById($id);
+
+            if ($data === false) {
+                $controller = new messageController(i18n::getMessage('module.error.not_exists', 'admin'), messageController::WARNING);
+                return $controller->run();
+            }
+
+            $module_name = $data['name'];
+            $data['table'] = '';
+        }
+
+        $data['dest'] = current($adminGeneratorMapper->getDests(true, $module_name));
+
+        $validator = new formValidator();
+
+        if ($validator->validate()) {
+            $name = $this->request->getString('name', SC_POST);
+            $table = $this->request->getString('table', SC_POST);
+
+            if (!$isEdit) {
+                try {
+                    $this->smartyBrackets();
+
+                    $fileGenerator = new fileGenerator($data['dest']);
+
+                    $doData = array(
+                        'name' => $name,
+                        'module' => $module_name);
+                    $this->smarty->assign('do_data', $doData);
+                    $doContents = $this->smarty->fetch('admin/generator/do.tpl');
+                    $fileGenerator->create($name . '.php', $doContents);
+
+                    $doData = array(
+                        'name' => $name,
+                        'module' => $module_name,
+                        'table' => $table);
+                    $this->smarty->assign('mapper_data', $doData);
+                    $mapperContents = $this->smarty->fetch('admin/generator/mapper.tpl');
+                    $fileGenerator->create('mappers/' . $name . 'Mapper.php', $mapperContents);
+
+                    $fileGenerator->create('actions/' . $name . '.ini');
+
+                    $fileGenerator->run();
+                } catch (Exception $e) {
+                    return $e->getMessage();
+                }
+
+                $adminGeneratorMapper->createClass($name, $id);
+
+                $this->smartyBrackets(true);
+
+                return jipTools::redirect();
+            }
+
+            $fileGenerator = new fileGenerator($data['dest']);
+            //$fileGenerator->ren
+
+            return 'ok';
+        }
+
+        $url = new url('withId');
+        $url->add('id', $data['id']);
+        $url->setAction($action);
+
+        $this->smarty->assign('form_action', $url->get());
+        $this->smarty->assign('errors', $validator->getErrors());
+        if (!$isEdit) {
+            $data['name'] = '';
+        }
+        $this->smarty->assign('data', $data);
+        $this->smarty->assign('isEdit', $isEdit);
+
+        return $this->smarty->fetch('admin/addClass.tpl');
+    }
+
+    private function smartyBrackets($back = false)
+    {
+        if ($back) {
+            $this->smarty->left_delimiter = '{';
+            $this->smarty->right_delimiter = '}';
+        }
+
+        $this->smarty->left_delimiter = '{{';
+        $this->smarty->right_delimiter = '}}';
+    }
+}
+
+class aaadminAddClassController extends simpleController
+{
+    protected function getView()
+    {
+        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+        $adminGeneratorMapper = $this->toolkit->getMapper('admin', 'adminGenerator');
+
+        $dest = $adminGeneratorMapper->getDests();
 
         $id = $this->request->getInteger('id');
         $action = $this->request->getAction();
@@ -59,7 +174,7 @@ class adminAddClassController extends simpleController
             $module_name = $data['name'];
         }
 
-        $data['dest'] = $adminMapper->getDests(true, $module_name);
+        $data['dest'] = $adminGeneratorMapper->getDests(true, $module_name);
 
         $validator = new formValidator();
         $validator->add('required', 'name', 'Обязательное для заполнения поле');

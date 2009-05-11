@@ -23,13 +23,21 @@ class fileGenerator
     {
         if (strpos($name, '/') !== false) {
             $dir = pathinfo($name, PATHINFO_DIRNAME);
-            $generator = new directoryGenerator($this->directory);
-            $generator->create($dir);
+            if (!is_dir($this->directory . '/'. $dir)) {
+                $generator = new directoryGenerator($this->directory);
+                $generator->create($dir);
+            }
+        }
+
+        $name = $this->sub($name);
+
+        if (is_file($name)) {
+            throw new fileGeneratorExistsException($name);
         }
 
         $this->scenario[] = array(
             'type' => 'create',
-            'name' => $this->sub($name),
+            'name' => $name,
             'contents' => $contents,
             'generator' => isset($generator) ? $generator : null,
             'mode' => is_null($mode) ? $this->default_mode : $mode);

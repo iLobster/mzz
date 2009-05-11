@@ -34,6 +34,22 @@ class adminGeneratorMapper extends mapper
         $this->db()->query('DELETE FROM `sys_modules` WHERE `id` = ' . (int)$id);
     }
 
+    public function createClass($name, $module_id)
+    {
+        $stmt = $this->db()->prepare('INSERT INTO `sys_classes` (`name`, `module_id`) VALUES (:name, :module_id)');
+        $stmt->bindValue(':module_id', $module_id, PDO::PARAM_INT);
+        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+        return $stmt->execute();
+    }
+
+    public function renameClass($id, $name)
+    {
+        $stmt = $this->db()->prepare('UPDATE `sys_classes` SET `name` = :name WHERE `id` = :id');
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+        $stmt->execute();
+    }
+
     /**
      * Получение списка каталогов, используемых для генерации модулей
      *

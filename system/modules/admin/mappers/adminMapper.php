@@ -100,7 +100,7 @@ class adminMapper extends mapper
      */
     public function searchClassWithModuleById($id)
     {
-        return $this->db->getRow("SELECT `c`.`name` AS `class_name`, `m`.`name` AS `module_name` FROM `sys_classes` `c`
+        return $this->db()->getRow("SELECT `c`.`name` AS `class_name`, `m`.`name` AS `module_name` FROM `sys_classes` `c`
                                    INNER JOIN `sys_modules` `m` ON `c`.`module_id` = `m`.`id`
                                     WHERE `c`.`id` = " . (int)$id);
     }
@@ -113,7 +113,7 @@ class adminMapper extends mapper
      */
     public function searchClassesByModuleId($id)
     {
-        return $this->db->getAll('SELECT * FROM `sys_classes` WHERE `module_id` = ' . (int)$id, PDO::FETCH_ASSOC | PDO::FETCH_GROUP);
+        return $this->db()->getAll('SELECT * FROM `sys_classes` WHERE `module_id` = ' . (int)$id, PDO::FETCH_ASSOC | PDO::FETCH_GROUP);
     }
 
     /**

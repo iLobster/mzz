@@ -59,6 +59,23 @@ class fileGeneratorTest extends UnitTestCase
         $this->assertEqual($this->getContents('subdir/file'), 'contents');
     }
 
+    public function testOverwriteException()
+    {
+        $generator = new fileGenerator($this->dir);
+        $generator->create('file', 'contents');
+        $generator->run();
+
+        try {
+            $generator->create('file', 'new');
+            $generator->run();
+            //$this->fail();
+        } catch (fileGeneratorExistsException $e) {
+            $this->pass();
+        }
+
+        $this->assertEqual($this->getContents('file'), 'contents');
+    }
+
     private function isFileExists($expected)
     {
         return is_file($this->dir . DIRECTORY_SEPARATOR . $expected);
