@@ -299,7 +299,8 @@ class requestRoute implements iRoute
         $url = '';
         foreach ($this->parts as $part) {
             if ($part['isVar']) {
-                if (array_key_exists($part['name'], $values)) {
+                $withDefault = isset($this->defaults[$part['name']]) && $part['name'] != 'lang';
+                if (array_key_exists($part['name'], $values) && (!$withDefault || ($withDefault && $this->defaults[$part['name']] !== $values[$part['name']]))) {
                     $regex = isset($this->requirements[$part['name']]) ? self::REGEX_DELIMITER . $this->requirements[$part['name']] . self::REGEX_DELIMITER : false;
                     $regex = false;
                     if ($regex && !preg_match($regex, $values[$part['name']])) {

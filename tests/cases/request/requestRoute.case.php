@@ -111,6 +111,14 @@ class requestRouteTest extends unitTestCase
             $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'view')),
             'somepath/news/1-view'
         );
+        $this->assertEqual(
+            $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'view', 'default' => 'default')),
+            'somepath/news/1-view'
+        );
+        $this->assertEqual(
+            $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'view', 'default' => 'not_default')),
+            'somepath/news/1-view/not_default'
+        );
     }
 
     public function testAssembleWithLang()
