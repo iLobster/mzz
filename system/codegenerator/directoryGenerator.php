@@ -5,7 +5,7 @@ fileLoader::load('codegenerator/exceptions');
 class directoryGenerator
 {
     private $directory;
-    private $default_mode = 0755;
+    private $default_mode = 0775;
 
     private $scenario = array();
 

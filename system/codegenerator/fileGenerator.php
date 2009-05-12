@@ -6,7 +6,7 @@ fileLoader::load('codegenerator/directoryGenerator');
 class fileGenerator
 {
     private $directory;
-    private $default_mode = 0755;
+    private $default_mode = 0664;
 
     private $scenario = array();
 
@@ -67,6 +67,7 @@ class fileGenerator
         }
 
         file_put_contents($data['name'], $data['contents']);
+        chmod($data['name'], $data['mode']);
     }
 
     private function run_rename($data)
