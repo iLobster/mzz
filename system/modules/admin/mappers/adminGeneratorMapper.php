@@ -50,6 +50,11 @@ class adminGeneratorMapper extends mapper
         $stmt->execute();
     }
 
+    public function deleteClass($id)
+    {
+        $this->db()->query('DELETE FROM `sys_classes` WHERE `id` = ' . (int)$id);
+    }
+
     /**
      * Получение списка каталогов, используемых для генерации модулей
      *

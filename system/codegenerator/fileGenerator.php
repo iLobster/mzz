@@ -21,10 +21,12 @@ class fileGenerator
 
     public function create($name, $contents = '', $mode = null)
     {
+        $mode = is_null($mode) ? $this->default_mode : $mode;
+
         if (strpos($name, '/') !== false) {
             $dir = pathinfo($name, PATHINFO_DIRNAME);
-            if (!is_dir($this->directory . '/'. $dir)) {
-                $generator = new directoryGenerator($this->directory);
+            if (!is_dir($this->directory . '/' . $dir)) {
+                $generator = new directoryGenerator($this->directory, $mode | ($mode & 0444) >> 2);
                 $generator->create($dir);
             }
         }
@@ -40,7 +42,7 @@ class fileGenerator
             'name' => $name,
             'contents' => $contents,
             'generator' => isset($generator) ? $generator : null,
-            'mode' => is_null($mode) ? $this->default_mode : $mode);
+            'mode' => $mode);
     }
 
     public function rename($old, $new)
@@ -49,6 +51,13 @@ class fileGenerator
             'type' => 'rename',
             'old' => $this->sub($old),
             'new' => $this->sub($new));
+    }
+
+    public function delete($name)
+    {
+        $this->scenario[] = array(
+            'type' => 'delete',
+            'name' => $this->sub($name));
     }
 
     public function run()
@@ -73,6 +82,11 @@ class fileGenerator
     private function run_rename($data)
     {
         rename($data['old'], $data['new']);
+    }
+
+    private function run_delete($data)
+    {
+        unlink($data['name']);
     }
 
     private function sub($file)

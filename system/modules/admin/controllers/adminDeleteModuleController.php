@@ -50,15 +50,13 @@ class adminDeleteModuleController extends simpleController
             $generator->delete($modules[$id]['name'], array('recursive', 'skip'));
             $generator->run();
         } catch (Exception $e) {
-            $controller = new messageController('Во время удаления модуля произошла непредвиденная ошибка. Один из каталогов не может быть удалён: ' . $e->getMessage(), messageController::WARNING);
+            $controller = new messageController($e->getMessage(), messageController::WARNING);
             return $controller->run();
         }
 
         $adminGeneratorMapper->deleteModule($id);
 
-        $url = new url('default2');
-        $url->setAction('devToolbar');
-        return jipTools::redirect($url->get());
+        return jipTools::redirect();
     }
 }
 

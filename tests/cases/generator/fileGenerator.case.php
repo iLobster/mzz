@@ -100,6 +100,17 @@ class fileGeneratorTest extends UnitTestCase
         $this->assertTrue($this->isFileExists('new'));
     }
 
+    public function testDelete()
+    {
+        $this->generator->create('file');
+        $this->generator->run();
+
+        $this->generator->delete('file');
+        $this->generator->run();
+
+        $this->assertFalse($this->isFileExists('file'));
+    }
+
     public function testCreateMode()
     {
         $generator = new fileGenerator($this->dir, 0666);
@@ -109,6 +120,11 @@ class fileGeneratorTest extends UnitTestCase
 
         $this->assertEqual($this->getAccessMode('all'), 'rw-rw-rw-');
         $this->assertEqual($this->getAccessMode('me'), 'rw-------');
+
+        $generator->create('ro/file', '', 0640);
+        $generator->run();
+
+        $this->assertEqual($this->getAccessMode('ro'), 'rwxr-x---');
     }
 
     private function isFileExists($expected)

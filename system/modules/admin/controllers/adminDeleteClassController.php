@@ -12,14 +12,14 @@
  * @version $Id$
  */
 
-fileLoader::load('codegenerator/classGenerator');
+fileLoader::load('codegenerator/fileGenerator');
 
 /**
  * adminDeleteClassController: контроллер для метода deleteClass модуля admin
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.2
+ * @version 0.2
  */
 
 class adminDeleteClassController extends simpleController
@@ -29,44 +29,36 @@ class adminDeleteClassController extends simpleController
         $id = $this->request->getInteger('id');
 
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
-        $modules = $adminMapper->getModulesList();
-
-        /*$not_found = true;
-        foreach ($modules as $val) {
-            if (isset($val['classes'][$id])) {
-                if ($val['classes'][$id]['exists']) {
-                    $controller = new messageController('Нельзя удалить класс', messageController::WARNING);
-                    return $controller->run();
-                } else {
-                    $not_found = false;
-                }
-            }
-        }*/
+        $adminGeneratorMapper = $this->toolkit->getMapper('admin', 'adminGenerator');
 
         $class = $adminMapper->searchClassById($id);
 
         if (!$class) {
-            $controller = new messageController('Класса не существует', messageController::WARNING);
+            $controller = new messageController(i18n::getMessage('class.error.not_exists', 'admin'), messageController::WARNING);
             return $controller->run();
         }
 
-        $db = DB::factory();
+        $module = $adminMapper->searchModuleById($class['module_id']);
+        $module_name = $module['name'];
+        $class_name = $class['name'];
 
-        $data = $db->getRow('SELECT * FROM `sys_classes` WHERE `id` = ' . $id);
+        $dest = current($adminGeneratorMapper->getDests(true, $module_name));
 
-        $const = DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
-        $moduleName = $modules[$data['module_id']]['name'];
+        $generator = new fileGenerator($dest);
+        try {
+            $generator->delete('actions/' . $class_name . '.ini');
+            $generator->delete('mappers/' . $class_name . 'Mapper.php');
+            $generator->delete($class_name . '.php');
 
-        $dest = (file_exists(systemConfig::$pathToApplication . $const . $moduleName)) ? systemConfig::$pathToApplication : systemConfig::$pathToSystem;
+            $generator->run();
+        } catch (Exception $e) {
+            $controller = new messageController($e->getMessage(), messageController::WARNING);
+            return $controller->run();
+        }
 
-        $classGenerator = new classGenerator($moduleName, $dest . $const);
-        $classGenerator->delete($data['name']);
+        $adminGeneratorMapper->deleteClass($id);
 
-        $db->query('DELETE FROM `sys_classes` WHERE `id` = ' .$id);
-
-        $url = new url('default2');
-        $url->setAction('devToolbar');
-        return jipTools::redirect($url->get());
+        return jipTools::redirect();
     }
 }
 

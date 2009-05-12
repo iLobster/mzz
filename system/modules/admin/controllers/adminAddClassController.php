@@ -38,7 +38,7 @@ class adminAddClassController extends simpleController
             $data = $adminMapper->searchClassById($id);
 
             if ($data === false) {
-                $controller = new messageController('Класс не существует', messageController::WARNING);
+                $controller = new messageController(i18n::getMessage('class.error.not_exists', 'admin'), messageController::WARNING);
                 return $controller->run();
             }
 
