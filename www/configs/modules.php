@@ -9,6 +9,8 @@ $modules = array (
     'menu' => 'menu',
     'news' => 'news',
     'page' => 'page',
+    'faq' => 'faq',
+    'captcha' => 'captcha',
     'user' => 'user',
 );
 

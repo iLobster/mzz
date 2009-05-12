@@ -1,1 +1,0 @@
-<div id="uploadStatus">Фото {$photo_name} загружено.</div>
