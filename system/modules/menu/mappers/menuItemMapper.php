@@ -80,6 +80,10 @@ class menuItemMapper extends mapper
         'menu_id' => array(
             'accessor' => 'getMenu',
             'mutator' => 'setMenu',
+            'relation' => 'one',
+            'foreign_key' => 'id',
+            'mapper' => 'menu/menuMapper',
+            'options' => array('lazy')
         ),
     );
 
@@ -127,11 +131,10 @@ class menuItemMapper extends mapper
 
     public function getMaxOrder($parent_id, $menu_id)
     {
-        $db = DB::factory();
         $criteria = new criteria($this->table);
         $criteria->addSelectField(new sqlFunction('MAX', 'order', true), 'maxorder')->add('parent_id', (int)$parent_id)->add('menu_id', (int)$menu_id);
         $select = new simpleSelect($criteria);
-        $stmt = $db->query($select->toString());
+        $stmt = $this->db()->query($select->toString());
         $maxorder = $stmt->fetch();
         return (int)$maxorder['maxorder'];
     }
@@ -194,7 +197,7 @@ class menuItemMapper extends mapper
 
     protected function shift($parent_id, $order)
     {
-        $stmt = $this->db->prepare('UPDATE ' . $this->table . ' SET `order` = `order` - 1 WHERE `parent_id` = :parent_id AND `order` > :order');
+        $stmt = $this->db()->prepare('UPDATE ' . $this->table . ' SET `order` = `order` - 1 WHERE `parent_id` = :parent_id AND `order` > :order');
         $stmt->bindParam('parent_id', $parent_id, PDO::PARAM_INT);
         $stmt->bindParam('order', $order, PDO::PARAM_INT);
         $stmt->execute();

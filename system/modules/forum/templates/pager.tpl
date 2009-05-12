@@ -1,1 +1,0 @@
-<span class="threadPager">({foreach from=$pages item=current name=pager}{if not empty($current.skip)}... {else}<a href="{$current.url}">{$current.page}</a>{if not $smarty.foreach.pager.last}&nbsp;{/if}{/if}{/foreach})</span>

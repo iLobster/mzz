@@ -112,212 +112,6 @@ INSERT INTO `comments_comments_tree` (`id`, `path`, `foreign_key`, `level`, `spa
 COMMIT;
 
 #
-# Structure for the `faq_faq` table : 
-#
-
-DROP TABLE IF EXISTS `faq_faq`;
-
-CREATE TABLE `faq_faq` (
-  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `question` VARCHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `answer` TEXT COLLATE utf8_general_ci,
-  `category_id` INTEGER(10) UNSIGNED DEFAULT NULL,
-  `obj_id` INTEGER(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=3 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `faq_faq` table  (LIMIT 0,500)
-#
-
-INSERT INTO `faq_faq` (`id`, `question`, `answer`, `category_id`, `obj_id`) VALUES 
-  (1,'Надо ли мне верить в розового жирафика, чтобы пользоваться mzz?','Желательно, но вовсе необязательно',1,872),
-  (2,'Вопрос','ответ',1,878);
-COMMIT;
-
-#
-# Structure for the `faq_faqCategory` table : 
-#
-
-DROP TABLE IF EXISTS `faq_faqCategory`;
-
-CREATE TABLE `faq_faqCategory` (
-  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `obj_id` INTEGER(10) UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`id`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `faq_faqCategory` table  (LIMIT 0,500)
-#
-
-INSERT INTO `faq_faqCategory` (`id`, `name`, `title`, `obj_id`) VALUES 
-  (1,'demo','Демо',870);
-COMMIT;
-
-#
-# Structure for the `forum_category` table : 
-#
-
-DROP TABLE IF EXISTS `forum_category`;
-
-CREATE TABLE `forum_category` (
-  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `order` INTEGER(11) DEFAULT NULL,
-  `obj_id` INTEGER(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=5 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `forum_category` table  (LIMIT 0,500)
-#
-
-INSERT INTO `forum_category` (`id`, `title`, `order`, `obj_id`) VALUES 
-  (3,'Компьютеры',1,1249),
-  (4,'Интернет',2,1250);
-COMMIT;
-
-#
-# Structure for the `forum_forum` table : 
-#
-
-DROP TABLE IF EXISTS `forum_forum`;
-
-CREATE TABLE `forum_forum` (
-  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `category_id` INTEGER(11) DEFAULT NULL,
-  `order` INTEGER(11) DEFAULT NULL,
-  `obj_id` INTEGER(11) DEFAULT NULL,
-  `threads_count` INTEGER(11) DEFAULT '0',
-  `posts_count` INTEGER(11) DEFAULT '0',
-  `last_post` INTEGER(11) DEFAULT NULL,
-  `description` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=7 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `forum_forum` table  (LIMIT 0,500)
-#
-
-INSERT INTO `forum_forum` (`id`, `title`, `category_id`, `order`, `obj_id`, `threads_count`, `posts_count`, `last_post`, `description`) VALUES 
-  (4,'Операционные системы',3,1,1251,2,11,94,'Выбор, установка, настройка, решение проблем с операционными системами.'),
-  (5,'Игры',3,2,1252,0,0,NULL,''),
-  (6,'Web-программирование',4,1,1254,0,0,NULL,'Perl, PHP, JavaScript, HTML и другие языки под веб.');
-COMMIT;
-
-#
-# Structure for the `forum_post` table : 
-#
-
-DROP TABLE IF EXISTS `forum_post`;
-
-CREATE TABLE `forum_post` (
-  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `text` TEXT COLLATE utf8_general_ci,
-  `author` INTEGER(11) DEFAULT NULL,
-  `post_date` INTEGER(11) DEFAULT NULL,
-  `edit_date` INTEGER(11) DEFAULT NULL,
-  `thread_id` INTEGER(11) DEFAULT NULL,
-  `obj_id` INTEGER(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `thread_id` (`thread_id`, `id`),
-  KEY `post_date` (`post_date`, `thread_id`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=95 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `forum_post` table  (LIMIT 0,500)
-#
-
-INSERT INTO `forum_post` (`id`, `text`, `author`, `post_date`, `edit_date`, `thread_id`, `obj_id`) VALUES 
-  (42,'фывафывф',2,1188271348,NULL,19,989),
-  (43,'фывафывф',2,1188271367,NULL,20,993),
-  (84,'Не придумали',2,1198826477,1199548387,25,1255),
-  (85,'Я тока за!',2,1198826529,NULL,25,1260),
-  (86,'Голосуй, а то проиграешь',2,1198826540,NULL,25,1261),
-  (87,'С наступающим',2,1198826548,NULL,25,1262),
-  (88,'Спасибо',2,1198826556,NULL,25,1263),
-  (89,'Давно ты разговариваешь сам с собой?',2,1198826567,NULL,25,1264),
-  (90,'В принципе да',2,1198826579,NULL,25,1265),
-  (91,'херассе\r\n\r\nдобавлено ( 6 January 2008 / 15:31:38)\r\n\r\ntest\r\n\r\nдобавлено ( 6 January 2008 / 15:32:41)\r\n\r\ntest\r\n\r\nдобавлено ( 6 January 2008 / 15:32:47)\r\n\r\nsdf\r\n\r\nдобавлено ( 6 January 2008 / 15:49:24)\r\n\r\nfasdf',2,1199549454,1199594964,25,1266),
-  (92,'Привет',3,1199840852,1227642310,26,1267),
-  (93,'а я педро!',3,1199842205,NULL,25,1271),
-  (94,'Привет, педро!',2,1199842383,NULL,26,1272);
-COMMIT;
-
-#
-# Structure for the `forum_profile` table : 
-#
-
-DROP TABLE IF EXISTS `forum_profile`;
-
-CREATE TABLE `forum_profile` (
-  `user_id` INTEGER(11) NOT NULL DEFAULT '0',
-  `messages` INTEGER(11) NOT NULL DEFAULT '0',
-  `signature` TEXT COLLATE utf8_general_ci NOT NULL,
-  `avatar_id` INTEGER(11) NOT NULL DEFAULT '0',
-  `location` VARCHAR(100) COLLATE utf8_general_ci DEFAULT NULL,
-  `icq` VARCHAR(20) COLLATE utf8_general_ci DEFAULT NULL,
-  `url` VARCHAR(100) COLLATE utf8_general_ci DEFAULT NULL,
-  `birthday` DATE DEFAULT NULL,
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY `user_id` (`user_id`)
-)ENGINE=MyISAM
-CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `forum_profile` table  (LIMIT 0,500)
-#
-
-INSERT INTO `forum_profile` (`user_id`, `messages`, `signature`, `avatar_id`, `location`, `icq`, `url`, `birthday`) VALUES 
-  (1,0,'',0,NULL,NULL,NULL,NULL),
-  (2,8,'MZZ: opensource php5 framework',25,NULL,NULL,NULL,NULL),
-  (3,2,'Я педро!',0,NULL,NULL,NULL,NULL);
-COMMIT;
-
-#
-# Structure for the `forum_thread` table : 
-#
-
-DROP TABLE IF EXISTS `forum_thread`;
-
-CREATE TABLE `forum_thread` (
-  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `posts_count` INTEGER(11) DEFAULT '-1',
-  `post_date` INTEGER(11) DEFAULT NULL,
-  `author` INTEGER(11) DEFAULT NULL,
-  `forum_id` INTEGER(11) DEFAULT NULL,
-  `obj_id` INTEGER(11) DEFAULT NULL,
-  `last_post` INTEGER(11) DEFAULT NULL,
-  `closed` TINYINT(4) DEFAULT NULL,
-  `sticky` TINYINT(1) NOT NULL DEFAULT '0',
-  `stickyfirst` TINYINT(1) DEFAULT '0',
-  `first_post` INTEGER(11) DEFAULT NULL,
-  `view_count` INTEGER(11) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `post_date` (`post_date`, `id`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=27 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `forum_thread` table  (LIMIT 0,500)
-#
-
-INSERT INTO `forum_thread` (`id`, `title`, `posts_count`, `post_date`, `author`, `forum_id`, `obj_id`, `last_post`, `closed`, `sticky`, `stickyfirst`, `first_post`, `view_count`) VALUES 
-  (25,'Правила раздела',8,1198826221,2,4,1256,93,0,1,1,84,11),
-  (26,'я педро!',1,1199840852,3,4,1268,94,0,0,0,92,4);
-COMMIT;
-
-#
 # Structure for the `menu_menu` table : 
 #
 
@@ -364,12 +158,8 @@ AUTO_INCREMENT=28 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 INSERT INTO `menu_menuItem` (`id`, `parent_id`, `type_id`, `menu_id`, `order`, `args`, `obj_id`) VALUES 
   (9,0,2,6,1,'a:4:{s:5:\"route\";s:8:\"default2\";s:7:\"section\";s:4:\"news\";s:6:\"action\";s:0:\"\";s:12:\"activeRoutes\";a:2:{i:0;a:2:{s:5:\"route\";s:10:\"newsFolder\";s:6:\"params\";a:2:{s:4:\"name\";s:1:\"*\";s:6:\"action\";s:4:\"list\";}}i:1;a:2:{s:5:\"route\";s:6:\"withId\";s:6:\"params\";a:3:{s:7:\"section\";s:4:\"news\";s:2:\"id\";s:1:\"*\";s:6:\"action\";s:4:\"view\";}}}}',1186),
-  (10,0,1,6,3,'a:1:{s:3:\"url\";s:9:\"catalogue\";}',1187),
-  (11,0,1,6,2,'a:1:{s:3:\"url\";s:25:\"gallery/admin/viewGallery\";}',1188),
-  (12,0,1,6,5,'a:1:{s:3:\"url\";s:3:\"faq\";}',1189),
-  (13,0,1,6,4,'a:1:{s:3:\"url\";s:11:\"forum/forum\";}',1190),
-  (14,0,2,6,7,'a:4:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";s:0:\"\";s:7:\"section\";s:5:\"admin\";s:6:\"action\";s:5:\"admin\";}',1191),
-  (24,0,1,6,6,'a:1:{s:3:\"url\";s:4:\"page\";}',1301);
+  (14,0,2,6,3,'a:4:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";s:0:\"\";s:7:\"section\";s:5:\"admin\";s:6:\"action\";s:5:\"admin\";}',1191),
+  (24,0,1,6,2,'a:1:{s:3:\"url\";s:4:\"page\";}',1301);
 COMMIT;
 
 #
@@ -408,60 +198,6 @@ INSERT INTO `menu_menuItem_lang` (`id`, `lang_id`, `title`) VALUES
 COMMIT;
 
 #
-# Structure for the `message_message` table : 
-#
-
-DROP TABLE IF EXISTS `message_message`;
-
-CREATE TABLE `message_message` (
-  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `text` TEXT COLLATE utf8_general_ci,
-  `sender` INTEGER(11) DEFAULT NULL,
-  `recipient` INTEGER(11) DEFAULT NULL,
-  `time` INTEGER(11) DEFAULT NULL,
-  `watched` TINYINT(4) DEFAULT NULL,
-  `category_id` INTEGER(11) DEFAULT NULL,
-  `obj_id` INTEGER(11) UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`id`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=3 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `message_message` table  (LIMIT 0,500)
-#
-
-INSERT INTO `message_message` (`id`, `title`, `text`, `sender`, `recipient`, `time`, `watched`, `category_id`, `obj_id`) VALUES 
-  (1,'Превед','Превед медвед',1,2,1184625784,1,1,812),
-  (2,'test','test',2,3,1194418216,0,1,1232);
-COMMIT;
-
-#
-# Structure for the `message_messageCategory` table : 
-#
-
-DROP TABLE IF EXISTS `message_messageCategory`;
-
-CREATE TABLE `message_messageCategory` (
-  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `name` CHAR(20) COLLATE utf8_general_ci DEFAULT NULL,
-  `obj_id` INTEGER(11) UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`id`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=4 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `message_messageCategory` table  (LIMIT 0,500)
-#
-
-INSERT INTO `message_messageCategory` (`id`, `title`, `name`, `obj_id`) VALUES 
-  (1,'Входящие','incoming',809),
-  (2,'Исходящие','sent',810),
-  (3,'Корзина','recycle',811);
-COMMIT;
-
-#
 # Structure for the `news_news` table : 
 #
 
@@ -488,7 +224,7 @@ AUTO_INCREMENT=169 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_c
 INSERT INTO `news_news` (`id`, `obj_id`, `editor`, `folder_id`, `created`, `updated`) VALUES 
   (9,309,2,29,1174588081,1174588081),
   (10,310,2,18,1174588081,1174588081),
-  (11,311,2,18,1174588081,1174588081),
+  (11,311,2,18,1174588081,1242099045),
   (12,312,2,18,1174588081,1174588081),
   (13,313,2,30,1174588081,1174588081),
   (14,314,2,18,1174588081,1174588081),
@@ -1175,7 +911,7 @@ CREATE TABLE `sys_access` (
   KEY `obj_id_gid` (`obj_id`, `gid`),
   KEY `obj_id_uid` (`obj_id`, `uid`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=8990 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=9054 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_access` table  (LIMIT 0,500)
@@ -8614,7 +8350,71 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`,
   (8986,5,13,1439,2,NULL,1,0),
   (8987,6,13,1439,2,NULL,1,0),
   (8988,7,13,1439,2,NULL,1,0),
-  (8989,9,13,1439,2,NULL,1,0);
+  (8989,9,13,1439,2,NULL,1,0),
+  (8990,1,1,1440,2,NULL,1,0),
+  (8991,2,1,1440,2,NULL,1,0),
+  (8992,3,1,1440,2,NULL,1,0),
+  (8993,9,1,1440,2,NULL,0,0),
+  (8994,29,1,1440,2,NULL,1,0),
+  (8995,4,2,1440,2,NULL,1,0),
+  (8996,5,2,1440,2,NULL,1,0),
+  (8997,6,2,1440,2,NULL,1,0),
+  (8998,7,2,1440,2,NULL,1,0),
+  (8999,8,2,1440,2,NULL,1,0),
+  (9000,9,2,1440,2,NULL,0,0),
+  (9001,30,2,1440,2,NULL,1,0),
+  (9002,1,3,1440,2,NULL,1,0),
+  (9003,2,3,1440,2,NULL,1,0),
+  (9004,5,3,1440,2,NULL,1,0),
+  (9005,9,3,1440,2,NULL,1,0),
+  (9006,10,3,1440,2,NULL,1,0),
+  (9007,11,3,1440,2,NULL,1,0),
+  (9008,12,3,1440,2,NULL,1,0),
+  (9009,1,6,1440,2,NULL,1,0),
+  (9010,2,6,1440,2,NULL,1,0),
+  (9011,3,6,1440,2,NULL,1,0),
+  (9012,9,6,1440,2,NULL,0,0),
+  (9013,1,10,1440,2,NULL,1,0),
+  (9014,2,10,1440,2,NULL,1,0),
+  (9015,9,10,1440,2,NULL,1,0),
+  (9016,9,11,1440,2,NULL,1,0),
+  (9017,4,13,1440,2,NULL,1,0),
+  (9018,5,13,1440,2,NULL,1,0),
+  (9019,6,13,1440,2,NULL,1,0),
+  (9020,7,13,1440,2,NULL,1,0),
+  (9021,9,13,1440,2,NULL,1,0),
+  (9022,1,1,1441,2,NULL,1,0),
+  (9023,2,1,1441,2,NULL,1,0),
+  (9024,3,1,1441,2,NULL,1,0),
+  (9025,9,1,1441,2,NULL,0,0),
+  (9026,29,1,1441,2,NULL,1,0),
+  (9027,4,2,1441,2,NULL,1,0),
+  (9028,5,2,1441,2,NULL,1,0),
+  (9029,6,2,1441,2,NULL,1,0),
+  (9030,7,2,1441,2,NULL,1,0),
+  (9031,8,2,1441,2,NULL,1,0),
+  (9032,9,2,1441,2,NULL,0,0),
+  (9033,30,2,1441,2,NULL,1,0),
+  (9034,1,3,1441,2,NULL,1,0),
+  (9035,2,3,1441,2,NULL,1,0),
+  (9036,5,3,1441,2,NULL,1,0),
+  (9037,9,3,1441,2,NULL,1,0),
+  (9038,10,3,1441,2,NULL,1,0),
+  (9039,11,3,1441,2,NULL,1,0),
+  (9040,12,3,1441,2,NULL,1,0),
+  (9041,1,6,1441,2,NULL,1,0),
+  (9042,2,6,1441,2,NULL,1,0),
+  (9043,3,6,1441,2,NULL,1,0),
+  (9044,9,6,1441,2,NULL,0,0),
+  (9045,1,10,1441,2,NULL,1,0),
+  (9046,2,10,1441,2,NULL,1,0),
+  (9047,9,10,1441,2,NULL,1,0),
+  (9048,9,11,1441,2,NULL,1,0),
+  (9049,4,13,1441,2,NULL,1,0),
+  (9050,5,13,1441,2,NULL,1,0),
+  (9051,6,13,1441,2,NULL,1,0),
+  (9052,7,13,1441,2,NULL,1,0),
+  (9053,9,13,1441,2,NULL,1,0);
 COMMIT;
 
 #
@@ -8628,7 +8428,7 @@ CREATE TABLE `sys_access_registry` (
   `class_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1440 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1442 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_access_registry` table  (LIMIT 0,500)
@@ -9266,7 +9066,9 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_id`) VALUES
   (1436,11),
   (1437,10),
   (1438,11),
-  (1439,10);
+  (1439,10),
+  (1440,42),
+  (1441,26);
 COMMIT;
 
 #
@@ -9773,7 +9575,7 @@ CREATE TABLE `sys_obj_id` (
   `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1440 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1442 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_obj_id` table  (LIMIT 0,500)
@@ -11218,7 +11020,9 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1436),
   (1437),
   (1438),
-  (1439);
+  (1439),
+  (1440),
+  (1441);
 COMMIT;
 
 #
@@ -11233,7 +11037,7 @@ CREATE TABLE `sys_obj_id_named` (
   PRIMARY KEY (`obj_id`),
   UNIQUE KEY `name` (`name`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1436 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1442 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_obj_id_named` table  (LIMIT 0,500)
@@ -11263,7 +11067,9 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (1398,'access_'),
   (1399,'userFolder'),
   (1400,'groupFolder'),
-  (1435,'configFolder');
+  (1435,'configFolder'),
+  (1440,'faqFolder_faqFolder'),
+  (1441,'menuFolder');
 COMMIT;
 
 #
