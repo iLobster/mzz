@@ -108,7 +108,11 @@ class adminAddClassController extends simpleController
 
                 $this->smartyBrackets(true);
 
-                return jipTools::redirect();
+                $this->smarty->assign('id', $id);
+                $this->smarty->assign('name', $name);
+                $this->smarty->assign('module', $module_name);
+
+                return $this->smarty->fetch('admin/addClassResult.tpl');
             }
 
             // @todo: написать трансформатор на изменение имён классов
@@ -158,6 +162,7 @@ class adminAddClassController extends simpleController
         if ($back) {
             $this->smarty->left_delimiter = '{';
             $this->smarty->right_delimiter = '}';
+            return;
         }
 
         $this->smarty->left_delimiter = '{{';
