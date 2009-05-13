@@ -34,8 +34,7 @@ $menu = array("intro.Предисловие" =>
                                          "response.httpResponse",
                                          "routers.Routers",
                                          "resolver.Resolver",
-                                         "dataspace.arrayDataspace",
-                                         "frontcontroller.frontController"
+                                         "dataspace.arrayDataspace"
                                          ),
                         "run.Процесс запуска приложения",
                         "mvc.MVC",

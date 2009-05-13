@@ -1,5 +1,5 @@
 <p>Маршрутизация (Routing) - это процесс разделения запрошенного URL на ассоциативный массив с помощью правила (route) при совпадении пути из URL с ним. Правила маршрутизации хранятся в файле <code>&lt;project_folder&gt;/configs/routes.php</code>.</p>
-Доступ к результату возможен через объект <code>httpRequest</code> с указанием в качестве третьего аргумента <code>SC_PATH</code>.</p>
+Доступ к результату возможен через объект <code>httpRequest</code> с указанием в качестве второго аргумента <code>SC_PATH</code>.</p>
 <p>Пример простейшего правила:</p>
 <<code php>>
 $router->addRoute('nameOfRule', new requestRoute('/ru/:section/:action'));
@@ -47,7 +47,7 @@ array([section] => news, [id] => 1, [action] => view)
 
 <p>Пример получения результата:</p>
 <<code php>>
-$section = $this->request->get('section', 'string', SC_PATH);
-$id = $this->request->get('id', 'integer', SC_PATH);
-$action = $this->request->get('action', 'string', SC_PATH);
+$section = $this->request->getString('section');
+$id = $this->request->getInteger('id');
+$action = $this->request->getString('action');
 <</code>>

@@ -1,20 +1,16 @@
 <?php
 
-class formTextField extends formElement
+class formAdvancedTextField extends formElement
 {
-    static public function toString($options = array())
+    public function __construct()
     {
-        // если параметра 'value' нет, примем значение поля равным ''
-        $value = isset($options['value']) ? $options['value'] : '';
-        
-        // если определён параметр 'name'
-        if (isset($options['name'])) {
-            // то пробуем определить значение из параметров запроса (в случае, если форма уже была отправлена)
-            $options['value'] = self::getValue($options['name'], $value);
-        }
+        $this->setAttribute('type', 'text');
+        $this->setAttribute('value', '');
+    }
 
-        // по изменённому массиву опций генерируем html
-        return self::createTag($options);
+    public function render($attributes = array(), $value = null)
+    {
+        return $this->renderTag('input', $attributes);
     }
 }
 

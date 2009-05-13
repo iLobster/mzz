@@ -23,7 +23,7 @@
     <li>
         <i>caption</i> - используется для вывода названия поля формы. С помощью параметра <i>name</i> указывается, к какому из полей формы относится этот заголовок.
         <<code smarty>>
-            {form->caption name="title" value="Название" onError="style=color: red;" onRequired='&lt;span style="color: red; font-size: 150%;"&gt;*&lt;/span&gt; '}
+            {form->caption name="title" value="Название" onError='&lt;span style="color: red;"&gt;%s&lt;/span&gt;' onRequired='&lt;span style="color: red;"&gt;*&lt;/span&gt; %s'}
         <</code>>
         Этот хелпер, при отсутствии ошибок и при условии, что поле формы с именем <i>title</i> будет заполнено без ошибок, сгенерирует следующий код:
         <<code html>>
@@ -32,7 +32,7 @@
         В вышеприведённом коде перечислены все возможные аргументы, которые могут быть использованы в хелпере
         <ul>
             <li>
-                <i>onError</i> - перечисление хтмл-тегов, которые будут применены к блоку <i>&lt;span&gt;</i>, в который автоматически заключается данный хелпер (в случае - если поле, к которому относится надпись, введено с ошибками).<br />
+                <i>onError</i> - определяет отображение заголовка для поля в случае - если поле, к которому относится надпись, введено с ошибками.<br />
                 Сгенерированный хтмл:
                 <<code html>>
                     &lt;span style="color: red;"&gt;Название&lt;/span&gt;
@@ -41,19 +41,20 @@
                 <<example>>
                     <span style="color: red;">Название</span>
                 <</example>>
+                Для остальных элементов, не <code>caption</code>, задается имя класса в случае ошибки.
             </li>
             <li>
                 <i>onRequired</i> - параметр, отвечающий за знак, выводимый перед заголовком поля и обозначающий, что данное поле является обязательным к заполнению. Значением по умолчанию для данного параметра является:<br />
                 <<code html>>
-                    &lt;span style="color: red;"&gt;*&lt;/span&gt; 
+                    &lt;span style="color: red;"&gt;*&lt;/span&gt; %s
                 <</code>>
                 Для вышеприведённого кода, в случае, если поле формы <i>title</i> является обязательным к заполнению, сгенерированный хтмл будет:
                 <<code html>>
-                    &lt;span style="color: red; font-size: 150%;"&gt;*&lt;/span&gt; Название
+                    &lt;span style="color: red;"&gt;*&lt;/span&gt; Название
                 <</code>>
                 Отображение:
                 <<example>>
-                    <span style="color: red; font-size: 150%;">*</span> Название
+                    <span style="color: red;">*</span> Название
                 <</example>>
             </li>
         </ul>
@@ -65,11 +66,11 @@
         <</code>>
         По вызову данного кода будет сгенерирован следующй html:
         <<code html>>
-            &lt;input name="save" type="hidden" value="off" /&gt;&lt;input id="mzzForms_ccbde77946cbec11692f84948f593d48" name="save" type="checkbox" value="on" /&gt;&lt;label for="mzzForms_ccbde77946cbec11692f84948f593d48" style="cursor: pointer; cursor: hand;"&gt;Запомнить&lt;/label&gt;
+            &lt;input id="formElm_save_default" name="save" type="hidden" value="off" /&gt;&lt;input id="formElm_save_on" name="save" type="checkbox" value="on" /&gt;&amp;nbsp;&lt;label for="formElm_save_on" style="cursor: pointer; cursor: hand;"&gt;Запомнить&lt;/label&gt;
         <</code>>
         В браузере пользователя это будет выглядеть следующим образом:
         <<example>>
-            <input name="save" type="hidden" value="off" /><input id="mzzForms_ccbde77946cbec11692f84948f593d48" name="save" type="checkbox" value="on" /><label for="mzzForms_ccbde77946cbec11692f84948f593d48" style="cursor: pointer; cursor: hand;">Запомнить</label>
+            <input id="formElm_save_default" name="save" type="hidden" value="off" /><input id="formElm_save_on" name="save" type="checkbox" value="on" />&nbsp;<label for="formElm_save_on" style="cursor: pointer; cursor: hand;">Запомнить</label>
         <</example>>
         В качестве принимаемых параметров кроме вышеописанных <i>name</i> и <i>value</i>, checkbox также может принимать парметр <i>text</i>, который будет выводить текст, поясняющий назначение данного чекбокса. Этот параметр необязательный и параметр <i>values</i>, в котором перечислены значения, отправляемые на сервер при выключенном и включенном состоянии соответственно (значение по умолчанию: <i>0|1</i>).
     </li>
@@ -94,11 +95,11 @@
         <</code>>
         Html:
         <<code html>>
-            &lt;input id="mzzForms_25c6f3917428566415187f5b2d3020f1" name="field" type="radio" value="10" /&gt;&lt;label for="mzzForms_25c6f3917428566415187f5b2d3020f1" style="cursor: pointer; cursor: hand;"&gt;sample radio button&lt;/label&gt;
+            &lt;input id="formElm_field_10" name="field" type="radio" value="10" /&gt;&amp;nbsp;&lt;label for="formElm_field_10" style="cursor: pointer; cursor: hand;"&gt;sample radio button&lt;/label&gt;
         <</code>>
         Отображение:
         <<example>>
-            <input id="mzzForms_25c6f3917428566415187f5b2d3020f1" name="field" type="radio" value="10" /><label for="mzzForms_25c6f3917428566415187f5b2d3020f1" style="cursor: pointer; cursor: hand;">sample radio button</label>
+            <input id="formElm_field_10" name="field" type="radio" value="10" />&nbsp;<label for="formElm_field_10" style="cursor: pointer; cursor: hand;">sample radio button</label>
         <</example>>
     </li>
     <li>
@@ -111,19 +112,19 @@
         <</code>>
         То будет сгенерировано:
         <<code html>>
-&lt;select name="sample_select"&gt;
+&lt;select id="formElm_sample_select" name="sample_select"&gt;
 &lt;option value=""&gt;&amp;nbsp;&lt;/option&gt;
 &lt;option value="1"&gt;One&lt;/option&gt;
-&lt;option value="2" selected="selected"&gt;Two&lt;/option&gt;
+&lt;option selected="selected" style="font-weight: bold;" value="2"&gt;Two&lt;/option&gt;
 &lt;option value="3"&gt;Three&lt;/option&gt;
 &lt;/select&gt;
         <</code>>
         Отображение:
         <<example>>
-            <select name="sample_select">
+            <select id="formElm_sample_select" name="sample_select">
             <option value="">&nbsp;</option>
             <option value="1">One</option>
-            <option value="2" selected="selected">Two</option>
+            <option selected="selected" style="font-weight: bold;" value="2">Two</option>
             <option value="3">Three</option>
             </select>
         <</example>>
@@ -142,7 +143,7 @@
         <</code>>
         Html:
         <<code html>>
-            &lt;textarea name="sample"&gt;содержимое текстареи&lt;/textarea&gt;
+            &lt;textarea cols="20" id="formElm_sample" name="sample" rows="5"&gt;содержимое текстареи&lt;/textarea&gt;
         <</code>>
         Этот хелпер используется аналогично <i>text</i>, с тем лишь отличием, что значение, которое будет показано в этом поле - записывается в параметр <i>content</i>.
     </li>
@@ -153,7 +154,7 @@
         <</code>>
         Html:
         <<code html>>
-            &lt;input type="text" name="sample" value="содержимое" /&gt;
+            &lt;input id="formElm_sample" name="sample" type="text" value="содержимое" /&gt;
         <</code>>
     </li>
     <li>

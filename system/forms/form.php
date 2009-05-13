@@ -40,45 +40,15 @@ class form
         return $element->toString($params);
     }
 
-    public function text($params, $smarty = null)
-    {
-        return $this->createField('text', $params);
-    }
-
     public function password($params, $smarty)
     {
         $params['type'] = 'password';
         return $this->createField('text', $params);
     }
 
-    public function hidden($params, $smarty)
+    public function __call($name, $args)
     {
-        return $this->createField('hidden', $params);
-    }
-
-    public function submit($params, $smarty)
-    {
-        return $this->createField('submit', $params);
-    }
-
-    public function reset($params, $smarty)
-    {
-        return $this->createField('reset', $params);
-    }
-
-    public function textarea($params, $smarty)
-    {
-        return $this->createField('textarea', $params);
-    }
-
-    public function select($params, $smarty)
-    {
-        return $this->createField('select', $params);
-    }
-
-    public function caption($params, $smarty)
-    {
-        return $this->createField('caption', $params);
+        return $this->createField($name, $args[0]);
     }
 
     protected function createField($name, $params) {
@@ -101,25 +71,10 @@ class form
         return $this->hidden($hiddenParams, $smarty) . $image;
     }
 
-    public function checkbox($params, $smarty)
-    {
-        return $this->createField('checkbox', $params);
-    }
-
-    public function radio($params, $smarty)
-    {
-        return $this->createField('radio', $params);
-    }
-
     public function file($params, $smarty)
     {
         $params['type'] = 'file';
         return $this->createField('text', $params);
-    }
-
-    public function captcha($params, $smarty)
-    {
-        return $this->createField('captcha', $params);
     }
 
     /**

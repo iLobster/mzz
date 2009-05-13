@@ -2,10 +2,9 @@
 <<code php>>
 $request = $toolkit->getRequest();
 <</code>>
-<p>Для получения значения необходимого параметра используется метод <code>httpRequest::get()</code>, который может принимать три аргумента:
-имя внешней переменной, тип (к которому будет приведено значение) и источник данных. По умолчанию тип - <code>mixed</code>, источник данных - <code>SC_PATH</code>.</p>
+<p>Для получения значения сушествует несколько методов, которые отличаются типом значения, которое будет получено из запроса.</p>
 <!-- php code 1 -->
-<p>Доступные типы:</p>
+<p>Доступные методы:</p>
 <table border="0" cellspacing="0" cellpadding="0" class="listTable">
 <thead>
 <tr>
@@ -14,27 +13,33 @@ $request = $toolkit->getRequest();
 </tr>
 </thead>
 <tr>
- <td>mixed</td>
- <td>любой тип данных</td>
+ <td>getString()</td>
+ <td>string (строка)</td>
 </tr>
 <tr>
- <td>string</td>
- <td>строка</td>
+ <td>getInteger()</td>
+ <td>integer (целое число)</td>
 </tr>
 <tr>
- <td>integer</td>
- <td>число</td>
+ <td>getNumeric()</td>
+ <td>numeric (любое число)</td>
 </tr>
 <tr>
- <td>array</td>
- <td>массив</td>
+ <td>getArray()</td>
+ <td>array (массив)</td>
 </tr>
 <tr>
- <td>boolean</td>
- <td>Булево значение (true или false)</td>
+ <td>getBoolean()</td>
+ <td>boolean (true или false)</td>
+</tr>
+<tr>
+ <td>getRaw()</td>
+ <td>любой тип (значение как есть)</td>
 </tr>
 </table>
 <<note>>Если значение является массивом, а указанный тип не 'array', то из массива будет получен первый элемент, который и будет приведен к нужному типу. Если он тоже окажется массивом, результат будет null.<</note>>
+
+<p>Каждый метод может принимать два аргумента: имя и источник данных. По умолчанию источник данных <code>SC_PATH</code>.</p>
 
 <p><code>httpRequest</code> может получать данные из следующих источников данных:</p>
 <table border="0" cellspacing="0" cellpadding="0" class="listTable">
@@ -63,6 +68,10 @@ $request = $toolkit->getRequest();
 <tr>
  <td>SC_SERVER</td>
  <td>массив $_SERVER</td>
+</tr>
+<tr>
+ <td>SC_FILES</td>
+ <td>массив $_FILES</td>
 </tr>
 <tr>
  <td>SC_PATH</td>
