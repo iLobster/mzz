@@ -25,5 +25,5 @@
 <body>
 
 
-<div id="title"><a href="index.html">MZZ.Framework 0.1.x: Документация</a></div>
+<div id="title"><a href="index.html">MZZ.Framework 0.3.x: Документация</a></div>
 <div id="content">

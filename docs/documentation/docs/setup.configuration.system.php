@@ -2,6 +2,9 @@
 <p>Описание опций:</p>
 
 <center>
+<div class="options_name">SITE_PATH <span class="options_value">= null</span></div>
+<div class="options_desc">Абсолютный путь до сайта.</div>
+
 <div class="options_name">SYSTEM_PATH <span class="options_value">= ../system/</span></div>
 <div class="options_desc">Путь до mzz. Возможно указание как относительного, так и абсолютного пути</div>
 
@@ -17,6 +20,19 @@
  базы данных в которой уже есть пользователь с идентификатором установленным по умолчанию.
  <<note>>Пользователь с указанным идентификатором в константе <code>MZZ_USER_GUEST_ID</code> должен существовать<</note>>
 </div>
+
+<div class="options_name">COOKIE_DOMAIN <span class="options_value">= null</span></div>
+<div class="options_desc">Домен, которому доступны все устанавливаемые приложением cookie</div>
+
+<div class="options_name">MZZ_ROOT_GID <span class="options_value">= 3</span></div>
+<div class="options_desc">Идентификатор группы, для которой ACL всегда будет возвращать true (т.е. предоставит полный доступ)<</note>>
+</div>
+
+<div class="options_name">systemConfig::$i18n <span class="options_value">= ru</span></div>
+<div class="options_desc">Язык приложения по умолчанию (используется если включен i18n)</div>
+
+<div class="options_name">systemConfig::$i18nEnable <span class="options_value">= true</span></div>
+<div class="options_desc">Включение поддержки нескольких языков (i18n)</div>
 
 <div class="options_name">systemConfig::$db['default']['driver'] <span class="options_value">= PDO</span></div>
 <div class="options_desc">Драйвер для работы с БД.</div>
