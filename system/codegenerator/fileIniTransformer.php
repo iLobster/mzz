@@ -1,8 +1,8 @@
 <?php
 
-fileLoader::load('codegenerator/fileTransformator');
+fileLoader::load('codegenerator/fileTransformer');
 
-class fileIniTransformator extends fileTransformator
+class fileIniTransformer extends fileTransformer
 {
     private $action;
     private $params;

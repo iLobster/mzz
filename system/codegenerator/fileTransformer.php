@@ -1,6 +1,6 @@
 <?php
 
-abstract class fileTransformator
+abstract class fileTransformer
 {
     abstract public function transform($data);
 }

@@ -130,26 +130,26 @@ class fileGeneratorTest extends UnitTestCase
 
     public function testIniTransformator()
     {
-        fileLoader::load('codegenerator/fileIniTransformator');
+        fileLoader::load('codegenerator/fileIniTransformer');
 
         $data = array('section' => array('key' => 'value'));
 
         $this->generator->create('file.ini');
         $this->generator->run();
 
-        $this->generator->edit('file.ini', new fileIniTransformator('merge', $data));
+        $this->generator->edit('file.ini', new fileIniTransformer('merge', $data));
         $this->generator->run();
 
         $this->assertEqual($this->getContents('file.ini'), "[section]\r\nkey = \"value\"");
 
         $data = array('section2' => array('key2' => 'value2'));
-        $this->generator->edit('file.ini', new fileIniTransformator('merge', $data));
+        $this->generator->edit('file.ini', new fileIniTransformer('merge', $data));
         $this->generator->run();
 
         $this->assertEqual($this->getContents('file.ini'), "[section]\r\nkey = \"value\"\r\n[section2]\r\nkey2 = \"value2\"");
 
         $data = array('section' => array());
-        $this->generator->edit('file.ini', new fileIniTransformator('merge', $data));
+        $this->generator->edit('file.ini', new fileIniTransformer('merge', $data));
         $this->generator->run();
 
         $this->assertEqual($this->getContents('file.ini'), "[section]\r\n[section2]\r\nkey2 = \"value2\"");

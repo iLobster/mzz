@@ -2,7 +2,7 @@
 
 fileLoader::load('codegenerator/exceptions');
 fileLoader::load('codegenerator/directoryGenerator');
-fileLoader::load('codegenerator/fileTransformator');
+fileLoader::load('codegenerator/fileTransformer');
 
 class fileGenerator
 {
@@ -61,7 +61,7 @@ class fileGenerator
             'name' => $this->sub($name));
     }
 
-    public function edit($name, fileTransformator $transformator)
+    public function edit($name, fileTransformer $transformator)
     {
         $this->scenario[] = array(
             'type' => 'edit',
