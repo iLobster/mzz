@@ -39,6 +39,7 @@ class adminGeneratorMapper extends mapper
         $stmt = $this->db()->prepare('INSERT INTO `sys_classes` (`name`, `module_id`) VALUES (:name, :module_id)');
         $stmt->bindValue(':module_id', $module_id, PDO::PARAM_INT);
         $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+        $stmt->execute();
         return $this->db()->lastInsertId();
     }
 
