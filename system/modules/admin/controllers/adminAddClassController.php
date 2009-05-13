@@ -12,7 +12,6 @@
  * @version $Id$
  */
 
-fileLoader::load('codegenerator/directoryGenerator');
 fileLoader::load('codegenerator/fileGenerator');
 
 /**
@@ -45,8 +44,10 @@ class adminAddClassController extends simpleController
             $module = $adminMapper->searchModuleById($data['module_id']);
 
             $module_name = $module['name'];
-            // @todo: написать парсилку классов DO
-            $data['table'] = '';
+
+            $mapper = $this->toolkit->getMapper($module_name, $data['name']);
+
+            $data['table'] = $mapper->table();
         } else {
             $data = $adminMapper->searchModuleById($id);
 
@@ -77,9 +78,9 @@ class adminAddClassController extends simpleController
             $table = $this->request->getString('table', SC_POST);
 
             if (!$isEdit) {
-                try {
-                    $this->smartyBrackets();
+                $this->smartyBrackets();
 
+                try {
                     $fileGenerator = new fileGenerator($data['dest']);
 
                     $doData = array(
@@ -104,11 +105,11 @@ class adminAddClassController extends simpleController
                     return $e->getMessage();
                 }
 
-                $adminGeneratorMapper->createClass($name, $id);
+                $class_id = $adminGeneratorMapper->createClass($name, $id);
 
                 $this->smartyBrackets(true);
 
-                $this->smarty->assign('id', $id);
+                $this->smarty->assign('id', $class_id);
                 $this->smarty->assign('name', $name);
                 $this->smarty->assign('module', $module_name);
 

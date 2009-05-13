@@ -12,18 +12,142 @@
  * @version $Id$
  */
 
-fileLoader::load('codegenerator/actionGenerator');
-fileLoader::load('forms/validators/formValidator');
+fileLoader::load('codegenerator/fileGenerator');
 
 /**
  * adminAddActionController: контроллер для метода addAction модуля admin
  *
  * @package modules
  * @subpackage admin
- * @version 0.2.1
+ * @version 0.3
  */
 
 class adminAddActionController extends simpleController
+{
+    protected function getView()
+    {
+        // @todo: сделать автоматическое добавление/удаление действий и свойств по наличию нужных плагинов (например acl, i18n)
+
+
+        $id = $this->request->getInteger('id');
+        $action_name = $this->request->getString('action_name');
+
+        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+        $adminGeneratorMapper = $this->toolkit->getMapper('admin', 'adminGenerator');
+
+        $action = $this->request->getAction();
+        $isEdit = $action == 'editAction';
+
+        if ($isEdit) {
+
+        } else {
+            $class = $adminMapper->searchClassById($id);
+
+            if ($class === false) {
+                $controller = new messageController(i18n::getMessage('class.error.not_exists', 'admin'), messageController::WARNING);
+                return $controller->run();
+            }
+
+            $module = $adminMapper->searchModuleById($class['module_id']);
+        }
+
+        $act = new action($module['name']);
+        $actions = $act->getActions();
+
+        if ($isEdit && !isset($actions[$class['name']][$action_name])) {
+            return 'ololo?';
+        }
+
+        $actionsInfo = $actions[$class['name']];
+
+        $dest = current($adminGeneratorMapper->getDests(true, $module['name']));
+
+        if ($isEdit) {
+
+        } else {
+            $defaults = array(
+                'name' => '',
+                'controller' => '',
+                'title' => '',
+                'icon' => '',
+                'confirm' => '',
+                '403handle' => 'none',
+                'act_template' => '',
+                'alias' => '',  // acl !!
+                'jip' => 0);
+
+            $data = $defaults;
+        }
+
+        $data['dest'] = $dest;
+
+        $validator = new formValidator();
+
+        if ($validator->validate()) {
+            $values = $this->request->getArray('action', SC_POST);
+
+            if (!$isEdit) {
+                try {
+                    $this->smartyBrackets();
+
+                    $fileGenerator = new fileGenerator($dest);
+
+                    $controllerData = array(
+                        'name' => $values['name'],
+                        'module' => $module['name']);
+                    $this->smarty->assign('controller_data', $controllerData);
+                    $fileGenerator->create('controllers/' . $values['name'] . 'Controller.php', $this->smarty->fetch('admin/generator/controller.tpl'));
+
+                    $fileGenerator->run();
+                } catch (Exception $e) {
+                    return $e->getMessage();
+                }
+
+                $this->smartyBrackets(true);
+            }
+
+            return 'ok';
+        }
+
+        $aliases = array();
+        foreach ($actionsInfo as $key => $val) {
+            if ($action_name != $key) {
+                $aliases[$key] = isset($val['title']) ? $val['title'] : $key;
+            }
+        }
+        $this->smarty->assign('aliases', $aliases);
+
+        $aclMethods = array(
+            'none' => 'none (отключить)',
+            'manual' => 'manual (ручной)',
+            'auto' => 'auto (автоматически)');
+        $this->smarty->assign('aclMethods', $aclMethods);
+
+        $url = new url('withId');
+        $url->setAction($action);
+        $url->add('id', $id);
+
+        $this->smarty->assign('form_action', $url->get());
+        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('data', $data);
+
+        return $this->smarty->fetch('admin/addAction.tpl');
+    }
+
+    private function smartyBrackets($back = false)
+    {
+        if ($back) {
+            $this->smarty->left_delimiter = '{';
+            $this->smarty->right_delimiter = '}';
+            return;
+        }
+
+        $this->smarty->left_delimiter = '{{';
+        $this->smarty->right_delimiter = '}}';
+    }
+}
+
+class aaadminAddActionController extends simpleController
 {
     protected function getView()
     {
@@ -66,7 +190,12 @@ class adminAddActionController extends simpleController
         if ($isEdit) {
             $defaults->set('name', $action_name);
 
-            $default = array('title' => '', 'info' => '', 'icon' => '', '403handle' => '', 'lang' => 0);
+            $default = array(
+                'title' => '',
+                'info' => '',
+                'icon' => '',
+                '403handle' => '',
+                'lang' => 0);
 
             $info = $actionsInfo[$action_name];
             $info = array_merge($default, $info);
@@ -97,14 +226,28 @@ class adminAddActionController extends simpleController
             }
         }
 
-        $aclMethods = array('manual' => 'manual (ручной)', 'none' => 'none (отключить)');
+        $aclMethods = array(
+            'manual' => 'manual (ручной)',
+            'none' => 'none (отключить)');
 
         $validator = new formValidator();
         $validator->add('required', 'action[name]', 'Поле обязательно к заполнению');
-        $validator->add('callback', 'action[name]', 'Такое действие у класса уже есть или введённое вами имя содержит запрещённые символы', array(array($this, 'addClassValidate'), $db, $action_name, $data));
-        $validator->add('callback', 'action[name]', 'Такое действие уже создано в приложении, но с другим регистром символов. Назовите текущий в таком же регистре, или выбериту другое имя', array(array($this, 'checkActionNameRegister'), $db, $action_name));
+        $validator->add('callback', 'action[name]', 'Такое действие у класса уже есть или введённое вами имя содержит запрещённые символы', array(
+            array(
+                $this,
+                'addClassValidate'),
+            $db,
+            $action_name,
+            $data));
+        $validator->add('callback', 'action[name]', 'Такое действие уже создано в приложении, но с другим регистром символов. Назовите текущий в таком же регистре, или выбериту другое имя', array(
+            array(
+                $this,
+                'checkActionNameRegister'),
+            $db,
+            $action_name));
 
         // КОНЕЦ ВАЛИДАТОРА
+
 
         if ($validator->validate()) {
             $values = $this->request->getArray('action', SC_POST);
@@ -132,7 +275,6 @@ class adminAddActionController extends simpleController
             $dest = $adminMapper->getDests();
             $actionGenerator = new actionGenerator($modules[$data['m_id']]['name'], $dest[$values['dest']], $data['c_name'], $templates);
 
-
             if (!$isEdit) {
                 try {
                     $log = $actionGenerator->generate($values['name'], $values);
@@ -151,7 +293,6 @@ class adminAddActionController extends simpleController
 
             return $this->smarty->fetch('admin/addActionResult.tpl');
         }
-
 
         // templates
         $templates = $this->searchTemplates();
@@ -183,7 +324,7 @@ class adminAddActionController extends simpleController
     public function searchTemplates()
     {
         $code_gen = systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'codegenerator';
-        $path = $code_gen . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR ;
+        $path = $code_gen . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR;
         $tpl_dir = 'controller_templates' . DIRECTORY_SEPARATOR;
 
         $action_tpls = array();
@@ -194,14 +335,14 @@ class adminAddActionController extends simpleController
                 $tpl_info['filename'] = substr($tpl_info['basename'], 0, -(1 + strlen($tpl_info['extension'])));
             }
             $file_name = $tpl_info['filename'];
-            if (!is_int(strpos($file_name, '.'))) continue;
-            list($action, $type) = explode('.', $file_name);
+            if (!is_int(strpos($file_name, '.')))
+                continue;
+            list ($action, $type) = explode('.', $file_name);
             $action_tpls[$action][$type] = $tpl_dir . $tpl_info['basename'];
         }
 
         return $action_tpls;
     }
-
 
     public function addClassValidate($name, $db, $action_name, $data)
     {

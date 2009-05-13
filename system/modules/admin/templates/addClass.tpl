@@ -13,6 +13,7 @@
             <td style='width: 30%;'>{form->caption name="table" value="_ class.table_name"}</td>
             <td>
                 {if $isEdit}
+                    {$data.table}
                 {else}
                     {form->text name="table" value=$data.table size="60"}{$errors->get('table')}
                 {/if}
