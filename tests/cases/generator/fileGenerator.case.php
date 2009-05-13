@@ -8,7 +8,8 @@ class fileGeneratorTest extends UnitTestCase
         'testCreateSimple',
         'testCreateWithSubfolder',
         'testOverwriteException',
-        'testRename');
+        'testRename',
+        'testIniTransformator');
 
     private $dir;
 
@@ -125,6 +126,33 @@ class fileGeneratorTest extends UnitTestCase
         $generator->run();
 
         $this->assertEqual($this->getAccessMode('ro'), 'rwxr-x---');
+    }
+
+    public function testIniTransformator()
+    {
+        fileLoader::load('codegenerator/fileIniTransformator');
+
+        $data = array('section' => array('key' => 'value'));
+
+        $this->generator->create('file.ini');
+        $this->generator->run();
+
+        $this->generator->edit('file.ini', new fileIniTransformator('merge', $data));
+        $this->generator->run();
+
+        $this->assertEqual($this->getContents('file.ini'), "[section]\r\nkey = \"value\"");
+
+        $data = array('section2' => array('key2' => 'value2'));
+        $this->generator->edit('file.ini', new fileIniTransformator('merge', $data));
+        $this->generator->run();
+
+        $this->assertEqual($this->getContents('file.ini'), "[section]\r\nkey = \"value\"\r\n[section2]\r\nkey2 = \"value2\"");
+
+        $data = array('section' => array());
+        $this->generator->edit('file.ini', new fileIniTransformator('merge', $data));
+        $this->generator->run();
+
+        $this->assertEqual($this->getContents('file.ini'), "[section]\r\n[section2]\r\nkey2 = \"value2\"");
     }
 
     private function isFileExists($expected)

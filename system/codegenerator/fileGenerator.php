@@ -2,6 +2,7 @@
 
 fileLoader::load('codegenerator/exceptions');
 fileLoader::load('codegenerator/directoryGenerator');
+fileLoader::load('codegenerator/fileTransformator');
 
 class fileGenerator
 {
@@ -60,6 +61,14 @@ class fileGenerator
             'name' => $this->sub($name));
     }
 
+    public function edit($name, fileTransformator $transformator)
+    {
+        $this->scenario[] = array(
+            'type' => 'edit',
+            'name' => $this->sub($name),
+            'transformator' => $transformator);
+    }
+
     public function run()
     {
         foreach ($this->scenario as $action) {
@@ -87,6 +96,11 @@ class fileGenerator
     private function run_delete($data)
     {
         unlink($data['name']);
+    }
+
+    private function run_edit($data)
+    {
+        file_put_contents($data['name'], $data['transformator']->transform(file_get_contents($data['name'])));
     }
 
     private function sub($file)

@@ -198,7 +198,7 @@ class action
                 $fileName = $iterator->getFilename();
                 $class = substr($fileName, 0, strlen($fileName) - 4);
                 $action = parse_ini_file($iterator->getPath() . '/' . $fileName, true);
-                //$this->addEditAclAction($action);
+                $this->addEditAclAction($action);
                 $this->addActionsToClass($class, $action);
                 unset($this->paths[$key]);
             }
