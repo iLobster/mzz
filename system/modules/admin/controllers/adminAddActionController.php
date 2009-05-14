@@ -13,6 +13,7 @@
  */
 
 fileLoader::load('codegenerator/fileGenerator');
+fileLoader::load('codegenerator/fileIniTransformer');
 
 /**
  * adminAddActionController: контроллер для метода addAction модуля admin
@@ -86,22 +87,33 @@ class adminAddActionController extends simpleController
         if ($validator->validate()) {
             $values = $this->request->getArray('action', SC_POST);
 
+            $action_name = $values['name'];
+
+            $this->normalize($values, $defaults);
+
             if (!$isEdit) {
                 try {
                     $this->smartyBrackets();
 
                     $fileGenerator = new fileGenerator($dest);
 
-                    $tpl_name = 'templates/' . $values['name'] . '.tpl';
+                    $tpl_name = 'templates/' . $action_name . '.tpl';
 
                     $controllerData = array(
-                        'name' => $values['name'],
+                        'name' => $action_name,
                         'module' => $module['name'],
                         'path' => $dest . '/' . $tpl_name);
                     $this->smarty->assign('controller_data', $controllerData);
-                    $fileGenerator->create('controllers/' . $values['name'] . 'Controller.php', $this->smarty->fetch('admin/generator/controller.tpl'));
+
+                    if ($values['controller'] == $action_name) {
+                        $fileGenerator->create('controllers/module' . ucfirst($action_name) . 'Controller.php', $this->smarty->fetch('admin/generator/controller.tpl'));
+                    }
 
                     $fileGenerator->create($tpl_name, $this->smarty->fetch('admin/generator/template.tpl'));
+
+                    $values = array(
+                        $action_name => $values);
+                    $fileGenerator->edit('actions/' . $class['name'] . '.ini', new fileIniTransformer('merge', $values));
 
                     $fileGenerator->run();
                 } catch (Exception $e) {
@@ -137,6 +149,24 @@ class adminAddActionController extends simpleController
         $this->smarty->assign('data', $data);
 
         return $this->smarty->fetch('admin/addAction.tpl');
+    }
+
+    private function normalize(& $values, $defaults)
+    {
+        $exclude = array(
+            '403handle');
+
+        foreach ($values as $key => & $val) {
+            if (!isset($defaults[$key]) || ($defaults[$key] == $val && !in_array($key, $exclude))) {
+                unset($values[$key]);
+            }
+        }
+
+        if (empty($values['controller'])) {
+            $values['controller'] = $values['name'];
+        }
+
+        unset($values['name']);
     }
 
     private function smartyBrackets($back = false)

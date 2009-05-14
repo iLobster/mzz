@@ -146,13 +146,13 @@ class fileGeneratorTest extends UnitTestCase
         $this->generator->edit('file.ini', new fileIniTransformer('merge', $data));
         $this->generator->run();
 
-        $this->assertEqual($this->getContents('file.ini'), "[section]\r\nkey = \"value\"\r\n[section2]\r\nkey2 = \"value2\"");
+        $this->assertEqual($this->getContents('file.ini'), "[section]\r\nkey = \"value\"\r\n\r\n[section2]\r\nkey2 = \"value2\"");
 
         $data = array('section' => array());
         $this->generator->edit('file.ini', new fileIniTransformer('merge', $data));
         $this->generator->run();
 
-        $this->assertEqual($this->getContents('file.ini'), "[section]\r\n[section2]\r\nkey2 = \"value2\"");
+        $this->assertEqual($this->getContents('file.ini'), "[section]\r\n\r\n[section2]\r\nkey2 = \"value2\"");
     }
 
     private function isFileExists($expected)

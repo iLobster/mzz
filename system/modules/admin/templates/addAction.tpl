@@ -32,7 +32,7 @@
         </tr>
         <tr>
             <td>{form->caption name="action[403handle]" value="Метод проверки прав"}</td>
-            <td>{form->select name="action[403handle]" emptyFirst="default (обычный)" options=$aclMethods value=$data.403handle}</td>
+            <td>{form->select name="action[403handle]" options=$aclMethods value=$data.403handle}</td>
         </tr>
         {if count($aliases)}
             <tr>

@@ -34,6 +34,8 @@ class fileIniTransformer extends fileTransformer
             foreach ($section_val as $key => $val) {
                 $result .= $key . " = " . ((is_numeric($val)) ? $val : '"' . $val . '"') . "\r\n";
             }
+
+            $result .= "\r\n";
         }
 
         return trim($result);
