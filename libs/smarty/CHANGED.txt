@@ -4,9 +4,13 @@ method Smarty_Compiler::_parse_attrs(), lines 1577-1579:
                             $token = '"' . smarty_prefilter_i18n('{' . $trimmed . '}', $this) . '"';
                         }
 
-for chaining methods (*->*->*...) replace 172-173:
+for chaining methods (*->*->*...) replaced 172-173:
         $this->_obj_start_regexp = '(?:' . $this->_dvar_regexp . '(?:' . $this->_obj_ext_regexp . ')+)';
         $this->_obj_call_regexp = '(?:' . $this->_obj_start_regexp . '(?:' . $this->_obj_params_regexp . ')?(?:' . $this->_dvar_math_regexp . '(?:' . $this->_num_const_regexp . '|' . $this->_dvar_math_var_regexp . ')*)?)';
-by:
+with:
         $this->_obj_start_regexp = '(?:' . $this->_dvar_regexp . '(?:' . $this->_obj_ext_regexp . '(?:'.$this->_obj_params_regexp.')?)+)';
         $this->_obj_call_regexp = '(?:' . $this->_obj_start_regexp . '(?:' . $this->_dvar_math_regexp . '(?:' . $this->_num_const_regexp .'|' . $this->_dvar_math_var_regexp . ')*)?)';
+
+
+} elseif(method_exists($this->_reg_objects[$object][0], $obj_comp)) { line 892 replaced with:
+} elseif(is_callable(array($this->_reg_objects[$object][0], $obj_comp))) {
