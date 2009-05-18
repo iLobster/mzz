@@ -25,26 +25,11 @@ class formCaptchaField extends formElement
     {
         $captcha_id = md5(microtime(true));
 
-        $url = new url('captcha');
-        $url->add('rand', $captcha_id, true);
+        $tplPrefix = isset($attributes['tplPrefix']) ? $attributes['tplPrefix'] : '';
 
-        $image = $this->renderTag('img', array(
-            'src' => $url->get(),
-            'width' => 120,
-            'height' => 40,
-            'alt' => 'Click to refresh',
-            'onclick' => 'javascript: this.src = "' . $url->get() . '&r=" + Math.random();')
-        );
-
-        $hidden = $this->renderTag('input', array(
-            'type' => 'hidden',
-            'name' => $attributes['name'] . '_id',
-            'value' => $captcha_id)
-        );
-
-        $attributes['type'] = 'text';
-        $attributes['value'] = '';
-        return $hidden . $image . '<br />' . $this->renderTag('input', $attributes);
+        $smarty = systemToolkit::getInstance()->getSmarty();
+        $smarty->assign('captcha_id', $captcha_id);
+        return $smarty->fetch('captcha/' . $tplPrefix . 'captcha.tpl');
     }
 }
 
