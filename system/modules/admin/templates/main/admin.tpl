@@ -39,6 +39,3 @@
 <div class="footer">{$smarty.const.MZZ_NAME} (v.{$smarty.const.MZZ_VERSION}-{$smarty.const.MZZ_REVISION}) 2005-{"Y"|date}.
 {$timer->toString('timer/admin/timer.tpl')}
 </div>
-
-</body>
-</html>

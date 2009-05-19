@@ -9,44 +9,12 @@ table.toolbarActions {
   margin-top: 15px;
 }
 
-table.toolbarActions td {
-  padding: 2px 4px;
-}
-
-table.toolbarActions td img {
-  margin-right: 3px;
-  float: right;
-}
-
 table.toolbarObjects {
   width: 100%;
   border: 0;
   margin-top: 15px;
   font-size: 95%;
   font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;
-}
-
-tr.toolbarTitle {
-  font-size: 100%;
-}
-
-td.toolbarElementName {
-  border-top: 1px solid #E4E4E4;
-  font-size: 95%;
-  padding: 3px !important;
-}
-
-td.toolbarActions img {
-  /*width: 60px;*/
-  float: right !important;
-}
-
-td.toolbarActions {
-  width: 100px;
-}
-
-td.toolbarBorder {
-  padding-left: 5px;
 }
 
 td.toolbarEndList {
@@ -81,7 +49,7 @@ div.toolbarLayerBottomLeft {
   margin-left: 65%;
 }
 
-td.toolbarEmpty {
+tr.toolbarEmpty td {
   font-size: 80%;
   color: #999;
   text-align: center;
@@ -109,7 +77,34 @@ span.newlySubjectNotice {
   background-color: #FFFFC8;
 }
 
-span.className {
-  margin-left: 8px;
-  padding: 2px 4px;
+tbody.toolbarModules tr {
+    background-color: #F2F2F2;
+}
+
+tbody.toolbarModules tr th {
+    padding: 2px 4px;
+}
+
+tbody.toolbarModules .name {
+    padding-left: 5px;
+    text-align: left;
+    font-weight: bold;
+}
+
+tbody.toolbarModules .actions,
+tbody.toolbarClasses .actions {
+    width: 100px;
+    text-align: right;
+    line-height: 1px;
+}
+
+tbody.toolbarClasses tr td {
+    border-top:1px solid #E4E4E4;
+    font-size: 95%;
+    padding: 3px;
+}
+
+tbody.toolbarClasses .name {
+    padding-left: 12px;
+    text-align: left;
 }

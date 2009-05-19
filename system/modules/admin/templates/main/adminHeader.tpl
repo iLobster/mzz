@@ -15,3 +15,5 @@ var SITE_LANG = '{$current_lang}';
 </head>
 <body>
 {$content}
+</body>
+</html>
