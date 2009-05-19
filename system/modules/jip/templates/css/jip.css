@@ -1,91 +1,42 @@
+/**
+ * Временно кусок, чтобы не таскать с собой весь jquery-ui.css
+ */
+.ui-resizable { position: relative;}
+.ui-resizable-handle { position: absolute;font-size: 0.1px;z-index: 99999; display: block;}
+.ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle { display: none; }
+.ui-resizable-n { cursor: n-resize; height: 7px; width: 100%; top: -5px; left: 0px; }
+.ui-resizable-s { cursor: s-resize; height: 7px; width: 100%; bottom: -5px; left: 0px; }
+.ui-resizable-e { cursor: e-resize; width: 7px; right: -5px; top: 0px; height: 100%; }
+.ui-resizable-w { cursor: w-resize; width: 7px; left: -5px; top: 0px; height: 100%; }
+.ui-resizable-se { cursor: se-resize; width: 12px; height: 12px; right: 1px; bottom: 1px; }
+.ui-resizable-sw { cursor: sw-resize; width: 9px; height: 9px; left: -5px; bottom: -5px; }
+.ui-resizable-nw { cursor: nw-resize; width: 9px; height: 9px; left: -5px; top: -5px; }
+.ui-resizable-ne { cursor: ne-resize; width: 9px; height: 9px; right: -5px; top: -5px;}
+
+/**
+ * @todo: rewrite css for jipMenu
+ *        convert jipMenu Icons to sprites
+ */
+
 img.jip {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 div.jipClose {
-  float: right;
-  margin-top: 6px;
-  margin-right: 4px;
-  height: 13px;
+    float: right;
+    margin-top: 6px;
+    margin-right: 4px;
+    height: 13px;
 }
 
 div.jipSuccess {
-  background-color: #EEF8E7;
-  padding: 2px;
-  text-align: center;
-  width: 160px;
-  border: 1px solid #C9E9B1;
-  color: green;
-  font-weight: bold;
-}
-
-.jipWindow {
-    font-family: Helvetica,  Lucida, tahoma, verdana, arial, sans-serif !important;
-
-    font-weight: normal !important;
-    font-size: 12px !important;
-    color: #000 !important;
-    position: absolute;
-    display: none;
-    border: 2px solid #999;
-    z-index: 902;
-    padding: 3px;
-    width: 80%;
-    background-color: #FFFFFF;
-    overflow: auto;
-    /*min-width: 500px;*/
-    left: 15%;
-    top: 100px;
-    line-height:1.2;
-}
-
-.jipWindow a {
-    color:#0055CC;
-}
-
-.jipWindow a.cancelLink {
-    /*margin-left: 10px;*/
-    color: #9B1A06;
-}
-
-.jipWindow a.cancelLink:hover {
-    color: #E42105;
-}
-
-.jipWindow input {
-    padding: 1px;
-}
-
-.jipWindow form {
-    padding: 0;
-    margin: 0;
-}
-
-.jipWindow .errorField {
-    border: 2px solid #E31717;
-}
-
-.jipWindow .errorText {
-    font-size: 90%;
-    color: #646464;
-    padding: 1px;
-}
-
-.jipWindow a:active {
-    color:#FF0000 !important;
-}
-
-.jipTitle {
-    font-family: tahoma, verdana, arial !important;
-    color: #000 !important;
-    text-align: left;
-    padding: 4px;
-    padding-left: 7px;
+    background-color: #EEF8E7;
+    padding: 2px;
+    text-align: center;
+    width: 160px;
+    border: 1px solid #C9E9B1;
+    color: green;
     font-weight: bold;
-    border-bottom: 1px solid #EAE197;
-    border-top: 1px solid #EAE197;
-    /*background: url('../images/jip/title_bg.png') repeat-x #fff;*/
-    background-color: #FFFFE1;
 }
 
 .jipLoadJs {
@@ -107,20 +58,6 @@ div#jipLoad a {
 
 div#jipLoad img {
     margin-bottom: 10px;
-}
-
-.jipMove {
-    background-position: left center;
-    width: 5px;
-    height: 16px;
-    background-image: url('../images/jip/move.gif');
-    float: left;
-    background-repeat: no-repeat;
-    cursor: move;
-    margin-right: 6px;
-    /*margin-top: 1px;*/
-    position: relative;
-    top: -1px;
 }
 
 .jipMenu {
@@ -222,72 +159,227 @@ td.jipItemTextWithLanguage {
     color: black !important;
 }
 
-#lockContent {
-    position: absolute;
-    display: none;
-    z-index: 901;
-    font-size:100%;
-   /* padding: 4px;*/
-    text-align: center;
-
-    background-color: #000;
-    width: 100%;
-    /*height: 100%;*/
-    /*top: -8px;*/
-    top: 0;
-    left: 0;
-
-    right: 0;
-    /*min-height: 800px;*/
-    filter: alpha(opacity=0);
-    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
-    -moz-opacity: 0;
-    -khtml-opacity: 0; /* Konqueror 3.1, Safari 1.1 */
-    opacity: 0; /* CSS3 - Mozilla 1.7b +, Firefox 0.9 +, Safari 1.2+, Opera 9 */
-}
-
 div.confirm {
-  width:90%;
-  font-size: 110%;
-  text-align: center;
-  line-height: 150%;
-  margin: 5px 0;
-  margin-bottom: 20px;
+    width:90%;
+    font-size: 110%;
+    text-align: center;
+    line-height: 150%;
+    margin: 5px 0;
+    margin-bottom: 20px;
 }
 
 div.confirmImg {
-  width: 20%;
-  float: left;
+    width: 20%;
+    float: left;
 }
 
 div.confirmMsg {
-  width: 80%;
-  float: right;
-  padding-top: 5px;
+    width: 80%;
+    float: right;
+    padding-top: 5px;
 }
 
 div.confirm span {
-  margin-left: 40px;
+    margin-left: 40px;
 }
 
 div.confirm img {
-  float: right;
+    float: right;
 }
 
 .jipAjaxLoading {
-  padding: 5px;
-  border: 1px solid #F1DC92;
-  background-color: #FFF9D5;
-  color: #004000;
-  width: 130px;
-  font-size: 90%;
+    padding: 5px;
+    border: 1px solid #F1DC92;
+    background-color: #FFF9D5;
+    color: #004000;
+    width: 130px;
+    font-size: 90%;
 }
 
 .jipAjaxLoadingError {
-  padding: 5px;
-  border: 1px solid #F29191;
-  background-color: #FFD5D5;
-  color: #800000;
-  width: 130px;
-  font-size: 90%;
+    padding: 5px;
+    border: 1px solid #F29191;
+    background-color: #FFD5D5;
+    color: #800000;
+    width: 130px;
+    font-size: 90%;
+}
+
+/**
+ * Style for content-locker
+ */
+.mzz-content-locker {
+    background: #000 url('../images/jip/locker.gif');
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    z-index: 901;
+    font-size:100%;
+    text-align: center;
+    width: 100%;
+}
+
+/**
+ * Style for mzz-window holder (not only jipWindow) @see window.js
+ */
+.mzz-window-holder {
+    display: none;
+}
+
+img.mzz-window-button {
+    cursor: pointer;
+}
+/**
+ * Jip-window style reset
+ */
+.mzz-ie-visibility { /* pseudo-class for ie 'hidden' selects */
+    visibility: hidden;
+}
+
+.mzz-jip-window {
+    font-family: Helvetica,  Lucida, tahoma, verdana, arial, sans-serif !important;
+    font-weight: normal !important;
+    font-size: 16px !important;
+    color: #000 !important;
+    position: absolute;
+    z-index: 902;
+    width: 80%;
+    left: 10%;
+    top: 100px;
+
+    /* for the true css3 family %) тень окна */
+    -webkit-border-radius: 6px 6px;
+    -webkit-box-shadow: 0px 0px 20px #000;
+    -moz-border-radius: 6px 6px;
+    -moz-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+}
+
+.mzz-jip-window form,
+.mzz-jip-window span,
+.mzz-jip-window table,
+.mzz-jip-window div {
+    /*font-size: 12px;*/
+    font-weight: normal;
+    color: #000;
+    text-transform: none;
+    text-decoration: none;
+}
+
+.mzz-jip-window form {
+    font-size: 0.75em;
+}
+
+.mzz-jip-window p,
+.mzz-jip-window form label,
+.mzz-jip-window form input,
+.mzz-jip-window form select,
+.mzz-jip-window form textarea {
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+    font-weight: inherit;
+    font-style: inherit;
+    text-transform: none;
+    text-decoration: none;
+    margin: 0 0;
+}
+
+.mzz-jip-window span,
+.mzz-jip-window form,
+.mzz-jip-window label {
+    display: inline;
+    border: none;
+}
+
+.mzz-jip-window form {
+    width: 100%;
+}
+
+.mzz-jip-window .mzz-window-icon {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    height: 36px;
+    width: 36px;
+}
+
+.mzz-jip-window .mzz-window-buttons {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    height: 18px;
+}
+
+.mzz-jip-window .mzz-window-resizer {
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+    height: 10px;
+    width: 10px;
+    cursor: se-resize;
+    background: transparent url(../images/jip/sizer.png) no-repeat bottom right;
+}
+
+/**
+ * Base style for window (gray)
+ */
+.mzz-jip-window .mzz-window-title {
+    height: 23px;
+    line-height: 23px;
+    padding: 4px 10px 5px 33px;
+    white-space: nowrap;
+    line-height: 23px;
+    color: #fff;
+    font-weight: bold;
+
+    /* default style */
+    background: #a3a3a3 url(../images/jip/title-stripe.png) repeat-x scroll top;
+
+    border: solid #c7c8c8;
+    border-width: 1px 1px 0px 1px;
+
+    /* for the true css3 family %) верхнее скругление */
+    -moz-border-radius: 5px 5px 0px 0px;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+}
+
+.mzz-jip-window .mzz-window-content {
+    border: solid #fff;
+    border-width: 0px 1px;
+    padding: 5px;
+    overflow: auto;
+    background: transparent url(../images/jip/content.png) scroll top;
+}
+
+.mzz-jip-window .mzz-window-footer {
+    border: solid #fff;
+    border-width: 1px 1px 1px 1px;
+    padding: 2px 5px;
+    min-height: 15px;
+    background: transparent url(../images/jip/content.png) scroll top;
+    /* for the true css3 family %) нижние скругление */
+    -moz-border-radius: 0px 0px 5px 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+}
+
+.mzz-jip-window .mzz-window-status {
+    font-size: 0.7em;
+}
+
+
+/**
+ * Style for ahtung window (red)
+ */
+.mzz-jip-window.error .mzz-window-title {
+    background-color: #c72d00;
+}
+
+/**
+ * Style for alert window (orange)
+ */
+.mzz-jip-window.alert .mzz-window-title {
+    background-color: #eca700;
 }
