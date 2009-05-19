@@ -3,7 +3,14 @@
 {else}
     <div class="jipTitle">{_ create_news}</div>
     {literal}<script type="text/javascript">
-    Calendar.setup({"ifFormat":"%H:%M:%S %d/%m/%Y","daFormat":"%d/%m/%Y","firstDay":1,"showsTime":true,"showOthers":true,"timeFormat":24, "align":"BR", "inputField":"calendar-field-created","button":"calendar-trigger-created"});
+    (function($) {
+        fileLoader.loadJS(SITE_PATH + '/templates/js/jquery-ui/ui.datepicker.js',
+            function(url, type, status){
+                if (status == 0 || status == 'success'){
+                    $("#calendar-field-created").datepicker({showOn: 'button', buttonImage: SITE_PATH + '/templates/images/calendar.png', buttonImageOnly: true});
+                }
+            }, null, true);
+    })(jQuery);
     </script>{/literal}
 {/if}
 
@@ -16,7 +23,7 @@
         {if !$isEdit}
             <tr>
                 <td>{_ creating_date}</td>
-                <td>{form->text name="created" size="20" id="calendar-field-created" value=$smarty.now|date_format:"%H:%M:%S %d/%m/%Y"} <button type="button" id="calendar-trigger-created" class="calendar_button"><img src="{$SITE_PATH}/templates/images/calendar.png" /></button>{$errors->get('created')}</td>
+                <td>{form->text name="created" size="20" id="calendar-field-created" value=$smarty.now|date_format:"%H:%M:%S %d/%m/%Y"}{$errors->get('created')}</td>
             </tr>
         {/if}
         <tr>

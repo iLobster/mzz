@@ -1,35 +1,35 @@
 div.menuHelp {
-  color: #555;
-  font-size: 90%;
-  padding-left: 5px;
-  padding-bottom: 5px;
-  margin-bottom: 15px;
-  margin-top: 5px;
+    color: #555;
+    font-size: 90%;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    margin-top: 5px;
 }
 
 div.menuList {
-  height: 20px;
-  font-size: 95%;
-  color: #000;
-  margin: 4px 0 5px;
-  border-bottom: 3px solid #E4E4E4;
-  padding-left: 5px;
-  padding-bottom: 2px;
+    height: 20px;
+    font-size: 95%;
+    color: #000;
+    margin: 4px 0 5px;
+    border-bottom: 3px solid #E4E4E4;
+    padding-left: 5px;
+    padding-bottom: 2px;
 }
 
-li.treeItem ul {
-  padding-bottom: 3px;
+li.treeItem {
+    padding-bottom: 3px;
 }
 
 div.menuList div {
-  float: left;
-  margin-right: 15px;
+    float: left;
+    margin-right: 15px;
 }
 
 div.menuList a.active {
-  font-weight: bold;
-  color: black;
-  text-decoration: none;
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
 }
 
 .menuTree {
@@ -58,28 +58,6 @@ div.menuList a.active {
     margin-bottom: -3px;
 }
 
-.menuItemTitleGray {
-    background-image: url('../../images/menu/left_side.gif');
-}
-
-.treeItemGray {
-    background-image: url('../../images/menu/bg.gif');
-}
-
-.menuItemTitleYellow {
-    background-image: url('../../images/menu/left_side_yellow.gif');
-}
-
-.treeItemYellow {
-    background-image: url('../../images/menu/bg_yellow.gif');
-}
-
-.menuItemActions {
-    float: right;
-    height: 15px;
-    margin: 2px 10px;
-}
-
 span.menuUrl, span.menuName {
     color: #7A7A7A;
 }
@@ -88,6 +66,90 @@ span.menuName {
     font-size: 90%;
 }
 
-/* Fix IE. Hide from IE Mac \*/
-* html li.treeItem { background-color: #FFFFFF; height: 16px; }
-/* End */
+.menuTree .ns-placeholder li,
+.menuTree li.ns-placeholder {
+    background: transparent url('../../images/menu/nsplace.png') no-repeat center left;
+    min-height: 7px;
+    overflow: none;
+}
+
+
+ul.menuTree {
+    margin-left:5px !important;
+    padding:0;
+    list-style-type:none;
+}
+
+ul.menuTree li {
+    display: block;
+    list-style-type:none;
+}
+
+.menuTree li div.menuItem {
+    position: relative;
+    background: transparent url(../../images/menu/sprite.png) no-repeat 0px -30px;
+}
+
+.menuItem div.menuTreeTitle {
+    padding-bottom:3px;
+    list-style-type:none;
+    margin: 3px 8px -3px 8px;
+    line-height: 27px;
+    height: 27px;
+    background: transparent url(../../images/menu/sprite.png) repeat-x 0px 0px;
+}
+
+.menuItem div.menuActions {
+    position: absolute;
+    display: block;
+    height: 27px;
+    top: 0px;
+    right: 0px;
+    padding-right: 8px;
+    background: transparent url(../../images/menu/sprite.png) no-repeat right -60px;
+}
+
+.menuTree li div.menuItem.yellow {
+    background: transparent url(../../images/menu/sprite.png) no-repeat 0px -120px;
+}
+
+.menuItem.yellow div.menuTreeTitle {
+    background: transparent url(../../images/menu/sprite.png) repeat-x 0px -90px;
+}
+
+.menuItem.yellow div.menuActions {
+    background: transparent url(../../images/menu/sprite.png) no-repeat right -150px;
+}
+
+.menuTree li div.menuItem.red,
+li.mzz-ns-clone div.menuItem {
+    background: transparent url(../../images/menu/sprite.png) no-repeat 0px -210px;
+}
+
+.menuItem.red div.menuTreeTitle,
+.mzz-ns-clone div.menuTreeTitle {
+    background: transparent url(../../images/menu/sprite.png) repeat-x 0px -180px;
+}
+
+.menuItem.red div.menuActions,
+.mzz-ns-clone div.menuActions {
+    background: transparent url(../../images/menu/sprite.png) no-repeat right -240px;
+}
+
+.menuItem div.menuActions img {
+    margin-top: 5px;
+
+}
+
+ul.menuTree ul {
+    padding-left: 50px;
+}
+
+.menuHandler {
+    background: transparent url(../../images/menu/handle.png) repeat top center;
+    width: 9px;
+    height: 20px;
+    float: left;
+    display: inline;
+    margin: 4px 5px 0px 0px;
+}

@@ -34,15 +34,19 @@ tinyMCE.init({
         add_form_submit_trigger: false
     });
 
-function toggleEditor(id) {
-    var elm = $(id);
+(function($){
+toggleEditor = function(id) {
+    var elm = $('#' + id);
     var removeEditorLoadingStatus = function () {
-            var editorLoadingText = $('editorLoadingText');
-            editorLoadingText ? editorLoadingText.parentNode.removeChild(editorLoadingText) : false;
+            var editorLoadingText = $('#editorLoadingText');
+            if (editorLoadingText.length > 0) {
+                editorLoadingText.remove();
+            }
+            //editorLoadingText ? editorLoadingText.parentNode.removeChild(editorLoadingText) : false;
     };
 
     if (tinyMCE.getInstanceById(id) == null) {
-        new Insertion.Before(elm, '<div id="editorLoadingText"><strong>Загрузка редактора...</strong></div>');
+        elm.before('<div id="editorLoadingText"><strong>Загрузка редактора...</strong></div>');
         tinyMCE.execCommand('mceAddControl', false, id);
         removeEditorLoadingStatus();
         jipWindow.addTinyMCEId(id);
@@ -53,7 +57,7 @@ function toggleEditor(id) {
         jipWindow.deleteTinyMCEId(id);
         $(id + '_editorStatus').innerHTML = 'Включить WYSIWYG-редактор';
     }
-}
+}})(jQuery);
 </script>{/literal}
 {form action=$form_action method="post" onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return jipWindow.sendForm(this);"}
 <table width="100%" border="0" cellpadding="5" cellspacing="0">

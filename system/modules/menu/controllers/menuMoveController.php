@@ -29,45 +29,53 @@ class menuMoveController extends simpleController
 
         $menu = $menuMapper->searchByName($name);
 
-        $menuItemMapper = $this->toolkit->getMapper('menu', 'menuItem');
+        if ($menu) {
+            $tree = $this->request->getArray('menuTree_' . $menu->getId(), SC_POST);
+            if ($tree) {
+                $nodes = array();
+                $this->parseTree($nodes, $tree);
 
-        $data = $this->request->getString('data', SC_POST);
-        parse_str($data, $tree);
-        if (!$menu || !isset($tree['menuTree_' . $menu->getId()])) {
-            return $menuItemMapper->get404()->run();
-        }
+                $menuItemMapper = $this->toolkit->getMapper('menu', 'menuItem');
+                foreach ($nodes as $node_id => $node) {
+                    $criteria = new criteria;
+                    $criteria->add('menu_id', $menu->getId())->add('id', $node_id);
+                    $item = $menuItemMapper->searchOneByCriteria($criteria);
+                    if ($item) {
+                        $item->setParent($node['parent_id']);
+                        $item->setOrder($node['order']);
+                        $menuItemMapper->save($item);
+                    } else {
+                        //@todo: если не найден меню-айтем?
+                    }
+                }
 
-        $tree = $tree['menuTree_' . $menu->getId()];
-        $nodes = array();
-        parseTree($nodes, $tree);
-        foreach ($nodes as $node_id => $node) {
-            $criteria = new criteria;
-            $criteria->add('menu_id', $menu->getId())->add('id', $node_id);
-            $item = $menuItemMapper->searchOneByCriteria($criteria);
-            if ($item) {
-                $item->setParent($node['parent_id']);
-                $item->setOrder($node['order']);
-                $menuItemMapper->save($item);
+                return 'gagaga';
+            } else {
+                //@todo: если не найдены данные для дерева?
             }
         }
 
-        return null;
-    }
-}
+        return $this->forward404($menuMapper);
 
-function parseTree(&$nodes, $branch, $parent_id = 0) {
-    $order = 0;
-    foreach ($branch as $node) {
-        if (is_array($node) && isset($node['id'])) {
-            $order++;
-            $nodes[$node['id']] = array('parent_id' => $parent_id, 'order' => $order);
-            $nodeId = $node['id'];
-            unset($node['id']);
-            if (!empty($node)) {
-                parseTree($nodes, $node, $nodeId);
+    }
+
+    protected function parseTree(array &$nodes, array $branch, $parent_id = 0) {
+        $order = 0;
+        foreach ($branch as $node) {
+            if (is_array($node) && isset($node['id'])) {
+                $order++;
+                $id = (int)substr($node['id'], 5);
+                if ($id > 0) {
+                    $nodes[$id] = array('parent_id' => $parent_id, 'order' => $order);
+                    //$nodeId = $node['id'];
+                    if (isset($node['childs'])) {
+                        $this->parseTree($nodes, $node['childs'], $id);
+                    }
+                } else {
+                    throw new mzzInvalidParameterException('Supplied invalid menu id, excepted int > 0, got: ' + $id + ' (' + $node['id'] + ')');
+                }
             }
         }
     }
 }
-
 ?>

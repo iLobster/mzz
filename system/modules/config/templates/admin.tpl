@@ -1,8 +1,21 @@
-{add file="prototype.js"}
+{*add file="prototype.js"}
 {add file="prototype_improvements.js"}
 {add file="effects.js"}
 {add file="jip.css"}
-{add file="jip.js"}
+{add file="jip.js"*}
+{add file="jquery.js"}
+{add file="jquery-ui/ui.core.js"}
+{add file="jquery-ui/effects.core.js"}
+{add file="jquery-ui.css"}
+{add file="jquery-ui/ui.draggable.js"}
+{add file="jquery-ui/ui.resizable.js"}
+{add file="dui.js"}
+{add file="jquery.ex.js"}
+{add file="jip.css"}
+{add file="jip/fileLoader.js"}
+{add file="jip/window.js"}
+{add file="jip/jipMenu.js"}
+{add file="jip/jipWindow.js"}
 <div class="pageTitle">Конфигурация модулей</div>
 <div class="pageContent">
 {foreach from=$folders item="folder"}

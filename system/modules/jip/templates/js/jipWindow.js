@@ -23,18 +23,18 @@
             }
 
             this.window = false;    //текущее окно
-            this.windows = new Array; //стэк окошков
+            this.windows = []; //стэк окошков
             this.windowCount = 0;   //всего окон
             this.currentWindow = 0; //текущий ид
             this.redirectAfterClose = false;
-            this.stack = new Array; //стэк урлов
+            this.stack = []; //стэк урлов
             this.selects = {
-                'bodyWindow': new Array,
-                'jipWindow': new Array,
-                'jip': new Array
+                'bodyWindow': [],
+                'jipWindow': [],
+                'jip': []
             }; //стэк захайденных селектов для могучего IE
             
-            this.tinyMCEIds = new Array; //стэк tinyMCE
+            this.tinyMCEIds = []; //стэк tinyMCE
             this.locker = false;    //локер
             
             this.lockerResize = function() {
@@ -257,7 +257,15 @@
         },
 
         deleteTinyMCEId: function(id) {
-            this.tinyMCEIds = this.tinyMCEIds.without(id);
+            var tinyMCEIds = [];
+            console.log(this.tinyMCEIds, this.tinyMCEIds.length);
+            for(var i in this.tinyMCEIds) {
+                if (!(id == this.tinyMCEIds[i])) {
+                    tinyMCEIds.push(this.tinyMCEIds[i]);
+                }
+            }
+            this.tinyMCEIds = tinyMCEIds;
+            console.log(this.tinyMCEIds, this.tinyMCEIds.length);
         },
         
         successRequest: function(transport) {
