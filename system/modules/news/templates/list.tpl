@@ -3,7 +3,6 @@
 {add file="news.css"}
 
 {include file="news/tree.tpl" rootFolder=$rootFolder newsFolder=$newsFolder}
-{url _val=1 appendGet=true}
 <div class="newsList">
     {foreach from=$news item="current_news"}
         <div class="news_title">
