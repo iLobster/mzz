@@ -25,10 +25,11 @@ class entity
     const STATE_CLEAN = 2;
     const STATE_NEW = 3;
 
-    private $map = array();
-    private $data = array();
-    private $dataChanged = array();
-    private $state = self::STATE_NEW;
+    protected $map = array();
+    protected $data = array();
+    protected $dataChanged = array();
+    protected $state = self::STATE_NEW;
+
     /**
      * relations object
      *

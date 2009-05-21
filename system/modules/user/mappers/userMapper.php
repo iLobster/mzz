@@ -107,6 +107,11 @@ class userMapper extends mapper
         $this->attach(new jipPlugin());
     }
 
+    public function searchById($id)
+    {
+        return $this->searchByKey($id);
+    }
+
     /**
      * Выполняет поиск объекта по логину
      *

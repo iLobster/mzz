@@ -147,6 +147,15 @@ class relation
             }
         }
 
+        foreach ($this->oneToOneBack() as $key => $val) {
+            $lazy = new lazy(array(
+                $val['mapper'],
+                $val['foreign_key'],
+                $row[$val['local_key']],
+                true));
+            $row[$key] = $lazy;
+        }
+
         foreach ($this->oneToMany() as $key => $val) {
             $lazy = new lazy(array(
                 $val['mapper'],

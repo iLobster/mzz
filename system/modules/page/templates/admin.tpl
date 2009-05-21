@@ -13,10 +13,10 @@
             </tr>
         </thead>
 
-        {if $pageFolder->getTreeLevel() ne 1}
+        {if $pageFolder->getTreeLevel() != 1}
             <tr align="center">
                 <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/page/folder.gif" alt="" /></td>
-                <td style="text-align: left;"><a href="{url route='admin' params=$pageFolder->getTreeParent()->getTreePath() section_name=$current_section module_name=page}">..</a></td>
+                <td style="text-align: left;"><a href="{url route="admin" params=$pageFolder->getTreeParent()->getTreePath() module_name="page" action_name="admin"}">..</a></td>
                 <td style="text-align: left;"></td>
                 <td>{$pageFolder->getJip()}</td>
             </tr>

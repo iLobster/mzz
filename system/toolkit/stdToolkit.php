@@ -254,7 +254,7 @@ class stdToolkit extends toolkit
     {
         $userMapper = $this->getMapper('user', 'user');
         if (is_numeric($user)) {
-            $user = $userMapper->searchByKey($user);
+            $user = $userMapper->searchById($user);
         }
         if (empty($user)) {
             $user = $userMapper->getGuest();

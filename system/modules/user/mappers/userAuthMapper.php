@@ -32,10 +32,35 @@ class userAuthMapper extends mapper
     protected $class = 'userAuth';
     protected $table = 'user_userAuth';
 
-    protected $obj_id_field = null;
+    public $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'once',
+                'pk')),
+        'hash' => array(
+            'accessor' => 'getHash',
+            'mutator' => 'setHash',
+            'options' => array(
+                'once')),
+        'ip' => array(
+            'accessor' => 'getIp',
+            'mutator' => 'setIp',
+            'options' => array(
+                'once')),
+        'user_id' => array(
+            'accessor' => 'getUserId',
+            'mutator' => 'setUserId',
+            'options' => array(
+                'once')),
+        'time' => array(
+            'accessor' => 'getTime',
+            'mutator' => 'setTime',
+            ),
+        );
 
     public static $auth_cookie_name = 'auth';
-
 
     public function getAuth($hash, $ip)
     {
@@ -100,35 +125,6 @@ class userAuthMapper extends mapper
     {
 
     }
-
-    public $map = array(
-        'id' => array(
-            'accessor' => 'getId',
-            'mutator' => 'setId',
-            'options' => array(
-                'once',
-                'pk')),
-        'hash' => array(
-            'accessor' => 'getHash',
-            'mutator' => 'setHash',
-            'options' => array(
-                'once')),
-        'ip' => array(
-            'accessor' => 'getIp',
-            'mutator' => 'setIp',
-            'options' => array(
-                'once')),
-        'user_id' => array(
-            'accessor' => 'getUserId',
-            'mutator' => 'setUserId',
-            'options' => array(
-                'once')),
-        'time' => array(
-            'accessor' => 'getTime',
-            'mutator' => 'setTime',
-            ),
-        );
-
 }
 
 ?>
