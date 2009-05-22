@@ -76,6 +76,20 @@ CREATE TABLE `news_newsFolder_tree` (
 AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
+# Structure for the `ormBackRelated` table : 
+#
+
+DROP TABLE IF EXISTS `ormBackRelated`;
+
+CREATE TABLE `ormBackRelated` (
+  `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `backrelated_id` INTEGER(10) UNSIGNED NOT NULL,
+  `value` VARCHAR(25) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+)ENGINE=MyISAM
+AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
 # Structure for the `ormRelated` table : 
 #
 

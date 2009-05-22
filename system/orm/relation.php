@@ -147,6 +147,7 @@ class relation
             }
         }
 
+        /*
         foreach ($this->oneToOneBack() as $key => $val) {
             $lazy = new lazy(array(
                 $val['mapper'],
@@ -155,6 +156,7 @@ class relation
                 true));
             $row[$key] = $lazy;
         }
+        */
 
         foreach ($this->oneToMany() as $key => $val) {
             $lazy = new lazy(array(

@@ -60,6 +60,11 @@ class ormRelated extends entity
 
 }
 
+class ormBackRelated extends entity
+{
+
+}
+
 class ormSimpleOther extends entity
 {
 

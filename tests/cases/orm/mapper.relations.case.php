@@ -24,7 +24,14 @@ class ormSimpleMapperWithRelation extends mapper
             'mutator' => 'setRelated',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'ormSimpleRelatedMapper'));
+            'mapper' => 'ormSimpleRelatedMapper'),
+        'backrelated' => array(
+            'accessor' => 'getBackRelated',
+            'mutator' => 'setBackRelated',
+            'relation' => 'one',
+            'foreign_key' => 'backrelated_id',
+            'local_key' => 'id',
+            'mapper' => 'ormSimpleBackRelatedMapper'));
 }
 
 class ormSimpleRelatedMapper extends mapper
@@ -47,6 +54,24 @@ class ormSimpleRelatedMapper extends mapper
             'foreign_key' => 'related',
             'local_key' => 'id',
             'mapper' => 'ormSimpleMapperWithRelation'));
+}
+
+class ormSimpleBackRelatedMapper extends mapper
+{
+    protected $table = 'ormBackRelated';
+
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk')),
+        'backrelated_id' => array(
+            'accessor' => 'getBackRelatedId',
+            'mutator' => 'setBackRelatedId'),
+        'value' => array(
+            'accessor' => 'getValue',
+            'mutator' => 'setValue'));
 }
 
 class ormSimpleRelatedBackMapper extends mapper
@@ -77,6 +102,7 @@ class mapperRelationsTest extends unitTestCase
     private $db;
     private $fixture;
     private $fixtureRelated;
+    private $fixtureBackRelated;
 
     public function __construct()
     {
@@ -104,6 +130,17 @@ class mapperRelationsTest extends unitTestCase
                 'baz' => 'baz2'),
             3 => array(
                 'baz' => 'baz3'));
+
+        $this->fixtureBackRelated = array(
+            1 => array(
+                'value' => 'val1',
+                'backrelated_id' => 1),
+            2 => array(
+                'value' => 'val2',
+                'backrelated_id' => 2),
+            3 => array(
+                'value' => 'val3',
+                'backrelated_id' => 3));
     }
 
     public function setUp()
@@ -133,12 +170,21 @@ class mapperRelationsTest extends unitTestCase
         $valString = substr($valString, 0, -2);
 
         $this->db->query('INSERT INTO `ormRelated` (`id`, `baz`) VALUES ' . $valString);
+
+        $valString = '';
+        foreach ($this->fixtureBackRelated as $id => $data) {
+            $valString .= "(" . $id . ", '" . $data['backrelated_id'] . "', '" . $data['value'] . "'), ";
+        }
+        $valString = substr($valString, 0, -2);
+
+        $this->db->query('INSERT INTO `ormBackRelated` (`id`, `backrelated_id`, `value`) VALUES ' . $valString);
     }
 
     public function cleardb()
     {
         $this->db->query('TRUNCATE TABLE `ormSimple`');
         $this->db->query('TRUNCATE TABLE `ormRelated`');
+        $this->db->query('TRUNCATE TABLE `ormBackRelated`');
     }
 
     public function testRetrieve()
