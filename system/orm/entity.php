@@ -200,13 +200,7 @@ class entity
 
     private function getOneToOneBackKeys()
     {
-        static $keys = null;
-
-        if (!$keys) {
-            $keys = $this->relations ? array_keys($this->relations->oneToOneBack()) : array();
-        }
-
-        return $keys;
+        return $this->relations ? array_keys($this->relations->oneToOneBack()) : array();
     }
 
     public function state($state = null)
