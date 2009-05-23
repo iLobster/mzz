@@ -24,14 +24,9 @@ class ormSimpleMapperWithRelation extends mapper
             'mutator' => 'setRelated',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'ormSimpleRelatedMapper'),
-        'backrelated' => array(
-            'accessor' => 'getBackRelated',
-            'mutator' => 'setBackRelated',
-            'relation' => 'one',
-            'foreign_key' => 'backrelated_id',
-            'local_key' => 'id',
-            'mapper' => 'ormSimpleBackRelatedMapper'));
+            'mapper' => 'ormSimpleRelatedMapper'
+        ),
+    );
 }
 
 class ormSimpleRelatedMapper extends mapper
@@ -56,7 +51,7 @@ class ormSimpleRelatedMapper extends mapper
             'mapper' => 'ormSimpleMapperWithRelation'));
 }
 
-class ormSimpleBackRelatedMapper extends mapper
+class ormSimpleBackedMapper extends mapper
 {
     protected $table = 'ormBackRelated';
 
@@ -93,7 +88,37 @@ class ormSimpleRelatedBackMapper extends mapper
             'relation' => 'one',
             'foreign_key' => 'related',
             'local_key' => 'id',
-            'mapper' => 'ormSimpleMapper'));
+            'mapper' => 'ormSimpleWithBackRelation'));
+}
+
+class ormSimpleWithBackRelation extends mapper
+{
+    protected $table = 'ormSimple';
+
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk')),
+        'foo' => array(
+            'accessor' => 'getFoo',
+            'mutator' => 'setFoo'),
+        'bar' => array(
+            'accessor' => 'getBar',
+            'mutator' => 'setBar'),
+        'related' => array(
+            'accessor' => 'getRelated',
+            'mutator' => 'setRelated'),
+        'backrelated' => array(
+            'accessor' => 'getBackRelated',
+            'mutator' => 'setBackRelated',
+            'relation' => 'one',
+            'foreign_key' => 'backrelated_id',
+            'local_key' => 'id',
+            'mapper' => 'ormSimpleBackedMapper'
+        )
+    );
 }
 
 class mapperRelationsTest extends unitTestCase
@@ -335,6 +360,17 @@ class mapperRelationsTest extends unitTestCase
         $this->assertIsA($object->getForeign(), 'ormSimple');
         $this->assertEqual($object->getForeign()->getFoo(), 'foo3');
         $this->assertEqual($object->getForeign()->getRelated(), 4);
+    }
+
+    public function testLazyBack()
+    {
+        $this->fixture();
+
+        $mapper = new ormSimpleRelatedBackMapper();
+        $object = $mapper->searchByKey(2);
+
+        $this->assertIsA($object->getForeign()->getBackRelated(), 'ormBackRelated');
+        $this->assertEqual($object->getForeign()->getBackRelated()->getValue(), 'val3');
     }
 }
 
