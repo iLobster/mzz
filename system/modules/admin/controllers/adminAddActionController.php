@@ -25,6 +25,8 @@ fileLoader::load('codegenerator/fileIniTransformer');
 
 class adminAddActionController extends simpleController
 {
+    private $plugins = array();
+
     protected function getView()
     {
         // @todo: сделать автоматическое добавление/удаление действий и свойств по наличию нужных плагинов (например acl, i18n)
@@ -66,16 +68,7 @@ class adminAddActionController extends simpleController
         if ($isEdit) {
 
         } else {
-            $defaults = array(
-                'name' => '',
-                'controller' => '',
-                'title' => '',
-                'icon' => '',
-                'confirm' => '',
-                '403handle' => 'none',
-                'act_template' => '',
-                'alias' => '',  // acl !!
-                'jip' => 0);
+            $defaults = $this->getDefaults($module['name'], $class['name']);
 
             $data = $defaults;
         }
@@ -135,20 +128,53 @@ class adminAddActionController extends simpleController
         $this->smarty->assign('aliases', $aliases);
 
         $aclMethods = array(
-            'none' => 'none (отключить)',
-            'manual' => 'manual (ручной)',
-            'auto' => 'auto (автоматически)');
+            'none' => 'none (отключить)');
+        if (in_array('acl', $this->plugins)) {
+            $aclMethods += array(
+                'manual' => 'manual (ручной)',
+                'auto' => 'auto (автоматически)');
+        }
         $this->smarty->assign('aclMethods', $aclMethods);
 
         $url = new url('withId');
         $url->setAction($action);
         $url->add('id', $id);
 
+        $this->smarty->assign('plugins', $this->plugins);
+
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('data', $data);
 
         return $this->smarty->fetch('admin/addAction.tpl');
+    }
+
+    private function getDefaults($module, $class)
+    {
+        $mapper = $this->toolkit->getMapper($module, $class);
+
+        $defaults = array(
+            'name' => '',
+            'controller' => '',
+            'confirm' => '',
+            '403handle' => 'none',
+            'act_template' => '');
+
+        if ($mapper->isAttached('jip')) {
+            $defaults += array(
+                'jip' => 0,
+                'title' => '',
+                'icon' => '');
+            $this->plugins[] = 'jip';
+        }
+
+        if ($mapper->isAttached('acl_ext') || $mapper->isAttached('acl_simple')) {
+            $defaults += array(
+                'alias' => '');
+            $this->plugins[] = 'acl';
+        }
+
+        return $defaults;
     }
 
     private function normalize(& $values, $defaults)

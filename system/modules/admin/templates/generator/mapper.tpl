@@ -41,6 +41,13 @@ class {{$mapper_data.name}}Mapper extends mapper
      * @var string
      */
     protected $table = '{{$mapper_data.table}}';
+
+    /**
+     * Map
+     *
+     * @var array
+     */
+    protected $map = array();
 }
 
 ?>
