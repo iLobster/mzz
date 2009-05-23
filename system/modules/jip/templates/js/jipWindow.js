@@ -381,16 +381,19 @@
      * Serving jip-links for openning jipWindows
      */
     MZZ.jipLinkObserver = function(e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        var link = $(this);
-        if ($.isUndefined(link.attr('href'))) {
-            console.log('MZZ.jipLinkObserver() Halt, no href defined on ', this);
+        if (e.button === 0 && (!e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey)) {
+            console.log(e.shiftKey,e.ctrlKey,e.altKey,e.metaKey);
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            var link = $(this);
+            if ($.isUndefined(link.attr('href'))) {
+                console.log('MZZ.jipLinkObserver() Halt, no href defined on ', this);
+                return false;
+            }
+
+            jipWindow.open(link.attr('href'), link.hasClass('mzz-jip-link-new'));
             return false;
         }
-        
-        jipWindow.open(link.attr('href'), link.hasClass('mzz-jip-link-new'));
-        return false;
     };
 
     /**
