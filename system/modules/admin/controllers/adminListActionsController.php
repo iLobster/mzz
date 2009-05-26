@@ -35,7 +35,6 @@ class adminListActionsController extends simpleController
         }
 
         $actions_db = $this->getActions($id);
-        $this->removeEditACL($actions_db);
 
         $deleted = $inserted = array();
 
@@ -45,7 +44,6 @@ class adminListActionsController extends simpleController
 
         if (isset($tmp[$data['c_name']])) {
             $actions_ini = array_keys($tmp[$data['c_name']]);
-            $this->removeEditACL($actions_ini);
 
             $to_delete = array_diff($actions_db, $actions_ini);
             $to_insert = array_diff($actions_ini, $actions_db);
@@ -95,7 +93,6 @@ class adminListActionsController extends simpleController
             $action = new action($data['m_name']);
             $tmp = $action->getActions();
             $tmp = $tmp[$data['c_name']];
-            $this->removeEditACL($tmp);
 
             $this->smarty->assign('id', $id);
             $this->smarty->assign('actions', $tmp);
@@ -120,25 +117,6 @@ class adminListActionsController extends simpleController
         }
 
         return $actions_db;
-    }
-
-    private function removeEditACL(&$arr)
-    {
-        if (($key = array_search('editACL', $arr)) !== false) {
-            unset($arr[$key]);
-        }
-
-        if (($key = array_search('editDefault', $arr)) !== false) {
-            unset($arr[$key]);
-        }
-
-        if (isset($arr['editACL'])) {
-            unset($arr['editACL']);
-        }
-
-        if (isset($arr['editDefault'])) {
-            unset($arr['editDefault']);
-        }
     }
 }
 
