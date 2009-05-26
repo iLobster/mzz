@@ -124,12 +124,13 @@ class contentFilter implements iFilter
         $smarty = $toolkit->getSmarty();
         $section = $request->getSection();
         $actionName = $request->getAction();
-        include(fileLoader::resolve('configs/modules'));
 
-        if (!isset($modules[$section])) {
+        try {
+            $module = $toolkit->getModuleName($section);
+        } catch (mzzRuntimeException $e) {
             throw new mzzNoActionException('There is no action in unknown sections');
         }
-        $module = $toolkit->getModuleName($section);
+
         $action = $toolkit->getAction($module);
         $activeTemplate = $action->getActiveTemplate($actionName);
         if ($activeTemplate == 'deny') {
