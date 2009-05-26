@@ -87,7 +87,9 @@ function fillUpEditAclForm()
     (function ($) {
         $('#formElm_action_name').attr('value', 'editACL');
         $('#formElm_action_title').attr('value', '_ editACL');
+        $('#formElm_action_controller').attr('value', 'neednot');
         $('#formElm_action_jip_1').attr('checked', 'checked');
+        $('#formElm_action_403handle').attr('selectedIndex', 2);
         $('#formElm_action_icon').attr('value', '/templates/images/acl.gif');
     })(jQuery);
     return false;
