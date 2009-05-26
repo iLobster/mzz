@@ -60,7 +60,7 @@ class commentsPostController extends simpleController
             }
         }
 
-        $validator = new formValidator();
+        $validator = new formValidator('commentSubmit');
         $validator->add('required', 'text', 'Введите комментарий');
 
         $backUrl = $this->request->getString('backUrl', SC_POST);

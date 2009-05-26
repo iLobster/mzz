@@ -1,30 +1,28 @@
-var baseUrl;
-function getForm(commentId, folderId)
+var currentShowTrigger;
+function showCommentForm(formElem, aElemTrigger)
 {
-    var formElem = $('commentForm_' + folderId);
-    if (formElem) {
-        if (!baseUrl) {
-            baseUrl = formElem.action;
-        }
-
-        formElem.action = baseUrl + '?replyTo=' + commentId;
-
-        return formElem;
+    if (currentShowTrigger) {
+        currentShowTrigger.removeClassName('selected');
     }
+    currentShowTrigger = aElemTrigger;
+    currentShowTrigger.addClassName('selected');
+
+    formElem.show();
+    formElem.action = currentShowTrigger.href;
+    formElem.down('textarea').focus();
 }
 
-var currentCommentAnswer;
-function showAnswerForm(commentId, folderId) {
-    var tmp = $('comment_' + commentId  + '_answer');
-    if (tmp != currentCommentAnswer) {
-        if (currentCommentAnswer) {
-            currentCommentAnswer.removeClassName('selected');
-        }
+function moveCommentForm(commentId, folderId, aElemTrigger)
+{
+    if (aElemTrigger == currentShowTrigger) {
+        return;
+    }
 
-        currentCommentAnswer = tmp;
-        currentCommentAnswer.addClassName('selected');
-
-        var formHolder = $('comment_' + commentId  + '_answerForm');
-        formHolder.update(getForm(commentId, folderId));
+    var formElem = $('commentForm_' + folderId);
+    var nowHolder = $('answerForm_' + folderId + '_' + commentId);
+    if (formElem && nowHolder) {
+        formElem.remove();
+        nowHolder.update(formElem);
+        showCommentForm(formElem, aElemTrigger);
     }
 }

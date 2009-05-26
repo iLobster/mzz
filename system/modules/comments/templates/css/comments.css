@@ -1,65 +1,109 @@
-div.commentsTitle {
-    padding: 6px;
-    margin-top: 5px;
-    font-size: 120%;
-    font-weight: bold;
-    border-bottom: 2px solid #A8A8A8;
+div.entry-comments
+{
+    margin: 0.8em 0 0 0;
+    padding: 0;
 }
 
-div.commentAuthor {
-    font-size: 85%;
-    margin: 8px 10px 0;
-    font-weight: bold;
-}
-
-.commentAnswer a {
+div.entry-comments a
+{
     text-decoration: none;
-    border-bottom: 1px dashed;
-    font-size: 75%;
-    font-weight: bold;
+    border-bottom: dotted 1px #0060b6;
 }
 
-.selected a {
+div.entry-comments a.selected {
+    border-bottom: 0;
     color: #000;
-    border: 0;
 }
 
-span.commentDate {
-    color: #515151;
-    font-weight: normal;
+div.entry-comments h3
+{
+    font-weight: 100;
+    font-size: 1.5em;
 }
 
-div.commentText {
-    border-bottom: 1px solid #EFEFEF;
-    font-size: 90%;
-   /* margin-top: 1px;
-    margin-left: 11px;*/
-    padding-bottom: 10px;
-    margin: 1px 11px 0;
+div.entry-comments ul
+{
+    margin: 0.1em 0 0 0;
+    padding: 0;
+
+    border: none;
+
+    list-style: none;
 }
 
-div.emptyComments {
-    color: #999;
-    border-top: 1px solid #EFEFEF;
-    padding: 2px;
-    margin-top: 20px;
+div.entry-comments ul .hcomment
+{
+    margin: 1.3em 0 0 0;
+    padding: 0;
+
+    border: none;
 }
 
-.addCommentTitle {
-  font-size: 120%;
-  font-weight: normal;
-  margin: 4px;
+div.entry-comments ul .hcomment ul
+{
+    margin-left: 2.5em;
 }
 
-div.addCommentForm {
-  background-color: #F5F9F0;
-  border-top: 2px solid #CDE1AA;
-  padding: 10px;
-  margin: 5px 0;
-  line-height: 160%;
+div.entry-comments ul .hcomment ul .hcomment ul .hcomment ul .hcomment ul .hcomment ul .hcomment ul .hcomment ul .hcomment ul .hcomment ul .hcomment ul .hcomment ul
+{
+    margin-left: 0;
 }
 
-div.addCommentForm span {
-  font-size: 85%;
-  color: #4B4B4B;
+div.entry-comments ul .hcomment a.answer
+{
+    margin-left: 2.8em;
+    padding: 0.2em 0 0 0;
+    display: -moz-inline-stack;
+    display: inline-block;
+    border-bottom: 1px dotted #0060B6;
+    font-size: 0.9em;
+}
+
+div.entry-comments ul .hcomment a.selected
+{
+    border-bottom: 0;
+    color: #000;
+}
+
+div.entry-comments ul .hcomment p
+{
+    margin: 0;
+    padding: 0;
+
+    font-size: 0.9em;
+}
+
+div.entry-comments ul .hcomment p .published
+{
+    margin-left: 0.5em;
+
+    text-decoration: none;
+    border: none;
+
+    color: #aaa;
+}
+
+div.entry-comments ul .hcomment .entry-comment
+{
+    margin: -0.7em 0 0 2.8em;
+    padding: 0;
+    border: none;
+    font-size: 0.9em;
+}
+
+div.entry-comments form dl dd input
+{
+	width: 60%;
+}
+
+div.entry-comments form dl dd textarea
+{
+	width: 60%;
+}
+
+div.entry-comments form dl,
+div.entry-commentsform dl dt,
+div.entry-comments form dl dd {
+    margin: 0;
+	padding: 0;
 }

@@ -1,14 +1,26 @@
-{assign var="commentFolderId" value=$commentsFolder->getId()}
-<h2 class="addCommentTitle commentAnswer" id="comment_0_answer"><a href="{url route="withId" action="post" id=$commentFolderId}" onclick="showAnswerForm(0, {$commentFolderId}); return false;">{_ post_comment}</a></h2>
-<p id="comment_0_answerForm">
-{form id="commentForm_$commentFolderId" action=$action method="post"}
-<div class="addCommentForm">
-    {form->hidden name="backUrl" value=$backUrl}
-    <span>{_ name}: <b>{$user->getLogin()|h}</b></span>
-    {if $errors->has('text')}<span style="color: red; font-weight: bold;">{$errors->get('text')}</span><br />{/if}
-    {form->textarea name="text" style="width: 99%;" value=$comment->getText() rows="6" cols="20"}
-    <br />
-    {form->submit name="submit" value="_ send"}
+{assign var="commentsFolderId" value=$commentsFolder->getId()}
+<h3><a href="{url route="withId" section="comments" action="post" id=$commentsFolderId}" class="selected" onclick="moveCommentForm(0, {$commentsFolderId}, this); return false;">{_ post_comment}</a></h3>
+<div id="answerForm_{$commentsFolderId}_0">
+    {form id="commentForm_$commentsFolderId" action=$action method="post"}
+        {if !$errors->isEmpty()}
+        <dl class="errors">
+            <dt>Ошибка добавления комментария:</dt>
+            <dd>
+                <ol>
+                {foreach from=$errors item="error"}
+                    <li>{$error}</li>
+                {/foreach}
+                </ol>
+            </dd>
+        </dl>
+        {/if}
+        <dl>
+            <dt>{form->caption name="text" value="Текст:" onError=""}</dt>
+            <dd>{form->textarea name="text" value=$comment->getText() rows="5" cols="5"}</dd>
+        </dl>
+        <p>
+            {form->hidden name="backUrl" value=$backUrl}
+            {form->submit class="send" name="commentSubmit" value="Отправить комментарий"}
+        </p>
+    </form>
 </div>
-</form>
-</p>

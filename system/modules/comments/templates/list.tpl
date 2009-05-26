@@ -1,23 +1,33 @@
 {add file="comments.css"}
 {add file="prototype.js"}
 {add file="comments.js"}
-{if !$comments->isEmpty()}
-    {assign var="count" value=$comments|@count}
-    <div class="commentsTitle">{_ comments_count $count} {$commentsFolder->getJip()}</div>
-    {foreach from=$comments item=comment}
-        <div style="padding-left: {math equation="(level - 1) * offset" level=$comment->getTreeLevel() offset=45}px;">
-            <div class="commentAuthor">{$comment->getUser()->getLogin()} <span class="commentDate">({$comment->getCreated()|date_format:"%e %b %Y, %H:%M"})</span> <a name="comment{$comment->getId()}" href="{url}#comment{$comment->getId()}">#</a> {$comment->getJip()}</div>
-            <div class="commentText">
-                {$comment->getText()|htmlspecialchars|nl2br}
-                <p class="commentAnswer" id="comment_{$comment->getId()}_answer"><a href="{url route="withId" action="post" id=$commentsFolder->getId()}?replyTo={$comment->getId()}" onclick="showAnswerForm({$comment->getId()}, {$commentsFolder->getId()}); return false;">ответить</a></p>
-                <p id="comment_{$comment->getId()}_answerForm"></p>
-            </div>
-        </div>
+
+<div class="entry-comments">
+    <h3>Комментарии <span class="count">({$comments->count()})</span> {$commentsFolder->getJip()}</h3>
+    <ul id="comments_{$commentsFolder->getId()}">
+    {foreach from=$comments item="comment" name="commentsIteration"}
+        {strip}{if !$smarty.foreach.commentsIteration.first}
+            {if $comment->getTreeLevel() < $lastLevel}
+                {math equation="x - y" x=$lastLevel y=$comment->getTreeLevel() assign="levelDown"}
+                {"</li></ul>"|@str_repeat:$levelDown}</li>
+            {elseif $lastLevel == $comment->getTreeLevel()}
+                </li>
+            {else}
+                <ul>
+            {/if}
+        {/if}{/strip}
+        <li class="hcomment">
+            <div class="entry-comment">{$comment->getText()|h|nl2br}</div>
+            <a class="answer" href="{url route="withId" section="comments" action="post" id=$commentsFolder->getId()}?replyTo={$comment->getId()}" onclick="moveCommentForm({$comment->getId()}, {$commentsFolder->getId()}, this); return false;">Ответить</a>
+            <ul><li id="answerForm_{$commentsFolder->getId()}_{$comment->getId()}"></li></ul>
+        {strip}{assign var="lastLevel" value=$comment->getTreeLevel()}
+        {if $smarty.foreach.commentsIteration.last}
+            {math equation="x - y" x=$lastLevel y=1 assign="levelDown"}
+            {"</li></ul>"|@str_repeat:$levelDown}</li>
+        {/if}{/strip}
+    {foreachelse}
+        <li></li>
     {/foreach}
-{else}
-    <div class="emptyComments">
-        {_ no_comments}
-    </div>
-{/if}
-<br />
-{load module="comments" action="post" id=$commentsFolder onlyForm=true}
+    </ul>
+    {load module="comments" action="post" id=$commentsFolder onlyForm=true}
+</div>
