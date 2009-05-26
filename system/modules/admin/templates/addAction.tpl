@@ -8,7 +8,7 @@
     <table width="99%" border="0" cellpadding="4" cellspacing="0" align="center">
         <tr>
             <td width="40%">{form->caption name="action[name]" value="Название"}</td>
-            <td>{form->text name="action[name]" size="30" value=$data.name}{$errors->get('action[name]')}</td>
+            <td>{form->text name="action[name]" size="30" value=$data.name}{$errors->get('action[name]')} (<a href="#" onclick="return fillUpEditAclForm();">editAcl</a>)</td>
         </tr>
         <tr>
             <td>Каталог генерации</td>

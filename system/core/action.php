@@ -198,20 +198,10 @@ class action
                 $fileName = $iterator->getFilename();
                 $class = substr($fileName, 0, strlen($fileName) - 4);
                 $action = parse_ini_file($iterator->getPath() . '/' . $fileName, true);
-                $this->addEditAclAction($action);
                 $this->addActionsToClass($class, $action);
                 unset($this->paths[$key]);
             }
         }
-    }
-
-    protected function addEditAclAction(array & $action)
-    {
-        $action['editACL'] = array(
-            'controller' => 'editACL',
-            'jip' => 1,
-            'icon' => '/templates/images/acl.gif',
-            'title' => '_ editACL');
     }
 
     /**

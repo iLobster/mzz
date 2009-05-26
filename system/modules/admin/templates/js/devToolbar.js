@@ -54,7 +54,7 @@
                 if (cRow.prev().hasClass('toolbarEmpty')) {
                     cRow.prev().remove();
                 }
-                
+
             } else {
                 console.log('devToolbar::addModule #module-' + module + '-classes not found');
             }
@@ -81,3 +81,14 @@
 
     }
 })(jQuery);
+
+function fillUpEditAclForm()
+{
+    (function ($) {
+        $('#formElm_action_name').attr('value', 'editACL');
+        $('#formElm_action_title').attr('value', '_ editACL');
+        $('#formElm_action_jip_1').attr('checked', 'checked');
+        $('#formElm_action_icon').attr('value', '/templates/images/acl.gif');
+    })(jQuery);
+    return false;
+}

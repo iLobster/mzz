@@ -33,10 +33,10 @@
                 'jipWindow': [],
                 'jip': []
             }; //стэк захайденных селектов для могучего IE
-            
+
             this.tinyMCEIds = []; //стэк tinyMCE
             this.locker = false;    //локер
-            
+
             this.lockerResize = function() {
                 jipWindow.lockContent();
             };
@@ -74,7 +74,7 @@
             } else {
             //????
             }
-            
+
             if (this.window) {
                 this.lockContent();
                 this.clean();
@@ -143,9 +143,9 @@
             var url = frm.attr('action') || window.location.href;
             var method = frm.attr('method') || 'GET';
             var params = frm.serializeArray();
-            
+
             params.push({ajax: 1});
-            
+
             this.clean();
             this.request(url, method, params);
 
@@ -173,7 +173,7 @@
         },
 
         lockContent: function() {
-                
+
             if (!this.windowCount) {
                 return false;
             }
@@ -267,7 +267,7 @@
             this.tinyMCEIds = tinyMCEIds;
             console.log(this.tinyMCEIds, this.tinyMCEIds.length);
         },
-        
+
         successRequest: function(transport) {
             if ($.isUndefined(transport.responseXML) && $.isUndefined(transport.responseText)) {
                 console.log('MZZ.jipWindow::successRequest() undefined responseXML && responseText, transport = ', transport);
@@ -318,7 +318,7 @@
         {
             if (this.window) {
                 this.setStyle('default').setTitle('loading...');
-                this.window.content('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/jip/statusbar.gif" width="32" height="32" /><br />' + MZZ.jipI18n[SITE_LANG].loading + '<br /><a href="javascript: void(jipWindow.close());">' + MZZ.jipI18n[SITE_LANG].cancel + '</a></div>');
+                this.window.content('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[SITE_LANG].loading + '<br /><a href="javascript: void(jipWindow.close());">' + MZZ.jipI18n[SITE_LANG].cancel + '</a></div>');
             }
         },
 
@@ -326,7 +326,7 @@
         {
             if (this.window) {
                 this.setStyle('default').setTitle('Refresh');
-                this.window.content('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/jip/statusbar.gif" width="32" height="32" /><br />' + MZZ.jipI18n[SITE_LANG].refresh + '</div>');
+                this.window.content('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[SITE_LANG].refresh + '</div>');
             }
         },
 
