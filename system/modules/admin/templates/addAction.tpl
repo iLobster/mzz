@@ -1,25 +1,25 @@
-{if $action eq 'addAction'}
-    {include file='jipTitle.tpl' title='Добавление действия'}
+{if $isEdit}
+    {include file='jipTitle.tpl' title='admin/action.editing'|i18n}
 {else}
-    {include file='jipTitle.tpl' title='Редактирование действия'}
+    {include file='jipTitle.tpl' title='admin/action.adding'|i18n}
 {/if}
 
 {form action=$form_action method="post" jip=true}
-    <table width="99%" border="0" cellpadding="4" cellspacing="0" align="center">
+    <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td width="40%">{form->caption name="action[name]" value="Название"}</td>
+            <td style='width: 30%;'>{form->caption name="action[name]" value="_ action.name"}</td>
             <td>{form->text name="action[name]" size="30" value=$data.name}{$errors->get('action[name]')} (<a href="#" onclick="return fillUpEditAclForm();">editAcl</a>)</td>
         </tr>
         <tr>
-            <td>Каталог генерации</td>
+            <td>{_ dest}</td>
             <td>{$data.dest}</td>
         </tr>
         <tr>
-            <td>{form->caption name="action[controller]" value="Контроллер"}</td>
+            <td>{form->caption name="action[controller]" value="_ action.controller"}</td>
             <td>{form->text name="action[controller]" size="30" value=$data.controller}</td>
         </tr>
         <tr>
-            <td>{form->caption name="action[confirm]" value="Сообщение при выполнении данного действия"}</td>
+            <td>{form->caption name="action[confirm]" value="_ action.confirm"}</td>
             <td>{form->text name="action[confirm]" size="30" value=$data.confirm}</td>
         </tr>
         {if in_array('jip', $plugins)}
@@ -37,7 +37,7 @@
             </tr>
         {/if}
         <tr>
-            <td>{form->caption name="action[403handle]" value="Метод проверки прав"}</td>
+            <td>{form->caption name="action[403handle]" value="_ action.acl_type"}</td>
             <td>{form->select name="action[403handle]" options=$aclMethods value=$data.403handle one_item_freeze=true}</td>
         </tr>
         {if in_array('acl', $plugins) && count($aliases)}
@@ -48,7 +48,8 @@
         {/if}
 
         <tr>
-            <td colspan="2" style="text-align:center;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
+            <td>&nbsp;</td>
+            <td>{form->submit name="submit" value="_ simple/save"} {form->reset jip=true name="reset" value="_ simple/cancel"}</td>
         </tr>
     </table>
 </form>

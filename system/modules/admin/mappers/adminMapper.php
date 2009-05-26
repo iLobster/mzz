@@ -127,6 +127,18 @@ class adminMapper extends mapper
         return $this->db()->getRow("SELECT * FROM `sys_classes` WHERE `name` = " . $this->db()->quote($name));
     }
 
+    public function searchActionByNameAndClassId($name, $class_id)
+    {
+        return $this->db()->getRow("SELECT `a`.* FROM `sys_actions` `a`
+                                     INNER JOIN `sys_classes_actions` `ca` ON `ca`.`action_id` = `a`.`id` AND `ca`.`class_id` = " . (int)$class_id . "
+                                      WHERE `a`.`name` = " . $this->db()->quote($name));
+    }
+
+    public function searchActionByName($name)
+    {
+        return $this->db()->getRow("SELECT * FROM `sys_actions` WHERE `name` = " . $this->db()->quote($name));
+    }
+
     /**
      * Поиск модуля, которому принадлежит класс
      *
