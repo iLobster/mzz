@@ -31,7 +31,6 @@ class adminAddActionController extends simpleController
     {
         // @todo: сделать автоматическое добавление/удаление действий и свойств по наличию нужных плагинов (например acl, i18n)
 
-
         $id = $this->request->getInteger('id');
         $action_name = $this->request->getString('action_name');
 
@@ -41,36 +40,35 @@ class adminAddActionController extends simpleController
         $action = $this->request->getAction();
         $isEdit = $action == 'editAction';
 
-        if ($isEdit) {
+        $class = $adminMapper->searchClassById($id);
 
-        } else {
-            $class = $adminMapper->searchClassById($id);
-
-            if ($class === false) {
-                $controller = new messageController(i18n::getMessage('class.error.not_exists', 'admin'), messageController::WARNING);
-                return $controller->run();
-            }
-
-            $module = $adminMapper->searchModuleById($class['module_id']);
+        if ($class === false) {
+            $controller = new messageController(i18n::getMessage('class.error.not_exists', 'admin'), messageController::WARNING);
+            return $controller->run();
         }
+
+        $module = $adminMapper->searchModuleById($class['module_id']);
 
         $act = new action($module['name']);
         $actions = $act->getActions();
 
-        if ($isEdit && !isset($actions[$class['name']][$action_name])) {
-            return 'ololo?';
+        if ($isEdit) {
+            if (!isset($actions[$class['name']][$action_name])) {
+                $controller = new messageController('У выбранного класса нет запрашиваемого экшна', messageController::WARNING);
+                return $controller->run();
+            }
         }
 
         $actionsInfo = $actions[$class['name']];
 
         $dest = current($adminGeneratorMapper->getDests(true, $module['name']));
 
+        $defaults = $this->getDefaults($module['name'], $class['name']);
+        $data = $defaults;
+
         if ($isEdit) {
-
-        } else {
-            $defaults = $this->getDefaults($module['name'], $class['name']);
-
-            $data = $defaults;
+            $data = array_merge($data, $actionsInfo[$action_name]);
+            $data['name'] = $action_name;
         }
 
         $data['dest'] = $dest;
@@ -80,11 +78,11 @@ class adminAddActionController extends simpleController
         if ($validator->validate()) {
             $values = $this->request->getArray('action', SC_POST);
 
-            $action_name = $values['name'];
-
             $this->normalize($values, $defaults);
 
             if (!$isEdit) {
+                $action_name = $values['name'];
+
                 try {
                     $this->smartyBrackets();
 
@@ -93,9 +91,9 @@ class adminAddActionController extends simpleController
                     $tpl_name = 'templates/' . $action_name . '.tpl';
 
                     $controllerData = array(
-                        'name' => $action_name,
-                        'module' => $module['name'],
-                        'path' => $dest . '/' . $tpl_name);
+                    'name' => $action_name,
+                    'module' => $module['name'],
+                    'path' => $dest . '/' . $tpl_name);
                     $this->smarty->assign('controller_data', $controllerData);
 
                     if ($values['controller'] == $action_name) {
@@ -105,7 +103,7 @@ class adminAddActionController extends simpleController
                     $fileGenerator->create($tpl_name, $this->smarty->fetch('admin/generator/template.tpl'));
 
                     $values = array(
-                        $action_name => $values);
+                    $action_name => $values);
                     $fileGenerator->edit('actions/' . $class['name'] . '.ini', new fileIniTransformer('merge', $values));
 
                     $fileGenerator->run();
@@ -114,6 +112,21 @@ class adminAddActionController extends simpleController
                 }
 
                 $this->smartyBrackets(true);
+            } else {
+                $old = $actionsInfo[$action_name];
+
+                if ($values['name'] != $action_name) {
+                    echo 1;
+                    // переименовать файл с экшнами
+                    // переименовать контроллер
+                    // изменить имя контроллера
+                    // изменить имя шаблона в контроллере и фс
+                }
+
+                if ($values['controller'] != $old['controller'] || $values['403handle'] != $old['403handle']) {
+                    echo 2;
+                    // меняем в файле с экшнами имя контроллера
+                }
             }
 
             return 'ok';
@@ -128,15 +141,20 @@ class adminAddActionController extends simpleController
         $this->smarty->assign('aliases', $aliases);
 
         $aclMethods = array(
-            'none' => 'none (отключить)');
+        'none' => 'none (отключить)');
         if (in_array('acl', $this->plugins)) {
             $aclMethods += array(
-                'manual' => 'manual (ручной)',
-                'auto' => 'auto (автоматически)');
+            'manual' => 'manual (ручной)',
+            'auto' => 'auto (автоматически)');
         }
         $this->smarty->assign('aclMethods', $aclMethods);
 
-        $url = new url('withId');
+        if ($isEdit) {
+            $url = new url('adminAction');
+            $url->add('action_name', $action_name);
+        } else {
+            $url = new url('withId');
+        }
         $url->setAction($action);
         $url->add('id', $id);
 
@@ -154,23 +172,23 @@ class adminAddActionController extends simpleController
         $mapper = $this->toolkit->getMapper($module, $class);
 
         $defaults = array(
-            'name' => '',
-            'controller' => '',
-            'confirm' => '',
-            '403handle' => 'none',
-            'act_template' => '');
+        'name' => '',
+        'controller' => '',
+        'confirm' => '',
+        '403handle' => 'none',
+        'act_template' => '');
 
         if ($mapper->isAttached('jip')) {
             $defaults += array(
-                'jip' => 0,
-                'title' => '',
-                'icon' => '');
+            'jip' => 0,
+            'title' => '',
+            'icon' => '');
             $this->plugins[] = 'jip';
         }
 
         if ($mapper->isAttached('acl_ext') || $mapper->isAttached('acl_simple')) {
             $defaults += array(
-                'alias' => '');
+            'alias' => '');
             $this->plugins[] = 'acl';
         }
 
@@ -180,7 +198,7 @@ class adminAddActionController extends simpleController
     private function normalize(& $values, $defaults)
     {
         $exclude = array(
-            '403handle');
+        '403handle');
 
         foreach ($values as $key => & $val) {
             if (!isset($defaults[$key]) || ($defaults[$key] == $val && !in_array($key, $exclude))) {
@@ -192,7 +210,7 @@ class adminAddActionController extends simpleController
             $values['controller'] = $values['name'];
         }
 
-        unset($values['name']);
+        //unset($values['name']);
     }
 
     private function smartyBrackets($back = false)
@@ -252,11 +270,11 @@ class aaadminAddActionController extends simpleController
             $defaults->set('name', $action_name);
 
             $default = array(
-                'title' => '',
-                'info' => '',
-                'icon' => '',
-                '403handle' => '',
-                'lang' => 0);
+            'title' => '',
+            'info' => '',
+            'icon' => '',
+            '403handle' => '',
+            'lang' => 0);
 
             $info = $actionsInfo[$action_name];
             $info = array_merge($default, $info);
@@ -288,24 +306,24 @@ class aaadminAddActionController extends simpleController
         }
 
         $aclMethods = array(
-            'manual' => 'manual (ручной)',
-            'none' => 'none (отключить)');
+        'manual' => 'manual (ручной)',
+        'none' => 'none (отключить)');
 
         $validator = new formValidator();
         $validator->add('required', 'action[name]', 'Поле обязательно к заполнению');
         $validator->add('callback', 'action[name]', 'Такое действие у класса уже есть или введённое вами имя содержит запрещённые символы', array(
-            array(
-                $this,
-                'addClassValidate'),
-            $db,
-            $action_name,
-            $data));
+        array(
+        $this,
+        'addClassValidate'),
+        $db,
+        $action_name,
+        $data));
         $validator->add('callback', 'action[name]', 'Такое действие уже создано в приложении, но с другим регистром символов. Назовите текущий в таком же регистре, или выбериту другое имя', array(
-            array(
-                $this,
-                'checkActionNameRegister'),
-            $db,
-            $action_name));
+        array(
+        $this,
+        'checkActionNameRegister'),
+        $db,
+        $action_name));
 
         // КОНЕЦ ВАЛИДАТОРА
 
@@ -397,7 +415,7 @@ class aaadminAddActionController extends simpleController
             }
             $file_name = $tpl_info['filename'];
             if (!is_int(strpos($file_name, '.')))
-                continue;
+            continue;
             list ($action, $type) = explode('.', $file_name);
             $action_tpls[$action][$type] = $tpl_dir . $tpl_info['basename'];
         }
