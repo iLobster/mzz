@@ -14,6 +14,7 @@
 
 fileLoader::load('codegenerator/fileGenerator');
 fileLoader::load('codegenerator/fileIniTransformer');
+fileLoader::load('codegenerator/fileSearchReplaceTransformer');
 
 /**
  * adminAddActionController: контроллер для метода addAction модуля admin
@@ -54,6 +55,7 @@ class adminAddActionController extends simpleController
 
         if ($isEdit) {
             if (!isset($actions[$class['name']][$action_name])) {
+                // @todo: перевести
                 $controller = new messageController('У выбранного класса нет запрашиваемого экшна', messageController::WARNING);
                 return $controller->run();
             }
@@ -83,12 +85,12 @@ class adminAddActionController extends simpleController
             if (!$isEdit) {
                 $action_name = $values['name'];
 
-                try {
-                    $this->smartyBrackets();
+                $this->smartyBrackets();
 
+                try {
                     $fileGenerator = new fileGenerator($dest);
 
-                    $tpl_name = 'templates/' . $action_name . '.tpl';
+                    $tpl_name = $this->templates($action_name);
 
                     $controllerData = array(
                     'name' => $action_name,
@@ -97,16 +99,17 @@ class adminAddActionController extends simpleController
                     $this->smarty->assign('controller_data', $controllerData);
 
                     if ($values['controller'] == $action_name) {
-                        $fileGenerator->create('controllers/module' . ucfirst($action_name) . 'Controller.php', $this->smarty->fetch('admin/generator/controller.tpl'));
+                        $fileGenerator->create($this->controllers($module['name'], $action_name), $this->smarty->fetch('admin/generator/controller.tpl'));
                     }
 
                     $fileGenerator->create($tpl_name, $this->smarty->fetch('admin/generator/template.tpl'));
 
-                    $values = array(
-                    $action_name => $values);
-                    $fileGenerator->edit('actions/' . $class['name'] . '.ini', new fileIniTransformer('merge', $values));
+                    unset($values['name']);
+                    $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('merge', array($action_name => $values)));
 
                     $fileGenerator->run();
+
+                    $adminGeneratorMapper->createAction($action_name, $class['id']);
                 } catch (Exception $e) {
                     return $e->getMessage();
                 }
@@ -115,21 +118,58 @@ class adminAddActionController extends simpleController
             } else {
                 $old = $actionsInfo[$action_name];
 
-                if ($values['name'] != $action_name) {
-                    echo 1;
-                    // переименовать файл с экшнами
-                    // переименовать контроллер
-                    // изменить имя контроллера
-                    // изменить имя шаблона в контроллере и фс
-                }
+                $new_action_name = $values['name'];
+                unset($values['name']);
 
-                if ($values['controller'] != $old['controller'] || $values['403handle'] != $old['403handle']) {
-                    echo 2;
-                    // меняем в файле с экшнами имя контроллера
+                try {
+                    $fileGenerator = new fileGenerator($dest);
+
+                    if ($new_action_name != $action_name) {
+                        // переименовать в файле с экшнами секцию
+                        $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('delete', $action_name));
+                        $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('merge', array($new_action_name => $values)));
+
+                        if ($values['controller'] == $new_action_name) {
+                            // изменить имя контроллера
+                            $fileGenerator->edit($this->controllers($module['name'], $action_name), new fileSearchReplaceTransformer($module['name'] . ucfirst($action_name), $module['name'] . ucfirst($new_action_name)));
+                            // изменить имя шаблона в контроллере
+                            $fileGenerator->edit($this->controllers($module['name'], $action_name), new fileSearchReplaceTransformer($module['name'] . '/' . $action_name . '.tpl', $module['name'] . '/' . $new_action_name . '.tpl'));
+
+                            // изменить контент шаблона
+                            $tpl_name = $this->templates($new_action_name);
+                            $controllerData = array(
+                            'name' => $new_action_name,
+                            'module' => $module['name'],
+                            'path' => $dest . '/' . $tpl_name);
+                            $this->smarty->assign('controller_data', $controllerData);
+                            $fileGenerator->edit($this->templates($action_name), new fileSearchReplaceTransformer(null, $this->smarty->fetch('admin/generator/template.tpl')));
+
+                            // переименовать шаблон
+                            $fileGenerator->rename($this->templates($action_name), $tpl_name);
+
+                            // переименовать контроллер
+                            $fileGenerator->rename($this->controllers($module['name'], $action_name), $this->controllers($module['name'], $new_action_name));
+                        }
+                    }
+
+                    if ($this->isDataChanged($old, $values)) {
+                        $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('merge', array($new_action_name => $values)));
+                    }
+
+                    $fileGenerator->run();
+
+                    // изменить в базе (sys_actions, sys_classes_actions, sys_access)
+                    $new_action_id = $adminGeneratorMapper->renameAction($action_name, $new_action_name, $class['id']);
+                    if (in_array('acl', $this->plugins)) {
+                        $acl = new acl();
+                        $acl->renameAction($class['id'], $action_name, $new_action_id);
+                    }
+                } catch (Exception $e) {
+                    return $e->getMessage();
                 }
             }
 
-            return 'ok';
+            return jipTools::closeWindow();
         }
 
         $aliases = array();
@@ -140,14 +180,7 @@ class adminAddActionController extends simpleController
         }
         $this->smarty->assign('aliases', $aliases);
 
-        $aclMethods = array(
-        'none' => 'none (отключить)');
-        if (in_array('acl', $this->plugins)) {
-            $aclMethods += array(
-            'manual' => 'manual (ручной)',
-            'auto' => 'auto (автоматически)');
-        }
-        $this->smarty->assign('aclMethods', $aclMethods);
+        $this->smarty->assign('aclMethods', $this->getAclMethods());
 
         if ($isEdit) {
             $url = new url('adminAction');
@@ -165,6 +198,44 @@ class adminAddActionController extends simpleController
         $this->smarty->assign('data', $data);
 
         return $this->smarty->fetch('admin/addAction.tpl');
+    }
+
+    private function isDataChanged($old, $values)
+    {
+        foreach ($values as $key => $value) {
+            if (!isset($old[$key]) || $old[$key] != $value) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function getAclMethods()
+    {
+        $aclMethods = array('none' => 'none (отключить)');
+        if (in_array('acl', $this->plugins)) {
+            $aclMethods += array(
+            'manual' => 'manual (ручной)',
+            'auto' => 'auto (автоматически)');
+        }
+
+        return $aclMethods;
+    }
+
+    private function actions($name)
+    {
+        return 'actions/' . $name . '.ini';
+    }
+
+    private function templates($name)
+    {
+        return 'templates/' . $name . '.tpl';
+    }
+
+    private function controllers($module, $action)
+    {
+        return 'controllers/' . $module . ucfirst($action) . 'Controller.php';
     }
 
     private function getDefaults($module, $class)

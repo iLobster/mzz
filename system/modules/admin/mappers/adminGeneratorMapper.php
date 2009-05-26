@@ -56,6 +56,32 @@ class adminGeneratorMapper extends mapper
         $this->db()->query('DELETE FROM `sys_classes` WHERE `id` = ' . (int)$id);
     }
 
+    public function createAction($name, $class_id)
+    {
+        $action_id = $this->db()->getOne('SELECT `id` FROM `sys_actions` WHERE `name` = ' . $this->db()->quote($name));
+
+        if (!$action_id) {
+            $this->db()->query('INSERT INTO `sys_actions` (`name`) VALUES (' . $this->db()->quote($name) . ')');
+            $action_id = $this->db()->lastInsertId();
+        }
+
+        $this->db()->query('INSERT INTO `sys_classes_actions` (`class_id`, `action_id`) VALUES (' . (int)$class_id . ', ' . (int)$action_id . ')');
+    }
+
+    public function renameAction($oldName, $name, $class_id)
+    {
+        $action_id = $this->db()->getOne('SELECT `id` FROM `sys_actions` WHERE `name` = ' . $this->db()->quote($oldName));
+        $new_action_id = $this->db()->getOne('SELECT `id` FROM `sys_actions` WHERE `name` = ' . $this->db()->quote($name));
+
+        if (!$new_action_id) {
+            $this->db()->query('INSERT INTO `sys_actions` (`name`) VALUES (' . $this->db()->quote($name) . ')');
+            $new_action_id = $this->db()->lastInsertId();
+        }
+
+        $this->db()->query('UPDATE `sys_classes_actions` SET `action_id` = ' . $new_action_id . ' WHERE `action_id` = ' . $action_id . ' AND `class_id` = ' . (int)$class_id);
+        return $new_action_id;
+    }
+
     /**
      * Получение списка каталогов, используемых для генерации модулей
      *

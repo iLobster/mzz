@@ -25,7 +25,11 @@ class fileIniTransformer extends fileTransformer
             unlink($tmp);
         }
 
-        $data = array_merge($data, $this->params);
+        if ($this->action == 'merge') {
+            $data = array_merge($data, $this->params);
+        } elseif ($this->action == 'delete') {
+            unset($data[$this->params]);
+        }
 
         $result = '';
 

@@ -895,6 +895,13 @@ class acl
             $stmt->bindParam(':uid', $this->uid, PDO::PARAM_INT);
         }
     }
+
+    public function renameAction($class_id, $old_name, $new_id)
+    {
+        $old_action_id = $this->db->getOne('SELECT `id` FROM `sys_actions` WHERE `name` = ' . $this->db()->quote($old_name));
+
+        $this->db->query('UPDATE `sys_access` SET `action_id` = ' . (int)$new_id . ' WHERE `action_id` = ' . $old_action_id . ' AND `class_id` = ' . (int)$class_id);
+    }
 }
 
 ?>
