@@ -238,11 +238,11 @@ class adminAddActionController extends simpleController
 
     private function getAclMethods()
     {
-        $aclMethods = array('none' => 'none (отключить)');
+        $aclMethods = array('none' => i18n::getMessage('action.acl.none', 'admin'));
         if (in_array('acl', $this->plugins)) {
             $aclMethods += array(
-            'manual' => 'manual (ручной)',
-            'auto' => 'auto (автоматически)');
+            'manual' => i18n::getMessage('action.acl.manual', 'admin'),
+            'auto' => i18n::getMessage('action.acl.auto', 'admin'));
         }
 
         return $aclMethods;
