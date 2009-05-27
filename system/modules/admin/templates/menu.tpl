@@ -13,9 +13,9 @@
            <td class="menuSection">
                {if count($module.actions) > 1}&nbsp;- {/if}
                <a href="{url route=withAnyParam section='admin' name=$moduleName action=$action}">
-               {if $moduleName eq $requested_module && $action eq $requested_action}<strong>{/if}
+               {if $moduleName eq $current_module && $action eq $current_action}<strong>{/if}
                {if isset($options.title)}{$options.title|i18n:$moduleName}{else}{$module.title}{/if}
-               {if $moduleName eq $requested_module && $action eq $requested_action}</strong>{/if}
+               {if $moduleName eq $current_module && $action eq $current_action}</strong>{/if}
             </a></td>
         </tr>
         {/foreach}

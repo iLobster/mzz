@@ -31,6 +31,7 @@ class adminAdminController extends simpleController
         $modules = $adminMapper->getModules();
 
         $this->smarty->assign('current_module', $module);
+        $this->smarty->assign('current_action', $action);
 
         if (is_null($module) || $module == 'admin') {
             return $this->smarty->fetch('admin/main.tpl');
