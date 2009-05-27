@@ -131,14 +131,11 @@ class mzzPdo extends PDO
      */
     public function query($query)
     {
-        //var_dump($query); echo '<br>';
         $this->queriesNum++;
         $start_time = microtime(true);
-        try {
+
         $result = parent::query($query);
-        } catch (Exception $e) {
-            var_dump($query); echo '<br>';
-        }
+
         if ($result instanceof mzzPdoStatement) {
             $result->setDbConnection($this);
         }
