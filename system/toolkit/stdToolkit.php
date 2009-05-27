@@ -458,15 +458,21 @@ class stdToolkit extends toolkit
         return $key;
     }
 
-    public function getModuleName($module_name)
+    public function getModuleName($section_name)
     {
         $this->initModulesList();
 
-        if (!isset($this->modules[$module_name])) {
-            throw new mzzRuntimeException('No section for the module ' . $module_name);
+        if (!isset($this->modules[$section_name])) {
+            throw new mzzRuntimeException('No module for the section ' . $section_name);
         }
 
-        return $this->modules[$module_name];
+        return $this->modules[$section_name];
+    }
+
+    public function getSectionsList()
+    {
+        $this->initModulesList();
+        return $this->modules;
     }
 
     protected function initModulesList()

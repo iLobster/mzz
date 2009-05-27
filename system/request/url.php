@@ -100,10 +100,6 @@ class url
 
         if (sizeof($this->getParams)) {
             $path .= '?' . http_build_query($this->getParams);
-            /*foreach ($this->getParams as $key => $val) {
-                $path .= $key . '=' . $val . '&';
-            }
-            $path = substr($path, 0, -1);*/
         }
 
         $url = $address . (!empty($path) ? '/' . $path : '');

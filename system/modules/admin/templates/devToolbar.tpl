@@ -15,7 +15,7 @@
 <!-- модули и классы -->
 <div class="pageContent">
 <div class="toolbarLayerTopLeft">
-    <span class="toolbarSectionName"><strong>Модули</strong> и классы</span>  <a href="{url route="default2" section="admin" action="addModule"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="Добавить модуль" title="Добавить модуль" style="position: absolute; margin: 4px;" /></a>
+    <span class="toolbarSectionName"><strong>Модули</strong> и классы</span> <a href="{url route="default2" section="admin" action="addModule"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="Добавить модуль" title="Добавить модуль" style="position: absolute; margin: 4px;" /></a>
         <table id="modulesAndClasses" class="toolbarActions" cellspacing="0">
             {foreach from=$modules item=module key=name}
                 {assign var="count" value=$module.classes|@sizeof}
@@ -59,6 +59,15 @@
                 </tbody>
             {/foreach}
         </table>
+</div>
+
+<div class="toolbarLayerTopLeft">
+    <span class="toolbarSectionName"><strong>Разделы</strong> и модули</span> <a href="{url route="default2" section="admin" action="editSections"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="Редактировать секции" title="Редактировать секции" style="position: absolute; margin: 4px;" /></a>
+    <ul>
+        {foreach from=$sections item=module key=section}
+            <li>{$section} -&gt; {$module}</li>
+        {/foreach}
+    </ul>
 </div>
 
 <div class="toolbarLayerBottomLeft">
