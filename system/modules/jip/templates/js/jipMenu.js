@@ -170,8 +170,6 @@
 
                     var reg = new RegExp(/^(.*):(\d+)$/g);
                     var sprite = reg.exec(elm[2]);
-                    
-                    console.log(elm[2], sprite, 'd');
 
                     if (!sprite) {
                         var jipMenuItemImg = $('<img />').attr({

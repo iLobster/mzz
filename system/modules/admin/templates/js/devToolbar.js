@@ -8,18 +8,17 @@
             var modules = $('#modulesAndClasses');
 
             if (modules.length > 0) {
-                var elms = modules.find('tbody.toolbarModules');
+                var elms = modules.find('table');
 
                 var neighbour = this.findNeighbour('module-' + name, elms);
 
-                var mRow = $('<tbody id="module-' + name + '" class="toolbarModules" />')
-                             .append($('<tr />').hover(fnOver,fnOut)
-                             .append('<th class="name">' + name + '</th>')
-                             .append($('<th class="actions" />').append(this.convertLinks(links))));
 
-                var cRow  = $('<tbody id="module-' + name + '-classes" class="toolbarClasses"  />')
-                             .append($('<tr class="toolbarEmpty" />')
-                             .append('<td colspan="2">--- классов нет ---</td>'));
+                var mRow = $('<table id="module-' + name + '" class="toolbar admin" cellspacing="0" />')
+                             .append($('<thead />')
+                             .append($('<tr class="first" />')
+                             .append('<th class="name first">' + name + '</th>')
+                             .append($('<th class="actions last" />').append(this.convertLinks(links)))))
+                             .append('<tbody id="module-' + name + '-classes"><tr class="row last empty"><td class="first">--- классов нет ---</td><td class="last"></td></tr></tbody>');
 
                 if (neighbour) {
                     mRow.insertBefore(neighbour);
@@ -27,7 +26,6 @@
                     mRow.appendTo(modules);
                 }
 
-                cRow.insertAfter(mRow);
             } else {
                 console.log('devToolbar::addModule #modulesAndClasses not found');
             }
@@ -41,9 +39,9 @@
                 var elms = classes.find('tbody.toolbarClasses');
                 var neighbour = this.findNeighbour('class-' + name, elms);
 
-                var cRow = $('<tr id="class-' + name + '/>')
-                            .append('<td class="name">' + name + '</td>')
-                            .append($('<td class="actions" />').append(this.convertLinks(links)));
+                var cRow = $('<tr id="class-' + name + '" class="row" />')
+                            .append('<td class="name first">' + name + '</td>')
+                            .append($('<td class="actions last" />').append(this.convertLinks(links)));
 
                 if (neighbour) {
                     cRow.insertBefore(neighbour);
@@ -51,8 +49,13 @@
                     cRow.appendTo(classes);
                 }
 
-                if (cRow.prev().hasClass('toolbarEmpty')) {
+                if (cRow.prev().hasClass('empty')) {
                     cRow.prev().remove();
+                }
+
+                
+                if (!cRow.next().length) {
+                    cRow.addClass('last').prev().removeClass('last');
                 }
 
             } else {
@@ -74,9 +77,9 @@
 
         convertLinks: function(links, target) {
            $.each(links, function(e) {
-               links[e] = '<a href="' + this.url + '" class="mzz-jip-link"><img src="' + SITE_PATH + '/templates/images/' + this.img + '" title="' + this.alt + '" alt="' + this.alt + '"/ ></a>';
+               links[e] = '<span class="mzz-icon mzz-icon-' + this.ico + '"><a href="' + this.url + '" class="mzz-jip-link" title="' + this.alt + '"></a></span>';
            });
-           return $(links.reverse().join(''));
+           return $(links.join(''));
         }
 
     }

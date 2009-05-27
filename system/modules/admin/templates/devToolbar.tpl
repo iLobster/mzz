@@ -9,86 +9,107 @@
 {add file="jip/window.js"}
 {add file="jip/jipMenu.js"}
 {add file="jip/jipWindow.js"}
-
 {add file="admin/toolbar.css"}
 {add file="admin/devToolbar.js"}
+<div class="title">devToolBar</div>
+
 <!-- модули и классы -->
-<div class="pageContent">
-<div class="toolbarLayerTopLeft">
-    <span class="toolbarSectionName"><strong>Модули</strong> и классы</span> <a href="{url route="default2" section="admin" action="addModule"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/add.gif" alt="Добавить модуль" title="Добавить модуль" style="position: absolute; margin: 4px;" /></a>
-        <table id="modulesAndClasses" class="toolbarActions" cellspacing="0">
-            {foreach from=$modules item=module key=name}
-                {assign var="count" value=$module.classes|@sizeof}
-                <tbody id="module-{$name}" class="toolbarModules">
-                    <tr>
-                        <th class="name">{$name}</th>
-                        <th class="actions">
+<div id="modulesAndClasses" class="toolbarBlock">
+<!-- test for adding module / class   <a href='javascript: devToolbar.addModule("0000", [
+{ldelim}url: "{url route="withId" section="admin" id=1 action="editModule"}", ico: "block-edit", alt: "Редактировать модуль"{rdelim},
+{ldelim}url: "{url route="withId" section="admin" id=1 action="deleteModule"}", ico: "block-del", alt: "Удалить модуль"{rdelim},
+{ldelim}url: "{url route="withId" section="admin" id=1 action="addClass"}", ico: "script-add", alt: "Добавить класс"{rdelim},
+{ldelim}url: "{url route="withId" section="admin" id=1 action="listCfg"}", ico: "wrench", alt: "Параметры конфигурации"{rdelim}
+]);'>test</a>
 
-                            {if $count eq 0}
-                                <a href="{url route="withId" section="admin" id=$module.id action="deleteModule"}" class="mzz-jip-link"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить модуль" title="Удалить модуль" /></a>
-                            {/if}
-                            {if not empty($module.editACL)}
-                                <a href="{url route=withId section="access" id="`$module.obj_id`" action="editACL"}" class="mzz-jip-link"><img src="{$SITE_PATH}/templates/images/acl.gif" alt="ACL" /></a>
-                            {/if}
-                            <a href="{url route="withId" section="admin" id=$module.id action="editModule"}" class="mzz-jip-link"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать модуль" title="Редактировать модуль" /></a>
-                            <a href="{url route="withId" section="admin" id=$module.id action="addClass"}" class="mzz-jip-link"><img src="{$SITE_PATH}/templates/images/add.gif" alt="Добавить класс" title="Добавить класс" /></a>
-                            <a href="{url route="withId" section="config" id=$name action="list"}" class="mzz-jip-link"><img src="{$SITE_PATH}/templates/images/config.gif" alt="Параметры конфигурации" title="Параметры конфигурации" /></a>
-                        </th>
-                    </tr>
-                </tbody>
-                <tbody id="module-{$name}-classes" class="toolbarClasses">
-                    {foreach from=$module.classes item=class key=id}
-                        <tr id="class-{$class}">
-                            <td class="name">{$class}</td>
-                            <td class="actions">
-                                {if not empty($module.editDefault)}
-                                    <a href="{url route=withAnyParam section="access" name=$class action="editDefault"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/aclDefault.gif" alt="Default ACL" /></a>
-                                {/if}
-
-                                <a href="{url route="withId" section="admin" id=$id action="listActions"}" class="jipLink"><img src='{$SITE_PATH}/templates/images/actions.gif' title="Действия класса" alt="Действия класса" /></a>
-                                <a href="{url route="withId" section="admin" id=$id action="editClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="редактировать класс" title="Редактировать класс" /></a>
-                                <a href="{url route="withId" section="admin" id=$id action="deleteClass"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="удалить класс" title="Удалить класс" /></a>
-
-                            </td>
-                        </tr>
-                    {foreachelse}
-                        <tr class="toolbarEmpty">
-                            <td colspan="2">--- классов нет ---</td>
-                        </tr>
-                    {/foreach}
-                </tbody>
-            {/foreach}
-        </table>
-</div>
-
-<div class="toolbarLayerTopLeft">
-    <span class="toolbarSectionName"><strong>Разделы</strong> и модули</span> <a href="{url route="default2" section="admin" action="editSections"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="Редактировать секции" title="Редактировать секции" style="position: absolute; margin: 4px;" /></a>
-    <ul>
-        {foreach from=$sections item=module key=section}
-            <li>{$section} -&gt; {$module}</li>
-        {/foreach}
-    </ul>
-</div>
-
-<div class="toolbarLayerBottomLeft">
-    <span class="toolbarSectionName">Зарегистрированные объекты</span> <a href="{url route="default2" section="admin" action="addObjToRegistry"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/DB.png" alt="Сгенерировать" title="Генерация и регистрация нового идентификатора объекта" style="position: absolute; margin: 4px;" /></a>
-    <table class="toolbarObjects highlightCols" cellpadding="2" cellspacing="0">
-        <tr class="toolbarObjectsTitle toolbarTitleBg" onmouseover="Event.stop(event);">
-            <td style="width: 45px;" class="toolbarBorder">obj_id</td>
-            <td class="toolbarBorder">класс</td>
-        </tr>
-            {foreach from=$latestObjects item=latestObject}
-                <tr>
-                    <td><a href="{url route="withId" section="access" id=$latestObject.obj_id action="editACL"}" class="jipLink">{$latestObject.obj_id}</a></td>
-                    <td>{$latestObject.class_name}</td>
+<a href='javascript: devToolbar.addClass("test", "0000", [
+{ldelim}url: "{url route="withId" section="admin" id=1 action="listActions"}", ico: "cog-edit", alt: "Действия классас"{rdelim},
+{ldelim}url: "{url route="withId" section="admin" id=1 action="editClass"}", ico: "script-edit", alt: "Редактировать класс"{rdelim},
+{ldelim}url: "{url route="withId" section="admin" id=1 action="deleteClass"}", ico: "script-del", alt: "Удалить класс"{rdelim}
+]);'>test class</a>-->
+    <span class="toolbarSectionName"><strong>Модули</strong> и классы <span class="mzz-icon mzz-icon-block-add"><a href="{url route="default2" section="admin" action="addModule"}" class="mzz-jip-link"></a></span></span>
+    {foreach from=$modules item=module key=name}
+        {assign var="count" value=$module.classes|@sizeof}
+        <table id="module-{$name}" class="toolbar admin" cellspacing="0">
+            <thead>
+                <tr class="first">
+                    <th class="first name">{$name}</th>
+                    <th class="last actions">
+                        {if not empty($module.editACL)}
+                            <span class="mzz-icon mzz-icon-key"><a href="{url route=withId section="access" id="`$module.obj_id`" action="editACL"}" class="mzz-jip-link" title="Редактировать права доступа"></a></span>
+                        {/if}
+                        <span class="mzz-icon mzz-icon-block-edit"><a href="{url route="withId" section="admin" id=$module.id action="editModule"}" class="mzz-jip-link" title="Редактировать модуль"></a></span>
+                        {if $count eq 0}
+                            <span class="mzz-icon mzz-icon-block-del"><a href="{url route="withId" section="admin" id=$module.id action="deleteModule"}" class="mzz-jip-link" title="Удалить модуль"></a></span>
+                        {/if}
+                        <span class="mzz-icon mzz-icon-script-add"><a href="{url route="withId" section="admin" id=$module.id action="addClass"}" class="mzz-jip-link" title="Добавить класс"></a></span>
+                        <span class="mzz-icon mzz-icon-wrench"><a href="{url route="withId" section="config" id=$name action="list"}" class="mzz-jip-link" title="Редактировать опции модуля"></a></span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="module-{$name}-classes">
+            {foreach from=$module.classes item=class key=id name=classes}
+                <tr id="class-{$class}" class="row {if $smarty.foreach.classes.last}last{/if}">
+                    <td class="first name">{$class}</td>
+                    <td class="last actions">
+                        {if not empty($module.editDefault)}
+                        <span class="mzz-icon mzz-icon-key-default"><a href="{url route=withAnyParam section="access" name=$class action="editDefault"}" class="mzz-jip-link" title="Редактировать права 'по умолчанию'"></a></span>
+                        {/if}
+                        <span class="mzz-icon mzz-icon-cog-edit"><a href="{url route="withId" section="admin" id=$id action="listActions"}" class="mzz-jip-link" title="Редактировать действия класса"></a></span>
+                        <span class="mzz-icon mzz-icon-script-edit"><a href="{url route="withId" section="admin" id=$id action="editClass"}" class="mzz-jip-link" title="Редактировать класс"></a></span>
+                        <span class="mzz-icon mzz-icon-script-del"><a href="{url route="withId" section="admin" id=$id action="deleteClass"}" class="mzz-jip-link" title="Удалить класс"></a></span>
+                    </td>
+                </tr>
+            {foreachelse}
+                <tr class="row last empty">
+                    <td class="first name"><div>--- классов нет ---</div></td>
+                    <td class="last actions"><div>&nbsp;</div></td>
                 </tr>
             {/foreach}
-    </table>
-
-    <br />
-
-    <span class="toolbarSectionName">Переводы</span>
-    <br />
-    <a href="{url route=default2 section=admin action=translate}" class="jipLink">Перевод модулей</a>
+            </tbody>
+        </table>
+    {/foreach}
 </div>
+
+<div class="toolbarBlock">
+    <span class="toolbarSectionName"><strong>Разделы</strong> и модули <span class="mzz-icon mzz-icon-script-edit"><a href="{url route="default2" section="admin" action="editSections"}" class="mzz-jip-link"></a></span></span>
+    <table class="toolbar admin" cellspacing="0">
+        <thead class="toolbarModules">
+            <tr class="first">
+                <th class="first">секция</th>
+                <th class="last">модуль</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach from=$sections item=module key=section name=sections}
+                <tr class="row {if $smarty.foreach.sections.last}last{/if}">
+                    <td class="first">{$section}</td>
+                    <td class="last">{$module}</td>
+                </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</div>
+
+<div class="toolbarBlock">
+    <span class="toolbarSectionName">Зарегистрированные объекты <span class="mzz-icon mzz-icon-script-add"><a href="{url route="default2" section="admin" action="addObjToRegistry"}" class="mzz-jip-link"></a></span></span>
+    <table class="toolbar admin" id="aclObjects" cellspacing="0">
+        <thead>
+            <tr class="first">
+                <th class="first"><div>obj_id</div></th>
+                <th class="last"><div>Имя класса</div></th>
+            </tr>
+        </thead>
+        <tbody>
+        {foreach from=$latestObjects item=latestObject name=latestObjects}
+            <tr class="row {if $smarty.foreach.latestObjects.last}last{/if}">
+                <td class="first"><a href="{url route="withId" section="access" id=$latestObject.obj_id action="editACL"}" class="jipLink">{$latestObject.obj_id}</a></td>
+                <td class="last">{$latestObject.class_name}</td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    <br />
+    <span class="toolbarSectionName">Переводы</span>
+    <a href="{url route=default2 section=admin action=translate}" class="jipLink">Перевод модулей</a>
 </div>

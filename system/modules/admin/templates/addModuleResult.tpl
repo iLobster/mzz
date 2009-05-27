@@ -5,9 +5,9 @@
 
 <script type="text/javascript">
 devToolbar.addModule('{$name}', [
-{ldelim}url: "{url route="withId" section="admin" id=$id action="deleteModule"}", img: "delete.gif", alt: "Удалить модуль"{rdelim},
-{ldelim}url: "{url route="withId" section="admin" id=$id action="addClass"}", img: "add.gif", alt: "Добавить класс"{rdelim},
-{ldelim}url: "{url route="withId" section="admin" id=$id action="listCfg"}", img: "config.gif", alt: "Параметры конфигурации"{rdelim},
-{ldelim}url: "{url route="withId" section="admin" id=$id action="editModule"}", img: "edit.gif", alt: "Редактировать модуль"{rdelim}
+{ldelim}url: "{url route="withId" section="admin" id=$id action="editModule"}", ico: "block-edit", alt: "Редактировать модуль"{rdelim},
+{ldelim}url: "{url route="withId" section="admin" id=$id action="deleteModule"}", ico: "block-del", alt: "Удалить модуль"{rdelim},
+{ldelim}url: "{url route="withId" section="admin" id=$id action="addClass"}", ico: "script-add", alt: "Добавить класс"{rdelim},
+{ldelim}url: "{url route="withId" section="admin" id=$id action="listCfg"}", ico: "wrench", alt: "Параметры конфигурации"{rdelim}
 ]);
 </script>

@@ -4,6 +4,8 @@
 <title>{$title|default:'Офис администратора'}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" href="{$SITE_PATH}/templates/css/admin.css" />
+<link rel="stylesheet" type="text/css" href="{$SITE_PATH}/templates/css/admin/system.css" />
+<link rel="stylesheet" type="text/css" href="{$SITE_PATH}/templates/css/admin/iconsAdmin.css" />
 <script type="text/javascript">
 <!--
 var SITE_PATH = '{$SITE_PATH}';

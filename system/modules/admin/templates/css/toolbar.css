@@ -1,110 +1,41 @@
+#aclObjects .first {
+    width: 50px;
+    text-align: center;
+}
+
 span.toolbarSectionName {
-  font-size: 115%;
-  color: #BA1B1B;
+    display: block;
+    color: #BA1B1B;
+    font-size: 1.2em;
+    line-height: 1.2em;
+    margin-bottom: 10px;
 }
 
-table.toolbarActions {
-  width: 99%;
-  border: 0;
-  margin-top: 15px;
+table.toolbar {
+    margin-top: 5px;
+    width: 100%;
 }
 
-table.toolbarObjects {
-  width: 100%;
-  border: 0;
-  margin-top: 15px;
-  font-size: 95%;
-  font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;
+table.toolbar th,
+table.toolbar td {
+    padding: 0px 5px;
 }
 
-td.toolbarEndList {
-  border-top: 2px solid #E4E4E4;
-  height: 2px;
+table.toolbar td.name {
+    padding-left: 15px;
 }
 
-
-tr.toolbarTitleBg {
-  background-color: #F2F2F2;
-}
-
-tr.toolbarHighlightBg {
-  background-color: #FFFDE1 !important;
-}
-
-
-div.toolbarLayerTopLeft {
-  float: left;
-  width: 30%;
-}
-
-div.toolbarLayerTopRight {
-  margin-left: 3%;
-  width: 30%;
-  float: left;
-}
-
-div.toolbarLayerBottomLeft {
-  width: 32%;
-  font-size: 100%;
-  margin-left: 65%;
-}
-
-tr.toolbarEmpty td {
-  font-size: 80%;
-  color: #999;
-  text-align: center;
-}
-
-tr.toolbarObjectsTitle {
-  font-weight: bold;
-  color: #555;
-}
-
-div.generatorSuccessResult {
-   color: #007900;
-}
-
-span.mainClass {
-  background-color: #E3EDF4;
-  padding: 2px 4px;
-}
-
-span.newlySubjectNotice {
-  font-size: 80%;
-  color: #666;
-  padding: 2px 4px;
-  margin: 0 2px;
-  background-color: #FFFFC8;
-}
-
-tbody.toolbarModules tr {
-    background-color: #F2F2F2;
-}
-
-tbody.toolbarModules tr th {
-    padding: 2px 4px;
-}
-
-tbody.toolbarModules .name {
-    padding-left: 5px;
-    text-align: left;
-    font-weight: bold;
-}
-
-tbody.toolbarModules .actions,
-tbody.toolbarClasses .actions {
-    width: 100px;
+table.toolbar .actions {
     text-align: right;
-    line-height: 1px;
+    line-height: 0px;
 }
 
-tbody.toolbarClasses tr td {
-    border-top:1px solid #E4E4E4;
-    font-size: 95%;
-    padding: 3px;
+table.toolbar .actions span.mzz-icon {
+    margin: 0px 1px;
 }
 
-tbody.toolbarClasses .name {
-    padding-left: 12px;
-    text-align: left;
+
+table.toolbar .empty {
+    text-align: center;
+    font-size: 0.9em;
 }

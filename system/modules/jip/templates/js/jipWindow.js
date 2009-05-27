@@ -258,14 +258,12 @@
 
         deleteTinyMCEId: function(id) {
             var tinyMCEIds = [];
-            console.log(this.tinyMCEIds, this.tinyMCEIds.length);
             for(var i in this.tinyMCEIds) {
                 if (!(id == this.tinyMCEIds[i])) {
                     tinyMCEIds.push(this.tinyMCEIds[i]);
                 }
             }
             this.tinyMCEIds = tinyMCEIds;
-            console.log(this.tinyMCEIds, this.tinyMCEIds.length);
         },
 
         successRequest: function(transport) {
@@ -382,7 +380,6 @@
      */
     MZZ.jipLinkObserver = function(e) {
         if (e.button === 0 && (!e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey)) {
-            console.log(e.shiftKey,e.ctrlKey,e.altKey,e.metaKey);
             e.preventDefault();
             e.stopImmediatePropagation();
             var link = $(this);
