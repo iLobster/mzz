@@ -12,14 +12,15 @@
  * @version $Id$
 */
 
-fileLoader::load('codegenerator/actionGenerator');
+fileLoader::load('codegenerator/fileGenerator');
+fileLoader::load('codegenerator/fileIniTransformer');
 
 /**
  * adminDeleteActionController: контроллер для метода deleteAction модуля admin
  *
  * @package modules
  * @subpackage admin
- * @version 0.1.1
+ * @version 0.2
  */
 class adminDeleteActionController extends simpleController
 {
@@ -28,27 +29,75 @@ class adminDeleteActionController extends simpleController
         $id = $this->request->getInteger('id');
         $action_name = $this->request->getString('action_name');
 
-        $db = DB::factory();
-        $data = $db->getRow('SELECT `c`.`id` AS `c_id`, `m`.`id` AS `m_id`, `c`.`name` AS `c_name`, `m`.`name` AS `m_name` FROM `sys_classes` `c` INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id` WHERE `c`.`id` = ' . $id);
+        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+        $adminGeneratorMapper = $this->toolkit->getMapper('admin', 'adminGenerator');
 
-        if (!$data) {
-            return 'класс не найден';
+        $class = $adminMapper->searchClassById($id);
+
+        if ($class === false) {
+            $controller = new messageController(i18n::getMessage('class.error.not_exists', 'admin'), messageController::WARNING);
+            return $controller->run();
         }
 
-        $const = DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
-        $dest = (file_exists(systemConfig::$pathToApplication . $const . $data['m_name'] . DIRECTORY_SEPARATOR . 'actions')) ? systemConfig::$pathToApplication : systemConfig::$pathToSystem;
-        $dest .= DIRECTORY_SEPARATOR . 'modules';
+        $module = $adminMapper->searchModuleById($class['module_id']);
 
-        $actionGenerator = new actionGenerator($data['m_name'], $dest, $data['c_name']);
+        $act = new action($module['name']);
+        $actions = $act->getActions();
+
+        if (!isset($actions[$class['name']][$action_name])) {
+            $controller = new messageController(i18n::getMessage('action.error.not_exists', 'admin'), messageController::WARNING);
+            return $controller->run();
+        }
+
+        $actionInfo = $actions[$class['name']][$action_name];
+
+        $dest = current($adminGeneratorMapper->getDests(true, $module['name']));
+
         try {
-            $actionGenerator->delete($action_name);
+            $fileGenerator = new fileGenerator($dest);
+
+            $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('delete', $action_name));
+
+            if ($action_name == $actionInfo['controller']) {
+                $fileGenerator->delete($this->controllers($module['name'], $action_name));
+                $fileGenerator->delete($this->templates($action_name));
+            }
+
+            $action_id = $adminGeneratorMapper->deleteAction($action_name, $class['id']);
+
+            $this->cleanAcl($module, $class, $action_id);
+
+            $fileGenerator->run();
         } catch (Exception $e) {
-            return $e;
+            $controller = new messageController($e->getMessage(), messageController::WARNING);
+            return $controller->run();
         }
 
-        $url = new url('default2');
-        $url->setAction('devToolbar');
-        return jipTools::redirect($url->get());
+        return jipTools::closeWindow();
+    }
+
+    private function cleanAcl($module, $class, $action_id)
+    {
+        $mapper = $this->toolkit->getMapper($module['name'], $class['name']);
+        if ($mapper->isAttached('acl_ext') || $mapper->isAttached('acl_simple')) {
+            $acl = new acl();
+            $acl->deleteAction($class['id'], $action_id);
+        }
+    }
+
+    private function actions($name)
+    {
+        return 'actions/' . $name . '.ini';
+    }
+
+    private function templates($name)
+    {
+        return 'templates/' . $name . '.tpl';
+    }
+
+    private function controllers($module, $action)
+    {
+        return 'controllers/' . $module . ucfirst($action) . 'Controller.php';
     }
 }
 

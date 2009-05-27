@@ -902,6 +902,11 @@ class acl
 
         $this->db->query('UPDATE `sys_access` SET `action_id` = ' . (int)$new_id . ' WHERE `action_id` = ' . $old_action_id . ' AND `class_id` = ' . (int)$class_id);
     }
+
+    public function deleteAction($class_id, $action_id)
+    {
+        $this->db->query('DELETE FROM `sys_access` WHERE `action_id` = ' . (int)$action_id . ' AND `class_id` = ' . (int)$class_id);
+    }
 }
 
 ?>

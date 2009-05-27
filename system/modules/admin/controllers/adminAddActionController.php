@@ -53,7 +53,6 @@ class adminAddActionController extends simpleController
 
         if ($isEdit) {
             if (!isset($actions[$class['name']][$action_name])) {
-                // @todo: перевести
                 $controller = new messageController(i18n::getMessage('action.error.not_exists', 'admin'), messageController::WARNING);
                 return $controller->run();
             }

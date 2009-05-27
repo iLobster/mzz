@@ -82,6 +82,14 @@ class adminGeneratorMapper extends mapper
         return $new_action_id;
     }
 
+    public function deleteAction($name, $class_id)
+    {
+        $action_id = $this->db()->getOne('SELECT `id` FROM `sys_actions` WHERE `name` = ' . $this->db()->quote($name));
+        $this->db()->query('DELETE FROM `sys_classes_actions` WHERE `class_id` = ' . (int)$class_id . ' AND `action_id` = ' . $action_id);
+
+        return $action_id;
+    }
+
     /**
      * Получение списка каталогов, используемых для генерации модулей
      *
