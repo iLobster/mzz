@@ -350,7 +350,7 @@ img.mzz-window-button {
     border-width: 0px 1px;
     padding: 5px;
     overflow: auto;
-    background: transparent url(../images/jip/content.png) scroll top;
+    background-color: #F9F9F9;
 }
 
 .mzz-jip-window .mzz-window-footer {
@@ -358,7 +358,7 @@ img.mzz-window-button {
     border-width: 1px 1px 1px 1px;
     padding: 2px 5px;
     min-height: 15px;
-    background: transparent url(../images/jip/content.png) scroll top;
+    background-color: #F9F9F9;
     /* for the true css3 family %) нижние скругление */
     -moz-border-radius: 0px 0px 5px 5px;
     -webkit-border-bottom-left-radius: 5px;

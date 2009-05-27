@@ -142,9 +142,8 @@
             var frm = $(form);
             var url = frm.attr('action') || window.location.href;
             var method = frm.attr('method') || 'GET';
-            var params = frm.serializeArray();
 
-            params.push({ajax: 1});
+            params.push({name: 'ajax', value: '1'});
 
             this.clean();
             this.request(url, method, params);
