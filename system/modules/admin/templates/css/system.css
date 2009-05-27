@@ -1,6 +1,6 @@
 table.admin thead th,
 table.admin td.head {
-    background: transparent url('../../images/admin/table2.png') repeat-x scroll 0px 0px;
+    background: transparent url('../../images/admin/table.png') repeat-x scroll 0px 0px;
 }
 
 table.admin thead th,
@@ -17,21 +17,21 @@ table.admin td {
 
 
 table.admin tr .first {
-    background: transparent url('../../images/admin/table2.png') no-repeat scroll left -210px;
+    background: transparent url('../../images/admin/table.png') no-repeat scroll left -210px;
 }
 
 table.admin tr .last {
-    background: transparent url('../../images/admin/table2.png') no-repeat scroll right -240px;
+    background: transparent url('../../images/admin/table.png') no-repeat scroll right -240px;
 }
 
 table.admin thead tr.first th.first,
 table.admin tr.head.first th.first {
-    background: transparent url('../../images/admin/table2.png') no-repeat scroll left -90px;
+    background: transparent url('../../images/admin/table.png') no-repeat scroll left -90px;
 }
 
 table.admin thead tr.first th.last,
 table.admin tr.head.first th.last {
-    background: transparent url('../../images/admin/table2.png') no-repeat scroll right -120px;
+    background: transparent url('../../images/admin/table.png') no-repeat scroll right -120px;
 }
 
 table.admin tr.row td {
@@ -39,15 +39,15 @@ table.admin tr.row td {
 }
 
 table.admin tr.row.last td {
-    background: transparent url('../../images/admin/table2.png') repeat-x center -270px;
+    background: transparent url('../../images/admin/table.png') repeat-x center -270px;
 }
 
 table.admin tr.row.last td.first {
-    background: transparent url('../../images/admin/table2.png') no-repeat left -150px;
+    background: transparent url('../../images/admin/table.png') no-repeat left -150px;
 }
 
 table.admin tr.row.last td.last {
-    background: transparent url('../../images/admin/table2.png') no-repeat right -180px;
+    background: transparent url('../../images/admin/table.png') no-repeat right -180px;
 }
 
 div.toolbarBlock {
