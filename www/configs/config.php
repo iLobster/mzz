@@ -49,7 +49,7 @@ ini_set('default_charset', 'utf-8');
 systemConfig::$db['default']['driver'] = 'pdo';
 systemConfig::$db['default']['dsn']  = 'mysql:host=localhost;dbname=mzz';
 systemConfig::$db['default']['user'] = 'root';
-systemConfig::$db['default']['password'] = 'hjuyfhf';
+systemConfig::$db['default']['password'] = '';
 systemConfig::$db['default']['charset'] = 'utf8';
 systemConfig::$db['default']['pdoOptions'] = array();
 

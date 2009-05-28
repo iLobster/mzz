@@ -61,5 +61,3 @@
     <span>{$smarty.const.MZZ_NAME} v.{$smarty.const.MZZ_VERSION}-{$smarty.const.MZZ_REVISION} &copy; {"Y"|date}.<br />
     {$timer->toString()}</span>
 </div>
-</body>
-</html>
