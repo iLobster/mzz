@@ -1,3 +1,9 @@
+div.toolbarBlock {
+    float: left;
+    width: 30%;
+    margin: 10px;
+}
+
 #aclObjects .first {
     width: 50px;
     text-align: center;
@@ -9,20 +15,6 @@ span.toolbarSectionName {
     font-size: 1.2em;
     line-height: 1.2em;
     margin-bottom: 10px;
-}
-
-table.toolbar {
-    margin-top: 5px;
-    width: 100%;
-}
-
-table.toolbar th,
-table.toolbar td {
-    padding: 0px 5px;
-}
-
-table.toolbar td.name {
-    padding-left: 15px;
 }
 
 table.toolbar .actions {

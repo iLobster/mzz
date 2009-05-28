@@ -49,7 +49,7 @@
             </thead>
             <tbody id="module-{$name}-classes">
             {foreach from=$module.classes item=class key=id name=classes}
-                <tr id="class-{$class}" class="row {if $smarty.foreach.classes.last}last{/if}">
+                <tr id="class-{$class}" class="{if $smarty.foreach.classes.last}last{/if}">
                     <td class="first name">{$class}</td>
                     <td class="last actions">
                         {if not empty($module.editDefault)}
@@ -61,9 +61,9 @@
                     </td>
                 </tr>
             {foreachelse}
-                <tr class="row last empty">
-                    <td class="first name"><div>--- классов нет ---</div></td>
-                    <td class="last actions"><div>&nbsp;</div></td>
+                <tr class="last empty">
+                    <td class="first name">--- классов нет ---</td>
+                    <td class="last actions">&nbsp;</td>
                 </tr>
             {/foreach}
             </tbody>
@@ -82,7 +82,7 @@
         </thead>
         <tbody>
             {foreach from=$sections item=module key=section name=sections}
-                <tr class="row {if $smarty.foreach.sections.last}last{/if}">
+                <tr class="{if $smarty.foreach.sections.last}last{/if}">
                     <td class="first">{$section}</td>
                     <td class="last">{$module}</td>
                 </tr>
@@ -96,14 +96,14 @@
     <table class="toolbar admin" id="aclObjects" cellspacing="0">
         <thead>
             <tr class="first">
-                <th class="first"><div>obj_id</div></th>
-                <th class="last"><div>Имя класса</div></th>
+                <th class="first">obj_id</div></th>
+                <th class="last">Имя класса</th>
             </tr>
         </thead>
         <tbody>
         {foreach from=$latestObjects item=latestObject name=latestObjects}
-            <tr class="row {if $smarty.foreach.latestObjects.last}last{/if}">
-                <td class="first"><a href="{url route="withId" section="access" id=$latestObject.obj_id action="editACL"}" class="jipLink">{$latestObject.obj_id}</a></td>
+            <tr class="{if $smarty.foreach.latestObjects.last}last{/if}">
+                <td class="first center"><a href="{url route="withId" section="access" id=$latestObject.obj_id action="editACL"}" class="jipLink">{$latestObject.obj_id}</a></td>
                 <td class="last">{$latestObject.class_name}</td>
             </tr>
         {/foreach}

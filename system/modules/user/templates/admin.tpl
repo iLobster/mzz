@@ -1,32 +1,30 @@
-<div class="pageTitle"><strong>Пользователи</strong>{$userFolder->getJip()}</div>
-
-<div class="pageContent">
-<table cellspacing="0" cellpadding="3" class="tableList">
-        <thead class="tableListHead">
-            <tr>
-                <td style="width: 30px;">ID:</td>
-                <td style="text-align: left;">Login:</td>
-                <td style="width: 120px;">Active</td>
-                <td style="width: 120px;">IP</td>
-                <td style="width: 120px;">Создан:</td>
-                <td style="width: 120px;">Last login</td>
-                <td style="width: 30px;">JIP</td>
+<div class="title">Пользователи {$userFolder->getJip()}</div>
+<table class="admin">
+        <thead>
+            <tr class="first center">
+                <th class="first" style="width: 30px;">ID:</th>
+                <th class="left">Login:</th>
+                <th style="width: 120px;">Active</th>
+                <th style="width: 120px;">IP</th>
+                <th style="width: 120px;">Создан:</th>
+                <th style="width: 120px;">Last login</th>
+                <th class="last" style="width: 30px;">JIP</th>
             </tr>
         </thead>
     {foreach from=$users item="user"}
-        <tr>
-            <td style="text-align: center;">{$user->getId()}</td>
-            <td>{$user->getLogin()}</td>
-            <td style="text-align: center;">{if $user->isActive()}Да{else}Нет{/if}</td>
-            <td style="text-align: center;">{if $user->isActive()}{$user->getOnline()->getIp()}{else}—{/if}</td>
-            <td style="text-align: center;">{$user->getCreated()|date_i18n:relative_hour}</td>
-            <td style="text-align: center;">{$user->getLastLogin()|date_i18n:relative_hour}</td>
-            <td style="text-align: center;">{$user->getJip()}</td>
+        <tr class="center">
+            <td class="first">{$user->getId()}</td>
+            <td class="left">{$user->getLogin()}</td>
+            <td>{if $user->isActive()}Да{else}Нет{/if}</td>
+            <td>{if $user->isActive()}{$user->getOnline()->getIp()}{else}—{/if}</td>
+            <td>{$user->getCreated()|date_i18n:relative_hour}</td>
+            <td>{$user->getLastLogin()|date_i18n:relative_hour}</td>
+            <td class="last">{$user->getJip()}</td>
         </tr>
     {/foreach}
-    <tr class="tableListFoot">
-        <td colspan="3">{$pager->toString('admin/main/adminPager.tpl')}</td>
-        <td colspan="3" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
+    <tr class="last">
+        <td class="first"></td>
+        <td colspan="4">{$pager->toString('admin/main/adminPager.tpl')}</td>
+        <td class="last" colspan="2" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
     </tr>
 </table>
-</div>
