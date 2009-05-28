@@ -124,16 +124,6 @@ ol ul li{
     margin-left: 0;
 }
 
-form table {
-    width: 100%;
-}
-
-form span {
-    display: block;
-    padding: 1px;
-    border: 1px solid #EEE;
-}
-
 form input {
     font-size: inherit;
     vertical-align: middle;
@@ -166,21 +156,6 @@ form span textarea:focus,
 form span select:focus {
     color: #666;
     background-color: #FFF;
-}
-
-
-form {
-    width: 384px;
-    font-size: 0.75em;
-    position: relative;
-}
-
-form td {
-    padding-left: 12px;
-}
-
-form td:first-child {
-    padding-left: 0;
 }
 
 h1 {
@@ -251,9 +226,16 @@ body {
     position: absolute;
     top: 0px;
     right: 0px;
+    padding: 0px 10px;
     height: 60px;
-    padding-right: 10px;
+    line-height: 60px;
+    color: #ffffff;
     background: transparent url('../images/admin/headerbar.png') no-repeat scroll right -120px;
+}
+
+#header .loginInfo table td {
+    padding: 0px 5px;
+    line-height: 28px;
 }
 
 #content div.title {
@@ -309,9 +291,24 @@ body {
 }
 
 #footer div.timer {
-    text-align: center;
-    color: #ddd;
+    text-align: right;
+    color: #999;
     padding: 10px;
+    font-size: 0.916em;
+}
+
+#footer div.timer a,
+#footer div.timer a:visited,
+#footer div.timer a:active {
+    color: #ccc;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+#footer div.timer a:hover {
+    color: #fff;
+    text-decoration: underline;
+    font-weight: normal;
 }
 
 div.marginal {
