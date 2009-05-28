@@ -40,6 +40,7 @@ $router->addRoute('adminSimpleActions', new requestRoute('admin/:action', array(
 
 $router->addRoute('menuMoveAction', new requestRoute('menu/:id/:target/move', array('section' => 'menu', 'action' => 'move'), array('id' => '\d+', 'target' => '(?:up|down|\d+)')));
 
+$router->addRoute('zim', new requestRoute(':ggg', array('section' => 'page', 'action' => 'view', 'name' => 'main'), array('ggg' => '(?:kal|zal)(?:/.+)?')));
 $router->addRoute('withId', new requestRoute(':section/:id/:action', array('action' => 'view'), array('id' => '\d+')));
 $router->addRoute('default', new requestRoute('', array('section' => 'news', 'action' => 'list', 'name' => 'root')));
 

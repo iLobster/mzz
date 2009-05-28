@@ -186,6 +186,10 @@ body {
     color: #555555;
 }
 
+div.clear {
+    clear: both;
+}
+
 #header {
     padding: 15px 15px 0px 15px;
     background: #334145 url('../images/admin/header.gif') repeat scroll top left;
@@ -437,4 +441,19 @@ ul.mzz-adm-menu li div.mzz-menu-sub li {
 ul.mzz-adm-menu li div.mzz-menu-sub li:hover {
     background-color: #fce2bd;
     text-decoration: underline;
+}
+
+div.breadcrumbs {
+    margin: 10px 5px;
+    font-size: 0.9em;
+}
+
+span.breadcrumbsTitle {
+    font-weight: bold;
+}
+
+span.breadcrumbsItems {
+    border: 1px solid #d4d4d4;
+    padding: 4px;
+    background-image: url('../images/breadcrumb_background.png');
 }

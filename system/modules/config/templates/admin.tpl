@@ -16,14 +16,10 @@
 {add file="jip/window.js"}
 {add file="jip/jipMenu.js"}
 {add file="jip/jipWindow.js"}
-<div class="pageTitle">Конфигурация модулей</div>
-<div class="pageContent">
+<div class="yitle">Конфигурация модулей</div>
 {foreach from=$folders item="folder"}
     <div class="configurationItem">
         <a href="{url route="withAnyParam" section="config" name=$folder->getName() action="configure"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/config.gif" width="16" height="16" alt="configuration"/></a>
         <a href="{url route="withAnyParam" section="config" name=$folder->getName() action="configure"}" class="jipLink">{$folder->getName()|h}</a>
     </div>
 {/foreach}
-
-</div>
-</div>

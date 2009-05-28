@@ -230,6 +230,7 @@ div.confirm img {
 img.mzz-window-button {
     cursor: pointer;
 }
+
 /**
  * Jip-window style reset
  */
@@ -266,8 +267,9 @@ img.mzz-window-button {
     text-decoration: none;
 }
 
-.mzz-jip-window form {
-    font-size: 0.75em;
+.mzz-jip-window table td,
+.mzz-jip-window table th {
+    padding: 2px;
 }
 
 .mzz-jip-window p,
@@ -351,6 +353,7 @@ img.mzz-window-button {
     padding: 5px;
     overflow: auto;
     background-color: #F9F9F9;
+    font-size: 0.75em;
 }
 
 .mzz-jip-window .mzz-window-footer {

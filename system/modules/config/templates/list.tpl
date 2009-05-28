@@ -1,7 +1,7 @@
 <div class="jipTitle">Опции конфигурации модуля <strong>{$folder->getName()|h}</strong></div>
 <table width="99%" cellpadding="4" cellspacing="0" class="systemTable">
     <tr>
-        <td colspan="4"><a href="{url route="withId" id=$folder->getName() action="add"}" class="jipLink">Добавить новую опцию</a></td>
+        <td colspan="4"><a href="{url route="withId" id=$folder->getName() action="add"}" class="mzz-jip-link">Добавить новую опцию <span class="mzz-icon mzz-icon-doc-add"></span></a></td>
     </tr>
     <tr>
         <td><strong>Имя</strong></td>
@@ -15,8 +15,8 @@
             <td>{$option->getTitle()|h}</td>
             <td>{$option->getTypeTitle()|h}</td>
             <td>
-                <a href="{url route="withId" id=$option->getId() action="edit"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/edit.gif" alt="Редактировать" title="Редактировать параметр" /></a>
-                <a href="{url route="withId" id=$option->getId() action="delete"}" class="jipLink"><img src="{$SITE_PATH}/templates/images/delete.gif" alt="Удалить" title="Удалить параметр" /></a>
+                <span class="mzz-icon mzz-icon-doc-edit"><a href="{url route="withId" id=$option->getId() action="edit"}"  class="mzz-jip-link" title="Редактировать параметр"></a></span>
+                <span class="mzz-icon mzz-icon-doc-del"><a href="{url route="withId" id=$option->getId() action="delete"}" class="mzz-jip-link" title="Удалить параметр"></a></span>
             </td>
         </tr>
     {foreachelse}

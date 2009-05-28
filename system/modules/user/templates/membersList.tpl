@@ -22,8 +22,7 @@
             {_ no_users_in_group}
         {/if}
         <tr>
-            <td align="center"><a href="{url route=withAnyParam section=user action=addToGroup name=$group->getId()}" class="jipLink"><img src="{$SITE_PATH}/templates/images/useradd.gif" width="16" height="16" /></a></td>
-            <td><a href="{url route=withAnyParam section=user action=addToGroup name=$group->getId()}" class="jipLink">{_ add_user_to_group}</a></td>
+            <td colspan="2"><a href="{url route=withAnyParam section=user action=addToGroup name=$group->getId()}" class="jipLink" title="{_ add_user_to_group}"><span class="mzz-icon mzz-icon-user-add"></span> {_ add_user_to_group}</a></td>
         </tr>
     </table>
 </form>
