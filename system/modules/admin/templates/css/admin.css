@@ -438,6 +438,10 @@ ul.mzz-adm-menu li div.mzz-menu-sub li {
     color:  #0055CC;
 }
 
+ul.mzz-adm-menu li div.mzz-menu-sub li.active{
+    background-color: #ffffcc;
+}
+
 ul.mzz-adm-menu li div.mzz-menu-sub li:hover {
     background-color: #fce2bd;
     text-decoration: underline;
