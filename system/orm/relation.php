@@ -43,6 +43,12 @@ class relation
                     $tmp = array(
                         'foreign_key' => $val['foreign_key']);
 
+                    if (!isset($val['join_type'])) {
+                        $val['join_type'] = null;
+                    }
+
+                    $tmp['join_type'] = $val['join_type'];
+
                     $this->loadMapperClass($val['mapper']);
 
                     $tmp['mapper'] = new $val['mapper']();
@@ -53,6 +59,7 @@ class relation
 
                     $type = 'oneToOne';
                     if (isset($val['local_key'])) {
+                        unset($val['join_type']);
                         $tmp['local_key'] = $val['local_key'];
                         $type .= 'Back';
                     }
@@ -195,8 +202,17 @@ class relation
 
             $this->mapper->addSelectFields($criteria, $val['mapper'], $key);
 
+            $joinType = criteria::JOIN_LEFT;
+            if (isset($val['join_type'])) {
+                switch ($val['join_type']) {
+                    case 'inner':
+                        $joinType = criteria::JOIN_INNER;
+                        break;
+                }
+            }
+
             $criterion = new criterion($this->table . '.' . $val['local_key'], $key . '.' . $val['foreign_key'], criteria::EQUAL, true);
-            $criteria->addJoin($val['mapper']->table(), $criterion, $key);
+            $criteria->addJoin($val['mapper']->table(), $criterion, $key, $joinType);
 
             $data = array(
                 $criteria,

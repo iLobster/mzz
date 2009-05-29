@@ -29,33 +29,6 @@ class ormSimpleMapperWithRelation extends mapper
     );
 }
 
-class ormSimpleMapperWithInnerJoinRelation extends mapper
-{
-    protected $table = 'ormSimple';
-
-    protected $map = array(
-        'id' => array(
-            'accessor' => 'getId',
-            'mutator' => 'setId',
-            'options' => array(
-                'pk')),
-        'foo' => array(
-            'accessor' => 'getFoo',
-            'mutator' => 'setFoo'),
-        'bar' => array(
-            'accessor' => 'getBar',
-            'mutator' => 'setBar'),
-        'related' => array(
-            'accessor' => 'getRelated',
-            'mutator' => 'setRelated',
-            'relation' => 'one',
-            'foreign_key' => 'id',
-            'mapper' => 'ormSimpleRelatedMapper',
-            'join' => 'inner'
-        ),
-    );
-}
-
 class ormSimpleRelatedMapper extends mapper
 {
     protected $table = 'ormRelated';
@@ -145,6 +118,33 @@ class ormSimpleWithBackRelation extends mapper
             'local_key' => 'id',
             'mapper' => 'ormSimpleBackedMapper'
         )
+    );
+}
+
+class ormSimpleMapperWithInnerJoinRelation extends mapper
+{
+    protected $table = 'ormSimple';
+
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk')),
+        'foo' => array(
+            'accessor' => 'getFoo',
+            'mutator' => 'setFoo'),
+        'bar' => array(
+            'accessor' => 'getBar',
+            'mutator' => 'setBar'),
+        'related' => array(
+            'accessor' => 'getRelated',
+            'mutator' => 'setRelated',
+            'relation' => 'one',
+            'foreign_key' => 'id',
+            'mapper' => 'ormSimpleRelatedMapper',
+            'join_type' => 'inner'
+        ),
     );
 }
 
