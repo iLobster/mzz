@@ -202,14 +202,7 @@ class relation
 
             $this->mapper->addSelectFields($criteria, $val['mapper'], $key);
 
-            $joinType = criteria::JOIN_LEFT;
-            if (isset($val['join_type'])) {
-                switch ($val['join_type']) {
-                    case 'inner':
-                        $joinType = criteria::JOIN_INNER;
-                        break;
-                }
-            }
+            $joinType = isset($val['join_type']) && $val['join_type'] == 'inner' ? criteria::JOIN_INNER : criteria::JOIN_LEFT;
 
             $criterion = new criterion($this->table . '.' . $val['local_key'], $key . '.' . $val['foreign_key'], criteria::EQUAL, true);
             $criteria->addJoin($val['mapper']->table(), $criterion, $key, $joinType);
