@@ -29,6 +29,33 @@ class ormSimpleMapperWithRelation extends mapper
     );
 }
 
+class ormSimpleMapperWithInnerJoinRelation extends mapper
+{
+    protected $table = 'ormSimple';
+
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk')),
+        'foo' => array(
+            'accessor' => 'getFoo',
+            'mutator' => 'setFoo'),
+        'bar' => array(
+            'accessor' => 'getBar',
+            'mutator' => 'setBar'),
+        'related' => array(
+            'accessor' => 'getRelated',
+            'mutator' => 'setRelated',
+            'relation' => 'one',
+            'foreign_key' => 'id',
+            'mapper' => 'ormSimpleRelatedMapper',
+            'join' => 'inner'
+        ),
+    );
+}
+
 class ormSimpleRelatedMapper extends mapper
 {
     protected $table = 'ormRelated';
@@ -371,6 +398,24 @@ class mapperRelationsTest extends unitTestCase
 
         $this->assertIsA($object->getForeign()->getBackRelated(), 'ormBackRelated');
         $this->assertEqual($object->getForeign()->getBackRelated()->getValue(), 'val3');
+    }
+
+    public function testGetNotExistsRelated()
+    {
+        $this->fixture[4] = array(
+            'foo' => 'foo4',
+            'bar' => 'bar4',
+            'related' => 999
+        );
+
+        $this->fixture();
+        $objects = $this->mapper->searchAll();
+
+        $this->assertEqual($objects->count(), 4);
+
+        $innerJoinMapper = new ormSimpleMapperWithInnerJoinRelation;
+        $objects = $innerJoinMapper->searchAll();
+        $this->assertEqual($objects->count(), 3);
     }
 }
 

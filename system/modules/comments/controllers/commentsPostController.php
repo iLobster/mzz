@@ -62,6 +62,7 @@ class commentsPostController extends simpleController
 
         $validator = new formValidator('commentSubmit');
         $validator->add('required', 'text', 'Введите комментарий');
+        $validator->add('length', 'text', 'Слишком длинный комментарий! Максимум 2000 символов!', array(0, 2000));
 
         $backUrl = $this->request->getString('backUrl', SC_POST);
 
