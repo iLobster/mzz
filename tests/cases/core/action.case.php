@@ -43,13 +43,11 @@ class actionTest extends unitTestCase
         $this->assertEqual($this->action->getActions(), array (
             'firstActions' => array (
                 'firstAction' => array ('controller' => 'firstController', 'jip' => '1', 'alias' => 'jipAction'),
-                'jipAction' => array ('controller' => 'foo', 'jip' => '1'),
-                'editACL' => array ('controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL')),
+                'jipAction' => array ('controller' => 'foo', 'jip' => '1')),
             'secondActions' => array (
                 'secondAction' => array ('controller' => 'secondController', '403handle' => 'none', 'admin' => '1'),
                 'jipActionFull' => array ( 'controller' => 'bar', 'jip' => '2', 'title' => 'someTitle', 'confirm' => 'confirm message'),
-                'anotherMain' => array ( 'controller' => 'anotherMain', 'main' => 'blah.tpl', 'main_placeholder' => 'data'),
-                'editACL' => array ( 'controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL')))
+                'anotherMain' => array ( 'controller' => 'anotherMain', 'main' => 'blah.tpl', 'main_placeholder' => 'data')))
         );
     }
 
@@ -57,20 +55,17 @@ class actionTest extends unitTestCase
     {
         $this->assertEqual($this->action->getActions(array('class' => 'firstActions')), array (
             'firstAction' => array ('controller' => 'firstController', 'jip' => '1', 'alias' => 'jipAction'),
-            'jipAction' => array ('controller' => 'foo', 'jip' => '1'),
-            'editACL' => array ('controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL'))
+            'jipAction' => array ('controller' => 'foo', 'jip' => '1'))
         );
     }
 
     public function testGetActionsClassAndJipOrAclFilter()
     {
-        $this->assertEqual($this->action->getActions(array('class' => 'secondActions', 'jip' => 1)), array (
-            'editACL' => array ( 'controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL'))
+        $this->assertEqual($this->action->getActions(array('class' => 'secondActions', 'jip' => 1)), array ()
         );
 
         $this->assertEqual($this->action->getActions(array('class' => 'secondActions', 'acl' => true)), array (
             'jipActionFull' => array ( 'controller' => 'bar', 'jip' => '2', 'title' => 'someTitle', 'confirm' => 'confirm message'),
-            'editACL' => array ( 'controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL'),
             'anotherMain' => array ( 'controller' => 'anotherMain', 'main' => 'blah.tpl', 'main_placeholder' => 'data'))
         );
     }
@@ -79,12 +74,10 @@ class actionTest extends unitTestCase
     {
         $this->assertEqual($this->action->getActions(array('acl' => true)), array (
             'firstActions' => array (
-                'jipAction' => array ('controller' => 'foo', 'jip' => '1'),
-                'editACL' => array ('controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL')),
+                'jipAction' => array ('controller' => 'foo', 'jip' => '1')),
             'secondActions' => array (
                 'jipActionFull' => array ( 'controller' => 'bar', 'jip' => '2', 'title' => 'someTitle', 'confirm' => 'confirm message'),
-                'anotherMain' => array ( 'controller' => 'anotherMain', 'main' => 'blah.tpl', 'main_placeholder' => 'data'),
-                'editACL' => array ( 'controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL')))
+                'anotherMain' => array ( 'controller' => 'anotherMain', 'main' => 'blah.tpl', 'main_placeholder' => 'data')))
         );
     }
 
@@ -93,10 +86,7 @@ class actionTest extends unitTestCase
         $this->assertEqual($this->action->getActions(array('jip' => 1)), array (
             'firstActions' => array (
                 'firstAction' => array ('controller' => 'firstController', 'jip' => '1', 'alias' => 'jipAction'),
-                'jipAction' => array ('controller' => 'foo', 'jip' => '1'),
-                'editACL' => array ('controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL')),
-            'secondActions' => array (
-                'editACL' => array ( 'controller' => 'editACL', 'jip' => 1, 'icon' => '/templates/images/acl.gif', 'title' => '_ editACL')))
+                'jipAction' => array ('controller' => 'foo', 'jip' => '1')))
         );
 
         $this->assertEqual($this->action->getActions(array('jip' => 2)), array (
