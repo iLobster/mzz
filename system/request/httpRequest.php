@@ -158,9 +158,9 @@ class httpRequest implements iRequest
      * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
      * @return string|null
      */
-    public function getString($name, $scope = SC_PATH)
+    public function getString($name, $scope = SC_PATH, $default = null)
     {
-        return $this->readScope($name, $scope, 'string');
+        return $this->readScope($name, $scope, 'string', $default);
     }
 
     /**
@@ -170,9 +170,9 @@ class httpRequest implements iRequest
      * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
      * @return integer|null
      */
-    public function getInteger($name, $scope = SC_PATH)
+    public function getInteger($name, $scope = SC_PATH, $default = null)
     {
-        return $this->readScope($name, $scope, 'integer');
+        return $this->readScope($name, $scope, 'integer', $default);
     }
 
     /**
@@ -182,9 +182,9 @@ class httpRequest implements iRequest
      * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
      * @return integer|float|null
      */
-    public function getNumeric($name, $scope = SC_PATH)
+    public function getNumeric($name, $scope = SC_PATH, $default = null)
     {
-        return $this->readScope($name, $scope, 'numeric');
+        return $this->readScope($name, $scope, 'numeric', $default);
     }
 
     /**
@@ -194,9 +194,9 @@ class httpRequest implements iRequest
      * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
      * @return array|null
      */
-    public function getArray($name, $scope = SC_PATH)
+    public function getArray($name, $scope = SC_PATH, $default = null)
     {
-        return $this->readScope($name, $scope, 'array');
+        return $this->readScope($name, $scope, 'array', $default);
     }
 
     /**
@@ -206,9 +206,9 @@ class httpRequest implements iRequest
      * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
      * @return boolean|null
      */
-    public function getBoolean($name, $scope = SC_PATH)
+    public function getBoolean($name, $scope = SC_PATH, $default = null)
     {
-        return $this->readScope($name, $scope, 'boolean');
+        return $this->readScope($name, $scope, 'boolean', $default);
     }
 
     /**
@@ -218,9 +218,9 @@ class httpRequest implements iRequest
      * @param integer $scope бинарное число, определяющее в каких массивах искать переменную
      * @return mixed
      */
-    public function getRaw($name, $scope = SC_PATH)
+    public function getRaw($name, $scope = SC_PATH, $default = null)
     {
-        return $this->readScope($name, $scope, 'mixed');
+        return $this->readScope($name, $scope, 'mixed', $default);
     }
 
     /**
@@ -232,9 +232,9 @@ class httpRequest implements iRequest
      * @return mixed
      * @see httpRequest::readScope()
      */
-    public function get($name, $type = 'mixed', $scope = SC_PATH)
+    public function get($name, $type = 'mixed', $scope = SC_PATH, $default = null)
     {
-        return $this->readScope($name, $scope, $type);
+        return $this->readScope($name, $scope, $type, $default);
     }
 
     /**
@@ -245,7 +245,7 @@ class httpRequest implements iRequest
      * @param string  $type  тип, в который будет преобразовано значение
      * @return string|null
      */
-    protected function readScope($name, $scope = SC_PATH, $type = 'mixed')
+    protected function readScope($name, $scope = SC_PATH, $type = 'mixed', $default = null)
     {
         $result = null;
 
@@ -266,6 +266,10 @@ class httpRequest implements iRequest
 
         if (isset($indexName)) {
             $result = $this->extractFromArray($indexName, $result);
+        }
+
+        if (is_null($result)) {
+            return (is_null($default) || empty($type) || $type == 'mixed') ? $default : $this->setType($default, $type);
         }
 
         if (empty($type) || $type == 'mixed') {

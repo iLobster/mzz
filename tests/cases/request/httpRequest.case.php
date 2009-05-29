@@ -121,6 +121,19 @@ class httpRequestTest extends unitTestCase
         $this->assertIdentical($this->httprequest->getNumeric('_TEST_FLOAT', SC_COOKIE), (float)$this->float);
     }
 
+    public function testGetWithDefault()
+    {
+        $this->assertIdentical($this->httprequest->getRaw('__blah_blah', SC_REQUEST), null);
+        $this->assertIdentical($this->httprequest->getInteger('__blah_blah', SC_REQUEST), null);
+
+        $this->assertIdentical($this->httprequest->getString('__blah_blah', SC_REQUEST, 'default_val'), 'default_val');
+        $this->assertIdentical($this->httprequest->getBoolean('__blah_blah', SC_REQUEST, true), true);
+        $this->assertIdentical($this->httprequest->getArray('__blah_blah', SC_REQUEST, 'default_val'), array('default_val'));
+        $this->assertIdentical($this->httprequest->getNumeric('__blah_blah', SC_REQUEST, 33), 33);
+        $this->assertIdentical($this->httprequest->getInteger('__blah_blah', SC_REQUEST, 33), 33);
+        $this->assertIdentical($this->httprequest->getRaw('__blah_blah', SC_REQUEST, 'default_val'), 'default_val');
+    }
+
     public function testGetWithIndex()
     {
         $_GET['user']['1']['login'][0] = "root";
