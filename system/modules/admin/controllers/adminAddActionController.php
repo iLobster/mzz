@@ -23,7 +23,6 @@ fileLoader::load('codegenerator/fileSearchReplaceTransformer');
  * @subpackage admin
  * @version 0.3
  */
-
 class adminAddActionController extends simpleController
 {
     private $plugins = array();
@@ -303,8 +302,6 @@ class adminAddActionController extends simpleController
         if (empty($values['controller'])) {
             $values['controller'] = $values['name'];
         }
-
-        //unset($values['name']);
     }
 
     private function smartyBrackets($back = false)

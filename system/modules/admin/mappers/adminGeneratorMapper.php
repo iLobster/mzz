@@ -115,6 +115,34 @@ class adminGeneratorMapper extends mapper
             'sys' => systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $subfolder,
             'app' => systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $subfolder);
     }
+
+    public function getTableSchema($table)
+    {
+        $table = substr($this->db()->quote($table), 1, -1);
+
+        $result = array();
+        foreach ($this->db()->getAll('SHOW COLUMNS FROM `' . $table . '`') as $field) {
+            $key = $field['Field'];
+
+            preg_match('/^([^(]+)\((\d+)\)\s?(.*)$/', $field['Type'], $matches);
+
+            $result[$key] = array('type' => $matches[1]);
+            if ($matches[1] == 'int') {
+                $result[$key]['range'] = $matches[3] ? array(0, pow(2, 32)) : array(-pow(2, 31) + 1, pow(2, 31));
+            } else {
+                $result[$key]['maxlength'] = (int)$matches[2];
+            }
+        }
+
+        $row = $this->db()->getRow('SHOW CREATE TABLE `' . $table . '`');
+        preg_match('/primary key\s+\(`([^`]+)`/si', $row['Create Table'], $matches);
+
+        if (isset($matches[1])) {
+            $result[$matches[1]]['options'][] = 'pk';
+        }
+
+        return $result;
+    }
 }
 
 ?>
