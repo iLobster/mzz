@@ -12,9 +12,11 @@
  * @version $Id$
  */
 
-//fileLoader::load('db/dbTreeNS');
 fileLoader::load('news/newsFolder');
 fileLoader::load('orm/plugins/tree_mpPlugin');
+fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('modules/jip/plugins/jipPlugin');
+fileLoader::load('modules/i18n/plugins/i18nPlugin');
 
 /**
  * newsFolderMapper: маппер для папок новостей

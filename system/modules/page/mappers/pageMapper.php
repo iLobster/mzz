@@ -13,6 +13,9 @@
  */
 
 fileLoader::load('page');
+fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('modules/jip/plugins/jipPlugin');
+fileLoader::load('modules/i18n/plugins/i18nPlugin');
 
 /**
  * pageMapper: маппер для страниц
@@ -83,7 +86,7 @@ class pageMapper extends mapper
     public function __construct()
     {
         parent::__construct();
-        $this->plugins('acl_simple');
+        $this->plugins('acl_ext');
         $this->plugins('i18n');
         $this->plugins('jip');
     }

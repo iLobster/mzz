@@ -14,6 +14,9 @@
 
 fileLoader::load('menu');
 
+fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('modules/jip/plugins/jipPlugin');
+
 /**
  * menuMapper: маппер
  *

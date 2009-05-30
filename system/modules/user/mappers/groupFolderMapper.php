@@ -14,7 +14,7 @@
 
 fileLoader::load('user/groupFolder');
 fileLoader::load('orm/plugins/acl_extPlugin');
-fileLoader::load('orm/plugins/jipPlugin');
+fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
  * groupFolderMapper: маппер

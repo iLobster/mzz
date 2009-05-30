@@ -13,6 +13,10 @@
  */
 
 fileLoader::load('news');
+fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('modules/comments/plugins/commentsPlugin');
+fileLoader::load('modules/jip/plugins/jipPlugin');
+fileLoader::load('modules/i18n/plugins/i18nPlugin');
 
 /**
  * newsMapper: маппер для новостей

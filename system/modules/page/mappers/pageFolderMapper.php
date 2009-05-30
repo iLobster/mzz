@@ -14,6 +14,8 @@
 
 fileLoader::load('page/pageFolder');
 fileLoader::load('orm/plugins/tree_mpPlugin');
+fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
  * pageFolderMapper: маппер

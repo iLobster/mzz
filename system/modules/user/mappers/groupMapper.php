@@ -13,6 +13,8 @@
  */
 
 fileLoader::load('user/group');
+fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
  * groupMapper: маппер для групп пользователей
@@ -29,8 +31,8 @@ class groupMapper extends mapper
     public function __construct()
     {
         parent::__construct();
-        $this->attach(new acl_extPlugin());
-        $this->attach(new jipPlugin());
+        $this->plugins('acl_ext');
+        $this->plugins('jip');
     }
 
     public $map = array(

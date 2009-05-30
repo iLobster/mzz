@@ -13,6 +13,7 @@
  */
 
 fileLoader::load('menu/menuFolder');
+fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
  * menuFolderMapper: маппер

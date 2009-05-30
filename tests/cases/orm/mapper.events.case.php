@@ -2,6 +2,7 @@
 
 fileLoader::load('orm/mapper');
 fileLoader::load('orm/plugins/versionablePlugin');
+fileLoader::load('orm/plugins/softDeletePlugin');
 fileLoader::load('cases/orm/ormSimple');
 
 class stubObserver extends observer

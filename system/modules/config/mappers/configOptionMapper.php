@@ -64,7 +64,6 @@ class configOptionMapper extends mapper
         )
     );
 
-
     public function searchById($id)
     {
         return $this->searchByKey($id);

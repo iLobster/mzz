@@ -212,7 +212,7 @@ abstract class simpleController
      */
     public function setPager(mapper $mapper, $per_page = 20, $reverse = false, $round_items = 2)
     {
-        fileLoader::load('orm/plugins/pagerPlugin');
+        fileLoader::load('modules/pager/plugins/pagerPlugin');
         $pager = new pager($this->request->getRequestUrl(), $this->request->getInteger('page', SC_REQUEST), $per_page, $round_items, $reverse);
         $mapper->attach(new pagerPlugin($pager));
 

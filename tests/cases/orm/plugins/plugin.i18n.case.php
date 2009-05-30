@@ -1,7 +1,7 @@
 <?php
 
 fileLoader::load('orm/mapper');
-fileLoader::load('orm/plugins/i18nPlugin');
+fileLoader::load('modules/i18n/plugins/i18nPlugin');
 fileLoader::load('cases/orm/ormSimple');
 
 class ormSimpleI18nMapper extends mapper

@@ -13,7 +13,9 @@
  */
 
 fileLoader::load('menu/menuItem');
-fileLoader::load('orm/plugins/i18nPlugin');
+fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('modules/i18n/plugins/i18nPlugin');
+fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
  * itemMapper: маппер

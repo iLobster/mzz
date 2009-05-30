@@ -14,7 +14,7 @@
 
 fileLoader::load('user/userFolder');
 fileLoader::load('orm/plugins/acl_extPlugin');
-fileLoader::load('orm/plugins/jipPlugin');
+fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
  * userFolderMapper: маппер

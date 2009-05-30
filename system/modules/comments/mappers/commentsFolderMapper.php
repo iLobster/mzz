@@ -13,6 +13,8 @@
 */
 
 fileLoader::load('comments/commentsFolder');
+fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
  * commentsFolderMapper: маппер

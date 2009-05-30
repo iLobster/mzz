@@ -14,7 +14,7 @@
 
 fileLoader::load('user');
 fileLoader::load('orm/plugins/acl_extPlugin');
-fileLoader::load('orm/plugins/jipPlugin');
+fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
  * userMapper: маппер для пользователей
@@ -103,8 +103,8 @@ class userMapper extends mapper
     public function __construct()
     {
         parent::__construct();
-        $this->attach(new acl_extPlugin());
-        $this->attach(new jipPlugin());
+        $this->plugins('acl_ext');
+        $this->plugins('jip');
     }
 
     public function searchById($id)
