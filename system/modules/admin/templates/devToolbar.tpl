@@ -56,6 +56,7 @@
                         <span class="mzz-icon mzz-icon-key-default"><a href="{url route=withAnyParam section="access" name=$class action="editDefault"}" class="mzz-jip-link" title="Редактировать права 'по умолчанию'"></a></span>
                         {/if}
                         <span class="mzz-icon mzz-icon-cog-edit"><a href="{url route="withId" section="admin" id=$id action="listActions"}" class="mzz-jip-link" title="Редактировать действия класса"></a></span>
+                        <span class="mzz-icon mzz-icon-db-table"><a href="{url route="withId" section="admin" id=$id action="map"}" class="mzz-jip-link" title="Map"></a></span>
                         <span class="mzz-icon mzz-icon-script-edit"><a href="{url route="withId" section="admin" id=$id action="editClass"}" class="mzz-jip-link" title="Редактировать класс"></a></span>
                         <span class="mzz-icon mzz-icon-script-del"><a href="{url route="withId" section="admin" id=$id action="deleteClass"}" class="mzz-jip-link" title="Удалить класс"></a></span>
                     </td>

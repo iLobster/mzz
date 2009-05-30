@@ -14,36 +14,6 @@ table.admin td {
     padding: 0 5px;
 }
 
-
-table.admin tr,
-table.admin tr td,
-table.admin tr th {
-    background: transparent url('../../images/admin/table.png') repeat-x scroll 100px 100px;
-}
-
-table.admin thead th,
-table.admin td.head {
-    background: transparent url('../../images/admin/table.png') repeat-x scroll 0px 0px;
-}
-
-table.admin tr .first {
-    background-position: left -210px;
-}
-
-table.admin tr .last {
-    background-position:  right -240px;
-}
-
-table.admin thead tr.first th.first,
-table.admin tr.head.first th.first {
-    background-position: left -90px;
-}
-
-table.admin thead tr.first th.last,
-table.admin tr.head.first th.last {
-    background-position: right -120px;
-}
-
 table.admin tr.center td,
 table.admin tr td.center,
 table.admin tr.center th,
@@ -64,14 +34,43 @@ table.admin tr td {
     padding-left: 15px;
 }
 
+table.admin tr,
+table.admin tr td,
+table.admin tr th {
+    background: transparent url('../../images/admin/table.png') repeat-x scroll 100px 100px;
+}
+
+table.admin tr th,
+table.admin tr td.head {
+    background-position: 0px 0px;
+}
+
+table.admin tr td.first {
+    background-position: left -120px;
+}
+
+table.admin tr td.last {
+    background-position:  right -120px;
+}
+
+table.admin thead tr.first th.first,
+table.admin tr.head.first th.first {
+    background-position: left -60px;
+}
+
+table.admin thead tr.first th.last,
+table.admin tr.head.first th.last {
+    background-position: right -60px;
+}
+
 table.admin tr.last td {
-    background-position: center -270px;
+    background-position: center -150px;
 }
 
 table.admin tr.last td.first {
-    background-position: left -150px;
+    background-position: left -90px;
 }
 
 table.admin tr.last td.last {
-    background-position: right -180px;
+    background-position: right -90px;
 }

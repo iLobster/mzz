@@ -340,3 +340,11 @@ span.mzz-icon-cog-edit, span.mzz-icon-cog-edit.disabled {
 a:hover span.mzz-icon-cog-edit, li:hover span.mzz-icon-cog-edit, span.mzz-icon-cog-edit:hover, span.mzz-icon-cog-edit.active {
     background-position: -624px 0px;
 }
+
+span.mzz-icon-db-table, span.mzz-icon-db-table.disabled {
+    background-position: -640px -16px;
+}
+
+a:hover span.mzz-icon-db-table, li:hover span.mzz-icon-db-table, span.mzz-icon-db-table:hover, span.mzz-icon-db-table.active {
+    background-position: -640px 0px;
+}
