@@ -77,6 +77,11 @@ class adminMapController extends simpleController
 
             $fileGenerator->run();
         }
+
+        $this->smarty->assign('added', $add);
+        $this->smarty->assign('deleted', array_keys($delete));
+
+        return $this->smarty->fetch('admin/map.tpl');
     }
 }
 
