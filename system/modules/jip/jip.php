@@ -101,16 +101,37 @@ class jip
     /**
      * Генерирует ссылку для JIP
      *
-     * @param string $action действие модуля
+     * @param string $action action's params
+     * @param string $action_name действие модуля
      * @return string
      */
-    private function buildUrl($action)
+    private function buildUrl($action, $action_name)
     {
-        $url = new url('withId');
+        $url = new url(isset($action['route_name']) ? $action['route_name'] : 'withId');
         $url->setSection($this->module);
-        $url->setAction($action);
-        $url->add('id', $this->id);
+        $url->setAction($action_name);
+
+        if (isset($action['route_name'])) {
+            foreach ($action as $name => $value) {
+                if (strpos($name, 'route.') === 0) {
+                    $url->add(substr($name, 6), strpos($value, '->') === 0 ? $this->callObjectMethodFromString($value): $value);
+                }
+            }
+        } else {
+            $url->add('id', $this->id);
+        }
+
         return $url->get();
+    }
+
+    protected function callObjectMethodFromString($str)
+    {
+        $methods = explode('->', substr($str, 2));
+        $result = $this->obj;
+        foreach ($methods as $method) {
+            $result = $result->$method();
+        }
+        return $result;
     }
 
     /**
@@ -140,7 +161,7 @@ class jip
         foreach ($this->actions as $key => $item) {
             $action = isset($item['alias']) ? $item['alias'] : $key;
             if ($this->obj->getAcl($action)) {
-                $item['url'] = isset($item['url']) ? $item['url'] : (($key != 'editACL') ? $this->buildUrl($key) : $this->buildACLUrl($this->obj->getObjId()));
+                $item['url'] = isset($item['url']) ? $item['url'] : (($key != 'editACL') ? $this->buildUrl($item, $key) : $this->buildACLUrl($this->obj->getObjId()));
                 $item['id'] = $this->getJipMenuId() . '_' . $item['controller'];
                 $item['icon'] = isset($item['icon']) ? SITE_PATH . $item['icon'] : '';
                 $item['lang'] = (isset($item['lang']) && systemConfig::$i18nEnable) ? (boolean)$item['lang'] : false;
