@@ -48,6 +48,11 @@
         {/if}
 
         <tr>
+            <td>CRUD</td>
+            <td>{form->select name="action[crud]" options=$crudList value=none}</td>
+        </tr>
+
+        <tr>
             <td>&nbsp;</td>
             <td>{form->submit name="submit" value="_ simple/save"} {form->reset jip=true name="reset" value="_ simple/cancel"}</td>
         </tr>

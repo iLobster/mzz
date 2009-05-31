@@ -92,18 +92,23 @@ class adminAddActionController extends simpleController
                     $fileGenerator = new fileGenerator($dest);
 
                     if ($values['controller'] == $action_name) {
-                        $tpl_name = $this->templates($action_name);
+                        if ($values['crud'] != 'none') {
+                            $method = 'crud' . ucfirst($values['crud']);
+                            $this->$method($module, $class, $action_name, $values, $fileGenerator);
+                        } else {
+                            $tpl_name = $this->templates($action_name);
 
-                        $controllerData = array(
-                        'name' => $action_name,
-                        'module' => $module['name'],
-                        'path' => $dest . '/' . $tpl_name);
-                        $this->smarty->assign('controller_data', $controllerData);
+                            $controllerData = array(
+                            'name' => $action_name,
+                            'module' => $module['name'],
+                            'path' => $dest . '/' . $tpl_name);
+                            $this->smarty->assign('controller_data', $controllerData);
 
-                        $fileGenerator->create($this->controllers($module['name'], $action_name), $this->smarty->fetch('admin/generator/controller.tpl'));
-                        $fileGenerator->create($tpl_name, $this->smarty->fetch('admin/generator/template.tpl'));
+                            $fileGenerator->create($this->controllers($module['name'], $action_name), $this->smarty->fetch('admin/generator/controller.tpl'));
+                            $fileGenerator->create($tpl_name, $this->smarty->fetch('admin/generator/template.tpl'));
+                        }
                     }
-
+exit;
                     unset($values['name']);
                     $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('merge', array($action_name => $values)));
 
@@ -181,6 +186,7 @@ class adminAddActionController extends simpleController
         $this->smarty->assign('aliases', $aliases);
 
         $this->smarty->assign('aclMethods', $this->getAclMethods());
+        $this->smarty->assign('crudList', $this->getCRUDList());
 
         if ($isEdit) {
             $url = new url('adminAction');
@@ -200,6 +206,27 @@ class adminAddActionController extends simpleController
         $this->smarty->assign('isEdit', $isEdit);
 
         return $this->smarty->fetch('admin/addAction.tpl');
+    }
+
+    private function crudView($module, $class, $action_name, $values, $fileGenerator)
+    {
+        $mapper = $this->toolkit->getMapper($module['name'], $class['name']);
+        $map = $mapper->map();
+
+        $controllerData = array(
+        'name' => $action_name,
+        'module' => $module['name'],
+        'class' => $class['name']);
+        $this->smarty->assign('controller_data', $controllerData);
+
+        $this->smarty->assign('map', $map);
+
+        $fileGenerator->create($this->controllers($module['name'], $action_name), $this->smarty->fetch('admin/generator/controller.view.tpl'));
+        $fileGenerator->create($this->templates($action_name), $this->smarty->fetch('admin/generator/template.view.tpl'));
+
+        //echo '<pre>'; var_dump($map); echo '</pre>';
+
+        $fileGenerator->run();
     }
 
     public function unique($name, $adminMapper, $action_name, $class_id)
@@ -245,6 +272,14 @@ class adminAddActionController extends simpleController
         return $aclMethods;
     }
 
+    private function getCRUDList()
+    {
+        return array(
+        'none' => 'none',
+        'view' => 'view'
+        );
+    }
+
     private function actions($name)
     {
         return 'actions/' . $name . '.ini';
@@ -269,7 +304,8 @@ class adminAddActionController extends simpleController
         'controller' => '',
         'confirm' => '',
         '403handle' => 'none',
-        'act_template' => '');
+        'act_template' => '',
+        'crud' => 'none');
 
         if ($mapper->isAttached('jip')) {
             $defaults += array(
