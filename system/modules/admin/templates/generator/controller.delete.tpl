@@ -19,7 +19,6 @@
  * @subpackage {{$controller_data.module}}
  * @version 0.1
  */
-
 class {{$controller_data.module}}{{$controller_data.name|ucfirst}}Controller extends simpleController
 {
     protected function getView()

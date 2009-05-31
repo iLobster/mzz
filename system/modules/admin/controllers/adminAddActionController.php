@@ -216,7 +216,7 @@ class adminAddActionController extends simpleController
     private function crudView($module, $class, $action_name, $values, $fileGenerator)
     {
         $mapper = $this->toolkit->getMapper($module['name'], $class['name']);
-        $map = $mapper->map();
+        $map = $this->getMap($mapper);
 
         $controllerData = array(
         'name' => $action_name,
@@ -234,16 +234,11 @@ class adminAddActionController extends simpleController
 
     private function crudDelete($module, $class, $action_name, & $values, $fileGenerator)
     {
-        $mapper = $this->toolkit->getMapper($module['name'], $class['name']);
-        $map = $mapper->map();
-
         $controllerData = array(
         'name' => $action_name,
         'module' => $module['name'],
         'class' => $class['name']);
         $this->smarty->assign('controller_data', $controllerData);
-
-        $this->smarty->assign('map', $map);
 
         $fileGenerator->create($this->controllers($module['name'], $action_name), $this->smarty->fetch('admin/generator/controller.delete.tpl'));
 
@@ -264,6 +259,38 @@ class adminAddActionController extends simpleController
         }
 
         $fileGenerator->run();
+    }
+
+    private function crudList($module, $class, $action_name, $values, $fileGenerator)
+    {
+        $mapper = $this->toolkit->getMapper($module['name'], $class['name']);
+        $map = $this->getMap($mapper);
+
+        $controllerData = array(
+        'name' => $action_name,
+        'module' => $module['name'],
+        'class' => $class['name']);
+        $this->smarty->assign('controller_data', $controllerData);
+
+        $this->smarty->assign('map', $map);
+
+        $fileGenerator->create($this->controllers($module['name'], $action_name), $this->smarty->fetch('admin/generator/controller.list.tpl'));
+        $fileGenerator->create($this->templates($action_name), $this->smarty->fetch('admin/generator/template.list.tpl'));
+
+        $fileGenerator->run();
+    }
+
+    private function getMap(mapper $mapper)
+    {
+        $map = $mapper->map();
+
+        foreach ($map as $key => $val) {
+            if (isset($val['options']) && in_array('fake', $val['options'])) {
+                unset($map[$key]);
+            }
+        }
+
+        return $map;
     }
 
     public function unique($name, $adminMapper, $action_name, $class_id)
@@ -313,7 +340,8 @@ class adminAddActionController extends simpleController
     {
         $crud = array(
         'none' => 'none',
-        'view' => 'view'
+        'view' => 'view',
+        'list' => 'list'
         );
 
         if (in_array('jip', $this->plugins)) {

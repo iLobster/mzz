@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/trunk/system/codegenerator/templates/controller.tpl $
+ * $URL$
  *
  * MZZ Content Management System (c) {{"Y"|date}}
  * Website : http://www.mzz.ru
@@ -9,7 +9,7 @@
  * the GNU Lesser General Public License (See /docs/LGPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id: controller.tpl 2200 2007-12-06 06:52:05Z zerkms $
+ * @version $Id$
  */
 
 /**
@@ -23,6 +23,12 @@ class {{$controller_data.module}}{{$controller_data.name|ucfirst}}Controller ext
 {
     protected function getView()
     {
+        ${{$controller_data.class}}Mapper = $this->toolkit->getMapper('{{$controller_data.module}}', '{{$controller_data.class}}');
+        
+        $all = ${{$controller_data.class}}Mapper->searchAll();
+
+        $this->smarty->assign('all', $all);
+
         return $this->smarty->fetch('{{$controller_data.module}}/{{$controller_data.name}}.tpl');
     }
 }
