@@ -135,29 +135,6 @@ label {
     font-size: 0.625em;
 }
 
-form span input,
-form span textarea,
-form span select {
-    margin: 0;
-    font-size: inherit;
-    font-family: inherit;
-    width: 100%;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    color: #999;
-    padding: 2px;
-    border: 1px solid #C3C3C3;
-    border-top-color: #7C7C7C;
-    border-bottom-color: #DDD;
-}
-
-form span input:focus,
-form span textarea:focus,
-form span select:focus {
-    color: #666;
-    background-color: #FFF;
-}
-
 h1 {
     font: 2.375em/2.375em 'HelveticaNeue-CondensedBold','Arial Narrow',Helvetica,Arial,sans-serif;
     text-transform: uppercase;
