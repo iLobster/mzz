@@ -291,10 +291,6 @@ class adminAddActionController extends simpleController
         'class' => $class['name']);
         $this->smarty->assign('controller_data', $controllerData);
 
-        $this->smarty->assign('map', $map);
-
-        echo '<pre>'; var_dump($this->smarty->fetch('admin/generator/template.save.tpl')); echo '</pre>'; exit;
-
         $fileGenerator->create($this->controllers($module['name'], $action_name), $this->smarty->fetch('admin/generator/controller.save.tpl'));
         $fileGenerator->create($this->templates($action_name), $this->smarty->fetch('admin/generator/template.save.tpl'));
 
