@@ -280,6 +280,25 @@ class adminAddActionController extends simpleController
         $fileGenerator->run();
     }
 
+    private function crudSave($module, $class, $action_name, $values, $fileGenerator)
+    {
+        $mapper = $this->toolkit->getMapper($module['name'], $class['name']);
+        $map = $this->getMap($mapper);
+
+        $controllerData = array(
+        'name' => $action_name,
+        'module' => $module['name'],
+        'class' => $class['name']);
+        $this->smarty->assign('controller_data', $controllerData);
+
+        $this->smarty->assign('map', $map);
+
+        $fileGenerator->create($this->controllers($module['name'], $action_name), $this->smarty->fetch('admin/generator/controller.save.tpl'));
+        $fileGenerator->create($this->templates($action_name), $this->smarty->fetch('admin/generator/template.save.tpl'));
+
+        $fileGenerator->run();
+    }
+
     private function getMap(mapper $mapper)
     {
         $map = $mapper->map();
@@ -341,7 +360,8 @@ class adminAddActionController extends simpleController
         $crud = array(
         'none' => 'none',
         'view' => 'view',
-        'list' => 'list'
+        'list' => 'list',
+        'save' => 'save'
         );
 
         if (in_array('jip', $this->plugins)) {
