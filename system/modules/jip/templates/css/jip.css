@@ -438,6 +438,7 @@ div.mzz-jip-menu {
     padding-left: 25px;
     text-decoration: none;
     color: #000000;
+    font-weight: normal !important;
 }
 
 .mzz-jip-menu li a span.mzz-jip-title {

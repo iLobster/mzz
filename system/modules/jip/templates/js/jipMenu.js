@@ -153,7 +153,14 @@
                     var jipMenuIcon = $('<span class="mzz-jip-icon" />');
                     
                     if ($.isObject(elm[2])) {
-                         jipMenuIcon.addClass(elm[2].sprite + ' ' + elm[2].index);
+                        jipMenuIcon.addClass(elm[2].sprite);
+                        if ($.isString(elm[2].index)) {
+                            jipMenuIcon.addClass(elm[2].index);
+                        } else if ($.isNumber(elm[2].index)) {
+                            jipMenuIcon.css({'background-position': '-' + (elm[2].index * 16) + 'px top'});
+                        } else if (elm[2].index.length == 2) {
+                            jipMenuIcon.css({'background-position': '-' + (elm[2].index[0] * 16) + 'px -' + (elm[2].index[1] * 16) + 'px'});
+                        }
                     } else {
                         jipMenuIcon.append('<img src="' + elm[2] + '" alt="icon" width="16" height="16" />');
                     }

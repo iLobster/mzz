@@ -17,4 +17,5 @@
 {add file="jip/jipMenu.js"}
 {add file="jip/jipWindow.js"}
 {/strip}
+
 <img src="{$SITE_PATH}/templates/images/jip/jip.gif" class="jip" onmouseup="if (jipMenu) {ldelim}jipMenu.show(this, '{$jipMenuId}', [{foreach from=$jip item=jipItem name=jipItems}['{$jipItem.title}', '{$jipItem.url}', {if empty($jipItem.icon)}{ldelim}'sprite':{$jipItem.sprite},'index':{$jipItem.index}{rdelim}{else}'{$jipItem.icon}'{/if}, '{$jipItem.lang}', {$jipItem.target}]{if !$smarty.foreach.jipItems.last},{/if}{/foreach}], {ldelim}{foreach from=$langs item="langNames" key="langId" name="langs"}{$langId}: ['{$langNames->getName()}', '{$langNames->getLanguageName()}']{if !$smarty.foreach.langs.last},{/if}{/foreach}{rdelim});{rdelim}" alt="JIP Меню" />
