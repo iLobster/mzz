@@ -7,7 +7,11 @@
         {{foreach from=$map item=property key=field}}
 <tr>
             <td>{form->caption name="{{$controller_data.class}}[{{$field}}]" value="{{$field}}"}</td>
+{{if !isset($property.options) || !in_array('pk', $property.options) || !in_array('once', $property.options)}}
             <td>{form->text name="{{$controller_data.class}}[{{$field}}]" size="30" value=${{$controller_data.class}}->{{$property.accessor}}()}{$errors->get('{{$controller_data.class}}[{{$field}}]')}</td>
+{{else}}
+            <td>{${{$controller_data.class}}->{{$property.accessor}}()}</td>
+{{/if}}
         </tr>
         {{/foreach}}
 
