@@ -24,7 +24,9 @@ class {{$controller_data.module}}{{$controller_data.name|ucfirst}}Controller ext
     protected function getView()
     {
         ${{$controller_data.class}}Mapper = $this->toolkit->getMapper('{{$controller_data.module}}', '{{$controller_data.class}}');
-        
+
+        $this->setPager(${{$controller_data.class}}Mapper);
+
         $all = ${{$controller_data.class}}Mapper->searchAll();
 
         $this->smarty->assign('all', $all);

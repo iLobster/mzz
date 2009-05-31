@@ -15,3 +15,7 @@
         </tr>
     {/foreach}
 </table>
+
+{if $pager->getPagesTotal() > 0}
+    {$pager->toString()}
+{/if}
