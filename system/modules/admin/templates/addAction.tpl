@@ -22,6 +22,10 @@
             <td>{form->caption name="action[confirm]" value="_ action.confirm"}</td>
             <td>{form->text name="action[confirm]" size="30" value=$data.confirm}</td>
         </tr>
+        <tr>
+            <td>{form->caption name="action[main]" value="_ action.main"}</td>
+            <td>{form->text name="action[main]" size="30" value=$data.main}{$errors->get('action[main]')}</td>
+        </tr>
         {if in_array('jip', $plugins)}
             <tr>
                 <td>{form->caption name="action[jip]" value="Добавить в JIP"}</td>

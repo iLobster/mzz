@@ -77,6 +77,8 @@ class adminAddActionController extends simpleController
         $validator->add('callback', 'action[name]', i18n::getMessage('action.error.unique', 'admin'), array(array($this, 'unique'), $adminMapper, $action_name, $class['id']));
         $validator->add('callback', 'action[name]', i18n::getMessage('action.error.case', 'admin'), array(array($this, 'otherCase'), $adminMapper));
         $validator->add('regex', 'action[name]', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')), '#^[a-z0-9_-]+$#i');
+        $validator->add('required', 'action[main]', i18n::getMessage('action.error.main_required', 'admin'));
+        $validator->add('regex', 'action[main]', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-.')), '#^[a-z0-9_\-.]+$#i');
 
         if ($validator->validate()) {
             $values = $this->request->getArray('action', SC_POST);
@@ -92,8 +94,11 @@ class adminAddActionController extends simpleController
                     $fileGenerator = new fileGenerator($dest);
 
                     if ($values['controller'] == $action_name) {
-                        if ($values['crud'] != 'none') {
-                            $method = 'crud' . ucfirst($values['crud']);
+                        $crud = $values['crud'];
+                        unset($values['crud']);
+
+                        if ($crud != 'none') {
+                            $method = 'crud' . ucfirst($crud);
                             $this->$method($module, $class, $action_name, $values, $fileGenerator);
                         } else {
                             $tpl_name = $this->templates($action_name);
@@ -108,7 +113,7 @@ class adminAddActionController extends simpleController
                             $fileGenerator->create($tpl_name, $this->smarty->fetch('admin/generator/template.tpl'));
                         }
                     }
-exit;
+
                     unset($values['name']);
                     $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('merge', array($action_name => $values)));
 
@@ -224,7 +229,39 @@ exit;
         $fileGenerator->create($this->controllers($module['name'], $action_name), $this->smarty->fetch('admin/generator/controller.view.tpl'));
         $fileGenerator->create($this->templates($action_name), $this->smarty->fetch('admin/generator/template.view.tpl'));
 
-        //echo '<pre>'; var_dump($map); echo '</pre>';
+        $fileGenerator->run();
+    }
+
+    private function crudDelete($module, $class, $action_name, & $values, $fileGenerator)
+    {
+        $mapper = $this->toolkit->getMapper($module['name'], $class['name']);
+        $map = $mapper->map();
+
+        $controllerData = array(
+        'name' => $action_name,
+        'module' => $module['name'],
+        'class' => $class['name']);
+        $this->smarty->assign('controller_data', $controllerData);
+
+        $this->smarty->assign('map', $map);
+
+        $fileGenerator->create($this->controllers($module['name'], $action_name), $this->smarty->fetch('admin/generator/controller.delete.tpl'));
+
+        if (empty($values['jip'])) {
+            $values['jip'] = true;
+        }
+
+        if (empty($values['confirm'])) {
+            $values['confirm'] = '_ ' . $module['name'] . '/' . $class['name'] . '.delete.confirm';
+        }
+
+        if (empty($values['icon'])) {
+            $values['icon'] = '/templates/images/delete.gif';
+        }
+
+        if (empty($values['main'])) {
+            $values['main'] = 'active.blank.tpl';
+        }
 
         $fileGenerator->run();
     }
@@ -274,10 +311,16 @@ exit;
 
     private function getCRUDList()
     {
-        return array(
+        $crud = array(
         'none' => 'none',
         'view' => 'view'
         );
+
+        if (in_array('jip', $this->plugins)) {
+            $crud['delete'] = 'delete';
+        }
+
+        return $crud;
     }
 
     private function actions($name)
@@ -305,7 +348,8 @@ exit;
         'confirm' => '',
         '403handle' => 'none',
         'act_template' => '',
-        'crud' => 'none');
+        'crud' => 'none',
+        'main' => 'active.main.tpl');
 
         if ($mapper->isAttached('jip')) {
             $defaults += array(
@@ -327,7 +371,7 @@ exit;
     private function normalize(& $values, $defaults)
     {
         $exclude = array(
-        '403handle');
+        '403handle', 'crud');
 
         foreach ($values as $key => & $val) {
             if (!isset($defaults[$key]) || ($defaults[$key] == $val && !in_array($key, $exclude))) {
