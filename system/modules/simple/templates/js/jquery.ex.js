@@ -13,6 +13,10 @@ jQuery.noConflict();
         return typeof object == "number";
     };
 
+    $.isObject = function(object) {
+        return typeof object == "object";
+    };
+    
     $.isUndefined = function(object) {
         return typeof object == "undefined";
     };

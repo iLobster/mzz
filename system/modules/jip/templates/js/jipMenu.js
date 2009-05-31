@@ -130,89 +130,58 @@
 
         draw: function(button, id, items) {
             if (!$('#' + id).length) {
+
+                /*
+                 * <ul id="" class="jipMenu">
+                 *  <li class="jipItem">
+                 *      <a href="#"><span class="mzz-jip-icon"></span><span class="mzz-jip-title">title</span></a>
+                 *  </li>
+                 * </ul>
+                 */
                 var jipMenuDiv = $('<div />').attr({
                     'id': id,
-                    'class': 'jipMenu'
+                    'class': 'mzz-jip-menu'
                 }).css({
                     'display': 'none'
                 });
-                var jipMenuTable = $('<table />').attr({
-                    'class': 'jipItems',
-                    cellPadding: 3,
-                    cellSpacing: 0
-                });
-                var jipMenuTbody = $('<tbody />');
+
+                var jipMenuUl = $('<ul class="mzz-jip-menu" />');
 
                 for (var i = 0, l = items.length; i < l; i++) {
                     var elm = items[i];
-                    var jipMenuTableTR = $('<tr />').attr({
-                        'id': id + '_' + i
-                        });
-
-                    if (elm[3]) {
-                        jipMenuTableTR.bind("mouseenter", elm[1], function (e) {
-                            $(this).find('td:eq(1)').addClass('jipItemTextActive');jipMenu.showLang($(this), e.data);
-                        });
+                    var jipMenuItem = $('<li/>').attr({'id': id + '_' + i});
+                    var jipMenuIcon = $('<span class="mzz-jip-icon" />');
+                    
+                    if ($.isObject(elm[2])) {
+                         jipMenuIcon.addClass(elm[2].sprite + ' ' + elm[2].index);
                     } else {
-                        jipMenuTableTR.bind("mouseenter", function () {
-                            $(this).find('td:eq(1)').addClass('jipItemTextActive');jipMenu.closeLang();
-                        });
+                        jipMenuIcon.append('<img src="' + elm[2] + '" alt="icon" width="16" height="16" />');
                     }
-
-                    jipMenuTableTR.bind("mouseleave", function () {
-                        $(this).find('td:eq(1)').removeClass('jipItemTextActive')
-                        });
 
                     var jipMenuItemA = $('<a />').attr({
-                        href: elm[1],
-                        title: elm[1]
-                        });
+                        href: elm[1] //,title: elm[1] (сцука - бажит)
+                    }).append(jipMenuIcon)
+                      .append('<span class="mzz-jip-title">' + elm[0] + '</span>')
+                      .bind('click', {
+                        link: elm[1],
+                        target: elm[4]
+                    }, this.itemClick);
 
-                    var reg = new RegExp(/^(.*):(\d+)$/g);
-                    var sprite = reg.exec(elm[2]);
-
-                    if (!sprite) {
-                        var jipMenuItemImg = $('<img />').attr({
-                            src: elm[2],
-                            height: 16,
-                            width: 16
+                    if (elm[3]) {
+                        jipMenuItemA.bind("mouseenter", elm[1], function (e) {
+                            jipMenu.showLang($(this).parent(), e.data);
                         });
                     } else {
-                        jipMenuItemA.css({'background': 'transparent url(' + sprite[1] + ') no-repeat -' + (16 * (sprite[2] - 1)) + 'px top', 'width': 16, 'height': 16, 'display': 'block'})
-                    }
-                    
-                    var jipMenuTdIcon = $('<td />').attr({
-                        'class': 'jipItemIcon'
-                    });
-                    var jipMenuTdTitle = $('<td />').attr({
-                        'class': 'jipItemText' + ((elm[3] == true) ? ' jipItemTextWithLang': '')
+                        jipMenuItemA.bind("mouseenter", function () {
+                            jipMenu.closeLang();
                         });
-
-                    jipMenuItemA.bind('click', {
-                        link: elm[1],
-                        target: elm[4]
-                        }, this.itemClick);
-
-                    jipMenuTableTR.bind('click', {
-                        link: elm[1],
-                        target: elm[4]
-                        }, this.itemClick);
-
-
-                    jipMenuTdTitle.text(elm[0]);
-
-                    if (jipMenuItemImg) {
-                        jipMenuItemImg.appendTo(jipMenuItemA);
                     }
-                    jipMenuItemA.appendTo(jipMenuTdIcon);
-                    jipMenuTdIcon.appendTo(jipMenuTableTR);
-                    jipMenuTdTitle.appendTo(jipMenuTableTR);
-                    jipMenuTableTR.appendTo(jipMenuTbody);
+
+                    jipMenuItemA.appendTo(jipMenuItem);
+                    jipMenuItem.appendTo(jipMenuUl);
                 }
 
-                jipMenuTbody.appendTo(jipMenuTable);
-                jipMenuTable.appendTo(jipMenuDiv);
-
+                jipMenuUl.appendTo(jipMenuDiv);
                 jipMenuDiv.appendTo($('body'));
             } else {
                 var jipMenuDiv = $('#' + id);

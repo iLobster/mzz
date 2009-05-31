@@ -164,6 +164,9 @@ class jip
                 $item['url'] = isset($item['url']) ? $item['url'] : (($key != 'editACL') ? $this->buildUrl($item, $key) : $this->buildACLUrl($this->obj->getObjId()));
                 $item['id'] = $this->getJipMenuId() . '_' . $item['controller'];
                 $item['icon'] = isset($item['icon']) ? SITE_PATH . $item['icon'] : '';
+                $item['sprite'] = isset($item['sprite_name']) ? $item['sprite_name'] : 'mzz-icon';
+                $item['index'] = isset($item['sprite_index']) ? (strpos($item['sprite_index'], ',') !== false ? explode(',', $item['sprite_index']) : $item['sprite_index'] ) : 'mzz-icon-doc';
+
                 $item['lang'] = (isset($item['lang']) && systemConfig::$i18nEnable) ? (boolean)$item['lang'] : false;
                 $item['target'] = (isset($item['jip_target']) && $item['jip_target'] == 'new') ? 1 : 0;
 
