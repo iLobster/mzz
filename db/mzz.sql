@@ -890,20 +890,6 @@ INSERT INTO `page_page_lang` (`id`, `lang_id`, `title`, `content`, `keywords`, `
 COMMIT;
 
 #
-# Structure for the `qq` table : 
-#
-
-DROP TABLE IF EXISTS `qq`;
-
-CREATE TABLE `qq` (
-  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` CHAR(20) COLLATE utf8_general_ci DEFAULT NULL,
-  `obj_id` INTEGER(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
 # Structure for the `sys_access` table : 
 #
 
@@ -9244,8 +9230,6 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (11,'commentsFolder',8),
   (12,'userAuth',2),
   (13,'pageFolder',4),
-  (17,'file',9),
-  (18,'folder',9),
   (19,'catalogue',10),
   (20,'catalogueFolder',10),
   (21,'gallery',11),
@@ -9274,14 +9258,12 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (46,'tagsItemRel',17),
   (47,'captcha',18),
   (48,'profile',15),
-  (49,'storage',9),
   (50,'userFolder',2),
   (52,'groupFolder',2),
   (53,'ratingsFolder',21),
   (54,'ratings',21),
   (55,'configOption',22),
-  (56,'configFolder',22),
-  (57,'qq',24);
+  (56,'configFolder',22);
 COMMIT;
 
 #
@@ -9333,19 +9315,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (49,13,4),
   (50,13,5),
   (51,9,21),
-  (62,18,27),
-  (63,17,1),
-  (64,17,28),
-  (65,17,2),
-  (68,17,18),
-  (69,18,18),
   (70,1,29),
-  (71,17,29),
-  (72,18,6),
-  (73,18,8),
-  (74,18,7),
   (76,2,30),
-  (77,18,30),
   (91,13,8),
   (92,13,30),
   (95,19,2),
@@ -9420,8 +9391,6 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (234,37,87),
   (235,37,88),
   (239,25,91),
-  (240,18,5),
-  (241,18,92),
   (249,45,96),
   (250,45,95),
   (251,45,94),
@@ -9547,13 +9516,11 @@ INSERT INTO `sys_modules` (`id`, `name`, `title`, `icon`, `order`) VALUES
   (5,'access','Права доступа','access.gif',10),
   (6,'admin','Администрирование','admin.gif',120),
   (8,'comments','Комментарии','comments.gif',40),
-  (9,'fileManager','Файлменеджер','fm.gif',NULL),
   (12,'menu','Меню','pages.gif',90),
   (18,'captcha','Captcha','',0),
   (19,'pager','Пейджер',NULL,NULL),
   (20,'simple','simple',NULL,NULL),
-  (22,'config','Конфигурация','config.gif',0),
-  (24,'module','module','',0);
+  (22,'config','Конфигурация','config.gif',0);
 COMMIT;
 
 #
