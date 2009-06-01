@@ -121,12 +121,11 @@ class action
     /**
      * Возвращает все допустимые действия модуля
      *
-     * @param boolean $onlyACL выбрать только ACL действия
+     * @param array $filter
      * @return array
      */
     public function getActions($filter = array())
     {
-
         if (!empty($filter)) {
             $tmp = array();
             foreach ($this->actions as $class => $params) {
@@ -142,6 +141,13 @@ class action
                     return isset($tmp[$class]) ? $tmp[$class] : array();
                 }
             }
+
+            if (!$tmp) {
+                foreach (array_keys($this->actions) as $action) {
+                    $tmp[$action] = array();
+                }
+            }
+
             return $tmp;
         }
 

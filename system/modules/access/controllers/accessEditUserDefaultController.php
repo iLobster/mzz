@@ -27,15 +27,28 @@ class accessEditUserDefaultController extends simpleController
 
         $class = $this->request->getString('class_name');
 
+        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+        $module = $adminMapper->searchModuleByClass($class);
+
+        if (!$module) {
+            $controller = new messageController('Не найден класс или модуль, в который он входит', messageController::WARNING);
+            return $controller->run();
+        }
+
         $userMapper = $this->toolkit->getMapper('user', 'user');
         $user = $userMapper->searchByKey($user_id);
 
         $acl = new acl($user, 0, $class);
 
-        $action = $this->toolkit->getAction($acl->getModule($class));
+        $action = $this->toolkit->getAction($module['name']);
         $actions = $action->getActions(array('acl' => true));
 
         $actions = $actions[$class];
+
+        if (!$actions) {
+            $controller = new messageController('Для этого класса нет ни одного действия, правами которого можно было бы управлять', messageController::WARNING);
+            return $controller->run();
+        }
 
         if ($this->request->getMethod() == 'POST' && $user) {
             $setted = $this->request->getArray('access', SC_POST);

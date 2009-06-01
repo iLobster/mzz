@@ -27,15 +27,28 @@ class accessEditGroupDefaultController extends simpleController
 
         $class = $this->request->getString('class_name');
 
-        $groupMapper = $this->toolkit->getMapper('user', 'group', 'user');
+        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+        $module = $adminMapper->searchModuleByClass($class);
+
+        if (!$module) {
+            $controller = new messageController('Не найден класс или модуль, в который он входит', messageController::WARNING);
+            return $controller->run();
+        }
+
+        $groupMapper = $this->toolkit->getMapper('user', 'group');
         $group = $groupMapper->searchByKey($group_id);
 
         $acl = new acl($this->toolkit->getUser(), 0, $class);
 
-        $action = $this->toolkit->getAction($acl->getModule($class));
+        $action = $this->toolkit->getAction($module['name']);
         $actions = $action->getActions(array('acl' => true));
 
         $actions = $actions[$class];
+
+        if (!$actions) {
+            $controller = new messageController('Для этого класса нет ни одного действия, правами которого можно было бы управлять', messageController::WARNING);
+            return $controller->run();
+        }
 
         if ($this->request->getMethod() == 'POST' && $group) {
             $setted = $this->request->getArray('access', SC_POST);
@@ -63,7 +76,7 @@ class accessEditGroupDefaultController extends simpleController
 
             $criteria = new criteria();
             $criteria->addJoin('sys_access', $criterion, 'a');
-            //$criteria->addGroupBy($groupMapper->getTable() . '.' . $groupMapper->getTableKey());
+
             $criteria->add('a.id', null, criteria::IS_NULL);
 
             $groups = $groupMapper->searchAllByCriteria($criteria);

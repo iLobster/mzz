@@ -122,7 +122,7 @@ class actionTest extends unitTestCase
 
     public function testGetActionsNone()
     {
-        $this->assertEqual($this->action->getActions(array('class' => 'unknownClass')), array());
+        $this->assertEqual($this->action->getActions(array('class' => 'unknownClass')), array('firstActions' => array(), 'secondActions' => array()));
         $this->assertEqual($this->action->getActions(array('class' => 'secondActions', 'jip' => 3)), array());
     }
 
