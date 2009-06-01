@@ -297,34 +297,47 @@ class requestRoute implements iRoute
             $this->prepare();
         }
         $url = '';
+
+        $url = array();
+        $url_names = array();
+
         foreach ($this->parts as $part) {
             if ($part['isVar']) {
-                $withDefault = isset($this->defaults[$part['name']]) && $part['name'] != 'lang';
-                if (array_key_exists($part['name'], $values) && (!$withDefault || ($withDefault && $this->defaults[$part['name']] !== $values[$part['name']]))) {
-                    $regex = isset($this->requirements[$part['name']]) ? self::REGEX_DELIMITER . $this->requirements[$part['name']] . self::REGEX_DELIMITER : false;
-                    $regex = false;
-                    if ($regex && !preg_match($regex, $values[$part['name']])) {
-                        throw new mzzRuntimeException('Значение "' . $values[$part['name']] . '" не соответствует регулярному выражению "' . $this->requirements[$part['name']] . '"');
-                    }
-                    $url .= $values[$part['name']];
+                if (array_key_exists($part['name'], $values)) {
+                    $url[] = $values[$part['name']];
+                    $url_names[] = $part['name'];
                     unset($values[$part['name']]);
-                } elseif ($part == "*") {
-                    foreach($values as $key => $value) {
-                        $url .= '/' . $key . '/' . $value;
-                    }
                 } elseif (isset($this->defaults[$part['name']])) {
                     if ($part['name'] == 'lang' && $this->withLang) {
-                        $url = $lang . $url;
+                        $url[] = $lang;
+                        $url_names[] = 'lang';
                     } else {
-                        $url = substr($url, 0, -1);
+                        // ?
+                        //$url = substr($url, 0, -1);
                     }
                 } else {
                     throw new mzzRuntimeException('Отсутствует значение для ' . $this->name . ' route: ' . $part['name']);
                 }
             } else {
-                $url .= $part['name'];
+                $url[] = $part['name'];
+                $url_names[] = $part['name'];
             }
         }
+
+        $break = -1;
+        foreach (array_reverse($url_names, true) as $key => $val) {
+            if (isset($this->defaults[$val]) && $val != 'lang' && $url[$key] == $this->defaults[$val]) {
+                $break = $key;
+            } else {
+                break;
+            }
+        }
+
+        if ($break != -1) {
+            $url = array_slice($url, 0, $break);
+        }
+
+        $url = implode('', $url);
 
         return trim($url, '/');
     }
