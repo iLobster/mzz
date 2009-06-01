@@ -25,7 +25,6 @@
             this.langs = false;
             this.jipLangMenu = false;
             this.langParent = null;
-            //this.spriteReg  =new RegExp(/^(.*):(\d+)$/g);
         },
 
         eventKey: function(e)
@@ -166,7 +165,7 @@
                     }
 
                     var jipMenuItemA = $('<a />').attr({
-                        href: elm[1] //,title: elm[1] (сцука - бажит)
+                        href: elm[1]
                     }).append(jipMenuIcon)
                       .append('<span class="mzz-jip-title">' + elm[0] + '</span>')
                       .bind('click', {
@@ -175,6 +174,7 @@
                     }, this.itemClick);
 
                     if (elm[3]) {
+                        jipMenuItemA.addClass('withlang');
                         jipMenuItemA.bind("mouseenter", elm[1], function (e) {
                             jipMenu.showLang($(this).parent(), e.data);
                         });

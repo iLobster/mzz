@@ -299,7 +299,7 @@
                 title.remove();
             }
 
-            this.window.content().find('a.mzz-jip-link').addClass('mzz-jip-link-new');
+            //this.window.content().find('a.mzz-jip-link').addClass('mzz-jip-link-new');
             this.window.show();
 
         },
@@ -388,6 +388,7 @@
                 return false;
             }
 
+            console.log(link.attr('href'), link.hasClass('mzz-jip-link-new'));
             jipWindow.open(link.attr('href'), link.hasClass('mzz-jip-link-new'));
             return false;
         }

@@ -3,27 +3,29 @@
      * @param name access name
      * @param access 1 - allow checkbox, 0 - deny checkbox
      */
-    function checkPermissionsForm(name, access) {
-        if ($('access_' + name + '_' + (access ? 'allow' : 'deny')).getValue() == 1) {
-            $('access_' + name + '_' + (access ? 'deny' : 'allow')).checked = false;
+(function ($) {
+    checkPermissionsForm = function(name, access) {
+        if ($('#access_' + name + '_' + (access ? 'allow' : 'deny')).attr('checked')) {
+            $('#access_' + name + '_' + (access ? 'deny' : 'allow')).attr('checked', false);
         }
     }
 
     /**
      * @param access 1 - allow checkboxes, 0 - deny checkboxes
      */
-    function setPermissionForAllActions(access, link) {
-        $(link).up('table').select('input').each(function(elm) {
-        var elmInfo = elm.id.match(new RegExp('access_.*?_(allow|deny)', 'im'));
-        if(elmInfo) {
-            if ((access && elmInfo[1] == 'deny') || (!access && elmInfo[1] == 'allow')) {
-                $(elmInfo[0]).checked = false;
-            } else {
-                $(elmInfo[0]).checked = 'checked';
-            }
-        }});
+    setPermissionForAllActions = function(access, link) {
+        var checks = $(link).parents('table:last').find('input:checkbox').each(function(){
+            var elmInfo = $(this).attr('id').match(new RegExp('access_.*?_(allow|deny)', 'im'));
+                if(elmInfo) {
+                    if ((access && elmInfo[1] == 'deny') || (!access && elmInfo[1] == 'allow')) {
+                        $('#' + elmInfo[0]).attr('checked',false);
+                    } else {
+                        $('#' + elmInfo[0]).attr('checked','checked');
+                    }
+                }});
         return false;
     }
+})(jQuery);
     </script>{/literal}
 
     <tr>

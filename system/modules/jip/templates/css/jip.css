@@ -472,3 +472,9 @@ form dd{
     float: left;
     *float: none;
 }
+
+.mzz-jip-menu li a.withlang span.mzz-jip-title {
+    background-image: url("../images/jip/arrow.gif");
+    background-repeat: no-repeat;
+    background-position: 96% center;
+}
