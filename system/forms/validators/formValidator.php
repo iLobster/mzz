@@ -12,6 +12,8 @@
  * @version $Id$
  */
 
+fileLoader::load('forms/formArrayDataspace');
+
 /**
  * formValidator
  *
@@ -57,7 +59,7 @@ class formValidator
      */
     public function __construct($submit = 'submit')
     {
-        $this->errors = new arrayDataspace();
+        $this->errors = new formArrayDataspace($this);
 
         if (!is_string($submit)) {
             throw new mzzInvalidParameterException('Параметр submit должен быть строковым', $submit);
@@ -99,6 +101,10 @@ class formValidator
             $this->add('required', form::$CSRFField, 'CSRF Attack detected');
             $this->add('csrf', form::$CSRFField, 'CSRF Attack detected');
         }
+
+        $this->errors->set('_validators', $this->validators);
+        systemToolkit::getInstance()->getSmarty()->assign('form', $this->errors);
+
         if (systemToolkit::getInstance()->getRequest()->getString($this->submit, SC_REQUEST)) {
             $valid = true;
 
