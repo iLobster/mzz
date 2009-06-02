@@ -81,7 +81,7 @@ class pageFolderMapper extends mapper
 
     private function appendRoot(&$path)
     {
-        if (strpos($path, 'root/') !== 0) {
+        if (strpos($path, 'root') !== 0) {
             $path = 'root/' . $path;
         }
     }
