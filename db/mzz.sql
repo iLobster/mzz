@@ -890,6 +890,24 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
 COMMIT;
 
 #
+# Structure for the `sys_sessions` table : 
+#
+
+DROP TABLE IF EXISTS `sys_sessions`;
+
+CREATE TABLE `sys_sessions` (
+  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `sid` VARCHAR(50) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `ts` INTEGER(11) UNSIGNED NOT NULL DEFAULT '0',
+  `valid` ENUM('yes','no') NOT NULL DEFAULT 'yes',
+  `data` TEXT COLLATE utf8_general_ci,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `sid` (`sid`),
+  KEY `valid` (`valid`)
+)ENGINE=MyISAM
+AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
 # Structure for the `sys_skins` table : 
 #
 
