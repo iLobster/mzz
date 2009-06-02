@@ -54,7 +54,15 @@ CREATE TABLE `comments_commentsFolder` (
   UNIQUE KEY `parent_id_2` (`parent_id`, `type`),
   KEY `parent_id` (`parent_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=3 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `comments_commentsFolder` table  (LIMIT 0,500)
+#
+
+INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`, `module`, `type`, `by_field`) VALUES 
+  (2,1458,1457,'news','news','obj_id');
+COMMIT;
 
 #
 # Structure for the `comments_comments_tree` table : 
@@ -176,7 +184,15 @@ CREATE TABLE `news_news` (
   KEY `id` (`id`),
   KEY `folder_id` (`folder_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=169 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=170 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `news_news` table  (LIMIT 0,500)
+#
+
+INSERT INTO `news_news` (`id`, `obj_id`, `editor`, `folder_id`, `created`, `updated`) VALUES 
+  (169,1457,2,2,1233907447,1243927140);
+COMMIT;
 
 #
 # Structure for the `news_newsFolder` table : 
@@ -271,6 +287,14 @@ CREATE TABLE `news_news_lang` (
   PRIMARY KEY (`id`, `lang_id`)
 )ENGINE=MyISAM
 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `news_news_lang` table  (LIMIT 0,500)
+#
+
+INSERT INTO `news_news_lang` (`id`, `lang_id`, `title`, `annotation`, `text`) VALUES 
+  (169,1,'Россияне назвали свои любимые бренды','Первые три места рейтинга любимых брендов россиян заняли Samsung, Sony и Nokia. На четвертом месте Panasonic, а на пятом - Toyota. Такие результаты дало исследование компании Online Market Intelligence. В двадцатку любимых россиянами брендов вошли Nissan, Reebok и Honda, не попавшие в прошлогодний рейтинг.','Первые три места рейтинга любимых брендов россиян заняли Samsung, Sony и Nokia. Такие результаты дало исследование, проведенное компанией Online Market Intelligence.\n\nТаким образом, в тройке лидеров оказались те же бренды, что и в 2008 году, но Samsung поднялся на первое место со второго, а Sony потеряла одну строчку. На четвертом месте Panasonic, а на пятом - Toyota. В прошлом году пятое место занимал Adidas, опустившийся на шестую строчку.\n\nСильнее всего упали в рейтинге бренды BMW (опустился с седьмого места на девятнадцатое) и Mercedes (с восьмого на восемнадцатое). Между тем, в двадцатку любимых брендов попали Nissan, Reebok и Honda, не вошедшие в рейтинг 2008 года.\n\nПолностью список любимых брендов выглядит следующим образом:\n\n   1. Samsung\n   2. Sony\n   3. Nokia\n   4. Panasonic\n   5. Toyota\n   6. Adidas\n   7. Canon\n   8. Bosch\n   9. Asus\n  10. Philips\n  11. HP\n  12. Sony Ericsson\n  13. Nike\n  14. LG\n  15. Nissan\n  16. Coca-Cola\n  17. Reebok\n  18. Mercedes\n  19. BMW\n  20. Honda \n\nВ основу рейтинга легла доля упомянувших каждый бренд от общего числа респондентов, назвавших хотя бы один бренд. Сообщается также, что полный материал о результатах исследования с комментариями экспертов будет опубликован в еженедельнике \"Компания\". ');
+COMMIT;
 
 #
 # Structure for the `page_page` table : 
@@ -414,7 +438,30 @@ CREATE TABLE `sys_access_registry` (
   `class_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1443 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1459 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `sys_access_registry` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access_registry` (`obj_id`, `class_id`) VALUES 
+  (1443,9),
+  (1444,7),
+  (1445,7),
+  (1446,7),
+  (1447,7),
+  (1448,7),
+  (1449,7),
+  (1450,7),
+  (1451,7),
+  (1452,7),
+  (1453,7),
+  (1454,50),
+  (1455,52),
+  (1456,3),
+  (1457,1),
+  (1458,11);
+COMMIT;
 
 #
 # Structure for the `sys_actions` table : 
@@ -760,7 +807,30 @@ CREATE TABLE `sys_obj_id` (
   `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1443 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1459 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `sys_obj_id` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_obj_id` (`id`) VALUES 
+  (1443),
+  (1444),
+  (1445),
+  (1446),
+  (1447),
+  (1448),
+  (1449),
+  (1450),
+  (1451),
+  (1452),
+  (1453),
+  (1454),
+  (1455),
+  (1456),
+  (1457),
+  (1458);
+COMMIT;
 
 #
 # Structure for the `sys_obj_id_named` table : 
@@ -774,7 +844,27 @@ CREATE TABLE `sys_obj_id_named` (
   PRIMARY KEY (`obj_id`),
   UNIQUE KEY `name` (`name`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1443 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1456 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `sys_obj_id_named` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES 
+  (1443,'access_admin'),
+  (1444,'access_access'),
+  (1445,'access_captcha'),
+  (1446,'access_comments'),
+  (1447,'access_config'),
+  (1448,'access_menu'),
+  (1449,'access_news'),
+  (1450,'access_page'),
+  (1451,'access_pager'),
+  (1452,'access_simple'),
+  (1453,'access_user'),
+  (1454,'userFolder'),
+  (1455,'groupFolder');
+COMMIT;
 
 #
 # Structure for the `sys_skins` table : 
@@ -807,21 +897,21 @@ DROP TABLE IF EXISTS `user_group`;
 
 CREATE TABLE `user_group` (
   `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `obj_id` INTEGER(10) UNSIGNED NOT NULL DEFAULT '0',
   `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `is_default` TINYINT(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=4 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=5 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_group` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_group` (`id`, `obj_id`, `name`, `is_default`) VALUES 
-  (1,14,'unauth',NULL),
-  (2,15,'auth',1),
-  (3,225,'root',0);
+INSERT INTO `user_group` (`id`, `name`, `is_default`) VALUES 
+  (1,'unauth',NULL),
+  (2,'auth',1),
+  (3,'root',0),
+  (4,'moderators',0);
 COMMIT;
 
 #
@@ -832,7 +922,6 @@ DROP TABLE IF EXISTS `user_user`;
 
 CREATE TABLE `user_user` (
   `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `obj_id` INTEGER(10) UNSIGNED NOT NULL DEFAULT '0',
   `login` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `password` VARCHAR(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `created` INTEGER(11) DEFAULT NULL,
@@ -844,16 +933,17 @@ CREATE TABLE `user_user` (
   PRIMARY KEY (`id`),
   KEY `login` (`login`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=5 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_user` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_user` (`id`, `obj_id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES 
-  (1,12,'guest2','',NULL,NULL,1225005849,NULL,3,1),
-  (2,13,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1237956788,1,3,1),
-  (3,472,'pedro','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1);
+INSERT INTO `user_user` (`id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES 
+  (1,'guest','',NULL,NULL,1225005849,NULL,3,1),
+  (2,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1237956788,1,3,1),
+  (3,'moderator','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1),
+  (4,'user','098f6bcd4621d373cade4e832627b4f6',1243925700,NULL,NULL,NULL,3,1);
 COMMIT;
 
 #
@@ -898,7 +988,7 @@ CREATE TABLE `user_userGroup_rel` (
   UNIQUE KEY `group_id` (`group_id`, `user_id`),
   KEY `user_id` (`user_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=31 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=33 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userGroup_rel` table  (LIMIT 0,500)
@@ -908,7 +998,9 @@ INSERT INTO `user_userGroup_rel` (`id`, `group_id`, `user_id`) VALUES
   (1,1,1),
   (23,2,2),
   (24,3,2),
-  (30,2,3);
+  (30,2,3),
+  (31,2,4),
+  (32,4,3);
 COMMIT;
 
 #

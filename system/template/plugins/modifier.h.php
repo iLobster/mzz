@@ -22,7 +22,7 @@ fileLoader::load('libs/smarty/plugins/modifier.escape');
  */
 function smarty_modifier_h($string, $esc_type = 'html', $char_set = 'UTF-8')
 {
-    return smarty_modifier_escape($string, $esc_type, $char_set);
+    return nl2br(smarty_modifier_escape($string, $esc_type, $char_set));
 }
 
 /* vim: set expandtab: */

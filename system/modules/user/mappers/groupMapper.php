@@ -31,7 +31,7 @@ class groupMapper extends mapper
     public function __construct()
     {
         parent::__construct();
-        $this->plugins('acl_ext');
+        $this->plugins('acl_simple');
         $this->plugins('jip');
     }
 

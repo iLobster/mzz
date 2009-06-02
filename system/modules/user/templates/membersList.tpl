@@ -19,7 +19,9 @@
                 <td>{form->reset value="_ simple/reset" jip=true}</td>
             </tr>
         {else}
-            {_ no_users_in_group}
+            <tr>
+                <td colspan="2">{_ no_users_in_group}</td>
+            </tr>
         {/if}
         <tr>
             <td colspan="2"><a href="{url route=withAnyParam section=user action=addToGroup name=$group->getId()}" class="jipLink" title="{_ add_user_to_group}"><span class="mzz-icon mzz-icon-user-add"></span> {_ add_user_to_group}</a></td>

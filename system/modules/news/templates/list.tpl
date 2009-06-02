@@ -10,11 +10,11 @@
         </div>
 
         <div class="news_info">
-            {_ author}: {$current_news->getEditor()->getLogin()}, {$current_news->getCreated()|date_format:"%e %B %Y / %H:%M"},
-            {_ edited}: {$current_news->getUpdated()|date_format:"%e %B %Y / %H:%M"}
+            {_ author}: {$current_news->getEditor()->getLogin()}, {$current_news->getCreated()|date_i18n},
+            {_ edited}: {$current_news->getUpdated()|date_i18n}
         </div>
 
-        <div class="news_text">{$current_news->getAnnotation()|htmlspecialchars}</div>
+        <div class="news_text">{$current_news->getAnnotation()|h}</div>
     {/foreach}
 
     {if $pager->getPagesTotal() > 0}
