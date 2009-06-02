@@ -28,6 +28,14 @@ $menu = array("intro.Предисловие" =>
                                          "add.Функция {add}",
                                          "url.Функция {url}",
                                          ),
+                        "controllers.Контроллеры"
+                                => array("simpleController.simpleController",
+                                         "403controller.simple403Controller",
+                                         "404controller.simple404Controller",
+                                         "messageController.messageController",
+                                         "forwarding.Передача управления другому контроллеру",
+                                         "redirecting.Переадресация"
+                                         ),
                         "classes.Основные системные классы"
                                 => array("toolkit.toolkit",
                                          "request.httpRequest",
@@ -71,7 +79,6 @@ $menu = array("intro.Предисловие" =>
                         array(
                         "project.Структура проекта",
                         "config.Создание конфигурации для проекта",
-                        "code_generation.Автоматическая генерация кода",
                         ),
            "modules.Модули системы" =>
                         array(
@@ -80,17 +87,6 @@ $menu = array("intro.Предисловие" =>
                                          "actions.Actions",
                                          "controllers.Controllers",
                                          "mappers.Mappers",
-                                         ),
-                        "simple.Базовые классы модуля"
-                                => array("simple.simple",
-                                         "simpleForTree.simpleForTree",
-                                         "simpleMapper.simpleMapper",
-                                         "simpleMapperForTree.simpleMapperForTree",
-                                         "simpleController.simpleController",
-                                         "simpleFactory.simpleFactory",
-                                         "403controller.simple403Controller",
-                                         "404controller.simple404Controller",
-                                         "messageController.messageController"
                                          ),
                         'writing_module.Написание модуля "Комментарии"'
                                 => array("intro.Введение",

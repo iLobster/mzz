@@ -1,13 +1,10 @@
 <?php
 
-class newsMapper extends simpleMapper
+class menu404Controller extends simpleController
 {
-    [...]
-    
-    public function get404()
+    protected function getView()
     {
-        fileLoader::load('news/controllers/news404Controller');
-        return new news404Controller();
+        return $this->smarty->fetch('menu/notfound.tpl');
     }
 }
 
