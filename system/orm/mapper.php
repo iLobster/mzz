@@ -244,7 +244,7 @@ abstract class mapper
     {
         $name .= 'Plugin';
         if (!class_exists($name)) {
-            throw new mzzRuntimeException('The specified "' . $name . '" plugin doesn\'t exists');
+            fileLoader::load('orm/plugins/' . $name);
         }
 
         $this->attach(new $name());
