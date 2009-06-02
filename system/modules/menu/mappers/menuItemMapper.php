@@ -102,6 +102,7 @@ class menuItemMapper extends mapper
         return $this->searchOneByField('id', $id);
     }
 
+    /*
     public function getMenuItemsTypes()
     {
         return array(
@@ -109,18 +110,7 @@ class menuItemMapper extends mapper
             self::ITEMTYPE_ADVANCED => 'Advanced',
             self::ITEMTYPE_EXTERNAL  => 'External',
         );
-    }
-
-    public function getTitleByType($type)
-    {
-        $types = $this->getMenuItemsTypes();
-
-        if (!array_key_exists($type, $types)) {
-            $type = self::ITEMTYPE_SIMPLE;
-        }
-
-        return $types[$type];
-    }
+    }*/
 
     public function getMenuChildrens($parent_id, menu $menu)
     {

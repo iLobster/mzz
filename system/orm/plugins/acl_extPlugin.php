@@ -27,7 +27,7 @@ class acl_extPlugin extends observer
     public function postInsert(entity $object)
     {
         $acl = new acl(systemToolkit::getInstance()->getUser());
-        $acl->register($object->getObjId(), get_class($object));
+        $acl->register($object->getObjId(), $this->mapper->getClass());
     }
 
     public function preCreate(entity $object)

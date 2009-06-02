@@ -31,16 +31,6 @@ abstract class menuItem extends entity
     protected $urlLangSpecified;
 
     protected $module = 'menu';
-/*
-    public function setTypeId($typeId)
-    {
-        $this->typeId = $typeId;
-    }
-
-    public function getTypeId()
-    {
-        return $this->typeId;
-    }*/
 
     public function getArgument($argument, $default = null)
     {
@@ -130,10 +120,23 @@ abstract class menuItem extends entity
         $this->urlLangSpecified = (bool)$specified;
     }
 
+    /*
     public function getTypeTitle()
     {
-        return $this->mapper->getTitleByType($this->getType());
+        return $this->getTitleByType($this->getType());
     }
+
+    public function getTitleByType($type)
+    {
+        $types = self::$types;
+
+        if (!array_key_exists($type, $types)) {
+            $type = self::ITEMTYPE_SIMPLE;
+        }
+
+        return $types[$type];
+    }
+    */
 
     abstract function getUrl();
     abstract function isActive();
