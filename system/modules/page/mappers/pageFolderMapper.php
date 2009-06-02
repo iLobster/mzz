@@ -75,7 +75,15 @@ class pageFolderMapper extends mapper
 
     public function searchByPath($path)
     {
+        $this->appendRoot($path);
         return $this->plugin('tree')->searchByPath($path . '/');
+    }
+
+    private function appendRoot(&$path)
+    {
+        if (strpos($path, 'root/') !== 0) {
+            $path = 'root/' . $path;
+        }
     }
 
     /**
