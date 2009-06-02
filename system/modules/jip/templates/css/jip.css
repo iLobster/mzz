@@ -520,3 +520,17 @@ form.mzz-jip-form li.error {
     background-repeat: no-repeat;
     background-position: 96% center;
 }
+
+.mzz-jip-window table.systemTable td {
+    border-bottom: 1px #D4D4D4 dashed;
+    line-height: 1.2em;
+}
+
+.mzz-jip-window table.systemTable td span.mzz-icon {
+    margin: 2px 2px -2px 0;
+
+}
+
+.mzz-jip-window table.systemTable tr:hover {
+    background-color: #ffffff;
+}
