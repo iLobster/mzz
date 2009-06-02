@@ -1,7 +1,17 @@
 {if !isset($filter)}
     <div class="jipTitle">{_ add_user_to_group} <b>{$group->getName()}</b></div>
     <div style="padding: 15px;">
-        <form action="{url}" id='filterForm' method="get" onsubmit="new Ajax.Updater('users', this.action, {literal}{'method': 'get', 'parameters': this.serialize(true)}{/literal}); return false;">
+        <form action="{url}" id='filterForm' method="get" onsubmit="addToGroupSearch(this); return false;">
+            <script>{literal}
+            (function($){
+                addToGroupSearch = function (form){
+                    var frm = $(form);
+                    $('#users').load(frm.attr('action'), frm.serializeArray());
+                    return false;
+                }
+            })(jQuery);
+            {/literal}
+            </script>
             {_ username}: <input type="text" value="" name="filter"> <input type="image" src="{$SITE_PATH}/templates/images/search.gif">
         </form>
     </div>

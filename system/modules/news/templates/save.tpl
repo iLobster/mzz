@@ -14,29 +14,30 @@
     </script>{/literal}
 {/if}
 
-{form action=$action method="post" jip=true}
-    <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
-        <tr>
-            <td style='width: 20%;'>{form->caption name="title" value="_ title"}</td>
-            <td style='width: 80%;'>{form->text name="title" value=$news->getTitle() size="60"}{$errors->get('title')}</td>
-        </tr>
+{form action=$action method="post" jip=true class="mzz-jip-form"}
+    <ul>
+        <li class="{$form->required('title','required')} {$form->error('title','error')}">
+            {form->caption name="title" value="_ title"}
+            <span class="input">{form->text name="title" value=$news->getTitle() style="width: 100%"}</span>
+            {if $form->error('title')}<span class="error">{$form->message('title')}</span>{/if}
+        </li>
         {if !$isEdit}
-            <tr>
-                <td>{_ creating_date}</td>
-                <td>{form->text name="created" size="20" id="calendar-field-created" value=$smarty.now|date_format:"%H:%M:%S %d/%m/%Y"}{$errors->get('created')}</td>
-            </tr>
+            <li class="{$form->required('created','required')} {$form->error('created','error')}">
+                {form->caption name="created" value="_ creating_date"}
+                <span class="input">{form->text name="created" style="width: 93%; margin-right: 1%" id="calendar-field-created" value=$smarty.now|date_format:"%H:%M:%S %d/%m/%Y"}</span>
+                {if $form->error('created')}<span class="error">{$form->message('created')}</span>{/if}
+            </li>
         {/if}
-        <tr>
-            <td style='vertical-align: top;'>{_ annotation}</td>
-            <td>{form->textarea name="annotation" value=$news->getAnnotation() rows="4" cols="50"}</td>
-        </tr>
-        <tr>
-            <td style='vertical-align: top;'>{_ text}</td>
-            <td>{form->textarea name="text" value=$news->getText() rows="7" cols="50"}</td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td>{form->submit name="submit" value="_ simple/save"} {form->reset jip=true name="reset" value="_ simple/cancel"}</td>
-        </tr>
-    </table>
+        <li class="{$form->required('annotation','required')} {$form->error('annotation','error')}">
+            {form->caption name="annotation" value="_ annotation"}
+            <span class="input">{form->textarea name="annotation" value=$news->getAnnotation() rows="4" style="width: 100%"}</span>
+            {if $form->error('annotation')}<span class="error">{$form->message('annotation')}</span>{/if}
+        </li>
+        <li class="{$form->required('text','required')} {$form->error('text','error')}">
+            {form->caption name="text" value="_ text"}
+            <span class="input">{form->textarea name="text" value=$news->getText() rows="7" style="width: 100%"}</span>
+            {if $form->error('text')}<span class="error">{$form->message('text')}</span>{/if}
+        </li>
+    </ul>
+    <span class="buttons">{form->submit name="submit" value="_ simple/save"} {form->reset jip=true name="reset" value="_ simple/cancel"}</span>
 </form>

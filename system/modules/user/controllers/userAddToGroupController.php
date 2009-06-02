@@ -23,8 +23,7 @@ class userAddToGroupController extends simpleController
 {
     protected function getView()
     {
-        $filter = $this->request->getString('filter', SC_GET);
-
+        $filter = $this->request->getString('filter', SC_POST);
         $id = $this->request->getInteger('id');
 
         $groupMapper = $this->toolkit->getMapper('user', 'group');

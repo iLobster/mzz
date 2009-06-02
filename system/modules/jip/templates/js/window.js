@@ -80,7 +80,7 @@
                 this._resizable = true;
                 var rParams = params.resizable;
                 if (rParams === true) {
-                    rParams = {handles: 'se', minHeight: 100, minWidth: 600};
+                    rParams = {handles: 'se', minHeight: 100, minWidth: 650};
                 } else {
                     // todo: чето я туто хотел доделать :( подумать над клонированием?
                     rParams = params.resizable;

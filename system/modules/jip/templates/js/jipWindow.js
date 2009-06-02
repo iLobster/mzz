@@ -63,7 +63,7 @@
                     id: 'jip_window_' + this.currentWindow,
                     baseClass: 'mzz-jip-window',
                     draggable: true,
-                    resizable: {'handles': 'se', 'minWidth': 600, 'minHeight': 150, 'alsoResize': true},
+                    resizable: {'handles': 'se', 'minWidth': 650, 'minHeight': 150, 'alsoResize': true},
                     visible: true
                     });
                 // подумать над переносом в opts
@@ -299,7 +299,6 @@
                 title.remove();
             }
 
-            //this.window.content().find('a.mzz-jip-link').addClass('mzz-jip-link-new');
             this.window.show();
 
         },
@@ -388,7 +387,6 @@
                 return false;
             }
 
-            console.log(link.attr('href'), link.hasClass('mzz-jip-link-new'));
             jipWindow.open(link.attr('href'), link.hasClass('mzz-jip-link-new'));
             return false;
         }

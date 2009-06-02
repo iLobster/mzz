@@ -456,21 +456,63 @@ div.mzz-jip-menu {
     background-color: #ffffff;
 }
 
-form dt{
+form.mzz-jip-form ul {
+    list-style-image:none;
+    list-style-position:outside;
+    list-style-type:none;
+    margin: 5px 0;
     padding: 0;
-    margin: 0.7em 1em 0.5em 0;
-    width: 15%;
-    float: left;
-    clear: left;
-    text-align: right;
+    display: block;
 }
 
-form dd{
-    margin: 0;
-    padding: 0.5em 0;
-    width: 70%;
+form.mzz-jip-form li  {
+    list-style-image:none;
+    list-style-position:outside;
+    list-style-type:none;
+    margin-bottom: 1px;
+    overflow:auto;
+}
+
+form.mzz-jip-form label {
+    padding: 0 10px 0 0;
+    width: 15%;
+    clear: left;
     float: left;
-    *float: none;
+    display: block;
+    text-align: right;
+    color: #575757;
+    font-weight: bold;
+    line-height: 2.5em;
+}
+
+form.mzz-jip-form span.input {
+    float: left;
+    display: block;
+    width: 55%;
+    line-height: 2.5em;
+}
+
+form.mzz-jip-form span.error {
+    float: left;
+    display: block;
+    margin-left: 10px;
+    margin-top: 0.75em;
+    width: 20%;
+}
+
+form.mzz-jip-form span.buttons {
+    margin-left: 15%;
+    padding-left: 10px;
+}
+
+form.mzz-jip-form li.required {
+    border: 1px solid #f9b973;
+    background-color: #fcfce0;
+}
+
+form.mzz-jip-form li.error {
+    border: 1px solid #c80000;
+    background-color: #f6cece;
 }
 
 .mzz-jip-menu li a.withlang span.mzz-jip-title {
