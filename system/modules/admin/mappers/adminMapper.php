@@ -12,6 +12,8 @@
  * @version $Id$
  */
 
+fileLoader::load('orm/plugins/acl_extPlugin');
+
 /**
  * adminMapper: маппер
  *

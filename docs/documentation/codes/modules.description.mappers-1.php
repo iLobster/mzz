@@ -1,51 +1,121 @@
 <?php
-//
-// $Id$
-// $URL$
-//
-// MZZ Content Management System (c) 2006
-// Website : http://www.mzz.ru
-//
-// This program is free software and released under
-// the GNU/GPL License (See /docs/GPL.txt).
-//
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2005-2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id$
+ */
+
+fileLoader::load('news');
+fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('modules/comments/plugins/commentsPlugin');
+fileLoader::load('modules/jip/plugins/jipPlugin');
+fileLoader::load('modules/i18n/plugins/i18nPlugin');
+
 /**
  * newsMapper: маппер для новостей
  *
  * @package modules
  * @subpackage news
- * @version 0.2.1
+ * @version 0.3
  */
-
-class newsMapper extends simpleMapper
+class newsMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'news';
-
     /**
      * Имя класса DataObject
      *
      * @var string
      */
-    protected $className = 'news';
+    protected $class = 'news';
+    protected $table = 'news_news';
 
-    /**
-     * Выполняет поиск объекта по идентификатору
-     *
-     * @param integer $id идентификатор
-     * @return object|null
-     */
-    public function searchById($id)
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk', 'once',
+            ),
+        ),
+        'folder_id' => array(
+            'accessor' => 'getFolder',
+            'mutator' => 'setFolder',
+            'relation' => 'one',
+            'foreign_key' => 'id',
+            'mapper' => 'news/newsFolderMapper'
+        ),
+        'title' => array(
+            'accessor' => 'getTitle',
+            'mutator' => 'setTitle',
+            'options' => array(
+                'i18n',
+            ),
+        ),
+        'editor' => array(
+            'accessor' => 'getEditor',
+            'mutator' => 'setEditor',
+            'relation' => 'one',
+            'foreign_key' => 'id',
+            'mapper' => 'user/userMapper'
+        ),
+        'annotation' => array(
+            'accessor' => 'getAnnotation',
+            'mutator' => 'setAnnotation',
+            'options' => array(
+                'i18n',
+            ),
+        ),
+        'text' => array(
+            'accessor' => 'getText',
+            'mutator' => 'setText',
+            'options' => array(
+                'i18n',
+            ),
+        ),
+        'created' => array(
+            'accessor' => 'getCreated',
+            'mutator' => 'setCreated',
+            'options' => array(
+                'once',
+            ),
+        ),
+        'updated' => array(
+            'accessor' => 'getUpdated',
+            'mutator' => 'setUpdated',
+        ),
+    );
+
+    public function __construct()
     {
-        return $this->searchOneByField('id', $id);
+        parent::__construct();
+        $this->plugins('acl_ext');
+        $this->plugins('jip');
+        $this->plugins('i18n');
+        $this->plugins('comments');
+    }
+
+    protected function preInsert(& $data)
+    {
+        if (is_array($data)) {
+            $data['updated'] = $data['created'];
+        }
+    }
+
+    protected function preUpdate(& $data)
+    {
+        if (is_array($data)) {
+            $data['updated'] = new sqlFunction('UNIX_TIMESTAMP');
+        }
     }
 
     /**
-     * Выполняет поиск объектов по идентификатору папки
+     * Выполняет поиск объектов по идентификатору каталога
      *
      * @param integer $id идентификатор папки
      * @return array
@@ -55,28 +125,16 @@ class newsMapper extends simpleMapper
         return $this->searchAllByField('folder_id', $folder_id);
     }
 
-    /**
-     * Выполнение операций с массивом $fields перед обновлением в БД
-     *
-     * @param array $fields
-     */
-    protected function updateDataModify(&$fields)
+    public function convertArgsToObj($args)
     {
-        $fields['updated'] = new sqlFunction('UNIX_TIMESTAMP');
-    }
-
-    /**
-     * Выполнение операций с массивом $fields перед вставкой в БД
-     *
-     * @param array $fields
-     */
-    protected function insertDataModify(&$fields)
-    {
-        $fields['created'] = new sqlFunction('UNIX_TIMESTAMP');
-        $fields['updated'] = $fields['created'];
-        if ($fields['editor'] instanceof user) {
-            $fields['editor'] = $fields['editor']->getId();
+        if (isset($args['id'])) {
+            $news = $this->searchByKey($args['id']);
+            if ($news) {
+                return $news;
+            }
         }
+
+        throw new mzzDONotFoundException();
     }
 }
 

@@ -1,36 +1,22 @@
-<p>Пример типичного map-файла:</p>
-<<code ini>>
-[id]
-accessor = "getId"
-mutator = "setId"
-once = true
-
-[title]
-accessor = "getTitle"
-mutator = "setTitle"
-
-[editor]
-accessor = "getEditor"
-mutator = "setEditor"
-owns = "user.id"
-module = "user"
-section = "user"
-
-[text]
-accessor = "getText"
-mutator = "setText"
-
-[folder_id]
-accessor = "getFolderId"
-mutator = "setFolderId"
-
-[created]
-accessor = "getCreated"
-mutator = "setCreated"
-once = true
-
-[updated]
-accessor = "getUpdated"
-mutator = "setUpdated"
-once = true
+<p>Map представляет собой набор правил наложения данных БД на объектную модель. Вот несколько упрощенный пример map:</p>
+<<code php>>
+protected $map = array(
+    'id' => array(
+        'accessor' => 'getId',
+        'mutator' => 'setId',
+        'options' => array(
+            'pk', 'once',
+        )
+    ),
+    'title' => array(
+        'accessor' => 'getTitle',
+        'mutator' => 'setTitle'
+    )
+)
 <</code>>
+
+<p>Ключами массива $map являются имена полей таблицы БД (которая задается в параметре $table маппера, ссылка).
+В общем случае у каждого поля должно быть описано имена двух методов — accessor и mutator.</p>
+<p>Имя accessor'а имеет префикс "get" и используется для получения данных, которые хранятся в данном поле.</p>
+<p>Mutator, соответственно, имеет префикс "set" и используется для сохранения данных в DO</p>
+<p>У каждого поля может содержаться любое количество дополнительных параметров в ключе 'options'. (Описать несколько common опций)</p>
