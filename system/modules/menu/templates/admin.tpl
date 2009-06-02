@@ -23,21 +23,21 @@
 </div>
 
 {foreach from=$menus item="menu" name="menu_items"}
-<div id="menuContent_{$menu->getId()}" style="display: none">
-<div class="menuHelp">
-После изменений необходимо сохранить их, нажав на <input id="menuApply_{$menu->getId()}" disabled="disabled" value="Применить" onclick="menu.save('{url route="withAnyParam" action="move" module="menu" name=$menu->getName()}', {$menu->getId()});" type="button" />
-</div>
-<div class="menuTree menuMargin">
-   <ul class="menuTree" id="menuTree_{$menu->getId()}">{include file="menu/adminview.tpl" items=$menu->getItems()}</ul>
-</div>
+    <div id="menuContent_{$menu->getId()}" class="menuContent" style="display: none">
+        <div class="menuHelp">
+        После изменений необходимо сохранить их, нажав на <input id="menuApply_{$menu->getId()}" disabled="disabled" value="Применить" onclick="menu.save('{url route="withAnyParam" action="move" module="menu" name=$menu->getName()}', {$menu->getId()});" type="button" />
+        </div>
+        <div class="menuTree menuMargin">
+           <ul class="menuTree" id="menuTree_{$menu->getId()}">{include file="menu/adminview.tpl" items=$menu->getItems()}</ul>
+        </div>
 
-<script type="text/javascript">
-    //<![CDATA[
-    menu.create({$menu->getId()});
-    {if $smarty.foreach.menu_items.first}menu.toggle({$menu->getId()});{/if}
-    //]]>
-</script>
-</div>
+        <script type="text/javascript">
+            //<![CDATA[
+            menu.create({$menu->getId()});
+            {if $smarty.foreach.menu_items.first}menu.toggle({$menu->getId()});{/if}
+            //]]>
+        </script>
+    </div>
 {/foreach}
 <div style="visibility: hidden;">
 <img alt="preload" src="{$SITE_PATH}/templates/images/menu/left_side_yellow.gif" width="1" height="1"/>

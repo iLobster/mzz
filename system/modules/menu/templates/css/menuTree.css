@@ -102,10 +102,11 @@ ul.menuTree li {
 .menuItem div.menuActions {
     position: absolute;
     display: block;
-    height: 27px;
+    height: 22px;
     top: 0px;
     right: 0px;
     padding-right: 8px;
+    padding-top: 5px;
     background: transparent url(../../images/menu/sprite.png) no-repeat right -60px;
 }
 
@@ -134,11 +135,6 @@ li.mzz-ns-clone div.menuItem {
 .menuItem.red div.menuActions,
 .mzz-ns-clone div.menuActions {
     background: transparent url(../../images/menu/sprite.png) no-repeat right -240px;
-}
-
-.menuItem div.menuActions img {
-    margin-top: 5px;
-
 }
 
 ul.menuTree ul {
