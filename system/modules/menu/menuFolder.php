@@ -39,11 +39,6 @@ class menuFolder extends entity
         $createAction['url'] = $url->get();
         return $jip->draw();
     }
-
-    public function getAcl($name = null)
-    {
-        return true;
-    }
 }
 
 ?>

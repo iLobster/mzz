@@ -56,22 +56,14 @@ class menuFolderMapper extends mapper
     {
         parent::__construct();
         $this->plugins('jip');
+        $this->plugins('acl_simple');
     }
 
     public function getFolder()
     {
         $folder = $this->create();
-        $folder->import(array('obj_id' => $this->getObjId()));
+        //$folder->import(array('obj_id' => $this->getObjId()));
         return $folder;
-    }
-
-    private function getObjId()
-    {
-        $toolkit = systemToolkit::getInstance();
-        $obj_id = $toolkit->getObjectId($this->class);
-        $acl = new acl($toolkit->getUser());
-        $acl->register($obj_id, $this->class);
-        return $obj_id;
     }
 
     /**
@@ -81,9 +73,7 @@ class menuFolderMapper extends mapper
      */
     public function convertArgsToObj($args)
     {
-        $obj = $this->create();
-        $obj->merge(array('obj_id' => $this->getObjId()));
-        return $obj;
+        return $this->getFolder();
     }
 }
 

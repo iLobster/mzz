@@ -5,7 +5,7 @@
 {add file="jquery.ex.js"}
 {add file="menu/mzz_ns.js"}
 {add file="menu/jmenu.js"}
-<div class="pageTitle">Список меню {$folder->getJip()}</div>
+<div class="title">Список меню {$folder->getJip()}</div>
 <div class="pageContent">
 
 <div class="menuHelp">

@@ -32,12 +32,16 @@ class menuSavemenuController extends simpleController
         $isEdit = ($action == 'editmenu');
 
         $name = $this->request->getString('name');
-        $menu = $isEdit ? $menuMapper->searchByName($name) : $menuMapper->createItemFromRow(array());
+        $menu = $isEdit ? $menuMapper->searchByName($name) : $menuMapper->create();
+
+        if (!$menu) {
+            return $this->forward404($menuMapper);
+        }
 
         $validator = new formValidator();
         $validator->add('required', 'name', 'Необходимо имя');
         $validator->add('regex', 'name', 'Недопустимые символы в имени', '/^[a-z0-9_]+$/i');
-        $validator->add('callback', 'name', 'Имя меню должно быть уникальным', array(array($this, 'checkName'), $menu));
+        $validator->add('callback', 'name', 'Имя меню должно быть уникальным', array(array($this, 'checkName'), $menu, $menuMapper));
 
         if (!$validator->validate()) {
             $url = new url($isEdit ? 'withAnyParam' : 'default2');
@@ -61,12 +65,11 @@ class menuSavemenuController extends simpleController
         }
     }
 
-    public function checkName($name, $menu)
+    public function checkName($name, $menu, mapper $menuMapper)
     {
         if ($name == $menu->getName()) {
             return true;
         }
-        $menuMapper = systemToolkit::getInstance()->getMapper('menu', 'menu');
 
         $criteria = new criteria();
         $criteria->add('name', $name);
