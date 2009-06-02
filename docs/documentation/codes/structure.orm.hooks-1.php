@@ -1,35 +1,34 @@
 <?php
 
-class simpleMapper
+class newsMapper extends mapper
 {
+    /**
+     * Имя класса DataObject
+     *
+     * @var string
+     */
+    protected $class = 'news';
+    protected $table = 'news_news';
+
+    protected $map = array(...);
+
     [...]
 
-    /**
-     * Выполнение операций с массивом $fields перед обновлением в БД
-     *
-     * @param array $fields
-     */
-    protected function updateDataModify(&$fields)
+    protected function preInsert(& $data)
     {
+        if (is_array($data)) {
+            $data['updated'] = $data['created'];
+        }
     }
 
-    /**
-     * Выполнение операций с массивом $fields перед вставкой в БД
-     *
-     * @param array $fields
-     */
-    protected function insertDataModify(&$fields)
+    protected function preUpdate(& $data)
     {
+        if (is_array($data)) {
+            $data['updated'] = new sqlFunction('UNIX_TIMESTAMP');
+        }
     }
-
-    /**
-     * Выполнение операций с массивом $fields после обновления в БД
-     *
-     * @param array $fields
-     */
-    protected function selectDataModify(&$fields)
-    {
-    }
+    
+    [...]
 }
 
 ?>

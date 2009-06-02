@@ -41,8 +41,10 @@ $menu = array("intro.Предисловие" =>
                         //"urls.Структура урлов, что какая часть значит",
                         "orm.ORM"
                                 => array("overview.Общая информация",
-                                         "map.Map-файлы",
+                                         "mapper.Мапперы",
+                                         "map.Схема объекта",
                                          "hooks.Хуки",
+                                         "plugins.Плагины"
                                          ),
                         "acl.ACL"
                                 => array("overview.Обзор",
@@ -78,7 +80,6 @@ $menu = array("intro.Предисловие" =>
                                          "actions.Actions",
                                          "controllers.Controllers",
                                          "mappers.Mappers",
-                                         "maps.Maps",
                                          ),
                         "simple.Базовые классы модуля"
                                 => array("simple.simple",

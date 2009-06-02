@@ -1,5 +1,0 @@
-<?php
-
-$news->getEditor()->getLogin();
-
-?>
