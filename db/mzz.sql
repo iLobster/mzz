@@ -54,14 +54,15 @@ CREATE TABLE `comments_commentsFolder` (
   UNIQUE KEY `parent_id_2` (`parent_id`, `type`),
   KEY `parent_id` (`parent_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=3 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=4 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `comments_commentsFolder` table  (LIMIT 0,500)
 #
 
 INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`, `module`, `type`, `by_field`) VALUES 
-  (2,1458,1457,'news','news','obj_id');
+  (2,1458,1457,'news','news','obj_id'),
+  (3,1459,9,'page','page','obj_id');
 COMMIT;
 
 #
@@ -174,7 +175,7 @@ DROP TABLE IF EXISTS `news_news`;
 
 CREATE TABLE `news_news` (
   `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `obj_id` INTEGER(10) UNSIGNED NOT NULL DEFAULT '0',
+  `obj_id` INTEGER(11) DEFAULT NULL,
   `editor` INTEGER(11) NOT NULL DEFAULT '0',
   `folder_id` INTEGER(11) DEFAULT NULL,
   `created` INTEGER(11) DEFAULT NULL,
@@ -202,7 +203,6 @@ DROP TABLE IF EXISTS `news_newsFolder`;
 
 CREATE TABLE `news_newsFolder` (
   `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `obj_id` INTEGER(11) UNSIGNED NOT NULL DEFAULT '0',
   `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `parent` INTEGER(11) DEFAULT '0',
   `path` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
@@ -217,9 +217,9 @@ AUTO_INCREMENT=32 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci
 # Data for the `news_newsFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `news_newsFolder` (`id`, `obj_id`, `name`, `parent`, `path`, `title`) VALUES 
-  (2,6,'root',1,'root','root'),
-  (18,295,'main',17,'root/main','main');
+INSERT INTO `news_newsFolder` (`id`, `name`, `parent`, `path`, `title`) VALUES 
+  (2,'root',1,'root','root'),
+  (18,'main',17,'root/main','main');
 COMMIT;
 
 #
@@ -425,7 +425,28 @@ CREATE TABLE `sys_access` (
   KEY `obj_id_gid` (`obj_id`, `gid`),
   KEY `obj_id_uid` (`obj_id`, `uid`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=9079 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=9093 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `sys_access` table  (LIMIT 0,500)
+#
+
+INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
+  (9079,3,1,0,NULL,1,1,0),
+  (9080,3,1,0,NULL,2,1,0),
+  (9081,3,1,0,NULL,4,1,0),
+  (9082,1,1,0,NULL,4,1,0),
+  (9083,29,1,0,NULL,4,1,0),
+  (9084,2,1,0,NULL,4,1,0),
+  (9085,5,2,0,NULL,1,1,0),
+  (9086,5,2,0,NULL,2,1,0),
+  (9087,4,2,0,NULL,4,1,0),
+  (9088,5,2,0,NULL,4,1,0),
+  (9089,6,2,0,NULL,4,1,0),
+  (9090,7,2,0,NULL,4,1,0),
+  (9091,30,2,0,NULL,4,1,0),
+  (9092,8,2,0,NULL,4,1,0);
+COMMIT;
 
 #
 # Structure for the `sys_access_registry` table : 
@@ -438,7 +459,7 @@ CREATE TABLE `sys_access_registry` (
   `class_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1459 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1460 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_access_registry` table  (LIMIT 0,500)
@@ -460,7 +481,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_id`) VALUES
   (1455,52),
   (1456,3),
   (1457,1),
-  (1458,11);
+  (1458,11),
+  (1459,11);
 COMMIT;
 
 #
@@ -807,7 +829,7 @@ CREATE TABLE `sys_obj_id` (
   `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1459 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1460 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_obj_id` table  (LIMIT 0,500)
@@ -829,7 +851,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1455),
   (1456),
   (1457),
-  (1458);
+  (1458),
+  (1459);
 COMMIT;
 
 #
