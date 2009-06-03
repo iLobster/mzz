@@ -25,13 +25,13 @@ class fileManagerSaveFolderController extends simpleController
     {
         $path = $this->request->getString('name');
         $action = $this->request->getAction();
-        $isEdit = ($action == 'editFolder');
+        $isEdit = $action == 'editFolder';
 
         $folderMapper = $this->toolkit->getMapper('fileManager', 'folder');
         $targetFolder = $folderMapper->searchByPath($path);
 
         if (!$targetFolder) {
-            return $folderMapper->get404()->run();
+            return $this->forward404($folderMapper);
         }
 
         $storageMapper = $this->toolkit->getMapper('fileManager', 'storage');
@@ -44,9 +44,9 @@ class fileManagerSaveFolderController extends simpleController
         $validator->add('required', 'name', 'Необходимо дать идентификатор папке');
         $validator->add('required', 'title', 'Необходимо назвать папку');
         $validator->add('numeric', 'filesize', 'Размер должен быть числовым');
-        $validator->add('regex', 'exts', 'Недопустимые символы в расширении', '/^[a-zа-я0-9_;\-\.! ]+$/i');
-        $validator->add('regex', 'name', 'Недопустимые символы в идентификаторе', '/^[a-zа-я0-9_\.\-! ]+$/i');
-        $validator->add('callback', 'name', 'Идентификатор должен быть уникален в пределах каталога', array('checkFileFolderName', $path, $folderMapper, $isEdit));
+        $validator->add('regex', 'exts', 'Недопустимые символы в расширении', '/^[a-z0-9_;\-\.!]+$/i');
+        $validator->add('regex', 'name', 'Недопустимые символы в идентификаторе', '/^[a-z0-9_\.\-!]+$/i');
+        $validator->add('callback', 'name', 'Идентификатор должен быть уникален в пределах каталога', array(array($this, 'checkFileFolderName'), $path, $folderMapper, $isEdit));
         $validator->add('in', 'storage', 'Недопустимый сторадж', array_keys($storages));
 
         if ($validator->validate()) {
@@ -86,22 +86,19 @@ class fileManagerSaveFolderController extends simpleController
         $this->smarty->assign('folder', $targetFolder);
         return $this->smarty->fetch('fileManager/saveFolder.tpl');
     }
-}
 
-function checkFileFolderName($name, $path, $mapper, $isEdit)
-{
-    /* wtf?
-    $path = $folder->getPath();
-    if (($slash = strpos($path, '/')) !== false) {
-        $path = substr($path, 0, $slash);
-    }*/
-    if ($isEdit) {
-        $path = explode('/', $path);
-        $current = array_pop($path);
 
-        return $current == $name || is_null($mapper->searchByPath(implode('/', $path) . '/' . $name));
-    } else {
-        return is_null($mapper->searchByPath($path . '/' . $name));
+    public function checkFileFolderName($name, $path, $mapper, $isEdit)
+    {
+        if ($isEdit) {
+            $path = explode('/', $path);
+            $current = array_pop($path);
+
+            return $current == $name || is_null($mapper->searchByPath(implode('/', $path) . '/' . $name));
+        } else {
+            return is_null($mapper->searchByPath($path . '/' . $name));
+        }
     }
 }
+
 ?>
