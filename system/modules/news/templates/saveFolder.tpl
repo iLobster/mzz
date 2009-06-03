@@ -2,7 +2,7 @@
 {form action=$action method="post" jip=true class="mzz-jip-form"}
     <ul>
         <li class="{$form->required('name','required')} {$form->error('name','error')}">
-            {$form->error('name','error')}">{form->caption name="name" value="_ identifier"}
+            {form->caption name="name" value="_ identifier"}
             <span class="input">{form->text name="name" value=$folder->getName() size="40"}</span>
             {if $errors->exists('name')}<div class="error">{$errors->get('name')}</div>{/if}
         </li>

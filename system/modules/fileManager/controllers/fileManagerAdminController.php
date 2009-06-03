@@ -25,7 +25,6 @@ class fileManagerAdminController extends simpleController
     protected function getView()
     {
         $folderMapper = $this->toolkit->getMapper('fileManager', 'folder');
-        $fileMapper = $this->toolkit->getMapper('fileManager', 'file');
         $path = $this->request->getString('params');
 
         if (!$path) {
@@ -34,16 +33,18 @@ class fileManagerAdminController extends simpleController
 
         $folder = $folderMapper->searchByPath($path);
 
-        if ($folder) {
-            $breadCrumbs = $folder->getTreeParentBranch();
-            $this->smarty->assign('breadCrumbs', $breadCrumbs);
-
-            $pager = $this->setPager($fileMapper);
-            $this->smarty->assign('current_folder', $folder);
-            return $this->smarty->fetch('fileManager/admin.tpl');
+        if (!$folder) {
+            return $this->forward404($folderMapper);
         }
 
-        return $this->forward404($folderMapper);
+        $breadCrumbs = $folder->getTreeParentBranch();
+        $this->setPager($folderMapper);
+
+        $this->smarty->assign('breadCrumbs', $breadCrumbs);
+        $this->smarty->assign('current_folder', $folder);
+        $this->smarty->assign('files', $folderMapper->getItems($folder));
+
+        return $this->smarty->fetch('fileManager/admin.tpl');
     }
 }
 

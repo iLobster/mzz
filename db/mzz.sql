@@ -94,7 +94,7 @@ CREATE TABLE `fileManager_file` (
   `ext` VARCHAR(20) COLLATE utf8_general_ci DEFAULT NULL,
   `size` INTEGER(11) DEFAULT NULL,
   `modified` INTEGER(11) DEFAULT NULL,
-  `downloads` INTEGER(11) DEFAULT NULL,
+  `downloads` INTEGER(11) DEFAULT '0',
   `right_header` TINYINT(4) DEFAULT NULL,
   `direct_link` INTEGER(11) DEFAULT '0',
   `about` TEXT COLLATE utf8_general_ci,
@@ -131,14 +131,15 @@ CREATE TABLE `fileManager_folder` (
   `storage_id` INTEGER(11) NOT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=3 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `fileManager_folder` table  (LIMIT 0,500)
 #
 
 INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `filesize`, `exts`, `storage_id`) VALUES 
-  (1,'root','root',NULL,NULL,1);
+  (1,'root','root',NULL,NULL,1),
+  (2,'test','test',0,'',1);
 COMMIT;
 
 #
@@ -155,14 +156,15 @@ CREATE TABLE `fileManager_folder_tree` (
   `spath` TEXT COLLATE utf8_general_ci,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=2 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=3 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `fileManager_folder_tree` table  (LIMIT 0,500)
 #
 
 INSERT INTO `fileManager_folder_tree` (`id`, `path`, `foreign_key`, `level`, `spath`) VALUES 
-  (1,'root/',1,1,'1/');
+  (1,'root/',1,1,'1/'),
+  (2,'root/test/',2,2,'1/2/');
 COMMIT;
 
 #

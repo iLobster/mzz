@@ -12,8 +12,6 @@
  * @version $Id$
  */
 
-fileLoader::load('forms/validators/formValidator');
-
 /**
  * fileManagerEditFolderController: контроллер для метода editFolder модуля fileManager
  *
@@ -21,7 +19,7 @@ fileLoader::load('forms/validators/formValidator');
  * @subpackage fileManager
  * @version 0.2.1
  */
-class fileManagerEditFolderController extends simpleController
+class fileManagerSaveFolderController extends simpleController
 {
     protected function getView()
     {
@@ -86,7 +84,7 @@ class fileManagerEditFolderController extends simpleController
         $this->smarty->assign('isEdit', $isEdit);
         $targetFolder = $isEdit ? $targetFolder : $folderMapper->create();
         $this->smarty->assign('folder', $targetFolder);
-        return $this->smarty->fetch('fileManager/editFolder.tpl');
+        return $this->smarty->fetch('fileManager/saveFolder.tpl');
     }
 }
 

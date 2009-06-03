@@ -28,6 +28,8 @@ class folderMapper extends mapper
     protected $class = 'folder';
     protected $table = 'fileManager_folder';
 
+    protected $classOfItem = 'file';
+
     protected $map = array(
         'id' => array(
             'accessor' => 'getId',
@@ -84,6 +86,18 @@ class folderMapper extends mapper
     public function searchByPath($path)
     {
         return $this->plugin('tree')->searchByPath($path . '/');
+    }
+
+    public function getItems(folder $folder)
+    {
+        $mapper = systemToolkit::getInstance()->getMapper('fileManager', $this->classOfItem);
+
+        if ($this->plugin('pager')) {
+            $mapper->attach(new pagerPlugin($this->plugin('pager')->getPager()));
+            $this->detach('pager');
+        }
+
+        return $mapper->searchAllByField('folder_id', $folder->getId());
     }
 
     public function convertArgsToObj($args)

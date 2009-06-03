@@ -14,40 +14,38 @@
             <th class="last" style="width: 30px;">JIP</th>
         </tr>
     </thead>
-{*
+
     {if $current_folder->getTreeLevel() != 1}
-        <tr align="center">
-            <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/pages/folder.gif" alt="" /></td>
-            <td style="text-align: left;"><a href="{url route="admin" params=$current_folder->getTreeParent()->getTreePath() module_name=fileManager}">..</a></td>
+        <tr class="center">
+            <td class="first"><img src="{$SITE_PATH}/templates/images/fileManager/folder.gif" alt="" title="" /></td>
+            <td class="left"><a href="{url route='admin' params=$current_folder->getTreeParent()->getTreePath() action_name=admin module_name=fileManager}">..</a></td>
             <td>-</td>
             <td>-</td>
             <td>-</td>
-            <td>-</td>
-            <td>{$current_folder->getJip()}</td>
+            <td class="last">-</td>
         </tr>
     {/if}
 
     {foreach from=$current_folder->getTreeBranch(1) item=folder}
         {if $current_folder->getId() != $folder->getId()}
-        <tr align="center">
-            <td><img src="{$SITE_PATH}/templates/images/fileManager/folder.gif" alt=""  /></td>
-            <td align="left"><a href="{url route='admin' params=$folder->getTreePath() module_name=fileManager}">{$folder->getTitle()}</a></td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>{$folder->getJip()}</td>
-        </tr>
+            <tr class="center">
+                <td class="first"><img src="{$SITE_PATH}/templates/images/fileManager/folder.gif" alt="" title="" /></td>
+                <td class="left"><a href="{url route='admin' params=$folder->getTreePath() action_name=admin module_name=fileManager}">{$folder->getTitle()}</a></td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td class="last">{$folder->getJip()}</td>
+            </tr>
         {/if}
     {/foreach}
-*}
-    {foreach from=$current_folder->getFiles() item=file}
+
+    {foreach from=$files item=file}
         <tr class="center">
-            <td class="first" style="width: 30px; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/fileManager/{$file->getExt()}.gif" align="absmiddle" style="padding: 0px 5px;" alt=""  /></td>
+            <td class="first"><img src="{$SITE_PATH}/templates/images/fileManager/{$file->getExt()}.gif" alt="" title="" /></td>
             <td class="left"><a href="{$file->getDownloadLink()}">{$file->getName()}</a></td>
             <td class="right">{$file->getSize()|filesize}</td>
             <td>{$file->getExt()}</td>
-            <td>{$file->getDownloads()}</td>
+            <td>{$file->getDownloads()|default:0}</td>
             <td class="last">{$file->getJip()}</td>
         </tr>
     {/foreach}

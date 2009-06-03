@@ -18,7 +18,7 @@
 
     {if $newsFolder->getTreeLevel() ne 1}
         <tr class="center">
-            <td class="first" style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" alt="folder" /></td>
+            <td class="first"><img src="{$SITE_PATH}/templates/images/news/folder.gif" alt="folder" /></td>
             <td class="left"><a href="{url route='admin' params=$newsFolder->getTreeParent()->getTreePath() action_name=admin module_name=news}">..</a></td>
             <td>-</td>
             <td class="last">{$newsFolder->getJip()}</td>
@@ -28,7 +28,7 @@
     {foreach from=$newsFolder->getTreeBranch(1) item=current_folder name=folders}
         {if $current_folder->getId() != $newsFolder->getId()}
             <tr class="center">
-                <td class="first" style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/folder.gif" alt="folder" /></td>
+                <td class="first"><img src="{$SITE_PATH}/templates/images/news/folder.gif" alt="folder" /></td>
                 <td class="left"><a href="{url route='admin' params=$current_folder->getTreePath() action_name=admin module_name=news}">{$current_folder->getTitle()|htmlspecialchars}</a></td>
                 <td>-</td>
                 <td class="last">{$current_folder->getJip()}</td>
@@ -38,7 +38,7 @@
 
     {foreach from=$news item=current_news}
         <tr class="center">
-            <td class="first" style="width: 30px; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/news/news.gif" alt="" title="{_ author}: {$current_news->getEditor()->getLogin()}" /></td>
+            <td class="first" style="width: 30px;"><img src="{$SITE_PATH}/templates/images/news/news.gif" alt="" title="{_ author}: {$current_news->getEditor()->getLogin()}" /></td>
             <td class="left"><a href="{url route='withId' module=news id=$current_news->getId()}">{$current_news->getTitle()|htmlspecialchars}</a></td>
             <td>{$current_news->getUpdated()|date_format:"%d/%m/%Y %H:%M"}</td>
             <td class="last">{$current_news->getJip()}</td>
