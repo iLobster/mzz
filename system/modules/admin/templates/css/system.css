@@ -28,10 +28,22 @@ table.admin tr th.left {
     text-align: left;
 }
 
-table.admin tr td.left,
+table.admin tr td,
+table.admin tr td.right,
+table.admin tr th.right {
+    text-align: right;
+}
+
+table.admin tr td.left {
+    padding-left: 15px;
+}
+
+table.admin tr td.right {
+    padding-right: 15px;
+}
+
 table.admin tr td {
     border-top: 1px solid #e3e3e3;
-    padding-left: 15px;
 }
 
 table.admin tr,
