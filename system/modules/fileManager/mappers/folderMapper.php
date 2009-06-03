@@ -85,7 +85,7 @@ class folderMapper extends mapper
     {
         return $this->plugin('tree')->searchByPath($path . '/');
     }
-/*
+
     public function convertArgsToObj($args)
     {
         $folder = $this->searchByPath($args['name']);
@@ -95,8 +95,6 @@ class folderMapper extends mapper
 
         throw new mzzDONotFoundException();
     }
-*/
-
 }
 
 ?>

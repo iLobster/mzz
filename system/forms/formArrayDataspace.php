@@ -42,6 +42,13 @@ class formArrayDataspace extends arrayDataspace
             return $this->get($field);
         }
     }
+
+    public function export()
+    {
+        $tmp = $this->data;
+        unset($tmp['_validators']);
+        return $tmp;
+    }
 }
 
 ?>
