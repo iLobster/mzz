@@ -25,11 +25,11 @@ class folder extends entity
     protected $name = 'fileManager';
     protected $mapper;
     protected $storage;
-
+/*
     public function getJip()
     {
         return parent::__call('getJip', array(1, $this->getTreePath()));
-    }
+    }*/
 
     public function upload($upload_name, $name = null)
     {

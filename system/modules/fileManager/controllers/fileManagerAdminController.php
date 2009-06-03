@@ -28,7 +28,7 @@ class fileManagerAdminController extends simpleController
         $fileMapper = $this->toolkit->getMapper('fileManager', 'file');
         $path = $this->request->getString('params');
 
-        if (is_null($path)) {
+        if (!$path) {
             $path = 'root';
         }
 
@@ -43,7 +43,7 @@ class fileManagerAdminController extends simpleController
             return $this->smarty->fetch('fileManager/admin.tpl');
         }
 
-        return $folderMapper->get404()->run();
+        return $this->forward404($folderMapper);
     }
 }
 

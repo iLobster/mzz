@@ -25,11 +25,6 @@ fileLoader::load('orm/plugins/tree_mpPlugin');
 
 class folderMapper extends mapper
 {
-    /**
-     * Имя класса DataObject
-     *
-     * @var string
-     */
     protected $class = 'folder';
     protected $table = 'fileManager_folder';
 
@@ -77,7 +72,7 @@ class folderMapper extends mapper
     {
         parent::__construct();
         $this->attach(new tree_mpPlugin(array('path_name' => 'name')), 'tree');
-        $this->plugins('acl_ext');
+        $this->plugins('acl_simple');
         $this->plugins('jip');
     }
 
@@ -90,7 +85,7 @@ class folderMapper extends mapper
     {
         return $this->plugin('tree')->searchByPath($path . '/');
     }
-
+/*
     public function convertArgsToObj($args)
     {
         $folder = $this->searchByPath($args['name']);
@@ -100,12 +95,8 @@ class folderMapper extends mapper
 
         throw new mzzDONotFoundException();
     }
+*/
 
-    public function get404()
-    {
-        fileLoader::load('fileManager/controllers/fileManager404Controller');
-        return new fileManager404Controller('folder');
-    }
 }
 
 ?>

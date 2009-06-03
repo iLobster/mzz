@@ -56,13 +56,13 @@ class file extends entity
         $url->add('name', $this->getFullPath());
         return $url->get();
     }
-
+/*
     public function getUploadPath()
     {
         $toolkit = systemToolkit::getInstance();
         $config = $toolkit->getConfig('fileManager', $this->section);
         return $config->get('upload_path');
-    }
+    } */
 
     public function getMd5()
     {
@@ -76,7 +76,7 @@ class file extends entity
         return strtolower($this->__call('getExt', array()));
     }
 
-    public function extra()
+    /*public function extra()
     {
         fileLoader::load('modules/fileManager/extras/fmSimpleFile');
         if (empty($this->extra)) {
@@ -86,13 +86,13 @@ class file extends entity
             }
         }
         return $this->extra;
-    }
-
+    } */
+/*
     public function delete()
     {
         return $this->getStorage()->delete($this);
     }
-
+*/
     /**
      * Загрузка файла
      *

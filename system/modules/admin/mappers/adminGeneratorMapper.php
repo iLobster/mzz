@@ -124,12 +124,11 @@ class adminGeneratorMapper extends mapper
         foreach ($this->db()->getAll('SHOW COLUMNS FROM `' . $table . '`') as $field) {
             $key = $field['Field'];
 
-            preg_match('/^([^(]+)\((\d+)\)\s?(.*)$/', $field['Type'], $matches);
-
+            preg_match('/^([^(]+)(?:\((\d+)\)\s?(.*))?$/', $field['Type'], $matches);
             $result[$key] = array('type' => $matches[1]);
             if ($matches[1] == 'int') {
                 $result[$key]['range'] = $matches[3] ? array(0, pow(2, 32)) : array(-pow(2, 31) + 1, pow(2, 31));
-            } else {
+            } elseif ($matches[1] == 'int') {
                 $result[$key]['maxlength'] = (int)$matches[2];
             }
         }

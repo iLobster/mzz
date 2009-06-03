@@ -24,7 +24,6 @@ fileLoader::load('fileManager/file');
 
 class fileMapper extends mapper
 {
-
     protected $class = 'file';
     protected $table = 'fileManager_file';
 
@@ -93,7 +92,7 @@ class fileMapper extends mapper
     public function __construct()
     {
         parent::__construct();
-        $this->plugins('acl_ext');
+        $this->plugins('acl_simple');
         $this->plugins('jip');
     }
 
@@ -103,6 +102,7 @@ class fileMapper extends mapper
      * @param integer $id идентификатор папки
      * @return array
      */
+    /*
     public function searchByFolder($folder_id)
     {
         return $this->searchAllByField('folder_id', (int)$folder_id);
@@ -112,12 +112,12 @@ class fileMapper extends mapper
     {
         return $this->searchOneByField('id', $id);
     }
-
+*/
     public function getExclusionExtensions()
     {
         return array('tar.gz', 'tar.bz2');
     }
-
+/*
     public function searchByPath($path)
     {
         $path = urldecode($path);
@@ -140,12 +140,13 @@ class fileMapper extends mapper
 
         return null;
     }
-
+*/
     /**
      * Выполненяет поиск по маске имени
      *
      * @param string $mask маска для LIKE
      */
+    /*
     public function searchByNameMask($mask)
     {
         $criterion = new criterion('name', $mask, criteria::LIKE);
@@ -153,13 +154,14 @@ class fileMapper extends mapper
         $criteria->add($criterion);
         $criteria->setOrderByFieldAsc('name');
         return $this->searchAllByCriteria($criteria);
-    }
+    }*/
 
     /**
      * Выполнение операций с массивом $fields перед обновлением в БД
      *
      * @param array $fields
      */
+    /*
     protected function updateDataModify(&$fields)
     {
         if (isset($fields['name']) && !isset($fields['ext'])) {
@@ -170,7 +172,7 @@ class fileMapper extends mapper
         }
 
         $fields['modified'] = new sqlFunction('UNIX_TIMESTAMP');
-    }
+    }*/
 
     public function delete(file $file)
     {
@@ -190,11 +192,13 @@ class fileMapper extends mapper
      *
      * @param array $fields
      */
+    /*
     protected function insertDataModify(&$fields)
     {
         $this->updateDataModify($fields);
     }
-
+*/
+    /*
     public function convertArgsToObj($args)
     {
         if (isset($args['id']) && !isset($args['name'])) {
@@ -211,14 +215,7 @@ class fileMapper extends mapper
         }
 
         throw new mzzDONotFoundException();
-    }
-
-    public function get404()
-    {
-        return new messageController('Запрашиваемый вами файл не найден', messageController::WARNING);
-        //fileLoader::load('fileManager/controllers/fileManager404Controller');
-        //return new fileManager404Controller('file');
-    }
+    }*/
 
     public function getMimetypes()
     {

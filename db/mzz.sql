@@ -117,15 +117,20 @@ CREATE TABLE `fileManager_folder` (
   `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `parent` INTEGER(11) UNSIGNED DEFAULT NULL,
-  `path` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `obj_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   `filesize` INTEGER(11) UNSIGNED DEFAULT NULL,
   `exts` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `storage_id` INTEGER(11) NOT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `fileManager_folder` table  (LIMIT 0,500)
+#
+
+INSERT INTO `fileManager_folder` (`id`, `name`, `title`, `filesize`, `exts`, `storage_id`) VALUES 
+  (1,'root','root',NULL,NULL,1);
+COMMIT;
 
 #
 # Structure for the `fileManager_folder_tree` table : 
@@ -141,7 +146,15 @@ CREATE TABLE `fileManager_folder_tree` (
   `spath` TEXT COLLATE utf8_general_ci,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=2 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `fileManager_folder_tree` table  (LIMIT 0,500)
+#
+
+INSERT INTO `fileManager_folder_tree` (`id`, `path`, `foreign_key`, `level`, `spath`) VALUES 
+  (1,'root/',1,1,'1/');
+COMMIT;
 
 #
 # Structure for the `fileManager_storage` table : 
