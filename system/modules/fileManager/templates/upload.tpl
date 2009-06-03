@@ -11,7 +11,7 @@
 {assign var="folderTitle" value=$folder->getTitle()}
 <div class="jipTitle">Загрузка файла в каталог {$folderTitle}</div>
 
-{form action=$form_action method="post" ajaxUpload="fm" class="mzz-jip-form"}
+{form action=$form_action method="post" class="mzz-jip-form" enctype="multipart/form-data"} {* ajaxUpload="fm" *}
     <ul>
         <li>
             {form->caption name="path" value="Каталог"}

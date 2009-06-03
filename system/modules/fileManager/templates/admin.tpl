@@ -10,7 +10,6 @@
             <th class="left">Имя</th>
             <th>Размер</th>
             <th>Тип</th>
-            <th>md5-хэш</th>
             <th>Скачано</th>
             <th class="last" style="width: 30px;">JIP</th>
         </tr>
@@ -41,22 +40,20 @@
         </tr>
         {/if}
     {/foreach}
-
+*}
     {foreach from=$current_folder->getFiles() item=file}
-        <tr align="center">
-            <td style="width: 30px;"><img src="{$SITE_PATH}/templates/images/fileManager/{$file->getExt()}.gif" align="absmiddle" style="padding: 0px 5px;" alt=""  /></td>
-            <td style="text-align: left;"><a href="{$file->getDownloadLink()}">{$file->getName()}</a></td>
-            <td style="text-align: right;">{$file->getSize()|filesize}</td>
+        <tr class="center">
+            <td class="first" style="width: 30px; color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/fileManager/{$file->getExt()}.gif" align="absmiddle" style="padding: 0px 5px;" alt=""  /></td>
+            <td class="left"><a href="{$file->getDownloadLink()}">{$file->getName()}</a></td>
+            <td class="right">{$file->getSize()|filesize}</td>
             <td>{$file->getExt()}</td>
-            <td>{$file->getMd5()}</td>
             <td>{$file->getDownloads()}</td>
-            <td>{$file->getJip()}</td>
+            <td class="last">{$file->getJip()}</td>
         </tr>
     {/foreach}
 
-    <tr class="tableListFoot">
-        <td colspan="4">{$pager->toString('admin/main/adminPager.tpl')}</td>
-        <td colspan="2" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
+    <tr class="last">
+        <td class="first" colspan="4">{$pager->toString('admin/main/adminPager.tpl')}</td>
+        <td class="last" colspan="2" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
     </tr>
-*}
 </table>

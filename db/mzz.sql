@@ -105,7 +105,16 @@ CREATE TABLE `fileManager_file` (
   UNIQUE KEY `realname` (`realname`),
   KEY `folder_id` (`folder_id`, `name`, `ext`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=3 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `fileManager_file` table  (LIMIT 0,500)
+#
+
+INSERT INTO `fileManager_file` (`id`, `realname`, `name`, `ext`, `size`, `modified`, `downloads`, `right_header`, `direct_link`, `about`, `folder_id`, `obj_id`, `storage_id`) VALUES 
+  (1,'4e3086e5c8df049bc271e42eead64437.jpg','june-09-the-perfect-wave-calendar-1280x1024.jpg','jpg',711416,NULL,NULL,0,0,'',1,NULL,1),
+  (2,'56cf8ac2db85fec5c194c4c4cfef3d92.jpg','june-09-light-bokeh_of_the_abstract-calendar-1280x1024.jpg','jpg',580032,NULL,NULL,0,0,'',1,NULL,1);
+COMMIT;
 
 #
 # Structure for the `fileManager_folder` table : 
