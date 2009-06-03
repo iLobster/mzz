@@ -33,7 +33,7 @@ html, body {
     padding: 0;
     width: 100%;
     height: 100%;
-    background-color: #000;
+    background: #334145 url('../images/admin/background.gif') repeat scroll top left;
     color: #000000;
     font-family: tahoma, verdana, arial;
     font-size: 90%;
@@ -237,7 +237,7 @@ img {
 }
 */
 #col2 {
-    margin-left: 185px;
+    margin-left: 215px;
 }
 
 #col1 {
