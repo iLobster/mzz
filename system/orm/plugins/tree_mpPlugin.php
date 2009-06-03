@@ -3,6 +3,7 @@
 class tree_mpPlugin extends observer
 {
     private $parent;
+    private $path_name_changed = false;
 
     protected $options = array(
         'postfix' => 'tree');
@@ -265,6 +266,9 @@ class tree_mpPlugin extends observer
     public function preUpdate(& $data)
     {
         if (is_array($data)) {
+            if (isset($data[$this->options['path_name']])) {
+                $this->path_name_changed = true;
+            }
             if (isset($data['tree_parent'])) {
                 $this->parent = $data['tree_parent'];
                 unset($data['tree_parent']);
@@ -334,6 +338,20 @@ class tree_mpPlugin extends observer
             $this->postCreate($object);
 
             unset($this->parent);
+        }
+
+        if ($this->path_name_changed) {
+            $this->path_name_changed = false;
+
+            $new = $object->getTreeParent()->getTreePath() . '/' . $object->{$this->options['path_name_accessor']}() . '/';
+
+            $sql = "UPDATE `" . $this->table() . "`
+                     SET `path` = CONCAT(" . $this->mapper->db()->quote($new) . ", SUBSTRING(`path`, " . (strlen($object->getTreePath()) + 2) . "))
+                      WHERE `spath` LIKE " . $this->mapper->db()->quote($object->getTreeSPath() . '%') . "";
+
+            $this->mapper->db()->query($sql);
+
+            $object->merge(array('tree_path' => $new));
         }
     }
 

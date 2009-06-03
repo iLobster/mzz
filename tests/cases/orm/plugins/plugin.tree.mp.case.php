@@ -243,6 +243,17 @@ class pluginTreeMPTest extends unitTestCase
         $this->assertEqual($object->getTreeParent()->getId(), 2);
     }
 
+    public function testEditPathProperty()
+    {
+        $object = $this->mapper->searchByKey(2);
+
+        $object->setFoo('new_foo');
+        $this->mapper->save($object);
+
+        $object = $this->mapper->searchByKey(5);
+        $this->assertEqual($object->getTreePath(), 'foo1/new_foo/foo5');
+    }
+
     public function testDelete()
     {
         $this->assertEqual($this->db->getOne('SELECT COUNT(*) FROM `ormSimple`'), 8);
