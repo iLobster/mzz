@@ -102,15 +102,14 @@ class menuItemMapper extends mapper
         return $this->searchOneByField('id', $id);
     }
 
-    /*
-    public function getMenuItemsTypes()
+    public static function getMenuItemsTypes()
     {
         return array(
             self::ITEMTYPE_SIMPLE => 'Простой',
             self::ITEMTYPE_ADVANCED => 'Advanced',
             self::ITEMTYPE_EXTERNAL  => 'External',
         );
-    }*/
+    }
 
     public function getMenuChildrens($parent_id, menu $menu)
     {

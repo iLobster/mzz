@@ -120,15 +120,14 @@ abstract class menuItem extends entity
         $this->urlLangSpecified = (bool)$specified;
     }
 
-    /*
     public function getTypeTitle()
     {
         return $this->getTitleByType($this->getType());
     }
 
-    public function getTitleByType($type)
+    protected function getTitleByType($type)
     {
-        $types = self::$types;
+        $types = menuItemMapper::getMenuItemsTypes();
 
         if (!array_key_exists($type, $types)) {
             $type = self::ITEMTYPE_SIMPLE;
@@ -136,7 +135,6 @@ abstract class menuItem extends entity
 
         return $types[$type];
     }
-    */
 
     abstract function getUrl();
     abstract function isActive();
