@@ -29,11 +29,11 @@ class fileManagerGetController extends simpleController
         $file = $fileMapper->searchByPath($name);
 
         if (!$file) {
-            return $fileMapper->get404()->run();
+            return $this->forward404($fileMapper);
         }
 
         try {
-            $file->download();
+            $file->download($fileMapper);
         } catch (mzzIoException $e) {
             return $e->getMessage();
         }

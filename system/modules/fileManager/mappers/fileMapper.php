@@ -117,7 +117,7 @@ class fileMapper extends mapper
     {
         return array('tar.gz', 'tar.bz2');
     }
-/*
+
     public function searchByPath($path)
     {
         $path = urldecode($path);
@@ -140,7 +140,7 @@ class fileMapper extends mapper
 
         return null;
     }
-*/
+
     /**
      * Выполненяет поиск по маске имени
      *
@@ -198,7 +198,7 @@ class fileMapper extends mapper
         $this->updateDataModify($fields);
     }
 */
-    /*
+
     public function convertArgsToObj($args)
     {
         if (isset($args['id']) && !isset($args['name'])) {
@@ -215,7 +215,7 @@ class fileMapper extends mapper
         }
 
         throw new mzzDONotFoundException();
-    }*/
+    }
 
     public function getMimetypes()
     {

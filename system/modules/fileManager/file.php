@@ -21,8 +21,6 @@
  */
 class file extends entity
 {
-    protected $name = 'fileManager';
-
     protected $extra = false;
 
     /**
@@ -99,7 +97,7 @@ class file extends entity
      * @param string $name (optional)Имя с которым будет отдан файл.
      * @return file
      */
-    public function download($name = null)
+    public function download(fileMapper $mapper, $name = null)
     {
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
@@ -107,7 +105,7 @@ class file extends entity
         $range = $request->getServer('HTTP_RANGE');
         if (empty($range)) {
             $this->setDownloads($this->getDownloads() + 1);
-            $this->mapper->save($this);
+            $mapper->save($this);
         }
 
         set_time_limit(0);
@@ -154,7 +152,7 @@ class file extends entity
                 $name = $this->getName();
             }
 
-            $mimetypes = $this->mapper->getMimetypes();
+            $mimetypes = $mapper->getMimetypes();
             if (!$this->getRightHeader() || !isset($mimetypes[$this->getExt()])) {
                 header("Content-Disposition: attachment;"); // filename=\"" . rawurlencode($name) . "\"");
                 header("Content-Type: application/x-octetstream");
