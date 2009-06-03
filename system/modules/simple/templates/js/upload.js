@@ -3,41 +3,46 @@ if (typeof(mzzUploadFileSubmitValue) == 'undefined') {
 }
 
 function mzzReadUploadStatus(name) {
-    $(name + 'UploadStatus').style.display = 'none';
-    $(name + 'UploadStatusError').style.display = 'none';
-    var mzzUploadFile = $(name + 'UploadFile');
-    $(name + 'UploadSubmitButton').disable();;
-    mzzUploadFileSubmitValue[name] = $(name + 'UploadSubmitButton').value;
-    $(name + 'UploadSubmitButton').value = "Загрузка...";
+    (function ($){
+    $('#' + name + 'UploadStatus').css('display', 'none');
+    $('#' + name + 'UploadStatusError').css('display', 'none');
+    var mzzUploadFile = $('#' + name + 'UploadFile')[0];
+    $('#' + name + 'UploadSubmitButton').attr('disabled', 'disabled');
+    mzzUploadFileSubmitValue[name] = $('#' + name + 'UploadSubmitButton').attr('value');
+    $('#' + name + 'UploadSubmitButton').attr('value', "Загрузка...");
 
     var frameOnLoadFunction = mzzUploadFile.onload = function () {
+       (function ($){
         var statusDivId = name + (mzzUploadFile.contentWindow.document.getElementById(name + 'UploadStatusError') ? 'UploadStatusError' : 'UploadStatus');
-        $(statusDivId).style.display = 'block';
+        $('#' + statusDivId).css('display', 'block');
         if (!mzzUploadFile.contentWindow.document.getElementById(statusDivId)) {
             alert('Ошибка: не найден контейнер с идентификатором "' + statusDivId + '". ' + "Ответ сервера: \n" + mzzUploadFile.contentWindow.document.body.innerHTML);
             return;
         }
-        $(statusDivId).innerHTML = mzzUploadFile.contentWindow.document.getElementById(statusDivId).innerHTML;
+        $('#' + statusDivId).html(mzzUploadFile.contentWindow.document.getElementById(statusDivId).innerHTML);
 
-        $(name + 'UploadSubmitButton').enable();
-        $(name + 'UploadSubmitButton').value = mzzUploadFileSubmitValue[name];
+        $('#' + name + 'UploadSubmitButton').attr('disabled', false);
+        $('#' + name + 'UploadSubmitButton').attr('value', mzzUploadFileSubmitValue[name]);
         if (statusDivId == 'uploadStatus') {
-            $(name + 'UploadFileForm').reset();
+            $('#' + name + 'UploadFileForm').reset();
             jipWindow.refreshAfterClose();
         }
+        })(jQuery);
     }
-
     mzzUploadFile.onload = frameOnLoadFunction;
     if(/MSIE/.test(navigator.userAgent)) {
         (mzzUploadFile.addEventListener || ('on', mzzUploadFile.attachEvent))('on' + 'load', frameOnLoadFunction, false);
     }
+    })(jQuery);
 }
 
 function mzzResetUploadForm(name) {
+    (function ($){
     //var mzzUploadFile = $(name + 'UploadFile').setStyle({'width': 0, 'height': 0, 'display': 'none'});
-    $(name + 'UploadStatus').style.display = 'none';
+    $('#' + name + 'UploadStatus').css('display', 'none');
     if (mzzUploadFileSubmitValue[name]) {
-        $(name + 'UploadSubmitButton').value = mzzUploadFileSubmitValue[name];
-        $(name + 'UploadSubmitButton').enable();
+        $('#' + name + 'UploadSubmitButton').attr('value', mzzUploadFileSubmitValue[name]);
+        $('#' + name + 'UploadSubmitButton').attr('disabled', false);
     }
+    })(jQuery);
 }

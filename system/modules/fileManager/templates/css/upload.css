@@ -1,0 +1,17 @@
+div.uploadError, div.uploadSuccess {
+ margin: 5px;
+ padding: 2px;
+ font-weight: bold;
+ display: none;
+}
+
+div.uploadError {
+ background-color: #FDDFDF;
+ border: 1px solid #FBC4C4;
+ color: #840909;
+}
+
+div.uploadSuccess {
+ background-color: #E9F8FC;
+ border: 1px solid #D8F3FA;
+}

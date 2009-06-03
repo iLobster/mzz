@@ -3,5 +3,6 @@
 <div id="{$name}UploadStatusError" style="display: none;" class="uploadError"></div>
 <script type="text/javascript">
     fileLoader.loadJS(SITE_PATH + "/templates/js/upload.js");
-    fileLoader.onJsLoad(function () {ldelim} mzzResetUploadForm('{$name}'); {rdelim});
+    fileLoader.loadCSS(SITE_PATH + "/templates/css/fileManager/upload.css");
+    fileLoader.onLoad(function () {ldelim} mzzResetUploadForm('{$name}'); {rdelim}, 'js');
 </script>
