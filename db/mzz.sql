@@ -82,6 +82,91 @@ CREATE TABLE `comments_comments_tree` (
 AUTO_INCREMENT=15 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
+# Structure for the `fileManager_file` table : 
+#
+
+DROP TABLE IF EXISTS `fileManager_file`;
+
+CREATE TABLE `fileManager_file` (
+  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `realname` VARCHAR(255) COLLATE utf8_general_ci DEFAULT 'имя в фс в каталоге на сервере',
+  `name` VARCHAR(255) COLLATE utf8_general_ci DEFAULT 'имя с которым файл будет отдаваться клиенту',
+  `ext` VARCHAR(20) COLLATE utf8_general_ci DEFAULT NULL,
+  `size` INTEGER(11) DEFAULT NULL,
+  `modified` INTEGER(11) DEFAULT NULL,
+  `downloads` INTEGER(11) DEFAULT NULL,
+  `right_header` TINYINT(4) DEFAULT NULL,
+  `direct_link` INTEGER(11) DEFAULT '0',
+  `about` TEXT COLLATE utf8_general_ci,
+  `folder_id` INTEGER(11) UNSIGNED DEFAULT NULL,
+  `obj_id` INTEGER(11) UNSIGNED DEFAULT NULL,
+  `storage_id` INTEGER(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `realname` (`realname`),
+  KEY `folder_id` (`folder_id`, `name`, `ext`)
+)ENGINE=MyISAM
+AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Structure for the `fileManager_folder` table : 
+#
+
+DROP TABLE IF EXISTS `fileManager_folder`;
+
+CREATE TABLE `fileManager_folder` (
+  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
+  `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
+  `parent` INTEGER(11) UNSIGNED DEFAULT NULL,
+  `path` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
+  `obj_id` INTEGER(11) UNSIGNED DEFAULT NULL,
+  `filesize` INTEGER(11) UNSIGNED DEFAULT NULL,
+  `exts` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
+  `storage_id` INTEGER(11) NOT NULL,
+  PRIMARY KEY (`id`)
+)ENGINE=MyISAM
+AUTO_INCREMENT=1 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Structure for the `fileManager_folder_tree` table : 
+#
+
+DROP TABLE IF EXISTS `fileManager_folder_tree`;
+
+CREATE TABLE `fileManager_folder_tree` (
+  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `path` TEXT COLLATE utf8_general_ci,
+  `foreign_key` INTEGER(11) DEFAULT NULL,
+  `level` INTEGER(11) UNSIGNED DEFAULT NULL,
+  `spath` TEXT COLLATE utf8_general_ci,
+  PRIMARY KEY (`id`)
+)ENGINE=MyISAM
+AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Structure for the `fileManager_storage` table : 
+#
+
+DROP TABLE IF EXISTS `fileManager_storage`;
+
+CREATE TABLE `fileManager_storage` (
+  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
+  `path` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
+  `web_path` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)ENGINE=MyISAM
+AUTO_INCREMENT=3 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `fileManager_storage` table  (LIMIT 0,500)
+#
+
+INSERT INTO `fileManager_storage` (`id`, `name`, `path`, `web_path`) VALUES 
+  (1,'local','../files/','/');
+COMMIT;
+
+#
 # Structure for the `menu_menu` table : 
 #
 
@@ -459,7 +544,7 @@ CREATE TABLE `sys_access_registry` (
   `class_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1460 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1461 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_access_registry` table  (LIMIT 0,500)
@@ -482,7 +567,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_id`) VALUES
   (1456,3),
   (1457,1),
   (1458,11),
-  (1459,11);
+  (1459,11),
+  (1460,7);
 COMMIT;
 
 #
@@ -600,7 +686,7 @@ CREATE TABLE `sys_classes` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=58 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=61 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_classes` table  (LIMIT 0,500)
@@ -630,7 +716,10 @@ INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES
   (50,'userFolder',2),
   (52,'groupFolder',2),
   (55,'configOption',22),
-  (56,'configFolder',22);
+  (56,'configFolder',22),
+  (58,'file',25),
+  (59,'folder',25),
+  (60,'storage',25);
 COMMIT;
 
 #
@@ -646,7 +735,7 @@ CREATE TABLE `sys_classes_actions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `class_id` (`class_id`, `action_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=301 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=313 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_classes_actions` table  (LIMIT 0,500)
@@ -707,7 +796,19 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (281,48,100),
   (295,10,1),
   (296,55,2),
-  (300,56,108);
+  (300,56,108),
+  (301,58,20),
+  (302,58,2),
+  (303,58,1),
+  (304,58,28),
+  (305,58,29),
+  (306,59,92),
+  (307,59,6),
+  (308,59,8),
+  (309,59,7),
+  (310,59,5),
+  (311,59,30),
+  (312,59,27);
 COMMIT;
 
 #
@@ -799,7 +900,7 @@ CREATE TABLE `sys_modules` (
   `order` INTEGER(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=25 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=26 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_modules` table  (LIMIT 0,500)
@@ -816,7 +917,8 @@ INSERT INTO `sys_modules` (`id`, `name`, `title`, `icon`, `order`) VALUES
   (18,'captcha','Captcha','',0),
   (19,'pager','Пейджер',NULL,NULL),
   (20,'simple','simple',NULL,NULL),
-  (22,'config','Конфигурация','config.gif',0);
+  (22,'config','Конфигурация','config.gif',0),
+  (25,'fileManager','file manager','',0);
 COMMIT;
 
 #
@@ -829,7 +931,7 @@ CREATE TABLE `sys_obj_id` (
   `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1460 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1461 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_obj_id` table  (LIMIT 0,500)
@@ -852,7 +954,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1456),
   (1457),
   (1458),
-  (1459);
+  (1459),
+  (1460);
 COMMIT;
 
 #
@@ -867,7 +970,7 @@ CREATE TABLE `sys_obj_id_named` (
   PRIMARY KEY (`obj_id`),
   UNIQUE KEY `name` (`name`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1456 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1461 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_obj_id_named` table  (LIMIT 0,500)
@@ -886,7 +989,8 @@ INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES
   (1452,'access_simple'),
   (1453,'access_user'),
   (1454,'userFolder'),
-  (1455,'groupFolder');
+  (1455,'groupFolder'),
+  (1460,'access_fileManager');
 COMMIT;
 
 #
