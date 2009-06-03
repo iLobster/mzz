@@ -33,7 +33,7 @@ html, body {
     padding: 0;
     width: 100%;
     height: 100%;
-    background-color: #fff;
+    background-color: #000;
     color: #000000;
     font-family: tahoma, verdana, arial;
     font-size: 90%;
@@ -127,7 +127,7 @@ img {
 #footer {
     position: relative;
     margin: -46px auto 0 auto !important;
-    width: 100%;
+    width: 900px;
     height: 35px;
     border-top: 0;
     padding: 0;
@@ -185,7 +185,7 @@ img {
 
 #wrapper {
     margin: 0 auto;
-    width: 100%;
+    width: 900px;
     text-align: left;
     min-height: 100%;
     background: white;
