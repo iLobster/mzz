@@ -127,6 +127,7 @@
 
                 if(--this.windowCount == 0) {
                     this.window.kill();
+                    this.window = null;
                     $(document).unbind('keypress', this.eventKey);
                     this.unlockContent();
                 } else {
@@ -267,40 +268,45 @@
         },
 
         successRequest: function(transport) {
-            if ($.isUndefined(transport.responseXML) && $.isUndefined(transport.responseText)) {
-                console.log('MZZ.jipWindow::successRequest() undefined responseXML && responseText, transport = ', transport);
-                return false;
-            }
+            
+            if (this.window){
+                if ($.isUndefined(transport.responseXML) && $.isUndefined(transport.responseText)) {
+                    console.log('MZZ.jipWindow::successRequest() undefined responseXML && responseText, transport = ', transport);
+                    return false;
+                }
 
-            var ctype = transport.getResponseHeader("content-type");
-            var tmp = '';
-            if (!$.isUndefined(transport.responseXML) && ctype.indexOf("xml") >= 0) {
-                responseXML = transport.responseXML.documentElement;
-                var item = responseXML.getElementsByTagName('html')[0];
-                if (!$.isUndefined(item)) {
-                    for (var i = 0, l = item.childNodes.length; i < l; i++) {
-                        if (item.childNodes[i].data != '') {
-                            tmp += item.childNodes[i].data;
+                var ctype = transport.getResponseHeader("content-type");
+                var tmp = '';
+                if (!$.isUndefined(transport.responseXML) && ctype.indexOf("xml") >= 0) {
+                    responseXML = transport.responseXML.documentElement;
+                    var item = responseXML.getElementsByTagName('html')[0];
+                    if (!$.isUndefined(item)) {
+                        for (var i = 0, l = item.childNodes.length; i < l; i++) {
+                            if (item.childNodes[i].data != '') {
+                                tmp += item.childNodes[i].data;
+                            }
                         }
                     }
+                } else {
+                    tmp = transport.responseText;
                 }
+                if (tmp == '') {
+                    console.log('MZZ.jipWindow::successRequest() "tmp" is empty, server ignored us? transport = ', transport);
+                }
+
+                this.window.content().html(tmp);
+                var title = this.window.content().find('div.jipTitle:first');
+
+                if (title.length > 0) {
+                    this.window.title(title.html());
+                    title.remove();
+                }
+
+                this.window.show();
             } else {
-                tmp = transport.responseText;
+                console.log('MZZ.jipWindow::successRequest() window closed before data recived');
+                return false;
             }
-            if (tmp == '') {
-                console.log('MZZ.jipWindow::successRequest() "tmp" is empty, server ignored us? transport = ', transport);
-            }
-
-            this.window.content().html(tmp);
-            var title = this.window.content().find('div.jipTitle:first');
-
-            if (title.length > 0) {
-                this.window.title(title.html());
-                title.remove();
-            }
-
-            this.window.show();
-
         },
 
         setErrorMsg: function (transport, status)
