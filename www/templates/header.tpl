@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{$SITE_PATH}/templates/css/style.css" />
     {include file='include.css.tpl'}
     <script type="text/javascript">
-    <!--
+    //<!--
     var SITE_PATH = '{$SITE_PATH}';
     var SITE_LANG = '{$current_lang}';
     //-->
