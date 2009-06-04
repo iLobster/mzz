@@ -137,38 +137,20 @@
                  *  </li>
                  * </ul>
                  */
-                var jipMenuDiv = $('<div />').attr({
-                    'id': id,
-                    'class': 'mzz-jip-menu'
-                }).css({
+                var jipMenuDiv = $('<div />').attr({'id': id}).css({
                     'display': 'none'
-                });
+                }).appendTo($('body')).addClass('mzz-jip-menu');
 
-                var jipMenuUl = $('<ul class="mzz-jip-menu" />');
+                var jipMenuUl = $('<ul />').appendTo(jipMenuDiv).addClass('mzz-jip-menu');
 
                 for (var i = 0, l = items.length; i < l; i++) {
                     var elm = items[i];
-                    var jipMenuItem = $('<li/>').attr({'id': id + '_' + i});
-                    var jipMenuIcon = $('<span class="mzz-jip-icon" />');
-                    
-                    if ($.isObject(elm[2])) {
-                        jipMenuIcon.addClass(elm[2].sprite);
-                        if ($.isString(elm[2].index)) {
-                            jipMenuIcon.addClass(elm[2].index);
-                        } else if ($.isNumber(elm[2].index)) {
-                            jipMenuIcon.css({'background-position': '-' + (elm[2].index * 16) + 'px top'});
-                        } else if (elm[2].index.length == 2) {
-                            jipMenuIcon.css({'background-position': '-' + (elm[2].index[0] * 16) + 'px -' + (elm[2].index[1] * 16) + 'px'});
-                        }
-                    } else {
-                        jipMenuIcon.append('<img src="' + elm[2] + '" alt="icon" width="16" height="16" />');
-                    }
+                    var jipMenuItem = $('<li />').attr({'id': id + '_' + i}).appendTo(jipMenuUl);
+
 
                     var jipMenuItemA = $('<a />').attr({
                         href: elm[1]
-                    }).append(jipMenuIcon)
-                      .append('<span class="mzz-jip-title">' + elm[0] + '</span>')
-                      .bind('click', {
+                    }).appendTo(jipMenuItem).bind('click', {
                         link: elm[1],
                         target: elm[4]
                     }, this.itemClick);
@@ -184,16 +166,33 @@
                         });
                     }
 
-                    jipMenuItemA.appendTo(jipMenuItem);
-                    jipMenuItem.appendTo(jipMenuUl);
+                    var jipMenuIcon = $('<span />').appendTo(jipMenuItemA).addClass('mzz-jip-icon');
+
+                    if ($.isObject(elm[2])) {
+                        jipMenuIcon.addClass(elm[2].sprite);
+                        if ($.isString(elm[2].index)) {
+                            jipMenuIcon.addClass(elm[2].index);
+                        } else if ($.isNumber(elm[2].index)) {
+                            jipMenuIcon.css({'background-position': '-' + (elm[2].index * 16) + 'px top'});
+                        } else if (elm[2].index.length == 2) {
+                            jipMenuIcon.css({'background-position': '-' + (elm[2].index[0] * 16) + 'px -' + (elm[2].index[1] * 16) + 'px'});
+                        }
+                    } else {
+                        jipMenuIcon.append('<img src="' + elm[2] + '" alt="icon" width="16" height="16" />');
+                    }
+
+                    $('<span />').appendTo(jipMenuItemA).addClass('mzz-jip-title').text(elm[0]);
+                    
+//                    jipMenuItemA.appendTo(jipMenuItem);
+//                    jipMenuItem.appendTo(jipMenuUl);
                 }
 
-                jipMenuUl.appendTo(jipMenuDiv);
-                jipMenuDiv.appendTo($('body'));
+                //jipMenuUl.appendTo(jipMenuDiv);
+                //jipMenuDiv.appendTo();
             } else {
                 var jipMenuDiv = $('#' + id);
                 jipMenuDiv.css({
-                    'display': 'inline'
+                    'display': 'block'
                 });
             }
 
