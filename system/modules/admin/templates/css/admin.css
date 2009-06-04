@@ -313,11 +313,11 @@ ul.mzz-adm-menu li div.mzz-menu-item {
 }
 
 ul.mzz-adm-menu li div.mzz-menu-item div.mzz-menu-title {
-    height:27px;
-    line-height:27px;
-    margin:3px 5px -3px 5px;
+    height: 27px;
+    line-height: 27px;
+    margin: 3px 5px -3px 0px;
     padding-bottom: 3px;
-    padding-left: 25px;
+    padding-left: 30px;
 }
 
 ul.mzz-adm-menu li div.mzz-menu-item span.mzz-icon {
@@ -339,58 +339,45 @@ ul.mzz-adm-menu li div.mzz-menu-item div.mzz-menu-toggle {
     top:0;
 }
 
-ul.mzz-adm-menu li div.mzz-menu-item {
-    background: transparent url('../images/admin/tableold.png') no-repeat scroll 0 -30px;
+ul.mzz-adm-menu div.mzz-menu-title,
+ul.mzz-adm-menu div.mzz-menu-toggle {
+    background: transparent url('../images/admin/table.png') no-repeat scroll 100px 100px;
 }
 
-ul.mzz-adm-menu li div.mzz-menu-item div.mzz-menu-title {
-    background:transparent url('../images/admin/tableold.png') repeat-x scroll 0 -0px;
+ul.mzz-adm-menu div.mzz-menu-title {
+    background-position: 0 -30px;
 }
 
-ul.mzz-adm-menu li div.mzz-menu-item div.mzz-menu-toggle {
-    background:transparent url('../images/admin/tableold.png') no-repeat scroll right -60px;
+ul.mzz-adm-menu div.mzz-menu-toggle {
+    background-position: right -30px;
 }
 
-ul.mzz-adm-menu li.active div.mzz-menu-item,
-ul.mzz-adm-menu li:hover div.mzz-menu-item {
-    background: transparent url('../images/admin/tableold.png') no-repeat scroll 0 -330px;
+ul.mzz-adm-menu li.active div.mzz-menu-title,
+ul.mzz-adm-menu li:hover div.mzz-menu-title {
+    background-position: 0 -210px;
 }
 
-ul.mzz-adm-menu li.active div.mzz-menu-item div.mzz-menu-title,
-ul.mzz-adm-menu li:hover div.mzz-menu-item div.mzz-menu-title {
-    background:transparent url('../images/admin/tableold.png') repeat-x scroll 0 -300px;
+ul.mzz-adm-menu li.active div.mzz-menu-toggle,
+ul.mzz-adm-menu li:hover div.mzz-menu-toggle {
+    background-position: right -210px;
 }
 
-ul.mzz-adm-menu li.active div.mzz-menu-item div.mzz-menu-toggle,
-ul.mzz-adm-menu li:hover div.mzz-menu-item div.mzz-menu-toggle {
-    background:transparent url('../images/admin/tableold.png') no-repeat scroll right -360px;
+ul.mzz-adm-menu li.mzz-menu-has-sub div.mzz-menu-title {
+    background-position: 0 -60px;
 }
 
-ul.mzz-adm-menu li.mzz-menu-has-sub div.mzz-menu-item {
-    background: transparent url('../images/admin/tableold.png') no-repeat scroll 0 -90px;
+ul.mzz-adm-menu li.mzz-menu-has-sub div.mzz-menu-toggle {
+    background-position: right -60px;
 }
 
-ul.mzz-adm-menu li.mzz-menu-has-sub div.mzz-menu-item div.mzz-menu-title {
-    background:transparent url('../images/admin/tableold.png') repeat-x scroll 0 -0px;
+ul.mzz-adm-menu li.mzz-menu-has-sub.active div.mzz-menu-title,
+ul.mzz-adm-menu li.mzz-menu-has-sub:hover div.mzz-menu-title {
+    background-position: 0 -240px;
 }
 
-ul.mzz-adm-menu li.mzz-menu-has-sub div.mzz-menu-item div.mzz-menu-toggle {
-    background:transparent url('../images/admin/tableold.png') no-repeat scroll right -120px;
-}
-
-ul.mzz-adm-menu li.mzz-menu-has-sub.active div.mzz-menu-item,
-ul.mzz-adm-menu li.mzz-menu-has-sub:hover div.mzz-menu-item {
-    background: transparent url('../images/admin/tableold.png') no-repeat scroll 0 -390px;
-}
-
-ul.mzz-adm-menu li.mzz-menu-has-sub.active div.mzz-menu-item div.mzz-menu-title,
-ul.mzz-adm-menu li.mzz-menu-has-sub:hover div.mzz-menu-item div.mzz-menu-title {
-    background:transparent url('../images/admin/tableold.png') repeat-x scroll 0 -300px;
-}
-
-ul.mzz-adm-menu li.mzz-menu-has-sub.active div.mzz-menu-item div.mzz-menu-toggle,
-ul.mzz-adm-menu li.mzz-menu-has-sub:hover div.mzz-menu-item div.mzz-menu-toggle {
-    background:transparent url('../images/admin/tableold.png') no-repeat scroll right -420px;
+ul.mzz-adm-menu li.mzz-menu-has-sub.active div.mzz-menu-toggle,
+ul.mzz-adm-menu li.mzz-menu-has-sub:hover div.mzz-menu-toggle {
+    background-position: right -240px;
 }
 
 ul.mzz-adm-menu div.mzz-menu-sub {

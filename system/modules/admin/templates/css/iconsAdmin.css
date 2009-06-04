@@ -24,7 +24,7 @@ span.mzz-icon-doc-empty, span.mzz-icon-doc-empty.disabled {
     background-position: -0px -16px;
 }
 
-a:hover span.mzz-icon-doc-empty, li:hover span.mzz-icon-doc-empty, span.mzz-icon-doc-empty:hover, span.mzz-icon-doc-empty.active {
+a:hover span.mzz-icon-doc-empty, span.mzz-icon-doc-empty:hover, span.mzz-icon-doc-empty.active {
     background-position: -0px 0px;
 }
 
@@ -32,7 +32,7 @@ span.mzz-icon-doc, span.mzz-icon-doc.disabled {
     background-position: -16px -16px;
 }
 
-a:hover span.mzz-icon-doc, li:hover span.mzz-icon-doc, span.mzz-icon-doc:hover, span.mzz-icon-doc.active {
+a:hover span.mzz-icon-doc, span.mzz-icon-doc:hover, span.mzz-icon-doc.active {
     background-position: -16px 0px;
 }
 
@@ -40,7 +40,7 @@ span.mzz-icon-doc-add, span.mzz-icon-doc-add.disabled {
     background-position: -32px -16px;
 }
 
-a:hover span.mzz-icon-doc-add, li:hover span.mzz-icon-doc-add, span.mzz-icon-doc-add:hover, span.mzz-icon-doc-add.active {
+a:hover span.mzz-icon-doc-add, span.mzz-icon-doc-add:hover, span.mzz-icon-doc-add.active {
     background-position: -32px 0px;
 }
 
@@ -48,7 +48,7 @@ span.mzz-icon-doc-del, span.mzz-icon-doc-del.disabled {
     background-position: -48px -16px;
 }
 
-a:hover span.mzz-icon-doc-del, li:hover span.mzz-icon-doc-del, span.mzz-icon-doc-del:hover, span.mzz-icon-doc-del.active {
+a:hover span.mzz-icon-doc-del, span.mzz-icon-doc-del:hover, span.mzz-icon-doc-del.active {
     background-position: -48px 0px;
 }
 
@@ -56,7 +56,7 @@ span.mzz-icon-doc-edit, span.mzz-icon-doc-edit.disabled {
     background-position: -64px -16px;
 }
 
-a:hover span.mzz-icon-doc-edit, li:hover span.mzz-icon-doc-edit, span.mzz-icon-doc-edit:hover, span.mzz-icon-doc-edit.active {
+a:hover span.mzz-icon-doc-edit, span.mzz-icon-doc-edit:hover, span.mzz-icon-doc-edit.active {
     background-position: -64px 0px;
 }
 
@@ -64,7 +64,7 @@ span.mzz-icon-doc-move, span.mzz-icon-doc-move.disabled {
     background-position: -80px -16px;
 }
 
-a:hover span.mzz-icon-doc-move, li:hover span.mzz-icon-doc-move, span.mzz-icon-doc-move:hover, span.mzz-icon-doc-move.active {
+a:hover span.mzz-icon-doc-move, span.mzz-icon-doc-move:hover, span.mzz-icon-doc-move.active {
     background-position: -80px 0px;
 }
 
@@ -72,7 +72,7 @@ span.mzz-icon-folder, span.mzz-icon-folder.disabled {
     background-position: -96px -16px;
 }
 
-a:hover span.mzz-icon-folder, li:hover span.mzz-icon-folder, span.mzz-icon-folder:hover, span.mzz-icon-folder.active {
+a:hover span.mzz-icon-folder, span.mzz-icon-folder:hover, span.mzz-icon-folder.active {
     background-position: -96px 0px;
 }
 
@@ -80,7 +80,7 @@ span.mzz-icon-folder-add, span.mzz-icon-folder-add.disabled {
     background-position: -112px -16px;
 }
 
-a:hover span.mzz-icon-folder-add, li:hover span.mzz-icon-folder-add, span.mzz-icon-folder-add:hover, span.mzz-icon-folder-add.active {
+a:hover span.mzz-icon-folder-add, span.mzz-icon-folder-add:hover, span.mzz-icon-folder-add.active {
     background-position: -112px 0px;
 }
 
@@ -88,7 +88,7 @@ span.mzz-icon-folder-del, span.mzz-icon-folder-del.disabled {
     background-position: -128px -16px;
 }
 
-a:hover span.mzz-icon-folder-del, li:hover span.mzz-icon-folder-del, span.mzz-icon-folder-del:hover, span.mzz-icon-folder-del.active {
+a:hover span.mzz-icon-folder-del, span.mzz-icon-folder-del:hover, span.mzz-icon-folder-del.active {
     background-position: -128px 0px;
 }
 
@@ -96,7 +96,7 @@ span.mzz-icon-folder-edit, span.mzz-icon-folder-edit.disabled {
     background-position: -144px -16px;
 }
 
-a:hover span.mzz-icon-folder-edit, li:hover span.mzz-icon-folder-edit, span.mzz-icon-folder-edit:hover, span.mzz-icon-folder-edit.active {
+a:hover span.mzz-icon-folder-edit, span.mzz-icon-folder-edit:hover, span.mzz-icon-folder-edit.active {
     background-position: -144px 0px;
 }
 
@@ -104,7 +104,7 @@ span.mzz-icon-folder-move, span.mzz-icon-folder-move.disabled {
     background-position: -160px -16px;
 }
 
-a:hover span.mzz-icon-folder-move, li:hover span.mzz-icon-folder-move, span.mzz-icon-folder-move:hover, span.mzz-icon-folder-move.active {
+a:hover span.mzz-icon-folder-move, span.mzz-icon-folder-move:hover, span.mzz-icon-folder-move.active {
     background-position: -160px 0px;
 }
 
@@ -112,7 +112,7 @@ span.mzz-icon-script, span.mzz-icon-script.disabled {
     background-position: -176px -16px;
 }
 
-a:hover span.mzz-icon-script, li:hover span.mzz-icon-script, span.mzz-icon-script:hover, span.mzz-icon-script.active {
+a:hover span.mzz-icon-script, span.mzz-icon-script:hover, span.mzz-icon-script.active {
     background-position: -176px 0px;
 }
 
@@ -120,7 +120,7 @@ span.mzz-icon-script-add, span.mzz-icon-script-add.disabled {
     background-position: -192px -16px;
 }
 
-a:hover span.mzz-icon-script-add, li:hover span.mzz-icon-script-add, span.mzz-icon-script-add:hover, span.mzz-icon-script-add.active {
+a:hover span.mzz-icon-script-add, span.mzz-icon-script-add:hover, span.mzz-icon-script-add.active {
     background-position: -192px 0px;
 }
 
@@ -128,7 +128,7 @@ span.mzz-icon-script-del, span.mzz-icon-script-del.disabled {
     background-position: -208px -16px;
 }
 
-a:hover span.mzz-icon-script-del, li:hover span.mzz-icon-script-del, span.mzz-icon-script-del:hover, span.mzz-icon-script-del.active {
+a:hover span.mzz-icon-script-del, span.mzz-icon-script-del:hover, span.mzz-icon-script-del.active {
     background-position: -208px 0px;
 }
 
@@ -136,7 +136,7 @@ span.mzz-icon-script-edit, span.mzz-icon-script-edit.disabled {
     background-position: -224px -16px;
 }
 
-a:hover span.mzz-icon-script-edit, li:hover span.mzz-icon-script-edit, span.mzz-icon-script-edit:hover, span.mzz-icon-script-edit.active {
+a:hover span.mzz-icon-script-edit, span.mzz-icon-script-edit:hover, span.mzz-icon-script-edit.active {
     background-position: -224px 0px;
 }
 
@@ -144,7 +144,7 @@ span.mzz-icon-script-move, span.mzz-icon-script-move.disabled {
     background-position: -240px -16px;
 }
 
-a:hover span.mzz-icon-script-move, li:hover span.mzz-icon-script-move, span.mzz-icon-script-move:hover, span.mzz-icon-script-move.active {
+a:hover span.mzz-icon-script-move, span.mzz-icon-script-move:hover, span.mzz-icon-script-move.active {
     background-position: -240px 0px;
 }
 
@@ -152,7 +152,7 @@ span.mzz-icon-block, span.mzz-icon-block.disabled {
     background-position: -256px -16px;
 }
 
-a:hover span.mzz-icon-block, li:hover span.mzz-icon-block, span.mzz-icon-block:hover, span.mzz-icon-block.active {
+a:hover span.mzz-icon-block, span.mzz-icon-block:hover, span.mzz-icon-block.active {
     background-position: -256px 0px;
 }
 
@@ -160,7 +160,7 @@ span.mzz-icon-block-add, span.mzz-icon-block-add.disabled {
     background-position: -272px -16px;
 }
 
-a:hover span.mzz-icon-block-add, li:hover span.mzz-icon-block-add, span.mzz-icon-block-add:hover, span.mzz-icon-block-add.active {
+a:hover span.mzz-icon-block-add, span.mzz-icon-block-add:hover, span.mzz-icon-block-add.active {
     background-position: -272px 0px;
 }
 
@@ -168,7 +168,7 @@ span.mzz-icon-block-del, span.mzz-icon-block-del.disabled {
     background-position: -288px -16px;
 }
 
-a:hover span.mzz-icon-block-del, li:hover span.mzz-icon-block-del, span.mzz-icon-block-del:hover, span.mzz-icon-block-del.active {
+a:hover span.mzz-icon-block-del, span.mzz-icon-block-del:hover, span.mzz-icon-block-del.active {
     background-position: -288px 0px;
 }
 
@@ -176,7 +176,7 @@ span.mzz-icon-block-edit, span.mzz-icon-block-edit.disabled {
     background-position: -304px -16px;
 }
 
-a:hover span.mzz-icon-block-edit, li:hover span.mzz-icon-block-edit, span.mzz-icon-block-edit:hover, span.mzz-icon-block-edit.active {
+a:hover span.mzz-icon-block-edit, span.mzz-icon-block-edit:hover, span.mzz-icon-block-edit.active {
     background-position: -304px 0px;
 }
 
@@ -184,7 +184,7 @@ span.mzz-icon-block-move, span.mzz-icon-block-move.disabled {
     background-position: -320px -16px;
 }
 
-a:hover span.mzz-icon-block-move, li:hover span.mzz-icon-block-move, span.mzz-icon-block-move:hover, span.mzz-icon-block-move.active {
+a:hover span.mzz-icon-block-move, span.mzz-icon-block-move:hover, span.mzz-icon-block-move.active {
     background-position: -320px 0px;
 }
 
@@ -193,7 +193,7 @@ span.mzz-icon-user, span.mzz-icon-user.disabled {
     background-position: -336px -16px;
 }
 
-a:hover span.mzz-icon-user, li:hover span.mzz-icon-user, span.mzz-icon-user:hover, span.mzz-icon-user.active {
+a:hover span.mzz-icon-user, span.mzz-icon-user:hover, span.mzz-icon-user.active {
     background-position: -336px 0px;
 }
 
@@ -201,7 +201,7 @@ span.mzz-icon-user-add, span.mzz-icon-user-add.disabled {
     background-position: -352px -16px;
 }
 
-a:hover span.mzz-icon-user-add, li:hover span.mzz-icon-user-add, span.mzz-icon-user-add:hover, span.mzz-icon-user-add.active {
+a:hover span.mzz-icon-user-add, span.mzz-icon-user-add:hover, span.mzz-icon-user-add.active {
     background-position: -352px 0px;
 }
 
@@ -209,7 +209,7 @@ span.mzz-icon-user-del, span.mzz-icon-user-del.disabled {
     background-position: -368px -16px;
 }
 
-a:hover span.mzz-icon-user-del, li:hover span.mzz-icon-user-del, span.mzz-icon-user-del:hover, span.mzz-icon-user-del.active {
+a:hover span.mzz-icon-user-del, span.mzz-icon-user-del:hover, span.mzz-icon-user-del.active {
     background-position: -368px 0px;
 }
 
@@ -217,7 +217,7 @@ span.mzz-icon-user-edit, span.mzz-icon-user-edit.disabled {
     background-position: -384px -16px;
 }
 
-a:hover span.mzz-icon-user-edit, li:hover span.mzz-icon-user-edit, span.mzz-icon-user-edit:hover, span.mzz-icon-user-edit.active {
+a:hover span.mzz-icon-user-edit, span.mzz-icon-user-edit:hover, span.mzz-icon-user-edit.active {
     background-position: -384px 0px;
 }
 
@@ -225,7 +225,7 @@ span.mzz-icon-group, span.mzz-icon-group.disabled {
     background-position: -400px -16px;
 }
 
-a:hover span.mzz-icon-group, li:hover span.mzz-icon-group, span.mzz-icon-group:hover, span.mzz-icon-group.active {
+a:hover span.mzz-icon-group, span.mzz-icon-group:hover, span.mzz-icon-group.active {
     background-position: -400px 0px;
 }
 
@@ -233,7 +233,7 @@ span.mzz-icon-group-add, span.mzz-icon-group-add.disabled {
     background-position: -416px -16px;
 }
 
-a:hover span.mzz-icon-group-add, li:hover span.mzz-icon-group-add, span.mzz-icon-group-add:hover, span.mzz-icon-group-add.active {
+a:hover span.mzz-icon-group-add, span.mzz-icon-group-add:hover, span.mzz-icon-group-add.active {
     background-position: -416px 0px;
 }
 
@@ -241,7 +241,7 @@ span.mzz-icon-group-del, span.mzz-icon-group-del.disabled {
     background-position: -432px -16px;
 }
 
-a:hover span.mzz-icon-group-del, li:hover span.mzz-icon-group-del, span.mzz-icon-group-del:hover, span.mzz-icon-group-del.active {
+a:hover span.mzz-icon-group-del, span.mzz-icon-group-del:hover, span.mzz-icon-group-del.active {
     background-position: -432px 0px;
 }
 
@@ -249,7 +249,7 @@ span.mzz-icon-group-edit, span.mzz-icon-group-edit.disabled {
     background-position: -448px -16px;
 }
 
-a:hover span.mzz-icon-group-edit, li:hover span.mzz-icon-group-edit, span.mzz-icon-group-edit:hover, span.mzz-icon-group-edit.active {
+a:hover span.mzz-icon-group-edit, span.mzz-icon-group-edit:hover, span.mzz-icon-group-edit.active {
     background-position: -448px 0px;
 }
 
@@ -257,7 +257,7 @@ span.mzz-icon-key, span.mzz-icon-key.disabled {
     background-position: -464px -16px;
 }
 
-a:hover span.mzz-icon-key, li:hover span.mzz-icon-key, span.mzz-icon-key:hover, span.mzz-icon-key.active {
+a:hover span.mzz-icon-key, span.mzz-icon-key:hover, span.mzz-icon-key.active {
     background-position: -464px 0px;
 }
 
@@ -265,7 +265,7 @@ span.mzz-icon-key-add, span.mzz-icon-key-add.disabled {
     background-position: -480px -16px;
 }
 
-a:hover span.mzz-icon-key-add, li:hover span.mzz-icon-key-add, span.mzz-icon-key-add:hover, span.mzz-icon-key-add.active {
+a:hover span.mzz-icon-key-add, span.mzz-icon-key-add:hover, span.mzz-icon-key-add.active {
     background-position: -480px 0px;
 }
 
@@ -273,7 +273,7 @@ span.mzz-icon-key-del, span.mzz-icon-key-del.disabled {
     background-position: -496px -16px;
 }
 
-a:hover span.mzz-icon-key-del, li:hover span.mzz-icon-key-del, span.mzz-icon-key-del:hover, span.mzz-icon-key-del.active {
+a:hover span.mzz-icon-key-del, span.mzz-icon-key-del:hover, span.mzz-icon-key-del.active {
     background-position: -496px 0px;
 }
 
@@ -281,7 +281,7 @@ span.mzz-icon-key-default, span.mzz-icon-key-default.disabled {
     background-position: -512px -16px;
 }
 
-a:hover span.mzz-icon-key-default, li:hover span.mzz-icon-key-default, span.mzz-icon-key-default:hover, span.mzz-icon-key-default.active {
+a:hover span.mzz-icon-key-default, span.mzz-icon-key-default:hover, span.mzz-icon-key-default.active {
     background-position: -512px 0px;
 }
 
@@ -289,7 +289,7 @@ span.mzz-icon-wrench, span.mzz-icon-wrench.disabled {
     background-position: -528px -16px;
 }
 
-a:hover span.mzz-icon-wrench, li:hover span.mzz-icon-wrench, span.mzz-icon-wrench:hover, span.mzz-icon-wrench.active {
+a:hover span.mzz-icon-wrench, span.mzz-icon-wrench:hover, span.mzz-icon-wrench.active {
     background-position: -528px 0px;
 }
 
@@ -297,7 +297,7 @@ span.mzz-icon-wrench-red, span.mzz-icon-wrench-red.disabled {
     background-position: -544px -16px;
 }
 
-a:hover span.mzz-icon-wrench-red, li:hover span.mzz-icon-wrench-red, span.mzz-icon-wrench-red:hover, span.mzz-icon-wrench-red.active {
+a:hover span.mzz-icon-wrench-red, span.mzz-icon-wrench-red:hover, span.mzz-icon-wrench-red.active {
     background-position: -544px 0px;
 }
 
@@ -305,7 +305,7 @@ span.mzz-icon-wrench-cross, span.mzz-icon-wrench-cross.disabled {
     background-position: -560px -16px;
 }
 
-a:hover span.mzz-icon-wrench-cross, li:hover span.mzz-icon-wrench-cross, span.mzz-icon-wrench-cross:hover, span.mzz-icon-wrench-cross.active {
+a:hover span.mzz-icon-wrench-cross, span.mzz-icon-wrench-cross:hover, span.mzz-icon-wrench-cross.active {
     background-position: -560px 0px;
 }
 
@@ -313,7 +313,7 @@ span.mzz-icon-cog, span.mzz-icon-cog.disabled {
     background-position: -576px -16px;
 }
 
-a:hover span.mzz-icon-cog, li:hover span.mzz-icon-cog, span.mzz-icon-cog:hover, span.mzz-icon-cog.active {
+a:hover span.mzz-icon-cog, span.mzz-icon-cog:hover, span.mzz-icon-cog.active {
     background-position: -576px 0px;
 }
 
@@ -321,7 +321,7 @@ span.mzz-icon-cog-add, span.mzz-icon-cog-add.disabled {
     background-position: -592px -16px;
 }
 
-a:hover span.mzz-icon-cog-add, li:hover span.mzz-icon-cog-add, span.mzz-icon-cog-add:hover, span.mzz-icon-cog-add.active {
+a:hover span.mzz-icon-cog-add, span.mzz-icon-cog-add:hover, span.mzz-icon-cog-add.active {
     background-position: -592px 0px;
 }
 
@@ -329,7 +329,7 @@ span.mzz-icon-cog-del, span.mzz-icon-cog-del.disabled {
     background-position: -608px -16px;
 }
 
-a:hover span.mzz-icon-cog-del, li:hover span.mzz-icon-cog-del, span.mzz-icon-cog-del:hover, span.mzz-icon-cog-del.active {
+a:hover span.mzz-icon-cog-del, span.mzz-icon-cog-del:hover, span.mzz-icon-cog-del.active {
     background-position: -608px 0px;
 }
 
@@ -337,7 +337,7 @@ span.mzz-icon-cog-edit, span.mzz-icon-cog-edit.disabled {
     background-position: -624px -16px;
 }
 
-a:hover span.mzz-icon-cog-edit, li:hover span.mzz-icon-cog-edit, span.mzz-icon-cog-edit:hover, span.mzz-icon-cog-edit.active {
+a:hover span.mzz-icon-cog-edit, span.mzz-icon-cog-edit:hover, span.mzz-icon-cog-edit.active {
     background-position: -624px 0px;
 }
 
@@ -345,6 +345,6 @@ span.mzz-icon-db-table, span.mzz-icon-db-table.disabled {
     background-position: -640px -16px;
 }
 
-a:hover span.mzz-icon-db-table, li:hover span.mzz-icon-db-table, span.mzz-icon-db-table:hover, span.mzz-icon-db-table.active {
+a:hover span.mzz-icon-db-table, span.mzz-icon-db-table:hover, span.mzz-icon-db-table.active {
     background-position: -640px 0px;
 }
