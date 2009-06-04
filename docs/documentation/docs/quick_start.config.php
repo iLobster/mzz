@@ -19,7 +19,7 @@ Deny from all
 <p>Файл <code>configs/config.php</code> содержит <a href="setup.configuration.html#setup.configuration.system">системную конфигурацию</a></p>
 <!-- php code 4 -->
 
-<p>Файл <code>configs/config.php</code> содержит ассоциативный массив связи секция =&gt; модуль</p>
+<p>Файл <code>configs/modules.php</code> содержит ассоциативный массив связи секция =&gt; модуль</p>
 <<code php>>
 $modules = array (
     'access' => 'access',
