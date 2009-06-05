@@ -1,4 +1,5 @@
 span.mzz-icon {
+    display: -moz-inline-box;
     display: inline-block !important;
     width: 16px !important;
     height: 16px !important;

@@ -1,5 +1,10 @@
 {if not empty($menu)}
     <ul id="mzz-adm-menu" class="mzz-adm-menu">
+        <li id="mzz-adm-menu-devtoolbar"{if $current_module == 'admin' && $current_action == 'admin'} class="active"{/if}>
+            <div class="mzz-menu-item">
+                <div class="mzz-menu-title"><a href="{url route=default2 module='admin' action='admin'}"><span class="mzz-icon mzz-icon-wrench-cross"></span> Главная</a></div><div class="mzz-menu-toggle"></div>
+            </div>
+        </li>
         {foreach from=$menu item="module" key="moduleName"}
             <li id="mzz-adm-menu-{$moduleName}" class="{if count($module.actions) > 1 || (count($module.actions) === 1 && !isset($module.actions.admin))}mzz-menu-has-sub{/if} {if $moduleName eq $current_module}active{/if}">
                 <div class="mzz-menu-item">
