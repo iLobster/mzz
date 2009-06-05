@@ -284,8 +284,7 @@ abstract class formElement
         $attributes = array_merge($this->attributes, $attributes);
         $name = isset($attributes['name']) ? $attributes['name'] : '';
         $default = $default !== false ? $default : (isset($attributes['value']) ? $attributes['value'] : false);
-        $forceValue = (isset($attributes['use']) && $attributes['use'] === 'default');
-
+        $forceValue = (isset($attributes['useDefault']) && $attributes['useDefault']);
         if (empty($name) || $forceValue) {
             return $default;
         }
