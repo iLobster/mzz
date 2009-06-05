@@ -3,7 +3,7 @@
     <ul>
         <li class="{$form->required('dest', 'required')} {$form->error('dest', 'error')}">
             Перемещение элемента <em>'{$file->getName()}'</em> из каталога {$file->getFolder()->getName()} ({$file->getFolder()->getTreePath()})
-            {form->caption name="dest" value="В каталог:"}
+            {form->caption name="dest" value="В каталог"}
             <span class="input">{form->select name="dest" styles=$styles options=$dests size=10 style="width: 100%" value=$file->getFolder()->getId()}</span>
             {if $form->error('dest')}<span class="error">{$form->message('dest')}</span>{/if}
         </tr>

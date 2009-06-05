@@ -1,17 +1,12 @@
-<div class="jipTitle">Перемещение каталога: <strong>"{$folder->getTitle()}"</strong>({$folder->getPath()})</div>
-{form action=$form_action method="post" jip=true}
-    <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
-        <tr>
-            <td style='width: 20%; vertical-align: top;'>Перемещение каталога: <strong>"{$folder->getTitle()}"</strong>({$folder->getPath()}) из <em>{$folder->getTreeParent()->getTitle()}</em>({$folder->getTreeParent()->getPath()})</td>
+<div class="jipTitle">Перемещение каталога "{$folder->getTitle()}" ({$folder->getTreePath()})</div>
+{form action=$form_action method="post" jip=true class="mzz-jip-form"}
+    <ul>
+        <li class="{$form->required('dest', 'required')} {$form->error('dest', 'error')}">
+            Перемещение каталога: <em>'{$folder->getTitle()}'</em>({$folder->getTreePath()}) из <em>{$folder->getTreeParent()->getTitle()}</em>({$folder->getTreeParent()->getTreePath()})
+            {form->caption name="dest" value="В каталог"}
+            <span class="input">{form->select name="dest" options=$dests styles=$styles size=10 style="width: 100%;" value=$folder->getTreeParent()->getId()}</span>
+            {if $form->error('dest')}<span class="error">{$form->message('dest')}</span>{/if}
         </tr>
-        <tr>
-            <td style='width: 20%; vertical-align: top;'>{form->caption name="dest" value="В каталог:"}</td>
-        </tr>
-        <tr>
-            <td style='width: 80%;'>{form->select name="dest" options=$dests styles=$styles size=10 style="width: 80%;" value=$folder->getTreeParent()->getId()}{$errors->get('dest')}</td>
-        </tr>
-        <tr>
-            <td colspan="2" style="text-align:center;">{form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}</td>
-        </tr>
-    </table>
+    </ul>
+    <span class="buttons">{form->submit name="submit" value="_ simple/save"} {form->reset jip=true name="reset" value="_ simple/cancel"}</span>
 </form>

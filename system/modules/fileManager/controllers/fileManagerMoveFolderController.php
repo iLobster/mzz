@@ -12,8 +12,6 @@
  * @version $Id$
  */
 
-fileLoader::load('forms/validators/formValidator');
-
 /**
  * fileManagerMoveFolderController: контроллер для метода moveFolder модуля fileManager
  *
@@ -21,7 +19,6 @@ fileLoader::load('forms/validators/formValidator');
  * @subpackage fileManager
  * @version 0.2
  */
-
 class fileManagerMoveFolderController extends simpleController
 {
     protected function getView()
@@ -36,7 +33,7 @@ class fileManagerMoveFolderController extends simpleController
             return $controller->run();
         }
 
-        $folders = $folderMapper->getTreeExceptNode($folder);
+        $folders = $folderMapper->plugin('tree')->getTreeExceptNode($folder);
         if (sizeof($folders) <= 1) {
             $controller = new messageController('Невозможно перемещать данный каталог');
             return $controller->run();
@@ -44,22 +41,22 @@ class fileManagerMoveFolderController extends simpleController
 
         $validator = new formValidator();
         $validator->add('required', 'dest', 'Обязательное для заполнения поле');
-        $validator->add('callback', 'dest', 'Каталог назначения не существует', array('checkDestFolderExists', $folderMapper));
-        $validator->add('callback', 'dest', 'В каталоге назначения уже есть каталог с таким именем', array('checkUniqueFolderName', $folderMapper, $folder));
-        $validator->add('callback', 'dest', 'Нельзя перенести каталог во вложенные каталоги', array('checkDestFolderIsNotChildren', $folders));
+        $validator->add('in', 'dest', 'Каталог назначения не существует', $folders->keys());
+        $validator->add('callback', 'dest', 'В каталоге назначения уже есть каталог с таким именем', array(array($this, 'checkUniqueFolderName'), $folderMapper, $folder));
+        $validator->add('callback', 'dest', 'Нельзя перенести каталог во вложенные каталоги', array(array($this, 'checkDestFolderIsNotChildren'), $folders));
 
         if ($validator->validate()) {
             $destFolder = $folderMapper->searchById($dest);
-            $result = $folderMapper->move($folder, $destFolder);
-            if ($result) {
-                return jipTools::redirect();
-            }
-            $errors->set('dest', 'Невозможно осуществить требуемое перемещение');
+
+            $folder->setTreeParent($destFolder);
+            $folderMapper->save($folder);
+
+            return jipTools::redirect();
         }
 
         $url = new url('withAnyParam');
         $url->setAction('moveFolder');
-        $url->add('name', $folder->getPath());
+        $url->add('name', $folder->getTreePath());
 
 
         $dests = array();
@@ -76,26 +73,21 @@ class fileManagerMoveFolderController extends simpleController
         $this->smarty->assign('folder', $folder);
         return $this->smarty->fetch('fileManager/moveFolder.tpl');
     }
-}
 
-function checkUniqueFolderName($id, $folderMapper, $folder)
-{
-    if ($folder->getTreeParent()->getId() == $id) {
-        return true;
+    public function checkUniqueFolderName($id, $folderMapper, $folder)
+    {
+        if ($folder->getTreeParent()->getId() == $id) {
+            return true;
+        }
+        $destFolder = $folderMapper->searchById($id);
+        $someFolder = $folderMapper->searchByPath($destFolder->getTreePath() . '/' . $folder->getName());
+        return empty($someFolder);
     }
-    $destFolder = $folderMapper->searchById($id);
-    $someFolder = $folderMapper->searchByPath($destFolder->getPath() . '/' . $folder->getName());
-    return empty($someFolder);
+
+    public function checkDestFolderIsNotChildren($id, $folders)
+    {
+        return isset($folders[$id]);
+    }
 }
 
-function checkDestFolderExists($id, $folderMapper)
-{
-    $destFolder = $folderMapper->searchById($id);
-    return !empty($destFolder);
-}
-
-function checkDestFolderIsNotChildren($id, $folders)
-{
-    return isset($folders[$id]);
-}
 ?>

@@ -66,7 +66,6 @@ class fileManagerMoveController extends simpleController
         $this->smarty->assign('dests', $dests);
         $this->smarty->assign('styles', $styles);
 
-        $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('file', $file);
         $this->smarty->assign('folders', $folders);
         return $this->smarty->fetch('fileManager/move.tpl');
