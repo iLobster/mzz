@@ -100,6 +100,16 @@ class folderMapper extends mapper
         return $mapper->searchAllByField('folder_id', $folder->getId());
     }
 
+    public function delete($object)
+    {
+        $mapper = systemToolkit::getInstance()->getMapper('fileManager', $this->classOfItem);
+        foreach ($mapper->searchAllByField('folder_id', $object->getId()) as $file) {
+            $mapper->delete($file);
+        }
+
+        parent::delete($object);
+    }
+
     public function convertArgsToObj($args)
     {
         $folder = $this->searchByPath($args['name']);

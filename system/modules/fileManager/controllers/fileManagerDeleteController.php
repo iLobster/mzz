@@ -29,12 +29,10 @@ class fileManagerDeleteController extends simpleController
         $file = $fileMapper->searchByPath($name);
 
         if (!$file) {
-            return $fileMapper->get404()->run();
+            return $this->forward404($fileMapper);
         }
 
         $fileMapper->delete($file);
-
-        $path = substr($name, 0, strrpos($name, '/'));
 
         return jipTools::redirect();
     }

@@ -182,7 +182,7 @@ class fileMapper extends mapper
             $file->extra()->delete();
         }*/
 
-        $file->delete();
+        $file->getStorage()->delete($file);
 
         parent::delete($id);
     }

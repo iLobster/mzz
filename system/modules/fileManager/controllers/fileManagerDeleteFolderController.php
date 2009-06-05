@@ -30,7 +30,7 @@ class fileManagerDeleteFolderController extends simpleController
         $folder = $folderMapper->searchByPath($name);
 
         if (!$folder) {
-            return $folderMapper->get404()->run();
+            return $this->forward404($folderMapper);
         }
 
         $folderMapper->delete($folder);
