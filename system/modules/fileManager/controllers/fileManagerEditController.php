@@ -12,8 +12,6 @@
  * @version $Id$
 */
 
-fileLoader::load('forms/validators/formValidator');
-
 /**
  * fileManagerEditController: контроллер для метода edit модуля fileManager
  *
@@ -21,7 +19,6 @@ fileLoader::load('forms/validators/formValidator');
  * @subpackage fileManager
  * @version 0.1.1
  */
-
 class fileManagerEditController extends simpleController
 {
     protected function getView()
@@ -32,7 +29,7 @@ class fileManagerEditController extends simpleController
         $file = $fileMapper->searchByPath($name);
 
         if (!$file) {
-            return $fileMapper->get404()->run();
+            return $this->forward404($folderMapper);
         }
 
         $validator = new formValidator();
