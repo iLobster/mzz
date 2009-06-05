@@ -19,9 +19,9 @@
                 {/if}
             </li>
         {/foreach}
-       <li id="mzz-adm-menu-devtoolbar"{if !$current_module} class="active"{/if}>
+        <li id="mzz-adm-menu-devtoolbar"{if $current_module == 'admin' && $current_action == 'devToolbar'} class="active"{/if}>
             <div class="mzz-menu-item">
-                <div class="mzz-menu-title"><a href="{url route=withAnyParam section='admin' action='devToolbar'}"><span class="mzz-icon mzz-icon-wrench-cross"></span> devToolbar</a></div><div class="mzz-menu-toggle"></div>
+                <div class="mzz-menu-title"><a href="{url route=default2 module='admin' action='devToolbar'}"><span class="mzz-icon mzz-icon-wrench-cross"></span> devToolbar</a></div><div class="mzz-menu-toggle"></div>
             </div>
         </li>
     </ul>
