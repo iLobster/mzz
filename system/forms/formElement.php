@@ -284,8 +284,9 @@ abstract class formElement
         $attributes = array_merge($this->attributes, $attributes);
         $name = isset($attributes['name']) ? $attributes['name'] : '';
         $default = $default !== false ? $default : (isset($attributes['value']) ? $attributes['value'] : false);
+        $forceValue = (isset($attributes['use']) && $attributes['use'] === 'default');
 
-        if (empty($name)) {
+        if (empty($name) || $forceValue) {
             return $default;
         }
 
@@ -304,8 +305,8 @@ abstract class formElement
     /**
      * Добавляет индексы в пустые "указатели массива" ([])
      *
-     * @param unknown_type $name
-     * @return unknown
+     * @param string $name
+     * @return string
      */
     protected function replaceArraysFromName($name)
     {

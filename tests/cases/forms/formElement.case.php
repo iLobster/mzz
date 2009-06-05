@@ -127,6 +127,7 @@ class formElementTest extends UnitTestCase
         $this->assertEqual($this->element->getElementValue(array('name' => 'val_arr[2]')), $arr[2]);
         $this->assertEqual($this->element->getElementValue(array('name' => 'nonexists'), 'def'), 'def');
         $this->assertEqual($this->element->getElementValue(array('name' => 'val_arr')), $arr);
+        $this->assertEqual($this->element->getElementValue(array('name' => 'val_str', 'value' => $permanentValue = 'thisispermanentstring', 'use' => 'default')), $permanentValue);
 
         $request->save();
         $request->restore();
