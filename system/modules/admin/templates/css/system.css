@@ -86,3 +86,10 @@ table.admin tr.last td.first {
 table.admin tr.last td.last {
     background-position: right -90px;
 }
+
+table.dashboard {
+    width: 45% !important;
+    float: left;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}

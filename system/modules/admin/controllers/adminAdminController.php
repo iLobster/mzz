@@ -31,7 +31,7 @@ class adminAdminController extends simpleController
         $modules = $adminMapper->getModules();
 
         if (is_null($module) || $module == 'admin') {
-            return $this->smarty->fetch('admin/main.tpl');
+            return $this->mainAdminPage();
         }
 
         if (isset($modules[$module])) {
@@ -39,6 +39,23 @@ class adminAdminController extends simpleController
         }
 
         return $this->smarty->fetch('admin/noModule.tpl');
+    }
+
+    protected function mainAdminPage()
+    {
+        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+        $dashboard_modules = array();
+        foreach ($adminMapper->getModules() as $moduleName => $module) {
+            $modules_actions = $this->toolkit->getAction($moduleName)->getActions();
+            foreach ($modules_actions as $class_actions) {
+                if (array_key_exists('dashboard', $class_actions)) {
+                    $dashboard_modules[] = $moduleName;
+                }
+            }
+        }
+
+        $this->smarty->assign('dashboard_modules', $dashboard_modules);
+        return $this->smarty->fetch('admin/main.tpl');
     }
 }
 
