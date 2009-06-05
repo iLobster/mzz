@@ -62,7 +62,6 @@ class pageFolderMapper extends mapper
         $this->plugins('jip');
     }
 
-
     public function searchByParentId($id)
     {
         return $this->searchOneByField('parent', $id);

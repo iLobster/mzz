@@ -4,10 +4,22 @@
     <div class="jipTitle">{_ create_news}</div>
     {literal}<script type="text/javascript">
     (function($) {
-        fileLoader.loadJS(SITE_PATH + '/templates/js/jquery-ui/ui.datepicker.js',
+        fileLoader.loadCSS(SITE_PATH + '/templates/css/calendar-blue.css');
+        fileLoader.loadJS(SITE_PATH + '/templates/js/jscalendar/calendar.js',
             function(url, type, status){
                 if (status == 0 || status == 'success'){
-                    $("#calendar-field-created").datepicker({showOn: 'button', buttonImage: SITE_PATH + '/templates/images/calendar.png', buttonImageOnly: true});
+                    fileLoader.loadJS(SITE_PATH + '/templates/js/jscalendar/calendar-ru.js');
+                    fileLoader.loadJS(SITE_PATH + '/templates/js/jscalendar/calendar-setup.js', function() {
+                        Calendar.setup({
+                            'inputField': 'calendar-field-created',
+                            'button': 'calendar-trigger-created',
+                            'ifFormat': '%H:%M:%S %d/%m/%Y',
+                            "firstDay":1,
+                            "showsTime":true,
+                            "showOthers":true,
+                            "timeFormat":24
+                        });
+                    });
                 }
             }, null, true);
     })(jQuery);
@@ -24,7 +36,7 @@
         {if !$isEdit}
             <li class="{$form->required('created','required')} {$form->error('created','error')}">
                 {form->caption name="created" value="_ creating_date"}
-                <span class="input">{form->text name="created" style="width: 93%; margin-right: 1%" id="calendar-field-created" value=$smarty.now|date_format:"%H:%M:%S %d/%m/%Y"}</span>
+                <span class="input">{form->text name="created" style="width: 50%;" id="calendar-field-created" value=$smarty.now|date_format:"%H:%M:%S %d/%m/%Y"} <button type="button" id="calendar-trigger-created">...</button></span>
                 {if $form->error('created')}<span class="error">{$form->message('created')}</span>{/if}
             </li>
         {/if}
