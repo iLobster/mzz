@@ -12,8 +12,6 @@
  * @version $Id$
  */
 
-fileLoader::load('forms/validators/formValidator');
-
 /**
  * fileManagerMoveController: контроллер для метода move модуля fileManager
  *
@@ -34,15 +32,15 @@ class fileManagerMoveController extends simpleController
         $file = $fileMapper->searchByPath($name);
 
         if (!$file) {
-            return $fileMapper->get404()->run();
+            return $this->forward404($fileMapper);
         }
 
         $folders = $folderMapper->searchAll();
 
         $validator = new formValidator();
         $validator->add('required', 'dest', 'Обязательное для заполнения поле');
-        $validator->add('callback', 'dest', 'В каталоге назначения уже есть файл с таким же именем', array('checkFilename', $file));
-        $validator->add('callback', 'dest', 'Каталог назначения не существует', array('checkDestFMFolderExists', $folderMapper));
+        $validator->add('callback', 'dest', 'В каталоге назначения уже есть файл с таким же именем', array(array($this, 'checkFilename'), $file));
+        $validator->add('in', 'dest', 'Каталог назначения не существует', $folders->keys());
 
         if ($validator->validate()) {
             $destFolder = $folderMapper->searchById($dest);
@@ -73,29 +71,23 @@ class fileManagerMoveController extends simpleController
         $this->smarty->assign('folders', $folders);
         return $this->smarty->fetch('fileManager/move.tpl');
     }
-}
 
-function checkDestFMFolderExists($id, $folderMapper)
-{
-    $destFolder = $folderMapper->searchById($id);
-    return !empty($destFolder);
-}
+    public function checkFilename($dest, $file)
+    {
+        $folderMapper = systemToolkit::getInstance()->getMapper('fileManager', 'folder');
+        $fileMapper = systemToolkit::getInstance()->getMapper('fileManager', 'file');
 
-function checkFilename($dest, $file)
-{
-    $folderMapper = systemToolkit::getInstance()->getMapper('fileManager', 'folder');
-    $fileMapper = systemToolkit::getInstance()->getMapper('fileManager', 'file');
+        $destFolder = $folderMapper->searchById($dest);
 
-    $destFolder = $folderMapper->searchById($dest);
+        if (!$destFolder) {
+            return false;
+        }
 
-    if (!$destFolder) {
-        return false;
+        $criteria = new criteria();
+        $criteria->add('folder_id', $destFolder->getId())->add('name', $file->getName());
+
+        return is_null($fileMapper->searchOneByCriteria($criteria));
     }
-
-    $criteria = new criteria();
-    $criteria->add('folder_id', $destFolder->getId())->add('name', $file->getName());
-
-    return is_null($fileMapper->searchOneByCriteria($criteria));
 }
 
 ?>

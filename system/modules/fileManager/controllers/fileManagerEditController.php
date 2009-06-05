@@ -35,13 +35,13 @@ class fileManagerEditController extends simpleController
         $validator = new formValidator();
         $validator->add('required', 'name', 'Обязательное для заполнения поле');
         $validator->add('regex', 'name', 'Недопустимые символы в имени', '/^[a-zа-я0-9_\.\-! ]+$/ui');
-        $validator->add('callback', 'name', 'Имя должно быть уникально в пределах каталога', array('checkFilename', $file));
+        $validator->add('callback', 'name', 'Имя должно быть уникально в пределах каталога', array(array($this, 'checkFilename'), $file));
 
         if ($validator->validate()) {
             $name = $this->request->getString('name', SC_POST);
             $about = $this->request->getString('about', SC_POST);
-            $header = $this->request->getString('header', SC_POST);
-            $direct_link = $this->request->getString('direct_link', SC_POST);
+            $header = $this->request->getBoolean('header', SC_POST);
+            $direct_link = $this->request->getBoolean('direct_link', SC_POST);
 
             $file->setName($name);
             $file->setAbout($about);
@@ -55,27 +55,24 @@ class fileManagerEditController extends simpleController
 
         $url = new url('withAnyParam');
         $url->setAction('edit');
-        $url->add('name', $file->getFullPath());
         $this->smarty->assign('form_action', $url->get());
-
-        $this->smarty->assign('errors', $validator->getErrors());
 
         $this->smarty->assign('file', $file);
         return $this->smarty->fetch('fileManager/edit.tpl');
     }
-}
 
-function checkFilename($name, $file)
-{
-    if (strtolower($name) == strtolower($file->getName())) {
-        return true;
+    public function checkFilename($name, $file)
+    {
+        if (strtolower($name) == strtolower($file->getName())) {
+            return true;
+        }
+
+        $criteria = new criteria();
+        $criteria->add('folder_id', $file->getFolder()->getId())->add('name', $name);
+
+        $fileMapper = systemToolkit::getInstance()->getMapper('fileManager', 'file');
+        return is_null($fileMapper->searchOneByCriteria($criteria));
     }
-
-    $criteria = new criteria();
-    $criteria->add('folder_id', $file->getFolder()->getId())->add('name', $name);
-
-    $fileMapper = systemToolkit::getInstance()->getMapper('fileManager', 'file');
-    return is_null($fileMapper->searchOneByCriteria($criteria));
 }
 
 ?>
