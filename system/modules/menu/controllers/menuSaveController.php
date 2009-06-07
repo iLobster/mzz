@@ -53,7 +53,6 @@ class menuSaveController extends simpleController
         $this->smarty->assign('types', $types);
 
         $typeId = $this->request->getInteger('type', SC_POST);
-        $this->smarty->assign('typeId', $typeId);
         if ($isEdit) {
             $item = $itemMapper->searchById($id);
             if (!$item) {
@@ -62,15 +61,17 @@ class menuSaveController extends simpleController
             $menu = $item->getMenu();
 
             if ($typeId) {
-                $objectArray = $item->export();
-                $objectArray['type_id'] = $typeId;
-                $item = $itemMapper->createItemFromRow($objectArray);
+                $item->merge(array('type_id' => $typeId));
+                //$objectArray['type_id'] = $typeId;
+                //$item = $itemMapper->createItemFromRow($objectArray);
             }
             $typeId = $item->getType();
         } else {
             $types = $itemMapper->getMenuItemsTypes();
             $item = (isset($types[$typeId])) ? $itemMapper->create($typeId) : null;
         }
+
+        $this->smarty->assign('typeId', $typeId);
 
         $validator = new formValidator();
         if ($item) {

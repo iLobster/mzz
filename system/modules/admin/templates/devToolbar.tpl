@@ -97,7 +97,7 @@
     <table class="toolbar admin" id="aclObjects" cellspacing="0">
         <thead>
             <tr class="first">
-                <th class="first">obj_id</div></th>
+                <th class="first">obj_id</th>
                 <th class="last">Имя класса</th>
             </tr>
         </thead>

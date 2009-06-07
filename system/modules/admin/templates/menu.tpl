@@ -1,6 +1,6 @@
 {if not empty($menu)}
     <ul id="mzz-adm-menu" class="mzz-adm-menu">
-        <li id="mzz-adm-menu-devtoolbar"{if $current_module == 'admin' && $current_action == 'admin'} class="active"{/if}>
+        <li{if $current_module == 'admin' && $current_action == 'admin'} class="active"{/if}>
             <div class="mzz-menu-item">
                 <div class="mzz-menu-title"><a href="{url route=default2 module='admin' action='admin'}"><span class="mzz-icon mzz-icon-wrench-cross"></span> Главная</a></div><div class="mzz-menu-toggle"></div>
             </div>
