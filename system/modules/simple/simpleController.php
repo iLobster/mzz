@@ -95,7 +95,9 @@ abstract class simpleController
      */
     final public function acceptLang(mapper $mapper)
     {
-        $mapper->plugin('i18n')->setLangId($this->lang_id);
+        if ($mapper->isAttached('i18n')) {
+            $mapper->plugin('i18n')->setLangId($this->lang_id);
+        }
     }
 
     /**

@@ -1,61 +1,53 @@
 {if $typeId == 'menuItemMapper::ITEMTYPE_ADVANCED'|constant}
 <script type="text/javascript">
-var routeMap = new Hash();
-{foreach from=$routesParts item="parts" key="routeName"}
-{strip}
-routeMap.set('{$routeName}', new Array(
-{foreach from=$parts item="part" name="partsIteration"}
-{assign var="partName" value=$part.name}
-new Hash({ldelim}name: '{$partName}', isVar: '{$part.isVar}', regex: '{$part.regex}', value: '{$part.value}'{rdelim}){if !$smarty.foreach.partsIteration.last}, {/if}
-{/foreach}
-));{/strip}
-{/foreach}
-
+{literal}var routeMap = {};
+(function($) {{/literal}
+    {foreach from=$routesParts item="parts" key="routeName"}
+    {strip}
+    routeMap.{$routeName} = new Array(
+    {foreach from=$parts item="part" name="partsIteration"}
+    {assign var="partName" value=$part.name}
+    {ldelim}name: '{$partName}', isVar: '{$part.isVar}', regex: '{$part.regex}', value: '{$part.value}'{rdelim}{if !$smarty.foreach.partsIteration.last}, {/if}
+    {/foreach}
+    );
+    {/strip}
+    {/foreach}
 {literal}
-function getRoute(routeName, fieldName, to)
-{
-    fieldName = fieldName || 'parts';
-    to = to || 'routeParams';
-    route = routeMap.get(routeName);
-    $(to).update();
-    if (route) {
-        for (var i = 0; i < route.length; i++) {
-            var input = new Element('input', {type: 'text', name: fieldName + '[' + route[i].get('name') + ']', value: route[i].get('value')});
+    getRoute = function (routeName, fieldName, to) {
+        fieldName = fieldName || 'parts';
+        to = to || 'routeParams';
+        route = routeMap[routeName];
 
-            var newTitleTd = new Element('td').insert(route[i].get('name') + ':');
-            var newInputTd = new Element('td').insert(input);
-
-            var newInputTr = new Element('tr').insert(newTitleTd).insert(newInputTd);
-
-            $(to).insert(newInputTr);
+        var routeParamsHolder = $('#' + to);
+        if (route && routeParamsHolder) {
+            routeParamsHolder.empty();
+            for (var i = 0; i < route.length; i++) {
+                var input = $('<tr><td>' + route[i].name + ':' + '</td><td><input type="text" name="' + fieldName + '[' + route[i].name + ']' + '" value="' + route[i].value + '" /></td></tr>');
+                routeParamsHolder.append(input);
+            }
         }
     }
-}
 
-function addActiveRoute()
-{
-    var tr = new Element('tr', {className: 'activeRoute'});
-    tr.insert(new Element('td'));
-    var select  = $('activeRouteSelect').cloneNode(true);
-    select.disabled = "";
-    select.setStyle({display: 'inline'});
-    select.id = null;
-    var _lastActiveRouteNumber = lastActiveRouteNumber;
-    select.onchange = function() { getRoute(this.value, 'activeParts[' + _lastActiveRouteNumber + ']', 'routeActiveParams-' + _lastActiveRouteNumber); };
-    var td = new Element('td');
-    td.insert(select);
+    addActiveRoute = function() {
+        var newSelect = $('#activeRouteSelect').clone(true);
+        newSelect.attr({disabled: '', id: null}).css({display: 'inline'});
+        var _lastActiveRouteNumber = lastActiveRouteNumber;
+        newSelect.change(function(){
+            getRoute(this.value, 'activeParts[' + _lastActiveRouteNumber + ']', 'routeActiveParams-' + _lastActiveRouteNumber);
+        });
 
-    td.insert(new Element('span').update(' (<a href="#" onclick="return $(this).up(\'tr.activeRoute\').remove() && false;">удалить</a>) и его параметры:'));
+        var holderTd = $('<td/>').append(newSelect).append($('<span> \(<a href="#" onclick="return removeActiveRoute(this) && false;">удалить</a>\) и его параметры:</span>'));
+        holderTd.append($('<table id="routeActiveParams-' + lastActiveRouteNumber + '" cellpadding="2" cellspacing="0"><tr><td></td></tr></table>'));
+        var newTr = $('<tr class="activeRoute"><td></td></tr>').append(holderTd);
 
-    var table = new Element('table', {id: 'routeActiveParams-' + lastActiveRouteNumber, cellpadding: 2, cellspacing: 0});
-    table.insert(new Element('tr').insert(new Element('td')));
-    td.insert(table);
-    tr.insert(td);
+        $('.activeRoute:last').after(newTr);
+        lastActiveRouteNumber++;
+    }
 
-    $$('.activeRoute').last().insert({after: tr});
-    lastActiveRouteNumber++;
-}
-{/literal}
+    removeActiveRoute = function(trigger) {
+        $(trigger).closest('tr.activeRoute').remove();
+    }
+})(jQuery);{/literal}
 </script>
 {/if}
 
@@ -116,7 +108,7 @@ function addActiveRoute()
     <tr class="activeRoute">
         <td></td>
         <td>{form->select name="routeActive[]" options=$routesSelect emptyFirst=true onchange="javascript: getRoute(this.value, 'activeParts[$lastActiveRouteNumber]', 'routeActiveParams');" onkeyup="this.onchange();" value=$current|default:null}
-        (<a href="#" onclick="return $(this).up('tr.activeRoute').remove() && false;">удалить</a>) и его параметры:
+        (<a href="#" onclick="return removeActiveRoute(this) && false;">удалить</a>) и его параметры:
             <table id="routeActiveParams" cellpadding="2" cellspacing="0">
             {foreach from=$routesParts[$current] item="part"}
                 {assign var="partName" value=$part.name}
