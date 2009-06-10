@@ -1,10 +1,9 @@
 var comments;
 (function($) {
     comments = {
-        _currentTriggers: new Array(),
         moveForm: function(commentId, folderId, aElemTrigger) {
-            if (folderId in this._currentTriggers && this._currentTriggers[folderId] == aElemTrigger) {
-                return;
+            if ($(aElemTrigger).hasClass('selected')) {
+                return false;
             }
 
             var formElem = $('#commentForm_' + folderId);
@@ -13,11 +12,8 @@ var comments;
             if (formElem && nowHolder) {
                 nowHolder.append(formElem);
 
-                if (folderId in this._currentTriggers) {
-                    $(this._currentTriggers[folderId]).removeClass('selected');
-                }
+                $(aElemTrigger).closest('div.entry-comments').find('a.selected').removeClass('selected');
 
-                this._currentTriggers[folderId] = aElemTrigger;
                 $(aElemTrigger).addClass('selected');
                 formElem.show();
                 formElem.attr('action', aElemTrigger.href);

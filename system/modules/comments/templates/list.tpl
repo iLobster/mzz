@@ -1,6 +1,6 @@
-{add file="comments.css"}
+{add file="comments/comments.css"}
 {add file="jquery.js"}
-{add file="comments.js"}
+{add file="comments/comments.js"}
 
 <div class="entry-comments">
     <h3>Комментарии <span class="count">({$comments->count()})</span> {$commentsFolder->getJip()}</h3>
