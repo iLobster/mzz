@@ -24,9 +24,11 @@ $menu = array("intro.Предисловие" =>
                         array(
                         "templates.Шаблоны"
                                 => array("about.Общие сведения",
-                                         "load.Функция {load}",
-                                         "add.Функция {add}",
-                                         "url.Функция {url}",
+                                         "load.Плагин {load}",
+                                         "add.Плагин {add}",
+                                         "url.Плагин {url}",
+                                         "title.Плагин {title}",
+                                         "meta.Плагин {meta}",
                                          ),
                         "controllers.Контроллеры"
                                 => array("simpleController.simpleController",
