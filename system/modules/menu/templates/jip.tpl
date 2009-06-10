@@ -14,11 +14,7 @@
         <a href="{$jipItem.url}" class="mzz-jip-link" title="{$jipItem.title}">
     {/if}
 
-    {if empty($jipItem.icon)}
-        <span class="{$jipItem.sprite} {$jipItem.index}"></span>
-    {else}
-        <img src="{$jipItem.icon}" height="16" width="16" alt="{$jipItem.title}" />
-    {/if}
+        {icon sprite=$jipItem.icon}
     
         </a>
 {/foreach}

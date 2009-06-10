@@ -1,4 +1,5 @@
-span.mzz-icon {
+span.mzz-icon,
+span.mzz-overlay {
     display: -moz-inline-box;
     display: inline-block !important;
     width: 16px !important;
@@ -7,6 +8,10 @@ span.mzz-icon {
     padding: 0px;
     margin: 0px;
     background: transparent url('../../images/admin/icons.png') no-repeat 100px 100px;
+}
+
+span.mzz-overlay {
+    display: block !important;
 }
 
 span.mzz-icon a,
@@ -21,331 +26,1026 @@ span.mzz-icon a:visited {
     line-height: 16px !important;
 }
 
-span.mzz-icon-doc-empty, span.mzz-icon-doc-empty.disabled {
+span.mzz-icon-book, span.mzz-icon-book.disabled {
     background-position: -0px -16px;
 }
 
-a:hover span.mzz-icon-doc-empty, span.mzz-icon-doc-empty:hover, span.mzz-icon-doc-empty.active {
-    background-position: -0px 0px;
+a:hover span.mzz-icon-book, span.mzz-icon-book:hover, span.mzz-icon-book.active {
+    background-position: -0px -0px;
 }
 
-span.mzz-icon-doc, span.mzz-icon-doc.disabled {
+span.mzz-icon-box, span.mzz-icon-box.disabled {
     background-position: -16px -16px;
 }
 
-a:hover span.mzz-icon-doc, span.mzz-icon-doc:hover, span.mzz-icon-doc.active {
-    background-position: -16px 0px;
-}
-
-span.mzz-icon-doc-add, span.mzz-icon-doc-add.disabled {
-    background-position: -32px -16px;
-}
-
-a:hover span.mzz-icon-doc-add, span.mzz-icon-doc-add:hover, span.mzz-icon-doc-add.active {
-    background-position: -32px 0px;
-}
-
-span.mzz-icon-doc-del, span.mzz-icon-doc-del.disabled {
-    background-position: -48px -16px;
-}
-
-a:hover span.mzz-icon-doc-del, span.mzz-icon-doc-del:hover, span.mzz-icon-doc-del.active {
-    background-position: -48px 0px;
-}
-
-span.mzz-icon-doc-edit, span.mzz-icon-doc-edit.disabled {
-    background-position: -64px -16px;
-}
-
-a:hover span.mzz-icon-doc-edit, span.mzz-icon-doc-edit:hover, span.mzz-icon-doc-edit.active {
-    background-position: -64px 0px;
-}
-
-span.mzz-icon-doc-move, span.mzz-icon-doc-move.disabled {
-    background-position: -80px -16px;
-}
-
-a:hover span.mzz-icon-doc-move, span.mzz-icon-doc-move:hover, span.mzz-icon-doc-move.active {
-    background-position: -80px 0px;
-}
-
-span.mzz-icon-folder, span.mzz-icon-folder.disabled {
-    background-position: -96px -16px;
-}
-
-a:hover span.mzz-icon-folder, span.mzz-icon-folder:hover, span.mzz-icon-folder.active {
-    background-position: -96px 0px;
-}
-
-span.mzz-icon-folder-add, span.mzz-icon-folder-add.disabled {
-    background-position: -112px -16px;
-}
-
-a:hover span.mzz-icon-folder-add, span.mzz-icon-folder-add:hover, span.mzz-icon-folder-add.active {
-    background-position: -112px 0px;
-}
-
-span.mzz-icon-folder-del, span.mzz-icon-folder-del.disabled {
-    background-position: -128px -16px;
-}
-
-a:hover span.mzz-icon-folder-del, span.mzz-icon-folder-del:hover, span.mzz-icon-folder-del.active {
-    background-position: -128px 0px;
-}
-
-span.mzz-icon-folder-edit, span.mzz-icon-folder-edit.disabled {
-    background-position: -144px -16px;
-}
-
-a:hover span.mzz-icon-folder-edit, span.mzz-icon-folder-edit:hover, span.mzz-icon-folder-edit.active {
-    background-position: -144px 0px;
-}
-
-span.mzz-icon-folder-move, span.mzz-icon-folder-move.disabled {
-    background-position: -160px -16px;
-}
-
-a:hover span.mzz-icon-folder-move, span.mzz-icon-folder-move:hover, span.mzz-icon-folder-move.active {
-    background-position: -160px 0px;
-}
-
-span.mzz-icon-script, span.mzz-icon-script.disabled {
-    background-position: -176px -16px;
-}
-
-a:hover span.mzz-icon-script, span.mzz-icon-script:hover, span.mzz-icon-script.active {
-    background-position: -176px 0px;
-}
-
-span.mzz-icon-script-add, span.mzz-icon-script-add.disabled {
-    background-position: -192px -16px;
-}
-
-a:hover span.mzz-icon-script-add, span.mzz-icon-script-add:hover, span.mzz-icon-script-add.active {
-    background-position: -192px 0px;
-}
-
-span.mzz-icon-script-del, span.mzz-icon-script-del.disabled {
-    background-position: -208px -16px;
-}
-
-a:hover span.mzz-icon-script-del, span.mzz-icon-script-del:hover, span.mzz-icon-script-del.active {
-    background-position: -208px 0px;
-}
-
-span.mzz-icon-script-edit, span.mzz-icon-script-edit.disabled {
-    background-position: -224px -16px;
-}
-
-a:hover span.mzz-icon-script-edit, span.mzz-icon-script-edit:hover, span.mzz-icon-script-edit.active {
-    background-position: -224px 0px;
-}
-
-span.mzz-icon-script-move, span.mzz-icon-script-move.disabled {
-    background-position: -240px -16px;
-}
-
-a:hover span.mzz-icon-script-move, span.mzz-icon-script-move:hover, span.mzz-icon-script-move.active {
-    background-position: -240px 0px;
+a:hover span.mzz-icon-box, span.mzz-icon-box:hover, span.mzz-icon-box.active {
+    background-position: -16px -0px;
 }
 
 span.mzz-icon-block, span.mzz-icon-block.disabled {
-    background-position: -256px -16px;
+    background-position: -32px -16px;
 }
 
 a:hover span.mzz-icon-block, span.mzz-icon-block:hover, span.mzz-icon-block.active {
-    background-position: -256px 0px;
+    background-position: -32px -0px;
 }
 
-span.mzz-icon-block-add, span.mzz-icon-block-add.disabled {
-    background-position: -272px -16px;
+span.mzz-icon-blocks, span.mzz-icon-blocks.disabled {
+    background-position: -48px -16px;
 }
 
-a:hover span.mzz-icon-block-add, span.mzz-icon-block-add:hover, span.mzz-icon-block-add.active {
-    background-position: -272px 0px;
+a:hover span.mzz-icon-blocks, span.mzz-icon-blocks:hover, span.mzz-icon-blocks.active {
+    background-position: -48px -0px;
 }
 
-span.mzz-icon-block-del, span.mzz-icon-block-del.disabled {
-    background-position: -288px -16px;
+span.mzz-icon-calc, span.mzz-icon-calc.disabled {
+    background-position: -64px -16px;
 }
 
-a:hover span.mzz-icon-block-del, span.mzz-icon-block-del:hover, span.mzz-icon-block-del.active {
-    background-position: -288px 0px;
+a:hover span.mzz-icon-calc, span.mzz-icon-calc:hover, span.mzz-icon-calc.active {
+    background-position: -64px -0px;
 }
 
-span.mzz-icon-block-edit, span.mzz-icon-block-edit.disabled {
-    background-position: -304px -16px;
+span.mzz-icon-date, span.mzz-icon-date.disabled {
+    background-position: -80px -16px;
 }
 
-a:hover span.mzz-icon-block-edit, span.mzz-icon-block-edit:hover, span.mzz-icon-block-edit.active {
-    background-position: -304px 0px;
+a:hover span.mzz-icon-date, span.mzz-icon-date:hover, span.mzz-icon-date.active {
+    background-position: -80px -0px;
 }
 
-span.mzz-icon-block-move, span.mzz-icon-block-move.disabled {
-    background-position: -320px -16px;
+span.mzz-icon-cal, span.mzz-icon-cal.disabled {
+    background-position: -96px -16px;
 }
 
-a:hover span.mzz-icon-block-move, span.mzz-icon-block-move:hover, span.mzz-icon-block-move.active {
-    background-position: -320px 0px;
+a:hover span.mzz-icon-cal, span.mzz-icon-cal:hover, span.mzz-icon-cal.active {
+    background-position: -96px -0px;
 }
 
-
-span.mzz-icon-user, span.mzz-icon-user.disabled {
-    background-position: -336px -16px;
+span.mzz-icon-cal-day, span.mzz-icon-cal-day.disabled {
+    background-position: -112px -16px;
 }
 
-a:hover span.mzz-icon-user, span.mzz-icon-user:hover, span.mzz-icon-user.active {
-    background-position: -336px 0px;
+a:hover span.mzz-icon-cal-day, span.mzz-icon-cal-day:hover, span.mzz-icon-cal-day.active {
+    background-position: -112px -0px;
 }
 
-span.mzz-icon-user-add, span.mzz-icon-user-add.disabled {
-    background-position: -352px -16px;
+span.mzz-icon-cal-month, span.mzz-icon-cal-month.disabled {
+    background-position: -128px -16px;
 }
 
-a:hover span.mzz-icon-user-add, span.mzz-icon-user-add:hover, span.mzz-icon-user-add.active {
-    background-position: -352px 0px;
+a:hover span.mzz-icon-cal-month, span.mzz-icon-cal-month:hover, span.mzz-icon-cal-month.active {
+    background-position: -128px -0px;
 }
 
-span.mzz-icon-user-del, span.mzz-icon-user-del.disabled {
-    background-position: -368px -16px;
+span.mzz-icon-cal-week, span.mzz-icon-cal-week.disabled {
+    background-position: -144px -16px;
 }
 
-a:hover span.mzz-icon-user-del, span.mzz-icon-user-del:hover, span.mzz-icon-user-del.active {
-    background-position: -368px 0px;
+a:hover span.mzz-icon-cal-week, span.mzz-icon-cal-week:hover, span.mzz-icon-cal-week.active {
+    background-position: -144px -0px;
 }
 
-span.mzz-icon-user-edit, span.mzz-icon-user-edit.disabled {
-    background-position: -384px -16px;
+span.mzz-icon-cd, span.mzz-icon-cd.disabled {
+    background-position: -160px -16px;
 }
 
-a:hover span.mzz-icon-user-edit, span.mzz-icon-user-edit:hover, span.mzz-icon-user-edit.active {
-    background-position: -384px 0px;
+a:hover span.mzz-icon-cd, span.mzz-icon-cd:hover, span.mzz-icon-cd.active {
+    background-position: -160px -0px;
 }
 
-span.mzz-icon-group, span.mzz-icon-group.disabled {
-    background-position: -400px -16px;
+span.mzz-icon-dvd, span.mzz-icon-dvd.disabled {
+    background-position: -176px -16px;
 }
 
-a:hover span.mzz-icon-group, span.mzz-icon-group:hover, span.mzz-icon-group.active {
-    background-position: -400px 0px;
+a:hover span.mzz-icon-dvd, span.mzz-icon-dvd:hover, span.mzz-icon-dvd.active {
+    background-position: -176px -0px;
 }
 
-span.mzz-icon-group-add, span.mzz-icon-group-add.disabled {
-    background-position: -416px -16px;
+span.mzz-icon-chart, span.mzz-icon-chart.disabled {
+    background-position: -192px -16px;
 }
 
-a:hover span.mzz-icon-group-add, span.mzz-icon-group-add:hover, span.mzz-icon-group-add.active {
-    background-position: -416px 0px;
+a:hover span.mzz-icon-chart, span.mzz-icon-chart:hover, span.mzz-icon-chart.active {
+    background-position: -192px -0px;
 }
 
-span.mzz-icon-group-del, span.mzz-icon-group-del.disabled {
-    background-position: -432px -16px;
+span.mzz-icon-chart2, span.mzz-icon-chart2.disabled {
+    background-position: -208px -16px;
 }
 
-a:hover span.mzz-icon-group-del, span.mzz-icon-group-del:hover, span.mzz-icon-group-del.active {
-    background-position: -432px 0px;
+a:hover span.mzz-icon-chart2, span.mzz-icon-chart2:hover, span.mzz-icon-chart2.active {
+    background-position: -208px -0px;
 }
 
-span.mzz-icon-group-edit, span.mzz-icon-group-edit.disabled {
-    background-position: -448px -16px;
+span.mzz-icon-chart3, span.mzz-icon-chart3.disabled {
+    background-position: -224px -16px;
 }
 
-a:hover span.mzz-icon-group-edit, span.mzz-icon-group-edit:hover, span.mzz-icon-group-edit.active {
-    background-position: -448px 0px;
+a:hover span.mzz-icon-chart3, span.mzz-icon-chart3:hover, span.mzz-icon-chart3.active {
+    background-position: -224px -0px;
 }
 
-span.mzz-icon-key, span.mzz-icon-key.disabled {
-    background-position: -464px -16px;
+span.mzz-icon-chart4, span.mzz-icon-chart4.disabled {
+    background-position: -240px -16px;
 }
 
-a:hover span.mzz-icon-key, span.mzz-icon-key:hover, span.mzz-icon-key.active {
-    background-position: -464px 0px;
+a:hover span.mzz-icon-chart4, span.mzz-icon-chart4:hover, span.mzz-icon-chart4.active {
+    background-position: -240px -0px;
 }
 
-span.mzz-icon-key-add, span.mzz-icon-key-add.disabled {
-    background-position: -480px -16px;
+span.mzz-icon-chart5, span.mzz-icon-chart5.disabled {
+    background-position: -0px -48px;
 }
 
-a:hover span.mzz-icon-key-add, span.mzz-icon-key-add:hover, span.mzz-icon-key-add.active {
-    background-position: -480px 0px;
+a:hover span.mzz-icon-chart5, span.mzz-icon-chart5:hover, span.mzz-icon-chart5.active {
+    background-position: -0px -32px;
 }
 
-span.mzz-icon-key-del, span.mzz-icon-key-del.disabled {
-    background-position: -496px -16px;
+span.mzz-icon-clock, span.mzz-icon-clock.disabled {
+    background-position: -16px -48px;
 }
 
-a:hover span.mzz-icon-key-del, span.mzz-icon-key-del:hover, span.mzz-icon-key-del.active {
-    background-position: -496px 0px;
+a:hover span.mzz-icon-clock, span.mzz-icon-clock:hover, span.mzz-icon-clock.active {
+    background-position: -16px -32px;
 }
 
-span.mzz-icon-key-default, span.mzz-icon-key-default.disabled {
-    background-position: -512px -16px;
+span.mzz-icon-clock-red, span.mzz-icon-clock-red.disabled {
+    background-position: -32px -48px;
 }
 
-a:hover span.mzz-icon-key-default, span.mzz-icon-key-default:hover, span.mzz-icon-key-default.active {
-    background-position: -512px 0px;
-}
-
-span.mzz-icon-wrench, span.mzz-icon-wrench.disabled {
-    background-position: -528px -16px;
-}
-
-a:hover span.mzz-icon-wrench, span.mzz-icon-wrench:hover, span.mzz-icon-wrench.active {
-    background-position: -528px 0px;
-}
-
-span.mzz-icon-wrench-red, span.mzz-icon-wrench-red.disabled {
-    background-position: -544px -16px;
-}
-
-a:hover span.mzz-icon-wrench-red, span.mzz-icon-wrench-red:hover, span.mzz-icon-wrench-red.active {
-    background-position: -544px 0px;
-}
-
-span.mzz-icon-wrench-cross, span.mzz-icon-wrench-cross.disabled {
-    background-position: -560px -16px;
-}
-
-a:hover span.mzz-icon-wrench-cross, span.mzz-icon-wrench-cross:hover, span.mzz-icon-wrench-cross.active {
-    background-position: -560px 0px;
+a:hover span.mzz-icon-clock-red, span.mzz-icon-clock-red:hover, span.mzz-icon-clock-red.active {
+    background-position: -32px -32px;
 }
 
 span.mzz-icon-cog, span.mzz-icon-cog.disabled {
-    background-position: -576px -16px;
+    background-position: -48px -48px;
 }
 
 a:hover span.mzz-icon-cog, span.mzz-icon-cog:hover, span.mzz-icon-cog.active {
-    background-position: -576px 0px;
+    background-position: -48px -32px;
 }
 
-span.mzz-icon-cog-add, span.mzz-icon-cog-add.disabled {
-    background-position: -592px -16px;
+span.mzz-icon-comment, span.mzz-icon-comment.disabled {
+    background-position: -64px -48px;
 }
 
-a:hover span.mzz-icon-cog-add, span.mzz-icon-cog-add:hover, span.mzz-icon-cog-add.active {
-    background-position: -592px 0px;
+a:hover span.mzz-icon-comment, span.mzz-icon-comment:hover, span.mzz-icon-comment.active {
+    background-position: -64px -32px;
 }
 
-span.mzz-icon-cog-del, span.mzz-icon-cog-del.disabled {
-    background-position: -608px -16px;
+span.mzz-icon-comments, span.mzz-icon-comments.disabled {
+    background-position: -80px -48px;
 }
 
-a:hover span.mzz-icon-cog-del, span.mzz-icon-cog-del:hover, span.mzz-icon-cog-del.active {
-    background-position: -608px 0px;
+a:hover span.mzz-icon-comments, span.mzz-icon-comments:hover, span.mzz-icon-comments.active {
+    background-position: -80px -32px;
 }
 
-span.mzz-icon-cog-edit, span.mzz-icon-cog-edit.disabled {
-    background-position: -624px -16px;
+span.mzz-icon-computer, span.mzz-icon-computer.disabled {
+    background-position: -96px -48px;
 }
 
-a:hover span.mzz-icon-cog-edit, span.mzz-icon-cog-edit:hover, span.mzz-icon-cog-edit.active {
-    background-position: -624px 0px;
+a:hover span.mzz-icon-computer, span.mzz-icon-computer:hover, span.mzz-icon-computer.active {
+    background-position: -96px -32px;
+}
+
+span.mzz-icon-server, span.mzz-icon-server.disabled {
+    background-position: -112px -48px;
+}
+
+a:hover span.mzz-icon-server, span.mzz-icon-server:hover, span.mzz-icon-server.active {
+    background-position: -112px -32px;
+}
+
+span.mzz-icon-monitor, span.mzz-icon-monitor.disabled {
+    background-position: -128px -48px;
+}
+
+a:hover span.mzz-icon-monitor, span.mzz-icon-monitor:hover, span.mzz-icon-monitor.active {
+    background-position: -128px -32px;
+}
+
+span.mzz-icon-printer, span.mzz-icon-printer.disabled {
+    background-position: -144px -48px;
+}
+
+a:hover span.mzz-icon-printer, span.mzz-icon-printer:hover, span.mzz-icon-printer.active {
+    background-position: -144px -32px;
+}
+
+span.mzz-icon-controller, span.mzz-icon-controller.disabled {
+    background-position: -160px -48px;
+}
+
+a:hover span.mzz-icon-controller, span.mzz-icon-controller:hover, span.mzz-icon-controller.active {
+    background-position: -160px -32px;
+}
+
+span.mzz-icon-keyboard, span.mzz-icon-keyboard.disabled {
+    background-position: -176px -48px;
+}
+
+a:hover span.mzz-icon-keyboard, span.mzz-icon-keyboard:hover, span.mzz-icon-keyboard.active {
+    background-position: -176px -32px;
+}
+
+span.mzz-icon-drive, span.mzz-icon-drive.disabled {
+    background-position: -192px -48px;
+}
+
+a:hover span.mzz-icon-drive, span.mzz-icon-drive:hover, span.mzz-icon-drive.active {
+    background-position: -192px -32px;
+}
+
+span.mzz-icon-drive-net, span.mzz-icon-drive-net.disabled {
+    background-position: -208px -48px;
+}
+
+a:hover span.mzz-icon-drive-net, span.mzz-icon-drive-net:hover, span.mzz-icon-drive-net.active {
+    background-position: -208px -32px;
+}
+
+span.mzz-icon-drive-rename, span.mzz-icon-drive-rename.disabled {
+    background-position: -224px -48px;
+}
+
+a:hover span.mzz-icon-drive-rename, span.mzz-icon-drive-rename:hover, span.mzz-icon-drive-rename.active {
+    background-position: -224px -32px;
+}
+
+span.mzz-icon-drive-net-rename, span.mzz-icon-drive-net-rename.disabled {
+    background-position: -240px -48px;
+}
+
+a:hover span.mzz-icon-drive-net-rename, span.mzz-icon-drive-net-rename:hover, span.mzz-icon-drive-net-rename.active {
+    background-position: -240px -32px;
+}
+
+span.mzz-icon-db, span.mzz-icon-db.disabled {
+    background-position: -0px -80px;
+}
+
+a:hover span.mzz-icon-db, span.mzz-icon-db:hover, span.mzz-icon-db.active {
+    background-position: -0px -64px;
 }
 
 span.mzz-icon-db-table, span.mzz-icon-db-table.disabled {
-    background-position: -640px -16px;
+    background-position: -16px -80px;
 }
 
 a:hover span.mzz-icon-db-table, span.mzz-icon-db-table:hover, span.mzz-icon-db-table.active {
-    background-position: -640px 0px;
+    background-position: -16px -64px;
+}
+
+span.mzz-icon-table, span.mzz-icon-table.disabled {
+    background-position: -32px -80px;
+}
+
+a:hover span.mzz-icon-table, span.mzz-icon-table:hover, span.mzz-icon-table.active {
+    background-position: -32px -64px;
+}
+
+span.mzz-icon-disconnect, span.mzz-icon-disconnect.disabled {
+    background-position: -48px -80px;
+}
+
+a:hover span.mzz-icon-disconnect, span.mzz-icon-disconnect:hover, span.mzz-icon-disconnect.active {
+    background-position: -48px -64px;
+}
+
+span.mzz-icon-connect, span.mzz-icon-connect.disabled {
+    background-position: -64px -80px;
+}
+
+a:hover span.mzz-icon-connect, span.mzz-icon-connect:hover, span.mzz-icon-connect.active {
+    background-position: -64px -64px;
+}
+
+span.mzz-icon-money, span.mzz-icon-money.disabled {
+    background-position: -80px -80px;
+}
+
+a:hover span.mzz-icon-money, span.mzz-icon-money:hover, span.mzz-icon-money.active {
+    background-position: -80px -64px;
+}
+
+span.mzz-icon-coins, span.mzz-icon-coins.disabled {
+    background-position: -96px -80px;
+}
+
+a:hover span.mzz-icon-coins, span.mzz-icon-coins:hover, span.mzz-icon-coins.active {
+    background-position: -96px -64px;
+}
+
+span.mzz-icon-ccards, span.mzz-icon-ccards.disabled {
+    background-position: -112px -80px;
+}
+
+a:hover span.mzz-icon-ccards, span.mzz-icon-ccards:hover, span.mzz-icon-ccards.active {
+    background-position: -112px -64px;
+}
+
+span.mzz-icon-mail, span.mzz-icon-mail.disabled {
+    background-position: -128px -80px;
+}
+
+a:hover span.mzz-icon-mail, span.mzz-icon-mail:hover, span.mzz-icon-mail.active {
+    background-position: -128px -64px;
+}
+
+span.mzz-icon-mail-opend, span.mzz-icon-mail-opend.disabled {
+    background-position: -144px -80px;
+}
+
+a:hover span.mzz-icon-mail-opend, span.mzz-icon-mail-opend:hover, span.mzz-icon-mail-opend.active {
+    background-position: -144px -64px;
+}
+
+span.mzz-icon-feed, span.mzz-icon-feed.disabled {
+    background-position: -160px -80px;
+}
+
+a:hover span.mzz-icon-feed, span.mzz-icon-feed:hover, span.mzz-icon-feed.active {
+    background-position: -160px -64px;
+}
+
+span.mzz-icon-film, span.mzz-icon-film.disabled {
+    background-position: -176px -80px;
+}
+
+a:hover span.mzz-icon-film, span.mzz-icon-film:hover, span.mzz-icon-film.active {
+    background-position: -176px -64px;
+}
+
+span.mzz-icon-folder, span.mzz-icon-folder.disabled {
+    background-position: -192px -80px;
+}
+
+a:hover span.mzz-icon-folder, span.mzz-icon-folder:hover, span.mzz-icon-folder.active {
+    background-position: -192px -64px;
+}
+
+span.mzz-icon-wrench, span.mzz-icon-wrench.disabled {
+    background-position: -208px -80px;
+}
+
+a:hover span.mzz-icon-wrench, span.mzz-icon-wrench:hover, span.mzz-icon-wrench.active {
+    background-position: -208px -64px;
+}
+
+span.mzz-icon-wrench-red, span.mzz-icon-wrench-red.disabled {
+    background-position: -224px -80px;
+}
+
+a:hover span.mzz-icon-wrench-red, span.mzz-icon-wrench-red:hover, span.mzz-icon-wrench-red.active {
+    background-position: -224px -64px;
+}
+
+span.mzz-icon-wrench-cross, span.mzz-icon-wrench-cross.disabled {
+    background-position: -240px -80px;
+}
+
+a:hover span.mzz-icon-wrench-cross, span.mzz-icon-wrench-cross:hover, span.mzz-icon-wrench-cross.active {
+    background-position: -240px -64px;
+}
+
+span.mzz-icon-group, span.mzz-icon-group.disabled {
+    background-position: -0px -112px;
+}
+
+a:hover span.mzz-icon-group, span.mzz-icon-group:hover, span.mzz-icon-group.active {
+    background-position: -0px -96px;
+}
+
+span.mzz-icon-user, span.mzz-icon-user.disabled {
+    background-position: -16px -112px;
+}
+
+a:hover span.mzz-icon-user, span.mzz-icon-user:hover, span.mzz-icon-user.active {
+    background-position: -16px -96px;
+}
+
+span.mzz-icon-user-female, span.mzz-icon-user-female.disabled {
+    background-position: -32px -112px;
+}
+
+a:hover span.mzz-icon-user-female, span.mzz-icon-user-female:hover, span.mzz-icon-user-female.active {
+    background-position: -32px -96px;
+}
+
+span.mzz-icon-user-suit, span.mzz-icon-user-suit.disabled {
+    background-position: -48px -112px;
+}
+
+a:hover span.mzz-icon-user-suit, span.mzz-icon-user-suit:hover, span.mzz-icon-user-suit.active {
+    background-position: -48px -96px;
+}
+
+span.mzz-icon-user-green, span.mzz-icon-user-green.disabled {
+    background-position: -64px -112px;
+}
+
+a:hover span.mzz-icon-user-green, span.mzz-icon-user-green:hover, span.mzz-icon-user-green.active {
+    background-position: -64px -96px;
+}
+
+span.mzz-icon-user-orange, span.mzz-icon-user-orange.disabled {
+    background-position: -80px -112px;
+}
+
+a:hover span.mzz-icon-user-orange, span.mzz-icon-user-orange:hover, span.mzz-icon-user-orange.active {
+    background-position: -80px -96px;
+}
+
+span.mzz-icon-user-red, span.mzz-icon-user-red.disabled {
+    background-position: -96px -112px;
+}
+
+a:hover span.mzz-icon-user-red, span.mzz-icon-user-red:hover, span.mzz-icon-user-red.active {
+    background-position: -96px -96px;
+}
+
+span.mzz-icon-user-grey, span.mzz-icon-user-grey.disabled {
+    background-position: -112px -112px;
+}
+
+a:hover span.mzz-icon-user-grey, span.mzz-icon-user-grey:hover, span.mzz-icon-user-grey.active {
+    background-position: -112px -96px;
+}
+
+span.mzz-icon-tux, span.mzz-icon-tux.disabled {
+    background-position: -128px -112px;
+}
+
+a:hover span.mzz-icon-tux, span.mzz-icon-tux:hover, span.mzz-icon-tux.active {
+    background-position: -128px -96px;
+}
+
+span.mzz-icon-status-online, span.mzz-icon-status-online.disabled {
+    background-position: -144px -112px;
+}
+
+a:hover span.mzz-icon-status-online, span.mzz-icon-status-online:hover, span.mzz-icon-status-online.active {
+    background-position: -144px -96px;
+}
+
+span.mzz-icon-status-offline, span.mzz-icon-status-offline.disabled {
+    background-position: -160px -112px;
+}
+
+a:hover span.mzz-icon-status-offline, span.mzz-icon-status-offline:hover, span.mzz-icon-status-offline.active {
+    background-position: -160px -96px;
+}
+
+span.mzz-icon-vcard, span.mzz-icon-vcard.disabled {
+    background-position: -176px -112px;
+}
+
+a:hover span.mzz-icon-vcard, span.mzz-icon-vcard:hover, span.mzz-icon-vcard.active {
+    background-position: -176px -96px;
+}
+
+span.mzz-icon-map, span.mzz-icon-map.disabled {
+    background-position: -192px -112px;
+}
+
+a:hover span.mzz-icon-map, span.mzz-icon-map:hover, span.mzz-icon-map.active {
+    background-position: -192px -96px;
+}
+
+span.mzz-icon-key, span.mzz-icon-key.disabled {
+    background-position: -208px -112px;
+}
+
+a:hover span.mzz-icon-key, span.mzz-icon-key:hover, span.mzz-icon-key.active {
+    background-position: -208px -96px;
+}
+
+span.mzz-icon-link, span.mzz-icon-link.disabled {
+    background-position: -224px -112px;
+}
+
+a:hover span.mzz-icon-link, span.mzz-icon-link:hover, span.mzz-icon-link.active {
+    background-position: -224px -96px;
+}
+
+span.mzz-icon-link-break, span.mzz-icon-link-break.disabled {
+    background-position: -240px -112px;
+}
+
+a:hover span.mzz-icon-link-break, span.mzz-icon-link-break:hover, span.mzz-icon-link-break.active {
+    background-position: -240px -96px;
+}
+
+span.mzz-icon-layout, span.mzz-icon-layout.disabled {
+    background-position: -0px -144px;
+}
+
+a:hover span.mzz-icon-layout, span.mzz-icon-layout:hover, span.mzz-icon-layout.active {
+    background-position: -0px -128px;
+}
+
+span.mzz-icon-layout2, span.mzz-icon-layout2.disabled {
+    background-position: -16px -144px;
+}
+
+a:hover span.mzz-icon-layout2, span.mzz-icon-layout2:hover, span.mzz-icon-layout2.active {
+    background-position: -16px -128px;
+}
+
+span.mzz-icon-layout3, span.mzz-icon-layout3.disabled {
+    background-position: -32px -144px;
+}
+
+a:hover span.mzz-icon-layout3, span.mzz-icon-layout3:hover, span.mzz-icon-layout3.active {
+    background-position: -32px -128px;
+}
+
+span.mzz-icon-layout4, span.mzz-icon-layout4.disabled {
+    background-position: -48px -144px;
+}
+
+a:hover span.mzz-icon-layout4, span.mzz-icon-layout4:hover, span.mzz-icon-layout4.active {
+    background-position: -48px -128px;
+}
+
+span.mzz-icon-page-blue, span.mzz-icon-page-blue.disabled {
+    background-position: -64px -144px;
+}
+
+a:hover span.mzz-icon-page-blue, span.mzz-icon-page-blue:hover, span.mzz-icon-page-blue.active {
+    background-position: -64px -128px;
+}
+
+span.mzz-icon-page-green, span.mzz-icon-page-green.disabled {
+    background-position: -80px -144px;
+}
+
+a:hover span.mzz-icon-page-green, span.mzz-icon-page-green:hover, span.mzz-icon-page-green.active {
+    background-position: -80px -128px;
+}
+
+span.mzz-icon-page-red, span.mzz-icon-page-red.disabled {
+    background-position: -96px -144px;
+}
+
+a:hover span.mzz-icon-page-red, span.mzz-icon-page-red:hover, span.mzz-icon-page-red.active {
+    background-position: -96px -128px;
+}
+
+span.mzz-icon-page, span.mzz-icon-page.disabled {
+    background-position: -112px -144px;
+}
+
+a:hover span.mzz-icon-page, span.mzz-icon-page:hover, span.mzz-icon-page.active {
+    background-position: -112px -128px;
+}
+
+span.mzz-icon-page-text, span.mzz-icon-page-text.disabled {
+    background-position: -128px -144px;
+}
+
+a:hover span.mzz-icon-page-text, span.mzz-icon-page-text:hover, span.mzz-icon-page-text.active {
+    background-position: -128px -128px;
+}
+
+span.mzz-icon-newspaper, span.mzz-icon-newspaper.disabled {
+    background-position: -144px -144px;
+}
+
+a:hover span.mzz-icon-newspaper, span.mzz-icon-newspaper:hover, span.mzz-icon-newspaper.active {
+    background-position: -144px -128px;
+}
+
+span.mzz-icon-note, span.mzz-icon-note.disabled {
+    background-position: -160px -144px;
+}
+
+a:hover span.mzz-icon-note, span.mzz-icon-note:hover, span.mzz-icon-note.active {
+    background-position: -160px -128px;
+}
+
+span.mzz-icon-box, span.mzz-icon-box.disabled {
+    background-position: -176px -144px;
+}
+
+a:hover span.mzz-icon-box, span.mzz-icon-box:hover, span.mzz-icon-box.active {
+    background-position: -176px -128px;
+}
+
+span.mzz-icon-box-green, span.mzz-icon-box-green.disabled {
+    background-position: -192px -144px;
+}
+
+a:hover span.mzz-icon-box-green, span.mzz-icon-box-green:hover, span.mzz-icon-box-green.active {
+    background-position: -192px -128px;
+}
+
+span.mzz-icon-lock, span.mzz-icon-lock.disabled {
+    background-position: -208px -144px;
+}
+
+a:hover span.mzz-icon-lock, span.mzz-icon-lock:hover, span.mzz-icon-lock.active {
+    background-position: -208px -128px;
+}
+
+span.mzz-icon-lock-open, span.mzz-icon-lock-open.disabled {
+    background-position: -224px -144px;
+}
+
+a:hover span.mzz-icon-lock-open, span.mzz-icon-lock-open:hover, span.mzz-icon-lock-open.active {
+    background-position: -224px -128px;
+}
+
+span.mzz-icon-lock-break, span.mzz-icon-lock-break.disabled {
+    background-position: -240px -144px;
+}
+
+a:hover span.mzz-icon-lock-break, span.mzz-icon-lock-break:hover, span.mzz-icon-lock-break.active {
+    background-position: -240px -128px;
+}
+
+span.mzz-icon-tag, span.mzz-icon-tag.disabled {
+    background-position: -0px -176px;
+}
+
+a:hover span.mzz-icon-tag, span.mzz-icon-tag:hover, span.mzz-icon-tag.active {
+    background-position: -0px -160px;
+}
+
+span.mzz-icon-tag-green, span.mzz-icon-tag-green.disabled {
+    background-position: -16px -176px;
+}
+
+a:hover span.mzz-icon-tag-green, span.mzz-icon-tag-green:hover, span.mzz-icon-tag-green.active {
+    background-position: -16px -160px;
+}
+
+span.mzz-icon-tag-orange, span.mzz-icon-tag-orange.disabled {
+    background-position: -32px -176px;
+}
+
+a:hover span.mzz-icon-tag-orange, span.mzz-icon-tag-orange:hover, span.mzz-icon-tag-orange.active {
+    background-position: -32px -160px;
+}
+
+span.mzz-icon-tag-pink, span.mzz-icon-tag-pink.disabled {
+    background-position: -48px -176px;
+}
+
+a:hover span.mzz-icon-tag-pink, span.mzz-icon-tag-pink:hover, span.mzz-icon-tag-pink.active {
+    background-position: -48px -160px;
+}
+
+span.mzz-icon-tag-purple, span.mzz-icon-tag-purple.disabled {
+    background-position: -64px -176px;
+}
+
+a:hover span.mzz-icon-tag-purple, span.mzz-icon-tag-purple:hover, span.mzz-icon-tag-purple.active {
+    background-position: -64px -160px;
+}
+
+span.mzz-icon-tag-red, span.mzz-icon-tag-red.disabled {
+    background-position: -80px -176px;
+}
+
+a:hover span.mzz-icon-tag-red, span.mzz-icon-tag-red:hover, span.mzz-icon-tag-red.active {
+    background-position: -80px -160px;
+}
+
+span.mzz-icon-tag-yellow, span.mzz-icon-tag-yellow.disabled {
+    background-position: -96px -176px;
+}
+
+a:hover span.mzz-icon-tag-yellow, span.mzz-icon-tag-yellow:hover, span.mzz-icon-tag-yellow.active {
+    background-position: -96px -160px;
+}
+
+span.mzz-icon-css, span.mzz-icon-css.disabled {
+    background-position: -112px -176px;
+}
+
+a:hover span.mzz-icon-css, span.mzz-icon-css:hover, span.mzz-icon-css.active {
+    background-position: -112px -160px;
+}
+
+span.mzz-icon-rss, span.mzz-icon-rss.disabled {
+    background-position: -128px -176px;
+}
+
+a:hover span.mzz-icon-rss, span.mzz-icon-rss:hover, span.mzz-icon-rss.active {
+    background-position: -128px -160px;
+}
+
+span.mzz-icon-xhtml, span.mzz-icon-xhtml.disabled {
+    background-position: -144px -176px;
+}
+
+a:hover span.mzz-icon-xhtml, span.mzz-icon-xhtml:hover, span.mzz-icon-xhtml.active {
+    background-position: -144px -160px;
+}
+
+span.mzz-icon-html, span.mzz-icon-html.disabled {
+    background-position: -160px -176px;
+}
+
+a:hover span.mzz-icon-html, span.mzz-icon-html:hover, span.mzz-icon-html.active {
+    background-position: -160px -160px;
+}
+
+span.mzz-icon-image, span.mzz-icon-image.disabled {
+    background-position: -176px -176px;
+}
+
+a:hover span.mzz-icon-image, span.mzz-icon-image:hover, span.mzz-icon-image.active {
+    background-position: -176px -160px;
+}
+
+span.mzz-icon-picture, span.mzz-icon-picture.disabled {
+    background-position: -192px -176px;
+}
+
+a:hover span.mzz-icon-picture, span.mzz-icon-picture:hover, span.mzz-icon-picture.active {
+    background-position: -192px -160px;
+}
+
+span.mzz-icon-tv, span.mzz-icon-tv.disabled {
+    background-position: -208px -176px;
+}
+
+a:hover span.mzz-icon-tv, span.mzz-icon-tv:hover, span.mzz-icon-tv.active {
+    background-position: -208px -160px;
+}
+
+span.mzz-icon-telephone, span.mzz-icon-telephone.disabled {
+    background-position: -224px -176px;
+}
+
+a:hover span.mzz-icon-telephone, span.mzz-icon-telephone:hover, span.mzz-icon-telephone.active {
+    background-position: -224px -160px;
+}
+
+span.mzz-icon-cellphone, span.mzz-icon-cellphone.disabled {
+    background-position: -240px -176px;
+}
+
+a:hover span.mzz-icon-cellphone, span.mzz-icon-cellphone:hover, span.mzz-icon-cellphone.active {
+    background-position: -240px -160px;
+}
+
+span.mzz-icon-plugin, span.mzz-icon-plugin.disabled {
+    background-position: -0px -208px;
+}
+
+a:hover span.mzz-icon-plugin, span.mzz-icon-plugin:hover, span.mzz-icon-plugin.active {
+    background-position: -0px -192px;
+}
+
+span.mzz-icon-bug, span.mzz-icon-bug.disabled {
+    background-position: -16px -208px;
+}
+
+a:hover span.mzz-icon-bug, span.mzz-icon-bug:hover, span.mzz-icon-bug.active {
+    background-position: -16px -192px;
+}
+
+span.mzz-icon-report, span.mzz-icon-report.disabled {
+    background-position: -32px -208px;
+}
+
+a:hover span.mzz-icon-report, span.mzz-icon-report:hover, span.mzz-icon-report.active {
+    background-position: -32px -192px;
+}
+
+span.mzz-icon-script, span.mzz-icon-script.disabled {
+    background-position: -48px -208px;
+}
+
+a:hover span.mzz-icon-script, span.mzz-icon-script:hover, span.mzz-icon-script.active {
+    background-position: -48px -192px;
+}
+
+span.mzz-icon-shield, span.mzz-icon-shield.disabled {
+    background-position: -64px -208px;
+}
+
+a:hover span.mzz-icon-shield, span.mzz-icon-shield:hover, span.mzz-icon-shield.active {
+    background-position: -64px -192px;
+}
+
+span.mzz-icon-tab, span.mzz-icon-tab.disabled {
+    background-position: -80px -208px;
+}
+
+a:hover span.mzz-icon-tab, span.mzz-icon-tab:hover, span.mzz-icon-tab.active {
+    background-position: -80px -192px;
+}
+
+span.mzz-icon-cup, span.mzz-icon-cup.disabled {
+    background-position: -96px -208px;
+}
+
+a:hover span.mzz-icon-cup, span.mzz-icon-cup:hover, span.mzz-icon-cup.active {
+    background-position: -96px -192px;
+}
+
+span.mzz-icon-input, span.mzz-icon-input.disabled {
+    background-position: -112px -208px;
+}
+
+a:hover span.mzz-icon-input, span.mzz-icon-input:hover, span.mzz-icon-input.active {
+    background-position: -112px -192px;
+}
+
+span.mzz-icon-input-rename, span.mzz-icon-input-rename.disabled {
+    background-position: -128px -208px;
+}
+
+a:hover span.mzz-icon-input-rename, span.mzz-icon-input-rename:hover, span.mzz-icon-input-rename.active {
+    background-position: -128px -192px;
+}
+
+span.mzz-icon-time, span.mzz-icon-time.disabled {
+    background-position: -144px -208px;
+}
+
+a:hover span.mzz-icon-time, span.mzz-icon-time:hover, span.mzz-icon-time.active {
+    background-position: -144px -192px;
+}
+
+span.mzz-icon-world, span.mzz-icon-world.disabled {
+    background-position: -160px -208px;
+}
+
+a:hover span.mzz-icon-world, span.mzz-icon-world:hover, span.mzz-icon-world.active {
+    background-position: -160px -192px;
+}
+
+span.mzz-icon-zoom, span.mzz-icon-zoom.disabled {
+    background-position: -176px -208px;
+}
+
+a:hover span.mzz-icon-zoom, span.mzz-icon-zoom:hover, span.mzz-icon-zoom.active {
+    background-position: -176px -192px;
+}
+
+span.mzz-icon-info, span.mzz-icon-info.disabled {
+    background-position: -192px -208px;
+}
+
+a:hover span.mzz-icon-info, span.mzz-icon-info:hover, span.mzz-icon-info.active {
+    background-position: -192px -192px;
+}
+
+span.mzz-icon-accept, span.mzz-icon-accept.disabled {
+    background-position: -208px -208px;
+}
+
+a:hover span.mzz-icon-accept, span.mzz-icon-accept:hover, span.mzz-icon-accept.active {
+    background-position: -208px -192px;
+}
+
+span.mzz-icon-add, span.mzz-icon-add.disabled {
+    background-position: -224px -208px;
+}
+
+a:hover span.mzz-icon-add, span.mzz-icon-add:hover, span.mzz-icon-add.active {
+    background-position: -224px -192px;
+}
+
+span.mzz-icon-remove, span.mzz-icon-remove.disabled {
+    background-position: -240px -208px;
+}
+
+a:hover span.mzz-icon-remove, span.mzz-icon-remove:hover, span.mzz-icon-remove.active {
+    background-position: -240px -192px;
+}
+
+span.mzz-icon-error, span.mzz-icon-error.disabled {
+    background-position: -0px -240px;
+}
+
+a:hover span.mzz-icon-error, span.mzz-icon-error:hover, span.mzz-icon-error.active {
+    background-position: -0px -224px;
+}
+
+span.mzz-icon-save, span.mzz-icon-save.disabled {
+    background-position: -16px -240px;
+}
+
+a:hover span.mzz-icon-save, span.mzz-icon-save:hover, span.mzz-icon-save.active {
+    background-position: -16px -224px;
+}
+
+span.mzz-icon-edit, span.mzz-icon-edit.disabled {
+    background-position: -32px -240px;
+}
+
+a:hover span.mzz-icon-edit, span.mzz-icon-edit:hover, span.mzz-icon-edit.active {
+    background-position: -32px -224px;
+}
+
+span.mzz-overlay-add, .disabled span.mzz-overlay-add {
+    background-position: -48px -240px;
+}
+
+a:hover span.mzz-overlay-add, span.mzz-overlay-add:hover, .active span.mzz-overlay-add {
+    background-position: -48px -224px;
+}
+
+span.mzz-overlay-del, .disabled span.mzz-overlay-del {
+    background-position: -64px -240px;
+}
+
+a:hover span.mzz-overlay-del, span.mzz-overlay-del:hover, .active span.mzz-overlay-del {
+    background-position: -64px -224px;
+}
+
+span.mzz-overlay-cog, .disabled span.mzz-overlay-cog {
+    background-position: -80px -240px;
+}
+
+a:hover span.mzz-overlay-cog, span.mzz-overlay-cog:hover, .active span.mzz-overlay-cog {
+    background-position: -80px -224px;
+}
+
+span.mzz-overlay-edit, .disabled span.mzz-overlay-edit {
+    background-position: -96px -240px;
+}
+
+a:hover span.mzz-overlay-edit, span.mzz-overlay-edit:hover, .active span.mzz-overlay-edit {
+    background-position: -96px -224px;
+}
+
+span.mzz-overlay-save, .disabled span.mzz-overlay-save {
+    background-position: -112px -240px;
+}
+
+a:hover span.mzz-overlay-save, span.mzz-overlay-save:hover, .active span.mzz-overlay-save {
+    background-position: -112px -224px;
+}
+
+span.mzz-overlay-wrench, .disabled span.mzz-overlay-wrench {
+    background-position: -128px -240px;
+}
+
+a:hover span.mzz-overlay-wrench, span.mzz-overlay-wrench:hover, .active span.mzz-overlay-wrench {
+    background-position: -128px -224px;
+}
+
+span.mzz-overlay-error, .disabled span.mzz-overlay-error {
+    background-position: -144px -240px;
+}
+
+a:hover span.mzz-overlay-error, span.mzz-overlay-error:hover, .active span.mzz-overlay-error {
+    background-position: -144px -224px;
+}
+
+span.mzz-overlay-move, .disabled span.mzz-overlay-move {
+    background-position: -160px -240px;
+}
+
+a:hover span.mzz-overlay-move, span.mzz-overlay-move:hover, .active span.mzz-overlay-move {
+    background-position: -160px -224px;
+}
+
+span.mzz-overlay-key, .disabled span.mzz-overlay-key {
+    background-position: -176px -240px;
+}
+
+a:hover span.mzz-overlay-key, span.mzz-overlay-key:hover, .active span.mzz-overlay-key {
+    background-position: -176px -224px;
+}
+
+span.mzz-overlay-default, .disabled span.mzz-overlay-default {
+    background-position: -192px -240px;
+}
+
+a:hover span.mzz-overlay-default, span.mzz-overlay-default:hover, .active span.mzz-overlay-default {
+    background-position: -192px -224px;
+}
+
+span.mzz-overlay-link, .disabled span.mzz-overlay-link {
+    background-position: -208px -240px;
+}
+
+a:hover span.mzz-overlay-link, span.mzz-overlay-link:hover, .active span.mzz-overlay-link {
+    background-position: -208px -224px;
+}
+
+span.mzz-overlay-plus, .disabled span.mzz-overlay-plus {
+    background-position: -224px -240px;
+}
+
+a:hover span.mzz-overlay-plus, span.mzz-overlay-plus:hover, .active span.mzz-overlay-plus {
+    background-position: -224px -224px;
+}
+
+span.mzz-overlay-minus, .disabled span.mzz-overlay-minus {
+    background-position: -240px -240px;
+}
+
+a:hover span.mzz-overlay-minus, span.mzz-overlay-minus:hover, .active span.mzz-overlay-minus {
+    background-position: -240px -224px;
 }

@@ -163,22 +163,7 @@ class jip
             if ($this->obj->getAcl($action)) {
                 $item['url'] = isset($item['url']) ? $item['url'] : (($key != 'editACL') ? $this->buildUrl($item, $key) : $this->buildACLUrl($this->obj->getObjId()));
                 $item['id'] = $this->getJipMenuId() . '_' . $item['controller'];
-                
-                if (isset($item['icon'])) {
-                    if (strpos($item['icon'], 'sprite:') === 0) {
-                        $item['icon'] = substr($item['icon'], 7);
-                        list ($item['sprite'], $item['index']) = explode('/', $item['icon']);
-                        $item['icon'] = '';
-                    } else {
-                        
-                        $item['icon'] = SITE_PATH . $item['icon'];
-                    }
-                } else {
-                    $item['icon'] = '';
-                }
-
-                
-
+                $item['icon'] = isset($item['icon']) ? $item['icon'] : '';
                 $item['lang'] = (isset($item['lang']) && systemConfig::$i18nEnable) ? (boolean)$item['lang'] : false;
                 $item['target'] = (isset($item['jip_target']) && $item['jip_target'] == 'new') ? 1 : 0;
 
