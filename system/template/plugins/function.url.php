@@ -117,7 +117,7 @@ function smarty_function_url($params, $smarty)
     if ($onlyPath) {
         $url->disableAddress();
     }
-    // @todo there is a temporary fix for the 404 page while the sections exist
+
     if (isset($params['lang'])){
         try {
             $finishedUrl = $url->get();

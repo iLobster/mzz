@@ -51,8 +51,6 @@ class contentFilter implements iFilter
 
         $template = $this->getTemplateName($request, $tplPath);
 
-        // @todo подумать нужны ли в шаблоне теперь эти переменные
-        //страйкер: конечно нужны. как без них? в большинстве {url используется section=$current_section. Но предлагаю просто передать объект $request в смарти.
         $smarty->assign('current_section', $request->getRequestedSection());
         $smarty->assign('current_action', $request->getRequestedAction());
         $smarty->assign('current_path', $request->getPath());

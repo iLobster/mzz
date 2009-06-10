@@ -1438,14 +1438,11 @@ abstract class simpleMapper
      * Метод для возврата контроллера, обрабатывающего ошибку 404
      *
      * @return simpleController
-     *
-     * @todo подумать - насколько это плохо
+     * @deprecated
      */
     public function get404()
     {
         throw new mzzRuntimeException('Deprecated. Use simpleController::forward404() instead');
-        fileLoader::load('simple/simple404Controller');
-        return new simple404Controller();
     }
 
     /**
