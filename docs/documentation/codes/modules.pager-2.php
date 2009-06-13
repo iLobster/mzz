@@ -5,18 +5,19 @@ class newsListController extends simpleController
     protected function getView()
     {
         $newsFolderMapper = $this->toolkit->getMapper('news', 'newsFolder');
-        $path = $this->request->get('name', 'string', SC_PATH);
+        $path = $this->request->getString('name');
         $newsFolder = $newsFolderMapper->searchByPath($path);
 
         if (empty($newsFolder)) {
-            return $newsFolderMapper->get404()->run();
+            return $this->forward404($newsFolderMapper);
         }
 
         $config = $this->toolkit->getConfig('news');
-        $this->setPager($newsFolder, $config->get('items_per_page'), true);
+        $this->setPager($newsFolderMapper, $config->get('items_per_page'), true);
 
-        $this->smarty->assign('folderPath', $newsFolder->getPath());
-        $this->smarty->assign('news', $newsFolder->getItems());
+        $this->smarty->assign('news', $newsFolderMapper->getItems($newsFolder));
+        $this->smarty->assign('folderPath', $newsFolder->getTreePath());
+        $this->smarty->assign('rootFolder', $newsFolderMapper->searchByPath('root'));
         $this->smarty->assign('newsFolder', $newsFolder);
 
         return $this->smarty->fetch('news/list.tpl');

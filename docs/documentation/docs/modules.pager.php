@@ -9,10 +9,11 @@
     <li><code>$roundItems</code> - число номеров страниц, выводимых вокруг текущего номера.</li>
     <li><code>$reverse</code> - обратная нумерация.</li>
 </ul>
-<p>Для использования пейджера - необходимо созданный экземпляр класса <code>pager</code> передать в маппер, который будет получать коллекцию, с помощью метода <code>setPager</code>:</p>
+<p>Для использования пейджера — необходимо подключить <a href="structure.orm.html#structure.orm.plugins">плагин</a> pagerPlugin к мапперу, который будет получать коллекцию:</p>
 <<code php>>
+fileLoader::load('modules/pager/plugins/pagerPlugin');
 $pager = new pager('/news', 10, 10);
-$newsMapper->setPager($pager);
+$mapper->attach(new pagerPlugin($pager));
 $newsArray = $newsMapper->searchAll();
 <</code>>
 <p>Для упрощения процесса добавления пейджера, в класс <a href="modules.simple.html#modules.simple.simpleController"><code>simpleController</code></a> добавлен специальный метод <code>setPager</code>:</p>
