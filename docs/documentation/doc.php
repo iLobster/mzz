@@ -29,6 +29,7 @@ $menu = array("intro.Предисловие" =>
                                          "url.Плагин {url}",
                                          "title.Плагин {title}",
                                          "meta.Плагин {meta}",
+                                         "icon.Плагин {icon}",
                                          ),
                         "controllers.Контроллеры"
                                 => array("simpleController.simpleController",
