@@ -61,11 +61,12 @@ class accessEditUserController extends simpleController
         $users = false;
 
         if ($action == 'addUser') {
+            $accessMapper = $this->toolkit->getMapper('access', 'access');
             $criterion = new criterion('a.uid', $userMapper->table() . '.' . $userMapper->pk(), criteria::EQUAL, true);
             $criterion->addAnd(new criterion('a.obj_id', $obj_id));
 
             $criteria = new criteria();
-            $criteria->addJoin('sys_access', $criterion, 'a');
+            $criteria->addJoin($accessMapper->table(), $criterion, 'a');
             $criteria->add('a.uid', null, criteria::IS_NULL);
 
             $users = $userMapper->searchAllByCriteria($criteria);

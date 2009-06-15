@@ -68,6 +68,7 @@ class accessEditGroupDefaultController extends simpleController
         $groups = false;
 
         if ($action == 'addGroupDefault') {
+            $accessMapper = $this->toolkit->getMapper('access', 'access');
             $class_id = $acl->getConcreteClass();
 
             $criterion = new criterion('a.gid', $groupMapper->table() . '.' . $groupMapper->pk(), criteria::EQUAL, true);
@@ -75,7 +76,7 @@ class accessEditGroupDefaultController extends simpleController
             $criterion->addAnd(new criterion('a.class_id', $class_id));
 
             $criteria = new criteria();
-            $criteria->addJoin('sys_access', $criterion, 'a');
+            $criteria->addJoin($accessMapper->table(), $criterion, 'a');
 
             $criteria->add('a.id', null, criteria::IS_NULL);
 
