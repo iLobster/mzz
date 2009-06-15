@@ -4,6 +4,17 @@ fileLoader::load('jip');
 
 class jipPlugin extends observer
 {
+    public function setMapper(mapper $mapper)
+    {
+        parent::setMapper($mapper);
+
+        if (!isset($this->options['identity_method'])) {
+            $map = $this->mapper->map();
+
+            $this->options['identity_method'] = !$this->mapper->pk() ? 'getObjId' : $map[$this->mapper->pk()]['accessor'];
+        }
+    }
+
     protected function updateMap(& $map)
     {
         $map['jip'] = array(
@@ -29,29 +40,15 @@ class jipPlugin extends observer
         $actions = $action->getActions(array('class' => $class, 'jip' => $menu_id));
 
         try {
-            $obj_id = $object->getObjId();
+            $object->getObjId();
         } catch(mzzORMNotExistMethodException $e) {
-            $obj_id = $object->{$this->getPkAccessor()}();
             unset($actions['editACL']);
         }
 
+        $obj_id = $object->{$this->options['identity_method']}();
+
         $jip = new jip($obj_id, $class, $actions, $object);
         return $jip->draw();
-    }
-
-    private function getPkAccessor()
-    {
-        if (!isset($this->options['identity_method'])) {
-            $map = $this->mapper->map();
-
-            if (!$this->mapper->pk()) {
-                throw new mzzRuntimeException('Primary key in object map expected');
-            }
-
-            $this->options['identity_method'] = $map[$this->mapper->pk()]['accessor'];
-        }
-
-        return $this->options['identity_method'];
     }
 
     public function preCreate(entity $object)
