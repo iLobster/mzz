@@ -4,14 +4,19 @@ span.mzz-overlay {
     display: inline-block !important;
     width: 16px !important;
     height: 16px !important;
-    line-height: 16px !important;
     padding: 0px;
     margin: 0px;
     background: transparent url('../../images/admin/icons.png') no-repeat 100px 100px;
 }
 
+span.mzz-icon {
+    position: relative;
+}
+
 span.mzz-overlay {
-    display: block !important;
+    position: static;
+    top: 0px;
+    left: 0px;
 }
 
 span.mzz-icon a,
