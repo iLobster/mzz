@@ -26,10 +26,23 @@ class accessEditOwnerController extends simpleController
         $class = $this->request->getString('class_name');
         $section = $this->request->getString('section_name');
 
-        $acl = new acl($this->toolkit->getUser(), 0, $class, $section);
+        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+        $module = $adminMapper->searchModuleByClass($class);
 
-        $action = $this->toolkit->getAction($acl->getModule($class));
+        if (!$module) {
+            $controller = new messageController('Не найден класс или модуль, в который он входит', messageController::WARNING);
+            return $controller->run();
+        }
+
+        $acl = new acl($this->toolkit->getUser(), 0, $class);
+
+        $action = $this->toolkit->getAction($module['name']);
         $actions = $action->getActions(array('acl' => true));
+
+        if (!isset($actions[$class])) {
+            $controller = new messageController('Для этого класса нет ни одного действия, правами которого можно было бы управлять', messageController::WARNING);
+            return $controller->run();
+        }
 
         $actions = $actions[$class];
 

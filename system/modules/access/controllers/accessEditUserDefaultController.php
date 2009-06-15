@@ -43,12 +43,12 @@ class accessEditUserDefaultController extends simpleController
         $action = $this->toolkit->getAction($module['name']);
         $actions = $action->getActions(array('acl' => true));
 
-        $actions = $actions[$class];
-
-        if (!$actions) {
+        if (!isset($actions[$class])) {
             $controller = new messageController('Для этого класса нет ни одного действия, правами которого можно было бы управлять', messageController::WARNING);
             return $controller->run();
         }
+
+        $actions = $actions[$class];
 
         if ($this->request->getMethod() == 'POST' && $user) {
             $setted = $this->request->getArray('access', SC_POST);
