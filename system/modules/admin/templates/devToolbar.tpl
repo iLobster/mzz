@@ -15,6 +15,7 @@
 
 <!-- модули и классы -->
 <div id="modulesAndClasses" class="toolbarBlock">
+{* @todo: remove this, if not needed anymore *}
 <!--test for adding module / class   <a href='javascript: devToolbar.addModule("0000", [
 {ldelim}url: "{url route="withId" section="admin" id=1 action="editModule"}", ico: "block", over: "edit", alt: "Редактировать модуль"{rdelim},
 {ldelim}url: "{url route="withId" section="admin" id=1 action="deleteModule"}", ico: "block", over: "del", alt: "Удалить модуль"{rdelim},
@@ -110,7 +111,10 @@
         {/foreach}
         </tbody>
     </table>
+    {*
+    @todo: will be reimplemented later
     <br />
     <span class="toolbarSectionName">Переводы</span>
     <a href="{url route=default2 section=admin action=translate}" class="jipLink">Перевод модулей</a>
+    *}
 </div>
