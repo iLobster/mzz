@@ -44,11 +44,11 @@ class jipPlugin extends observer
         if (!isset($this->options['identity_method'])) {
             $map = $this->mapper->map();
 
-            if (!$mapper->pk()) {
+            if (!$this->mapper->pk()) {
                 throw new mzzRuntimeException('Primary key in object map expected');
             }
 
-            $this->options['identity_method'] = $map[$mapper->pk()]['accessor'];
+            $this->options['identity_method'] = $map[$this->mapper->pk()]['accessor'];
         }
 
         return $this->options['identity_method'];
