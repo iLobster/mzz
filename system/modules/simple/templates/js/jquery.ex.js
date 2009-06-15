@@ -2,7 +2,7 @@
  * Сахарный довесок для jQuery из Prototype
  */
 
-jQuery.noConflict();
+var $j = jQuery.noConflict();
 (function ($){
 
     $.isString = function(object) {
