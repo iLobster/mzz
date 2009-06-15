@@ -57,9 +57,9 @@ function smarty_function_icon($params, $smarty)
             }
         } else {
             if ($jip) {
-                return "'" . SITE_ROOT . $params['sprite'] . "'";
+                return "'" . SITE_PATH . $params['sprite'] . "'";
             } else {
-                return '<img src="' . SITE_ROOT . $params['sprite'] . '" width="16" height="16" alt="." />';
+                return '<img src="' . SITE_PATH . $params['sprite'] . '" width="16" height="16" alt="." />';
             }
         }
     }

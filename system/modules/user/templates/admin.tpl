@@ -14,7 +14,7 @@
     {foreach from=$users item="user"}
         <tr class="center">
             <td class="first">{$user->getId()}</td>
-            <td class="left">{$user->getLogin()}</td>
+            <td class="left">{$user->getLogin()|h}</td>
             <td>{if $user->isActive()}Да{else}Нет{/if}</td>
             <td>{if $user->isActive()}{$user->getOnline()->getIp()}{else}—{/if}</td>
             <td>{$user->getCreated()|date_i18n:relative_hour}</td>

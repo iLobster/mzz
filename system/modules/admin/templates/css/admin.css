@@ -159,7 +159,7 @@ h2, h3, h4, h5, h6 {
 
 body {
     font: 0.75em / 1.125em "Helvetica Neue", Helvetica, Arial, sans-serif;
-    background: #334145 url('../images/admin/background.gif') repeat scroll top left;
+    background: #334145 url('../../images/admin/background.gif') repeat scroll top left;
     color: #555555;
 }
 
@@ -169,27 +169,27 @@ div.clear {
 
 #header {
     padding: 15px 15px 0px 15px;
-    background: #334145 url('../images/admin/header.gif') repeat scroll top left;
+    background: #334145 url('../../images/admin/header.gif') repeat scroll top left;
 }
 
 #header div.bar {
     height: 60px;
-    background: transparent url('../images/admin/headerbar.png') no-repeat scroll 0px -60px;
+    background: transparent url('../../images/admin/headerbar.png') no-repeat scroll 0px -60px;
     position: relative;
 }
 
 #header .bar div.siteInfo {
     margin: 0px 10px;
-    background: transparent url('../images/admin/headerbar.png') repeat-x scroll 0px 0px;
+    background: transparent url('../../images/admin/headerbar.png') repeat-x scroll 0px 0px;
 }
 
 #header .bar div.glass {
     padding: 15px;
-    background: transparent url('../images/admin/glass.png') no-repeat scroll 0px 0px;
+    background: transparent url('../../images/admin/glass.png') no-repeat scroll 0px 0px;
 }
 
 #header .bar .siteInfo a.logo {
-    background: transparent url('../images/admin/symbol.png') no-repeat scroll top left;
+    background: transparent url('../../images/admin/symbol.png') no-repeat scroll top left;
     line-height: 30px;
     display: block;
     padding-left: 40px;
@@ -211,7 +211,7 @@ div.clear {
     height: 60px;
     line-height: 60px;
     color: #ffffff;
-    background: transparent url('../images/admin/headerbar.png') no-repeat scroll right -120px;
+    background: transparent url('../../images/admin/headerbar.png') no-repeat scroll right -120px;
 }
 
 #header .loginInfo table td {
@@ -230,7 +230,7 @@ div.clear {
 }
 
 #content {
-    background: #F9F9F9 url('../images/admin/contentbg.png') repeat-y scroll -220px 0px;
+    background: #F9F9F9 url('../../images/admin/contentbg.png') repeat-y scroll -220px 0px;
 }
 
 #sidebar {
@@ -250,7 +250,7 @@ div.clear {
 
 #footer div.foot {
     position:  relative;
-    background: transparent url('../images/admin/contentbg.png') no-repeat scroll -10px 50%;
+    background: transparent url('../../images/admin/contentbg.png') no-repeat scroll -10px 50%;
 }
 
 #footer div.foot,
@@ -268,7 +268,7 @@ div.clear {
     top: 0px;
     right: 0px;
     width: 10px;
-    background: transparent url('../images/admin/contentbg.png') no-repeat scroll 0 0;
+    background: transparent url('../../images/admin/contentbg.png') no-repeat scroll 0 0;
 }
 
 #footer div.timer {
@@ -341,7 +341,7 @@ ul.mzz-adm-menu li div.mzz-menu-item div.mzz-menu-toggle {
 
 ul.mzz-adm-menu div.mzz-menu-title,
 ul.mzz-adm-menu div.mzz-menu-toggle {
-    background: transparent url('../images/admin/table.png') no-repeat scroll 100px 100px;
+    background: transparent url('../../images/admin/table.png') no-repeat scroll 100px 100px;
 }
 
 ul.mzz-adm-menu div.mzz-menu-title {
@@ -423,5 +423,5 @@ span.breadcrumbsTitle {
 span.breadcrumbsItems {
     border: 1px solid #d4d4d4;
     padding: 4px;
-    background-image: url('../images/breadcrumb_background.png');
+    background-image: url('../../images/breadcrumb_background.png');
 }
