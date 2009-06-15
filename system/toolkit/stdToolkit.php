@@ -292,8 +292,7 @@ class stdToolkit extends toolkit
      *
      * @param string $module имя модуля
      * @param string $do имя доменного объекта
-     * @param string $section имя раздела
-     * @return simpleMapper
+     * @return mapper
      */
     public function getMapper($module, $do)
     {

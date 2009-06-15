@@ -85,9 +85,25 @@ class adminGeneratorMapper extends mapper
     public function deleteAction($name, $class_id)
     {
         $action_id = $this->db()->getOne('SELECT `id` FROM `sys_actions` WHERE `name` = ' . $this->db()->quote($name));
-        $this->db()->query('DELETE FROM `sys_classes_actions` WHERE `class_id` = ' . (int)$class_id . ' AND `action_id` = ' . $action_id);
+        if ($action_id) {
+            $this->db()->query('DELETE FROM `sys_classes_actions` WHERE `class_id` = ' . (int)$class_id . ' AND `action_id` = ' . $action_id);
+            return $action_id;
+        }
+    }
 
-        return $action_id;
+    public function getActions($class_id)
+    {
+        $qry = 'SELECT `a`.`name`, `a`.`id` FROM `sys_classes_actions` `ca`
+                   INNER JOIN `sys_actions` `a` ON `a`.`id` = `ca`.`action_id`
+                    WHERE `ca`.`class_id` = ' . (int)$class_id;
+        $stmt = $this->db()->query($qry);
+
+        $actions = array();
+        while ($row = $stmt->fetch()) {
+            $actions[] = $row['name'];
+        }
+
+        return $actions;
     }
 
     /**
@@ -112,8 +128,8 @@ class adminGeneratorMapper extends mapper
         }
 
         return array(
-            'sys' => systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $subfolder,
-            'app' => systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $subfolder);
+        'sys' => systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $subfolder,
+        'app' => systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $subfolder);
     }
 
     public function getTableSchema($table)

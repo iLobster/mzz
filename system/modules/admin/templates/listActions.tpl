@@ -1,8 +1,8 @@
 {include file='jipTitle.tpl' title='Список действий'}
 
-<table width="99%" cellpadding="4" cellspacing="0" class="systemTable">
+<table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
     <tr>
-        <td colspan="3"><a href="{url route="withId" section="admin" id=$id action="addAction"}" class="jipLink">Создать действие</a></td>
+        <td colspan="3"><a href="{url route="withId" module="admin" id=$id action="addAction"}" class="jipLink">Создать действие</a></td>
     </tr>
     {foreach from=$actions item=action key=key}
         <tr>
