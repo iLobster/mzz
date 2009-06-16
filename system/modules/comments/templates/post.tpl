@@ -2,12 +2,12 @@
 <h3><a href="{url route="withId" section="comments" action="post" id=$commentsFolderId}" class="selected" onclick="comments.moveForm(0, {$commentsFolderId}, this); return false;">{_ post_comment}</a></h3>
 <div id="answerForm_{$commentsFolderId}_0">
     {form id="commentForm_$commentsFolderId" action=$action method="post"}
-        {if !$errors->isEmpty()}
+        {if isset($form) && !$form->isValid()}
         <dl class="errors">
             <dt>Ошибка добавления комментария:</dt>
             <dd>
                 <ol>
-                {foreach from=$errors item="error"}
+                {foreach from=$form->export() item="error"}
                     <li>{$error}</li>
                 {/foreach}
                 </ol>

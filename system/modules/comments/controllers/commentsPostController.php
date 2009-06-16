@@ -93,7 +93,6 @@ class commentsPostController extends simpleController
         $this->smarty->assign('comment', $comment);
         $this->smarty->assign('commentReply', $commentReply);
         $this->smarty->assign('commentsFolder', $commentsFolder);
-        $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('action', $url->get());
         $this->smarty->assign('user', $user);
 
