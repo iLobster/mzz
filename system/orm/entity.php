@@ -220,13 +220,16 @@ class entity
 
     private function validateMethod($name)
     {
+        // strtolower used here to dispose stupid php strtolower when parent::<method> through __call
+        $name = strtolower($name);
+
         foreach ($this->map as $key => $value) {
-            if ($value['accessor'] == $name) {
+            if (strtolower($value['accessor']) == $name) {
                 return array(
                     'accessor',
                     $key);
             }
-            if (isset($value['mutator']) && $value['mutator'] == $name) {
+            if (isset($value['mutator']) && strtolower($value['mutator']) == $name) {
                 return array(
                     'mutator',
                     $key);
