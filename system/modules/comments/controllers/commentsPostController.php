@@ -64,6 +64,7 @@ class commentsPostController extends simpleController
         $validator->add('required', 'text', 'Введите комментарий');
         $validator->add('length', 'text', 'Слишком длинный комментарий! Максимум 2000 символов!', array(0, 2000));
 
+        $isAjax = $this->isAjaxRequest();
         $backUrl = $this->request->getString('backUrl', SC_POST);
 
         if (!$onlyForm && $validator->validate()) {
@@ -76,10 +77,18 @@ class commentsPostController extends simpleController
                 $comment->setTreeParent($commentReply);
             }
 
-            $comment->setText($text);
+            $comment->setText(mzz_trim($text));
             $commentsMapper->save($comment);
 
-            $this->response->redirect($backUrl . '#comment' . $comment->getId());
+            if ($isAjax) {
+                $this->smarty->disableMain();
+                $this->smarty->assign('comment', $comment);
+                $this->smarty->assign('commentsFolder', $commentsFolder);
+                return $this->smarty->fetch('comments/post_added_ajax.tpl');
+            } else {
+                $this->redirect($backUrl . '#comment' . $comment->getId());
+                return;
+            }
         }
 
         $url = new url('withId');
@@ -94,16 +103,26 @@ class commentsPostController extends simpleController
         $this->smarty->assign('commentReply', $commentReply);
         $this->smarty->assign('commentsFolder', $commentsFolder);
         $this->smarty->assign('action', $url->get());
+        $this->smarty->assign('hideForm', $this->request->getBoolean('hideForm'));
+        $this->smarty->assign('onlyForm', $onlyForm);
         $this->smarty->assign('user', $user);
 
         if (!$backUrl) {
             $backUrl = $this->request->getServer('REQUEST_URI');
         }
 
-        $this->smarty->assign('backUrl', $backUrl);
+        if ($isAjax) {
+            $this->smarty->disableMain();
+            $this->setTemplatePrefix('ajax_');
+        }
 
-        $template = $commentReply ? 'reply' : 'post';
-        return $this->smarty->fetch('comments/' . $template . '.tpl');
+        $this->smarty->assign('backUrl', $backUrl);
+        return $this->fetch('comments/post.tpl');
+    }
+
+    protected function isAjaxRequest()
+    {
+        return $this->request->getServer('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest';
     }
 }
 ?>

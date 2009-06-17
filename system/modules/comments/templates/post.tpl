@@ -1,26 +1,19 @@
-{assign var="commentsFolderId" value=$commentsFolder->getId()}
-<h3><a href="{url route="withId" section="comments" action="post" id=$commentsFolderId}" class="selected" onclick="comments.moveForm(0, {$commentsFolderId}, this); return false;">{_ post_comment}</a></h3>
-<div id="answerForm_{$commentsFolderId}_0">
-    {form id="commentForm_$commentsFolderId" action=$action method="post"}
+{add file="comments/comments.css"}
+<h2>{if !$commentReply}{_ post_comment}{else}{_ reply_comment}{/if}</h2>
+<div class="entry-comments">
+    {form action=$action method="post"}
         {if isset($form) && !$form->isValid()}
         <dl class="errors">
             <dt>Ошибка добавления комментария:</dt>
             <dd>
-                <ol>
+                <ul>
                 {foreach from=$form->export() item="error"}
                     <li>{$error}</li>
                 {/foreach}
-                </ol>
+                </ul>
             </dd>
         </dl>
         {/if}
-        <dl>
-            <dt>{form->caption name="text" value="Текст:" onError=""}</dt>
-            <dd>{form->textarea name="text" value=$comment->getText() rows="5" cols="5"}</dd>
-        </dl>
-        <p>
-            {form->hidden name="backUrl" value=$backUrl}
-            {form->submit class="send" name="commentSubmit" value="Отправить комментарий"}
-        </p>
+        {include file="comments/postForm.tpl"}
     </form>
 </div>

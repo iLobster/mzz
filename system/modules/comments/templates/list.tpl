@@ -1,7 +1,6 @@
 {add file="comments/comments.css"}
 {add file="jquery.js"}
 {add file="comments/comments.js"}
-
 <div class="entry-comments">
     <h3>Комментарии <span class="count">({$comments->count()})</span> {$commentsFolder->getJip()}</h3>
     <ul id="comments_{$commentsFolder->getId()}">
@@ -29,5 +28,5 @@
         <li></li>
     {/foreach}
     </ul>
-    {load module="comments" action="post" id=$commentsFolder onlyForm=true}
+    {load module="comments" action="post" id=$commentsFolder tplPrefix="list_" onlyForm=true}
 </div>

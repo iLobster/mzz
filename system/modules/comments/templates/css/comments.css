@@ -51,7 +51,6 @@ div.entry-comments ul .hcomment ul .hcomment ul .hcomment ul .hcomment ul .hcomm
 
 div.entry-comments ul .hcomment a.answer
 {
-    margin-left: 2.8em;
     padding: 0.2em 0 0 0;
     display: -moz-inline-stack;
     display: inline-block;
@@ -85,7 +84,7 @@ div.entry-comments ul .hcomment p .published
 
 div.entry-comments ul .hcomment .entry-comment
 {
-    margin: -0.7em 0 0 2.8em;
+    margin: 0;
     padding: 0;
     border: none;
     font-size: 0.9em;
