@@ -89,10 +89,11 @@
                     this.window.content().find('select').addClass('mzz-ie-visibility');
                 }
 
-                for (var i = 0, l = this.tinyMCEIds; i < l; i++) {
-                    tinyMCE.execCommand('mceRemoveControl', false, this);
-                    jipWindow.deleteTinyMCEId(this);
+                if (this.tinyMCEIds[this.currentWindow]) {
+                    tinyMCE.execCommand('mceRemoveControl', false, this.tinyMCEIds[this.currentWindow]);
+                    jipWindow.deleteTinyMCEId(this.currentWindow);
                 }
+                
                 windows = (windows >= 0) ? windows : 1;
 
                 var stack = this.stack[this.currentWindow];
