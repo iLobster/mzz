@@ -23,16 +23,6 @@ class file extends entity
 {
     protected $extra = false;
 
-    /**
-     * Получение объекта JIP
-     *
-     * @return jip
-     */
-    public function getJip()
-    {
-        return parent::__call('getJip', array(1, $this->getFullPath()));
-    }
-
     public function getFullPath()
     {
         return $this->getFolder()->getTreePath() . '/' . rawurlencode($this->getName());

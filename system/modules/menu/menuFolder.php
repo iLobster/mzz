@@ -23,22 +23,6 @@
 class menuFolder extends entity
 {
     protected $name = 'menu';
-
-    protected function getJipView($module, $id, $type)
-    {
-        $toolkit = systemToolkit::getInstance();
-        $action = $toolkit->getAction($module);
-        $request = $toolkit->getRequest();
-
-        $jip = new jip($request->getSection(), $module, $id, $type, $action->getJipActions($type), $this);
-
-        $url = new url('default2');
-        $url->setAction('addmenu');
-
-        $createAction = &$jip->getItem('addmenu');
-        $createAction['url'] = $url->get();
-        return $jip->draw();
-    }
 }
 
 ?>
