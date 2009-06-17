@@ -21,10 +21,7 @@
  */
 class pageFolder extends entity
 {
-    public function getJip()
-    {
-        return parent::__call('getJip', array(1, $this->getTreePath()));
-    }
+
 }
 
 ?>

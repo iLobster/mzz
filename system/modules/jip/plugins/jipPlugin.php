@@ -30,10 +30,9 @@ class jipPlugin extends observer
      * @param string $tpl шаблон JIP-меню
      * @return string
      */
-    public function getJip($object, $menu_id = 1) // $obj_id = null, $class = null, $tpl = jip::DEFAULT_TEMPLATE)
+    public function getJip($object, $menu_id = 1, $class = null, $tpl = jip::DEFAULT_TEMPLATE) // $obj_id = null, $class = null, $tpl = jip::DEFAULT_TEMPLATE)
     {
-        //$class = is_null($class) ? get_class($object): $class;
-        $class = get_class($object);
+        $class = is_null($class) ? get_class($object): $class;
 
         $action = systemToolkit::getInstance()->getAction($object->module());
 
@@ -47,7 +46,7 @@ class jipPlugin extends observer
 
         $obj_id = $object->{$this->options['identity_method']}();
 
-        $jip = new jip($obj_id, $class, $actions, $object);
+        $jip = new jip($obj_id, $class, $actions, $object, $tpl);
         return $jip->draw();
     }
 

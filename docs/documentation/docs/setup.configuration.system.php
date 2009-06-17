@@ -5,7 +5,7 @@
 <div class="options_name">SITE_PATH <span class="options_value">= null</span></div>
 <div class="options_desc">Абсолютный путь до сайта.</div>
 
-<div class="options_name">SYSTEM_PATH <span class="options_value">= ../system/</span></div>
+<div class="options_name">SYSTEM_PATH <span class="options_value">= ../../system/</span></div>
 <div class="options_desc">Путь до mzz. Возможно указание как относительного, так и абсолютного пути</div>
 
 <div class="options_name">DEBUG_MODE <span class="options_value">= true</span></div>

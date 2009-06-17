@@ -33,11 +33,6 @@ class menu extends entity
         }
         return $this->items;
     }
-
-    public function getJip()
-    {
-        return parent::__call('getJip', array(1, $this->getName()));
-    }
 }
 
 ?>

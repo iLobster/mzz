@@ -111,7 +111,7 @@ abstract class menuItem extends entity
      */
     public function getJip($tpl = jip::DEFAULT_TEMPLATE)
     {
-        return parent::__call('getJip', array(1, $this->getId(), __CLASS__, $tpl));
+        return parent::__call('getJip', array(1, __CLASS__, $tpl));
     }
 
     public function setUrlLang($lang, $specified)
