@@ -26,7 +26,8 @@ class newsFolder extends entity
 
     public function getJip()
     {
-        return parent::__call('getJip', array(1, $this->getTreePath()));
+        return parent::getJip(1, $this->getTreePath());
+        //return parent::__call('getJip', array(1, $this->getTreePath()));
     }
 }
 

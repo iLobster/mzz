@@ -6,10 +6,7 @@
  * проверено в 7 / 8, firefox 3.0.10 / 3.5 beta4, opera 9.64 / 10 alpha, safari 3.2 / 4 beta
  *
  * @todo: - autoSize()
- *        - нормальный "preloader"
  *        - setIcon()
- *        - ресайз окна ручками ???
- *        - поправить css, для работы со сторонними основными стилями
  *
  *
  */
@@ -17,10 +14,14 @@
 (function ($){
     MZZ.jipWindow = DUI.Class.create({
         init: function() {
-            this.newWindow = {
-                //layout: '<div class="t1"><div class="t2"><div class="t3"></div></div></div><div class="tl"><div class="tr"><div class="tc mzz-window-title mzz-window-drag"></div></div><div class="ml"><div class="mr"><div class="mc"><div class="mzz-window-content"></div></div></div></div><div><div class="bl"><div class="br"><div class="bc"></div></div></div></div></div>',
-
-            }
+            this.options = {
+                    layout: '<div class="mzz-window-title mzz-window-drag" /><div class="mzz-window-content mzz-window-alsoResize" /><div class="mzz-window-footer"><div class="mzz-window-status" /></div><div class="mzz-window-icon" /><div class="mzz-window-buttons" /><div class="mzz-window-resizer" />',
+                    id: 'jip_window_' + this.currentWindow,
+                    baseClass: 'mzz-jip-window',
+                    draggable: true,
+                    resizable: {'handles': 'se', 'minWidth': 650, 'minHeight': 150, 'alsoResize': true},
+                    visible: true
+                    };
 
             this.window = false;    //текущее окно
             this.windows = []; //стэк окошков
@@ -43,8 +44,7 @@
         },
 
         open: function(url, isNew, method, params) {
-            isNew = isNew || false;
-            //isNew = true;
+            isNew = isNew || false
             params = params || {};
             params.ajax = 1;
             method = (method && method.toUpperCase() == 'POST') ? 'POST' : 'GET';
@@ -58,21 +58,14 @@
                     this.windows[this.currentWindow - 1] = this.window;
                 }
                 this.stack[this.currentWindow] = new Array;
-                this.window = new MZZ.window({
-                    layout: '<div class="mzz-window-title mzz-window-drag" /><div class="mzz-window-content mzz-window-alsoResize" /><div class="mzz-window-footer"><div class="mzz-window-status" /></div><div class="mzz-window-icon" /><div class="mzz-window-buttons" /><div class="mzz-window-resizer" />',
-                    id: 'jip_window_' + this.currentWindow,
-                    baseClass: 'mzz-jip-window',
-                    draggable: true,
-                    resizable: {'handles': 'se', 'minWidth': 650, 'minHeight': 150, 'alsoResize': true},
-                    visible: true
-                    });
-                // подумать над переносом в opts
-                this.window.addButton('close', SITE_PATH + '/templates/images/jip/btn-close.png', '', function(){jipWindow.close()});
+                this.window = new MZZ.window($.extend({},this.options));
+
+                this.window.addButton('close', SITE_PATH + '/templates/images/jip/btn-close.png', '', function(){jipWindow.close()});                
                 this.window.top(this.window.top() + $(window).scrollTop());
                 this.setStatus('<strong>Window url:</strong> ' + url);
                 $(document).keypress(this.eventKey);
             } else {
-            //????
+                //????
             }
 
             if (this.window) {
@@ -433,44 +426,3 @@
 })(jQuery);
 
 var jipWindow = new MZZ.jipWindow;
-
-/**
- * ?? MOVE TO simple/*
- * Cookie tools
- * Made by Vinnie Garcia
- */
-var Cookie = {
-    set: function(name, value, expires, path, domain, secure) {
-        document.cookie = name + "=" + escape(value) +
-        ((expires) ? "; expires=" + expires.toGMTString() : "") +
-        ((path) ? "; path=" + path : "") +
-        ((domain) ? "; domain=" + domain : "") +
-        ((secure) ? "; secure" : "");
-    },
-
-    get: function(name) {
-        var dc = document.cookie;
-        var prefix = name + "=";
-        var begin = dc.indexOf("; " + prefix);
-        if (begin == -1) {
-            begin = dc.indexOf(prefix);
-            if (begin != 0) return null;
-        } else {
-            begin += 2;
-        }
-        var end = document.cookie.indexOf(";", begin);
-        if (end == -1) {
-            end = dc.length;
-        }
-        return unescape(dc.substring(begin + prefix.length, end));
-    },
-
-    remove: function(name, path, domain) {
-        if (Cookie.get(name)) {
-            document.cookie = name + "=" +
-            ((path) ? "; path=" + path : "") +
-            ((domain) ? "; domain=" + domain : "") +
-            "; expires=Thu, 01-Jan-70 00:00:01 GMT";
-        }
-    }
-}
