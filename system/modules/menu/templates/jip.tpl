@@ -4,7 +4,7 @@
         <a href="{$jipItem.url}" title="{$jipItem.title}" onclick="if (jipMenu) jipMenu.show(this, '{$jipMenuId}_itemEdit', [
             {foreach name="langs" from=$available_langs item="lang"}
                 [
-                '{$lang->getLanguageName()}', '{$jipItem.url}?lang_id={$lang->getId()}', '{$jipItem.icon}', ''
+                '{$lang->getLanguageName()}', '{$jipItem.url}?lang_id={$lang->getId()}', {icon sprite=$jipItem.icon jip=true}, ''
                 ]
                 {if !$smarty.foreach.langs.last}, {/if}
             {/foreach}
