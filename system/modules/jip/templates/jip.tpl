@@ -10,7 +10,7 @@
 
 {add file="jip.css"}
 {add file="admin/iconsAdmin.css"}
-{add file="tiny_mce/tiny_mce.js" join=false}
+{add file="tiny_mce/tiny_mce_src.js" join=false}
 
 {add file="jip/fileLoader.js"}
 {add file="jip/window.js"}

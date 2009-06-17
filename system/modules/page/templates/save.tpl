@@ -13,7 +13,7 @@ tinyMCE.init({
     language : "ru",
     theme_advanced_buttons1_add : "fontselect,fontsizeselect",
     theme_advanced_buttons2_add : "separator,forecolor,backcolor,advsearchreplace",
-    theme_advanced_buttons2_add_before: "cut,copy,paste,pastetext,pasteword,separator,search,replace,separator",
+    theme_advanced_buttons2_add_before: "save,cut,copy,paste,pastetext,pasteword,separator,search,replace,separator",
     theme_advanced_buttons3_add_before : "insertdate,inserttime,preview,separator,tablecontrols,separator",
     theme_advanced_buttons3_add : "emotions,iespell,separator,print",
     theme_advanced_buttons4 : "ltr,rtl,separator,fullscreen,separator,insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,|,visualchars,nonbreaking",
@@ -37,24 +37,11 @@ tinyMCE.init({
 
 (function($) {
     toggleEditor = function(id) {
-        var elm = $('#' + id);
-        /*
-        var removeEditorLoadingStatus = function () {
-                var editorLoadingText = $('#editorLoadingText');
-                if (editorLoadingText.length > 0) {
-                    editorLoadingText.remove();
-                }
-                //editorLoadingText ? editorLoadingText.parentNode.removeChild(editorLoadingText) : false;
-        };*/
-
         if (tinyMCE.getInstanceById(id) == null) {
-            //elm.before('<div id="editorLoadingText"><strong>Загрузка редактора...</strong></div>');
             tinyMCE.execCommand('mceAddControl', false, id);
-            //removeEditorLoadingStatus();
             jipWindow.addTinyMCEId(id);
             $('#' + id + '_editorStatus').text('Выключить WYSIWYG-редактор');
         } else {
-            //removeEditorLoadingStatus();
             tinyMCE.execCommand('mceRemoveControl', false, id);
             jipWindow.deleteTinyMCEId(id);
             $('#' + id + '_editorStatus').text('Включить WYSIWYG-редактор');

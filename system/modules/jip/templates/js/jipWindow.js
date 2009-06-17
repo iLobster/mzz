@@ -35,7 +35,7 @@
                 'jip': []
             }; //стэк захайденных селектов для могучего IE
 
-            this.tinyMCEIds = []; //стэк tinyMCE
+            this.tinyMCEIds = {}; //стэк tinyMCE
             this.locker = false;    //локер
 
             this.lockerResize = function() {
@@ -57,7 +57,8 @@
                     this.window.zIndex(900);
                     this.windows[this.currentWindow - 1] = this.window;
                 }
-                this.stack[this.currentWindow] = new Array;
+                this.stack[this.currentWindow] = [];
+                this.tinyMCEIds[this.currentWindow] = [];
                 this.window = new MZZ.window($.extend({},this.options));
 
                 this.window.addButton('close', SITE_PATH + '/templates/images/jip/btn-close.png', '', function(){jipWindow.close()});                
@@ -89,10 +90,14 @@
                     this.window.content().find('select').addClass('mzz-ie-visibility');
                 }
 
-                if (this.tinyMCEIds[this.currentWindow]) {
-                    tinyMCE.execCommand('mceRemoveControl', false, this.tinyMCEIds[this.currentWindow]);
-                    jipWindow.deleteTinyMCEId(this.currentWindow);
+                //$(this.tinyMCEIds[this.currentWindow]).each(function(){console.log(this)});
+
+
+                for (var i = 0, l = this.tinyMCEIds[this.currentWindow].length; i < l; i++) {
+                    tinyMCE.execCommand('mceRemoveControl', false, this.tinyMCEIds[this.currentWindow][i]);
                 }
+
+                this.tinyMCEIds[this.currentWindow] = [];
                 
                 windows = (windows >= 0) ? windows : 1;
 
@@ -228,14 +233,14 @@
                     id = false;
                 }
 
-                var selects = new Array;
+                var selects = [];
 
                 if (id === false ) {
                     selects = this.selects.bodyWindow;
-                    this.selects.bodyWindow = new Array;
+                    this.selects.bodyWindow = [];
                 } else if(id == 'jips') {
                     selects = this.selects.jipWindow;
-                    this.selects.jipWindow = new Array;
+                    this.selects.jipWindow = [];
                 } else if(!$.isUndefined(this.selects.jip[id])) {
                     selects = this.selects.jip[id];
                     delete this.selects.jip[id];
@@ -248,17 +253,17 @@
         },
 
         addTinyMCEId: function(id) {
-            this.tinyMCEIds.push(id);
+            this.tinyMCEIds[this.currentWindow].push(id);
         },
 
         deleteTinyMCEId: function(id) {
             var tinyMCEIds = [];
-            for(var i in this.tinyMCEIds) {
-                if (!(id == this.tinyMCEIds[i])) {
-                    tinyMCEIds.push(this.tinyMCEIds[i]);
+            for (var i = 0, l = this.tinyMCEIds[this.currentWindow].length; i < l; i++) {
+                if (!(id == this.tinyMCEIds[this.currentWindow][i])) {
+                    tinyMCEIds.push(this.tinyMCEIds[this.currentWindow][i]);
                 }
             }
-            this.tinyMCEIds = tinyMCEIds;
+            this.tinyMCEIds[this.currentWindow] = tinyMCEIds;
         },
 
         successRequest: function(transport) {
