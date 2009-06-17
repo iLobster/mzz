@@ -42,13 +42,15 @@ class {{$controller_data.module}}{{$controller_data.name|ucfirst}}Controller ext
         $validator = new formValidator();
 
 {{foreach from=$map item=property key=field}}
+{{assign var="propertyType" value=$property.type|default:false}}
 {{if !isset($property.options) || !in_array('pk', $property.options) || !in_array('once', $property.options)}}
 $validator->add('required', '{{$controller_data.class}}[{{$field}}]', 'Field {{$field}} is required');
-{{if $property.type eq 'char'}}
+{{if $propertyType === 'char'}}
         $validator->add('length', '{{$controller_data.class}}[{{$field}}]', 'Field {{$field}} is out of length', array(0, {{$property.maxlength}}));
-{{else if $property.type eq 'int'}}
+{{elseif $propertyType === 'int'}}
         $validator->add('numeric', '{{$controller_data.class}}[{{$field}}]', 'Field {{$field}} is not numeric as expected');
-        $validator->add('range', '{{$controller_data.class}}[{{$field}}]', 'Field {{$field}} is out of range', array({{$property.range[0]}}, {{$property.range[1]}}));
+        {{assign var="propertyRange" value=$property.range|default:false}}{{if $propertyRange}}$validator->add('range', '{{$controller_data.class}}[{{$field}}]', 'Field {{$field}} is out of range', array({{$property.range[0]}}, {{$property.range[1]}}));
+        {{/if}}
 {{/if}}
 {{/if}}
         {{/foreach}}
