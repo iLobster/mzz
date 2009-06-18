@@ -80,6 +80,27 @@
                links[e] = '<span class="mzz-icon mzz-icon-' + this.ico + '">' + ((this.over) ? '<span class="mzz-overlay mzz-overlay-' + this.over + '">'  : '') + '<a href="' + this.url + '" class="mzz-jip-link" title="' + this.alt + '"></a>' + ((this.over) ? '</span>' : '') + '</span>';
            });
            return $(links.join(''));
+        },
+
+        toggleModule: function(id, img) {
+            var elm = $('#module-' + id + '-classes');
+            var cook = Cookie.get('mzz-devToolbarH');
+            cook = (!cook) ? [] : cook.split(',');
+
+            if (elm.length) {
+                elm.toggle();
+                var pos = $.inArray(id, cook);
+                if (elm.css('display') == 'none' && pos < 0) {
+                    $(img).attr({src: SITE_PATH + '/templates/images/exp_plus.png'});
+                    cook.push(id);
+                } else {
+                    $(img).attr({src: SITE_PATH + '/templates/images/exp_minus.png'});
+                    cook.splice(pos,1);
+                }
+            }
+
+            Cookie.set('mzz-devToolbarH', cook.join(','), new Date(new Date().getTime() + 50000000000), ((SITE_PATH == '') ? '/' : SITE_PATH));
+            return false;
         }
 
     }

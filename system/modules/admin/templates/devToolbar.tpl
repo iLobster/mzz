@@ -34,7 +34,7 @@
         <table id="module-{$name}" class="toolbar admin" cellspacing="0">
             <thead>
                 <tr class="first">
-                    <th class="first name">{$name}</th>
+                    <th class="first name"><img src="{$SITE_PATH}/templates/images/exp_{if isset($hiddenClasses.$name)}plus{else}minus{/if}.png" onclick="devToolbar.toggleModule('{$name}', this);" width="16" height="16" alt="expand/close classes list" title="expand/collapse classes" style="cursor: pointer">{$name}</th>
                     <th class="last actions">
                         {if not empty($module.editACL)}
                             <span class="mzz-icon mzz-icon-key"><a href="{url route=withId section="access" id="`$module.obj_id`" action="editACL"}" class="mzz-jip-link" title="Редактировать права доступа"></a></span>
@@ -48,7 +48,7 @@
                     </th>
                 </tr>
             </thead>
-            <tbody id="module-{$name}-classes">
+            <tbody id="module-{$name}-classes" {if isset($hiddenClasses.$name)}style="display: none"{/if}>
             {foreach from=$module.classes item=class key=id name=classes}
                 <tr id="class-{$class}" class="{if $smarty.foreach.classes.last}last{/if}">
                     <td class="first name">{$class}</td>
