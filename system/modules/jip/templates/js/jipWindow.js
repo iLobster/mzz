@@ -16,7 +16,6 @@
         init: function() {
             this.options = {
                     layout: '<div class="mzz-window-title mzz-window-drag" /><div class="mzz-window-content mzz-window-alsoResize" /><div class="mzz-window-footer"><div class="mzz-window-status" /></div><div class="mzz-window-icon" /><div class="mzz-window-buttons" /><div class="mzz-window-resizer" />',
-                    id: 'jip_window_' + this.currentWindow,
                     baseClass: 'mzz-jip-window',
                     draggable: true,
                     resizable: {'handles': 'se', 'minWidth': 650, 'minHeight': 150, 'alsoResize': true},
@@ -59,7 +58,7 @@
                 }
                 this.stack[this.currentWindow] = [];
                 this.tinyMCEIds[this.currentWindow] = [];
-                this.window = new MZZ.window($.extend({},this.options));
+                this.window = new MZZ.window($.extend({id: 'jip_window_' + this.currentWindow},this.options));
 
                 this.window.addButton('close', SITE_PATH + '/templates/images/jip/btn-close.png', '', function(){jipWindow.close()});                
                 this.window.top(this.window.top() + $(window).scrollTop());
