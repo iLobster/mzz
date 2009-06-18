@@ -50,8 +50,12 @@ class adminMapController extends simpleController
         $delete = array_diff_key($map, $schema);
 
         foreach ($add as $key => & $value) {
-            $value['accessor'] = 'get' . ucfirst($key);
-            $value['mutator'] = 'set' . ucfirst($key);
+            $key = explode('_', $key);
+            $key = array_map('ucfirst', $key);
+            $key = implode('', $key);
+
+            $value['accessor'] = 'get' . $key;
+            $value['mutator'] = 'set' . $key;
 
             if (isset($value['options']) && in_array('pk', $value['options'])) {
                 $value['options'][] = 'once';
