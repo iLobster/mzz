@@ -123,19 +123,19 @@ class requestRouteTest extends unitTestCase
 
     public function testAssembleWithLang()
     {
-        $route = new requestRoute('somepath/:controller/{:id}-:action/:default', array('default' => 'default'));
+        $route = new requestRoute('somepath/:controller/{:id}-:action/:default', array('default' => 'default', 'action' => 'view'));
         $route->enableLang();
         $this->assertEqual(
-            $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'view')),
-            'en/somepath/news/1-view'
+            $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'list', 'default' => 'default')),
+            'en/somepath/news/1-list'
         );
         $this->assertEqual(
             $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'view', 'lang' => 'ru')),
-            'ru/somepath/news/1-view'
+            'ru/somepath/news/1-'
         );
         $this->assertEqual(
             $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'view', 'lang' => '')),
-            'somepath/news/1-view'
+            'somepath/news/1-'
         );
     }
 

@@ -326,7 +326,7 @@ class requestRoute implements iRoute
 
         $break = -1;
         foreach (array_reverse($url_names, true) as $key => $val) {
-            if (isset($this->defaults[$val]) && $val != 'lang' && $url[$key] == $this->defaults[$val]) {
+            if ($val == '/' || (isset($this->defaults[$val]) && $val != 'lang' && $url[$key] == $this->defaults[$val])) {
                 $break = $key;
             } else {
                 break;
