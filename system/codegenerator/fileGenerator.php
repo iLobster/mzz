@@ -54,25 +54,35 @@ class fileGenerator
             'new' => $this->sub($new));
     }
 
-    public function delete($name)
+    public function delete($name, array $options = array())
     {
+        $name = $this->sub($name);
+
+        if (!is_file($name)) {
+            if (!in_array('ignore', $options)) {
+                throw new fileGeneratorExistsException($name);
+            }
+        } elseif (!is_writable($name)) {
+            throw new fileGeneratorNotWritableException($name);
+        }
+
         $this->scenario[] = array(
             'type' => 'delete',
-            'name' => $this->sub($name));
+            'name' => $name);
     }
 
     public function edit($name, fileTransformer $transformator)
     {
         $name = $this->sub($name);
 
+        if (!is_writable($name)) {
+            throw new fileGeneratorNotWritableException($name);
+        }
+
         $this->scenario[] = array(
             'type' => 'edit',
             'name' => $name,
             'transformator' => $transformator);
-
-        if (!is_writable($name)) {
-            throw new fileGeneratorNotWritableException($name);
-        }
     }
 
     public function run()

@@ -46,9 +46,9 @@ class adminDeleteClassController extends simpleController
 
         $generator = new fileGenerator($dest);
         try {
-            $generator->delete('actions/' . $class_name . '.ini');
-            $generator->delete('mappers/' . $class_name . 'Mapper.php');
-            $generator->delete($class_name . '.php');
+            $generator->delete('actions/' . $class_name . '.ini', array('ignore'));
+            $generator->delete('mappers/' . $class_name . 'Mapper.php', array('ignore'));
+            $generator->delete($class_name . '.php', array('ignore'));
 
             $generator->run();
         } catch (Exception $e) {
