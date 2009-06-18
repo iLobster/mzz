@@ -83,7 +83,7 @@ class adminMapController extends simpleController
                 $map_str = preg_replace('/^/m', str_repeat(' ', 4) . '\\1', $map_str);
                 $map_str = trim($map_str);
 
-                $fileGenerator->edit($class['name'] . 'Mapper.php', new fileRegexpSearchReplaceTransformer('/protected \$map = array\s*\(.*?\);\r\n/s', 'protected $map = ' . $map_str . ";\r\n"));
+                $fileGenerator->edit($class['name'] . 'Mapper.php', new fileRegexpSearchReplaceTransformer('/(protected|public) \$map = array\s*\(.*?\);\r\n/s', 'protected $map = ' . $map_str . ";\r\n"));
 
                 $fileGenerator->run();
             } catch (Exception $e) {
