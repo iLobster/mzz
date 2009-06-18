@@ -15,19 +15,6 @@
 
 <!-- модули и классы -->
 <div id="modulesAndClasses" class="toolbarBlock">
-{* @todo: remove this, if not needed anymore *}
-<!--test for adding module / class   <a href='javascript: devToolbar.addModule("0000", [
-{ldelim}url: "{url route="withId" section="admin" id=1 action="editModule"}", ico: "block", over: "edit", alt: "Редактировать модуль"{rdelim},
-{ldelim}url: "{url route="withId" section="admin" id=1 action="deleteModule"}", ico: "block", over: "del", alt: "Удалить модуль"{rdelim},
-{ldelim}url: "{url route="withId" section="admin" id=1 action="addClass"}", ico: "script", over: "add", alt: "Добавить класс"{rdelim},
-{ldelim}url: "{url route="withId" section="admin" id=1 action="listCfg"}", ico: "wrench", alt: "Параметры конфигурации"{rdelim}
-]);'>test</a>
-
-<a href='javascript: devToolbar.addClass("test", "0000", [
-{ldelim}url: "{url route="withId" section="admin" id=1 action="listActions"}", ico: "cog", over: "edit", alt: "Действия классас"{rdelim},
-{ldelim}url: "{url route="withId" section="admin" id=1 action="editClass"}", ico: "script", over: "edit", alt: "Редактировать класс"{rdelim},
-{ldelim}url: "{url route="withId" section="admin" id=1 action="deleteClass"}", ico: "script", over: "del", alt: "Удалить класс"{rdelim}
-]);'>test class</a>-->
     <span class="toolbarSectionName"><strong>Модули</strong> и классы <span class="mzz-icon mzz-icon-block"><span class="mzz-overlay mzz-overlay-add"><a href="{url route="default2" section="admin" action="addModule"}" class="mzz-jip-link"></a></span></span></span>
     {foreach from=$modules item=module key=name}
         {assign var="count" value=$module.classes|@sizeof}

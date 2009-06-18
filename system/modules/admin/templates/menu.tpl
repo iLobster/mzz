@@ -9,7 +9,7 @@
             <li id="mzz-adm-menu-{$moduleName}" class="{if count($module.actions) > 1 || (count($module.actions) === 1 && !isset($module.actions.admin))}mzz-menu-has-sub{/if} {if $moduleName eq $current_module}active{/if}">
                 <div class="mzz-menu-item">
                     <div class="mzz-menu-title">
-                        {if isset($module.actions.admin)}<span class="mzz-icon mzz-icon-block"></span><a href="{url route=withAnyParam section='admin' name=$moduleName action='admin'}">{/if}{$module.title}{if isset($module.actions.admin)}</a>{else}<span class="mzz-icon mzz-icon-block"></span>{/if}
+                        {if isset($module.actions.admin)}<a href="{url route=withAnyParam section='admin' name=$moduleName action='admin'}">{/if}<span class="mzz-icon mzz-icon-block"></span>{$module.title}{if isset($module.actions.admin)}</a>{/if}
                     </div>
                     <div class="mzz-menu-toggle"></div>
                 </div>
