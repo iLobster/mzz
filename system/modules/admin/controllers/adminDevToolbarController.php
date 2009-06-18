@@ -29,9 +29,8 @@ class adminDevToolbarController extends simpleController
 
         $sections = $this->toolkit->getSectionsList();
 
-        //var_dump();
         $hiddenClasses = array_flip(explode(',', $this->request->getString('mzz-devToolbarH', SC_COOKIE)));
-        
+
         $this->smarty->assign('modules', $info);
         $this->smarty->assign('sections', $sections);
         $this->smarty->assign('hiddenClasses', $hiddenClasses);

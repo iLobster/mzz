@@ -63,10 +63,16 @@ class fileGenerator
 
     public function edit($name, fileTransformer $transformator)
     {
+        $name = $this->sub($name);
+
         $this->scenario[] = array(
             'type' => 'edit',
-            'name' => $this->sub($name),
+            'name' => $name,
             'transformator' => $transformator);
+
+        if (!is_writable($name)) {
+            throw new fileGeneratorNotWritableException($name);
+        }
     }
 
     public function run()
@@ -100,9 +106,6 @@ class fileGenerator
 
     private function run_edit($data)
     {
-        if (!is_writable($data['name'])) {
-            throw new fileGeneratorNotWritableException($data['name']);
-        }
         file_put_contents($data['name'], $data['transformator']->transform(file_get_contents($data['name'])));
     }
 
