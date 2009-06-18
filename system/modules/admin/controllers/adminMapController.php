@@ -49,6 +49,10 @@ class adminMapController extends simpleController
         $add = array_diff_key($schema, $map);
         $delete = array_diff_key($map, $schema);
 
+        $this->filterFakeFields($delete);
+        $this->filterRelatedFields($delete, $mapper);
+        $this->filterFakeFields($map);
+
         foreach ($add as $key => & $value) {
             $key = explode('_', $key);
             $key = array_map('ucfirst', $key);
@@ -74,6 +78,7 @@ class adminMapController extends simpleController
                 $fileGenerator = new fileGenerator($dest . '/mappers');
 
                 $map_str = var_export($map, true);
+
                 $map_str = preg_replace('/^( +)/m', '$1$1', $map_str);
                 $map_str = preg_replace('/^/m', str_repeat(' ', 4) . '\\1', $map_str);
                 $map_str = trim($map_str);
@@ -90,6 +95,24 @@ class adminMapController extends simpleController
         $this->smarty->assign('deleted', array_keys($delete));
 
         return $this->smarty->fetch('admin/map.tpl');
+    }
+
+    private function filterFakeFields(&$array)
+    {
+        foreach ($array as $key => $val) {
+            if (isset($val['options']) && in_array('fake', $val['options'])) {
+                unset($array[$key]);
+            }
+        }
+    }
+
+    private function filterRelatedFields(&$array, $mapper)
+    {
+        $relations = $mapper->getRelations();
+
+        foreach (array_keys($relations->manyToMany() + $relations->oneToOneBack()) as $key) {
+            unset($array[$key]);
+        }
     }
 }
 

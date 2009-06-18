@@ -472,6 +472,11 @@ abstract class mapper
         }
         return $this->module;
     }
+
+    public function getRelations()
+    {
+        return $this->relations;
+    }
 }
 
 ?>

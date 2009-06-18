@@ -51,7 +51,7 @@ class userMapper extends mapper
      */
     protected $class = 'user';
 
-    public $map = array(
+    protected $map = array(
         'id' => array(
             'accessor' => 'getId',
             'mutator' => 'setId',
