@@ -70,16 +70,20 @@ class adminMapController extends simpleController
         $dest = current($adminGeneratorMapper->getDests(true, $module['name']));
 
         if (sizeof($add) || sizeof($delete)) {
-            $fileGenerator = new fileGenerator($dest . '/mappers');
+            try {
+                $fileGenerator = new fileGenerator($dest . '/mappers');
 
-            $map_str = var_export($map, true);
-            $map_str = preg_replace('/^( +)/m', '$1$1', $map_str);
-            $map_str = preg_replace('/^/m', str_repeat(' ', 4) . '\\1', $map_str);
-            $map_str = trim($map_str);
+                $map_str = var_export($map, true);
+                $map_str = preg_replace('/^( +)/m', '$1$1', $map_str);
+                $map_str = preg_replace('/^/m', str_repeat(' ', 4) . '\\1', $map_str);
+                $map_str = trim($map_str);
 
-            $fileGenerator->edit($class['name'] . 'Mapper.php', new fileRegexpSearchReplaceTransformer('/protected \$map = array\s*\(.*?\);\r\n/s', 'protected $map = ' . $map_str . ";\r\n"));
+                $fileGenerator->edit($class['name'] . 'Mapper.php', new fileRegexpSearchReplaceTransformer('/protected \$map = array\s*\(.*?\);\r\n/s', 'protected $map = ' . $map_str . ";\r\n"));
 
-            $fileGenerator->run();
+                $fileGenerator->run();
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
 
         $this->smarty->assign('added', $add);

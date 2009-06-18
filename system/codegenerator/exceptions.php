@@ -1,6 +1,10 @@
 <?php
 
-class directoryGeneratorException extends mzzRuntimeException
+class generatorException extends mzzRuntimeException
+{
+}
+
+class directoryGeneratorException extends generatorException
 {
 }
 
@@ -24,13 +28,23 @@ class directoryGeneratorNotEmptyException extends directoryGeneratorException
     }
 }
 
-class fileGeneratorExistsException extends directoryGeneratorException
+class fileGeneratorExistsException extends generatorException
 {
     public function __construct($file)
     {
         $message = 'Cannot write to file \'' . $file . '\'. File already exists.';
         parent::__construct($message);
         $this->setName('Exists file generator Exception');
+    }
+}
+
+class fileGeneratorNotWritableException extends generatorException
+{
+    public function __construct($file)
+    {
+        $message = 'Cannot write to file \'' . $file . '\'. File is not writable.';
+        parent::__construct($message);
+        $this->setName('Not writable file generator Exception');
     }
 }
 

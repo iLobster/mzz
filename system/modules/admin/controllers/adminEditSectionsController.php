@@ -50,7 +50,7 @@ class adminEditSectionsController extends simpleController
 
                 $filegenerator->run();
             } catch (Exception $e) {
-                return $e;
+                return $e->getMessage();
             }
 
             return jipTools::redirect();

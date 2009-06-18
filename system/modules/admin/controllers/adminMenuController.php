@@ -33,6 +33,11 @@ class adminMenuController extends simpleController
             $acl = new acl($this->toolkit->getUser());
 
             foreach ($actions as $className => $action) {
+                try {
+                    $this->toolkit->getSectionName($moduleName);
+                } catch (mzzRuntimeException $e) {
+                    break;
+                }
                 $acl->register($obj_id, $className);
                 $acl = new acl($this->toolkit->getUser(), $obj_id);
 

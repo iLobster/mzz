@@ -29,14 +29,17 @@ class adminAdminController extends simpleController
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
 
         $modules = $adminMapper->getModules();
+        $sections = $this->toolkit->getSectionsList();
 
         if (is_null($module) || $module == 'admin') {
             return $this->mainAdminPage();
         }
 
-        if (isset($modules[$module])) {
+        if (isset($modules[$module]) && in_array($module, $sections)) {
             return $this->forward($module, $action);
         }
+
+        $this->smarty->assign('module', $module);
 
         return $this->smarty->fetch('admin/noModule.tpl');
     }

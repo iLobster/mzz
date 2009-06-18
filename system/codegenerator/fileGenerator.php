@@ -100,6 +100,9 @@ class fileGenerator
 
     private function run_edit($data)
     {
+        if (!is_writable($data['name'])) {
+            throw new fileGeneratorNotWritableException($data['name']);
+        }
         file_put_contents($data['name'], $data['transformator']->transform(file_get_contents($data['name'])));
     }
 
