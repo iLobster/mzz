@@ -20,7 +20,7 @@
                 {if $isEdit}
                     {$data.dest}
                 {else}
-                    {form->select name="dest" options=$dests one_item_freeze=1}{$errors->get('dest')}
+                    {form->select name="dest" options=$dests one_item_freeze=1 value=app}{$errors->get('dest')}
                 {/if}
             </td>
         </tr>
