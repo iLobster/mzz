@@ -311,7 +311,7 @@
         {
             if (this.window) {
                 this.setStyle('error').setTitle('error');
-                this.window.content('<p align=center>' + MZZ.jipI18n[SITE_LANG].error + '</p>');
+                this.window.content('<p align=center>' + MZZ.jipI18n[SITE_LANG2].error + '</p>');
             }
         },
 
@@ -319,7 +319,7 @@
         {
             if (this.window) {
                 this.setStyle('default').setTitle('loading...');
-                this.window.content('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[SITE_LANG].loading + '<br /><a href="javascript: void(jipWindow.close());">' + MZZ.jipI18n[SITE_LANG].cancel + '</a></div>');
+                this.window.content('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[SITE_LANG2].loading + '<br /><a href="javascript: void(jipWindow.close());">' + MZZ.jipI18n[SITE_LANG2].cancel + '</a></div>');
             }
         },
 
@@ -327,7 +327,7 @@
         {
             if (this.window) {
                 this.setStyle('default').setTitle('Refresh');
-                this.window.content('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[SITE_LANG].refresh + '</div>');
+                this.window.content('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[SITE_LANG2].refresh + '</div>');
             }
         },
 
@@ -402,6 +402,8 @@
     $('a.mzz-jip-link').live('click', MZZ.jipLinkObserver);
     $('a.jipLink').live('click', MZZ.jipLinkObserver); //old links
 
+})(jQuery);
+
     MZZ.jipI18n = {
         en: {
             loading: 'The page is loading...',
@@ -428,6 +430,5 @@
     {
         var SITE_LANG = 'en';
     }
-})(jQuery);
-
+    
 var jipWindow = new MZZ.jipWindow;
