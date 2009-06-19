@@ -116,6 +116,10 @@ abstract class formElement
             unset($attributes['content']);
         }
 
+        if (isset($attributes['useDefault'])) {
+            unset($attributes['useDefault']);
+        }
+
         if ($this->isFreeze($attributes)) {
             return isset($content) ? $content : $attributes['value'];
         }
