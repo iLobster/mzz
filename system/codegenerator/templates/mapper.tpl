@@ -42,6 +42,8 @@ class {{$mapper_data.mapper_name}} extends simpleMapper
      */
     protected $className = '{{$mapper_data.doname}}';
 
+    protected $map = array();
+
     /**
      * Возвращает доменный объект по аргументам
      *
