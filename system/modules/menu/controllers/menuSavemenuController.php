@@ -31,8 +31,8 @@ class menuSavemenuController extends simpleController
         $action = $this->request->getAction();
         $isEdit = ($action == 'editmenu');
 
-        $name = $this->request->getString('name');
-        $menu = $isEdit ? $menuMapper->searchByName($name) : $menuMapper->create();
+        $id = $this->request->getInteger('id');
+        $menu = $isEdit ? $menuMapper->searchById($id) : $menuMapper->create();
 
         if (!$menu) {
             return $this->forward404($menuMapper);

@@ -36,8 +36,8 @@ class menuSaveController extends simpleController
         $id = $this->request->getInteger('id');
 
         if ($isRoot) {
-            $menuName = $this->request->getString('name');
-            $menu = $menuMapper->searchByName($menuName);
+
+            $menu = $menuMapper->searchById($id);
             if (!$menu) {
                 return $this->forward404($menuMapper);
             }

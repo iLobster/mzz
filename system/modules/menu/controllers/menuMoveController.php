@@ -24,10 +24,10 @@ class menuMoveController extends simpleController
 {
     public function getView()
     {
-        $name = $this->request->getString('name');
+        $id = $this->request->getInteger('id');
         $menuMapper = $this->toolkit->getMapper('menu', 'menu');
 
-        $menu = $menuMapper->searchByName($name);
+        $menu = $menuMapper->searchById($id);
 
         if ($menu) {
             $tree = $this->request->getArray('menuTree_' . $menu->getId(), SC_POST);

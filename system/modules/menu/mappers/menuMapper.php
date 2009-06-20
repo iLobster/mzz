@@ -104,10 +104,12 @@ class menuMapper extends mapper
     {
         if (isset($args['name'])) {
             $menu = $this->searchByName($args['name']);
+        } elseif (isset($args['id'])) {
+            $menu = $this->searchById($args['id']);
+        }
 
-            if ($menu) {
-                return $menu;
-            }
+        if (isset($menu) && $menu) {
+            return $menu;
         }
 
         throw new mzzDONotFoundException();

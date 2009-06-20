@@ -25,13 +25,12 @@ class menuDeletemenuController extends simpleController
     protected function getView()
     {
         $menuMapper = $this->toolkit->getMapper('menu', 'menu');
-        $name = $this->request->getString('name');
+        $id = $this->request->getInteger('id');
 
-        $menu = $menuMapper->searchByName($name);
+        $menu = $menuMapper->searchById($id);
 
         if ($menu) {
             $menuMapper->delete($menu);
-
         }
 
         return jipTools::redirect();
