@@ -58,7 +58,7 @@ class relation
                         $map[$val['foreign_key']]['mutator']);
 
                     $type = 'oneToOne';
-                    if (isset($val['local_key'])) {
+                    if (isset($val['local_key']) && $val['local_key'] != $key) {
                         unset($val['join_type']);
                         $tmp['local_key'] = $val['local_key'];
                         $type .= 'Back';
