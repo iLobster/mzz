@@ -33,7 +33,6 @@ class menuViewController extends simpleController
         }
 
         $this->smarty->assign('menu', $menu);
-        $this->smarty->assign('prefix', $prefix);
         return $this->fetch('menu/view.tpl');
     }
 }
