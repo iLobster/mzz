@@ -107,13 +107,12 @@ class menuSaveController extends simpleController
             }
         }
 
-        $url = new url($isRoot ? 'withAnyParam' : 'withId');
+        $url = new url('withId');
+        $url->setAction($action);
         if (!$isRoot) {
-            $url->setAction($action);
             $url->add('id', $isEdit ? $item->getId() : $id);
         } else {
-            $url->add('action', 'createRoot');
-            $url->add('name', $menu->getName());
+            $url->add('id', $menu->getId());
         }
 
         $this->smarty->assign('item', $item);

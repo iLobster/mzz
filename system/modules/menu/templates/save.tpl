@@ -8,14 +8,6 @@
                 if (typeId > 0) {
                     $('#properties').empty().append('<img id="loadingImg" src="' + SITE_PATH +  '/templates/images/menu/propsload.gif" alt="Идёт загрузка..." />');
                     $('#properties').load(url, {type: typeId, onlyProperties: true});
-                    /*$('properties').update('<img id="loadingImg" src="' + SITE_PATH +  '/templates/images/menu/propsload.gif" alt="Идёт загрузка..." />');
-                    new Ajax.Request(url, {
-                        method: 'post',
-                        parameters: {type: typeId, onlyProperties: true},
-                        onSuccess: function(transport) {
-                            $('properties').update(transport.responseText);
-                        }
-                    });*/
                 } else {
                     $('#properties').empty().text('<strong>Укажите тип</strong>');
                 }
