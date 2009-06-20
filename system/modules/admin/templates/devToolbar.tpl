@@ -27,9 +27,7 @@
                             <span class="mzz-icon mzz-icon-key"><a href="{url route=withId section="access" id="`$module.obj_id`" action="editACL"}" class="mzz-jip-link" title="Редактировать права доступа"></a></span>
                         {/if}
                         <span class="mzz-icon mzz-icon-block"><span class="mzz-overlay mzz-overlay-edit"><a href="{url route="withId" section="admin" id=$module.id action="editModule"}" class="mzz-jip-link" title="Редактировать модуль"></a></span></span>
-                        {if $count eq 0}
-                            <span class="mzz-icon mzz-icon-block"><span class="mzz-overlay mzz-overlay-del"><a href="{url route="withId" section="admin" id=$module.id action="deleteModule"}" class="mzz-jip-link" title="Удалить модуль"></a></span></span>
-                        {/if}
+                        <span class="mzz-icon mzz-icon-block"><span class="mzz-overlay mzz-overlay-del"><a href="{url route="withId" section="admin" id=$module.id action="deleteModule"}" class="mzz-jip-link" title="Удалить модуль"></a></span></span>
                         <span class="mzz-icon mzz-icon-script"><span class="mzz-overlay mzz-overlay-add"><a href="{url route="withId" section="admin" id=$module.id action="addClass"}" class="mzz-jip-link" title="Добавить класс"></a></span></span>
                         <span class="mzz-icon mzz-icon-wrench"><a href="{url route="withId" section="config" id=$name action="list"}" class="mzz-jip-link" title="Редактировать опции модуля"></a></span>
                     </th>

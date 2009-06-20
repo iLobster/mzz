@@ -37,10 +37,10 @@ class adminDeleteModuleController extends simpleController
             return $controller->run();
         }
 
-        if (sizeof($modules[$id]['classes'])) {
+        /*if (sizeof($modules[$id]['classes'])) {
             $controller = new messageController(i18n::getMessage('module.error.cannot_delete', 'admin'), messageController::WARNING);
             return $controller->run();
-        }
+        }*/
 
         $dest = current($adminGeneratorMapper->getDests(true, $modules[$id]['name']));
         $dest = pathinfo($dest, PATHINFO_DIRNAME);
@@ -54,9 +54,17 @@ class adminDeleteModuleController extends simpleController
             return $controller->run();
         }
 
+        $this->deleteClasses(array_keys($modules[$id]['classes']), $adminGeneratorMapper);
         $adminGeneratorMapper->deleteModule($id);
 
         return jipTools::redirect();
+    }
+
+    private function deleteClasses(array $classes, adminGeneratorMapper $adminGeneratorMapper)
+    {
+        foreach ($classes as $class_id) {
+            $adminGeneratorMapper->deleteClass($class_id);
+        }
     }
 }
 

@@ -122,8 +122,15 @@ class directoryGenerator
 
     private function delete_recursive($dir)
     {
-        foreach (glob($dir . '/*') as $nested) {
-            $this->delete_recursive($nested);
+        foreach (scandir($dir) as $nested) {
+            $name = $dir . DIRECTORY_SEPARATOR . $nested;
+            if ($nested != '.' && $nested != '..') {
+                if (is_dir($name)) {
+                    $this->delete_recursive($name);
+                } else {
+                    unlink($name);
+                }
+            }
         }
 
         rmdir($dir);
