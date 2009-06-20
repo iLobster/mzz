@@ -30,11 +30,13 @@ abstract class simpleSQLGenerator
      */
     public function quote($value)
     {
+        $type = gettype($value);
+
         if (is_null($value)) {
             return 'NULL';
-        } elseif (is_numeric($value)) {
+        } elseif ($type == 'integer') {
             return $value;
-        } elseif (is_bool($value)) {
+        } elseif ($type == 'boolean') {
             return $value ? 'true' : 'false';
         }
 
