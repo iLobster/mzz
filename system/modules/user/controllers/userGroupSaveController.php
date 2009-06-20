@@ -47,7 +47,7 @@ class userGroupSaveController extends simpleController
             }
 
             $name = $this->request->getString('name', SC_POST);
-            $is_default = $this->request->getBoolean('is_default', SC_POST);
+            $is_default = $this->request->getInteger('is_default', SC_POST);
             $group->setName($name);
             $group->setIsDefault($is_default);
             $groupMapper->save($group);
