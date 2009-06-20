@@ -4,7 +4,7 @@
 (function($) {{/literal}
     {foreach from=$routesParts item="parts" key="routeName"}
     {strip}
-    routeMap.{$routeName} = new Array(
+    routeMap['{$routeName}'] = new Array(
     {foreach from=$parts item="part" name="partsIteration"}
     {assign var="partName" value=$part.name}
     {ldelim}name: '{$partName}', isVar: '{$part.isVar}', regex: '{$part.regex}', value: '{$part.value}'{rdelim}{if !$smarty.foreach.partsIteration.last}, {/if}
