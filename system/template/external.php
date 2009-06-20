@@ -77,6 +77,8 @@ function generateSource(Array $files, iResolver $resolver, $headers)
     $filemtime = null;
 
     foreach ($files as $file) {
+        $file = preg_replace('![^a-z\d_\-/.]!i', '', $file);
+
         $file = str_replace(array_keys($fileNameReplacePatterns), $fileNameReplacePatterns, $file);
         $ext = substr(strrchr($file, '.'), 1);
         $filePath = $resolver->resolve($file);
