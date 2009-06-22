@@ -42,7 +42,12 @@ class adminMapController extends simpleController
 
         $mapper = $this->toolkit->getMapper($module['name'], $class['name']);
 
-        $schema = $adminGeneratorMapper->getTableSchema($mapper->table());
+        try {
+            $schema = $adminGeneratorMapper->getTableSchema($mapper->table());
+        } catch (PDOException $e) {
+            $controller = new messageController($e->getMessage(), messageController::WARNING);
+            return $controller->run();
+        }
 
         $map = $mapper->map();
 
