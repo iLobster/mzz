@@ -58,18 +58,7 @@ class adminMapController extends simpleController
         $this->filterRelatedFields($delete, $mapper);
         $this->filterFakeFields($map);
 
-        foreach ($add as $key => & $value) {
-            $key = explode('_', $key);
-            $key = array_map('ucfirst', $key);
-            $key = implode('', $key);
-
-            $value['accessor'] = 'get' . $key;
-            $value['mutator'] = 'set' . $key;
-
-            if (isset($value['options']) && in_array('pk', $value['options'])) {
-                $value['options'][] = 'once';
-            }
-        }
+        $add = $adminGeneratorMapper->mapFieldsFormatter($add);
 
         $map = array_merge($map, $add);
         foreach (array_keys($delete) as $key) {
@@ -82,13 +71,9 @@ class adminMapController extends simpleController
             try {
                 $fileGenerator = new fileGenerator($dest . '/mappers');
 
-                $map_str = var_export($map, true);
+                $map_str = $adminGeneratorMapper->generateMapString($map);
 
-                $map_str = preg_replace('/^( +)/m', '$1$1', $map_str);
-                $map_str = preg_replace('/^/m', str_repeat(' ', 4) . '\\1', $map_str);
-                $map_str = trim($map_str);
-
-                $fileGenerator->edit($class['name'] . 'Mapper.php', new fileRegexpSearchReplaceTransformer('/(protected|public) \$map = array\s*\(.*?\);\r\n/s', 'protected $map = ' . $map_str . ";\r\n"));
+                $fileGenerator->edit($class['name'] . 'Mapper.php', new fileRegexpSearchReplaceTransformer('/(protected|public) \$map = array\s*\(.*?\);\r\n/s', '\\1 $map = ' . $map_str . ";\r\n"));
 
                 $fileGenerator->run();
             } catch (Exception $e) {

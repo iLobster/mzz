@@ -47,7 +47,7 @@ class {{$mapper_data.name}}Mapper extends mapper
      *
      * @var array
      */
-    protected $map = array();
+    protected $map = {{$mapper_data.map}};
 }
 
 ?>

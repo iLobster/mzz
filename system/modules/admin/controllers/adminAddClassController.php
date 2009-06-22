@@ -81,6 +81,14 @@ class adminAddClassController extends simpleController
                 $this->smartyBrackets();
 
                 try {
+                    try {
+                        $schema = $adminGeneratorMapper->getTableSchema($table);
+                        $map = $adminGeneratorMapper->mapFieldsFormatter($schema);
+                        $map_str = $adminGeneratorMapper->generateMapString($map);
+                    } catch (PDOException $e) {
+                        $map_str = 'array()';
+                    }
+
                     $fileGenerator = new fileGenerator($data['dest']);
 
                     $doData = array(
@@ -93,7 +101,8 @@ class adminAddClassController extends simpleController
                     $doData = array(
                         'name' => $name,
                         'module' => $module_name,
-                        'table' => $table);
+                        'table' => $table,
+                        'map' => $map_str);
                     $this->smarty->assign('mapper_data', $doData);
                     $mapperContents = $this->smarty->fetch('admin/generator/mapper.tpl');
                     $fileGenerator->create($this->mappers($name), $mapperContents);

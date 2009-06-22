@@ -158,6 +158,35 @@ class adminGeneratorMapper extends mapper
 
         return $result;
     }
+
+    public function mapFieldsFormatter($map)
+    {
+        foreach ($map as $key => & $value) {
+            $key = explode('_', $key);
+            $key = array_map('ucfirst', $key);
+            $key = implode('', $key);
+
+            $value['accessor'] = 'get' . $key;
+            $value['mutator'] = 'set' . $key;
+
+            if (isset($value['options']) && in_array('pk', $value['options'])) {
+                $value['options'][] = 'once';
+            }
+        }
+
+        return $map;
+    }
+
+    public function generateMapString($map)
+    {
+        $map_str = var_export($map, true);
+
+        $map_str = preg_replace('/^( +)/m', '$1$1', $map_str);
+        $map_str = preg_replace('/^/m', str_repeat(' ', 4) . '\\1', $map_str);
+        $map_str = trim($map_str);
+
+        return $map_str;
+    }
 }
 
 ?>
