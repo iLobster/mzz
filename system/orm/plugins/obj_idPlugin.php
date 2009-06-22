@@ -11,7 +11,7 @@ class obj_idPlugin extends observer
         $map[$this->options['obj_id_field']] = array(
             'accessor' => 'getObjId',
             'mutator' => 'setObjId',
-            'options' => array('once')
+            'options' => array('once', 'plugin')
         );
     }
 

@@ -11,3 +11,6 @@
         {$field}{if !$smarty.foreach.deleted.last}, {/if}
     {/foreach}
 {/if}
+{if sizeof($deleted) + sizeof($added) == 0}
+{_ map.nothing_changed}
+{/if}

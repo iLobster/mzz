@@ -100,7 +100,7 @@ class adminMapController extends simpleController
     private function filterFakeFields(&$array)
     {
         foreach ($array as $key => $val) {
-            if (isset($val['options']) && in_array('fake', $val['options'])) {
+            if (isset($val['options']) && (in_array('fake', $val['options']) || in_array('plugin', $val['options']))) {
                 unset($array[$key]);
             }
         }
@@ -110,7 +110,7 @@ class adminMapController extends simpleController
     {
         $relations = $mapper->getRelations();
 
-        foreach (array_keys($relations->manyToMany() + $relations->oneToOneBack()) as $key) {
+        foreach (array_keys($relations->manyToMany() + $relations->oneToOneBack() + $relations->oneToMany()) as $key) {
             unset($array[$key]);
         }
     }
