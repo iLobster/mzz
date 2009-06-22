@@ -61,11 +61,13 @@ class menuSaveController extends simpleController
             $menu = $item->getMenu();
 
             if ($typeId) {
-                $item->merge(array('type_id' => $typeId));
-                //$objectArray['type_id'] = $typeId;
-                //$item = $itemMapper->createItemFromRow($objectArray);
+                $objectArray = $item->export();
+                $objectArray['type_id'] = $typeId;
+                $item = $itemMapper->createItemFromRow($objectArray);
+                unset($objectArray);
+            } else {
+                $typeId = $item->getType();
             }
-            $typeId = $item->getType();
         } else {
             $types = $itemMapper->getMenuItemsTypes();
             $item = (isset($types[$typeId])) ? $itemMapper->create($typeId) : null;
@@ -95,7 +97,9 @@ class menuSaveController extends simpleController
                 $item->setTitle($title);
                 $item->setMenu($menu);
 
+                //simple hack for mark this field changed
                 $item->setType($item->getType());
+
                 if (!$isEdit) {
                     $parent = ($isRoot) ? 0 : $parentItem->getId();
                     $item->setParent($parent);
@@ -114,6 +118,8 @@ class menuSaveController extends simpleController
         } else {
             $url->add('id', $menu->getId());
         }
+
+        var_dump($validator->getErrors()->export());
 
         $this->smarty->assign('item', $item);
         $this->smarty->assign('request', $this->request);

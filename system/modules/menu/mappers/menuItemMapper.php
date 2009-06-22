@@ -137,7 +137,6 @@ class menuItemMapper extends mapper
         return $this->searchOneByCriteria($criteria);
     }
 
-
     public function move(menuItem $item, $target)
     {
         if ($target == 'up' || $target == 'down') {
@@ -220,20 +219,7 @@ class menuItemMapper extends mapper
 
     public function createItemFromRow($row)
     {
-        switch ($row['type_id']) {
-            case self::ITEMTYPE_ADVANCED:
-                $className = 'advancedMenuItem';
-                break;
-
-            case self::ITEMTYPE_EXTERNAL :
-                $className = 'externalMenuItem';
-                break;
-
-            default:
-                $type_id = self::ITEMTYPE_SIMPLE;
-                $className = 'simpleMenuItem';
-                break;
-        }
+        list($type, $className) = $this->getTypeAndClassByTypeId($row['type_id']);
         fileLoader::load('menu/items/' . $className);
 
         $oldClassName = $this->class;
@@ -248,7 +234,22 @@ class menuItemMapper extends mapper
         if ($type === null) {
             return parent::create();
         }
-        switch ($type) {
+
+        list($type, $className) = $this->getTypeAndClassByTypeId($type);
+
+        fileLoader::load('menu/items/' . $className);
+
+        $oldClassName = $this->class;
+        $this->class = $className;
+        $object = parent::create();
+        $object->merge(array('type_id' => $type));
+        $this->class = $oldClassName;
+        return $object;
+    }
+
+    public function getTypeAndClassByTypeId($typeId)
+    {
+        switch ($typeId) {
             case self::ITEMTYPE_ADVANCED:
                 $className = 'advancedMenuItem';
                 break;
@@ -258,17 +259,12 @@ class menuItemMapper extends mapper
                 break;
 
             default:
-                $type_id = self::ITEMTYPE_SIMPLE;
+                $typeId = self::ITEMTYPE_SIMPLE;
                 $className = 'simpleMenuItem';
                 break;
         }
-        fileLoader::load('menu/items/' . $className);
 
-        $oldClassName = $this->class;
-        $this->class = $className;
-        $object = parent::create();
-        $this->class = $oldClassName;
-        return $object;
+        return array($typeId, $className);
     }
 
     private function getObjId()

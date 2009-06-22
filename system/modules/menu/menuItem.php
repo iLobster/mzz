@@ -26,7 +26,6 @@ abstract class menuItem extends entity
     protected $isActive = null;
     protected $childrens = array();
     protected $arguments = null;
-    protected $typeId;
     protected $urlLang;
     protected $urlLangSpecified;
 
