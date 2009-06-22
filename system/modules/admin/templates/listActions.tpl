@@ -6,6 +6,7 @@
     </tr>
     {foreach from=$actions item=action key=key}
         <tr>
+            <td>{if isset($action.icon)}{icon sprite=$action.icon active=true}{/if}</td>
             <td width="25%">{$key}</td>
             <td width="60%">{if !empty($action.title)}{$action.title}{else}<span style="color: #999;">названия нет</span>{/if}</td>
             <td style="width: 15%; text-align: right;">
