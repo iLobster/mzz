@@ -3,7 +3,7 @@
     <div class="bar">
         <div class="siteInfo">
             <div class="glass">
-                <a href="{$SITE_PATH}" class="logo" rel="homepage">www.mzz.ru</a>
+                <a href="{$SITE_PATH}/" class="logo" rel="homepage">www.mzz.ru</a>
             </div>
         </div>
         <div class="loginInfo">
