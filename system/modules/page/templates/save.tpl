@@ -72,8 +72,6 @@ tinyMCE.init({
         <td style='width: 15%;'>{form->caption name="page[description]" value="Описание"}</td>
         <td style='width: 85%;'>{form->text name="page[description]" value=$page->getDescription() size="60"}&nbsp;{form->select name="page[descriptionReset]" options="options добавить|заменить" value=$page->isDescriptionReset()}</td>
     </tr>
-
-    </tr>
     <tr>
         <td style='width: 15%;'>{form->caption name="page[allow_comment]" value="Разрешить комментарии?"}</td>
         <td style='width: 85%;'>{form->checkbox name="page[allow_comment]" value=$page->getAllowComment()}</td>
