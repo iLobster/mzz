@@ -93,23 +93,25 @@ class adminAddActionController extends simpleController
                 try {
                     $fileGenerator = new fileGenerator($dest);
 
-                    if ($values['controller'] == $action_name) {
+                    $controllerName = $dest . DIRECTORY_SEPARATOR . $this->controllers($module['name'], $values['controller']);
+
+                    if (!is_file($controllerName)) {
                         $crud = $values['crud'];
                         unset($values['crud']);
 
                         if ($crud != 'none') {
                             $method = 'crud' . ucfirst($crud);
-                            $this->$method($module, $class, $action_name, $values, $fileGenerator);
+                            $this->$method($module, $class, $values['controller'], $values, $fileGenerator);
                         } else {
                             $tpl_name = $this->templates($action_name);
 
                             $controllerData = array(
-                            'name' => $action_name,
+                            'name' => $values['controller'],
                             'module' => $module['name'],
                             'path' => $dest . '/' . $tpl_name);
                             $this->smarty->assign('controller_data', $controllerData);
 
-                            $fileGenerator->create($this->controllers($module['name'], $action_name), $this->smarty->fetch('admin/generator/controller.tpl'));
+                            $fileGenerator->create($this->controllers($module['name'], $values['controller']), $this->smarty->fetch('admin/generator/controller.tpl'));
                             $fileGenerator->create($tpl_name, $this->smarty->fetch('admin/generator/template.tpl'));
                         }
                     }
