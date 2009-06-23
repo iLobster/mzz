@@ -43,14 +43,14 @@ abstract class mapper
      */
     private $db;
 
-    private $pk;
+    protected $pk;
 
     /**
      * relation
      *
      * @var relation
      */
-    private $relations;
+    protected $relations;
 
     private $observers = array();
 
