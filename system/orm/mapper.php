@@ -58,8 +58,6 @@ abstract class mapper
 
     protected $module = null;
 
-    protected $name;
-
     public function __construct()
     {
         foreach ($this->map as $key => $value) {
@@ -362,8 +360,8 @@ abstract class mapper
 
         $criteria->append($searchCriteria);
 
-        $criteria->setTable($this->table, $this->tableAlias());
-        $this->addSelectFields($criteria, $this, $this->tableAlias());
+        $criteria->setTable($this->table);
+        $this->addSelectFields($criteria);
 
         $this->relations->add($criteria);
 
@@ -438,7 +436,7 @@ abstract class mapper
 
         $this->relations->retrieve($tmp);
 
-        return $tmp[$this->tableAlias()];
+        return $tmp[$this->table];
     }
 
     public function createItemFromRow($row)
@@ -478,11 +476,6 @@ abstract class mapper
     public function getRelations()
     {
         return $this->relations;
-    }
-
-    public function tableAlias()
-    {
-        return $this->class;
     }
 }
 

@@ -72,7 +72,7 @@ class configFolderMapper extends mapper
         $configOptionMapper = systemToolkit::getInstance()->getMapper('config', 'configOption');
 
         $criteria = new criteria;
-        $criteria->addJoin($configOptionMapper->table(), new criterion($this->tableAlias() . '.name', 'configOption.module_name', criteria::EQUAL, true), 'configOption', criteria::JOIN_INNER);
+        $criteria->addJoin($configOptionMapper->table(), new criterion('sys_modules.name', 'configOption.module_name', criteria::EQUAL, true), 'configOption', criteria::JOIN_INNER);
         return $this->searchAllByCriteria($criteria);
 
     }

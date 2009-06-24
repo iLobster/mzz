@@ -13,7 +13,7 @@ class pagerPlugin extends observer
     public function preSqlSelect(criteria $criteria)
     {
         $criteriaForCount = clone $criteria;
-        $criteriaForCount->clearSelectFields()->addSelectField(new sqlFunction('count', new sqlOperator('DISTINCT', $this->mapper->tableAlias() . '.' . $this->mapper->pk())), 'cnt');
+        $criteriaForCount->clearSelectFields()->addSelectField(new sqlFunction('count', new sqlOperator('DISTINCT', $this->mapper->table() . '.' . $this->mapper->pk())), 'cnt');
         $selectForCount = new simpleSelect($criteriaForCount);
 
         $this->pager->setCount($this->mapper->db()->getOne($selectForCount->toString()));
