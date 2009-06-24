@@ -362,8 +362,8 @@ abstract class mapper
 
         $criteria->append($searchCriteria);
 
-        $criteria->setTable($this->table, $this->getClass());
-        $this->addSelectFields($criteria, $this, $this->getClass());
+        $criteria->setTable($this->table, $this->tableAlias());
+        $this->addSelectFields($criteria, $this, $this->tableAlias());
 
         $this->relations->add($criteria);
 
@@ -438,7 +438,7 @@ abstract class mapper
 
         $this->relations->retrieve($tmp);
 
-        return $tmp[$this->getClass()];
+        return $tmp[$this->tableAlias()];
     }
 
     public function createItemFromRow($row)
@@ -478,6 +478,11 @@ abstract class mapper
     public function getRelations()
     {
         return $this->relations;
+    }
+
+    public function tableAlias()
+    {
+        return $this->class;
     }
 }
 

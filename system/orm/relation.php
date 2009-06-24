@@ -204,7 +204,7 @@ class relation
 
             $joinType = isset($val['join_type']) && $val['join_type'] == 'inner' ? criteria::JOIN_INNER : criteria::JOIN_LEFT;
 
-            $criterion = new criterion($this->mapper->getClass() . '.' . $val['local_key'], $key . '.' . $val['foreign_key'], criteria::EQUAL, true);
+            $criterion = new criterion($this->mapper->tableAlias() . '.' . $val['local_key'], $key . '.' . $val['foreign_key'], criteria::EQUAL, true);
             $criteria->addJoin($val['mapper']->table(), $criterion, $key, $joinType);
 
             $data = array(
