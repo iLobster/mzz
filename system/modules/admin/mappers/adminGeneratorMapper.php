@@ -144,7 +144,7 @@ class adminGeneratorMapper extends mapper
             $result[$key] = array('type' => $matches[1]);
             if ($matches[1] == 'int') {
                 $result[$key]['range'] = $matches[3] ? array(0, pow(2, 32)) : array(-pow(2, 31) + 1, pow(2, 31));
-            } elseif ($matches[1] == 'int') {
+            } elseif ($matches[1] == 'char') {
                 $result[$key]['maxlength'] = (int)$matches[2];
             }
         }
