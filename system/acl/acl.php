@@ -439,8 +439,8 @@ class acl
         $userMapper = $toolkit->getMapper('user', 'user', 'user');
 
         $criteria = new criteria();
-        $criteria->addJoin('sys_access', new criterion('user_user.' . $userMapper->pk(), 'a.uid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
-        $criteria->addGroupBy('user_user.' . $userMapper->pk());
+        $criteria->addJoin('sys_access', new criterion('user.' . $userMapper->pk(), 'a.uid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addGroupBy('user.' . $userMapper->pk());
         $criteria->add('a.obj_id', $this->obj_id);
 
         return $userMapper->searchAllByCriteria($criteria);
@@ -482,8 +482,8 @@ class acl
         $groupMapper = $toolkit->getMapper('user', 'group');
 
         $criteria = new criteria();
-        $criteria->addJoin('sys_access', new criterion('user_group.' . $groupMapper->pk(), 'a.gid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
-        $criteria->addGroupBy('user_group.' . $groupMapper->pk());
+        $criteria->addJoin('sys_access', new criterion('group.' . $groupMapper->pk(), 'a.gid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addGroupBy('group.' . $groupMapper->pk());
         $criteria->add('a.obj_id', $this->obj_id);
 
         return $groupMapper->searchAllByCriteria($criteria);
