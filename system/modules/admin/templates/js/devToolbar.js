@@ -39,9 +39,9 @@
                 var elms = classes.find('tbody.toolbarClasses');
                 var neighbour = this.findNeighbour('class-' + name, elms);
 
-                var cRow = $('<tr id="class-' + name + '" class="row" />')
-                            .append('<td class="name first">' + name + '</td>')
-                            .append($('<td class="actions last" />').append(this.convertLinks(links)));
+                var cRow = $('<tr id="class-' + name + '" class="" />')
+                            .append('<td class="first name">' + name + '</td>')
+                            .append($('<td class="last actions" />').append(this.convertLinks(links)));
 
                 if (neighbour) {
                     cRow.insertBefore(neighbour);
