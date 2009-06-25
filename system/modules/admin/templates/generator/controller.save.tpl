@@ -45,7 +45,7 @@ class {{$controller_data.module}}{{$controller_data.name|ucfirst}}Controller ext
 {{assign var="propertyType" value=$property.type|default:false}}
 {{if !isset($property.options) || !in_array('pk', $property.options) || !in_array('once', $property.options)}}
 $validator->add('required', '{{$controller_data.class}}[{{$field}}]', 'Field {{$field}} is required');
-{{if $propertyType === 'char'}}
+{{if $propertyType === 'char' || $propertyType === 'varchar'}}
         $validator->add('length', '{{$controller_data.class}}[{{$field}}]', 'Field {{$field}} is out of length', array(0, {{$property.maxlength}}));
 {{elseif $propertyType === 'int'}}
         $validator->add('numeric', '{{$controller_data.class}}[{{$field}}]', 'Field {{$field}} is not numeric as expected');
