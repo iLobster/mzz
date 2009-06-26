@@ -30,11 +30,11 @@ class jip
     const DEFAULT_TEMPLATE = 'jip/jip.tpl';
 
     /**
-     * Имя модуля
+     * Имя секции
      *
      * @var string
      */
-    private $module;
+    private $section;
 
     /**
      * Идентификатор
@@ -89,7 +89,7 @@ class jip
      */
     public function __construct($id, $type, Array $actions, entity $obj, $tpl = self::DEFAULT_TEMPLATE)
     {
-        $this->module = $obj->module();
+        $this->section = systemToolkit::getInstance()->getSectionName($obj->module());
         $this->id = $id;
         $this->type = $type;
         $this->actions = $actions;
@@ -108,7 +108,7 @@ class jip
     private function buildUrl($action, $action_name)
     {
         $url = new url(isset($action['route_name']) ? $action['route_name'] : 'withId');
-        $url->setSection($this->module);
+        $url->setSection($this->section);
         $url->setAction($action_name);
 
         if (isset($action['route_name'])) {
@@ -212,7 +212,7 @@ class jip
      */
     private function getJipMenuId()
     {
-        return $this->module . '_' . $this->type . '_' . $this->id;
+        return $this->section . '_' . $this->type . '_' . $this->id;
     }
 
     /**
