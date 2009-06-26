@@ -59,7 +59,7 @@ class adminAddActionController extends simpleController
 
         $actionsInfo = $actions[$class['name']];
 
-        $dest = current($adminGeneratorMapper->getDests(true, $module['name']));
+        $dests = $adminGeneratorMapper->getDests(true, $module['name']);
 
         $defaults = $this->getDefaults($module['name'], $class['name']);
         $data = $defaults;
@@ -69,8 +69,6 @@ class adminAddActionController extends simpleController
             $data['name'] = $action_name;
         }
 
-        $data['dest'] = $dest;
-
         $validator = new formValidator();
 
         $validator->add('required', 'action[name]', i18n::getMessage('action.error.name_required', 'admin'));
@@ -79,6 +77,7 @@ class adminAddActionController extends simpleController
         $validator->add('regex', 'action[name]', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')), '#^[a-z0-9_-]+$#i');
         $validator->add('required', 'action[main]', i18n::getMessage('action.error.main_required', 'admin'));
         $validator->add('regex', 'action[main]', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-.')), '#^[a-z0-9_\-.]+$#i');
+        $validator->add('in', 'dest', i18n::getMessage('module.error.wrong_dest', 'admin'), array_keys($dests));
 
         if ($validator->validate()) {
             $values = $this->request->getArray('action', SC_POST);
@@ -88,10 +87,12 @@ class adminAddActionController extends simpleController
             if (!$isEdit) {
                 $action_name = $values['name'];
 
+                $dest = $this->request->getString('dest', SC_POST);
+
                 $this->smartyBrackets();
 
                 try {
-                    $fileGenerator = new fileGenerator($dest);
+                    $fileGenerator = new fileGenerator($dests[$dest]);
 
                     $controllerName = $dest . DIRECTORY_SEPARATOR . $this->controllers($module['name'], $values['controller']);
 
@@ -209,6 +210,8 @@ class adminAddActionController extends simpleController
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('data', $data);
+
+        $this->smarty->assign('dests', $dests);
 
         $this->smarty->assign('isEdit', $isEdit);
 

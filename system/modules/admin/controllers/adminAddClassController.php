@@ -60,13 +60,14 @@ class adminAddClassController extends simpleController
             $data['table'] = '';
         }
 
-        $data['dest'] = current($adminGeneratorMapper->getDests(true, $module_name));
+        $dests = $adminGeneratorMapper->getDests(true, $module_name);
 
         $validator = new formValidator();
 
         $validator->add('required', 'name', i18n::getMessage('class.error.name_required', 'admin'));
         $validator->add('callback', 'name', i18n::getMessage('class.error.unique', 'admin'), array(array($this, 'checkUniqueClassName'), $adminMapper, $isEdit ? $data['name'] : ''));
         $validator->add('regex', 'name', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
+        $validator->add('in', 'dest', i18n::getMessage('module.error.wrong_dest', 'admin'), array_keys($dests));
 
         if (!$isEdit) {
             $validator->add('required', 'table', i18n::getMessage('class.error.table_required', 'admin'));
@@ -80,6 +81,8 @@ class adminAddClassController extends simpleController
             if (!$isEdit) {
                 $this->smartyBrackets();
 
+                $dest = $this->request->getString('dest', SC_POST);
+
                 try {
                     try {
                         $schema = $adminGeneratorMapper->getTableSchema($table);
@@ -89,7 +92,7 @@ class adminAddClassController extends simpleController
                         $map_str = 'array()';
                     }
 
-                    $fileGenerator = new fileGenerator($data['dest']);
+                    $fileGenerator = new fileGenerator($dests[$dest]);
 
                     $doData = array(
                         'name' => $name,
@@ -148,6 +151,8 @@ class adminAddClassController extends simpleController
         }
         $this->smarty->assign('data', $data);
         $this->smarty->assign('isEdit', $isEdit);
+
+        $this->smarty->assign('dests', $dests);
 
         return $this->smarty->fetch('admin/addClass.tpl');
     }
