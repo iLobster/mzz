@@ -108,7 +108,7 @@ class jip
     private function buildUrl($action, $action_name)
     {
         $url = new url(isset($action['route_name']) ? $action['route_name'] : 'withId');
-        $url->setSection($this->module);
+        $url->setModule($this->module);
         $url->setAction($action_name);
 
         if (isset($action['route_name'])) {
@@ -143,7 +143,7 @@ class jip
     private function buildACLUrl($obj_id)
     {
         $url = new url('withId');
-        $url->setSection('access');
+        $url->setModule('access');
         $url->setAction('editACL');
         $url->add('id', $obj_id);
         return $url->get();
