@@ -30,18 +30,7 @@ class entity
     protected $dataChanged = array();
     protected $state = self::STATE_NEW;
 
-    /**
-     * relations object
-     *
-     * @var relation
-     */
-    private $relations;
     protected $module = null;
-
-    public function relations($relations)
-    {
-        $this->relations = $relations;
-    }
 
     public function module()
     {
@@ -86,69 +75,7 @@ class entity
 
     public function exportChanged()
     {
-        $this->replaceRelated();
         return $this->dataChanged;
-    }
-
-    public function replaceRelated()
-    {
-        if ($this->relations) {
-            $oneToOne = $this->relations->oneToOne();
-
-            // traverse all one-to-one related fields and if changed - replace them with scalar foreign_key values
-            foreach ($oneToOne as $key => $value) {
-                if (isset($this->data[$key]) && $this->data[$key] instanceof entity) {
-                    // recursive call to replace related objects with scalar
-                    $this->data[$key]->replaceRelated();
-                    // if nested related objects are not clean - mark current object as dirty and save related
-                    if ($this->data[$key]->state() != self::STATE_CLEAN) {
-                        $this->state(self::STATE_DIRTY);
-                        $value['mapper']->save($this->data[$key]);
-                        $this->dataChanged[$key] = $this->data[$key];
-                    }
-                }
-
-                // if changed related field is not scalar - replace it with scalar
-                if (isset($this->dataChanged[$key]) && $this->dataChanged[$key] instanceof entity) {
-                    // if changed related field is not clean too - save it
-                    if ($this->dataChanged[$key]->state() != self::STATE_CLEAN) {
-                        $value['mapper']->save($this->dataChanged[$key]);
-                    }
-                    $accessor = $value['methods'][0];
-                    $this->dataChanged[$key] = $this->dataChanged[$key]->$accessor();
-                }
-            }
-
-            if ($this->state() != self::STATE_NEW) {
-                foreach ($this->relations->oneToOneBack() as $key => $value) {
-                    if (isset($this->dataChanged[$key])) {
-                        $accessor = $value['methods'][0];
-                        $mutator = $value['methods'][1];
-
-                        if ($this->dataChanged[$key]->$accessor() != $this->data[$value['local_key']]) {
-                            $this->dataChanged[$key]->$mutator($this->data[$value['local_key']]);
-                            $value['mapper']->save($this->dataChanged[$key]);
-                            $this->data[$key] = $this->dataChanged[$key];
-                            unset($this->dataChanged[$key]);
-                        }
-                    }
-                }
-            }
-
-            $oneToMany = $this->relations->oneToMany();
-            foreach ($oneToMany as $key => $value) {
-                if (isset($this->data[$key]) && $this->data[$key] instanceof collection) {
-                    $this->data[$key]->save();
-                }
-            }
-
-            $manyToMany = $this->relations->manyToMany();
-            foreach ($manyToMany as $key => $value) {
-                if (isset($this->data[$key]) && $this->data[$key] instanceof collection) {
-                    $this->data[$key]->save();
-                }
-            }
-        }
     }
 
     public function __call($name, $args)
@@ -179,7 +106,7 @@ class entity
                     throw new mzzRuntimeException(get_class($this) . '::' . $name . '() is declared as setted once');
                 }
 
-                if ($this->state() == self::STATE_NEW && in_array($field, $this->getOneToOneBackKeys())) {
+                if ($this->state() == self::STATE_NEW && $this->hasOption($field, 'one-to-one-back')) {
                     throw new mzzRuntimeException(get_class($this) . '::' . $name . '() cannot be specified during object creation');
                 }
 
@@ -196,11 +123,6 @@ class entity
         } else {
             throw new mzzORMNotExistMethodException($this, $name);
         }
-    }
-
-    private function getOneToOneBackKeys()
-    {
-        return $this->relations ? array_keys($this->relations->oneToOneBack()) : array();
     }
 
     public function state($state = null)

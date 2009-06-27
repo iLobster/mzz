@@ -31,6 +31,27 @@ class relation
         $this->table = $mapper->table();
         $this->map = $mapper->map();
         $this->mapper = $mapper;
+
+        $this->markOneToBack();
+    }
+
+    private function markOneToBack()
+    {
+        $changed = false;
+
+        foreach (array_keys($this->oneToOneBack()) as $key) {
+            if (!isset($this->map[$key]['options'])) {
+                $this->map[$key]['options'] = array();
+            }
+
+            $this->map[$key]['options'][] = 'one-to-one-back';
+
+            $changed = true;
+        }
+
+        if ($changed) {
+            $this->mapper->map($this->map);
+        }
     }
 
     public function oneToOne()

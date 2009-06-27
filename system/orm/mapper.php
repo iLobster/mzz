@@ -157,6 +157,7 @@ abstract class mapper
     private function insert(entity $object)
     {
         $data = $object->exportChanged();
+        $this->replaceRelated($data, $object);
 
         $this->notify('preInsert', $data);
 
@@ -184,6 +185,7 @@ abstract class mapper
 
         $this->notify('preUpdate', $object);
         $data = $object->exportChanged();
+        $this->replaceRelated($data, $object);
         $this->notify('preUpdate', $data);
 
         if ($data) {
@@ -301,7 +303,6 @@ abstract class mapper
     {
         $object = new $this->class();
         $object->setMap($this->map);
-        $object->relations($this->relations);
         $this->notify('preCreate', $object);
         return $object;
     }
@@ -476,6 +477,71 @@ abstract class mapper
     public function getRelations()
     {
         return $this->relations;
+    }
+
+    public function replaceRelated(&$dataChanged, entity $object)
+    {
+        if ($this->relations) {
+            $data = $object->export();
+
+            $oneToOne = $this->relations->oneToOne();
+
+            // traverse all one-to-one related fields and if changed - replace them with scalar foreign_key values
+            foreach ($oneToOne as $key => $value) {
+                if (isset($data[$key]) && $data[$key] instanceof entity) {
+                    // recursive call to replace related objects with scalar
+                    //$this->data[$key]->replaceRelated();
+                    // if nested related objects are not clean - mark current object as dirty and save related
+                    if ($data[$key]->state() != entity::STATE_CLEAN) {
+                        $object->state(entity::STATE_DIRTY);
+                        $value['mapper']->save($data[$key]);
+                        $dataChanged[$key] = $data[$key];
+                    }
+                }
+
+                // if changed related field is not scalar - replace it with scalar
+                if (isset($dataChanged[$key]) && $dataChanged[$key] instanceof entity) {
+                    // if changed related field is not clean too - save it
+                    if ($dataChanged[$key]->state() != entity::STATE_CLEAN) {
+                        $value['mapper']->save($dataChanged[$key]);
+                    }
+                    $accessor = $value['methods'][0];
+                    $dataChanged[$key] = $dataChanged[$key]->$accessor();
+                }
+            }
+
+            if ($object->state() != entity::STATE_NEW) {
+                foreach ($this->relations->oneToOneBack() as $key => $value) {
+                    if (isset($dataChanged[$key])) {
+                        $accessor = $value['methods'][0];
+                        $mutator = $value['methods'][1];
+
+                        if ($dataChanged[$key]->$accessor() != $data[$value['local_key']]) {
+                            $dataChanged[$key]->$mutator($data[$value['local_key']]);
+                            $value['mapper']->save($dataChanged[$key]);
+                            $data[$key] = $dataChanged[$key];
+                            unset($dataChanged[$key]);
+                        }
+                    }
+                }
+            }
+
+            $oneToMany = $this->relations->oneToMany();
+            foreach ($oneToMany as $key => $value) {
+                if (isset($data[$key]) && $data[$key] instanceof collection) {
+                    $data[$key]->save();
+                }
+            }
+
+            $manyToMany = $this->relations->manyToMany();
+            foreach ($manyToMany as $key => $value) {
+                if (isset($data[$key]) && $data[$key] instanceof collection) {
+                    $data[$key]->save();
+                }
+            }
+
+            $object->import($data);
+        }
     }
 }
 
