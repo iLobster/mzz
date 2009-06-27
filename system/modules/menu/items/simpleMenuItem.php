@@ -10,7 +10,7 @@ class simpleMenuItem extends menuItem
             $url = $this->urlLang . '/' . $url;
         }
 
-        return ($startSlash ? '/' : '') . $url;
+        return ($startSlash ? SITE_PATH . '/' : '') . $url;
     }
 
     public function isActive()

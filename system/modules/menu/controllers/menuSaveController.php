@@ -119,8 +119,6 @@ class menuSaveController extends simpleController
             $url->add('id', $menu->getId());
         }
 
-        var_dump($validator->getErrors()->export());
-
         $this->smarty->assign('item', $item);
         $this->smarty->assign('request', $this->request);
         $this->smarty->assign('i18nEnabled', systemConfig::$i18nEnable);
