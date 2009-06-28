@@ -15,8 +15,8 @@
             <td>{$option->getTitle()|h}</td>
             <td>{$option->getTypeTitle()|h}</td>
             <td>
-                <span class="mzz-icon mzz-icon-doc-edit"><a href="{url route="withId" id=$option->getId() action="edit"}"  class="mzz-jip-link" title="Редактировать параметр"></a></span>
-                <span class="mzz-icon mzz-icon-doc-del"><a href="{url route="withId" id=$option->getId() action="delete"}" class="mzz-jip-link" title="Удалить параметр"></a></span>
+                <a href="{url route="withId" id=$option->getId() action="edit"}"  class="mzz-jip-link" title="Редактировать параметр">{icon sprite="sprite:mzz-icon/mzz-icon-page-blue/mzz-overlay-edit"}</a>
+                <a href="{url route="withId" id=$option->getId() action="delete"}" class="mzz-jip-link" title="Удалить параметр">{icon sprite="sprite:mzz-icon/mzz-icon-page-blue/mzz-overlay-del"}</a>
             </td>
         </tr>
     {foreachelse}
