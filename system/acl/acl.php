@@ -359,10 +359,12 @@ class acl
      */
     public function getForGroupDefault($gid, $full = false)
     {
+        $groupMapper = systemToolkit::getInstance()->getMapper('user', 'group');
+
         $qry = "SELECT `sa`.`name`, (`a`.`allow` - `a`.`deny` = 1) as `access`, `a`.`allow`, `a`.`deny` FROM `sys_access` `a`
                     INNER JOIN `sys_classes` `c` ON (`c`.`id` = `a`.`class_id`) AND (`c`.`name` = " . $this->db->quote($this->class) . ")
                       INNER JOIN `sys_actions` `sa` ON `sa`.`id` = `a`.`action_id`
-                       INNER JOIN `user_group` `g` ON `g`.`id` = `a`.`gid`
+                       INNER JOIN `' . $groupMapper->table() . '` `g` ON `g`.`id` = `a`.`gid`
                         WHERE `a`.`obj_id` = '0' AND `a`.`gid` = " . (int)$gid;
 
         $stmt = $this->db->query($qry);
@@ -390,10 +392,12 @@ class acl
      */
     public function getDefault($full = false)
     {
+        $userMapper = systemToolkit::getInstance()->getMapper('user', 'user');
+
         $qry = "SELECT `sa`.`name`, (`a`.`allow` - `a`.`deny` = 1) as `access`, `a`.`allow`, `a`.`deny` FROM `sys_access` `a`
                     INNER JOIN `sys_classes` `c` ON (`c`.`id` = `a`.`class_id`) AND (`c`.`name` = " . $this->db->quote($this->class) . ")
                       INNER JOIN `sys_actions` `sa` ON `sa`.`id` = `a`.`action_id`
-                       LEFT JOIN `user_user` `u` ON `u`.`id` = `a`.`uid`
+                       LEFT JOIN `' . $userMapper->table() . '` `u` ON `u`.`id` = `a`.`uid`
                         WHERE `a`.`obj_id` = '0' AND `a`.`uid` = " . $this->uid;
 
         $stmt = $this->db->query($qry);
@@ -436,11 +440,11 @@ class acl
     public function getUsersList()
     {
         $toolkit = systemToolkit::getInstance();
-        $userMapper = $toolkit->getMapper('user', 'user', 'user');
+        $userMapper = $toolkit->getMapper('user', 'user');
 
         $criteria = new criteria();
-        $criteria->addJoin('sys_access', new criterion('user_user.' . $userMapper->pk(), 'a.uid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
-        $criteria->addGroupBy('user_user.' . $userMapper->pk());
+        $criteria->addJoin('sys_access', new criterion($userMapper->table() . '.' . $userMapper->pk(), 'a.uid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addGroupBy($userMapper->table() . '.' . $userMapper->pk());
         $criteria->add('a.obj_id', $this->obj_id);
 
         return $userMapper->searchAllByCriteria($criteria);
@@ -482,8 +486,8 @@ class acl
         $groupMapper = $toolkit->getMapper('user', 'group');
 
         $criteria = new criteria();
-        $criteria->addJoin('sys_access', new criterion('user_group.' . $groupMapper->pk(), 'a.gid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
-        $criteria->addGroupBy('user_group.' . $groupMapper->pk());
+        $criteria->addJoin('sys_access', new criterion($groupMapper->table() . '.' . $groupMapper->pk(), 'a.gid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addGroupBy($groupMapper->table() . '.' . $groupMapper->pk());
         $criteria->add('a.obj_id', $this->obj_id);
 
         return $groupMapper->searchAllByCriteria($criteria);
