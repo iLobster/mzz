@@ -236,9 +236,9 @@ AUTO_INCREMENT=28 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 #
 
 INSERT INTO `menu_menuItem` (`id`, `parent_id`, `type_id`, `menu_id`, `order`, `args`, `obj_id`) VALUES 
-  (9,0,2,6,1,'a:5:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";N;s:7:\"section\";s:4:\"news\";s:6:\"action\";s:0:\"\";s:12:\"activeRoutes\";a:2:{i:0;a:2:{s:5:\"route\";s:10:\"newsFolder\";s:6:\"params\";a:2:{s:4:\"name\";s:1:\"*\";s:6:\"action\";s:4:\"list\";}}i:1;a:2:{s:5:\"route\";s:6:\"withId\";s:6:\"params\";a:3:{s:7:\"section\";s:4:\"news\";s:2:\"id\";s:1:\"*\";s:6:\"action\";s:4:\"view\";}}}}',1186),
+  (9,0,2,6,1,'a:5:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";N;s:7:\"section\";s:4:\"news\";s:6:\"action\";s:0:\"\";s:12:\"activeRoutes\";a:3:{i:0;a:2:{s:5:\"route\";s:10:\"newsFolder\";s:6:\"params\";a:2:{s:4:\"name\";s:1:\"*\";s:6:\"action\";s:4:\"list\";}}i:1;a:2:{s:5:\"route\";s:6:\"withId\";s:6:\"params\";a:3:{s:7:\"section\";s:4:\"news\";s:2:\"id\";s:1:\"*\";s:6:\"action\";s:4:\"view\";}}i:2;a:2:{s:5:\"route\";s:7:\"default\";s:6:\"params\";a:0:{}}}}',1186),
   (14,0,2,6,3,'a:4:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";s:0:\"\";s:7:\"section\";s:5:\"admin\";s:6:\"action\";s:5:\"admin\";}',1191),
-  (24,0,2,6,2,'a:5:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";N;s:7:\"section\";s:4:\"page\";s:6:\"action\";s:0:\"\";s:12:\"activeRoutes\";a:3:{i:0;a:2:{s:5:\"route\";s:11:\"pageActions\";s:6:\"params\";a:2:{s:4:\"name\";s:4:\"main\";s:6:\"action\";s:4:\"view\";}}i:1;a:2:{s:5:\"route\";s:11:\"pageDefault\";s:6:\"params\";a:0:{}}i:2;a:2:{s:5:\"route\";s:7:\"default\";s:6:\"params\";a:0:{}}}}',1301);
+  (24,0,1,6,2,'a:1:{s:3:\"url\";s:4:\"page\";}',1301);
 COMMIT;
 
 #
@@ -534,7 +534,7 @@ CREATE TABLE `sys_access` (
   KEY `obj_id_gid` (`obj_id`, `gid`),
   KEY `obj_id_uid` (`obj_id`, `uid`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=9093 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=9095 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_access` table  (LIMIT 0,500)
@@ -554,7 +554,9 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`,
   (9089,6,2,0,NULL,4,1,0),
   (9090,7,2,0,NULL,4,1,0),
   (9091,30,2,0,NULL,4,1,0),
-  (9092,8,2,0,NULL,4,1,0);
+  (9092,8,2,0,NULL,4,1,0),
+  (9093,3,6,9,NULL,1,1,0),
+  (9094,3,6,9,NULL,2,1,0);
 COMMIT;
 
 #
@@ -575,6 +577,7 @@ AUTO_INCREMENT=1461 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_
 #
 
 INSERT INTO `sys_access_registry` (`obj_id`, `class_id`) VALUES 
+  (9,6),
   (1443,9),
   (1444,7),
   (1445,7),
@@ -773,7 +776,7 @@ CREATE TABLE `sys_classes_actions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `class_id` (`class_id`, `action_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=330 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=331 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_classes_actions` table  (LIMIT 0,500)
@@ -862,7 +865,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (326,9,119),
   (327,9,120),
   (328,9,121),
-  (329,9,122);
+  (329,9,122),
+  (330,6,9);
 COMMIT;
 
 #
@@ -1140,7 +1144,7 @@ AUTO_INCREMENT=5 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 INSERT INTO `user_user` (`id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES 
   (1,'guest','',NULL,NULL,1225005849,NULL,3,1),
-  (2,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1237956788,1,3,1),
+  (2,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1246325464,1,3,1),
   (3,'moderator','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1),
   (4,'user','098f6bcd4621d373cade4e832627b4f6',1243925700,NULL,NULL,NULL,3,1);
 COMMIT;
@@ -1160,7 +1164,7 @@ CREATE TABLE `user_userAuth` (
   `time` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=128 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=130 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userAuth` table  (LIMIT 0,500)
@@ -1174,7 +1178,7 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (124,2,'127.0.0.1','508472f0463a79bc906538de5f39dfb6',NULL,NULL),
   (125,2,'127.0.0.1','0e8f35e187247098b098204613bd9b27',NULL,NULL),
   (126,2,'127.0.0.1','956eb3fa26b9b78b82c96d9f098d8a06',NULL,NULL),
-  (127,2,'10.30.35.150','ddd61df5d8e954813a8bd8c7ff18e230',NULL,NULL);
+  (128,2,'10.30.35.9','639eb7566aaf6b368863cfb4ba8afd1e',NULL,NULL);
 COMMIT;
 
 #

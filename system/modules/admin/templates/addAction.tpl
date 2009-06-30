@@ -61,5 +61,5 @@
             <span class="input">{form->select name="action[crud]" options=$crudList value=none}</span>
         </li>
     </ul
-    <span class="buttons">{form->submit name="submit" value="_ simple/save"} {form->reset jip=true name="reset" value="_ simple/cancel"}>
+    <span class="buttons">{form->submit name="submit" value="_ simple/save"} {form->reset jip=true name="reset" value="_ simple/cancel"}</span>
 </form>
