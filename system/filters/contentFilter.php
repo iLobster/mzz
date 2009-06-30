@@ -69,7 +69,7 @@ class contentFilter implements iFilter
                 if ($output === false) {
                     $template = $this->getTemplateName($request, $tplPath);
                     if (empty($template)) {
-                        $output = $this->runActiveTemplate($request);
+                        $output = $this->runActiveTemplate($request, $toolkit, $request, $smarty);
                     }
                 }
             }
@@ -128,6 +128,7 @@ class contentFilter implements iFilter
 
         $action = $toolkit->getAction($module);
         $activeTemplate = $action->getActiveTemplate($actionName);
+
         if ($activeTemplate == 'deny') {
             throw new mzzNoActionException('Direct access to this action is deny');
         }

@@ -534,7 +534,7 @@ CREATE TABLE `sys_access` (
   KEY `obj_id_gid` (`obj_id`, `gid`),
   KEY `obj_id_uid` (`obj_id`, `uid`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=9095 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=9097 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_access` table  (LIMIT 0,500)
@@ -556,7 +556,9 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`,
   (9091,30,2,0,NULL,4,1,0),
   (9092,8,2,0,NULL,4,1,0),
   (9093,3,6,9,NULL,1,1,0),
-  (9094,3,6,9,NULL,2,1,0);
+  (9094,3,6,9,NULL,2,1,0),
+  (9095,3,6,10,NULL,1,1,0),
+  (9096,3,6,10,NULL,2,1,0);
 COMMIT;
 
 #
@@ -578,6 +580,8 @@ AUTO_INCREMENT=1461 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_
 
 INSERT INTO `sys_access_registry` (`obj_id`, `class_id`) VALUES 
   (9,6),
+  (10,6),
+  (57,6),
   (1443,9),
   (1444,7),
   (1445,7),
@@ -1144,7 +1148,7 @@ AUTO_INCREMENT=5 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 INSERT INTO `user_user` (`id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES 
   (1,'guest','',NULL,NULL,1225005849,NULL,3,1),
-  (2,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1246325464,1,3,1),
+  (2,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1246337294,1,3,1),
   (3,'moderator','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1),
   (4,'user','098f6bcd4621d373cade4e832627b4f6',1243925700,NULL,NULL,NULL,3,1);
 COMMIT;
@@ -1164,7 +1168,7 @@ CREATE TABLE `user_userAuth` (
   `time` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=130 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=132 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userAuth` table  (LIMIT 0,500)
@@ -1178,7 +1182,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (124,2,'127.0.0.1','508472f0463a79bc906538de5f39dfb6',NULL,NULL),
   (125,2,'127.0.0.1','0e8f35e187247098b098204613bd9b27',NULL,NULL),
   (126,2,'127.0.0.1','956eb3fa26b9b78b82c96d9f098d8a06',NULL,NULL),
-  (128,2,'10.30.35.9','639eb7566aaf6b368863cfb4ba8afd1e',NULL,NULL);
+  (128,2,'10.30.35.9','639eb7566aaf6b368863cfb4ba8afd1e',NULL,NULL),
+  (131,2,'10.30.35.150','46165d19f451872d5b2df7712d3eb280',NULL,NULL);
 COMMIT;
 
 #
