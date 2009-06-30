@@ -13,7 +13,6 @@
 </div>
 <div id="content" class="marginal">
     <div id="sidebar">
-        <div class="title">Меню</div>
         {load module="admin" action="menu"}
     </div>
     <div id="mainbar">

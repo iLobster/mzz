@@ -1,4 +1,5 @@
 {if not empty($menu)}
+    <div class="title">Меню</div>
     <ul id="mzz-adm-menu" class="mzz-adm-menu">
         <li{if $current_module == 'admin' && $current_action == 'admin'} class="active"{/if}>
             <div class="mzz-menu-item">
