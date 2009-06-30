@@ -81,6 +81,8 @@ class loadDispatcher
                 fileLoader::load('simple/simple404Controller');
                 $controller = new simple404Controller();
                 $controller->applyMapper($mapper);
+                $request->restore();
+                return $controller->run();
             }
         }
 
@@ -95,6 +97,7 @@ class loadDispatcher
             if (empty($controller)) {
                 // если права на запуск модуля есть - запускаем
                 $controller = $toolkit->getController($module, $actionName);
+                $view = $controller->run();
             }
         } else {
             // если прав нет - запускаем либо стандартное сообщение о 403 ошибке, либо пользовательское
@@ -105,17 +108,11 @@ class loadDispatcher
             } else {
                 $smarty = $toolkit->getSmarty();
                 $view = $smarty->fetch($params['403tpl']);
-                $request->restore();
 
                 if (!empty($params['403header'])) {
                     $toolkit->getResponse()->setStatus(403);
                 }
             }
-        }
-
-        if (isset($controller) && !isset($view)) {
-            // если есть контроллер для запуска - запускаем и получаем контент
-            $view = $controller->run();
         }
 
         $request->restore();
