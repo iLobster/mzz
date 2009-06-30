@@ -145,11 +145,11 @@ abstract class simpleController
         return $controller->run();
     }
 
-    protected function forward403($mapper = null)
+    public function forward403($mapper = null)
     {
-        if ($mapper instanceof simpleMapper) {
-            $class = $mapper->getClassName() . '403Controller';
-            $module = $mapper->name();
+        if ($mapper instanceof mapper) {
+            $class = $mapper->getClass() . '403Controller';
+            $module = $mapper->module();
         } else {
             $module = $class = '';
         }

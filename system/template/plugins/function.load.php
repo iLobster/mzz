@@ -42,7 +42,6 @@ function smarty_function_load($params, $smarty)
     }
     $allParams = new arrayDataspace($allParams);
 
-    $section = $allParams['section'];
     $module = $allParams['module'];
     $side = $allParams['_side'];
     $actionName = $allParams['action'];
@@ -53,7 +52,7 @@ function smarty_function_load($params, $smarty)
         return null;
     }
 
-    $view = loadDispatcher::dispatch($section, $module, $actionName, $allParams['params']);
+    $view = loadDispatcher::dispatch($module, $actionName, $allParams['params']);
 
     // отдаём контент в вызывающий шаблон, либо сохраняем его в sideHelper
     if ($side) {

@@ -35,13 +35,12 @@ class loadDispatcher
     /**
      * Dispatch load params to a controller
      *
-     * @param string $section
      * @param string $module
      * @param string $actionName
      * @param array $params
      * @return string|null
      */
-    static public function dispatch($section, $module, $actionName, $params = array())
+    static public function dispatch($module, $actionName, $params = array())
     {
         if (empty($module)) {
             throw new mzzRuntimeException("Module loading error: the name of the module is not specified.");
@@ -59,9 +58,7 @@ class loadDispatcher
         $request->save();
         $request->setRequestedModule($module);
         $request->setAction($actionName);
-        if (!empty($section)) {
-            $request->setSection($section);
-        }
+
         foreach ($params as $name => $value) {
             $request->setParam($name, $value);
         }
@@ -97,14 +94,14 @@ class loadDispatcher
         if ($access) {
             if (empty($controller)) {
                 // если права на запуск модуля есть - запускаем
-                $factory = new simpleFactory($action, $module);
-                $controller = $factory->getController($actionName);
+                $controller = $toolkit->getController($module, $actionName);
             }
         } else {
             // если прав нет - запускаем либо стандартное сообщение о 403 ошибке, либо пользовательское
             if (!isset($params['403tpl'])) {
                 fileLoader::load('simple/simple403Controller');
                 $controller = new simple403Controller();
+                $view = $controller->forward403($mapper);
             } else {
                 $smarty = $toolkit->getSmarty();
                 $view = $smarty->fetch($params['403tpl']);
@@ -116,11 +113,12 @@ class loadDispatcher
             }
         }
 
-        if (isset($controller)) {
+        if (isset($controller) && !isset($view)) {
             // если есть контроллер для запуска - запускаем и получаем контент
             $view = $controller->run();
-            $request->restore();
         }
+
+        $request->restore();
 
         // отдаём контент
         return $view;

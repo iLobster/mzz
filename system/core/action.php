@@ -56,6 +56,8 @@ class action
 
         $this->addPath(systemConfig::$pathToSystem . '/modules/' . $this->module . '/actions/');
         $this->addPath(systemConfig::$pathToApplication . '/modules/' . $this->module . '/actions/');
+
+        $this->buildActionsConfigs();
     }
 
     /**
@@ -70,8 +72,6 @@ class action
             throw new mzzRuntimeException('Path "' . $path . '" already added.');
         }
         $this->paths[] = $path;
-
-        $this->buildActionsConfigs();
     }
 
     public function getOptions($action)
