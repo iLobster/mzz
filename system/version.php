@@ -25,7 +25,7 @@ define('MZZ_VERSION_MINOR', 3);
 define('MZZ_VERSION_MICRO', 0);
 
 // Status
-define('MZZ_VERSION_STATUS', '-dev');
+define('MZZ_VERSION_STATUS', '-rc1');
 
 // Full version
 define('MZZ_VERSION', MZZ_VERSION_MAJOR . '.' . MZZ_VERSION_MINOR . '.' .
