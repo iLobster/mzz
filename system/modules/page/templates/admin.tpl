@@ -1,6 +1,6 @@
 <div class="title">Список страниц</div>
 
-{include file="admin/breadcrumbs.tpl" breadCrumbs=$breadCrumbs section=$current_section module="page"}
+{include file="admin/breadcrumbs.tpl" breadCrumbs=$breadCrumbs action="admin" module="page"}
 
 <table class="admin">
     <thead class="tableListHead">
