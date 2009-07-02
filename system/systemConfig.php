@@ -99,8 +99,15 @@ class systemConfig
     public static $defaultSkin = 1;
 
     /**
+     * Request URI to 404 page
+     *
+     * @var string
+     */
+    public static $uri404 = '/page/404';
+
+    /**
      * Имя драйвера хранилища сессий
-     * 
+     *
      * @var string
      */
     public static $sessionStorageDrive = null;
