@@ -47,20 +47,6 @@ interface iRequest
     public function isAjax();
 
     /**
-     * Возвращает текущую секцию
-     *
-     * @return string
-     */
-    public function getSection();
-
-    /**
-     * Устанавливает текущую секцию
-     *
-     * @param string $section
-     */
-    public function setSection($section);
-
-    /**
      * Возвращает текущее действие
      *
      * @return string

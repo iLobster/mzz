@@ -136,14 +136,6 @@ class urlTest extends unitTestCase
         $url->setAction($action = 'bar');
         $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH . '/test_section/bar');
     }
-
-    public function testSetSection()
-    {
-        $url = new url('urlHttpsWithoutParams');
-        $url->setSection('section');
-        $url->setAction('bar');
-        $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH . '/section/bar');
-    }
 }
 
 ?>

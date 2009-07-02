@@ -77,11 +77,11 @@ function smarty_function_url($params, $smarty)
         if (!isset($params['lang']) && !isset($params['route'])) {
             $params = $params + $request->getRequestedParams();
             $params['action'] = $request->getRequestedAction();
-            $params['section'] = $request->getRequestedSection();
+            $params['module'] = $request->getRequestedModule();
         } else {
             $params = $params + $request->getParams();
             $params['action'] = $request->getAction();
-            $params['section'] = $request->getSection();
+            $params['module'] = $request->getModule();
         }
         $params['route'] = $route->getName();
     }
@@ -99,12 +99,6 @@ function smarty_function_url($params, $smarty)
         foreach ($request->exportGet() as $get_key => $get_value) {
             $url->add($get_key, $get_value, true);
         }
-    }
-
-    if (isset($params['module']) && !isset($params['section'])) {
-        $section = $toolkit->getSectionName($params['module']);
-        $params['section'] = $section;
-        unset($params['module']);
     }
 
     foreach ($params as $name => $value) {

@@ -105,8 +105,12 @@ class contentFilter implements iFilter
      */
     public function getTemplateName($request, $path)
     {
-        $section = $request->getSection();
-        $action = $request->getAction();
+        try {
+            $action = $request->getAction();
+            $section = systemToolkit::getInstance()->getSectionName($request->getModule());
+        } catch (mzzRuntimeException $e) {
+            return false;
+        }
 
         $tpl_name = self::TPL_PRE . $section . '/' . $action . self::TPL_EXT;
         if (file_exists($path . '/' . $tpl_name)) {
@@ -117,16 +121,9 @@ class contentFilter implements iFilter
 
     public function runActiveTemplate($request, $toolkit, $request, $smarty)
     {
-        $section = $request->getSection();
-        $actionName = $request->getAction();
-
-        try {
-            $module = $toolkit->getModuleName($section);
-        } catch (mzzRuntimeException $e) {
-            throw new mzzNoActionException('There is no action in unknown sections');
-        }
-
+        $module = $request->getModule();
         $action = $toolkit->getAction($module);
+        $actionName = $request->getAction();
         $activeTemplate = $action->getActiveTemplate($actionName);
 
         if ($activeTemplate == 'deny') {

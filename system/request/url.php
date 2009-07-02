@@ -92,8 +92,15 @@ class url
         }
 
         $params = $this->params;
+
         if (empty($params['section'])) {
-            $params['section'] = $this->getCurrentSection();
+            if (empty($params['module'])) {
+                $params['module'] = $request->getModule();
+            }
+
+            if (!empty($params['module'])) {
+                $params['section'] = $toolkit->getSectionName($params['module']);
+            }
         }
 
         $path = $this->route->assemble($params);
@@ -141,24 +148,13 @@ class url
     }
 
     /**
-     * Установка имени секции
-     *
-     * @param string $value
-     */
-    public function setSection($value)
-    {
-        $this->add('section', $value);
-    }
-
-    /**
-     * Устанавливает секцию которая соответствует модулю
+     * Устанавливает модуль
      *
      * @param string $name
      */
     public function setModule($name)
     {
-        $section = systemToolkit::getInstance()->getSectionName($name);
-        $this->setSection($section);
+        $this->add('module', $name);
     }
 
     /**
@@ -178,17 +174,6 @@ class url
     public function getParams()
     {
         return $this->params;
-    }
-
-    /**
-     * Получает текущий section из Request
-     *
-     * @return string
-     */
-    protected function getCurrentSection()
-    {
-        $toolkit = systemToolkit::getInstance();
-        return $toolkit->getRequest()->getSection();
     }
 
     /**

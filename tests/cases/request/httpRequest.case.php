@@ -183,10 +183,10 @@ class httpRequestTest extends unitTestCase
         $this->assertEqual($this->httprequest->getPath(), 'news/%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9/18/10/2005/list');
     }
 
-    public function testGetSection()
+    public function testGetModule()
     {
-        $this->httprequest->setSection($section = 'news');
-        $this->assertEqual($this->httprequest->getSection(), $section);
+        $this->httprequest->setModule($module = 'news');
+        $this->assertEqual($this->httprequest->getModule(), $module);
     }
 
     public function testGetAction()
@@ -204,22 +204,22 @@ class httpRequestTest extends unitTestCase
 
     public function testGetRequested()
     {
-        $this->httprequest->setSection($section = 'news');
+        $this->httprequest->setModule($module = 'news');
         $this->httprequest->setAction($action = 'view');
         $this->httprequest->setParam('id', 12);
         $this->httprequest->setParam('type', 1);
         $this->httprequest->setRequestedParams($this->httprequest->getParams());
 
-        $this->assertEqual($this->httprequest->getRequestedSection(), $section);
+        $this->assertEqual($this->httprequest->getRequestedModule(), $module);
         $this->assertEqual($this->httprequest->getRequestedAction(), $action);
         $this->assertEqual($this->httprequest->getRequestedParams(), array('id' => 12, 'type' => 1));
 
-        $this->httprequest->setSection('page');
+        $this->httprequest->setModule('page');
         $this->httprequest->setAction('list');
         $this->httprequest->setParam('cat', 'hello');
         $this->httprequest->setRequestedParams($this->httprequest->getParams());
 
-        $this->assertEqual($this->httprequest->getRequestedSection(), $section);
+        $this->assertEqual($this->httprequest->getRequestedModule(), $module);
         $this->assertEqual($this->httprequest->getRequestedAction(), $action);
         $this->assertEqual($this->httprequest->getRequestedParams(), array('id' => 12, 'type' => 1));
     }

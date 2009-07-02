@@ -186,7 +186,8 @@ class requestRouter
         }
 
         if (isset($params['section'])) {
-            $this->request->setSection($params['section']);
+            $toolkit = systemToolkit::getInstance();
+            $this->request->setModule($toolkit->getModuleName($params['section']));
             unset($params['section']);
         }
         if (isset($params['action'])) {

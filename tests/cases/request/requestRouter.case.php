@@ -62,7 +62,7 @@ class requestRouterTest extends unitTestCase
         $this->router->addRoute('first', $routeFirst);
         $this->router->addRoute('second', $routeSecond);
 
-        $this->request->expectOnce('setSection', array($result['section']));
+        $this->request->expectOnce('setModule', array(systemToolkit::getInstance()->getModuleName($result['section'])));
         unset($result['section']);
         $this->request->expectOnce('setAction', array($result['action']));
         unset($result['action']);
@@ -87,7 +87,7 @@ class requestRouterTest extends unitTestCase
         $this->router->addRoute('first', $routeFirst);
         $this->router->addRoute('second', $routeSecond);
 
-        $this->request->expectOnce('setSection', array($result['section']));
+        $this->request->expectOnce('setModule', array(systemToolkit::getInstance()->getModuleName($result['section'])));
         unset($result['section']);
         $this->request->expectOnce('setAction', array($result['action']));
         unset($result['action']);

@@ -80,11 +80,11 @@ class httpRequest implements iRequest
     /**#@-*/
 
     /**
-     * Текущая секция
+     * Текущий модуль
      *
      * @var string
      */
-    protected $section;
+    protected $module;
 
     /**
      * Текущее действие
@@ -99,13 +99,6 @@ class httpRequest implements iRequest
      * @var string
      */
     protected $requestedModule = false;
-
-    /**
-     * Первоначально запрошенная секция
-     *
-     * @var string
-     */
-    protected $requestedSection = false;
 
     /**
      * Первоначально запрошенное действие
@@ -453,17 +446,26 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Устанавливает текущую секцию
-     * Первое установленное значение считается запрошенной секцией
+     * Устанавливает текущий модуль
      *
-     * @param string $section
+     * @param string $module
      */
-    public function setSection($section)
+    public function setModule($module)
     {
-        if ($this->requestedSection === false) {
-            $this->requestedSection = $section;
+        if ($this->requestedModule === false) {
+            $this->requestedModule = $module;
         }
-        $this->section = $section;
+        $this->module = $module;
+    }
+
+    /**
+     * Возвращает текущую секцию
+     *
+     * @return string
+     */
+    public function getModule()
+    {
+        return $this->module;
     }
 
     /**
@@ -481,16 +483,6 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Возвращает текущую секцию
-     *
-     * @return string
-     */
-    public function getSection()
-    {
-        return $this->section;
-    }
-
-    /**
      * Возвращает текущее действие
      *
      * @return string
@@ -498,16 +490,6 @@ class httpRequest implements iRequest
     public function getAction()
     {
         return $this->action;
-    }
-
-    /**
-     * Возвращает первоначально запрошенную секцию
-     *
-     * @return string
-     */
-    public function getRequestedSection()
-    {
-        return $this->requestedSection;
     }
 
     /**
@@ -714,7 +696,7 @@ class httpRequest implements iRequest
      */
     public function save()
     {
-        $this->saved[] = array('path' => $this->path->export(), 'section' => $this->getSection(), 'action' => $this->getAction());
+        $this->saved[] = array('path' => $this->path->export(), 'module' => $this->getModule(), 'action' => $this->getAction());
     }
 
     /**
@@ -726,7 +708,7 @@ class httpRequest implements iRequest
         if (!empty($this->saved)) {
             $saved = array_pop($this->saved);
             $this->path->import($saved['path']);
-            $this->setSection($saved['section']);
+            $this->setModule($saved['module']);
             $this->setAction($saved['action']);
             return true;
         }

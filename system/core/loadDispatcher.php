@@ -56,9 +56,8 @@ class loadDispatcher
         // prepare request
         $request = $toolkit->getRequest();
         $request->save();
-        $request->setRequestedModule($module);
+        $request->setModule($module);
         $request->setAction($actionName);
-        $request->setSection($toolkit->getSectionName($module));
 
         foreach ($params as $name => $value) {
             $request->setParam($name, $value);

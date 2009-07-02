@@ -19,19 +19,19 @@ class contentFilterTest extends unitTestCase
 
     public function testGetTemplate()
     {
-        $this->request->expectOnce('getSection', array());
-        $this->request->setReturnValue('getSection', 'test');
+        $this->request->expectOnce('getModule', array());
+        $this->request->setReturnValue('getModule', 'test');
 
         $this->request->expectOnce('getAction', array());
         $this->request->setReturnValue('getAction', 'bar');
 
-        $this->assertEqual($this->contentFilter->getTemplateName($this->request, $this->path), "act/test/bar.tpl");
+        $this->assertEqual($this->contentFilter->getTemplateName($this->request, $this->path), "act/test_section/bar.tpl");
     }
 
     public function testSectionMapperFalse()
     {
-        $this->request->expectCallCount('getSection', 1);
-        $this->request->setReturnValue('getSection', '__not_exists__');
+        $this->request->expectCallCount('getModule', 1);
+        $this->request->setReturnValue('setModule', '__not_exists__');
         $this->request->expectCallCount('getAction', 1);
         $this->request->setReturnValue('getAction', '__not_exists__');
 
