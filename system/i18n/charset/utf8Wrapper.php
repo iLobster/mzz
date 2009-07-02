@@ -33,9 +33,9 @@ function mzz_substr($str, $start, $length = null)
 /**
  * UTF-8 aware alternative to str_replace()
  */
-function mzz_str_replace($str, $repl, $str)
+function mzz_str_replace($search, $repl, $str)
 {
-    return $GLOBALS['charsetDriver']->str_replace($str, $repl, $str);
+    return $GLOBALS['charsetDriver']->str_replace($search, $repl, $str);
 }
 
 /**
