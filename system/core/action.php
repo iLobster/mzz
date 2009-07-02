@@ -65,13 +65,18 @@ class action
      * ini-файлов с описанием действий модуля
      *
      * @param string $path
+     * @param boolean $rebuild пересобирать массив экшнов после добавления
      */
-    public function addPath($path)
+    public function addPath($path, $rebuild = false)
     {
         if (in_array($path, $this->paths)) {
             throw new mzzRuntimeException('Path "' . $path . '" already added.');
         }
         $this->paths[] = $path;
+
+        if ($rebuild) {
+            $this->buildActionsConfigs();
+        }
     }
 
     public function getOptions($action)
@@ -194,7 +199,7 @@ class action
         throw new mzzNoActionException('The "' . $this->module . '" module doesn\'t have the "' . $action . '" action');
     }
 
-    protected function buildActionsConfigs()
+    public function buildActionsConfigs()
     {
         foreach ($this->paths as $key => $path) {
             if (!is_dir($path)) {

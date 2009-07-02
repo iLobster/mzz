@@ -12,7 +12,7 @@ class actionTest extends unitTestCase
     public function setUp()
     {
         $this->action = new action("firstActions");
-        $this->action->addPath(dirname(__FILE__) . '/fixture');
+        $this->action->addPath(dirname(__FILE__) . '/fixture', true);
     }
 
     public function tearDown()
