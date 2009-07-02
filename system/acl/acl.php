@@ -364,7 +364,7 @@ class acl
         $qry = "SELECT `sa`.`name`, (`a`.`allow` - `a`.`deny` = 1) as `access`, `a`.`allow`, `a`.`deny` FROM `sys_access` `a`
                     INNER JOIN `sys_classes` `c` ON (`c`.`id` = `a`.`class_id`) AND (`c`.`name` = " . $this->db->quote($this->class) . ")
                       INNER JOIN `sys_actions` `sa` ON `sa`.`id` = `a`.`action_id`
-                       INNER JOIN `' . $groupMapper->table() . '` `g` ON `g`.`id` = `a`.`gid`
+                       INNER JOIN `" . $groupMapper->table() . "` `g` ON `g`.`id` = `a`.`gid`
                         WHERE `a`.`obj_id` = '0' AND `a`.`gid` = " . (int)$gid;
 
         $stmt = $this->db->query($qry);
@@ -397,7 +397,7 @@ class acl
         $qry = "SELECT `sa`.`name`, (`a`.`allow` - `a`.`deny` = 1) as `access`, `a`.`allow`, `a`.`deny` FROM `sys_access` `a`
                     INNER JOIN `sys_classes` `c` ON (`c`.`id` = `a`.`class_id`) AND (`c`.`name` = " . $this->db->quote($this->class) . ")
                       INNER JOIN `sys_actions` `sa` ON `sa`.`id` = `a`.`action_id`
-                       LEFT JOIN `' . $userMapper->table() . '` `u` ON `u`.`id` = `a`.`uid`
+                       LEFT JOIN `" . $userMapper->table() . "` `u` ON `u`.`id` = `a`.`uid`
                         WHERE `a`.`obj_id` = '0' AND `a`.`uid` = " . $this->uid;
 
         $stmt = $this->db->query($qry);
