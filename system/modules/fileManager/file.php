@@ -40,7 +40,7 @@ class file extends entity
         }
 
         $url = new url('withAnyParam');
-        $url->setSection('fileManager');
+        $url->setModule('fileManager');
         $url->add('name', $this->getFullPath());
         return $url->get();
     }

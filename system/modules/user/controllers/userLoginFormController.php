@@ -33,7 +33,7 @@ class userLoginFormController extends simpleController
 
         if (!$user->isLoggedIn()) {
             $url = new url('default2');
-            $url->setSection('user');
+            $url->setModule('user');
             $url->setAction('login');
             $this->smarty->assign('form_action', $url->get());
             $this->smarty->assign('backURL', $this->request->getRequestUrl());

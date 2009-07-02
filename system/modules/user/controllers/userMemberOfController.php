@@ -68,7 +68,7 @@ class userMemberOfController extends simpleController
         $groups = $groupMapper->searchAll($criteria);
 
         $url = new url('withId');
-        $url->setSection('user');
+        $url->setModule('user');
         $url->setAction('memberOf');
         $url->add('id', $id);
 
