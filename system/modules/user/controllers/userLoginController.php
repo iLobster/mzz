@@ -53,7 +53,7 @@ class userLoginController extends simpleController
             }
 
             $url = new url('default2');
-            $url->setSection('user');
+            $url->setModule('user');
             $url->setAction('login');
             $this->smarty->assign('form_action', $url->get());
             $this->smarty->assign('user', null);
