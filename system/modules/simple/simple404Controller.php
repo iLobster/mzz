@@ -64,7 +64,7 @@ class simple404Controller extends simpleController
             return $this->result;
         }
 
-        $section = 'page';
+        $module = 'page';
         $action = 'view';
         $name = '404';
 
