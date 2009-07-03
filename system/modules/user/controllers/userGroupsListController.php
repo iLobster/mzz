@@ -31,7 +31,7 @@ class userGroupsListController extends simpleController
 
         $groupMapper = $this->toolkit->getMapper('user', 'group');
 
-        $config = $this->toolkit->getConfig('user', $this->request->getSection());
+        $config = $this->toolkit->getConfig('user');
         $this->setPager($groupMapper, $config->get('items_per_page'), true);
 
         $this->smarty->assign('groups', $groupMapper->searchAll());

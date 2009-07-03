@@ -19,7 +19,6 @@
  * @subpackage simple
  * @version 0.1.2
  */
-
 class simple403Controller extends simpleController
 {
     public function getView()
@@ -46,5 +45,4 @@ class simple403Controller extends simpleController
         return $this->forward($module, $action);
     }
 }
-
 ?>

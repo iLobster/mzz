@@ -34,7 +34,7 @@ class userFilter implements iFilter
     {
         $toolkit = systemToolkit::getInstance();
 
-        $userMapper = $toolkit->getMapper('user', 'user', 'user');
+        $userMapper = $toolkit->getMapper('user', 'user');
         $user_id = $toolkit->getSession()->get('user_id');
 
         if (is_null($user_id)) {
