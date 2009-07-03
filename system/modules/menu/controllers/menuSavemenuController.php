@@ -44,10 +44,10 @@ class menuSavemenuController extends simpleController
         $validator->add('callback', 'name', 'Имя меню должно быть уникальным', array(array($this, 'checkName'), $menu, $menuMapper));
 
         if (!$validator->validate()) {
-            $url = new url($isEdit ? 'withAnyParam' : 'default2');
+            $url = new url($isEdit ? 'withId' : 'default2');
             $url->setAction($action);
             if ($isEdit) {
-                $url->add('name', $menu->getName());
+                $url->add('id', $menu->getId());
             }
 
             $this->smarty->assign('menu', $menu);

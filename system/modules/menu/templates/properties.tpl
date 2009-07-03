@@ -67,10 +67,10 @@
         <td style="width: 80%;">{$request->getUrl()}/{if $i18nEnabled}&lt;{$request->getString(lang)}&gt;/{/if}{form->text name="url" size=40 value=$item->getUrl(false, false)} {$errors->get('url')}</td>
     </tr>
     {elseif $typeId == 'menuItemMapper::ITEMTYPE_ADVANCED'|constant}
-    {*<tr>
+    <tr>
         <td>{form->caption name="activeRegExp" value="Определение активности:"}</td>
         <td>{form->text name="activeRegExp" size=40 value=$item->getActiveRegExp()} <span class="helpText">(pcre / регулярное выражение)</span> {$errors->get('activeRegExp')}</td>
-    </tr>*}
+    </tr>
     <tr>
         <td>{form->caption name="route" value="Роут:"}</td>
         <td>{form->select name="route" options=$routesSelect emptyFirst=true onchange="javascript: getRoute(this.value);" onkeyup="this.onchange();" value=$current|default:null} и его параметры:</td>
