@@ -42,7 +42,7 @@ class userLoginController extends simpleController
                     }
 
                     if (!$backURL) {
-                        $backURL = new url('default');
+                        $url = new url('default');
                         $backURL = $url->get();
                     }
 
