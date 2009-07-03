@@ -94,7 +94,7 @@ class adminAddActionController extends simpleController
                 try {
                     $fileGenerator = new fileGenerator($dests[$dest]);
 
-                    $controllerName = $dest . DIRECTORY_SEPARATOR . $this->controllers($module['name'], $values['controller']);
+                    $controllerName = $dests[$dest] . DIRECTORY_SEPARATOR . $this->controllers($module['name'], $values['controller']);
 
                     if (!is_file($controllerName)) {
                         $crud = $values['crud'];
