@@ -290,8 +290,6 @@ CREATE TABLE `news_news` (
   `created` INTEGER(11) DEFAULT NULL,
   `updated` INTEGER(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_2` (`id`),
-  KEY `id` (`id`),
   KEY `folder_id` (`folder_id`)
 )ENGINE=MyISAM
 AUTO_INCREMENT=170 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
