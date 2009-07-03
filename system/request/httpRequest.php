@@ -782,8 +782,8 @@ class httpRequest implements iRequest
                 $new_val = $old_val;
             }
         }
-        $value = $html;
-        return $value;
+
+        return $html;
     }
 
     public function refresh()
