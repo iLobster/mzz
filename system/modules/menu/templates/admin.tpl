@@ -25,7 +25,7 @@
 {foreach from=$menus item="menu" name="menu_items"}
     <div id="menuContent_{$menu->getId()}" class="menuContent" style="display: none">
         <div class="menuHelp">
-        После изменений необходимо сохранить их, нажав на <input id="menuApply_{$menu->getId()}" disabled="disabled" value="Применить" onclick="menu.save('{url route="withAnyParam" action="move" module="menu" name=$menu->getName()}', {$menu->getId()});" type="button" />
+        После изменений необходимо сохранить их, нажав на <input id="menuApply_{$menu->getId()}" disabled="disabled" value="Применить" onclick="menu.save('{url route="withId" action="move" module="menu" id=$menu->getId()}', {$menu->getId()});" type="button" />
         </div>
         <div class="menuTree menuMargin">
            <ul class="menuTree" id="menuTree_{$menu->getId()}">{include file="menu/adminview.tpl" items=$menu->getItems()}</ul>
