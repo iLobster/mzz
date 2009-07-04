@@ -45,10 +45,9 @@
             if (this.queue.length > 0 && this.loading == false) {
                 var self = this;
                 var elm = this.queue.shift();
-                //if (elm)
                 if (elm.cache && ( $('script[src=' + elm.url + ']').length > 0 || $.inArray(elm.url, this.scripts) >= 0) ) {
                     this._loaded('js', elm.url, elm.start, 0);
-                    this._cheack();
+                    this._check();
                 } else {
                     this.loading = true;
                     $.ajax({ 'type':     'GET',
@@ -110,7 +109,6 @@
         },
 
         /**
-         * add watchpuppy, to sniff load success %)
          * callback {Function} - to call
          * type {String} - js | css or everything
          */
@@ -150,4 +148,4 @@
     MZZ.fileLoader = new MZZ.fileLoader;
 })(jQuery);
 
-var fileLoader = MZZ.fileLoader; //for compatible
+var fileLoader = MZZ.fileLoader;
