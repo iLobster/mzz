@@ -51,6 +51,7 @@ class contentFilter implements iFilter
 
         $template = $this->getTemplateName($request, $tplPath);
 
+        $smarty->assign('current_module', $request->getRequestedModule());
         $smarty->assign('current_action', $request->getRequestedAction());
         $smarty->assign('current_path', $request->getPath());
         $smarty->assign('current_lang', $toolkit->getLocale()->getName());
