@@ -20,26 +20,53 @@
          *                        - [visible] {Boolean} сразу показать окно (default: false)
          *                        - [draggable] {Boolean} можно ли таскать окно (default: false)
          */
-        init: function(params) {
-            this._id = null;
-            this._style   = null;
-            this._zIndex  = null;
-            this._visible = false;
-            this._draggable = false;
-            this._resizable = false;
-            this._onClose = null;
 
-            if ($.isUndefined(params) || $.isUndefined(params.id)) {
+        defaults: {'layout': $('<div class="mzz-window-title mzz-window-drag" /><div class="mzz-window-content" /><div class="mzz-window-footer" />'),
+                   'style': 'default',
+                   'baseClass': false,
+                   'zIndex': 902,
+                   'visible': true,
+                   'drag': false,
+                   'dragOpts': {'handle': '.mzz-window-drag',
+                                'containment': 'document',
+                                'delay': 250,
+                                'opacity': null},
+                   'resize': false,
+                   'resizeOpts': {'alsoResize': false, //'.mzz-window-alsoResize:first',
+                                  'handles': 'se',
+                                  'minHeight': 150,
+                                  'minWidth': 650}},
+
+        defaultsDrag: {'handle': '.mzz-window-drag',
+                       'containment': 'document',
+                       'delay': 250,
+                       'opacity': null},
+
+        defaultsResize: {'alsoResize': false, //'.mzz-window-alsoResize:first',
+                         'handles': 'se',
+                         'minHeight': 100,
+                         'minWidth': 650},
+        
+
+        init: function(params) {
+
+            if ($.isUndefined(params.id)) {
                 console.log('MZZ.window::init() HALT! "id" not set, class instantinated with params = ', params);
                 return false;
             }
+            
+            this._onClose = null; 
+            this._params = $.extend(true, {}, this.defaults, params);
 
-            this._id = params.id;
+            console.log(this._params);
+
+            
             this._holder = $('<div class="mzz-window-holder" />');
-            this._holder.attr('id', this._id);
-            this._holder.append((!$.isUndefined(params.layout)) ? $(params.layout) : this._defaultLayout);
-            if (!$.isUndefined(params.baseClass)) {
-                this._holder.addClass(params.baseClass);
+            this._holder.attr('id', this._params.id);
+            this._holder.append(this._params.layout);
+            
+            if (this._params.baseClass) {
+                this._holder.addClass(this._params.baseClass);
             }
             
             this._content = this._holder.find('.mzz-window-content:first');
@@ -48,54 +75,32 @@
             this._buttons = this._holder.find('.mzz-window-buttons:first');
             this._status  = this._holder.find('.mzz-window-status:last');
 
-            this.style((!$.isUndefined(params.style)) ? params.style : 'default');
-            this.zIndex((!$.isUndefined(params.zIndex)) ? params.zIndex : 902);
-
             this._holder.appendTo($('body'));
-            
-            if (!$.isUndefined(params.draggable)) {
-                this._draggable = true;
-                var dParams = {};
-                if (params.draggable === true) {
-                    dParams = {'containment': 'document', 'delay': 250};
-                } else {
-                    dParams = params.draggable;
-                }
 
-                if ($.isUndefined(params.handle)) {
-                    dParams.handle = this._holder.find('.mzz-window-drag')
+            if (this._params.drag) {
+                if (this._params.dragOpts.handle) {
+                    this._params.dragOpts.handle = this._holder.find(this._params.dragOpts.handle);
                 }
 
                 if (MZZ.browser.msie) {
-                    dParams.opacity = null;
+                    this._params.dragOpts.opacity = null;
                 }
-                
-                this._holder.draggable(dParams);
-                
+
+                this._holder.draggable(this._params.dragOpts);
+                console.log(this._params.dragOpts);
                 this._holder.css('position', ''); //какого-то буя jQuery вешает position: relative от чего окну становиться херовато
             }
 
-            if (!$.isUndefined(params.resizable)) {
 
-                this._resizable = true;
-                var rParams = params.resizable;
-                if (rParams === true) {
-                    rParams = {handles: 'se', minHeight: 100, minWidth: 650};
-                } else {
-                    // todo: чето я туто хотел доделать :( подумать над клонированием?
-                    rParams = params.resizable;
-                    if (!$.isUndefined(rParams.alsoResize) && rParams.alsoResize === true) {
-                        rParams.alsoResize = this._holder.find('.mzz-window-alsoResize:first');
-                        
-                    } else {
-                        rParams.alsoResize = null;
-                    }
+            if (this._params.resize) {
+                if (this._params.resizeOpts.alsoResize) {
+                    this._params.resizeOpts.alsoResize = this._holder.find(this._params.resizeOpts.alsoResize);
                 }
-                
-                this._holder.resizable(rParams);
+
+                this._holder.resizable(this._params.resizeOpts);
             }
             
-            if (!$.isUndefined(params.visible) && params.visible == true) {
+            if (!$.isUndefined(this._params.visible) && this._params.visible == true) {
                 this.show();
             }
             
@@ -106,15 +111,18 @@
          */
         kill: function() {
             console.log('Oh my God!!!, someone brutally killed the window [' + this._holder.attr('id') + ']... Rest in bits');
-            if (this._draggable) {
+            
+            if (this._params.resize) {
+                this._holder.resizable('destroy');
+            }
+            
+            if (this._params.drag) {
                 this._holder.draggable('destroy');
             }
+
             this._holder.fadeOut('slow', function(){$(this).remove()});
-            this._style   = null;
-            this._zIndex  = null;
             this._content = null;
             this._title = null;
-            this._visible = false;
         },
 
         /**
@@ -204,10 +212,10 @@
          */
         style: function(style) {
             if ($.isUndefined(style) || !style) {
-                return this._style;
+                return this._params.style;
             }
 
-            var oldStyle = this._style;
+            var oldStyle = this._params.style;
 
             if (style != oldStyle) {
                 if (oldStyle != 'default') {
@@ -218,7 +226,7 @@
                     this._holder.addClass(style);
                 }
 
-                this._style = style;
+                this._params.style = style;
             }
 
             return oldStyle;
@@ -230,12 +238,12 @@
          */
         zIndex: function(zIndex) {
             if (!$.isNumber(zIndex)) {
-                return this._zIndex;
+                return this._params.zIndex;
             }
 
-            var oldIndex = this._zIndex;
+            var oldIndex = this._params.zIndex;
             this._holder.css('z-index', zIndex);
-            this._zIndex = zIndex;
+            this._params.zIndex = zIndex;
 
             return oldIndex;
         },
@@ -264,7 +272,7 @@
          * Показать окно
          */
         show: function() {
-            this._visible = true;
+            this._params.visible = true;
             this._holder.css({
                 'display': 'block'
             });
@@ -274,7 +282,7 @@
          * Спрятать окно
          */
         hide: function() {
-            this._visible = false;
+            this._params.visible = false;
             this._holder.css({
                 'display': 'none'
             });
@@ -321,10 +329,7 @@
 
                 window.kill();
             }
-        },
-
-        _defaultLayout: $('<div class="mzz-window-title mzz-window-drag" /><div class="mzz-window-content" /><div class="mzz-window-footer" />')
-
+        }
     });
 
 })(jQuery);

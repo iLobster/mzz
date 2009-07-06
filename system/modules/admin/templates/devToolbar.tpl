@@ -90,7 +90,7 @@
         <tbody>
         {foreach from=$latestObjects item=latestObject name=latestObjects}
             <tr class="{if $smarty.foreach.latestObjects.last}last{/if}">
-                <td class="first center"><a href="{url route="withId" section="access" id=$latestObject.obj_id action="editACL"}" class="jipLink">{$latestObject.obj_id}</a></td>
+                <td class="first center"><a href="{url route="withId" section="access" id=$latestObject.obj_id action="editACL"}" class="mzz-jip-link">{$latestObject.obj_id}</a></td>
                 <td class="last">{$latestObject.class_name}</td>
             </tr>
         {/foreach}
@@ -100,6 +100,6 @@
     @todo: will be reimplemented later
     <br />
     <span class="toolbarSectionName">Переводы</span>
-    <a href="{url route=default2 section=admin action=translate}" class="jipLink">Перевод модулей</a>
+    <a href="{url route=default2 section=admin action=translate}" class="mzz-jip-link">Перевод модулей</a>
     *}
 </div>

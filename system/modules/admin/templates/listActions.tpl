@@ -2,7 +2,7 @@
 
 <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
     <tr>
-        <td colspan="3"><a href="{url route="withId" module="admin" id=$id action="addAction"}" class="jipLink">Создать действие</a></td>
+        <td colspan="3"><a href="{url route="withId" module="admin" id=$id action="addAction"}" class="mzz-jip-link">Создать действие</a></td>
     </tr>
     {foreach from=$actions item=action key=key}
         <tr>

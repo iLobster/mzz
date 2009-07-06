@@ -26,7 +26,7 @@
         eventKey: function(e)
         {
             if (e.keyCode == 27) {
-                jipWindow.close();
+                jipMenu.close();
             }
         },
 

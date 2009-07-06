@@ -1,4 +1,4 @@
-<div class="moduleActions"><img src="{$SITE_PATH}/templates/images/fileManager/upload.gif" width="15" height="15" alt="" /> <a href="{url route=withAnyParam action=upload name=$current_folder->getPath()}" class="jipLink">Загрузить файл</a></div>
+<div class="moduleActions"><img src="{$SITE_PATH}/templates/images/fileManager/upload.gif" width="15" height="15" alt="" /> <a href="{url route=withAnyParam action=upload name=$current_folder->getPath()}" class="mzz-jip-link">Загрузить файл</a></div>
 <div style="height: 45px;"></div>
 
 <div class="pageContent">

@@ -1,5 +1,5 @@
 <div class="title">Менеджер файлов</div>
-{*<div class="moduleActions"><img src="{$SITE_PATH}/templates/images/fileManager/upload.gif" width="15" height="15" alt="" /> <a href="{url route=withAnyParam action=upload name=$current_folder->getTreePath() section="fileManager"}" class="jipLink">Загрузить файл</a></div>*}
+{*<div class="moduleActions"><img src="{$SITE_PATH}/templates/images/fileManager/upload.gif" width="15" height="15" alt="" /> <a href="{url route=withAnyParam action=upload name=$current_folder->getTreePath() section="fileManager"}" class="mzz-jip-link">Загрузить файл</a></div>*}
 
 {include file="admin/breadcrumbs.tpl" breadCrumbs=$breadCrumbs action=admin module=fileManager}
 
