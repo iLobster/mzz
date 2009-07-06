@@ -1,53 +1,42 @@
 /**
- *
- * Вспомогательный класс для работы с "оконами" (стоит перенести в modules/simple?)
- *
- * @todo: - autoSize();
- *        - actions & propertise: iconize, minimize, maximize, resize;
- *        - event'ы; ???
- *        - дефолтный стиль для окна.
+ *  MZZ.window: helper class for jipWindow
  */
 (function ($){
 
     MZZ.window = DUI.Class.create({
 
+        //default opts for window
+                                 //default layout;
+        defaults: {'layout':     $('<div class="mzz-window-title mzz-window-drag" /><div class="mzz-window-content" /><div class="mzz-window-footer" />'),
+                   'style':      'default', //style of the window
+                   'baseClass':  false,     //base css-class, that will be appended to the 'holder'
+                   'zIndex':     902,       //default window zIndex
+                   'visible':    true,      //visible of newly created window
+                   'drag':       false,     //is draggable window
+                                            //opts for draggable, see jQuery.UI doc @ http://jqueryui.com/demos/draggable/
+                   'dragOpts':   {'handle':      '.mzz-window-drag',
+                                  'containment': 'document',
+                                  'delay':       250,
+                                  'opacity':     null},
+
+                   'resize':     false,     //is resizable window
+                                            //opts for resizable, see jQuery.UI doc @ http://jqueryui.com/demos/resizable/
+                   'resizeOpts': {'alsoResize': false,
+                                  'handles':    'se',
+                                  'minHeight':   150,
+                                  'minWidth':    650},
+
+                   'onKill':     {'animation':   false,    //fadeOut, animate or hide
+                                  'speed':       'normal', //fast, normal, slow or number in ms
+                                  'params':      null,     //params for animation method
+                                  'easing':      null}},   //see jQuery doc @ http://docs.jquery.com/Effects/animate
+
         /**
          * @constructor
-         * @param {Object} params Хэшь параметров создания окна:
-         *                        - id {String} идентификатор
-         *                        - [style] {String} css-class, в бандле - default-серый, alert-ораньжевый, error-крассный (default: default)
-         *                        - [zIndex] {Integer} z-index окна, (default: 902)
-         *                        - [visible] {Boolean} сразу показать окно (default: false)
-         *                        - [draggable] {Boolean} можно ли таскать окно (default: false)
+         * @param {Object} params for the newly created window:
+         *                        - id {String} of the window
+         *                        ... all other see this.defaults;
          */
-
-        defaults: {'layout': $('<div class="mzz-window-title mzz-window-drag" /><div class="mzz-window-content" /><div class="mzz-window-footer" />'),
-                   'style': 'default',
-                   'baseClass': false,
-                   'zIndex': 902,
-                   'visible': true,
-                   'drag': false,
-                   'dragOpts': {'handle': '.mzz-window-drag',
-                                'containment': 'document',
-                                'delay': 250,
-                                'opacity': null},
-                   'resize': false,
-                   'resizeOpts': {'alsoResize': false, //'.mzz-window-alsoResize:first',
-                                  'handles': 'se',
-                                  'minHeight': 150,
-                                  'minWidth': 650}},
-
-        defaultsDrag: {'handle': '.mzz-window-drag',
-                       'containment': 'document',
-                       'delay': 250,
-                       'opacity': null},
-
-        defaultsResize: {'alsoResize': false, //'.mzz-window-alsoResize:first',
-                         'handles': 'se',
-                         'minHeight': 100,
-                         'minWidth': 650},
-        
-
         init: function(params) {
 
             if ($.isUndefined(params.id)) {
@@ -57,8 +46,6 @@
             
             this._onClose = null; 
             this._params = $.extend(true, {}, this.defaults, params);
-
-            console.log(this._params);
 
             
             this._holder = $('<div class="mzz-window-holder" />');
@@ -77,30 +64,33 @@
 
             this._holder.appendTo($('body'));
 
-            if (this._params.drag) {
+            if (this._params.drag && $.isFunction($.fn.draggable)) {
                 if (this._params.dragOpts.handle) {
                     this._params.dragOpts.handle = this._holder.find(this._params.dragOpts.handle);
                 }
 
                 if (MZZ.browser.msie) {
-                    this._params.dragOpts.opacity = null;
+                    this._params.dragOpts.opacity = null;  //fix for IE opacity problems
                 }
 
                 this._holder.draggable(this._params.dragOpts);
-                console.log(this._params.dragOpts);
-                this._holder.css('position', ''); //какого-то буя jQuery вешает position: relative от чего окну становиться херовато
+                this._holder.css('position', '');         //for some reasons jQuery sets position: relative
+            } else {
+                this._params.drag = false;
             }
 
 
-            if (this._params.resize) {
+            if (this._params.resize && $.isFunction($.fn.resizable)) {
                 if (this._params.resizeOpts.alsoResize) {
                     this._params.resizeOpts.alsoResize = this._holder.find(this._params.resizeOpts.alsoResize);
                 }
 
                 this._holder.resizable(this._params.resizeOpts);
+            } else {
+                this._params.resize = false;
             }
             
-            if (!$.isUndefined(this._params.visible) && this._params.visible == true) {
+            if (this._params.visible) {
                 this.show();
             }
             
@@ -120,24 +110,36 @@
                 this._holder.draggable('destroy');
             }
 
-            this._holder.fadeOut('slow', function(){$(this).remove()});
             this._content = null;
-            this._title = null;
+            this._title   = null;
+            this._icon    = null;
+            this._buttons = null;
+            this._status  = null;
+            
+            if (this._params.onKill) {
+                var call = function(){$(this).remove()};
+                if (this._params.onKill.animation == 'fadeOut') {
+                    this._holder.fadeOut(this._params.onKill.speed, call);
+                } else if (this._params.onKill.animation == 'animate') {
+                    this._holder.animate(this._params.onKill.params, this._params.onKill.speed, this._params.onKill.easing, call);
+                } else if (this._params.onKill.animation == 'hide') {
+                    this._holder.hide(this._params.onKill.speed, call)
+                } else {
+                    this._holder.css({'display': 'block'});
+                    this._holder.remove();
+                }
+            }
         },
 
-        /**
-         * Авторазмер окна под размер viewport'a броузера
-         * @param {Boolean} auto True - для отслеживание изменение viewport'a, false - для однократного / снятия бинда
-         */
         autoSize: function(auto) {
             auto = auto || false;
         },
 
         /**
-         * Доступ к заголовку окна
-         * @param {Mixed} title - пустое значение для прямого доступа к заголовку
-         * @param {Boolean} append - приклеить к существующему или нет
-         * @return ничего или объект jQuery(title)
+         * get/set window Title
+         * @param {Mixed} title - text/html to set Title or undefined to get Title object
+         * @param {Boolean} append - to exists Title
+         * @return null or jQuery(title)
          */
         title: function(title, append) {
             if (this._title.length > 0) {
@@ -158,10 +160,10 @@
         },
 
         /**
-         * Доступ к содержимому окна
-         * @param {Mixed} content - пустое значение для прямого доступа к содержимому
-         * @param {Boolean} append - приклеить к существующему или нет
-         * @return ничего или объект jQuery(content)
+         * get/set window Content
+         * @param {Mixed} content - text/html to set Content or undefined to get Content object
+         * @param {Boolean} append - to exists Content
+         * @return null or jQuery(content)
          */
         content: function(content, append) {
             if (this._content.length > 0) {
@@ -182,10 +184,10 @@
         },
 
         /**
-         * Доступ к содержимому статус-бара
-         * @param {Mixed} status - пустое значение для прямого доступа к статус-бару
-         * @param {Boolean} append - приклеить к существующему или нет
-         * @return ничего или объект jQuery(status)
+         * get/set window Status
+         * @param {Mixed} status - text/html to set Status or undefined to get Status object
+         * @param {Boolean} append - to exists Status
+         * @return null or jQuery(status)
          */
         status: function(status, append) {
             if (this._status.length > 0) {
@@ -206,9 +208,9 @@
         },
 
         /**
-         * Установить / получить стиль окна
-         * @param {String} style - имя нового стиля или пустое для получение текущего
-         * @return Возвращает текущий или старый стиль окна
+         * get/set window Style
+         * @param {String} style - css-style name or empty to get current
+         * @return {String}
          */
         style: function(style) {
             if ($.isUndefined(style) || !style) {
@@ -233,8 +235,9 @@
         },
 
         /**
-         * Установить / получить "глубину"(?) окна
-         * @param {Integer} zIndex
+         * get/set zIndex of window
+         * @param {Integer} zIndex or empty to get current
+         * @return {Integer}
          */
         zIndex: function(zIndex) {
             if (!$.isNumber(zIndex)) {
@@ -248,6 +251,11 @@
             return oldIndex;
         },
 
+        /**
+         * get/set Top of window
+         * @paran {Integer} to set or empty to get current Top value
+         * @return {Integer}
+         */
         top: function(top) {
             if ($.isNumber(top)) {
                 this._holder.css('top', top);
@@ -256,6 +264,11 @@
             }
         },
 
+        /**
+         * get/set Left of window
+         * @paran {Integer} to set or empty to get current Left value
+         * @return {Integer}
+         */
         left: function(left) {
             if ($.isNumber(left)) {
                 this._holder.css('left', left);
@@ -264,12 +277,16 @@
             }
         },
 
+        /**
+         * get window position
+         * @return {Hash}
+         */
         position: function() {
             return this._holder.position();
         },
 
         /**
-         * Показать окно
+         * Show window
          */
         show: function() {
             this._params.visible = true;
@@ -279,7 +296,7 @@
         },
 
         /**
-         * Спрятать окно
+         * Hide window
          */
         hide: function() {
             this._params.visible = false;
@@ -289,8 +306,8 @@
         },
 
         /**
-         * Затуглить окно
-         * @return true - когда открывает окно или false
+         * Toggle window
+         * @return {Boolean} - true on show, false on hide
          */
         toogle: function() {
             if (this._holder.css('display') == 'none') {
@@ -302,6 +319,9 @@
             return false;
         },
 
+        /**
+         *
+         */
         addButton: function(type, src, style, func) {
             if (this._buttons.length > 0) {
                 var img = $('<img />').attr({'src': src, 'title': type}).addClass('mzz-window-button ' + style);
@@ -317,6 +337,9 @@
 
         },
 
+        /**
+         * 
+         */
         onClose: function(param) {
             if ($.isFunction(param)) {
                 this._onClose = param;
@@ -331,5 +354,4 @@
             }
         }
     });
-
 })(jQuery);

@@ -15,14 +15,14 @@
     MZZ.jipWindow = DUI.Class.create({
         init: function() {
             this.options = {
-                    layout: '<div class="mzz-window-title mzz-window-drag" /><div class="mzz-window-content mzz-window-alsoResize" /><div class="mzz-window-footer"><div class="mzz-window-status" /></div><div class="mzz-window-icon" /><div class="mzz-window-buttons" /><div class="mzz-window-resizer" />',
-                    baseClass: 'mzz-jip-window',
-                    drag: true,
-                    resize: true,
-                    resizeOpts: {'alsoResize': '.mzz-window-alsoResize'},
-                    //resizable: {'handles': 'se', 'minWidth': 650, 'minHeight': 150, 'alsoResize': true},
-                    visible: true
-                    };
+                layout: '<div class="mzz-window-title mzz-window-drag" /><div class="mzz-window-content mzz-window-alsoResize" /><div class="mzz-window-footer"><div class="mzz-window-status" /></div><div class="mzz-window-icon" /><div class="mzz-window-buttons" /><div class="mzz-window-resizer" />',
+                baseClass: 'mzz-jip-window',
+                drag: true,
+                resize: true,
+                resizeOpts: {'alsoResize': '.mzz-window-alsoResize'},
+                visible: true,
+                onKill: {'animation': 'fadeOut', 'speed': 'normal'}
+            };
 
             this.window = false;    //текущее окно
             this.windows = []; //стэк окошков
