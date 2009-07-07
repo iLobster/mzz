@@ -49,6 +49,11 @@ class formArrayDataspace extends arrayDataspace
         unset($tmp['_validators']);
         return $tmp;
     }
+
+    public function getCSRFToken()
+    {
+        return form::getCSRFToken();
+    }
 }
 
 ?>
