@@ -92,7 +92,7 @@ class menuMapper extends mapper
 
     public function delete(menu $menu)
     {
-        $itemMapper = systemToolkit::getInstance()->getMapper('menu', 'menuItem', $this->section);
+        $itemMapper = systemToolkit::getInstance()->getMapper('menu', 'menuItem');
         foreach ($menu->getItems() as $item) {
             $itemMapper->delete($item);
         }
