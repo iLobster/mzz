@@ -67,22 +67,8 @@ class formTag extends formElement
      */
     protected function getCSRFProtection()
     {
-        $session = systemToolkit::getInstance()->getSession();
-        if (!($token = $session->get('CSRFToken'))) {
-            $token = $this->getCSRFToken();
-            $session->set('CSRFToken', $token);
-        }
+        $token = form::getCSRFToken();
         return $this->renderTag('input', array('type' => 'hidden', 'name' => form::$CSRFField, 'value' => $token));
-    }
-
-    /**
-     * Генерирует случайный идентификатор для CSRF-проверки формы
-     *
-     * @return string
-     */
-    static protected function getCSRFToken()
-    {
-        return md5(microtime(true) . rand());
     }
 
     protected function addAjaxUpload(&$attributes)

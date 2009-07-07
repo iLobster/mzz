@@ -96,6 +96,22 @@ class form
     {
         return self::$xhtml;
     }
-}
 
+    /**
+     * Генерирует случайный идентификатор для CSRF-проверки формы
+     *
+     * @return string
+     */
+    static public function getCSRFToken($reGenerate = false)
+    {
+        $session = systemToolkit::getInstance()->getSession();
+
+        if ($reGenerate === true || !($token = $session->get('CSRFToken'))) {
+            $token = md5(microtime(true) . rand());
+            $session->set('CSRFToken', $token);
+        }
+
+        return $token;
+    }
+}
 ?>
