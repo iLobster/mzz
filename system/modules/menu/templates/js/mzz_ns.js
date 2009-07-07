@@ -8,7 +8,7 @@
 
         _init: function() {
 
-            this._options    = $.extend({},this.options,this.defaults);
+            this._options    = $.extend({},this.defaults,this.options);
             this._document   = $(document);
             this._body       = $('body');
             this._sortable   = $(this.element);

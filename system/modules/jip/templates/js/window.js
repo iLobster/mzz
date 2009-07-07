@@ -7,7 +7,7 @@
 
         //default opts for window
                                  //default layout;
-        defaults: {'layout':     $('<div class="mzz-window-title mzz-window-drag" /><div class="mzz-window-content" /><div class="mzz-window-footer" />'),
+        defaults: {'layout':     $('<div class="mzz-window-title" /><div class="mzz-window-content" /><div class="mzz-window-footer" />'),
                    'style':      'default', //style of the window
                    'baseClass':  false,     //base css-class, that will be appended to the 'holder'
                    'zIndex':     902,       //default window zIndex

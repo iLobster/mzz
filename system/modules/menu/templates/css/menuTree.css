@@ -142,10 +142,11 @@ ul.menuTree ul {
 }
 
 .menuHandler {
-    background: transparent url(../../images/menu/handle.png) repeat top center;
+    background: transparent url(../../images/jip/handle.png) repeat top center;
     width: 9px;
     height: 20px;
     float: left;
     display: inline;
     margin: 4px 5px 0px 0px;
+    cursor: move;
 }
