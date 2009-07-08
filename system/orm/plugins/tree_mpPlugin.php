@@ -343,7 +343,8 @@ class tree_mpPlugin extends observer
         if ($this->path_name_changed) {
             $this->path_name_changed = false;
 
-            $new = $object->getTreeParent()->getTreePath() . '/' . $object->{$this->options['path_name_accessor']}() . '/';
+            $new = $object->getTreeLevel() != 1 ? $object->getTreeParent()->getTreePath() . '/' : '';
+            $new .= $object->{$this->options['path_name_accessor']}() . '/';
 
             $sql = "UPDATE `" . $this->table() . "`
                      SET `path` = CONCAT(" . $this->mapper->db()->quote($new) . ", SUBSTRING(`path`, " . (strlen($object->getTreePath()) + 2) . "))
