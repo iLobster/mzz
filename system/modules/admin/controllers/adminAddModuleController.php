@@ -37,6 +37,11 @@ class adminAddModuleController extends simpleController
 
         $dests = $adminGeneratorMapper->getDests(true);
 
+        if (!sizeof($dests)) {
+            $controller = new messageController(i18n::getMessage('error.write_denied', 'admin'), messageController::WARNING);
+            return $controller->run();
+        }
+
         $nameRO = false;
         if ($isEdit) {
             $data = $adminMapper->searchModuleById($id);

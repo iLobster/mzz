@@ -62,6 +62,11 @@ class adminAddClassController extends simpleController
 
         $dests = $adminGeneratorMapper->getDests(true, $module_name);
 
+        if (!sizeof($dests)) {
+            $controller = new messageController(i18n::getMessage('error.write_denied', 'admin'), messageController::WARNING);
+            return $controller->run();
+        }
+
         $validator = new formValidator();
 
         $validator->add('required', 'name', i18n::getMessage('class.error.name_required', 'admin'));

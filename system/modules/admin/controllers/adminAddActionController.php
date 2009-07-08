@@ -61,6 +61,11 @@ class adminAddActionController extends simpleController
 
         $dests = $adminGeneratorMapper->getDests(true, $module['name']);
 
+        if (!sizeof($dests)) {
+            $controller = new messageController(i18n::getMessage('error.write_denied', 'admin'), messageController::WARNING);
+            return $controller->run();
+        }
+
         $defaults = $this->getDefaults($module['name'], $class['name']);
         $data = $defaults;
 
