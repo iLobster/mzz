@@ -33,7 +33,8 @@ CREATE TABLE `comments_comments` (
   `user_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   `created` INTEGER(11) UNSIGNED DEFAULT NULL,
   `folder_id` INTEGER(11) UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `folder_id` (`folder_id`)
 )ENGINE=MyISAM
 AUTO_INCREMENT=2 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -51,8 +52,7 @@ CREATE TABLE `comments_commentsFolder` (
   `type` CHAR(50) COLLATE utf8_general_ci DEFAULT NULL,
   `by_field` CHAR(50) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `parent_id_2` (`parent_id`, `type`),
-  KEY `parent_id` (`parent_id`)
+  UNIQUE KEY `parent_id_2` (`parent_id`, `type`)
 )ENGINE=MyISAM
 AUTO_INCREMENT=4 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
@@ -77,7 +77,8 @@ CREATE TABLE `comments_comments_tree` (
   `foreign_key` INTEGER(11) DEFAULT NULL,
   `level` INTEGER(11) UNSIGNED DEFAULT NULL,
   `spath` TEXT COLLATE utf8_general_ci,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `foreign_key` (`foreign_key`)
 )ENGINE=MyISAM
 AUTO_INCREMENT=15 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
