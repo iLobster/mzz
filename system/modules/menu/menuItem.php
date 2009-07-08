@@ -95,7 +95,7 @@ abstract class menuItem extends entity
     protected function stripLangFromUrl($url)
     {
         if ($this->urlLangSpecified) {
-            $url = preg_replace('!^' . $this->urlLang . '/!siU', '', $url);
+            $url = preg_replace('!^' . $this->urlLang . '/{0,1}!si', '', $url);
         }
 
         return $url;

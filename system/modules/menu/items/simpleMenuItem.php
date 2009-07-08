@@ -20,6 +20,7 @@ class simpleMenuItem extends menuItem
             $request = $toolkit->getRequest();
 
             $url = $this->getUrl(false, false);
+
             $this->isActive = ($url == $this->stripLangFromUrl($request->getPath()));
         }
 

@@ -25,22 +25,23 @@ class fileManagerListController extends simpleController
     protected function getView()
     {
         $folderMapper = $this->toolkit->getMapper('fileManager', 'folder');
-        $path = $this->request->getString('path');
+        $fileMapper = $this->toolkit->getMapper('fileManager', 'file');
+        $name = $this->request->getString('name');
 
-        $folder = $folderMapper->searchByPath($path);
+        $folder = $folderMapper->searchByPath($name);
 
         if ($folder) {
-            $breadCrumbs = $folderMapper->getParentBranch($folder);
+            $breadCrumbs = $folder->getTreeParentBranch();
             $this->smarty->assign('breadCrumbs', $breadCrumbs);
 
             $config = $this->toolkit->getConfig('fileManager');
-            $pager = $this->setPager($folder, $config->get('items_per_page'));
+            $pager = $this->setPager($fileMapper, $config->get('items_per_page'));
             $this->smarty->assign('current_folder', $folder);
-            $this->smarty->assign('files', $folder->getItems());
+            $this->smarty->assign('files', $fileMapper->searchByFolder($folder->getId()));
             return $this->smarty->fetch('fileManager/list.tpl');
         }
 
-        return $folderMapper->get404()->run();
+        return $this->forward404($folderMapper);
     }
 }
 

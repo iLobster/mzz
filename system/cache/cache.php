@@ -36,7 +36,7 @@ class cache
      *
      * @param string $configName the name of the cache backend configuration (it is also the instance name)
      * @param array $configs configurations (if passed as null, the system configurations will be used)
-     * @return object
+     * @return iCache
      */
     public static function factory($configName = self::DEFAULT_CONFIG_NAME, $configs = null)
     {

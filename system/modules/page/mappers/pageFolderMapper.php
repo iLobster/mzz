@@ -91,9 +91,9 @@ class pageFolderMapper extends mapper
      * @param string $name
      * @return page|null
      */
-    public function searchChild($name, $pageMapepr = null)
+    public function searchChild($name, $pageMapper = null)
     {
-        if ($pageMapepr == null) {
+        if ($pageMapper == null) {
             $toolkit = systemToolkit::getInstance();
             $pageMapper = $toolkit->getMapper('page', 'page');
         }

@@ -102,12 +102,11 @@ class fileMapper extends mapper
      * @param integer $id идентификатор папки
      * @return array
      */
-    /*
     public function searchByFolder($folder_id)
     {
         return $this->searchAllByField('folder_id', (int)$folder_id);
     }
-
+/*
     public function searchById($id)
     {
         return $this->searchOneByField('id', $id);
@@ -146,7 +145,6 @@ class fileMapper extends mapper
      *
      * @param string $mask маска для LIKE
      */
-    /*
     public function searchByNameMask($mask)
     {
         $criterion = new criterion('name', $mask, criteria::LIKE);
@@ -154,7 +152,7 @@ class fileMapper extends mapper
         $criteria->add($criterion);
         $criteria->setOrderByFieldAsc('name');
         return $this->searchAllByCriteria($criteria);
-    }*/
+    }
 
     /**
      * Выполнение операций с массивом $fields перед обновлением в БД

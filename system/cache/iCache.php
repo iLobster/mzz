@@ -26,10 +26,10 @@ interface iCache
     /**
      * Добавляет данные в кэш. Если значение уже существует, то возвращает false
      *
-     * @param $key идентификатор значения в кэшэ
-     * @param $value кэшируемое значение
-     * @param $expire количество секунд до того, как кэш будет просрочен
-     * @param $params дополнительные параметры
+     * @param mixed $key - идентификатор значения в кэшэ
+     * @param mixed $value - кэшируемое значение
+     * @param int[optional] $expire - количество секунд до того, как кэш будет просрочен
+     * @param array[optional] $params - дополнительные параметры
      * @return bool
      */
     public function add($key, $value, $expire = null, $params = array());
@@ -37,10 +37,10 @@ interface iCache
     /**
      * Добавляет данные в кэш.
      *
-     * @param $key идентификатор значения в кэшэ
-     * @param $value кэшируемое значение
-     * @param $expire количество секунд до того, как кэш будет просрочен
-     * @param $params дополнительные параметры
+     * @param mixed $key - идентификатор значения в кэшэ
+     * @param mixed $value - кэшируемое значение
+     * @param int[optional] $expire - количество секунд до того, как кэш будет просрочен
+     * @param array[optional] $params - дополнительные параметры
      * @return bool
      */
     public function set($key, $value, $expire = null, $params = array());
@@ -48,7 +48,7 @@ interface iCache
     /**
      * Получает данные из кэша. Если такого значения нет в кэшэ, то возвращает false
      *
-     * @param $key идентификатор значения в кэшэ
+     * @param mixed $key - идентификатор значения в кэшэ
      * @return string|null
      */
     public function get($key);
@@ -56,8 +56,8 @@ interface iCache
     /**
      * Получает данные из кэша. Если такого значения нет в кэшэ, то возвращает false
      *
-     * @param $key идентификатор значения в кэшэ
-     * @param $params дополнительные параметры
+     * @param mixed $key идентификатор значения в кэшэ
+     * @param array[optional] $params дополнительные параметры
      * @return bool
      */
     public function delete($key, $params = array());
@@ -65,7 +65,7 @@ interface iCache
     /**
      * Очищает весь кэш
      *
-     * @param $params дополнительные параметры
+     * @param array[optional] $params дополнительные параметры
      * @return bool
      */
     public function flush($params = array());
