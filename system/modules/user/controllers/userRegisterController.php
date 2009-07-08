@@ -29,10 +29,10 @@ class userRegisterController extends simpleController
         $userMapper = $this->toolkit->getMapper('user', 'user');
         $user = $this->toolkit->getUser();
 
-        //if ($user->isLoggedIn()) {
-            //$controller = new messageController('Вам не требуется регистрация', messageController::INFO);
-            //return $controller->run();
-        //}
+        if ($user->isLoggedIn()) {
+            $controller = new messageController('Вам не требуется регистрация', messageController::INFO);
+            return $controller->run();
+        }
 
         $userId = $this->request->getInteger('user', SC_GET);
         $confirm = $this->request->getString('confirm', SC_GET);
@@ -44,8 +44,8 @@ class userRegisterController extends simpleController
             $validator->add('required', 'email', 'Необходимо указать обратный e-mail');
             $validator->add('email', 'email', 'Необходимо указать правильный e-mail');
             $validator->add('required', 'repassword', 'Необходимо указать повтор пароль');
-            $validator->add('callback', 'login', 'Пользователь с таким логином уже существует', array('checkUniqueUserLogin', $userMapper));
-            $validator->add('callback', 'repassword', 'Повтор пароля не совпадает', array('checkRepass', $this->request->getString('password', SC_POST)));
+            $validator->add('callback', 'login', 'Пользователь с таким логином уже существует', array(array($this, 'checkUniqueUserLogin'), $userMapper));
+            $validator->add('callback', 'repassword', 'Повтор пароля не совпадает', array(array($this, 'checkRepass'), $this->request->getString('password', SC_POST)));
 
             $url = new url('default2');
             $url->setAction('register');
@@ -104,17 +104,17 @@ class userRegisterController extends simpleController
             }
         }
     }
-}
 
-function checkUniqueUserLogin($login, $userMapper)
-{
-    $user = $userMapper->searchByLogin($login);
-    return ($user->getId() == MZZ_USER_GUEST_ID && $login !== $user->getLogin());
-}
+    function checkUniqueUserLogin($login, $userMapper)
+    {
+        $user = $userMapper->searchByLogin($login);
+        return is_null($user);
+    }
 
-function checkRepass($repassword, $password)
-{
-    return $password == $repassword;
+    function checkRepass($repassword, $password)
+    {
+        return $password == $repassword;
+    }
 }
 
 ?>
