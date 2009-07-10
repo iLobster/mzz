@@ -20,7 +20,7 @@ class advancedMenuItem extends menuItem
             }
 
             if ($this->url === '') {
-                $this->url = '/';
+                $this->url = SITE_PATH . '/';
             }
         }
 
