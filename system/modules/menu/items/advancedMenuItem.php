@@ -18,6 +18,10 @@ class advancedMenuItem extends menuItem
             } else {
                 $this->url = '';
             }
+
+            if ($this->url === '') {
+                $this->url = '/';
+            }
         }
 
         return $this->url;

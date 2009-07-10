@@ -4,15 +4,10 @@ $router->addRoute('withAnyParam', new requestRoute(':section/:name/:action', arr
 $router->addRoute('default2', new requestRoute(':section/:action'));
 $router->addRoute('adminDefault', new requestRoute('admin', array('section' => 'admin', 'action' => 'admin')));
 
-//$router->addRoute('cfgEdit', new requestRoute('config/:section_name/:module_name/:action', array('section' => 'config'), array('action' => 'editCfg')));
-
 $router->addRoute('captcha', new requestRoute('captcha', array('section' => 'captcha', 'action' => 'view')));
 
 $router->addRoute('fmFolder', new requestRoute('fileManager/:name/:action', array('section' => 'fileManager', 'name' => 'root', 'action' => 'get'), array('name' => '.+?', 'action' => '(?:list|upload|edit|delete|get|editFolder|createFolder|deleteFolder|move|moveFolder)')));
 $router->addRoute('fmFolderRoot', new requestRoute('fileManager/:action', array('section' => 'fileManager', 'name' => 'root', 'action' => 'list'), array('name' => '.+?', 'action' => '(?:list|upload)')));
-
-$router->addRoute('catalogueFolder', new requestRoute('catalogue/:name/:action', array('section' => 'catalogue', 'name' => 'root', 'action' => 'list'), array('name' => '.+?', 'action' => '(?:list|create|createFolder|editFolder|deleteFolder|moveFolder|massAction)')));
-$router->addRoute('catalogueActions', new requestRoute('catalogue/:action', array('section' => 'catalogue'), array('action' => '(?:addType|addProperty|delete|move|adminTypes|adminProperties)')));
 
 $router->addRoute('newsFolder', new requestRoute('news/:name/:action', array('section' => 'news', 'name' => 'root', 'action' => 'list'), array('name' => '.*?', 'action' => '(?:list|create|createFolder|editFolder|deleteFolder|moveFolder)')));
 //$router->addRoute('newsActions', new requestRoute('news/:action', array('section' => 'news', 'name' => 'root', 'action' => 'list'), array('action' => '(?:list|create|delete|createFolder)')));
