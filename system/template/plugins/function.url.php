@@ -122,7 +122,14 @@ function smarty_function_url($params, $smarty)
         }
         return $finishedUrl;
     }
-    return $url->get();
+
+    $url = $url->get();
+
+    if (isset($params['escape']) && $params['escape']) {
+        $url = htmlspecialchars($url);
+    }
+
+    return $url;
 }
 
 ?>
