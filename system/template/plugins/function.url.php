@@ -125,7 +125,7 @@ function smarty_function_url($params, $smarty)
 
     $url = $url->get();
 
-    if (isset($params['escape']) && $params['escape']) {
+    if (!empty($params['escape'])) {
         $url = htmlspecialchars($url);
     }
 
