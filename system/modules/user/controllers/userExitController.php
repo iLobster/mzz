@@ -35,7 +35,14 @@ class userExitController extends simpleController
         $this->response->setCookie(userAuthMapper::$auth_cookie_name, '', 0, '/');
 
         $this->toolkit->setUser($userMapper->getGuest());
-        $this->redirect($this->request->getString('url', SC_GET));
+
+        $backUrl = $this->request->getString('url', SC_GET);
+        if (!$backUrl) {
+            $url = new url('default');
+            $backUrl = $url->get();
+        }
+
+        $this->redirect($backUrl);
     }
 }
 

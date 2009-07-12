@@ -83,6 +83,8 @@ class newsMapper extends mapper
             'options' => array(
                 'once',
             ),
+            'orderBy' => 1,
+            'orderByDirection' => 'DESC',
         ),
         'updated' => array(
             'accessor' => 'getUpdated',

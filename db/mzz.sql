@@ -1,4 +1,4 @@
-# SQL Manager 2007 for MySQL 4.4.0.5
+# SQL Manager 2007 for MySQL 4.4.0.3
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -444,8 +444,6 @@ CREATE TABLE `page_pageFolder` (
   `obj_id` INTEGER(11) UNSIGNED NOT NULL DEFAULT '0',
   `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `parent` INTEGER(11) DEFAULT '0',
-  `path` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
 )ENGINE=MyISAM
@@ -455,8 +453,8 @@ AUTO_INCREMENT=5 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 # Data for the `page_pageFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `page_pageFolder` (`id`, `obj_id`, `name`, `title`, `parent`, `path`) VALUES 
-  (2,161,'root','/',1,'root');
+INSERT INTO `page_pageFolder` (`id`, `obj_id`, `name`, `title`) VALUES 
+  (2,161,'root','/');
 COMMIT;
 
 #
