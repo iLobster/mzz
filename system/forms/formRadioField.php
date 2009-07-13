@@ -40,7 +40,7 @@ class formRadioField extends formCheckboxField
     public function render($attributes = array(), $value = null)
     {
         $attributes['nodefault'] = true;
-        $value = $this->getElementValue($attributes, null);
+        //$value = $this->getElementValue($attributes, null); // what this code is used for?!?!
         return parent::render($attributes, $value);
     }
 
