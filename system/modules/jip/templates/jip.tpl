@@ -9,7 +9,9 @@
 {add file="jquery.ex.js"}
 
 {add file="jip.css"}
-{add file="admin/iconsAdmin.css"}
+{add file="icons.css"}
+{add file="bullets.css"}
+{add file="flags.css"}
 {add file="tiny_mce/tiny_mce.js" join=false}
 
 {add file="jip/fileLoader.js"}

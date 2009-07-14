@@ -1,0 +1,248 @@
+span.mzz-bullet {
+    display: -moz-inline-box;
+    display: inline-block !important;
+    width: 11px;
+    height: 11px;
+    padding: 0px;
+    margin: 5px 0px 0px 5px;
+    background: transparent none no-repeat scroll 100px 100px;
+}
+
+span.mzz-bullet
+{
+    background-image: url(../images/bullets.inactive.png);
+}
+
+.disabled span.mzz-bullet,
+span.mzz-bullet.disabled
+{
+    background-image: url(../images/bullets.inactive.png) !important;
+}
+
+span.mzz-bullet:hover,
+a:hover span.mzz-bullet,
+span.mzz-icon:hover span.mzz-bullet
+{
+    background-image: url(../images/bullets.active.png);
+}
+
+.active span.mzz-bullet,
+span.mzz-bullet.active
+{
+    background-image: url(../images/bullets.active.png) !important;
+}
+    span.mzz-bullet-add {
+    background-position: -0px -0px;
+}
+
+span.mzz-bullet-del {
+    background-position: -11px -0px;
+}
+
+span.mzz-bullet-expand {
+    background-position: -22px -0px;
+}
+
+span.mzz-bullet-collapse {
+    background-position: -33px -0px;
+}
+
+span.mzz-bullet-star {
+    background-position: -44px -0px;
+}
+
+span.mzz-bullet-burn {
+    background-position: -55px -0px;
+}
+
+span.mzz-bullet-black {
+    background-position: -0px -11px;
+}
+
+span.mzz-bullet-blue {
+    background-position: -11px -11px;
+}
+
+span.mzz-bullet-green {
+    background-position: -22px -11px;
+}
+
+span.mzz-bullet-orange {
+    background-position: -33px -11px;
+}
+
+span.mzz-bullet-pink {
+    background-position: -44px -11px;
+}
+
+span.mzz-bullet-purple {
+    background-position: -55px -11px;
+}
+
+span.mzz-bullet-red {
+    background-position: -0px -22px;
+}
+
+span.mzz-bullet-white {
+    background-position: -11px -22px;
+}
+
+span.mzz-bullet-yellow {
+    background-position: -22px -22px;
+}
+
+span.mzz-bullet-eject {
+    background-position: -33px -22px;
+}
+
+span.mzz-bullet-pause {
+    background-position: -44px -22px;
+}
+
+span.mzz-bullet-stop {
+    background-position: -55px -22px;
+}
+
+span.mzz-bullet-previous {
+    background-position: -0px -33px;
+}
+
+span.mzz-bullet-next {
+    background-position: -11px -33px;
+}
+
+span.mzz-bullet-first {
+    background-position: -22px -33px;
+}
+
+span.mzz-bullet-last {
+    background-position: -33px -33px;
+}
+
+span.mzz-bullet-forward {
+    background-position: -44px -33px;
+}
+
+span.mzz-bullet-backward {
+    background-position: -55px -33px;
+}
+
+span.mzz-bullet-down {
+    background-position: -0px -44px;
+}
+
+span.mzz-bullet-up {
+    background-position: -11px -44px;
+}
+
+span.mzz-bullet-bottom {
+    background-position: -22px -44px;
+}
+
+span.mzz-bullet-top {
+    background-position: -33px -44px;
+}
+
+span.mzz-bullet-downward {
+    background-position: -44px -44px;
+}
+
+span.mzz-bullet-upward {
+    background-position: -55px -44px;
+}
+
+span.mzz-bullet-error {
+    background-position: -0px -55px;
+}
+
+span.mzz-bullet-save {
+    background-position: -11px -55px;
+}
+
+span.mzz-bullet-feed {
+    background-position: -22px -55px;
+}
+
+span.mzz-bullet-key {
+    background-position: -33px -55px;
+}
+
+span.mzz-bullet-img {
+    background-position: -44px -55px;
+}
+
+span.mzz-bullet-wrench {
+    background-position: -55px -55px;
+}
+
+span.mzz-bullet-connect {
+    background-position: -0px -66px;
+}
+
+span.mzz-bullet-light {
+    background-position: -11px -66px;
+}
+
+span.mzz-bullet-brush {
+    background-position: -22px -66px;
+}
+
+span.mzz-bullet-edit {
+    background-position: -33px -66px;
+}
+
+span.mzz-bullet-ok {
+    background-position: -44px -66px;
+}
+
+span.mzz-bullet-faild {
+    background-position: -55px -66px;
+}
+
+span.mzz-bullet-user {
+    background-position: -0px -77px;
+}
+
+span.mzz-bullet-find {
+    background-position: -11px -77px;
+}
+
+span.mzz-bullet-cog {
+    background-position: -22px -77px;
+}
+
+span.mzz-bullet-refresh {
+    background-position: -33px -77px;
+}
+
+span.mzz-bullet-zip {
+    background-position: -44px -77px;
+}
+
+span.mzz-bullet-chart {
+    background-position: -55px -77px;
+}
+
+span.mzz-bullet-default {
+    background-position: -0px -88px;
+}
+
+span.mzz-bullet-link {
+    background-position: -11px -88px;
+}
+
+span.mzz-bullet-plus {
+    background-position: -22px -88px;
+}
+
+span.mzz-bullet-minus {
+    background-position: -33px -88px;
+}
+
+span.mzz-bullet-lock {
+    background-position: -44px -88px;
+}
+
+span.mzz-bullet-move {
+    background-position: -55px -88px;
+}

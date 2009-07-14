@@ -6,7 +6,9 @@
     <meta name="generator" content="{$smarty.const.MZZ_NAME} v.{$smarty.const.MZZ_VERSION}-{$smarty.const.MZZ_REVISION}" />
     <link rel="stylesheet" type="text/css" href="{$SITE_PATH}/templates/css/admin/admin.css" />
     <link rel="stylesheet" type="text/css" href="{$SITE_PATH}/templates/css/admin/system.css" />
-    <link rel="stylesheet" type="text/css" href="{$SITE_PATH}/templates/css/admin/iconsAdmin.css" />
+    <link rel="stylesheet" type="text/css" href="{$SITE_PATH}/templates/css/icons.css" />
+    <link rel="stylesheet" type="text/css" href="{$SITE_PATH}/templates/css/bullets.css" />
+    <link rel="stylesheet" type="text/css" href="{$SITE_PATH}/templates/css/flags.css" />
     {include file='include.css.tpl'}
     <script type="text/javascript">
     //<!--

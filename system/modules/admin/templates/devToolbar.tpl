@@ -11,11 +11,12 @@
 {add file="jip/jipWindow.js"}
 {add file="admin/toolbar.css"}
 {add file="admin/devToolbar.js"}
+
 <div class="title">devToolBar</div>
 
 <!-- модули и классы -->
 <div id="modulesAndClasses" class="toolbarBlock">
-    <span class="toolbarSectionName"><strong>Модули</strong> и классы <span class="mzz-icon mzz-icon-block"><span class="mzz-overlay mzz-overlay-add"><a href="{url route="default2" section="admin" action="addModule"}" class="mzz-jip-link"></a></span></span></span>
+    <span class="toolbarSectionName">{icon sprite="sprite:mzz-flag/ru/add"}{icon sprite="sprite:mzz-flag/ru"}<strong>Модули</strong> и классы <span class="mzz-icon mzz-icon-block"><span class="mzz-bullet mzz-bullet-add"><a href="{url route="default2" section="admin" action="addModule"}" class="mzz-jip-link"></a></span></span></span>
     {foreach from=$modules item=module key=name}
         {assign var="count" value=$module.classes|@sizeof}
         <table id="module-{$name}" class="toolbar admin" cellspacing="0">
@@ -26,9 +27,9 @@
                         {if not empty($module.editACL)}
                             <span class="mzz-icon mzz-icon-key"><a href="{url route=withId section="access" id="`$module.obj_id`" action="editACL"}" class="mzz-jip-link" title="Редактировать права доступа"></a></span>
                         {/if}
-                        <span class="mzz-icon mzz-icon-block"><span class="mzz-overlay mzz-overlay-edit"><a href="{url route="withId" section="admin" id=$module.id action="editModule"}" class="mzz-jip-link" title="Редактировать модуль"></a></span></span>
-                        <span class="mzz-icon mzz-icon-block"><span class="mzz-overlay mzz-overlay-del"><a href="{url route="withId" section="admin" id=$module.id action="deleteModule"}" class="mzz-jip-link" title="Удалить модуль"></a></span></span>
-                        <span class="mzz-icon mzz-icon-script"><span class="mzz-overlay mzz-overlay-add"><a href="{url route="withId" section="admin" id=$module.id action="addClass"}" class="mzz-jip-link" title="Добавить класс"></a></span></span>
+                        <span class="mzz-icon mzz-icon-block"><span class="mzz-bullet mzz-bullet-edit"><a href="{url route="withId" section="admin" id=$module.id action="editModule"}" class="mzz-jip-link" title="Редактировать модуль"></a></span></span>
+                        <span class="mzz-icon mzz-icon-block"><span class="mzz-bullet mzz-bullet-del"><a href="{url route="withId" section="admin" id=$module.id action="deleteModule"}" class="mzz-jip-link" title="Удалить модуль"></a></span></span>
+                        <span class="mzz-icon mzz-icon-script"><span class="mzz-bullet mzz-bullet-add"><a href="{url route="withId" section="admin" id=$module.id action="addClass"}" class="mzz-jip-link" title="Добавить класс"></a></span></span>
                         <span class="mzz-icon mzz-icon-wrench"><a href="{url route="withId" section="config" id=$name action="list"}" class="mzz-jip-link" title="Редактировать опции модуля"></a></span>
                     </th>
                 </tr>
@@ -39,12 +40,12 @@
                     <td class="first name">{$class}</td>
                     <td class="last actions">
                         {if not empty($module.editDefault)}
-                        <span class="mzz-icon mzz-icon-key"><span class="mzz-overlay mzz-overlay-default"><a href="{url route=withAnyParam section="access" name=$class action="editDefault"}" class="mzz-jip-link" title="Редактировать права 'по умолчанию'"></a></span></span>
+                        <span class="mzz-icon mzz-icon-key"><span class="mzz-bullet mzz-bullet-default"><a href="{url route=withAnyParam section="access" name=$class action="editDefault"}" class="mzz-jip-link" title="Редактировать права 'по умолчанию'"></a></span></span>
                         {/if}
-                        <span class="mzz-icon mzz-icon-cog"><span class="mzz-overlay mzz-overlay-edit"><a href="{url route="withId" section="admin" id=$id action="listActions"}" class="mzz-jip-link" title="Редактировать действия класса"></a></span></span>
+                        <span class="mzz-icon mzz-icon-cog"><span class="mzz-bullet mzz-bullet-edit"><a href="{url route="withId" section="admin" id=$id action="listActions"}" class="mzz-jip-link" title="Редактировать действия класса"></a></span></span>
                         <span class="mzz-icon mzz-icon-db-table"><a href="{url route="withId" section="admin" id=$id action="map"}" class="mzz-jip-link" title="Map"></a></span>
-                        <span class="mzz-icon mzz-icon-script"><span class="mzz-overlay mzz-overlay-edit"><a href="{url route="withId" section="admin" id=$id action="editClass"}" class="mzz-jip-link" title="Редактировать класс"></a></span></span>
-                        <span class="mzz-icon mzz-icon-script"><span class="mzz-overlay mzz-overlay-del"><a href="{url route="withId" section="admin" id=$id action="deleteClass"}" class="mzz-jip-link" title="Удалить класс"></a></span></span>
+                        <span class="mzz-icon mzz-icon-script"><span class="mzz-bullet mzz-bullet-edit"><a href="{url route="withId" section="admin" id=$id action="editClass"}" class="mzz-jip-link" title="Редактировать класс"></a></span></span>
+                        <span class="mzz-icon mzz-icon-script"><span class="mzz-bullet mzz-bullet-del"><a href="{url route="withId" section="admin" id=$id action="deleteClass"}" class="mzz-jip-link" title="Удалить класс"></a></span></span>
                     </td>
                 </tr>
             {foreachelse}
@@ -59,7 +60,7 @@
 </div>
 
 <div class="toolbarBlock">
-    <span class="toolbarSectionName"><strong>Разделы</strong> и модули <span class="mzz-icon mzz-icon-script"><span class="mzz-overlay mzz-overlay-edit"><a href="{url route="default2" section="admin" action="editSections"}" class="mzz-jip-link"></a></span></span></span>
+    <span class="toolbarSectionName"><strong>Разделы</strong> и модули <span class="mzz-icon mzz-icon-script"><span class="mzz-bullet mzz-bullet-edit"><a href="{url route="default2" section="admin" action="editSections"}" class="mzz-jip-link"></a></span></span></span>
     <table class="toolbar admin" cellspacing="0">
         <thead class="toolbarModules">
             <tr class="first">
@@ -79,7 +80,7 @@
 </div>
 
 <div class="toolbarBlock">
-    <span class="toolbarSectionName">Зарегистрированные объекты <span class="mzz-icon mzz-icon-db"><span class="mzz-overlay mzz-overlay-add"><a href="{url route="default2" section="admin" action="addObjToRegistry"}" class="mzz-jip-link"></a></span></span></span>
+    <span class="toolbarSectionName">Зарегистрированные объекты <span class="mzz-icon mzz-icon-db"><span class="mzz-bullet mzz-bullet-add"><a href="{url route="default2" section="admin" action="addObjToRegistry"}" class="mzz-jip-link"></a></span></span></span>
     <table class="toolbar admin" id="aclObjects" cellspacing="0">
         <thead>
             <tr class="first">

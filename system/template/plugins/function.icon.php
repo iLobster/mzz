@@ -20,14 +20,14 @@
  * Примеры использования:
  * <code>
  * sprite - ссылка на файл (вначало будет добавлено SITE_PATH)
- *          или спрайт в формате sprite:name/index[/overlay]
+ *          или спрайт в формате sprite:name/index[/bullet]
  * [jip - false|true] - сгенерить строку для jipMenu
  * [active - false|true] - активное состояние иконки (имеет приоритет)
  * [disabled - false|true] - задизабленное состояние
  *
  * {icon sprite="/templates/images/add.gif"} = <img src="/templates/images/add.gif" width="16" height="16" alt="icon" />
- * {icon sprite="sprite:mzz-icon/mzz-icon-folder/mzz-overlay-add"} = <span class="mzz-icon mzz-icon-folder"><span class="mzz-overlay mzz-overlay-add"></span></span>
- * {icon sprite="sprite:mzz-icon/mzz-icon-folder/mzz-overlay-add" jip=true} = {'sprite':'mzz-icon','index':'mzz-icon-folder', 'overlay':'mzz-overlay-add'}
+ * {icon sprite="sprite:mzz-icon/folder/add"} = <span class="mzz-icon mzz-icon-folder"><span class="mzz-bullet mzz-bullet-add"></span></span>
+ * {icon sprite="sprite:mzz-icon/folder/add" jip=true} = {'sprite':'mzz-icon','index':'folder', 'bullet':'add'}
  * </code>
  *
  * @param array $params входные аргументы функции
@@ -49,10 +49,10 @@ function smarty_function_icon($params, $smarty)
             $sprite = explode('/', substr($params['sprite'], 7));
             if (count($sprite) >= 2) {
                 if ($jip) {
-                    return "{'sprite':'" . $sprite[0] . "', 'index':'" . $sprite[1] . "'" . (isset($sprite[2]) ? ", 'overlay':'" . $sprite[2] . "'" : "") ."}";
+                    return "{'sprite':'" . $sprite[0] . "', 'index':'" . $sprite[1] . "'" . (isset($sprite[2]) ? ", 'bullet':'" . $sprite[2] . "'" : "") ."}";
                 } else {
-                    return '<span class="' . $sprite[0] . ' ' . $sprite[1] . (($active) ? ' active' : (($disabled) ? ' disabled' : '')) . '">'
-                           . (isset($sprite[2]) ? '<span class="mzz-overlay ' . $sprite[2] . '"></span>' : '' ) . '</span>';
+                    return '<span class="' . $sprite[0] . ' '. $sprite[0] . '-' . $sprite[1] . (($active) ? ' active' : (($disabled) ? ' disabled' : '')) . '">'
+                           . (isset($sprite[2]) ? '<span class="mzz-bullet mzz-bullet-' . $sprite[2] . '"></span>' : '' ) . '</span>';
                 }
             }
         } else {
