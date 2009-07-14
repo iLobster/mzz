@@ -64,8 +64,7 @@
                     this.close();
                 }
 
-                if (langs) this.langs = langs;
-                this.draw(button, id, items);
+                this.draw(button, id, items, langs);
                 this.cButton.attr({
                     src: SITE_PATH + '/templates/images/jip/jip_active.gif'
                 });
@@ -74,10 +73,11 @@
             }
         },
 
-        showLang: function(parent, lnk) {
+        showLang: function(parent, lnk, langs) {
+            console.log(langs);
             id = parent.attr('id') + '_lang';
             if (!$('#' + id).length) {
-                this.drawLang(id, lnk);
+                this.drawLang(id, lnk, langs);
             }
 
             var lang = $('#' + id);
@@ -123,19 +123,16 @@
             }
         },
 
-        draw: function(button, id, items) {
+        draw: function(button, id, items, langs) {
             if (!$('#' + id).length) {
-
-                /*
-                 * <ul id="" class="jipMenu">
-                 *  <li class="jipItem">
-                 *      <a href="#"><span class="mzz-jip-icon"></span><span class="mzz-jip-title">title</span></a>
-                 *  </li>
-                 * </ul>
-                 */
                 var jipMenuDiv = $('<div />').attr({'id': id}).css({
                     'display': 'none'
-                }).appendTo($('body')).addClass('mzz-jip-menu');
+                }).appendTo($('body')).addClass('mzz-jip-menu').hover(function() {
+                    jipMenu.mouseIn();
+                },
+                function() {
+                    jipMenu.mouseOut();
+                });
 
                 var jipMenuUl = $('<ul />').appendTo(jipMenuDiv).addClass('mzz-jip-menu');
 
@@ -153,8 +150,8 @@
 
                     if (elm[3]) {
                         jipMenuItemA.addClass('withlang');
-                        jipMenuItemA.bind("mouseenter", elm[1], function (e) {
-                            jipMenu.showLang($(this).parent(), e.data);
+                        jipMenuItemA.bind("mouseenter", [elm[1], langs], function (e) {
+                            jipMenu.showLang($(this).parent(), e.data[0], e.data[1]);
                         });
                     } else {
                         jipMenuItemA.bind("mouseenter", function () {
@@ -187,13 +184,6 @@
                 });
             }
 
-            jipMenuDiv.hover(function() {
-                jipMenu.mouseIn();
-            },
-            function() {
-                jipMenu.mouseOut();
-            });
-
             this.cMenu = jipMenuDiv;
             this.cButton = $(button);
             this.prepareDiv(jipMenuDiv);
@@ -201,78 +191,30 @@
             $(document).keypress(this.eventKey);
         },
 
-        drawLang: function(id, lnk) {
+        drawLang: function(id, lnk, langs) {
             if (!$('#' + id).length) {
-                var jipMenuDiv = $('<div />').attr({
-                    'id': id,
-                    'class': 'jipMenu'
-                }).css({
+                var jipMenuDiv = $('<div />').attr({'id': id}).css({
                     'display': 'none'
-                });
-                var jipMenuTable = $('<table />').attr({
-                    'class': 'jipItems',
-                    cellPadding: 3,
-                    cellSpacing: 0
-                });
-                var jipMenuTbody = $('<tbody />');
-
-                for (var i in this.langs) {
-                    var elm = this.langs[i];
-                    var linkWithLang = lnk + '?lang_id=' + i;
-
-                    var jipMenuTableTR = $('<tr />').attr({
-                        'id': id + '_' + i
-                        });
-
-                    jipMenuTableTR.hover(function () {
-                        $(this).find('td:eq(1)').addClass('jipItemTextActive')
-                        },function () {
-                        $(this).find('td:eq(1)').removeClass('jipItemTextActive')
-                        });
-
-                    jipMenuTableTR.bind('click', linkWithLang, function (e) {
-                        jipMenu.close(); return jipWindow.open(e.data);
-                    });
-
-                    var jipMenuItemA = $('<a />').attr({
-                        href: linkWithLang,
-                        title: linkWithLang
-                        });
-
-                    jipMenuItemA.bind('click', linkWithLang, function (e) {
-                        jipMenu.close(); return jipWindow.open(e.data);
-                    });
-
-                    var jipMenuItemImg = $('<img />').attr({
-                        src: SITE_PATH + '/templates/images/langs/' + elm[0] + '.png',
-                        height: 11,
-                        width: 16
-                    });
-
-                    var jipMenuTdIcon = $('<td />').attr({
-                        'class': 'jipItemIcon'
-                    });
-
-                    var jipMenuTdTitle = $('<td />').attr({
-                        'class': 'jipItemText'
-                    });
-                    jipMenuTdTitle.text(elm[1]);
-
-                    jipMenuItemImg.appendTo(jipMenuItemA);
-                    jipMenuItemA.appendTo(jipMenuTdIcon);
-                    jipMenuTdIcon.appendTo(jipMenuTableTR);
-                    jipMenuTdTitle.appendTo(jipMenuTableTR);
-                    jipMenuTableTR.appendTo(jipMenuTbody);
-                }
-
-                jipMenuDiv.hover(function() {
+                }).appendTo($('body')).addClass('mzz-jip-menu').hover(function() {
                     jipMenu.mouseInLang();
                 }, function() {
                     jipMenu.mouseOutLang();
                 });
-                jipMenuTbody.appendTo(jipMenuTable);
-                jipMenuTable.appendTo(jipMenuDiv);
-                jipMenuDiv.appendTo($('body'));
+                
+                var jipMenuUl = $('<ul />').appendTo(jipMenuDiv).addClass('mzz-jip-menu mzz-jip-menu-lang');
+                for (var i in langs) {
+                    var elm = langs[i];
+                    var linkWithLang = lnk + '?lang_id=' + i;
+                    var jipMenuItem = $('<li />')
+                        .attr({'id': id + '_' + i}).appendTo(jipMenuUl)
+                        .bind('click', linkWithLang, function (e) {
+                            jipMenu.close(); return jipWindow.open(e.data);
+                        });
+
+                    var jipMenuItemA = $('<a />').attr({href: linkWithLang, title: linkWithLang}).appendTo(jipMenuItem);
+                    var jipMenuIcon = $('<span />').appendTo(jipMenuItemA).addClass('mzz-jip-icon mzz-flag mzz-flag-' + elm[0]);
+                    $('<span />').appendTo(jipMenuItemA).addClass('mzz-jip-title').text(elm[1]);
+                }
             }
         },
 

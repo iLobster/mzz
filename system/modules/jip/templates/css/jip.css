@@ -40,105 +40,6 @@ div#jipLoad img {
     margin-bottom: 10px;
 }
 
-.jipMenu {
-    font-family: tahoma, verdana, arial !important;
-    font-weight: normal !important;
-    font-size: 12px !important;
-    color: #000 !important;
-    /*display: none;*/
-    background-color: #F9F9F9 !important;
-    border: 2px solid #B6B6B6 !important;
-    width: 190px !important;
-    position: absolute !important;
-    line-height: 100% !important;
-    text-align: left !important;
-    margin: 0;
-    font-variant: normal !important;
-    text-transform: none !important;
-    text-indent: 0 !important;
-    letter-spacing: normal !important;
-    white-space: normal !important;
-    word-spacing: normal !important;
-    font-style: normal !important;
-    z-index: 3000;
-}
-
-.jipMenu img {
-    border: 0 !important;
-}
-
-.jipMenuClose {
-    font-size: 80%;
-    font-weight: normal;
-    text-align: right;
-    margin-right: 3px;
-    line-height: 100%;
-}
-
-.jipMenu td {
-    border-collapse: separate !important;
-    border-width: medium !important;
-    border-spacing: 0 !important;
-}
-
-table.jipItems {
-    cursor: pointer !important;
-    border: 1px solid #ffffff !important;
-    width: 100%;
-}
-
-td.jipItemIcon {
-    width: 20px;
-    border-width: 0 1px 0 0 !important;
-    border-color: #D4D4D4 !important;
-    border-style: solid !important;
-    border-right: 1px solid #D4D4D4  !important;
-    background-image: url(../images/jip/jip_bg.png) !important;
-    background-position: top left !important;
-    background-color: #ECECEC !important;
-    text-align: center !important;
-    padding: 3px !important;
-}
-
-td.jipItemText {
-    border-top: 1px solid #F9F9F9 !important;
-    border-bottom: 1px solid #F9F9F9 !important;
-    border-left: 0 !important;
-    border-right: 1px solid #F9F9F9 !important;
-    padding: 3px 8px !important;
-    background-color: #F9F9F9 !important;
-    font-family: tahoma, verdana, arial !important;
-    color: black !important;
-}
-
-td.jipItemTextWithLang {
-    background-image: url("../images/jip/arrow.gif");
-    background-repeat: no-repeat;
-    background-position: 96% center;
-}
-
-td.jipItemTextActive {
-    border-top: 1px solid #D4D4D4 !important;
-    border-bottom: 1px solid #D4D4D4 !important;
-    border-left: 0 !important;
-    border-right: 1px solid #D4D4D4 !important;
-    padding: 3px 8px !important;
-    background-color: #FFF !important;
-    font-family: tahoma, verdana, arial !important;
-    color: black !important;
-}
-
-td.jipItemTextWithLanguage {
-    /*border-top: 1px solid #C0E6ED !important;
-    border-bottom: 1px solid #C0E6ED !important;
-    border-left: 0 !important;
-    border-right: 1px solid #C0E6ED !important;-*/
-    padding: 3px 8px !important;
-    background-color: #EFEFEF !important;
-    font-family: tahoma, verdana, arial !important;
-    color: black !important;
-}
-
 div.confirm {
     width:90%;
     font-size: 110%;
@@ -424,10 +325,14 @@ div.mzz-jip-menu {
     font-weight: normal !important;
 }
 
-.mzz-jip-menu li a span.mzz-jip-icon {
+.mzz-jip-menu a span.mzz-jip-icon {
     float: left;
     margin: 2px 4px;
     display: block;
+}
+
+.mzz-jip-menu-lang a span.mzz-jip-icon {
+    margin: 4px 4px 0px 4px;
 }
 
 .mzz-jip-menu li a span.mzz-jip-title {
@@ -440,10 +345,25 @@ div.mzz-jip-menu {
     border-left: 1px solid #d4d4d4;
 }
 
-.mzz-jip-menu li a:hover span.mzz-jip-title {
+.mzz-jip-menu li:hover a span.mzz-jip-title {
     color: #000000;
     border: 1px solid #d4d4d4;
     background-color: #ffffff;
+}
+
+.mzz-jip-menu li:hover span.mzz-icon
+{
+    background-image: url(../images/icons.active.png);
+}
+
+.mzz-jip-menu li:hover span.mzz-bullet
+{
+    background-image: url(../images/bullets.active.png);
+}
+
+.mzz-jip-menu li:hover span.mzz-flag
+{
+    background-image: url(../images/flags.active.png);
 }
 
 form.mzz-jip-form ul {
