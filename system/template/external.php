@@ -74,7 +74,6 @@ function generateSource(Array $files, iResolver $resolver, $headers)
     $fileNameReplacePatterns = array('..' => '');
     $source = null;
     $filemtime = null;
-    $nginx = false;
 
     foreach ($files as $file) {
         $file = preg_replace('![^a-z\d_\-/.]!i', '', $file);
@@ -91,15 +90,7 @@ function generateSource(Array $files, iResolver $resolver, $headers)
             if ($currentFileTime > $filemtime) {
                 $filemtime = $currentFileTime;
             }
-
-            if (sizeof($files) === 1) {
-                //generateHeaders($files, $filemtime);
-                header("X-Accel-Redirect: /static" . str_replace(systemConfig::$pathToSystem, '', $filePath));
-                $nginx = true;
-                //return '';
-            } else {
-                $source .= file_get_contents($filePath);
-            }
+            $source .= file_get_contents($filePath);
         }
     }
 
@@ -109,19 +100,7 @@ function generateSource(Array $files, iResolver $resolver, $headers)
         exit();
     }
 
-    $changed = generateHeaders($files, $filemtime);
-
-    if (!$changed && !$nginx) {
-        header("HTTP/1.1 304 Not Modified");
-        $source = '';
-    }
-
-    return $source;
-}
-
-function generateHeaders($files, $filemtime)
-{
-        $age = 86400 * 30 * 6;
+    $age = 86400 * 30 * 6;
 
     header("Pragma: public");
     header("Cache-Control: public, must-revalidate, max-age=" . $age);
@@ -157,7 +136,12 @@ function generateHeaders($files, $filemtime)
         $changed = true;
     }
 
-    return $changed;
+    if (!$changed) {
+        header("HTTP/1.1 304 Not Modified");
+        $source = '';
+    }
+
+    return $source;
 }
 
 function generateEtag(Array $files, $filemtime)
