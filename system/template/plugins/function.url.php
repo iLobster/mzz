@@ -92,6 +92,10 @@ function smarty_function_url($params, $smarty)
         unset($params['onlyPath']);
     }
 
+    if (!empty($params['_csrf'])) {
+        $params['_csrf'] = form::getCSRFToken();
+    }
+
     $url = new url($params['route']);
     unset($params['route']);
 
