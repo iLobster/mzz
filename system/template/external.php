@@ -52,7 +52,6 @@ fileLoader::load('exceptions/init');
 fileLoader::load('request/httpRequest');
 $request = new httpRequest();
 
-$pathToTemplates = dirname(__FILE__);
 $type = $request->getString('type', SC_GET);
 $files = $request->getString('files', SC_GET);
 if ($type !== null && $files !== null) {
@@ -80,7 +79,6 @@ function generateSource(Array $files, iResolver $resolver, $headers)
         $file = preg_replace('![^a-z\d_\-/.]!i', '', $file);
 
         $file = str_replace(array_keys($fileNameReplacePatterns), $fileNameReplacePatterns, $file);
-        $ext = substr(strrchr($file, '.'), 1);
         $filePath = $resolver->resolve($file);
         // если в обычных директориях не найден - ищем в simple
         if (is_null($filePath)) {
