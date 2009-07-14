@@ -77,7 +77,7 @@
 
         convertLinks: function(links, target) {
            $.each(links, function(e) {
-               links[e] = '<span class="mzz-icon mzz-icon-' + this.ico + '">' + ((this.over) ? '<span class="mzz-bullet mzz-bullet-' + this.over + '">'  : '') + '<a href="' + this.url + '" class="mzz-jip-link" title="' + this.alt + '"></a>' + ((this.over) ? '</span>' : '') + '</span>';
+               links[e] = '<a href="' + this.url + '" class="mzz-jip-link" title="' + this.alt + '"><span class="mzz-icon mzz-icon-' + this.ico + '">' + ((this.over) ? '<span class="mzz-bullet mzz-bullet-' + this.over + '">'  : '') + ((this.over) ? '</span>' : '') + '</span></a>';
            });
            return $(links.join(''));
         },
