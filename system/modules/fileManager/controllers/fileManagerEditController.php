@@ -54,6 +54,7 @@ class fileManagerEditController extends simpleController
         }
 
         $url = new url('withAnyParam');
+        $url->add('name', $name);
         $url->setAction('edit');
         $this->smarty->assign('form_action', $url->get());
 
