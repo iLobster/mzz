@@ -16,7 +16,7 @@
 
 <!-- модули и классы -->
 <div id="modulesAndClasses" class="toolbarBlock">
-    <span class="toolbarSectionName">{icon sprite="sprite:mzz-flag/ru/add"}{icon sprite="sprite:mzz-flag/ru"}<strong>Модули</strong> и классы <span class="mzz-icon mzz-icon-block"><span class="mzz-bullet mzz-bullet-add"><a href="{url route="default2" section="admin" action="addModule"}" class="mzz-jip-link"></a></span></span></span>
+    <span class="toolbarSectionName"><strong>Модули</strong> и классы <span class="mzz-icon mzz-icon-block"><span class="mzz-bullet mzz-bullet-add"><a href="{url route="default2" section="admin" action="addModule"}" class="mzz-jip-link"></a></span></span></span>
     {foreach from=$modules item=module key=name}
         {assign var="count" value=$module.classes|@sizeof}
         <table id="module-{$name}" class="toolbar admin" cellspacing="0">
