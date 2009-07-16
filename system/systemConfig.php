@@ -103,7 +103,7 @@ class systemConfig
      *
      * @var string
      */
-    public static $uri404 = '/page/404';
+    public static $uri404 = 'page/404';
 
     /**
      * Имя драйвера хранилища сессий
