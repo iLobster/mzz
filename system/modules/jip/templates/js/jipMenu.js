@@ -34,7 +34,7 @@
             this.mouseOut();
             if (this.cMenu) {
                 this.closeLang();
-                this.cMenu.unbind();
+                //this.cMenu.unbind();
                 this.cMenu.stop(true, true);
                 this.cMenu.hide();
                 this.cMenu = false;
@@ -183,7 +183,7 @@
                     'display': 'block'
                 });
             }
-
+                
             this.cMenu = jipMenuDiv;
             this.cButton = $(button);
             this.prepareDiv(jipMenuDiv);
