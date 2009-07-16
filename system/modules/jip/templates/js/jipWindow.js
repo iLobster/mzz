@@ -15,7 +15,7 @@
     MZZ.jipWindow = DUI.Class.create({
         init: function() {
             this.options = {
-                layout: '<div class="mzz-window-title" /><div class="mzz-window-content mzz-window-alsoResize" /><div class="mzz-window-footer"><div class="mzz-window-status" /></div><div class="mzz-window-icon" /><div class="mzz-window-drag" /><div class="mzz-window-buttons" /><div class="mzz-window-resizer" />',
+                layout: '<div class="mzz-window-title" /><div class="mzz-window-content mzz-window-alsoResize" /><div class="mzz-window-footer"><div class="mzz-window-reload"><a onclick="jipWindow.reload();" title="refresh jipWindow"></a></div><div class="mzz-window-status" /></div><div class="mzz-window-icon" /><div class="mzz-window-drag" /><div class="mzz-window-buttons" />',
                 baseClass: 'mzz-jip-window',
                 drag: true,
                 resize: true,
@@ -80,6 +80,17 @@
                 }
 
                 return false;
+            }
+
+            return false;
+        },
+
+        reload: function() {
+            //console.log(this.stack[this.currentWindow]);
+            var stack = this.stack[this.currentWindow];
+            var prevUrl = stack.pop();
+            if (prevUrl != undefined) {
+                this.open(prevUrl);
             }
 
             return false;

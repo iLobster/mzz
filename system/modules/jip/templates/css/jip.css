@@ -194,14 +194,21 @@ img.mzz-window-button {
     height: 18px;
 }
 
-.mzz-jip-window .mzz-window-resizer {
+.mzz-jip-window .mzz-window-reload {
     position: absolute;
-    bottom: 3px;
-    right: 3px;
-    height: 10px;
-    width: 10px;
-    cursor: se-resize;
-    background: transparent url(../images/jip/sizer.png) no-repeat bottom right;
+    background:transparent url('../images/jip/refresh.png') no-repeat scroll 0 0;
+    bottom: 5px;
+    height: 16px;
+    left: 5px;
+    width: 16px;
+}
+
+.mzz-jip-window .mzz-window-reload a {
+    display: block;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 /**
@@ -261,6 +268,7 @@ img.mzz-window-button {
 
 .mzz-jip-window .mzz-window-status {
     font-size: 0.7em;
+    margin-left: 16px;
 }
 
 
@@ -317,6 +325,7 @@ div.mzz-jip-menu {
     margin:0 !important;
     padding:0 !important;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .mzz-jip-menu li a {
@@ -345,7 +354,8 @@ div.mzz-jip-menu {
     border-left: 1px solid #d4d4d4;
 }
 
-.mzz-jip-menu li:hover a span.mzz-jip-title {
+.mzz-jip-menu li:hover a span.mzz-jip-title,
+.mzz-jip-menu li.active a span.mzz-jip-title {
     color: #000000;
     border: 1px solid #d4d4d4;
     background-color: #ffffff;

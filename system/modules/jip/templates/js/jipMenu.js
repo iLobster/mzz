@@ -53,6 +53,7 @@
                 this.cLang.hide();
                 this.cLang = false;
                 this.cLangId = false;
+                this.cMenu.find('.active').removeClass('active');
             }
         },
 
@@ -74,7 +75,7 @@
         },
 
         showLang: function(parent, lnk, langs) {
-            console.log(langs);
+            parent.addClass('active');
             id = parent.attr('id') + '_lang';
             if (!$('#' + id).length) {
                 this.drawLang(id, lnk, langs);
@@ -138,15 +139,14 @@
 
                 for (var i = 0, l = items.length; i < l; i++) {
                     var elm = items[i];
-                    var jipMenuItem = $('<li />').attr({'id': id + '_' + i}).appendTo(jipMenuUl);
-
-
-                    var jipMenuItemA = $('<a />').attr({
-                        href: elm[1]
-                    }).appendTo(jipMenuItem).bind('click', {
+                    var jipMenuItem = $('<li />').attr({'id': id + '_' + i}).appendTo(jipMenuUl).bind('click', {
                         link: elm[1],
                         target: elm[4]
                     }, this.itemClick);
+
+                    var jipMenuItemA = $('<a />').attr({
+                        href: elm[1]
+                    }).appendTo(jipMenuItem);
 
                     if (elm[3]) {
                         jipMenuItemA.addClass('withlang');
