@@ -86,13 +86,12 @@ class adminAddActionController extends simpleController
 
         if ($validator->validate()) {
             $values = $this->request->getArray('action', SC_POST);
+            $dest = $this->request->getString('dest', SC_POST);
 
             $this->normalize($values, $defaults);
 
             if (!$isEdit) {
                 $action_name = $values['name'];
-
-                $dest = $this->request->getString('dest', SC_POST);
 
                 $this->smartyBrackets();
 
@@ -140,7 +139,7 @@ class adminAddActionController extends simpleController
                 unset($values['name']);
 
                 try {
-                    $fileGenerator = new fileGenerator($dest);
+                    $fileGenerator = new fileGenerator($dests[$dest]);
 
                     if ($new_action_name != $action_name) {
                         // переименовать в файле с экшнами секцию
