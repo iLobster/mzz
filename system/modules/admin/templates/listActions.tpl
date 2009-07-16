@@ -10,8 +10,8 @@
             <td width="25%">{$key}</td>
             <td width="60%">{if !empty($action.title)}{$action.title}{else}<span style="color: #999;">названия нет</span>{/if}</td>
             <td style="width: 15%; text-align: right;">
-                <span class="mzz-icon mzz-icon-script"><span class="mzz-bullet mzz-bullet-edit"><a href="{url route="adminAction" section="admin" id=$id action_name="$key" action="editAction"}" class="mzz-jip-link" title="Редактировать действие"></a></span></span>
-                <span class="mzz-icon mzz-icon-script"><span class="mzz-bullet mzz-bullet-del"><a href="{url route="adminAction" section="admin" id=$id action_name="$key" action="deleteAction"}" class="mzz-jip-link" title="Удалить действие"></a></span></span>
+                <a href="{url route="adminAction" section="admin" id=$id action_name="$key" action="editAction"}" class="mzz-jip-link" title="Редактировать действие"><span class="mzz-icon mzz-icon-script"><span class="mzz-bullet mzz-bullet-edit"></span></span></a>
+                <a href="{url route="adminAction" section="admin" id=$id action_name="$key" action="deleteAction"}" class="mzz-jip-link" title="Удалить действие"><span class="mzz-icon mzz-icon-script"><span class="mzz-bullet mzz-bullet-del"></span></span></a>
            </td>
         </tr>
     {/foreach}

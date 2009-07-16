@@ -10,7 +10,7 @@
             <td style="text-align: right; width: 15px; color: #999;">{$user->getId()}</td>
             {assign var=user_id value=$user->getId()}
             <td><a href="{url route=withAnyParam section=access action=editUser name="$id/$user_id"}" class="mzz-jip-link">{$user->getLogin()}</a></td>
-            <td style="text-align: right;"><span class="mzz-icon mzz-icon-user"><span class="mzz-bullet mzz-bullet-del"><a href="{url route=withAnyParam section=access action=deleteUser name="$id/$user_id"}" class="mzz-jip-link" title="Удалить пользователя"></a></span></span></td>
+            <td style="text-align: right;"><a href="{url route=withAnyParam section=access action=deleteUser name="$id/$user_id"}" class="mzz-jip-link" title="Удалить пользователя"><span class="mzz-icon mzz-icon-user"><span class="mzz-bullet mzz-bullet-del"></span></span></a></td>
         </tr>
     {/foreach}
 
@@ -23,7 +23,7 @@
             <td style="text-align: right; width: 15px; color: #999;">{$group->getId()}</td>
             {assign var=group_id value=$group->getId()}
             <td><a href="{url route=withAnyParam section=access action=editGroup name="$id/$group_id"}" class="mzz-jip-link">{$group->getName()}</a></td>
-            <td style="text-align: right;"><span class="mzz-icon mzz-icon-group"><span class="mzz-bullet mzz-bullet-del"><a href="{url route=withAnyParam section=access action=deleteGroup name="$id/$group_id"}" class="mzz-jip-link" title="Удалить группу"></a></span></span></td>
+            <td style="text-align: right;"><a href="{url route=withAnyParam section=access action=deleteGroup name="$id/$group_id"}" class="mzz-jip-link" title="Удалить группу"><span class="mzz-icon mzz-icon-group"><span class="mzz-bullet mzz-bullet-del"></span></span></a></td>
         </tr>
     {/foreach}
 </table>
