@@ -315,7 +315,7 @@ class adminAddActionController extends simpleController
         $exclude = array_keys($mapper->getRelations()->oneToOneBack() + $mapper->getRelations()->manyToMany() + $mapper->getRelations()->oneToMany());
 
         foreach ($map as $key => $val) {
-            if ((isset($val['options']) && in_array('fake', $val['options'])) || in_array($key, $exclude)) {
+            if ((isset($val['options']) && (in_array('fake', $val['options']) || in_array('plugin', $val['options'])) ) || in_array($key, $exclude)) {
                 unset($map[$key]);
             }
         }
