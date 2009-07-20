@@ -20,8 +20,6 @@ CREATE DATABASE `mzz_test`
 
 USE `mzz_test`;
 
-SET sql_mode = '';
-
 #
 # Structure for the `news_news` table : 
 #
@@ -157,6 +155,22 @@ CREATE TABLE `ormSimple_tree` (
   `spath` TEXT COLLATE utf8_general_ci,
   `foreign_key` INTEGER(11) DEFAULT NULL,
   `level` INTEGER(11) UNSIGNED DEFAULT NULL,
+  `path` TEXT COLLATE utf8_general_ci,
+  PRIMARY KEY (`id`)
+)ENGINE=MyISAM
+AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Structure for the `ormSimple_tree_al` table : 
+#
+
+DROP TABLE IF EXISTS `ormSimple_tree_al`;
+
+CREATE TABLE `ormSimple_tree_al` (
+  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `foreign_key` INTEGER(11) DEFAULT NULL,
+  `parent_id` INTEGER(11) DEFAULT NULL,
+  `level` INTEGER(11) DEFAULT NULL,
   `path` TEXT COLLATE utf8_general_ci,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
@@ -598,8 +612,8 @@ CREATE TABLE `sys_sessions` (
   `valid` ENUM('yes','no') NOT NULL DEFAULT 'yes',
   `data` TEXT COLLATE utf8_general_ci,
   PRIMARY KEY (`id`),
-  KEY `valid` (`valid`),
-  UNIQUE KEY `sid` (`sid`)
+  UNIQUE KEY `sid` (`sid`),
+  KEY `valid` (`valid`)
 )ENGINE=MyISAM
 AUTO_INCREMENT=376 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
