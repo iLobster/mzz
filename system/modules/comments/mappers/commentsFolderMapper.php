@@ -13,7 +13,7 @@
 */
 
 fileLoader::load('comments/commentsFolder');
-fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('orm/plugins/acl_simplePlugin');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
@@ -72,7 +72,7 @@ class commentsFolderMapper extends mapper
     public function __construct()
     {
         parent::__construct();
-        $this->plugins('acl_ext');
+        $this->plugins('acl_simple');
         $this->plugins('jip');
     }
 

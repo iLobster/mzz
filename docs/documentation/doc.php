@@ -10,7 +10,7 @@
 $menu = array("intro.Предисловие" =>
                         array(
                         "about.Введение",
-                        "philosophy.Философия мзз",
+                        "philosophy.Философия mzz",
                         ),
            "setup.Установка и настройка" =>
                         array(

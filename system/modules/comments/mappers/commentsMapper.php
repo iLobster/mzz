@@ -14,7 +14,7 @@
 
 fileLoader::load('comments');
 fileLoader::load('orm/plugins/tree_mpPlugin');
-fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('orm/plugins/acl_simplePlugin');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
@@ -72,7 +72,7 @@ class commentsMapper extends mapper
     {
         parent::__construct();
         $this->attach(new tree_mpPlugin(array('path_name' => 'id')), 'tree');
-        $this->plugins('acl_ext');
+        $this->plugins('acl_simple');
         $this->plugins('jip');
     }
 
