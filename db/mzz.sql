@@ -36,7 +36,15 @@ CREATE TABLE `comments_comments` (
   PRIMARY KEY (`id`),
   KEY `folder_id` (`folder_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=2 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=3 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `comments_comments` table  (LIMIT 0,500)
+#
+
+INSERT INTO `comments_comments` (`id`, `obj_id`, `text`, `user_id`, `created`, `folder_id`) VALUES 
+  (2,1461,'fsdgdfg',1,1247380115,3);
+COMMIT;
 
 #
 # Structure for the `comments_commentsFolder` table : 
@@ -80,7 +88,15 @@ CREATE TABLE `comments_comments_tree` (
   PRIMARY KEY (`id`),
   KEY `foreign_key` (`foreign_key`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=15 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=16 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `comments_comments_tree` table  (LIMIT 0,500)
+#
+
+INSERT INTO `comments_comments_tree` (`id`, `path`, `foreign_key`, `level`, `spath`) VALUES 
+  (15,'2/',2,1,'15/');
+COMMIT;
 
 #
 # Structure for the `fileManager_file` table : 
@@ -569,7 +585,7 @@ CREATE TABLE `sys_access_registry` (
   `class_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1461 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1462 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_access_registry` table  (LIMIT 0,500)
@@ -596,7 +612,8 @@ INSERT INTO `sys_access_registry` (`obj_id`, `class_id`) VALUES
   (1457,1),
   (1458,11),
   (1459,11),
-  (1460,7);
+  (1460,7),
+  (1461,10);
 COMMIT;
 
 #
@@ -887,14 +904,15 @@ CREATE TABLE `sys_config` (
   `args` TEXT COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=5 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_config` table  (LIMIT 0,500)
 #
 
 INSERT INTO `sys_config` (`id`, `obj_id`, `module_name`, `name`, `title`, `type_id`, `value`, `args`) VALUES 
-  (3,0,'news','items_per_page','Количество элементов на страницу',1,'20','');
+  (3,0,'news','items_per_page','Количество элементов на страницу',1,'20',''),
+  (4,0,'fileManager','public_path','Путь до паблик папки',2,'','');
 COMMIT;
 
 #
@@ -990,7 +1008,7 @@ CREATE TABLE `sys_obj_id` (
   `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1461 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=1462 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_obj_id` table  (LIMIT 0,500)
@@ -1014,7 +1032,8 @@ INSERT INTO `sys_obj_id` (`id`) VALUES
   (1457),
   (1458),
   (1459),
-  (1460);
+  (1460),
+  (1461);
 COMMIT;
 
 #
@@ -1165,7 +1184,7 @@ CREATE TABLE `user_userAuth` (
   `time` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=134 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=135 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userAuth` table  (LIMIT 0,500)
@@ -1181,7 +1200,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (126,2,'127.0.0.1','956eb3fa26b9b78b82c96d9f098d8a06',NULL,NULL),
   (128,2,'10.30.35.9','639eb7566aaf6b368863cfb4ba8afd1e',NULL,NULL),
   (132,2,'10.30.35.150','c54fbf06a0f11f5a10f4822e493a82bd',NULL,NULL),
-  (133,2,'127.0.0.1','021d2bab67d5c4d478dd39d7cfaca0b2',NULL,NULL);
+  (133,2,'127.0.0.1','021d2bab67d5c4d478dd39d7cfaca0b2',NULL,NULL),
+  (134,2,'127.0.0.1','254be4b2e6328875e8dfe2291eead872',NULL,NULL);
 COMMIT;
 
 #
