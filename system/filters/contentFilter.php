@@ -55,6 +55,7 @@ class contentFilter implements iFilter
         $smarty->assign('current_action', $request->getRequestedAction());
         $smarty->assign('current_path', $request->getPath());
         $smarty->assign('current_lang', $toolkit->getLocale()->getName());
+        $smarty->assign('current_user', $toolkit->getUser());
         $smarty->assign('available_langs', $toolkit->getLocale()->searchAll());
         $request->setRequestedParams($request->getParams());
 

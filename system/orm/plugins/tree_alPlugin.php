@@ -206,10 +206,11 @@ class tree_alPlugin extends observer
 
             $levelDelta = $newLevel - $object->getTreeLevel();
 
-            // @todo: remove the path
+            $ids = array_merge($this->searchChildren($object->getTreeId()), array($object->getTreeId()));
+
             $sql = "UPDATE `" . $this->table() . "`
                      SET `level` = `level` + " . $levelDelta . ", `path` = CONCAT(" . $this->mapper->db()->quote($this->parent->getTreePath()) . ", SUBSTRING(`path`, " . (strlen($object->getTreeParent()->getTreePath()) + 1) . "))
-                      WHERE `path` LIKE " . $this->mapper->db()->quote($object->getTreePath() . '%') . "";
+                      WHERE `id` IN (" . implode(', ', $ids) . ")";
 
             $this->mapper->db()->query($sql);
 
@@ -234,10 +235,11 @@ class tree_alPlugin extends observer
             $new = $object->getTreeLevel() != 1 ? $object->getTreeParent()->getTreePath() . '/' : '';
             $new .= $object->{$this->options['path_name_accessor']}() . '/';
 
-            // @todo: remove the path
+            $ids = array_merge($this->searchChildren($object->getTreeId()), array($object->getTreeId()));
+
             $sql = "UPDATE `" . $this->table() . "`
                      SET `path` = CONCAT(" . $this->mapper->db()->quote($new) . ", SUBSTRING(`path`, " . (strlen($object->getTreePath()) + 2) . "))
-                      WHERE `path` LIKE " . $this->mapper->db()->quote($object->getTreePath() . '%') . "";
+                      WHERE `id` IN (" . implode(', ', $ids) . ")";
 
             $this->mapper->db()->query($sql);
 
@@ -246,21 +248,33 @@ class tree_alPlugin extends observer
         }
     }
 
-    public function preDelete(entity $object)
+    private function searchChildren($node_id)
     {
-        // retrieve all subnodes
-        // @todo: remove the path
+        $result = array();
+
         $criteria = new criteria($this->table());
-        $criteria->addSelectField('foreign_key');
-        $criteria->add('path', $object->getTreePath() . '%', criteria::LIKE);
-        $criteria->add('level', $object->getTreeLevel() + 1);
-        $criteria->add('id', $object->getTreeId(), criteria::NOT_EQUAL);
+        $criteria->addSelectField('id');
+        $criteria->add('parent_id', $node_id);
 
         $select = new simpleSelect($criteria);
 
+        foreach ($this->mapper->db()->getAll($select->toString()) as $row) {
+            $result[] = $row['id'];
+            $result = array_merge($result, $this->searchChildren($row['id']));
+        }
+
+        return $result;
+    }
+
+    public function preDelete(entity $object)
+    {
+        // retrieve all subnodes
+        $criteria = new criteria($this->table());
+        $criteria->add('tree.parent_id', $object->getTreeId());
+
         // traverse subnodes and delete each
-        foreach ($this->mapper->db()->getAll($select->toString()) as $key) {
-            $this->mapper->delete($key['foreign_key']);
+        foreach ($this->mapper->searchAllByCriteria($criteria) as $subnode) {
+            $this->mapper->delete($subnode);
         }
 
         // delete current node
