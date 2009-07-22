@@ -14,3 +14,10 @@ with:
 
 } elseif(method_exists($this->_reg_objects[$object][0], $obj_comp)) { line 892 replaced with:
 } elseif(is_callable(array($this->_reg_objects[$object][0], $obj_comp))) {
+
+
+for working contructions like this: {form->checkbox name="terminal_number[$terminal->getId()]"
+Smarty_Compiler::_expand_quoted_text, line 1694:
+if(preg_match_all('~(?:\`(?<!\\\\)\$' . $this->_dvar_guts_regexp . '(?:' . $this->_obj_ext_regexp . ')*\`)|(?:(?<!\\\\)\$\w+(\[[a-zA-Z0-9]+\])*)~', $var_expr, $_match)) {
+replacedd with:
+if(preg_match_all('~(?:\`(?<!\\\\)\$' . $this->_dvar_guts_regexp . '(?:' . $this->_obj_ext_regexp . ')*\`)|(?:(?<!\\\\)\$[\w->()]+(\[[a-zA-Z0-9]+\])*)~', $var_expr, $_match)) {
