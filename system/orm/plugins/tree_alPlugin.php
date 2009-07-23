@@ -65,6 +65,11 @@ class tree_alPlugin extends observer
             'accessor' => 'getTreeParentBranch',
             'options' => array(
                 'fake'));
+
+        $map['tree_branch'] = array(
+            'accessor' => 'getTreeBranch',
+            'options' => array(
+                'fake'));
     }
 
     public function preSqlSelect(criteria $criteria)
@@ -112,34 +117,53 @@ class tree_alPlugin extends observer
             'getParentBranch',
             array(
                 $object)));
-/*
+
         $tmp['tree_branch'] = new lazy(array(
             $this,
             'getBranch',
             array(
-                $object)));*/
+                $object)));
 
         $object->merge($tmp);
     }
-/*
+
     public function getParentBranch(entity $object)
     {
-        $path = $object->getTreeSPath();
-        $path = explode('/', $path);
-        array_pop($path);
+        $ids = array();
+        $ids[] = $object->getTreeForeignKey();
 
-        $nodes = array();
+        $parent_id = $object->getTreeParentId();
 
-        while (sizeof($path)) {
-            $nodes[] = implode('/', $path) . '/';
-            array_pop($path);
+        $criteria = new criteria($this->table());
+        $criteria->addSelectField('parent_id')->addSelectField('foreign_key');
+        $select = new simpleSelect($criteria);
+
+        while ($parent_id != 0) {
+            $criteria->add('id', $parent_id);
+            $row = $this->mapper->db()->getRow($select->toString());
+
+            $ids[] = $row['foreign_key'];
+            $parent_id = $row['parent_id'];
         }
 
         $criteria = new criteria();
-        $criteria->add('tree.spath', $nodes, criteria::IN);
+        $criteria->add($this->options['foreign_key'], $ids, criteria::IN);
 
         return $this->mapper->searchAllByCriteria($criteria);
-    }*/
+    }
+
+    public function getBranch(entity $object, $depth = 0, criteria $sortCriteria = null)
+    {
+        if ($depth) {
+            $depth += $object->getTreeLevel();
+        }
+        $ids = array_merge(array($object->getTreeId()), $this->searchChildren($object->getTreeId(), $depth));
+
+        $criteria = new criteria();
+        $criteria->add($this->options['foreign_key'], $ids, criteria::IN);
+
+        return $this->mapper->searchAllByCriteria($criteria);
+    }
 
     public function preInsert(array & $data)
     {
@@ -248,7 +272,7 @@ class tree_alPlugin extends observer
         }
     }
 
-    private function searchChildren($node_id)
+    private function searchChildren($node_id, $level = 0)
     {
         $result = array();
 
@@ -256,11 +280,15 @@ class tree_alPlugin extends observer
         $criteria->addSelectField('id');
         $criteria->add('parent_id', $node_id);
 
+        if ($level) {
+            $criteria->add('level', $level, criteria::LESS_EQUAL);
+        }
+
         $select = new simpleSelect($criteria);
 
         foreach ($this->mapper->db()->getAll($select->toString()) as $row) {
             $result[] = $row['id'];
-            $result = array_merge($result, $this->searchChildren($row['id']));
+            $result = array_merge($result, $this->searchChildren($row['id'], $level));
         }
 
         return $result;

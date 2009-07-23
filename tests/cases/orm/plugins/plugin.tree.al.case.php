@@ -230,7 +230,7 @@ class pluginTreeALTest extends unitTestCase
         $this->assertEqual($this->db->getOne('SELECT COUNT(*) FROM `ormSimple`'), 5);
         $this->assertEqual($this->db->getOne('SELECT COUNT(*) FROM `ormSimple_tree_al`'), 5);
     }
-/*
+
     public function testParentBranch()
     {
         $object = $this->mapper->searchByKey(6);
@@ -242,7 +242,50 @@ class pluginTreeALTest extends unitTestCase
         $this->assertEqual($result->first()->getId(), 1);
         $this->assertEqual($result->next()->getId(), 2);
         $this->assertEqual($result->next()->getId(), 6);
-    }*/
+    }
+
+    public function testGetBranch()
+    {
+        $object = $this->mapper->searchByKey(2);
+
+        $result = $object->getTreeBranch();
+
+        $this->assertIsA($result, 'collection');
+        $this->assertEqual($result->count(), 3);
+        $this->assertEqual($result->first()->getId(), 2);
+        $this->assertEqual($result->next()->getId(), 5);
+        $this->assertEqual($result->next()->getId(), 6);
+
+        $object = $this->mapper->searchByKey(1);
+
+        $result = $object->getTreeBranch(1);
+
+        $this->assertEqual($result->count(), 4);
+        $this->assertEqual($result->first()->getId(), 1);
+        $this->assertEqual($result->next()->getId(), 2);
+        $this->assertEqual($result->next()->getId(), 3);
+        $this->assertEqual($result->next()->getId(), 4);
+    }
+
+    public function testGetBranchWithSort()
+    {
+        $object = $this->mapper->searchByKey(1);
+
+        $criteria = new criteria();
+        $criteria->setOrderByFieldDesc('foo');
+
+        $result = $object->getTreeBranch(0, $criteria);
+
+        $this->assertEqual($result->count(), 8);
+        $this->assertEqual($result->first()->getId(), 1);
+        $this->assertEqual($result->next()->getId(), 4);
+        $this->assertEqual($result->next()->getId(), 3);
+        $this->assertEqual($result->next()->getId(), 8);
+        $this->assertEqual($result->next()->getId(), 7);
+        $this->assertEqual($result->next()->getId(), 2);
+        $this->assertEqual($result->next()->getId(), 6);
+        $this->assertEqual($result->next()->getId(), 5);
+    }
 }
 
 ?>
