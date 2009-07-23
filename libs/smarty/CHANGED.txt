@@ -20,4 +20,4 @@ for working contructions like this: {form->checkbox name="terminal_number[$termi
 Smarty_Compiler::_expand_quoted_text, line 1694:
 if(preg_match_all('~(?:\`(?<!\\\\)\$' . $this->_dvar_guts_regexp . '(?:' . $this->_obj_ext_regexp . ')*\`)|(?:(?<!\\\\)\$\w+(\[[a-zA-Z0-9]+\])*)~', $var_expr, $_match)) {
 replacedd with:
-if(preg_match_all('~(?:\`(?<!\\\\)\$' . $this->_dvar_guts_regexp . '(?:' . $this->_obj_ext_regexp . ')*\`)|(?:(?<!\\\\)\$\w[\w->()]+(\[[a-zA-Z0-9]+\])*)~', $var_expr, $_match)) {
+if(preg_match_all('~(?:\`(?<!\\\\)\$' . $this->_dvar_guts_regexp . '(?:' . $this->_obj_ext_regexp . ')*\`)|(?:(?<!\\\\)\$\w+(\[[a-zA-Z0-9]+\])*)|(?:\`(?<!\\\\)\$\w+\->\w+\([\'"]?([^)\'"]*)[\'"]?\)+\`)~', $var_expr, $_match)) {

@@ -68,7 +68,7 @@ class formTag extends formElement
     protected function getCSRFProtection()
     {
         $token = form::getCSRFToken();
-        return $this->renderTag('input', array('type' => 'hidden', 'name' => form::$CSRFField, 'value' => $token));
+        return $this->renderTag('input', array('id' => '', 'type' => 'hidden', 'name' => form::$CSRFField, 'value' => $token));
     }
 
     protected function addAjaxUpload(&$attributes)
