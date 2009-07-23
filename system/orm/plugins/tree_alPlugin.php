@@ -314,7 +314,7 @@ class tree_alPlugin extends observer
 
     public function getParent(entity $object)
     {
-        return $this->mapper->searchOneByField('id', $object->getTreeParentId());
+        return $this->mapper->searchOneByField($this->options['foreign_key'], $object->getTreeParentId());
     }
 
     public function processRow(& $row)
