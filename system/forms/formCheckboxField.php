@@ -177,7 +177,7 @@ class formCheckboxField extends formElement
      * @param array $attributes
      * @return string
      */
-    protected function createHidden($name, $value)
+    protected function createHidden($name, $value, $id)
     {
         $hiddenAttributes = array('type' => 'hidden', 'name' => $name, 'value' => $value, 'id' => $id . '_default');
         return $this->renderTag('input', $hiddenAttributes);
