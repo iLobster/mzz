@@ -81,7 +81,7 @@ class formCheckboxField extends formElement
 
         $hidden = null;
         if (!isset($attributes['nodefault']) || !$attributes['nodefault']) {
-            $hidden = $this->createHidden($attributes['name'], $values[0]);
+            $hidden = $this->createHidden($attributes['name'], $values[0], $attributes['id']);
         }
 
         $checkbox = $this->renderTag('input', $attributes);
@@ -179,8 +179,7 @@ class formCheckboxField extends formElement
      */
     protected function createHidden($name, $value)
     {
-        $hiddenAttributes = array('type' => 'hidden', 'name' => $name, 'value' => $value);
-        $hiddenAttributes['idFormat'] = $this->getIdFormat() . '_default';
+        $hiddenAttributes = array('type' => 'hidden', 'name' => $name, 'value' => $value, 'id' => $id . '_default');
         return $this->renderTag('input', $hiddenAttributes);
     }
 
