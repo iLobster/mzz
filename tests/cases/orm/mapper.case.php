@@ -152,6 +152,19 @@ class mapperTest extends unitTestCase
         $this->assertEqual($collection->first()->getFoo(), 'foo3');
         $this->assertEqual($collection->last()->getFoo(), 'foo1');
     }
+
+    public function testSerialize()
+    {
+
+        $this->fixture();
+
+        $criteria = new criteria();
+        $criteria->add('foo', 'foo1');
+
+        $object = $this->mapper->searchOneByCriteria($criteria);
+        $object2 = unserialize(serialize($object));
+        $this->assertEqual($object, $object2);
+    }
 }
 
 ?>
