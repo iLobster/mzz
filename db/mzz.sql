@@ -1,4 +1,4 @@
-# SQL Manager 2007 for MySQL 4.4.0.3
+# SQL Manager 2007 for MySQL 4.4.0.5
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -36,14 +36,17 @@ CREATE TABLE `comments_comments` (
   PRIMARY KEY (`id`),
   KEY `folder_id` (`folder_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=3 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=5 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `comments_comments` table  (LIMIT 0,500)
 #
 
 INSERT INTO `comments_comments` (`id`, `obj_id`, `text`, `user_id`, `created`, `folder_id`) VALUES 
-  (2,1461,'fsdgdfg',1,1247380115,3);
+  (1,NULL,'test',1,1248407915,3),
+  (2,NULL,'sdfsdf',1,1248407920,3),
+  (3,NULL,'asdfasdf',1,1248407922,3),
+  (4,NULL,'asdfasdf',1,1248407925,3);
 COMMIT;
 
 #
@@ -81,21 +84,23 @@ DROP TABLE IF EXISTS `comments_comments_tree`;
 
 CREATE TABLE `comments_comments_tree` (
   `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `path` TEXT COLLATE utf8_general_ci,
   `foreign_key` INTEGER(11) DEFAULT NULL,
-  `level` INTEGER(11) UNSIGNED DEFAULT NULL,
-  `spath` TEXT COLLATE utf8_general_ci,
-  PRIMARY KEY (`id`),
-  KEY `foreign_key` (`foreign_key`)
+  `parent_id` INTEGER(11) DEFAULT NULL,
+  `level` INTEGER(11) DEFAULT NULL,
+  `path` TEXT COLLATE utf8_general_ci,
+  PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=16 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=5 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `comments_comments_tree` table  (LIMIT 0,500)
 #
 
-INSERT INTO `comments_comments_tree` (`id`, `path`, `foreign_key`, `level`, `spath`) VALUES 
-  (15,'2/',2,1,'15/');
+INSERT INTO `comments_comments_tree` (`id`, `foreign_key`, `parent_id`, `level`, `path`) VALUES 
+  (1,1,0,1,'1/'),
+  (2,2,0,1,'2/'),
+  (3,3,1,2,'1/3/'),
+  (4,4,2,2,'2/4/');
 COMMIT;
 
 #
