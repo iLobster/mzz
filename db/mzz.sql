@@ -36,18 +36,7 @@ CREATE TABLE `comments_comments` (
   PRIMARY KEY (`id`),
   KEY `folder_id` (`folder_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=5 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `comments_comments` table  (LIMIT 0,500)
-#
-
-INSERT INTO `comments_comments` (`id`, `obj_id`, `text`, `user_id`, `created`, `folder_id`) VALUES 
-  (1,NULL,'test',1,1248407915,3),
-  (2,NULL,'sdfsdf',1,1248407920,3),
-  (3,NULL,'asdfasdf',1,1248407922,3),
-  (4,NULL,'asdfasdf',1,1248407925,3);
-COMMIT;
+AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Structure for the `comments_commentsFolder` table : 
@@ -88,20 +77,11 @@ CREATE TABLE `comments_comments_tree` (
   `parent_id` INTEGER(11) DEFAULT NULL,
   `level` INTEGER(11) DEFAULT NULL,
   `path` TEXT COLLATE utf8_general_ci,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `foreign_key` (`foreign_key`),
+  KEY `parent_id` (`parent_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=5 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `comments_comments_tree` table  (LIMIT 0,500)
-#
-
-INSERT INTO `comments_comments_tree` (`id`, `foreign_key`, `parent_id`, `level`, `path`) VALUES 
-  (1,1,0,1,'1/'),
-  (2,2,0,1,'2/'),
-  (3,3,1,2,'1/3/'),
-  (4,4,2,2,'2/4/');
-COMMIT;
+AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Structure for the `fileManager_file` table : 
