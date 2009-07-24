@@ -3,6 +3,63 @@
 fileLoader::load('cases/orm/ormSimple');
 fileLoader::load('orm/plugins/tree_alPlugin');
 
+class parentTreeTestMapperAl extends mapper
+{
+    protected $table = 'ormSimpleRelated';
+
+    protected $class = 'ormSimpleRelated2';
+
+    protected $map = array(
+        'simple_id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk')),
+        'related_id' => array(
+            'accessor' => 'getRelated',
+            'mutator' => 'setRelated',
+            'relation' => 'one',
+            'foreign_key' => 'id',
+            'mapper' => 'ormSimpleChildMapperAl'),
+        'related_id2' => array(
+            'accessor' => 'getRelated2',
+            'mutator' => 'setRelated2',
+            'relation' => 'one',
+            'foreign_key' => 'id',
+            'mapper' => 'ormSimpleChildMapperAl'));
+}
+
+class ormSimpleChildMapperAl extends mapper
+{
+    protected $table = 'ormSimple';
+
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk')),
+        'foo' => array(
+            'accessor' => 'getFoo',
+            'mutator' => 'setFoo'),
+        'bar' => array(
+            'accessor' => 'getBar',
+            'mutator' => 'setBar'));
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->attach(new tree_alPlugin(array(
+            'path_name' => 'foo',
+            'postfix' => 'tree_al')));
+    }
+}
+
+class ormSimpleRelated2 extends entity
+{
+}
+
 class pluginTreeALTest extends unitTestCase
 {
     private $mapper;
@@ -26,7 +83,8 @@ class pluginTreeALTest extends unitTestCase
         #                      -------      ---------
         #                      |     |      |       |
         #                      5     6      7       8
-        #
+        #                      |
+        #                      9
 
 
         $this->fixture_tree = array(
@@ -61,7 +119,11 @@ class pluginTreeALTest extends unitTestCase
             8 => array(
                 3,
                 3,
-                'path' => '1/3/8/'));
+                'path' => '1/3/8/'),
+            9 => array(
+                5,
+                4,
+                'path' => '1/2/5/9/'));
     }
 
     public function setUp()
@@ -82,7 +144,7 @@ class pluginTreeALTest extends unitTestCase
     private function fixture()
     {
         $valString = '';
-        for ($id = 1; $id <= 8; $id++) {
+        foreach (array_keys($this->fixture_tree) as $id) {
             $valString .= "(" . $id . ", 'foo" . $id . "', 'bar" . $id . "'), ";
         }
         $valString = substr($valString, 0, -2);
@@ -222,7 +284,7 @@ class pluginTreeALTest extends unitTestCase
 
     public function testDelete()
     {
-        $this->assertEqual($this->db->getOne('SELECT COUNT(*) FROM `ormSimple`'), 8);
+        $this->assertEqual($this->db->getOne('SELECT COUNT(*) FROM `ormSimple`'), 9);
 
         $object = $this->mapper->searchByKey(2);
         $this->mapper->delete($object);
@@ -251,9 +313,10 @@ class pluginTreeALTest extends unitTestCase
         $result = $object->getTreeBranch();
 
         $this->assertIsA($result, 'collection');
-        $this->assertEqual($result->count(), 3);
+        $this->assertEqual($result->count(), 4);
         $this->assertEqual($result->first()->getId(), 2);
         $this->assertEqual($result->next()->getId(), 5);
+        $this->assertEqual($result->next()->getId(), 9);
         $this->assertEqual($result->next()->getId(), 6);
 
         $object = $this->mapper->searchByKey(1);
@@ -267,24 +330,43 @@ class pluginTreeALTest extends unitTestCase
         $this->assertEqual($result->next()->getId(), 4);
     }
 
-    public function testGetBranchWithSort()
+    public function testGetTreeWithoutRoot()
     {
-        $object = $this->mapper->searchByKey(1);
-
         $criteria = new criteria();
-        $criteria->setOrderByFieldDesc('foo');
+        $criteria->add('id', 1, criteria::NOT_EQUAL);
+        $criteria->add('tree.level', 2);
 
-        $result = $object->getTreeBranch(0, $criteria);
+        $collection = $this->mapper->searchAllByCriteria($criteria);
 
-        $this->assertEqual($result->count(), 8);
-        $this->assertEqual($result->first()->getId(), 1);
-        $this->assertEqual($result->next()->getId(), 4);
-        $this->assertEqual($result->next()->getId(), 3);
-        $this->assertEqual($result->next()->getId(), 8);
-        $this->assertEqual($result->next()->getId(), 7);
-        $this->assertEqual($result->next()->getId(), 2);
-        $this->assertEqual($result->next()->getId(), 6);
-        $this->assertEqual($result->next()->getId(), 5);
+        $this->assertEqual($collection->count(), 3);
+        $this->assertEqual($collection->first()->getId(), 2);
+        $this->assertEqual($collection->next()->getId(), 3);
+        $this->assertEqual($collection->next()->getId(), 4);
+    }
+
+    public function testGetBranchByPath()
+    {
+        $branch = $this->mapper->plugin('tree_al')->getBranchByPath('foo1/foo2/');
+
+        $this->assertEqual($branch->count(), 4);
+        $this->assertEqual($branch->keys(), array(
+            2,
+            5,
+            9,
+            6));
+    }
+
+    public function testFewRelatedNodes()
+    {
+        $mapper = new parentTreeTestMapperAl();
+        $parentObject = $mapper->searchByKey(6);
+
+        $object = $parentObject->getRelated();
+        $object2 = $parentObject->getRelated2();
+
+        $this->assertIsA($object2, 'ormSimple');
+        $this->assertEqual($object2->getTreePath(), 'foo1/foo3/foo7');
+        $this->assertEqual($object2->getTreeParentBranch()->count(), 3);
     }
 }
 

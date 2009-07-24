@@ -79,6 +79,18 @@ class tree_alPlugin extends observer
         $this->addSelectFields($criteria);
     }
 
+    public function preSqlJoin(array & $data)
+    {
+        $criteria = $data[0];
+        $alias = $data[1];
+
+        $table_name = $alias . '_tree';
+
+        $criterion = new criterion($table_name . '.foreign_key', $alias . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
+        $criteria->addJoin($this->table(), $criterion, $table_name);
+        $this->addSelectFields($criteria, $alias);
+    }
+
     private function table()
     {
         return $this->mapper->table() . '_' . $this->options['postfix'];
@@ -157,7 +169,8 @@ class tree_alPlugin extends observer
         if ($depth) {
             $depth += $object->getTreeLevel();
         }
-        $ids = array_merge(array($object->getTreeId()), $this->searchChildren($object->getTreeId(), $depth));
+        $ids = array_merge(array(
+            $object->getTreeId()), $this->searchChildren($object->getTreeId(), $depth));
 
         $criteria = new criteria();
         $criteria->add($this->options['foreign_key'], $ids, criteria::IN);
@@ -174,6 +187,35 @@ class tree_alPlugin extends observer
         }
     }
 
+    public function postCollectionSelect(collection $collection)
+    {
+        if ($collection->count()) {
+            $rows = $collection->export();
+
+            $last_id = reset($rows)->getTreeParentId();
+            $result = array();
+            $parent = array();
+            $ids = array();
+
+            foreach ($rows as $key => $data) {
+                $parent[$data->getTreeParentId()][] = $data;
+                $ids[$data->getTreeId()] = $data;
+            }
+
+            for ($i = count($rows); $i > 0; $i--) {
+                while ((!isset($parent[$last_id]) || count($parent[$last_id]) == 0) && $last_id != 0) {
+                    $last_id = $ids[$last_id]->getTreeParentId();
+                }
+                $lst = array_shift($parent[$last_id]);
+                $last_id = $lst->getTreeId();
+
+                $result[$lst->{$this->options['foreign_accessor']}()] = $lst;
+            }
+
+            $collection->import($result);
+        }
+    }
+
     public function preUpdate(& $data)
     {
         if (is_array($data)) {
@@ -185,6 +227,18 @@ class tree_alPlugin extends observer
                 unset($data['tree_parent']);
             }
         }
+    }
+
+    public function getBranchByPath($path, $depth = 0)
+    {
+        $criteria = new criteria();
+        $criteria->add('tree.path', $path . '%', criteria::LIKE);
+
+        if ($depth) {
+            $criteria->add('tree.level', $this->calcLevelByPath($path) + $depth, criteria::LESS_EQUAL);
+        }
+
+        return $this->mapper->searchAllByCriteria($criteria);
     }
 
     public function postInsert(entity $object)
@@ -230,7 +284,8 @@ class tree_alPlugin extends observer
 
             $levelDelta = $newLevel - $object->getTreeLevel();
 
-            $ids = array_merge($this->searchChildren($object->getTreeId()), array($object->getTreeId()));
+            $ids = array_merge($this->searchChildren($object->getTreeId()), array(
+                $object->getTreeId()));
 
             $sql = "UPDATE `" . $this->table() . "`
                      SET `level` = `level` + " . $levelDelta . ", `path` = CONCAT(" . $this->mapper->db()->quote($this->parent->getTreePath()) . ", SUBSTRING(`path`, " . (strlen($object->getTreeParent()->getTreePath()) + 1) . "))
@@ -259,7 +314,8 @@ class tree_alPlugin extends observer
             $new = $object->getTreeLevel() != 1 ? $object->getTreeParent()->getTreePath() . '/' : '';
             $new .= $object->{$this->options['path_name_accessor']}() . '/';
 
-            $ids = array_merge($this->searchChildren($object->getTreeId()), array($object->getTreeId()));
+            $ids = array_merge($this->searchChildren($object->getTreeId()), array(
+                $object->getTreeId()));
 
             $sql = "UPDATE `" . $this->table() . "`
                      SET `path` = CONCAT(" . $this->mapper->db()->quote($new) . ", SUBSTRING(`path`, " . (strlen($object->getTreePath()) + 2) . "))
