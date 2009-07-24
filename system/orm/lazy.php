@@ -33,6 +33,11 @@ class lazy
 
     private $callback;
 
+    public function getValue()
+    {
+        return ($this->type == "mapperOne" || $this->type == "mapperManyToMany") ? $this->value : null;
+    }
+
     public function __construct(array $data)
     {
         if ($data[0] instanceof mapper) {

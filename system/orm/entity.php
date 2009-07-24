@@ -19,7 +19,7 @@
  * @subpackage orm
  * @version 0.2
  */
-class entity
+class entity implements serializable
 {
     const STATE_DIRTY = 1;
     const STATE_CLEAN = 2;
@@ -162,6 +162,42 @@ class entity
     private function hasOption($field, $name)
     {
         return isset($this->map[$field]['options']) && in_array($name, $this->map[$field]['options']);
+    }
+
+    protected function serializableProperties()
+    {
+        return array('data', 'module', 'state');
+    }
+
+    public function serialize()
+    {
+        $serializable = $this->serializableProperties();
+        $vars = array_intersect_key(get_object_vars($this), array_flip($serializable));
+
+        foreach ($this->data as $k => $v) {
+            if ($v instanceof lazy) {
+                $vars['data'][$k] = $v->getValue();
+            } elseif (is_object($v)) {
+                $vars['data'][$k];
+            }
+        }
+
+        return serialize($vars);
+    }
+
+    public function unserialize($data)
+    {
+        $array = unserialize($data);
+        foreach($array as $k => $v) {
+            $this->$k = $v;
+        }
+        
+        $mapper = systemToolkit::getInstance()->getMapper($this->module, get_class($this));
+        $this->map = $mapper->map();
+        
+        $mapper->notify('preCreate', $this);
+        $mapper->getRelations()->addLazy($this);
+        $mapper->notify('postCreate', $this);
     }
 }
 
