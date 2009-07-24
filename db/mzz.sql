@@ -1,4 +1,4 @@
-# SQL Manager 2007 for MySQL 4.4.0.5
+# SQL Manager 2007 for MySQL 4.4.0.3
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -880,24 +880,24 @@ DROP TABLE IF EXISTS `sys_config`;
 
 CREATE TABLE `sys_config` (
   `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `obj_id` INTEGER(10) UNSIGNED NOT NULL,
   `module_name` VARCHAR(50) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `name` VARCHAR(50) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `title` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `type_id` INTEGER(11) NOT NULL,
   `value` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `args` TEXT COLLATE utf8_general_ci NOT NULL,
-  PRIMARY KEY (`id`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=5 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+  PRIMARY KEY (`id`),
+  KEY `module_name` (`module_name`),
+  KEY `name` (`name`)
+)ENGINE=MyISAM CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_config` table  (LIMIT 0,500)
 #
 
-INSERT INTO `sys_config` (`id`, `obj_id`, `module_name`, `name`, `title`, `type_id`, `value`, `args`) VALUES 
-  (3,0,'news','items_per_page','Количество элементов на страницу',1,'20',''),
-  (4,0,'fileManager','public_path','Путь до паблик папки',2,'','');
+INSERT INTO `sys_config` (`id`, `module_name`, `name`, `title`, `type_id`, `value`, `args`) VALUES 
+  (3,'news','items_per_page','Количество элементов на страницу',1,'20',''),
+  (4,'fileManager','public_path','Путь до паблик папки',2,'','');
 COMMIT;
 
 #

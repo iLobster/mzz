@@ -69,6 +69,13 @@ class configOptionMapper extends mapper
         return $this->searchByKey($id);
     }
 
+    public function searchOption($module, $name)
+    {
+        $criteria = new criteria;
+        $criteria->add('module_name', $module)->add('name', $name);
+        return $this->searchOneByCriteria($criteria);
+    }
+
     public function searchAllByModuleName($moduleName)
     {
         return $this->searchAllByField('module_name', $moduleName);
