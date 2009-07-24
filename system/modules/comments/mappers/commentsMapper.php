@@ -97,6 +97,10 @@ class commentsMapper extends mapper
     {
         $folder = $object->getFolder();
         $objectMapper = $folder->getObjectMapper();
+        $commentedObject = $folder->getObject();
+        $objectMapper->notify('commentPostInsert', array($commentedObject, $object, $folder));
+
+        /*
         if ($objectMapper->isAttached('comments')) {
             $commentsPlugin = $objectMapper->plugin('comments');
             if ($commentsPlugin->isExtendMap()) {
@@ -105,6 +109,7 @@ class commentsMapper extends mapper
                 $objectMapper->save($commentedObject);
             }
         }
+        */
     }
 
     public function convertArgsToObj($args)

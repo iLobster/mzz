@@ -22,20 +22,14 @@
 class commentsPlugin extends observer
 {
     protected $options = array(
-        'extendMap' => false,
-        'byField' => 'obj_id',
-        'comments_count_field' => 'comments_count'
+        'byField' => 'id'
     );
 
-    protected function updateMap(& $map)
+    /*
+    public function commentPostInsert(Array $data)
     {
-        if ($this->options['extendMap']) {
-            $map[$this->options['comments_count_field']] = array(
-                'accessor' => 'getCommentsCount',
-                'mutator' => 'setCommentsCount'
-            );
-        }
     }
+    */
 
     public function postDelete(entity $object)
     {
@@ -56,11 +50,6 @@ class commentsPlugin extends observer
     public function getByField()
     {
         return $this->options['byField'];
-    }
-
-    public function isExtendMap()
-    {
-        return $this->options['extendMap'];
     }
 }
 ?>
