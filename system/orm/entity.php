@@ -178,7 +178,7 @@ class entity implements serializable
             if ($v instanceof lazy) {
                 $vars['data'][$k] = $v->getValue();
             } elseif (is_object($v)) {
-                $vars['data'][$k];
+                $vars['data'][$k] = serialize($v);
             }
         }
 
