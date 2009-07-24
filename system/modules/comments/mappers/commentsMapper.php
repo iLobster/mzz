@@ -100,9 +100,9 @@ class commentsMapper extends mapper
         if ($objectMapper->isAttached('comments')) {
             $commentsPlugin = $objectMapper->plugin('comments');
             if ($commentsPlugin->isExtendMap()) {
-                $object = $folder->getObject();
-                $object->setCommentsCount($object->getCommentsCount() + 1);
-                $objectMapper->save($object);
+                $commentedObject = $folder->getObject();
+                $commentedObject->setCommentsCount($commentedObject->getCommentsCount() + 1);
+                $objectMapper->save($commentedObject);
             }
         }
     }
