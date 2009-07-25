@@ -113,7 +113,7 @@ class acl
             $this->isRoot = true;
         }
 
-        $this->cache = $toolkit->getCache();
+        $this->cache = $toolkit->getCache('memory');
     }
 
     /**

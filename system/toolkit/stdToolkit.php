@@ -36,7 +36,6 @@ class stdToolkit extends toolkit
     private $timer;
     private $user;
     private $objectIdGenerator;
-    private $cache;
     private $toolkit;
     private $validator;
     private $userPreferences;
@@ -325,14 +324,16 @@ class stdToolkit extends toolkit
      *
      * @return cache
      */
-    public function getCache()
+    public function getCache($cacheName = 'memory')
     {
-        if (empty($this->cache)) {
-            fileLoader::load('cache');
-            $this->cache = cache::factory('memory');
+        fileLoader::load('cache');
+        try {
+            $cache = cache::factory($cacheName);
+        } catch (mzzUnknownCacheConfigException $ex) {
+            $cache = cache::factory(cache::DEFAULT_CONFIG_NAME);
         }
 
-        return $this->cache;
+        return $cache;
     }
 
     /**

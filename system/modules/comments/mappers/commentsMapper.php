@@ -98,7 +98,9 @@ class commentsMapper extends mapper
         $folder = $object->getFolder();
         $objectMapper = $folder->getObjectMapper();
         $commentedObject = $folder->getObject();
-        $objectMapper->notify('commentPostInsert', array($commentedObject, $object, $folder));
+
+        $data = array($commentedObject, $object, $folder);
+        $objectMapper->notify('commentPostInsert', $data);
 
         /*
         if ($objectMapper->isAttached('comments')) {
