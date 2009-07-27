@@ -324,7 +324,7 @@ class stdToolkit extends toolkit
      *
      * @return cache
      */
-    public function getCache($cacheName = 'memory')
+    public function getCache($cacheName = 'default')
     {
         fileLoader::load('cache');
         try {

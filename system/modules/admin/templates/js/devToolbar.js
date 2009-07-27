@@ -114,7 +114,7 @@ function fillUpEditAclForm()
         $('#formElm_action_controller').attr('value', 'neednot');
         $('#formElm_action_jip_1').attr('checked', 'checked');
         $('#formElm_action_403handle').attr('selectedIndex', 2);
-        $('#formElm_action_icon').attr('value', '/templates/images/acl.gif');
+        $('#formElm_action_icon').attr('value', 'sprite:mzz-icon/key');
     })(jQuery);
     return false;
 }

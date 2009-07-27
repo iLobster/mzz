@@ -166,11 +166,15 @@ class entity implements serializable
 
     protected function serializableProperties()
     {
-        return array('data', 'module', 'state');
+        return array('data', 'module', 'state', 'dataChanged');
     }
 
     public function serialize()
     {
+
+        $mapper = systemToolkit::getInstance()->getMapper($this->module, get_class($this));
+        $mapper->notify('preSerialize', $this);
+
         $serializable = $this->serializableProperties();
         $vars = array_intersect_key(get_object_vars($this), array_flip($serializable));
 
@@ -179,6 +183,16 @@ class entity implements serializable
                 $vars['data'][$k] = $v->getValue();
             } elseif (is_object($v)) {
                 $vars['data'][$k] = serialize($v);
+            }
+        }
+
+        if ($this->dataChanged === entity::STATE_DIRTY) {
+            foreach ($this->dataChanged as $k => $v) {
+                if ($v instanceof lazy) {
+                    $vars['dataChanged'][$k] = $v->getValue();
+                } elseif (is_object($v)) {
+                    $vars['dataChanged'][$k] = serialize($v);
+                }
             }
         }
 
@@ -194,7 +208,9 @@ class entity implements serializable
 
         $mapper = systemToolkit::getInstance()->getMapper($this->module, get_class($this));
         $this->map = $mapper->map();
+        $mapper->notify('preUnserialize', $this);
 
+        //@todo: hm.... i'm at a loss :/
         $mapper->notify('preCreate', $this);
         $mapper->getRelations()->addLazy($this);
         $mapper->notify('postCreate', $this);

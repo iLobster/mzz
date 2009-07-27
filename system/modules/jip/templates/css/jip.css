@@ -454,3 +454,64 @@ form.mzz-jip-form li.error {
 .mzz-jip-window table.systemTable tr:hover {
     background-color: #ffffff;
 }
+
+.mzz-jip-window form.mzz-form div.input {
+    margin: 2px 0px;
+    clear: left;
+    overflow: hidden;
+    border: 1px solid transparent;
+    line-height: 19px;
+}
+
+.mzz-jip-window form.mzz-form div.input label {
+    padding: 2px 15px 2px 2px;
+    width: 200px;
+    display: block;
+    float: left;
+    text-align: right;
+    line-height: 15px;
+}
+
+.mzz-jip-window form.mzz-form div.input span.field {
+    width: 400px;
+    display: block;
+    float: left;
+}
+
+.mzz-jip-window form.mzz-form div.input span.empty {
+
+}
+
+.mzz-jip-window form.mzz-form div.input span.single {
+    margin-left: 217px;
+}
+
+.mzz-jip-window form.mzz-form div.input span.field input[type=text],
+.mzz-jip-window form.mzz-form div.input span.field input[type=file],
+.mzz-jip-window form.mzz-form div.input span.field textarea
+{
+    width: 100%;
+}
+
+.mzz-jip-window form.mzz-form div.input span.single label {
+    display: inline;
+    float: none;
+}
+
+.mzz-jip-window form.mzz-form div.input span.field span {
+    display: block;
+    color: #999;
+    font-size: 90%;
+}
+
+.mzz-jip-window form.mzz-form div.input span.message {
+    padding: 2px;
+    display: block;
+    float: left;
+    margin-left: 20px
+}
+
+.mzz-jip-window form.mzz-form div.buttons {
+    clear: left;
+    margin-left: 217px;
+}
