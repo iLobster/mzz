@@ -21,12 +21,12 @@ fileLoader::load('dataspace/arrayDataspace');
  * @subpackage orm
  * @version 0.1
  */
-class collection extends arrayDataspace
+class collection extends arrayDataspace implements Serializable
 {
     private $deleted = array();
     private $inserted = array();
     private $modified = false;
-    private $mapper = array();
+    private $mapper;
     private $local_key;
     private $local_accessor;
 
@@ -159,6 +159,34 @@ class collection extends arrayDataspace
 
         $val->{$this->local_mutator}($this->foreign_value);
         $this->mapper->save($val);
+    }
+
+    protected function serializableProperties()
+    {
+        return array('data', 'current', 'deleted', 'inserted', 'modified', 'local_key', 'local_accessor', 'local_mutator', 'foreign_value', 'name', 'foreign_field_name', 'local_field_name', 'criteria');
+    }
+
+    public function serialize()
+    {
+        $serializable = $this->serializableProperties();
+        $vars = array_intersect_key(get_object_vars($this), array_flip($serializable));
+
+        $vars['mapper']['module'] = $this->mapper->module();
+        $vars['mapper']['class'] = $this->mapper->getClass();
+
+        return serialize($vars);
+    }
+
+    public function unserialize($data)
+    {
+        $array = unserialize($data);
+
+        $this->mapper = systemToolkit::getInstance()->getMapper($array['mapper']['module'], $array['mapper']['class']);
+        unset($array['mapper']);
+
+        foreach($array as $k => $v) {
+            $this->$k = $v;
+        }
     }
 }
 

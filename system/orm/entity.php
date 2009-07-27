@@ -191,10 +191,10 @@ class entity implements serializable
         foreach($array as $k => $v) {
             $this->$k = $v;
         }
-        
+
         $mapper = systemToolkit::getInstance()->getMapper($this->module, get_class($this));
         $this->map = $mapper->map();
-        
+
         $mapper->notify('preCreate', $this);
         $mapper->getRelations()->addLazy($this);
         $mapper->notify('postCreate', $this);
