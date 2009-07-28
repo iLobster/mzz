@@ -20,7 +20,7 @@
         </div>
         <div id="menucontainer">
             <div id="navMenu">
-                {load module="menu" section="menu" action="view" name="hmenu" tplPrefix="header/"}
+                {load module="menu" action="view" name="hmenu" tplPrefix="header/"}
             </div>
         </div>
 

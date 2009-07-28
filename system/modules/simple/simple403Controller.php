@@ -13,7 +13,7 @@
  */
 
 /**
- * simple403Controller: контроллер для метода 403 модуля simple
+ * simple403Controller: контроллер страницы с 403 ошибкой
  *
  * @package modules
  * @subpackage simple

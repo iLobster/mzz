@@ -134,7 +134,8 @@ class acl
     public function get($param = null, $clean = false, $full = false)
     {
         $identifier = $this->obj_id;
-        $result = $this->cache->get($identifier);
+        $cacheKey = 'acl_' . $identifier;
+        $result = $this->cache->get($cacheKey);
 
         if (!isset($result[$clean][$full])) {
 
@@ -209,7 +210,7 @@ class acl
                 }
             }
 
-            $this->cache->set($identifier, $result);
+            $this->cache->set($cacheKey, $result);
         }
 
         if (empty($param)) {
@@ -223,7 +224,8 @@ class acl
     public function getForClass($class, $action)
     {
         $identifier = $class;
-        $result = $this->cache->get($identifier);
+        $cacheKey = 'acl_' . $identifier;
+        $result = $this->cache->get($cacheKey);
 
         if (!$result) {
             $grp = '';
@@ -250,7 +252,7 @@ class acl
                 $result[$row['name']] = $this->isRoot ? true : $row['access'];
             }
 
-            $this->cache->set($identifier, $result);
+            $this->cache->set($cacheKey, $result);
         }
 
         return isset($result[$action]) ? $result[$action] : false;
@@ -319,7 +321,8 @@ class acl
     public function getForGroup($gid, $full = false)
     {
         $identifier = $this->obj_id . '_groups';
-        $result = $this->cache->get($identifier);
+        $cacheKey = 'acl_' . $identifier;
+        $result = $this->cache->get($cacheKey);
 
         if (!isset($result[$gid][$full])) {
 
@@ -344,7 +347,7 @@ class acl
                 $result[$gid][$full][$row['name']] = $value;
             }
 
-            $this->cache->set($identifier, $result);
+            $this->cache->set($cacheKey, $result);
         }
 
         return $result[$gid][$full];
@@ -590,7 +593,7 @@ class acl
         }
 
         // удаляем кэш
-        $this->cache->set($this->obj_id, null);
+        $this->cache->set('acl_' . $this->obj_id, null);
         //unset($this->result[$this->obj_id]);
     }
 

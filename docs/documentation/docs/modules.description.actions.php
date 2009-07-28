@@ -8,19 +8,19 @@ controller = "view"
 [edit]
 controller = "save"
 jip = 1
-icon = "sprite:mzz-icon/mzz-icon-doc-edit"
+icon = "sprite:mzz-icon/page-text/edit"
 lang = 1
 main = "active.blank.tpl"
 
 [move]
 controller = "move"
 jip = 1
-icon = "sprite:mzz-icon/mzz-icon-doc-move"
+icon = "sprite:mzz-icon/page-text/move"
 
 [delete]
 controller = "delete"
 jip = 1
-icon = "sprite:mzz-icon/mzz-icon-doc-del"
+icon = "sprite:mzz-icon/page-text/del"
 confirm = "_ news/confirm_delete"
 main = "active.blank.tpl"
 
@@ -35,7 +35,7 @@ title = "searchByTag"
 
 <</code>>
 
-<p>Каждая секция (Например: [view]) обозначает имя определяемого действия. Имя может состоять из букв латинского алфавита (желательно в нижнем регистре), цифр и знака подчёркивания. В каждой секции указывается свойство <em>controller</em> - это имя контроллера, который будет обслуживать данное действие (ссылка на теорию MVC). Это свойство является обязательным (?).<p>
+<p>Каждая секция (Например: [view]) обозначает имя определяемого действия. Имя может состоять из букв латинского алфавита (желательно в нижнем регистре), цифр и знака подчёркивания. В каждой секции должно быть указано свойство <em>controller</em> - это имя контроллера, который будет обслуживать данное действие (<a href="structure.mvc.html">подробнее об MVC</a>).<p>
 <p>Следующие свойства опциональны:
 <ul>
     <li><em>jip</em> — представляет собой булевое значение <strong>true</strong> или <strong>false</strong>, и означающие соответственно наличие или отсутствие данного пункта в jip'ах (ссылка), выводимых для данных объектов.
@@ -51,6 +51,8 @@ title = "searchByTag"
     <li><em>main</em> — определяет main шаблон для данного действия. (описать допустимые значения)
     </li>
     <li><em>admin</em> — представляет собой булевое значение. Если <em>admin</em> = <strong>true</strong>, то этот экшн предназначается для администрирования модуля и будет отображен в admin-меню
+    </li>
+    <li><em>403handle</em> — способ проверки прав для данного экшна. Может принимать значения «auto», «manual», «none» (<a href="structure.acl.html#structure.acl.module_running">подробно</a>).
     </li>
 </ul>
 </p>

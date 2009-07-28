@@ -13,7 +13,7 @@
  */
 
 /**
- * simple404Controller: контроллер для метода 404 модуля simple
+ * simple404Controller: контроллер страницы с ошибкой 404
  *
  * @package modules
  * @subpackage simple

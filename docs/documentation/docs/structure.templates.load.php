@@ -2,7 +2,7 @@
 
 <p>Синтаксис функции:</p>
 <<code smarty>>
-    {load module="" action="" section="" <имя>="значение" ...}
+    {load module="" action="" <имя>="значение" ...}
 <</code>>
 <p>Описание основных аргументов:</p>
 <ul>
@@ -13,14 +13,12 @@
 </ul>
 
 
-<p><strong>Пример 1.</strong> Выполнение действия "list" модуля "Новости" в текущей секции:</p>
+<p><strong>Пример 1.</strong> Выполнение действия "list" модуля "Новости":</p>
 <<code smarty>>
     {load module="news" action="list"}
 <</code>>
 
-<p><strong>Пример 2.</strong> Отображение новости с ID 15 в секции "mainNews":</p>
+<p><strong>Пример 2.</strong> Отображение новости с ID 15:</p>
 <<code smarty>>
-    {load module="news" action="view" id="15" section="mainNews"}
+    {load module="news" action="view" id=15}
 <</code>>
-
-<p>Дополнительно у <code>{load}</code> есть два аргумента: <code>403tpl</code> и <code>403header</code>. Первый определяет имя шаблон, отображаемого в случае, если прав нет (по умолчанию используется <code>simple403Controller</code>), а второй -- нужно ли выдавать HTTP-ответ 403 Forbidden, если прав нет. Смотрите также раздел о <a href="structure.acl.html#structure.acl.module_running">взаимодействие системы проверки прав и шаблонов</a>.</p>

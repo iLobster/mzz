@@ -102,7 +102,7 @@ abstract class simpleController
      * Перенаправление пользователя на другую страницу
      *
      * @param string $url
-     * @param integer $code 302...307
+     * @param integer $code 300...307
      */
     public function redirect($url, $code = 302)
     {

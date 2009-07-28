@@ -100,19 +100,9 @@ class loadDispatcher
                 $view = $controller->run();
             }
         } else {
-            // если прав нет - запускаем либо стандартное сообщение о 403 ошибке, либо пользовательское
-            if (!isset($params['403tpl'])) {
-                fileLoader::load('simple/simple403Controller');
-                $controller = new simple403Controller();
-                $view = $controller->forward403($mapper);
-            } else {
-                $smarty = $toolkit->getSmarty();
-                $view = $smarty->fetch($params['403tpl']);
-
-                if (!empty($params['403header'])) {
-                    $toolkit->getResponse()->setStatus(403);
-                }
-            }
+            fileLoader::load('simple/simple403Controller');
+            $controller = new simple403Controller();
+            $view = $controller->forward403($mapper);
         }
 
         $request->restore();

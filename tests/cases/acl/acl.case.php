@@ -201,7 +201,7 @@ class aclTest extends unitTestCase
 
         $acl = new acl(new userStub(), 1, 'news');
 
-        $cache = systemToolkit::getInstance()->getCache();
+        $cache = systemToolkit::getInstance()->getCache('memory');
         $cache->flush();
 
         $this->assertEqual($acl->get('edit'), 0);

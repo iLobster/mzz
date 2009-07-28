@@ -1,4 +1,11 @@
 <?php
+/**
+ * simple404Controller: контроллер страницы с ошибкой 404
+ *
+ * @package modules
+ * @subpackage simple
+ * @version 0.1.5
+ */
 class simple404Controller extends simpleController
 {
     /**

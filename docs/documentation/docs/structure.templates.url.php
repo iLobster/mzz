@@ -15,12 +15,11 @@
 
 <p>Синтаксис функции:</p>
 <<code smarty>>
-{url module="модуль" section="секция" action="действие" route="имя"}
+{url module="модуль" action="действие" route="имя"}
 <</code>>
 <p>Описание аргументов:</p>
 <dl>
         <dd>- <em>module</em>: имя модуля, если секция не указана по нему будет определена секция;</dd>
-        <dd>- <em>section</em>: имя секции, на которую будет ссылаться URL. Если не указана, будет использована текущая или, если указан модуль, секция модуля;</dd>
         <dd>- <em>action</em>: действие для указанного section;</dd>
         <dd>- <em>route</em>: имя правила для маршрутизации сборки URL.</dd>
 </dl>
@@ -29,12 +28,12 @@
 Примером генерации http://example.com/news/4/asc/edit в соответствии с правилом маршрутизации <code>:section/:id/:sort/:action</code> является:
 </p>
 <<code smarty>>
-{url section="news" action="edit" id="4" sort="asc" route="newsList"}
+{url module="news" action="edit" id="4" sort="asc" route="newsList"}
 <</code>>
 
-<p>Пример генерации URL для редактирования объекта с ID 4 в секции "news" (http://example.com/news/4/edit):</p>
+<p>Пример генерации URL для редактирования объекта с ID 4 модуля "news" (http://example.com/news/4/edit):</p>
 <<code smarty>>
-{url section="news" action="edit" id="4"}
+{url module="news" action="edit" id="4"}
 <</code>>
 <<note>>
 Функция генерирует только URL. Например, сделать ее ссылкой можно следующим образом: <code>&lt;a href="{url}"&gt;link&lt;/a&gt;</code>
