@@ -324,14 +324,14 @@ class stdToolkit extends toolkit
      *
      * @return cache
      */
-    public function getCache($cacheName = cache::DEFAULT_CONFIG_NAME)
+    public function getCache($cacheName = 'default')
     {
         fileLoader::load('cache');
-        //try {
+        try {
             $cache = cache::factory($cacheName);
-        //} catch (mzzUnknownCacheConfigException $ex) {
-            //$cache = cache::factory(cache::DEFAULT_CONFIG_NAME);
-        //}
+        } catch (mzzUnknownCacheConfigException $ex) {
+            $cache = cache::factory(cache::DEFAULT_CONFIG_NAME);
+        }
 
         return $cache;
     }
