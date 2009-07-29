@@ -111,6 +111,14 @@ class systemConfig
      * @var string
      */
     public static $sessionStorageDrive = null;
+
+    /**
+     * Array for storing application's settings
+     *
+     * @var array
+     */
+    public static $application = array();
+
     /**
      * При вызове определяет и устанавливает путь до ядра
      *
