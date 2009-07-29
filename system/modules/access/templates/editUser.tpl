@@ -13,7 +13,7 @@
             {if $users !== false}
                 Выберите пользователя:
                 <select name="user_id">
-                    <option value="-1" selected="selected"></option>
+                    <option value="" selected="selected"></option>
                     {foreach from=$users item=user}
                         <option value="{$user->getId()}">{$user->getLogin()}</option>
                     {/foreach}

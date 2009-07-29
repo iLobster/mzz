@@ -41,5 +41,5 @@
     </tr>
 {/foreach}
 <tr>
-    <td colspan="3"><input type="submit" value="Сохранить"> <input type="reset" value="Сбросить"> <input type="reset" value="Отмена" onclick="javascript: jipWindow.close();"></td>
+    <td colspan="3">{form->submit name=submit value="_ simple/save"} <input type="reset" value="Сбросить"> <input type="reset" value="Отмена" onclick="javascript: jipWindow.close();"></td>
 </tr>

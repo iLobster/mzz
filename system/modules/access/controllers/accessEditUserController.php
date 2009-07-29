@@ -43,7 +43,11 @@ class accessEditUserController extends simpleController
 
         $actions = $actions[$acl->getClass()];
 
-        if ($this->request->getMethod() == 'POST' && $user_id == $user->getId()) {
+        $validator = new formValidator();
+
+        $validator->add('required', 'user_id');
+
+        if ($validator->validate() && $user_id == $user->getId()) {
             $setted = $this->request->getArray('access', SC_POST);
 
             $result = array();
