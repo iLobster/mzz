@@ -51,7 +51,7 @@ class configFolderMapper extends mapper
             'accessor' => 'getOptions',
             'mutator' => 'setOptions',
             'relation' => 'many',
-            'mapper' => 'config/configOptionMapper',
+            'mapper' => 'config/configOption',
             'foreign_key' => 'module_name',
             'local_key' => 'name'
         )

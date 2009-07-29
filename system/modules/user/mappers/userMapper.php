@@ -85,7 +85,7 @@ class userMapper extends mapper
             'accessor' => 'getGroups',
             'mutator' => 'setGroups',
             'relation' => 'many-to-many',
-            'mapper' => 'user/groupMapper',
+            'mapper' => 'user/group',
             'reference' => 'user_userGroup_rel',
             'local_key' => 'id',
             'foreign_key' => 'id',
@@ -94,7 +94,7 @@ class userMapper extends mapper
         'online' => array(
             'accessor' => 'getOnline',
             'relation' => 'one',
-            'mapper' => 'user/userOnlineMapper',
+            'mapper' => 'user/userOnline',
             'local_key' => 'id',
             'foreign_key' => 'user_id',
             'options' => array(

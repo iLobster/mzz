@@ -3,7 +3,7 @@
 fileLoader::load('cases/orm/ormSimple');
 fileLoader::load('orm/plugins/tree_alPlugin');
 
-class parentTreeTestMapperAl extends mapper
+class parentTreeTestAlMapper extends mapper
 {
     protected $table = 'ormSimpleRelated';
 
@@ -20,16 +20,16 @@ class parentTreeTestMapperAl extends mapper
             'mutator' => 'setRelated',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'ormSimpleChildMapperAl'),
+            'mapper' => 'test/ormSimpleChildAl'),
         'related_id2' => array(
             'accessor' => 'getRelated2',
             'mutator' => 'setRelated2',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'ormSimpleChildMapperAl'));
+            'mapper' => 'test/ormSimpleChildAl'));
 }
 
-class ormSimpleChildMapperAl extends mapper
+class ormSimpleChildAlMapper extends mapper
 {
     protected $table = 'ormSimple';
 
@@ -358,7 +358,7 @@ class pluginTreeALTest extends unitTestCase
 
     public function testFewRelatedNodes()
     {
-        $mapper = new parentTreeTestMapperAl();
+        $mapper = new parentTreeTestAlMapper();
         $parentObject = $mapper->searchByKey(6);
 
         $object = $parentObject->getRelated();

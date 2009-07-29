@@ -39,13 +39,13 @@ class accessMapper extends mapper
             'mutator' => 'setUser',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'userMapper'),
+            'mapper' => 'user/user'),
         'gid' => array(
             'accessor' => 'getGroup',
             'mutator' => 'setGroup',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'groupMapper'),
+            'mapper' => 'user/group'),
         'allow' => array(
             'accessor' => 'getAllow',
             'mutator' => 'setAllow'),

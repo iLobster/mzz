@@ -70,9 +70,8 @@ class relation
 
                     $tmp['join_type'] = $val['join_type'];
 
-                    $this->loadMapperClass($val['mapper']);
+                    $tmp['mapper'] = $this->loadMapperClass($val['mapper']);
 
-                    $tmp['mapper'] = new $val['mapper']();
                     $map = $tmp['mapper']->map();
                     $tmp['methods'] = array(
                         $map[$val['foreign_key']]['accessor'],
@@ -112,9 +111,8 @@ class relation
                         'foreign_key' => $val['foreign_key'],
                         'local_key' => $val['local_key']);
 
-                    $this->loadMapperClass($val['mapper']);
+                    $tmp['mapper'] = $this->loadMapperClass($val['mapper']);
 
-                    $tmp['mapper'] = new $val['mapper']();
                     $this->relations['oneToMany'][$key] = $tmp;
                 }
             }
@@ -136,9 +134,8 @@ class relation
                         'ref_local_key' => $val['ref_local_key'],
                         'reference' => $val['reference']);
 
-                    $this->loadMapperClass($val['mapper']);
+                    $tmp['mapper'] = $this->loadMapperClass($val['mapper']);
 
-                    $tmp['mapper'] = new $val['mapper']();
                     $this->relations['manyToMany'][$key] = $tmp;
                 }
             }
@@ -147,17 +144,15 @@ class relation
         return $this->relations['manyToMany'];
     }
 
-    private function loadMapperClass(& $mapperName)
+    private function loadMapperClass($mapperName)
     {
-        if (!class_exists($mapperName)) {
-            if (strpos($mapperName, '/') === false) {
-                throw new mzzRuntimeException('Module and mapper name should be specified');
-            }
-
-            list ($module, $mapper) = explode('/', $mapperName);
-            fileLoader::load($module . '/mappers/' . $mapper);
-            $mapperName = $mapper;
+        if (strpos($mapperName, '/') === false) {
+            throw new mzzRuntimeException('Module and mapper name should be specified');
         }
+
+        list ($module, $do) = explode('/', $mapperName);
+
+        return systemToolkit::getInstance()->getMapper($module, $do);
     }
 
     public function addLazy(entity $object)

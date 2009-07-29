@@ -75,7 +75,7 @@ class pageMapper extends mapper
             'mutator' => 'setFolder',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'page/pageFolderMapper'),
+            'mapper' => 'page/pageFolder'),
         'keywords_reset' => array(
             'accessor' => 'isKeywordsReset',
             'mutator' => 'setKeywordsReset'),

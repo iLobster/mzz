@@ -46,7 +46,7 @@ class commentsMapper extends mapper
             'mutator' => 'setFolder',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'comments/commentsFolderMapper',
+            'mapper' => 'comments/commentsFolder',
             'options' => array('once')
         ),
         'user_id' => array(
@@ -54,7 +54,7 @@ class commentsMapper extends mapper
             'mutator' => 'setUser',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'user/userMapper',
+            'mapper' => 'user/user',
             'options' => array('once')
         ),
         'text' => array(

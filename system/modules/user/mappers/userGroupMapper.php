@@ -37,13 +37,13 @@ class userGroupMapper extends mapper
             'mutator' => 'setUser',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'userMapper'),
+            'mapper' => 'user/user'),
         'group_id' => array(
             'accessor' => 'getGroup',
             'mutator' => 'setGroup',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'groupMapper'));
+            'mapper' => 'user/group'));
 }
 
 ?>

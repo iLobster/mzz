@@ -63,7 +63,7 @@ class commentsFolderMapper extends mapper
             'accessor' => 'getComments',
             'mutator' => 'setComments',
             'relation' => 'many',
-            'mapper' => 'comments/commentsMapper',
+            'mapper' => 'comments/comments',
             'foreign_key' => 'folder_id',
             'local_key' => 'id'
         )

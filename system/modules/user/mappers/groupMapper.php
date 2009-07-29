@@ -48,7 +48,7 @@ class groupMapper extends mapper
             'accessor' => 'getUsers',
             'mutator' => 'setUsers',
             'relation' => 'many-to-many',
-            'mapper' => 'user/userMapper',
+            'mapper' => 'user/user',
             'reference' => 'user_userGroup_rel',
             'local_key' => 'id',
             'foreign_key' => 'id',

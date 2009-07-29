@@ -47,7 +47,7 @@ class newsMapper extends mapper
             'mutator' => 'setFolder',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'news/newsFolderMapper'
+            'mapper' => 'news/newsFolder'
         ),
         'title' => array(
             'accessor' => 'getTitle',
@@ -61,7 +61,7 @@ class newsMapper extends mapper
             'mutator' => 'setEditor',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'user/userMapper'
+            'mapper' => 'user/user'
         ),
         'annotation' => array(
             'accessor' => 'getAnnotation',

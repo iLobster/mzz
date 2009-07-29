@@ -20,7 +20,7 @@ class leftMapper extends mapper
             'accessor' => 'getRight',
             'mutator' => 'setRight',
             'relation' => 'many-to-many',
-            'mapper' => 'rightMapper',
+            'mapper' => 'test/right',
             'reference' => 'ormSimpleRelated',
             'local_key' => 'id',
             'foreign_key' => 'id',

@@ -19,13 +19,13 @@ class parentTreeTestMapper extends mapper
             'mutator' => 'setRelated',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'ormSimpleChildMapper'),
+            'mapper' => 'test/ormSimpleChild'),
         'related_id2' => array(
             'accessor' => 'getRelated2',
             'mutator' => 'setRelated2',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'ormSimpleChildMapper'));
+            'mapper' => 'test/ormSimpleChild'));
 }
 
 class ormSimpleChildMapper extends mapper

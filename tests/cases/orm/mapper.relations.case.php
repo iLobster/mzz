@@ -3,7 +3,7 @@
 fileLoader::load('orm/mapper');
 fileLoader::load('cases/orm/ormSimple');
 
-class ormSimpleMapperWithRelation extends mapper
+class ormSimpleMapperWithRelationMapper extends mapper
 {
     protected $table = 'ormSimple';
 
@@ -24,7 +24,7 @@ class ormSimpleMapperWithRelation extends mapper
             'mutator' => 'setRelated',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'ormSimpleRelatedMapper'
+            'mapper' => 'tests/ormSimpleRelated'
         ),
     );
 }
@@ -48,7 +48,7 @@ class ormSimpleRelatedMapper extends mapper
             'relation' => 'many',
             'foreign_key' => 'related',
             'local_key' => 'id',
-            'mapper' => 'ormSimpleMapperWithRelation'));
+            'mapper' => 'tests/ormSimpleMapperWithRelation'));
 }
 
 class ormSimpleBackedMapper extends mapper
@@ -88,10 +88,10 @@ class ormSimpleRelatedBackMapper extends mapper
             'relation' => 'one',
             'foreign_key' => 'related',
             'local_key' => 'id',
-            'mapper' => 'ormSimpleWithBackRelation'));
+            'mapper' => 'tests/ormSimpleWithBackRelation'));
 }
 
-class ormSimpleWithBackRelation extends mapper
+class ormSimpleWithBackRelationMapper extends mapper
 {
     protected $table = 'ormSimple';
 
@@ -116,7 +116,7 @@ class ormSimpleWithBackRelation extends mapper
             'relation' => 'one',
             'foreign_key' => 'backrelated_id',
             'local_key' => 'id',
-            'mapper' => 'ormSimpleBackedMapper'
+            'mapper' => 'tests/ormSimpleBacked'
         )
     );
 }
@@ -142,7 +142,7 @@ class ormSimpleMapperWithInnerJoinRelation extends mapper
             'mutator' => 'setRelated',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'ormSimpleRelatedMapper',
+            'mapper' => 'tests/ormSimpleRelated',
             'join_type' => 'inner'
         ),
     );
@@ -197,7 +197,7 @@ class mapperRelationsTest extends unitTestCase
 
     public function setUp()
     {
-        $this->mapper = new ormSimpleMapperWithRelation();
+        $this->mapper = new ormSimpleMapperWithRelationMapper();
     }
 
     public function tearDown()

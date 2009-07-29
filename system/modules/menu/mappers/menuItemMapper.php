@@ -84,7 +84,7 @@ class menuItemMapper extends mapper
             'mutator' => 'setMenu',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'menu/menuMapper',
+            'mapper' => 'menu/menu',
             'options' => array('lazy')
         ),
     );

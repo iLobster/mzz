@@ -78,14 +78,14 @@ class fileMapper extends mapper
             'mutator' => 'setFolder',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'fileManager/folderMapper'
+            'mapper' => 'fileManager/folder'
         ),
         'storage_id' => array(
             'accessor' => 'getStorage',
             'mutator' => 'setStorage',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'fileManager/storageMapper'
+            'mapper' => 'fileManager/storage'
         )
     );
 
