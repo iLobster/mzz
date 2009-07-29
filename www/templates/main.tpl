@@ -8,9 +8,9 @@
                 {foreach name="langs" from=$available_langs item="lang"}
                 {assign lang_name=$lang->getName()}
                 {if $current_lang neq $lang_name}
-                    <a href="{url lang=$lang_name}">{$lang_name|strtoupper}</a>
+                    <a href="{url lang=$lang_name}">{$lang_name|strtoupper} {icon sprite="sprite:mzz-flag/`$lang_name`"}</a>
                 {else}
-                    {$lang_name|strtoupper}
+                    {$lang_name|strtoupper} {icon sprite="sprite:mzz-flag/`$lang_name`" active=true}
                 {/if}
                 {if !$smarty.foreach.langs.last} | {/if}
                 {/foreach}
