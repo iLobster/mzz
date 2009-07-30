@@ -99,19 +99,16 @@ class commentsMapper extends mapper
         $objectMapper = $folder->getObjectMapper();
         $commentedObject = $folder->getObject();
 
-        $data = array($commentedObject, $object, $folder);
-        $objectMapper->notify('commentPostInsert', $data);
+        $data = array(
+            'commentedObject' => $commentedObject,
+            'commentObject' => $object,
+            'commentFolderObject' => $folder
+        );
 
-        /*
-        if ($objectMapper->isAttached('comments')) {
-            $commentsPlugin = $objectMapper->plugin('comments');
-            if ($commentsPlugin->isExtendMap()) {
-                $commentedObject = $folder->getObject();
-                $commentedObject->setCommentsCount($commentedObject->getCommentsCount() + 1);
-                $objectMapper->save($commentedObject);
-            }
-        }
-        */
+        $commentsFolderMapper = systemToolkit::getInstance()->getMapper('comments', 'commentsFolder');
+        $commentsFolderMapper->notify('commentAdded', $data);
+
+        $objectMapper->notify('commentAdded', $data);
     }
 
     public function convertArgsToObj($args)

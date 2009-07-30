@@ -59,6 +59,10 @@ class commentsFolderMapper extends mapper
             'mutator' => 'setByField',
             'options' => array('once'),
         ),
+        'comments_count' => array(
+            'accessor' => 'getCommentsCount',
+            'mutator' => 'setCommentsCount'
+        ),
         'comments' => array(
             'accessor' => 'getComments',
             'mutator' => 'setComments',
@@ -88,7 +92,23 @@ class commentsFolderMapper extends mapper
         return $this->searchOneByCriteria($criteria);
     }
 
-    /*
+    public function commentAdded(Array $data)
+    {
+        $commentsMapper = systemToolkit::getInstance()->getMapper('comments', 'comments');
+
+        $comment = $data['commentObject'];
+        $commentsFolder = $data['commentFolderObject'];
+
+        $criteria = new criteria($commentsMapper->table());
+        $criteria->addSelectField(new sqlFunction('COUNT', '*'), 'comments_count');
+        $criteria->add('folder_id', $commentsFolder->getId());
+
+        $select = new simpleSelect($criteria);
+        $commentsCount = $this->db()->getOne($select->toString());
+        $commentsFolder->setCommentsCount($commentsCount);
+        $this->save($commentsFolder);
+    }
+
     public function delete(commentsFolder $object)
     {
         $commentsMapper = systemToolkit::getInstance()->getMapper('comments', 'comments');
@@ -99,7 +119,6 @@ class commentsFolderMapper extends mapper
 
         parent::delete($object);
     }
-    */
 
     public function convertArgsToObj($args)
     {

@@ -2,7 +2,7 @@
 {add file="jquery.js"}
 {add file="comments/comments.js"}
 <div class="entry-comments">
-    <h3>Комментарии <span class="count">({$comments->count()})</span> {$commentsFolder->getJip()}</h3>
+    <h3>Комментарии <span class="count">({$commentsFolder->getCommentsCount()})</span> {$commentsFolder->getJip()}</h3>
     <ul id="comments_{$commentsFolder->getId()}">
     {foreach from=$comments item="comment" name="commentsIteration"}
         {strip}{if !$smarty.foreach.commentsIteration.first}

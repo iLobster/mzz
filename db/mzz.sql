@@ -20,6 +20,8 @@ CREATE DATABASE `mzz`
 
 USE `mzz`;
 
+SET sql_mode = '';
+
 #
 # Structure for the `comments_comments` table : 
 #
@@ -36,7 +38,15 @@ CREATE TABLE `comments_comments` (
   PRIMARY KEY (`id`),
   KEY `folder_id` (`folder_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=2 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `comments_comments` table  (LIMIT 0,500)
+#
+
+INSERT INTO `comments_comments` (`id`, `obj_id`, `text`, `user_id`, `created`, `folder_id`) VALUES 
+  (1,NULL,'test',1,1248950392,1);
+COMMIT;
 
 #
 # Structure for the `comments_commentsFolder` table : 
@@ -46,23 +56,22 @@ DROP TABLE IF EXISTS `comments_commentsFolder`;
 
 CREATE TABLE `comments_commentsFolder` (
   `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `obj_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   `parent_id` INTEGER(11) UNSIGNED DEFAULT NULL,
   `module` CHAR(50) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `type` CHAR(50) COLLATE utf8_general_ci DEFAULT NULL,
   `by_field` CHAR(50) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `comments_count` INTEGER(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `parent_id_2` (`parent_id`, `type`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=4 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `comments_commentsFolder` table  (LIMIT 0,500)
 #
 
-INSERT INTO `comments_commentsFolder` (`id`, `obj_id`, `parent_id`, `module`, `type`, `by_field`) VALUES 
-  (2,1458,1457,'news','news','obj_id'),
-  (3,1459,9,'page','page','obj_id');
+INSERT INTO `comments_commentsFolder` (`id`, `parent_id`, `module`, `type`, `by_field`, `comments_count`) VALUES 
+  (1,9,'page','page','obj_id',1);
 COMMIT;
 
 #
@@ -81,7 +90,15 @@ CREATE TABLE `comments_comments_tree` (
   KEY `foreign_key` (`foreign_key`),
   KEY `parent_id` (`parent_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=2 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `comments_comments_tree` table  (LIMIT 0,500)
+#
+
+INSERT INTO `comments_comments_tree` (`id`, `foreign_key`, `parent_id`, `level`, `path`) VALUES 
+  (1,1,0,1,'1/');
+COMMIT;
 
 #
 # Structure for the `fileManager_file` table : 
@@ -889,7 +906,8 @@ CREATE TABLE `sys_config` (
   PRIMARY KEY (`id`),
   KEY `module_name` (`module_name`),
   KEY `name` (`name`)
-)ENGINE=MyISAM CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+)ENGINE=MyISAM
+AUTO_INCREMENT=5 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_config` table  (LIMIT 0,500)
