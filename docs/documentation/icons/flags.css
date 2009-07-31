@@ -1,0 +1,1033 @@
+span.mzz-flag {
+    display: -moz-inline-box;
+    display: inline-block !important;
+    width: 16px;
+    height: 11px;
+    padding: 0px;
+    margin: 0px;
+    background: transparent none no-repeat scroll 100px 100px;
+}
+
+span.mzz-flag span.mzz-bullet {
+    margin-top: 0px;
+}
+
+span.mzz-flag:hover span.mzz-bullet
+{
+    background-image: url(./bullets.active.png);
+}
+
+span.mzz-flag
+{
+    background-image: url(./flags.inactive.png);
+}
+
+.disabled span.mzz-flag,
+span.mzz-flag.disabled
+{
+    background-image: url(./flags.inactive.png) !important;
+}
+
+span.mzz-flag:hover,
+a:hover span.mzz-flag
+{
+    background-image: url(./flags.active.png);
+}
+
+.active span.mzz-flag,
+span.mzz-flag.active
+{
+    background-image: url(./flags.active.png) !important;
+}
+
+span.mzz-flag-ad {
+    background-position: -0px -0px;
+}
+
+span.mzz-flag-ae {
+    background-position: -16px -0px;
+}
+
+span.mzz-flag-af {
+    background-position: -32px -0px;
+}
+
+span.mzz-flag-ag {
+    background-position: -48px -0px;
+}
+
+span.mzz-flag-ai {
+    background-position: -64px -0px;
+}
+
+span.mzz-flag-al {
+    background-position: -80px -0px;
+}
+
+span.mzz-flag-am {
+    background-position: -96px -0px;
+}
+
+span.mzz-flag-an {
+    background-position: -112px -0px;
+}
+
+span.mzz-flag-ao {
+    background-position: -128px -0px;
+}
+
+span.mzz-flag-ar {
+    background-position: -144px -0px;
+}
+
+span.mzz-flag-as {
+    background-position: -160px -0px;
+}
+
+span.mzz-flag-at {
+    background-position: -176px -0px;
+}
+
+span.mzz-flag-au {
+    background-position: -192px -0px;
+}
+
+span.mzz-flag-aw {
+    background-position: -208px -0px;
+}
+
+span.mzz-flag-ax {
+    background-position: -224px -0px;
+}
+
+span.mzz-flag-az {
+    background-position: -240px -0px;
+}
+
+span.mzz-flag-ba {
+    background-position: -0px -11px;
+}
+
+span.mzz-flag-bb {
+    background-position: -16px -11px;
+}
+
+span.mzz-flag-bd {
+    background-position: -32px -11px;
+}
+
+span.mzz-flag-be {
+    background-position: -48px -11px;
+}
+
+span.mzz-flag-bf {
+    background-position: -64px -11px;
+}
+
+span.mzz-flag-bg {
+    background-position: -80px -11px;
+}
+
+span.mzz-flag-bh {
+    background-position: -96px -11px;
+}
+
+span.mzz-flag-bi {
+    background-position: -112px -11px;
+}
+
+span.mzz-flag-bj {
+    background-position: -128px -11px;
+}
+
+span.mzz-flag-bm {
+    background-position: -144px -11px;
+}
+
+span.mzz-flag-bn {
+    background-position: -160px -11px;
+}
+
+span.mzz-flag-bo {
+    background-position: -176px -11px;
+}
+
+span.mzz-flag-br {
+    background-position: -192px -11px;
+}
+
+span.mzz-flag-bs {
+    background-position: -208px -11px;
+}
+
+span.mzz-flag-bt {
+    background-position: -224px -11px;
+}
+
+span.mzz-flag-bv {
+    background-position: -240px -11px;
+}
+
+span.mzz-flag-bw {
+    background-position: -0px -22px;
+}
+
+span.mzz-flag-by {
+    background-position: -16px -22px;
+}
+
+span.mzz-flag-bz {
+    background-position: -32px -22px;
+}
+
+span.mzz-flag-ca {
+    background-position: -48px -22px;
+}
+
+span.mzz-flag-cc {
+    background-position: -64px -22px;
+}
+
+span.mzz-flag-cd {
+    background-position: -80px -22px;
+}
+
+span.mzz-flag-cf {
+    background-position: -96px -22px;
+}
+
+span.mzz-flag-cg {
+    background-position: -112px -22px;
+}
+
+span.mzz-flag-ch {
+    background-position: -128px -22px;
+}
+
+span.mzz-flag-ci {
+    background-position: -144px -22px;
+}
+
+span.mzz-flag-ck {
+    background-position: -160px -22px;
+}
+
+span.mzz-flag-cl {
+    background-position: -176px -22px;
+}
+
+span.mzz-flag-cm {
+    background-position: -192px -22px;
+}
+
+span.mzz-flag-cn {
+    background-position: -208px -22px;
+}
+
+span.mzz-flag-co {
+    background-position: -224px -22px;
+}
+
+span.mzz-flag-cr {
+    background-position: -240px -22px;
+}
+
+span.mzz-flag-cs {
+    background-position: -0px -33px;
+}
+
+span.mzz-flag-cu {
+    background-position: -16px -33px;
+}
+
+span.mzz-flag-cv {
+    background-position: -32px -33px;
+}
+
+span.mzz-flag-cx {
+    background-position: -48px -33px;
+}
+
+span.mzz-flag-cy {
+    background-position: -64px -33px;
+}
+
+span.mzz-flag-cz {
+    background-position: -80px -33px;
+}
+
+span.mzz-flag-de {
+    background-position: -96px -33px;
+}
+
+span.mzz-flag-dj {
+    background-position: -112px -33px;
+}
+
+span.mzz-flag-dk {
+    background-position: -128px -33px;
+}
+
+span.mzz-flag-dm {
+    background-position: -144px -33px;
+}
+
+span.mzz-flag-do {
+    background-position: -160px -33px;
+}
+
+span.mzz-flag-dz {
+    background-position: -176px -33px;
+}
+
+span.mzz-flag-ec {
+    background-position: -192px -33px;
+}
+
+span.mzz-flag-ee {
+    background-position: -208px -33px;
+}
+
+span.mzz-flag-eg {
+    background-position: -224px -33px;
+}
+
+span.mzz-flag-eh {
+    background-position: -240px -33px;
+}
+
+span.mzz-flag-er {
+    background-position: -0px -44px;
+}
+
+span.mzz-flag-es {
+    background-position: -16px -44px;
+}
+
+span.mzz-flag-et {
+    background-position: -32px -44px;
+}
+
+span.mzz-flag-fi {
+    background-position: -48px -44px;
+}
+
+span.mzz-flag-fj {
+    background-position: -64px -44px;
+}
+
+span.mzz-flag-fk {
+    background-position: -80px -44px;
+}
+
+span.mzz-flag-fm {
+    background-position: -96px -44px;
+}
+
+span.mzz-flag-fo {
+    background-position: -112px -44px;
+}
+
+span.mzz-flag-fr {
+    background-position: -128px -44px;
+}
+
+span.mzz-flag-ga {
+    background-position: -144px -44px;
+}
+
+span.mzz-flag-gb {
+    background-position: -160px -44px;
+}
+
+span.mzz-flag-gd {
+    background-position: -176px -44px;
+}
+
+span.mzz-flag-ge {
+    background-position: -192px -44px;
+}
+
+span.mzz-flag-gf {
+    background-position: -208px -44px;
+}
+
+span.mzz-flag-gh {
+    background-position: -224px -44px;
+}
+
+span.mzz-flag-gi {
+    background-position: -240px -44px;
+}
+
+span.mzz-flag-gl {
+    background-position: -0px -55px;
+}
+
+span.mzz-flag-gm {
+    background-position: -16px -55px;
+}
+
+span.mzz-flag-gn {
+    background-position: -32px -55px;
+}
+
+span.mzz-flag-gp {
+    background-position: -48px -55px;
+}
+
+span.mzz-flag-gq {
+    background-position: -64px -55px;
+}
+
+span.mzz-flag-gr {
+    background-position: -80px -55px;
+}
+
+span.mzz-flag-gs {
+    background-position: -96px -55px;
+}
+
+span.mzz-flag-gt {
+    background-position: -112px -55px;
+}
+
+span.mzz-flag-gu {
+    background-position: -128px -55px;
+}
+
+span.mzz-flag-gw {
+    background-position: -144px -55px;
+}
+
+span.mzz-flag-gy {
+    background-position: -160px -55px;
+}
+
+span.mzz-flag-hk {
+    background-position: -176px -55px;
+}
+
+span.mzz-flag-hm {
+    background-position: -192px -55px;
+}
+
+span.mzz-flag-hn {
+    background-position: -208px -55px;
+}
+
+span.mzz-flag-hr {
+    background-position: -224px -55px;
+}
+
+span.mzz-flag-ht {
+    background-position: -240px -55px;
+}
+
+span.mzz-flag-hu {
+    background-position: -0px -66px;
+}
+
+span.mzz-flag-id {
+    background-position: -16px -66px;
+}
+
+span.mzz-flag-ie {
+    background-position: -32px -66px;
+}
+
+span.mzz-flag-il {
+    background-position: -48px -66px;
+}
+
+span.mzz-flag-in {
+    background-position: -64px -66px;
+}
+
+span.mzz-flag-io {
+    background-position: -80px -66px;
+}
+
+span.mzz-flag-iq {
+    background-position: -96px -66px;
+}
+
+span.mzz-flag-ir {
+    background-position: -112px -66px;
+}
+
+span.mzz-flag-is {
+    background-position: -128px -66px;
+}
+
+span.mzz-flag-it {
+    background-position: -144px -66px;
+}
+
+span.mzz-flag-jm {
+    background-position: -160px -66px;
+}
+
+span.mzz-flag-jo {
+    background-position: -176px -66px;
+}
+
+span.mzz-flag-jp {
+    background-position: -192px -66px;
+}
+
+span.mzz-flag-ke {
+    background-position: -208px -66px;
+}
+
+span.mzz-flag-kg {
+    background-position: -224px -66px;
+}
+
+span.mzz-flag-kh {
+    background-position: -240px -66px;
+}
+
+span.mzz-flag-ki {
+    background-position: -0px -77px;
+}
+
+span.mzz-flag-km {
+    background-position: -16px -77px;
+}
+
+span.mzz-flag-kn {
+    background-position: -32px -77px;
+}
+
+span.mzz-flag-kp {
+    background-position: -48px -77px;
+}
+
+span.mzz-flag-kr {
+    background-position: -64px -77px;
+}
+
+span.mzz-flag-kw {
+    background-position: -80px -77px;
+}
+
+span.mzz-flag-ky {
+    background-position: -96px -77px;
+}
+
+span.mzz-flag-kz {
+    background-position: -112px -77px;
+}
+
+span.mzz-flag-la {
+    background-position: -128px -77px;
+}
+
+span.mzz-flag-lb {
+    background-position: -144px -77px;
+}
+
+span.mzz-flag-lc {
+    background-position: -160px -77px;
+}
+
+span.mzz-flag-li {
+    background-position: -176px -77px;
+}
+
+span.mzz-flag-lk {
+    background-position: -192px -77px;
+}
+
+span.mzz-flag-lr {
+    background-position: -208px -77px;
+}
+
+span.mzz-flag-ls {
+    background-position: -224px -77px;
+}
+
+span.mzz-flag-lt {
+    background-position: -240px -77px;
+}
+
+span.mzz-flag-lu {
+    background-position: -0px -88px;
+}
+
+span.mzz-flag-lv {
+    background-position: -16px -88px;
+}
+
+span.mzz-flag-ly {
+    background-position: -32px -88px;
+}
+
+span.mzz-flag-ma {
+    background-position: -48px -88px;
+}
+
+span.mzz-flag-mc {
+    background-position: -64px -88px;
+}
+
+span.mzz-flag-md {
+    background-position: -80px -88px;
+}
+
+span.mzz-flag-me {
+    background-position: -96px -88px;
+}
+
+span.mzz-flag-mg {
+    background-position: -112px -88px;
+}
+
+span.mzz-flag-mh {
+    background-position: -128px -88px;
+}
+
+span.mzz-flag-mk {
+    background-position: -144px -88px;
+}
+
+span.mzz-flag-ml {
+    background-position: -160px -88px;
+}
+
+span.mzz-flag-mm {
+    background-position: -176px -88px;
+}
+
+span.mzz-flag-mn {
+    background-position: -192px -88px;
+}
+
+span.mzz-flag-mo {
+    background-position: -208px -88px;
+}
+
+span.mzz-flag-mp {
+    background-position: -224px -88px;
+}
+
+span.mzz-flag-mq {
+    background-position: -240px -88px;
+}
+
+span.mzz-flag-mr {
+    background-position: -0px -99px;
+}
+
+span.mzz-flag-ms {
+    background-position: -16px -99px;
+}
+
+span.mzz-flag-mt {
+    background-position: -32px -99px;
+}
+
+span.mzz-flag-mu {
+    background-position: -48px -99px;
+}
+
+span.mzz-flag-mv {
+    background-position: -64px -99px;
+}
+
+span.mzz-flag-mw {
+    background-position: -80px -99px;
+}
+
+span.mzz-flag-mx {
+    background-position: -96px -99px;
+}
+
+span.mzz-flag-my {
+    background-position: -112px -99px;
+}
+
+span.mzz-flag-mz {
+    background-position: -128px -99px;
+}
+
+span.mzz-flag-na {
+    background-position: -144px -99px;
+}
+
+span.mzz-flag-nc {
+    background-position: -160px -99px;
+}
+
+span.mzz-flag-ne {
+    background-position: -176px -99px;
+}
+
+span.mzz-flag-nf {
+    background-position: -192px -99px;
+}
+
+span.mzz-flag-ng {
+    background-position: -208px -99px;
+}
+
+span.mzz-flag-ni {
+    background-position: -224px -99px;
+}
+
+span.mzz-flag-nl {
+    background-position: -240px -99px;
+}
+
+span.mzz-flag-no {
+    background-position: -0px -110px;
+}
+
+span.mzz-flag-np {
+    background-position: -16px -110px;
+}
+
+span.mzz-flag-nr {
+    background-position: -32px -110px;
+}
+
+span.mzz-flag-nu {
+    background-position: -48px -110px;
+}
+
+span.mzz-flag-nz {
+    background-position: -64px -110px;
+}
+
+span.mzz-flag-om {
+    background-position: -80px -110px;
+}
+
+span.mzz-flag-pa {
+    background-position: -96px -110px;
+}
+
+span.mzz-flag-pe {
+    background-position: -112px -110px;
+}
+
+span.mzz-flag-pf {
+    background-position: -128px -110px;
+}
+
+span.mzz-flag-pg {
+    background-position: -144px -110px;
+}
+
+span.mzz-flag-ph {
+    background-position: -160px -110px;
+}
+
+span.mzz-flag-pk {
+    background-position: -176px -110px;
+}
+
+span.mzz-flag-pl {
+    background-position: -192px -110px;
+}
+
+span.mzz-flag-pm {
+    background-position: -208px -110px;
+}
+
+span.mzz-flag-pn {
+    background-position: -224px -110px;
+}
+
+span.mzz-flag-pr {
+    background-position: -240px -110px;
+}
+
+span.mzz-flag-ps {
+    background-position: -0px -121px;
+}
+
+span.mzz-flag-pt {
+    background-position: -16px -121px;
+}
+
+span.mzz-flag-pw {
+    background-position: -32px -121px;
+}
+
+span.mzz-flag-py {
+    background-position: -48px -121px;
+}
+
+span.mzz-flag-qa {
+    background-position: -64px -121px;
+}
+
+span.mzz-flag-re {
+    background-position: -80px -121px;
+}
+
+span.mzz-flag-ro {
+    background-position: -96px -121px;
+}
+
+span.mzz-flag-rs {
+    background-position: -112px -121px;
+}
+
+span.mzz-flag-ru {
+    background-position: -128px -121px;
+}
+
+span.mzz-flag-rw {
+    background-position: -144px -121px;
+}
+
+span.mzz-flag-sa {
+    background-position: -160px -121px;
+}
+
+span.mzz-flag-sb {
+    background-position: -176px -121px;
+}
+
+span.mzz-flag-sc {
+    background-position: -192px -121px;
+}
+
+span.mzz-flag-sd {
+    background-position: -208px -121px;
+}
+
+span.mzz-flag-se {
+    background-position: -224px -121px;
+}
+
+span.mzz-flag-sg {
+    background-position: -240px -121px;
+}
+
+span.mzz-flag-sh {
+    background-position: -0px -132px;
+}
+
+span.mzz-flag-si {
+    background-position: -16px -132px;
+}
+
+span.mzz-flag-sj {
+    background-position: -32px -132px;
+}
+
+span.mzz-flag-sk {
+    background-position: -48px -132px;
+}
+
+span.mzz-flag-sl {
+    background-position: -64px -132px;
+}
+
+span.mzz-flag-sm {
+    background-position: -80px -132px;
+}
+
+span.mzz-flag-sn {
+    background-position: -96px -132px;
+}
+
+span.mzz-flag-so {
+    background-position: -112px -132px;
+}
+
+span.mzz-flag-sr {
+    background-position: -128px -132px;
+}
+
+span.mzz-flag-st {
+    background-position: -144px -132px;
+}
+
+span.mzz-flag-sv {
+    background-position: -160px -132px;
+}
+
+span.mzz-flag-sy {
+    background-position: -176px -132px;
+}
+
+span.mzz-flag-sz {
+    background-position: -192px -132px;
+}
+
+span.mzz-flag-tc {
+    background-position: -208px -132px;
+}
+
+span.mzz-flag-td {
+    background-position: -224px -132px;
+}
+
+span.mzz-flag-tf {
+    background-position: -240px -132px;
+}
+
+span.mzz-flag-tg {
+    background-position: -0px -143px;
+}
+
+span.mzz-flag-th {
+    background-position: -16px -143px;
+}
+
+span.mzz-flag-tj {
+    background-position: -32px -143px;
+}
+
+span.mzz-flag-tk {
+    background-position: -48px -143px;
+}
+
+span.mzz-flag-tl {
+    background-position: -64px -143px;
+}
+
+span.mzz-flag-tm {
+    background-position: -80px -143px;
+}
+
+span.mzz-flag-tn {
+    background-position: -96px -143px;
+}
+
+span.mzz-flag-to {
+    background-position: -112px -143px;
+}
+
+span.mzz-flag-tr {
+    background-position: -128px -143px;
+}
+
+span.mzz-flag-tt {
+    background-position: -144px -143px;
+}
+
+span.mzz-flag-tv {
+    background-position: -160px -143px;
+}
+
+span.mzz-flag-tw {
+    background-position: -176px -143px;
+}
+
+span.mzz-flag-tz {
+    background-position: -192px -143px;
+}
+
+span.mzz-flag-ua {
+    background-position: -208px -143px;
+}
+
+span.mzz-flag-ug {
+    background-position: -224px -143px;
+}
+
+span.mzz-flag-um {
+    background-position: -240px -143px;
+}
+
+span.mzz-flag-us {
+    background-position: -0px -154px;
+}
+
+span.mzz-flag-uy {
+    background-position: -16px -154px;
+}
+
+span.mzz-flag-uz {
+    background-position: -32px -154px;
+}
+
+span.mzz-flag-va {
+    background-position: -48px -154px;
+}
+
+span.mzz-flag-vc {
+    background-position: -64px -154px;
+}
+
+span.mzz-flag-ve {
+    background-position: -80px -154px;
+}
+
+span.mzz-flag-vg {
+    background-position: -96px -154px;
+}
+
+span.mzz-flag-vi {
+    background-position: -112px -154px;
+}
+
+span.mzz-flag-vn {
+    background-position: -128px -154px;
+}
+
+span.mzz-flag-vu {
+    background-position: -144px -154px;
+}
+
+span.mzz-flag-wf {
+    background-position: -160px -154px;
+}
+
+span.mzz-flag-ws {
+    background-position: -176px -154px;
+}
+
+span.mzz-flag-ye {
+    background-position: -192px -154px;
+}
+
+span.mzz-flag-yt {
+    background-position: -208px -154px;
+}
+
+span.mzz-flag-za {
+    background-position: -224px -154px;
+}
+
+span.mzz-flag-zm {
+    background-position: -240px -154px;
+}
+
+span.mzz-flag-zw {
+    background-position: -0px -165px;
+}
+
+span.mzz-flag-en {
+    background-position: -16px -165px;
+}
+
+span.mzz-flag-catalonia {
+    background-position: -32px -165px;
+}
+
+span.mzz-flag-england {
+    background-position: -48px -165px;
+}
+
+span.mzz-flag-europeanunion {
+    background-position: -64px -165px;
+}
+
+span.mzz-flag-fam {
+    background-position: -80px -165px;
+}
+
+span.mzz-flag-scotland {
+    background-position: -96px -165px;
+}
+
+span.mzz-flag-wales {
+    background-position: -112px -165px;
+}

@@ -1,7 +1,7 @@
 <p>Плагин для генерации "системных" иконок.</p>
 <p>Синтаксис функции:</p>
 <<code smarty>>
-    {icon sprite="описание sprite'а" [jip=true] [active=true|disabled=true]}
+{icon sprite="описание sprite'а" [jip=true] [active=true|disabled=true]}
 <</code>>
 
 <p>Описание аргументов:</p>
@@ -24,19 +24,19 @@ sprite:name/index[/overlay]
 
 <p>Примеры использования:</p>
 <<code smarty>>
-    {icon sprite="/templates/images/icon.gif"}
-    {icon sprite="sprite:mzz-icon/mzz-icon-folder/mzz-overlay-add"}
-    {icon sprite="sprite:mzz-icon/mzz-icon-folder/mzz-overlay-add" active=true}
-    {icon sprite="sprite:mzz-icon/mzz-icon-folder/mzz-overlay-add" disabled=true}
-    {icon sprite="sprite:mzz-icon/mzz-icon-folder/mzz-overlay-add" jip=true}
+{icon sprite="/templates/images/icon.gif"}
+{icon sprite="sprite:mzz-icon/folder/add"}
+{icon sprite="sprite:mzz-icon/folder/add" active=true}
+{icon sprite="sprite:mzz-icon/folder/add" disabled=true}
+{icon sprite="sprite:mzz-icon/folder/add" jip=true}
 <</code>>
 
 <p>Результатом выполнения этого кода будет:</p>
 <<code html>>
 <img src="/templates/images/icon.gif" width="16" height="16" alt="icon" />
-<span class="mzz-icon mzz-icon-folder"><span class="mzz-overlay mzz-overlay-add"></span></span>
-<span class="mzz-icon mzz-icon-folder active"><span class="mzz-overlay mzz-overlay-add"></span></span>
-<span class="mzz-icon mzz-icon-folder disabled"><span class="mzz-overlay mzz-overlay-add"></span></span>
-{'sprite':'mzz-icon','index':'mzz-icon-folder', 'overlay':'mzz-overlay-add'}
+<span class="mzz-icon mzz-icon-folder"><span class="mzz-bullet add"></span></span>
+<span class="mzz-icon mzz-icon-folder active"><span class="mzz-bullet add"></span></span>
+<span class="mzz-icon mzz-icon-folder disabled"><span class="mzz-bullet add"></span></span>
+{'sprite':'mzz-icon','index':'folder', 'overlay':'add'}
 <</code>>
 <p>Этот плагин используется для генерации соответсвующего html-кода или строки для jipMenu. Пока генерит иконки 16х16.</p>

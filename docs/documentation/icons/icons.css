@@ -1,0 +1,492 @@
+span.mzz-icon {
+    display: -moz-inline-box;
+    display: inline-block !important;
+    width: 16px;
+    height: 16px;
+    padding: 0px;
+    margin: 0 2px;
+    background: transparent none no-repeat scroll 100px 100px;
+}
+
+span.mzz-icon
+{
+    background-image: url(./icons.inactive.png);
+}
+
+.disabled span.mzz-icon,
+span.mzz-icon.disabled
+{
+    background-image: url(./icons.inactive.png) !important;
+}
+
+span.mzz-icon:hover,
+a:hover span.mzz-icon
+{
+    background-image: url(./icons.active.png);
+}
+
+.active span.mzz-icon,
+span.mzz-icon.active
+{
+    background-image: url(./icons.active.png) !important;
+}
+
+span.mzz-icon-book {
+    background-position: -0px -0px;
+}
+
+span.mzz-icon-box {
+    background-position: -16px -0px;
+}
+
+span.mzz-icon-block {
+    background-position: -32px -0px;
+}
+
+span.mzz-icon-blocks {
+    background-position: -48px -0px;
+}
+
+span.mzz-icon-calc {
+    background-position: -64px -0px;
+}
+
+span.mzz-icon-date {
+    background-position: -80px -0px;
+}
+
+span.mzz-icon-cal {
+    background-position: -96px -0px;
+}
+
+span.mzz-icon-cal-day {
+    background-position: -112px -0px;
+}
+
+span.mzz-icon-cal-month {
+    background-position: -128px -0px;
+}
+
+span.mzz-icon-cal-week {
+    background-position: -144px -0px;
+}
+
+span.mzz-icon-cd {
+    background-position: -160px -0px;
+}
+
+span.mzz-icon-dvd {
+    background-position: -176px -0px;
+}
+
+span.mzz-icon-chart {
+    background-position: -192px -0px;
+}
+
+span.mzz-icon-chart2 {
+    background-position: -208px -0px;
+}
+
+span.mzz-icon-chart3 {
+    background-position: -224px -0px;
+}
+
+span.mzz-icon-chart4 {
+    background-position: -240px -0px;
+}
+
+span.mzz-icon-chart5 {
+    background-position: -0px -16px;
+}
+
+span.mzz-icon-clock {
+    background-position: -16px -16px;
+}
+
+span.mzz-icon-clock-red {
+    background-position: -32px -16px;
+}
+
+span.mzz-icon-cog {
+    background-position: -48px -16px;
+}
+
+span.mzz-icon-comment {
+    background-position: -64px -16px;
+}
+
+span.mzz-icon-comments {
+    background-position: -80px -16px;
+}
+
+span.mzz-icon-computer {
+    background-position: -96px -16px;
+}
+
+span.mzz-icon-server {
+    background-position: -112px -16px;
+}
+
+span.mzz-icon-monitor {
+    background-position: -128px -16px;
+}
+
+span.mzz-icon-printer {
+    background-position: -144px -16px;
+}
+
+span.mzz-icon-controller {
+    background-position: -160px -16px;
+}
+
+span.mzz-icon-keyboard {
+    background-position: -176px -16px;
+}
+
+span.mzz-icon-drive {
+    background-position: -192px -16px;
+}
+
+span.mzz-icon-drive-net {
+    background-position: -208px -16px;
+}
+
+span.mzz-icon-drive-rename {
+    background-position: -224px -16px;
+}
+
+span.mzz-icon-drive-net-rename {
+    background-position: -240px -16px;
+}
+
+span.mzz-icon-db {
+    background-position: -0px -32px;
+}
+
+span.mzz-icon-db-table {
+    background-position: -16px -32px;
+}
+
+span.mzz-icon-table {
+    background-position: -32px -32px;
+}
+
+span.mzz-icon-disconnect {
+    background-position: -48px -32px;
+}
+
+span.mzz-icon-connect {
+    background-position: -64px -32px;
+}
+
+span.mzz-icon-money {
+    background-position: -80px -32px;
+}
+
+span.mzz-icon-coins {
+    background-position: -96px -32px;
+}
+
+span.mzz-icon-ccards {
+    background-position: -112px -32px;
+}
+
+span.mzz-icon-mail {
+    background-position: -128px -32px;
+}
+
+span.mzz-icon-mail-opend {
+    background-position: -144px -32px;
+}
+
+span.mzz-icon-feed {
+    background-position: -160px -32px;
+}
+
+span.mzz-icon-film {
+    background-position: -176px -32px;
+}
+
+span.mzz-icon-folder {
+    background-position: -192px -32px;
+}
+
+span.mzz-icon-wrench {
+    background-position: -208px -32px;
+}
+
+span.mzz-icon-wrench-red {
+    background-position: -224px -32px;
+}
+
+span.mzz-icon-wrench-cross {
+    background-position: -240px -32px;
+}
+
+span.mzz-icon-group {
+    background-position: -0px -48px;
+}
+
+span.mzz-icon-user {
+    background-position: -16px -48px;
+}
+
+span.mzz-icon-user-female {
+    background-position: -32px -48px;
+}
+
+span.mzz-icon-user-suit {
+    background-position: -48px -48px;
+}
+
+span.mzz-icon-user-green {
+    background-position: -64px -48px;
+}
+
+span.mzz-icon-user-orange {
+    background-position: -80px -48px;
+}
+
+span.mzz-icon-user-red {
+    background-position: -96px -48px;
+}
+
+span.mzz-icon-user-grey {
+    background-position: -112px -48px;
+}
+
+span.mzz-icon-tux {
+    background-position: -128px -48px;
+}
+
+span.mzz-icon-status-online {
+    background-position: -144px -48px;
+}
+
+span.mzz-icon-status-offline {
+    background-position: -160px -48px;
+}
+
+span.mzz-icon-vcard {
+    background-position: -176px -48px;
+}
+
+span.mzz-icon-map {
+    background-position: -192px -48px;
+}
+
+span.mzz-icon-key {
+    background-position: -208px -48px;
+}
+
+span.mzz-icon-link {
+    background-position: -224px -48px;
+}
+
+span.mzz-icon-link-break {
+    background-position: -240px -48px;
+}
+
+span.mzz-icon-layout {
+    background-position: -0px -64px;
+}
+
+span.mzz-icon-layout2 {
+    background-position: -16px -64px;
+}
+
+span.mzz-icon-layout3 {
+    background-position: -32px -64px;
+}
+
+span.mzz-icon-layout4 {
+    background-position: -48px -64px;
+}
+
+span.mzz-icon-page-blue {
+    background-position: -64px -64px;
+}
+
+span.mzz-icon-page-green {
+    background-position: -80px -64px;
+}
+
+span.mzz-icon-page-red {
+    background-position: -96px -64px;
+}
+
+span.mzz-icon-page {
+    background-position: -112px -64px;
+}
+
+span.mzz-icon-page-text {
+    background-position: -128px -64px;
+}
+
+span.mzz-icon-newspaper {
+    background-position: -144px -64px;
+}
+
+span.mzz-icon-note {
+    background-position: -160px -64px;
+}
+
+span.mzz-icon-box {
+    background-position: -176px -64px;
+}
+
+span.mzz-icon-box-green {
+    background-position: -192px -64px;
+}
+
+span.mzz-icon-lock {
+    background-position: -208px -64px;
+}
+
+span.mzz-icon-lock-open {
+    background-position: -224px -64px;
+}
+
+span.mzz-icon-lock-break {
+    background-position: -240px -64px;
+}
+
+span.mzz-icon-tag {
+    background-position: -0px -80px;
+}
+
+span.mzz-icon-tag-green {
+    background-position: -16px -80px;
+}
+
+span.mzz-icon-tag-orange {
+    background-position: -32px -80px;
+}
+
+span.mzz-icon-tag-pink {
+    background-position: -48px -80px;
+}
+
+span.mzz-icon-tag-purple {
+    background-position: -64px -80px;
+}
+
+span.mzz-icon-tag-red {
+    background-position: -80px -80px;
+}
+
+span.mzz-icon-tag-yellow {
+    background-position: -96px -80px;
+}
+
+span.mzz-icon-css {
+    background-position: -112px -80px;
+}
+
+span.mzz-icon-rss {
+    background-position: -128px -80px;
+}
+
+span.mzz-icon-xhtml {
+    background-position: -144px -80px;
+}
+
+span.mzz-icon-html {
+    background-position: -160px -80px;
+}
+
+span.mzz-icon-image {
+    background-position: -176px -80px;
+}
+
+span.mzz-icon-picture {
+    background-position: -192px -80px;
+}
+
+span.mzz-icon-tv {
+    background-position: -208px -80px;
+}
+
+span.mzz-icon-telephone {
+    background-position: -224px -80px;
+}
+
+span.mzz-icon-cellphone {
+    background-position: -240px -80px;
+}
+
+span.mzz-icon-plugin {
+    background-position: -0px -96px;
+}
+
+span.mzz-icon-bug {
+    background-position: -16px -96px;
+}
+
+span.mzz-icon-report {
+    background-position: -32px -96px;
+}
+
+span.mzz-icon-script {
+    background-position: -48px -96px;
+}
+
+span.mzz-icon-shield {
+    background-position: -64px -96px;
+}
+
+span.mzz-icon-tab {
+    background-position: -80px -96px;
+}
+
+span.mzz-icon-cup {
+    background-position: -96px -96px;
+}
+
+span.mzz-icon-input {
+    background-position: -112px -96px;
+}
+
+span.mzz-icon-input-rename {
+    background-position: -128px -96px;
+}
+
+span.mzz-icon-time {
+    background-position: -144px -96px;
+}
+
+span.mzz-icon-world {
+    background-position: -160px -96px;
+}
+
+span.mzz-icon-zoom {
+    background-position: -176px -96px;
+}
+
+span.mzz-icon-info {
+    background-position: -192px -96px;
+}
+
+span.mzz-icon-accept {
+    background-position: -208px -96px;
+}
+
+span.mzz-icon-add {
+    background-position: -224px -96px;
+}
+
+span.mzz-icon-remove {
+    background-position: -240px -96px;
+}
+
+span.mzz-icon-error {
+    background-position: -0px -112px;
+}
+
+span.mzz-icon-save {
+    background-position: -16px -112px;
+}
+
+span.mzz-icon-edit {
+    background-position: -32px -112px;
+}
