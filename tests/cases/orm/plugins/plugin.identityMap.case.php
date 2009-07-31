@@ -63,6 +63,7 @@ class identityMapPluginTest extends unitTestCase
 
         $this->assertTrue($object1 === $object2);
     }
+
     public function testIdentityMapSimpleRetrieveWithAnotherField()
     {
         $collection = $this->mapper->searchAllByField('foo', 'foo1');
