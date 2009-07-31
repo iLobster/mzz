@@ -37,9 +37,9 @@ class identityMapTest extends unitTestCase
 
         $object = $this->mock->create();
 
-        $this->assertIdentical($object, $obj);
+        $this->assertTrue($object === $obj);
         $this->im->set($id = 666, $object);
-        $this->assertIdentical($object, $this->im->get($id));
+        $this->assertTrue($object === $this->im->get($id));
     }
 
     public function testDelay()

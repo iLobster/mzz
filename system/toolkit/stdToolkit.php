@@ -301,6 +301,7 @@ class stdToolkit extends toolkit
                 fileLoader::load($module . '/mappers/' . $mapperName);
             }
             $this->mappers[$do] = new $mapperName();
+            $this->mappers[$do]->identityMap(true);
         }
 
         return $this->mappers[$do];

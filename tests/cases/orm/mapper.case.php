@@ -5,6 +5,9 @@ fileLoader::load('cases/orm/ormSimple');
 
 class mapperTest extends unitTestCase
 {
+    /**
+     * @var mapper
+     */
     private $mapper;
     private $db;
     private $fixture;
@@ -29,6 +32,7 @@ class mapperTest extends unitTestCase
     public function setUp()
     {
         $this->mapper = new ormSimpleMapper();
+        $this->mapper->identityMap(false);
     }
 
     public function tearDown()
@@ -117,6 +121,12 @@ class mapperTest extends unitTestCase
 
         $this->assertEqual($object->getFoo(), $new);
         $this->assertEqual($object->state(), entity::STATE_CLEAN);
+
+        $collection = $this->mapper->searchByKey(array(1, 2));
+
+        $this->assertEqual($collection->count(), 2);
+        $this->assertEqual($collection->first()->getId(), 1);
+        $this->assertEqual($collection->last()->getId(), 2);
     }
 
     public function testRetrieveAndDelete()
@@ -152,6 +162,31 @@ class mapperTest extends unitTestCase
         $this->assertEqual($collection->first()->getFoo(), 'foo3');
         $this->assertEqual($collection->last()->getFoo(), 'foo1');
     }
+
+    public function testIdentityMapSimpleMultipleRetrieveByKey()
+    {
+        $this->fixture();
+        $this->mapper->identityMap(true);
+
+        $object1 = $this->mapper->searchByKey(1);
+        $object2 = $this->mapper->searchByKey(1);
+
+        $this->assertTrue($object1 === $object2);
+    }
+
+    public function testIdentityMapSimpleRetrieveWithAnotherField()
+    {
+        $this->fixture();
+        $this->mapper->identityMap(true);
+
+        $collection = $this->mapper->searchAllByField('foo', 'foo1');
+        $object = $this->mapper->searchByKey(1);
+
+        $this->assertTrue($object === $collection[1]);
+    }
+
+
+
 
     public function testSerialize()
     {

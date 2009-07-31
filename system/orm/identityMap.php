@@ -23,6 +23,10 @@ class identityMap
 
     public function get($id)
     {
+        if (!is_scalar($id)) {
+            return;
+        }
+
         $this->loadDelayed();
 
     	if (isset($this->objects[$id])) {
