@@ -72,7 +72,7 @@ abstract class mapper
         $this->relations = new relation($this);
 
         if (is_null($this->class)) {
-            $this->class = $this->table();
+            $this->class = $this->table;
         }
     }
 
@@ -167,7 +167,7 @@ abstract class mapper
 
         $this->notify('preInsert', $data);
 
-        $criteria = new criteria($this->table);
+        $criteria = new criteria($this->table());
 
         $this->notify('preSqlInsert', $criteria);
 
@@ -195,7 +195,7 @@ abstract class mapper
         $this->notify('preUpdate', $data);
 
         if ($data) {
-            $criteria = new criteria($this->table);
+            $criteria = new criteria($this->table());
             $criteria->add($this->pk, $object->$accessor());
 
             $this->notify('preSqlUpdate', $criteria);
@@ -219,7 +219,7 @@ abstract class mapper
 
         $this->notify('preDelete', $object);
 
-        $criteria = new criteria($this->table);
+        $criteria = new criteria($this->table());
         $accessor = $this->map[$this->pk]['accessor'];
         $criteria->add($this->pk, $object->$accessor());
 
@@ -329,7 +329,7 @@ abstract class mapper
 
     public function table()
     {
-        return $this->table;
+        return $this->db()->getTablePrefix() . $this->table;
     }
 
     public function getClass()
@@ -367,7 +367,7 @@ abstract class mapper
 
         $criteria->append($searchCriteria);
 
-        $criteria->setTable($this->table);
+        $criteria->setTable($this->table());
         $this->addSelectFields($criteria);
 
         $this->relations->add($criteria);
@@ -443,7 +443,7 @@ abstract class mapper
 
         $this->relations->retrieve($tmp);
 
-        return $tmp[$this->table];
+        return $tmp[$this->table()];
     }
 
     public function createItemFromRow($row)

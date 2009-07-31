@@ -91,7 +91,7 @@ class lazy
         $criterion->addAnd(new criterion('reference.' . $this->key, $this->value));
 
         $criteria = new criteria();
-        $criteria->addJoin($this->reference, $criterion, 'reference', criteria::JOIN_INNER);
+        $criteria->addJoin($this->mapper->db()->getTablePrefix() . $this->reference, $criterion, 'reference', criteria::JOIN_INNER);
 
         $collection = $this->mapper->searchAllByCriteria($criteria);
 

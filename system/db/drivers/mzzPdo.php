@@ -64,6 +64,13 @@ class mzzPdo extends PDO
     private $alias;
 
     /**
+     * Префикс имени таблиц
+     *
+     * @var string
+     */
+    private $tablePrefix;
+
+    /**
      * Декорируем конструктор PDO: при соединении с БД устанавливается кодировка SQL-базы.
      *
      * @param string $alias     имя набора с данными о соединении
@@ -98,10 +105,12 @@ class mzzPdo extends PDO
             $password = isset(systemConfig::$db[$alias]['password']) ? systemConfig::$db[$alias]['password'] : systemConfig::$db['default']['password'];
             $charset  = isset(systemConfig::$db[$alias]['charset']) ? systemConfig::$db[$alias]['charset'] : systemConfig::$db['default']['charset'];
             $pdoOptions = isset(systemConfig::$db[$alias]['pdoOptions']) ? systemConfig::$db[$alias]['pdoOptions'] : systemConfig::$db['default']['pdoOptions'];
+            $tablePrefix = isset(systemConfig::$db[$alias]['tablePrefix']) ? systemConfig::$db[$alias]['tablePrefix'] : '';
 
             self::$instances[$alias] = new $classname($alias, $dsn, $username, $password, $charset, $pdoOptions);
             self::$instances[$alias]->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('mzzPdoStatement'));
             self::$instances[$alias]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            self::$instances[$alias]->setTablePrefix($tablePrefix);
 
             try {
                 // из-за проблем вынимания lastInsertId с prepared-запросов в mysql 4.x
@@ -344,6 +353,26 @@ class mzzPdo extends PDO
     public function getAlias()
     {
         return $this->alias;
+    }
+
+    /**
+     * метод установки префикса таблиц БД
+     *
+     * @return string
+     */
+    public function setTablePrefix($tablePrefix)
+    {
+        return $this->tablePrefix = $tablePrefix;
+    }
+
+    /**
+     * метод получения префикса таблиц БД
+     *
+     * @return string
+     */
+    public function getTablePrefix()
+    {
+        return $this->tablePrefix;
     }
 
 }

@@ -46,8 +46,8 @@ class adminMapper extends mapper
         $user = $toolkit->getUser();
 
         $info = $this->db()->getAll('SELECT `m`.`name` AS `module`, `c`.`name` AS `class`, `m`.`id` AS `module_id`, `c`.`id` AS `class_id`, `m`.`title`, `m`.`icon`
-                                      FROM `sys_modules` `m`
-                                       LEFT JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
+                                      FROM `' . $this->db()->getTablePrefix() . 'sys_modules` `m`
+                                       LEFT JOIN `' . $this->db()->getTablePrefix() . 'sys_classes` `c` ON `c`.`module_id` = `m`.`id`
                                         ORDER BY ' . ($order ? '`m`.`order`, ' : '') . '`m`.`name`, `c`.`name`');
         $result = array();
 
@@ -86,12 +86,12 @@ class adminMapper extends mapper
      */
     public function searchClassById($id)
     {
-        return $this->db()->getRow("SELECT * FROM `sys_classes` WHERE `id` = " . (int)$id);
+        return $this->db()->getRow("SELECT * FROM `' . $this->db()->getTablePrefix() . 'sys_classes` WHERE `id` = " . (int)$id);
     }
 
     public function searchModuleById($id)
     {
-        return $this->db()->getRow("SELECT * FROM `sys_modules` WHERE `id` = " . (int)$id);
+        return $this->db()->getRow("SELECT * FROM `' . $this->db()->getTablePrefix() . 'sys_modules` WHERE `id` = " . (int)$id);
     }
 
     /**
@@ -102,8 +102,8 @@ class adminMapper extends mapper
      */
     public function searchClassWithModuleById($id)
     {
-        return $this->db()->getRow("SELECT `c`.`name` AS `class_name`, `m`.`name` AS `module_name` FROM `sys_classes` `c`
-                                   INNER JOIN `sys_modules` `m` ON `c`.`module_id` = `m`.`id`
+        return $this->db()->getRow("SELECT `c`.`name` AS `class_name`, `m`.`name` AS `module_name` FROM `' . $this->db()->getTablePrefix() . 'sys_classes` `c`
+                                   INNER JOIN `' . $this->db()->getTablePrefix() . 'sys_modules` `m` ON `c`.`module_id` = `m`.`id`
                                     WHERE `c`.`id` = " . (int)$id);
     }
 
@@ -115,7 +115,7 @@ class adminMapper extends mapper
      */
     public function searchClassesByModuleId($id)
     {
-        return $this->db()->getAll('SELECT * FROM `sys_classes` WHERE `module_id` = ' . (int)$id, PDO::FETCH_ASSOC | PDO::FETCH_GROUP);
+        return $this->db()->getAll('SELECT * FROM `' . $this->db()->getTablePrefix() . 'sys_classes` WHERE `module_id` = ' . (int)$id, PDO::FETCH_ASSOC | PDO::FETCH_GROUP);
     }
 
     /**
@@ -126,19 +126,19 @@ class adminMapper extends mapper
      */
     public function searchClassByName($name)
     {
-        return $this->db()->getRow("SELECT * FROM `sys_classes` WHERE `name` = " . $this->db()->quote($name));
+        return $this->db()->getRow('SELECT * FROM `' . $this->db()->getTablePrefix() . 'sys_classes` WHERE `name` = ' . $this->db()->quote($name));
     }
 
     public function searchActionByNameAndClassId($name, $class_id)
     {
-        return $this->db()->getRow("SELECT `a`.* FROM `sys_actions` `a`
-                                     INNER JOIN `sys_classes_actions` `ca` ON `ca`.`action_id` = `a`.`id` AND `ca`.`class_id` = " . (int)$class_id . "
-                                      WHERE `a`.`name` = " . $this->db()->quote($name));
+        return $this->db()->getRow('SELECT `a`.* FROM `' . $this->db()->getTablePrefix() . 'sys_actions` `a`
+                                     INNER JOIN `' . $this->db()->getTablePrefix() . 'sys_classes_actions` `ca` ON `ca`.`action_id` = `a`.`id` AND `ca`.`class_id` = ' . (int)$class_id . '
+                                      WHERE `a`.`name` = ' . $this->db()->quote($name));
     }
 
     public function searchActionByName($name)
     {
-        return $this->db()->getRow("SELECT * FROM `sys_actions` WHERE `name` = " . $this->db()->quote($name));
+        return $this->db()->getRow('SELECT * FROM `' . $this->db()->getTablePrefix() . 'sys_actions` WHERE `name` = ' . $this->db()->quote($name));
     }
 
     /**
@@ -149,15 +149,15 @@ class adminMapper extends mapper
      */
     public function searchModuleByClassId($id)
     {
-        return $this->db()->getRow('SELECT `m`.* FROM `sys_classes` `c`
-                                     INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
+        return $this->db()->getRow('SELECT `m`.* FROM `' . $this->db()->getTablePrefix() . 'sys_classes` `c`
+                                     INNER JOIN `' . $this->db()->getTablePrefix() . 'sys_modules` `m` ON `m`.`id` = `c`.`module_id`
                                       WHERE `c`.`id` = ' . (int)$id);
     }
 
     public function searchModuleByClass($name)
     {
-        return $this->db()->getRow('SELECT `m`.* FROM `sys_classes` `c`
-                                     INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
+        return $this->db()->getRow('SELECT `m`.* FROM `' . $this->db()->getTablePrefix() . 'sys_classes` `c`
+                                     INNER JOIN `' . $this->db()->getTablePrefix() . 'sys_modules` `m` ON `m`.`id` = `c`.`module_id`
                                       WHERE `c`.`name` = ' . $this->db()->quote($name));
     }
 
@@ -168,9 +168,9 @@ class adminMapper extends mapper
      */
     public function getModulesList()
     {
-        $modules = $this->db()->getAll('SELECT COUNT(`ca`.`id`) AS `exists`, `m`.`name` AS `module`, `c`.`name` AS `class`, `m`.`id` AS `m_id`, `c`.`id` AS `c_id` FROM `sys_modules` `m`
-                                         LEFT JOIN `sys_classes` `c` ON `c`.`module_id` = `m`.`id`
-                                           LEFT JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id` AND `ca`.`action_id` != 9
+        $modules = $this->db()->getAll('SELECT COUNT(`ca`.`id`) AS `exists`, `m`.`name` AS `module`, `c`.`name` AS `class`, `m`.`id` AS `m_id`, `c`.`id` AS `c_id` FROM `' . $this->db()->getTablePrefix() . 'sys_modules` `m`
+                                         LEFT JOIN `' . $this->db()->getTablePrefix() . 'sys_classes` `c` ON `c`.`module_id` = `m`.`id`
+                                           LEFT JOIN `' . $this->db()->getTablePrefix() . 'sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id` AND `ca`.`action_id` != 9
                                             GROUP BY `m`.`name`, `c`.`name`');
 
         $result = array();
@@ -208,7 +208,7 @@ class adminMapper extends mapper
     public function getModules()
     {
         if (empty($this->modules)) {
-            $modules = $this->db()->getAll('SELECT `name`, `title` FROM `sys_modules` `m` ORDER BY `order`, `name`', PDO::FETCH_ASSOC);
+            $modules = $this->db()->getAll('SELECT `name`, `title` FROM `' . $this->db()->getTablePrefix() . 'sys_modules` `m` ORDER BY `order`, `name`', PDO::FETCH_ASSOC);
             foreach ($modules as $key => $values) {
                 $this->modules[$values['name']] = $values['title'];
             }
@@ -223,8 +223,8 @@ class adminMapper extends mapper
      */
     public function getClasses()
     {
-        $classes = $this->db()->getAll("SELECT `c`.`id`, `c`.`name` FROM `sys_classes` `c`
-                                       ORDER BY `c`.`name`", PDO::FETCH_ASSOC);
+        $classes = $this->db()->getAll('SELECT `c`.`id`, `c`.`name` FROM `' . $this->db()->getTablePrefix() . 'sys_classes` `c`
+                                       ORDER BY `c`.`name`', PDO::FETCH_ASSOC);
         $result = array();
         foreach ($classes as $class) {
             $result[$class['id']] = $class['name'];
@@ -237,11 +237,11 @@ class adminMapper extends mapper
         throw new mzzRuntimeException('deprecated');
         $db = DB::factory();
 
-        $sql = 'SELECT `c`.`name` AS `class`, `m`.`name` AS `module`, `s`.`name` AS `section` FROM `sys_access_registry` `r`
-                 INNER JOIN `sys_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
-                  INNER JOIN `sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
-                   INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
-                    INNER JOIN `sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
+        $sql = 'SELECT `c`.`name` AS `class`, `m`.`name` AS `module`, `s`.`name` AS `section` FROM `' . $this->db()->getTablePrefix() . 'sys_access_registry` `r`
+                 INNER JOIN `' . $this->db()->getTablePrefix() . 'sys_classes_sections` `cs` ON `cs`.`id` = `r`.`class_section_id`
+                  INNER JOIN `' . $this->db()->getTablePrefix() . 'sys_classes` `c` ON `c`.`id` = `cs`.`class_id`
+                   INNER JOIN `' . $this->db()->getTablePrefix() . 'sys_modules` `m` ON `m`.`id` = `c`.`module_id`
+                    INNER JOIN `' . $this->db()->getTablePrefix() . 'sys_sections` `s` ON `s`.`id` = `cs`.`section_id`
                      WHERE `r`.`obj_id` = ' . (int)$obj_id;
 
         return $db->getRow($sql);
@@ -429,9 +429,9 @@ class adminMapper extends mapper
      */
     public function getLatestRegisteredObj($items = 5)
     {
-        $objects = $this->db()->getAll("SELECT `ar`.`obj_id`, `c`.`name` as `class_name` FROM `sys_access_registry` `ar`
-                                         LEFT JOIN `sys_classes` `c` ON `c`.`id` = `ar`.`class_id`
-                                          ORDER BY `ar`.`obj_id` DESC LIMIT 0, " . (int)$items, PDO::FETCH_ASSOC);
+        $objects = $this->db()->getAll('SELECT `ar`.`obj_id`, `c`.`name` as `class_name` FROM `' . $this->db()->getTablePrefix() . 'sys_access_registry` `ar`
+                                         LEFT JOIN `' . $this->db()->getTablePrefix() . 'sys_classes` `c` ON `c`.`id` = `ar`.`class_id`
+                                          ORDER BY `ar`.`obj_id` DESC LIMIT 0, ' . (int)$items, PDO::FETCH_ASSOC);
         return $objects;
     }
 

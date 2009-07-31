@@ -61,10 +61,10 @@ class objectIdGenerator
 
         if (!is_null($name)) {
             if (is_null($id = $cache->get($identifier = 'obj_id_' . $name))) {
-                $id = $this->db->getOne('SELECT `obj_id` FROM `sys_obj_id_named` WHERE `name` = ' . $this->db->quote($name));
+                $id = $this->db->getOne('SELECT `obj_id` FROM `' . $this->db->getTablePrefix() . 'sys_obj_id_named` WHERE `name` = ' . $this->db->quote($name));
                 if (is_null($id) && $generateNew) {
                     $id = $this->generate();
-                    $this->db->query('INSERT INTO `sys_obj_id_named` (`obj_id`, `name`) VALUES (' . $id .', ' . $this->db->quote($name) . ')');
+                    $this->db->query('INSERT INTO `' . $this->db->getTablePrefix() . 'sys_obj_id_named` (`obj_id`, `name`) VALUES (' . $id .', ' . $this->db->quote($name) . ')');
                 } elseif (is_null($id)) {
                     $id = $this->generate('access_admin_admin', false);
                 }
@@ -90,7 +90,7 @@ class objectIdGenerator
      */
     private function clean($id)
     {
-        $this->db->query('DELETE FROM `sys_obj_id`');
+        $this->db->query('DELETE FROM `' . $this->db->getTablePrefix() . 'sys_obj_id`');
         $this->insert($id);
     }
 
@@ -102,7 +102,7 @@ class objectIdGenerator
      */
     private function insert($id = 0)
     {
-        $this->db->query('INSERT INTO `sys_obj_id` (`id`) VALUES (' . $id . ')');
+        $this->db->query('INSERT INTO `' . $this->db->getTablePrefix() . 'sys_obj_id` (`id`) VALUES (' . $id . ')');
         if ($id == 0) {
             return $this->db->lastInsertId();
         }

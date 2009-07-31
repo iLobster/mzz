@@ -138,7 +138,6 @@ class acl
         $result = $this->cache->get($cacheKey);
 
         if (!isset($result[$clean][$full])) {
-
             $grp = '';
 
             foreach ($this->groups->keys() as $val) {
@@ -149,10 +148,10 @@ class acl
             $qry = 'SELECT IFNULL((MAX(`allow`) - MAX(`deny`) = 1), 0) AS `access`, IFNULL(MAX(`allow`), 0) AS `allow`, IFNULL(MAX(`deny`), 0) AS `deny`, `name` FROM
             ( (';
 
-            $qry .= 'SELECT `a`.`allow`, `a`.`deny`, `aa`.`name`, `a`.`uid`, `a`.`gid` FROM `sys_access_registry` `r`
-                      INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `r`.`class_id`
-                       INNER JOIN `sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
-                        LEFT JOIN `sys_access` `a` ON `a`.`obj_id` = `r`.`obj_id` AND `a`.`action_id` = `ca`.`action_id` AND (`a`.`uid` = :uid';
+            $qry .= 'SELECT `a`.`allow`, `a`.`deny`, `aa`.`name`, `a`.`uid`, `a`.`gid` FROM `' . $this->db->getTablePrefix() . 'sys_access_registry` `r`
+                      INNER JOIN `' . $this->db->getTablePrefix() . 'sys_classes_actions` `ca` ON `ca`.`class_id` = `r`.`class_id`
+                       INNER JOIN `' . $this->db->getTablePrefix() . 'sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
+                        LEFT JOIN `' . $this->db->getTablePrefix() . 'sys_access` `a` ON `a`.`obj_id` = `r`.`obj_id` AND `a`.`action_id` = `ca`.`action_id` AND (`a`.`uid` = :uid';
 
             if (sizeof($this->groups) && !$clean) {
                 $qry .= ' OR `a`.`gid` IN (' . $grp . ')';
@@ -165,10 +164,10 @@ class acl
             if (!$clean) {
                 $qry .= ' UNION ALL (';
 
-                $qry .= 'SELECT a.allow, a.deny, aa.name, a.uid, a.gid FROM `sys_access_registry` `r`
-                      INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `r`.`class_id`
-                       INNER JOIN `sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
-                        LEFT JOIN `sys_access` `a` ON `a`.`obj_id` = 0 AND `a`.`action_id` = `ca`.`action_id` AND `a`.`class_id` = `r`.`class_id`
+                $qry .= 'SELECT a.allow, a.deny, aa.name, a.uid, a.gid FROM `' . $this->db->getTablePrefix() . 'sys_access_registry` `r`
+                      INNER JOIN `' . $this->db->getTablePrefix() . 'sys_classes_actions` `ca` ON `ca`.`class_id` = `r`.`class_id`
+                       INNER JOIN `' . $this->db->getTablePrefix() . 'sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
+                        LEFT JOIN `' . $this->db->getTablePrefix() . 'sys_access` `a` ON `a`.`obj_id` = 0 AND `a`.`action_id` = `ca`.`action_id` AND `a`.`class_id` = `r`.`class_id`
                          WHERE `r`.`obj_id` = ' . $this->obj_id . ' AND (`a`.`uid` = ' . $this->uid;
 
                 if (sizeof($this->groups)) {
@@ -236,10 +235,10 @@ class acl
             $grp = substr($grp, 0, -2);
 
             $qry = 'SELECT IFNULL((MAX(`allow`) - MAX(`deny`) = 1), 0) AS `access`, IFNULL(MAX(`allow`), 0) AS `allow`, IFNULL(MAX(`deny`), 0) AS `deny`, `aa`.`name`
-                 FROM `sys_classes` `c`
-                  INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id`
-                   INNER JOIN `sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
-                    LEFT JOIN `sys_access` `a` ON `a`.`obj_id` = 0 AND `a`.`class_id` = `c`.`id` AND `a`.`action_id` = `ca`.`action_id` AND (`a`.`uid` = ' . (int)$this->uid;
+                 FROM `' . $this->db->getTablePrefix() . 'sys_classes` `c`
+                  INNER JOIN `' . $this->db->getTablePrefix() . 'sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id`
+                   INNER JOIN `' . $this->db->getTablePrefix() . 'sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
+                    LEFT JOIN `' . $this->db->getTablePrefix() . 'sys_access` `a` ON `a`.`obj_id` = 0 AND `a`.`class_id` = `c`.`id` AND `a`.`action_id` = `ca`.`action_id` AND (`a`.`uid` = ' . (int)$this->uid;
 
             if (sizeof($this->groups)) {
                 $qry .= ' OR `a`.`gid` IN (' . $grp . ')';
@@ -271,7 +270,7 @@ class acl
             throw new mzzRuntimeException("Идентификатор группы должен быть > 0 (gid = '" . $gid . "')");
         }
 
-        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = ' . $this->obj_id . ' AND `gid` = ' . $gid);
+        $this->db->query('DELETE FROM `' . $this->db->getTablePrefix() . 'sys_access` WHERE `obj_id` = ' . $this->obj_id . ' AND `gid` = ' . $gid);
     }
 
     /**
@@ -282,7 +281,7 @@ class acl
     public function deleteGroupDefault($gid)
     {
         $class_id = $this->getConcreteClass();
-        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = 0 AND `gid` = ' . (int)$gid . ' AND `class_id` = ' . $class_id);
+        $this->db->query('DELETE FROM `' . $this->db->getTablePrefix() . 'sys_access` WHERE `obj_id` = 0 AND `gid` = ' . (int)$gid . ' AND `class_id` = ' . $class_id);
     }
 
     /**
@@ -292,7 +291,7 @@ class acl
     public function deleteDefault()
     {
         $class_id = $this->getConcreteClass();
-        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = 0 AND `uid` = ' . (int)$this->uid . ' AND `class_id` = ' . $class_id);
+        $this->db->query('DELETE FROM `' . $this->db->getTablePrefix() . 'sys_access` WHERE `obj_id` = 0 AND `uid` = ' . (int)$this->uid . ' AND `class_id` = ' . $class_id);
     }
 
     /**
@@ -308,7 +307,7 @@ class acl
             throw new mzzRuntimeException("Идентификатор пользователя должен быть > 0 (uid = '" . $uid . "')");
         }
 
-        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = ' . $this->obj_id . ' AND `uid` = ' . $uid);
+        $this->db->query('DELETE FROM `' . $this->db->getTablePrefix() . 'sys_access` WHERE `obj_id` = ' . $this->obj_id . ' AND `uid` = ' . $uid);
     }
 
     /**
@@ -327,8 +326,8 @@ class acl
         if (!isset($result[$gid][$full])) {
 
             $qry = 'SELECT (MAX(`a`.`allow`) - MAX(`a`.`deny`) = 1) AS `access`, `a`.`allow`, `a`.`deny`, `aa`.`name`
-                     FROM `sys_access` `a`
-                       INNER JOIN `sys_actions` `aa` ON `a`.`action_id` = `aa`.`id`
+                     FROM `' . $this->db->getTablePrefix() . 'sys_access` `a`
+                       INNER JOIN `' . $this->db->getTablePrefix() . 'sys_actions` `aa` ON `a`.`action_id` = `aa`.`id`
                         WHERE `a`.`obj_id` = ' . (int)$this->obj_id . ' AND `a`.`gid` = ' . (int)$gid . '
                          GROUP BY `aa`.`id`';
 
@@ -364,11 +363,11 @@ class acl
     {
         $groupMapper = systemToolkit::getInstance()->getMapper('user', 'group');
 
-        $qry = "SELECT `sa`.`name`, (`a`.`allow` - `a`.`deny` = 1) as `access`, `a`.`allow`, `a`.`deny` FROM `sys_access` `a`
-                    INNER JOIN `sys_classes` `c` ON (`c`.`id` = `a`.`class_id`) AND (`c`.`name` = " . $this->db->quote($this->class) . ")
-                      INNER JOIN `sys_actions` `sa` ON `sa`.`id` = `a`.`action_id`
-                       INNER JOIN `" . $groupMapper->table() . "` `g` ON `g`.`id` = `a`.`gid`
-                        WHERE `a`.`obj_id` = '0' AND `a`.`gid` = " . (int)$gid;
+        $qry = 'SELECT `sa`.`name`, (`a`.`allow` - `a`.`deny` = 1) as `access`, `a`.`allow`, `a`.`deny` FROM `' . $this->db->getTablePrefix() . 'sys_access` `a`
+                    INNER JOIN `' . $this->db->getTablePrefix() . 'sys_classes` `c` ON (`c`.`id` = `a`.`class_id`) AND (`c`.`name` = ' . $this->db->quote($this->class) . ')
+                      INNER JOIN `' . $this->db->getTablePrefix() . 'sys_actions` `sa` ON `sa`.`id` = `a`.`action_id`
+                       INNER JOIN `' . $groupMapper->table() . '` `g` ON `g`.`id` = `a`.`gid`
+                        WHERE `a`.`obj_id` = 0 AND `a`.`gid` = ' . (int)$gid;
 
         $stmt = $this->db->query($qry);
 
@@ -397,11 +396,11 @@ class acl
     {
         $userMapper = systemToolkit::getInstance()->getMapper('user', 'user');
 
-        $qry = "SELECT `sa`.`name`, (`a`.`allow` - `a`.`deny` = 1) as `access`, `a`.`allow`, `a`.`deny` FROM `sys_access` `a`
-                    INNER JOIN `sys_classes` `c` ON (`c`.`id` = `a`.`class_id`) AND (`c`.`name` = " . $this->db->quote($this->class) . ")
-                      INNER JOIN `sys_actions` `sa` ON `sa`.`id` = `a`.`action_id`
-                       LEFT JOIN `" . $userMapper->table() . "` `u` ON `u`.`id` = `a`.`uid`
-                        WHERE `a`.`obj_id` = '0' AND `a`.`uid` = " . $this->uid;
+        $qry = 'SELECT `sa`.`name`, (`a`.`allow` - `a`.`deny` = 1) as `access`, `a`.`allow`, `a`.`deny` FROM `' . $this->db->getTablePrefix() . 'sys_access` `a`
+                    INNER JOIN `' . $this->db->getTablePrefix() . 'sys_classes` `c` ON (`c`.`id` = `a`.`class_id`) AND (`c`.`name` = ' . $this->db->quote($this->class) . ')
+                      INNER JOIN `' . $this->db->getTablePrefix() . 'sys_actions` `sa` ON `sa`.`id` = `a`.`action_id`
+                       LEFT JOIN `' . $userMapper->table() . '` `u` ON `u`.`id` = `a`.`uid`
+                        WHERE `a`.`obj_id` = 0 AND `a`.`uid` = ' . $this->uid;
 
         $stmt = $this->db->query($qry);
 
@@ -446,7 +445,7 @@ class acl
         $userMapper = $toolkit->getMapper('user', 'user');
 
         $criteria = new criteria();
-        $criteria->addJoin('sys_access', new criterion($userMapper->table() . '.' . $userMapper->pk(), 'a.uid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addJoin($this->db->getTablePrefix() . 'sys_access', new criterion($userMapper->table() . '.' . $userMapper->pk(), 'a.uid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
         $criteria->addGroupBy($userMapper->table() . '.' . $userMapper->pk());
         $criteria->add('a.obj_id', $this->obj_id);
 
@@ -465,11 +464,11 @@ class acl
         $userMapper = $toolkit->getMapper('user', 'user');
 
         $criteria = new criteria();
-        $criteria->addJoin('sys_access', new criterion('a.uid', $userMapper->table() . '.' . $userMapper->pk(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addJoin($this->db->getTablePrefix() . 'sys_access', new criterion('a.uid', $userMapper->table() . '.' . $userMapper->pk(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
 
         $criterion_class = new criterion('c.id', 'a.class_id', criteria::EQUAL, true);
         $criterion_class->addAnd(new criterion('c.name', $class));
-        $criteria->addJoin('sys_classes', $criterion_class, 'c', criteria::JOIN_INNER);
+        $criteria->addJoin($this->db->getTablePrefix() . 'sys_classes', $criterion_class, 'c', criteria::JOIN_INNER);
 
         $criteria->add('a.obj_id', 0);
 
@@ -489,7 +488,7 @@ class acl
         $groupMapper = $toolkit->getMapper('user', 'group');
 
         $criteria = new criteria();
-        $criteria->addJoin('sys_access', new criterion($groupMapper->table() . '.' . $groupMapper->pk(), 'a.gid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addJoin($this->db->getTablePrefix() . 'sys_access', new criterion($groupMapper->table() . '.' . $groupMapper->pk(), 'a.gid', criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
         $criteria->addGroupBy($groupMapper->table() . '.' . $groupMapper->pk());
         $criteria->add('a.obj_id', $this->obj_id);
 
@@ -508,7 +507,7 @@ class acl
         $groupMapper = $toolkit->getMapper('user', 'group');
 
         $criteria = new criteria();
-        $criteria->addJoin('sys_access', new criterion('a.gid', $groupMapper->table() . '.' . $groupMapper->pk(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
+        $criteria->addJoin($this->db->getTablePrefix() . 'sys_access', new criterion('a.gid', $groupMapper->table() . '.' . $groupMapper->pk(), criteria::EQUAL, true), 'a', criteria::JOIN_INNER);
 
         $criterion_class = new criterion('c.id', 'a.class_id', criteria::EQUAL, true);
         $criterion_class->addAnd(new criterion('c.name', $class));
@@ -531,9 +530,9 @@ class acl
     public function set($param, $value = null, $group_id = 0)
     {
         // выбираем все корректные экшны для данного ДО
-        $qry = 'SELECT `a`.`name`, `a`.`id` FROM `sys_access_registry` `r`
-                  INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `r`.`class_id`
-                   INNER JOIN `sys_actions` `a` ON `a`.`id` = `ca`.`action_id`
+        $qry = 'SELECT `a`.`name`, `a`.`id` FROM `' . $this->db->getTablePrefix() . 'sys_access_registry` `r`
+                  INNER JOIN `' . $this->db->getTablePrefix() . 'sys_classes_actions` `ca` ON `ca`.`class_id` = `r`.`class_id`
+                   INNER JOIN `' . $this->db->getTablePrefix() . 'sys_actions` `a` ON `a`.`id` = `ca`.`action_id`
                     WHERE `r`.`obj_id` = ' . $this->obj_id;
 
         $validActions = $this->db->getAll($qry);
@@ -554,8 +553,8 @@ class acl
         $actionsToDelete = array();
         $inserts = '';
 
-        $qry = "SELECT `r`.`class_id` FROM `sys_access_registry` `r`
-                 WHERE `r`.`obj_id` = " . $this->obj_id;
+        $qry = 'SELECT `r`.`class_id` FROM `' . $this->db->getTablePrefix() . 'sys_access_registry` `r`
+                 WHERE `r`.`obj_id` = ' . $this->obj_id;
         $class_id = $this->db->getOne($qry);
 
         foreach ($param as $key => $val) {
@@ -579,7 +578,7 @@ class acl
 
         // удаляем старые действия
         if (sizeof($actionsToDelete)) {
-            $qry = 'DELETE FROM `sys_access` WHERE `action_id` IN (' . implode(', ', $actionsToDelete) . ') AND `obj_id` = ' . $this->obj_id . ' AND ';
+            $qry = 'DELETE FROM `' . $this->db->getTablePrefix() . 'sys_access` WHERE `action_id` IN (' . implode(', ', $actionsToDelete) . ') AND `obj_id` = ' . $this->obj_id . ' AND ';
             $qry .= $group_id > 0 ? '`gid` = ' . $group_id : '`uid` = ' . $this->uid;
             $this->db->query($qry);
         }
@@ -588,7 +587,7 @@ class acl
         $inserts = substr($inserts, 0, -2);
 
         if ($inserts) {
-            $this->db->query('INSERT INTO `sys_access` (`action_id`, `class_id`, `obj_id`, `' . ($group_id > 0 ? 'gid' : 'uid') . '`, `allow`, `deny`)
+            $this->db->query('INSERT INTO `' . $this->db->getTablePrefix() . 'sys_access` (`action_id`, `class_id`, `obj_id`, `' . ($group_id > 0 ? 'gid' : 'uid') . '`, `allow`, `deny`)
                                 VALUES ' . $inserts);
         }
 
@@ -619,10 +618,10 @@ class acl
      */
     public function setDefault($gid, $param, $isUser = false)
     {
-        $qry = "SELECT `a`.* FROM `sys_classes` `c`
-                  INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id`
-                   INNER JOIN `sys_actions` `a` ON `a`.`id` = `ca`.`action_id`
-                    WHERE `c`.`name` = " . $this->db->quote($this->class);
+        $qry = 'SELECT `a`.* FROM `' . $this->db->getTablePrefix() . 'sys_classes` `c`
+                  INNER JOIN `' . $this->db->getTablePrefix() . 'sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id`
+                   INNER JOIN `' . $this->db->getTablePrefix() . 'sys_actions` `a` ON `a`.`id` = `ca`.`action_id`
+                    WHERE `c`.`name` = ' . $this->db->quote($this->class);
 
         $validActions = $this->db->getAll($qry);
 
@@ -656,7 +655,7 @@ class acl
 
         // удаляем старые действия
         if (sizeof($actionsToDelete)) {
-            $qry = 'DELETE FROM `sys_access` WHERE `action_id` IN (' . implode(', ', $actionsToDelete) . ') AND `class_id` = ' . $class_id . ' AND `obj_id` = ' . $this->obj_id . ' AND ';
+            $qry = 'DELETE FROM `' . $this->db->getTablePrefix() . 'sys_access` WHERE `action_id` IN (' . implode(', ', $actionsToDelete) . ') AND `class_id` = ' . $class_id . ' AND `obj_id` = ' . $this->obj_id . ' AND ';
             $qry .= ($isUser ? '`uid`' : '`gid`') . ' = ' . $gid;
             $this->db->query($qry);
         }
@@ -665,7 +664,7 @@ class acl
         $inserts = substr($inserts, 0, -2);
 
         if ($inserts) {
-            $this->db->query('INSERT INTO `sys_access` (`action_id`, `class_id`, `obj_id`, ' . ($isUser ? '`uid`' : '`gid`') . ', `allow`, `deny`)
+            $this->db->query('INSERT INTO `' . $this->db->getTablePrefix() . 'sys_access` (`action_id`, `class_id`, `obj_id`, ' . ($isUser ? '`uid`' : '`gid`') . ', `allow`, `deny`)
                                 VALUES ' . $inserts);
         }
     }
@@ -688,7 +687,7 @@ class acl
             throw new mzzInvalidParameterException('Свойство obj_id должно быть целочисленного типа со значением > 0', $this->obj_id);
         }
 
-        $id = $this->db->getOne('SELECT COUNT(*) FROM `sys_access_registry` WHERE `obj_id` = ' . $this->obj_id);
+        $id = $this->db->getOne('SELECT COUNT(*) FROM `' . $this->db->getTablePrefix() . 'sys_access_registry` WHERE `obj_id` = ' . $this->obj_id);
 
         if (!$id) {
             if (empty($class) || !is_string($class)) {
@@ -704,7 +703,7 @@ class acl
 
             $id = $this->getConcreteClass($this->class);
 
-            $this->db->query('INSERT INTO `sys_access_registry` (`obj_id`, `class_id`) VALUES (' . $this->obj_id . ', ' . $id . ')');
+            $this->db->query('INSERT INTO `' . $this->db->getTablePrefix() . 'sys_access_registry` (`obj_id`, `class_id`) VALUES (' . $this->obj_id . ', ' . $id . ')');
         }
     }
 
@@ -720,7 +719,7 @@ class acl
             $obj_id = $this->obj_id;
         }
 
-        $stmt = $this->db->prepare('SELECT COUNT(*) AS `cnt` FROM `sys_access_registry` WHERE `obj_id` = :obj_id');
+        $stmt = $this->db->prepare('SELECT COUNT(*) AS `cnt` FROM `' . $this->db->getTablePrefix() . 'sys_access_registry` WHERE `obj_id` = :obj_id');
         $stmt->bindParam(':obj_id', $obj_id, PDO::PARAM_INT);
         $res = $stmt->execute();
 
@@ -740,8 +739,8 @@ class acl
             $obj_id = $this->obj_id;
         }
 
-        $this->db->query('DELETE FROM `sys_access` WHERE `obj_id` = ' . (int)$obj_id);
-        $this->db->query('DELETE FROM `sys_access_registry` WHERE `obj_id` = ' . (int)$obj_id);
+        $this->db->query('DELETE FROM `' . $this->db->getTablePrefix() . 'sys_access` WHERE `obj_id` = ' . (int)$obj_id);
+        $this->db->query('DELETE FROM `' . $this->db->getTablePrefix() . 'sys_access_registry` WHERE `obj_id` = ' . (int)$obj_id);
     }
 
     /**
@@ -751,8 +750,8 @@ class acl
      */
     public function getClass()
     {
-        $qry = 'SELECT `c`.`name` FROM `sys_access_registry` `r`
-                  INNER JOIN `sys_classes` `c` ON `c`.`id` = `r`.`class_id`
+        $qry = 'SELECT `c`.`name` FROM `' . $this->db->getTablePrefix() . 'sys_access_registry` `r`
+                  INNER JOIN `' . $this->db->getTablePrefix() . 'sys_classes` `c` ON `c`.`id` = `r`.`class_id`
                    WHERE `r`.`obj_id` = ' . $this->obj_id;
         return $this->db->getOne($qry);
     }
@@ -766,13 +765,13 @@ class acl
     public function getModule($class = false)
     {
         if (!$class) {
-            $qry = 'SELECT `m`.`name` FROM `sys_access_registry` `r`
-                  INNER JOIN `sys_classes` `c` ON `c`.`id` = `r`.`class_id`
-                   INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
+            $qry = 'SELECT `m`.`name` FROM `' . $this->db->getTablePrefix() . 'sys_access_registry` `r`
+                  INNER JOIN `' . $this->db->getTablePrefix() . 'sys_classes` `c` ON `c`.`id` = `r`.`class_id`
+                   INNER JOIN `' . $this->db->getTablePrefix() . 'sys_modules` `m` ON `m`.`id` = `c`.`module_id`
                     WHERE `r`.`obj_id` = ' . $this->obj_id;
         } else {
-            $qry = 'SELECT `m`.`name` FROM `sys_classes` `c`
-                     INNER JOIN `sys_modules` `m` ON `m`.`id` = `c`.`module_id`
+            $qry = 'SELECT `m`.`name` FROM `' . $this->db->getTablePrefix() . 'sys_classes` `c`
+                     INNER JOIN `' . $this->db->getTablePrefix() . 'sys_modules` `m` ON `m`.`id` = `c`.`module_id`
                       WHERE `c`.`name` = ' . $this->db->quote($class);
         }
 
@@ -798,7 +797,7 @@ class acl
             $class = $this->class;
         }
 
-        $id = $this->db->getOne('SELECT `id` FROM `sys_classes` WHERE `name` = ' . $this->db->quote($class));
+        $id = $this->db->getOne('SELECT `id` FROM `' . $this->db->getTablePrefix() . 'sys_classes` WHERE `name` = ' . $this->db->quote($class));
 
         if (is_null($id)) {
             throw new mzzRuntimeException('Класс <i>' . $class . '</i> не зарегистрирован в acl (в таблице sys_classes)');
@@ -816,10 +815,10 @@ class acl
      */
     private function getQuery()
     {
-        return 'SELECT `a`.* FROM `sys_classes` `c`
-                   INNER JOIN `sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id`
-                    INNER JOIN `sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
-                     INNER JOIN `sys_access` `a` ON `a`.`class_id` = `c`.`id` AND `a`.`action_id` = `aa`.`id`
+        return 'SELECT `a`.* FROM `' . $this->db->getTablePrefix() . 'sys_classes` `c`
+                   INNER JOIN `' . $this->db->getTablePrefix() . 'sys_classes_actions` `ca` ON `ca`.`class_id` = `c`.`id`
+                    INNER JOIN `' . $this->db->getTablePrefix() . 'sys_actions` `aa` ON `aa`.`id` = `ca`.`action_id`
+                     INNER JOIN `' . $this->db->getTablePrefix() . 'sys_access` `a` ON `a`.`class_id` = `c`.`id` AND `a`.`action_id` = `aa`.`id`
                       WHERE `a`.`obj_id` = 0 AND `a`.`uid` = 0';
     }
 
@@ -851,7 +850,7 @@ class acl
      */
     private function doInsertQuery($stmt, $obj_id)
     {
-        $qry = 'INSERT INTO `sys_access` (`action_id`, `class_id`, `uid`, `gid`, `allow`, `obj_id`) VALUES ';
+        $qry = 'INSERT INTO `' . $this->db->getTablePrefix() . 'sys_access` (`action_id`, `class_id`, `uid`, `gid`, `allow`, `obj_id`) VALUES ';
 
         $exists = false;
         while ($row = $stmt->fetch()) {
@@ -905,14 +904,14 @@ class acl
 
     public function renameAction($class_id, $old_name, $new_id)
     {
-        $old_action_id = $this->db->getOne('SELECT `id` FROM `sys_actions` WHERE `name` = ' . $this->db->quote($old_name));
+        $old_action_id = $this->db->getOne('SELECT `id` FROM `' . $this->db->getTablePrefix() . 'sys_actions` WHERE `name` = ' . $this->db->quote($old_name));
 
-        $this->db->query('UPDATE `sys_access` SET `action_id` = ' . (int)$new_id . ' WHERE `action_id` = ' . $old_action_id . ' AND `class_id` = ' . (int)$class_id);
+        $this->db->query('UPDATE `' . $this->db->getTablePrefix() . 'sys_access` SET `action_id` = ' . (int)$new_id . ' WHERE `action_id` = ' . $old_action_id . ' AND `class_id` = ' . (int)$class_id);
     }
 
     public function deleteAction($class_id, $action_id)
     {
-        $this->db->query('DELETE FROM `sys_access` WHERE `action_id` = ' . (int)$action_id . ' AND `class_id` = ' . (int)$class_id);
+        $this->db->query('DELETE FROM `' . $this->db->getTablePrefix() . 'sys_access` WHERE `action_id` = ' . (int)$action_id . ' AND `class_id` = ' . (int)$class_id);
     }
 }
 

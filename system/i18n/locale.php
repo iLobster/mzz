@@ -174,7 +174,7 @@ class locale
 
         if (empty($this->langId) && !isset($ids[$this->name])) {
             $db = db::factory();
-            $stmt = $db->query('SELECT `id` FROM `sys_lang` WHERE `name` = ' . $db->quote($this->name));
+            $stmt = $db->query('SELECT `id` FROM `' . $db->getTablePrefix() . 'sys_lang` WHERE `name` = ' . $db->quote($this->name));
             $this->langId = (int)$stmt->fetchColumn();
             $ids[$this->name] = $this->langId;
         }
@@ -278,7 +278,7 @@ class locale
     {
         if (self::$langs === false) {
             $db = db::factory();
-            $stmt = $db->query('SELECT `d`.`id`, `d`.`name`, `l`.`name` AS `title` FROM `sys_lang` `d` LEFT JOIN `sys_lang_lang` `l` ON `l`.`id` = `d`.`id` AND `l`.`lang_id` = ' . systemToolkit::getInstance()->getLang() . ' ORDER BY `id`');
+            $stmt = $db->query('SELECT `d`.`id`, `d`.`name`, `l`.`name` AS `title` FROM `' . $db->getTablePrefix() . 'sys_lang` `d` LEFT JOIN `' . $db->getTablePrefix() . 'sys_lang_lang` `l` ON `l`.`id` = `d`.`id` AND `l`.`lang_id` = ' . systemToolkit::getInstance()->getLang() . ' ORDER BY `id`');
 
             $result = array();
 
@@ -329,7 +329,7 @@ class locale
     public static function isExists($name)
     {
         $db = db::factory();
-        $stmt = $db->query('SELECT `l`.`id` FROM `sys_lang` `l` WHERE `l`.`name` = ' . $db->quote($name));
+        $stmt = $db->query('SELECT `l`.`id` FROM `' . $db->getTablePrefix() . 'sys_lang` `l` WHERE `l`.`name` = ' . $db->quote($name));
         $result = $stmt->fetch();
         return !empty($result);
     }
