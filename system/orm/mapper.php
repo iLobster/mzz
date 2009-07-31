@@ -14,7 +14,6 @@
 
 fileLoader::load('orm/entity');
 fileLoader::load('orm/relation');
-fileLoader::load('orm/identityMap');
 fileLoader::load('orm/lazy');
 fileLoader::load('orm/collection');
 fileLoader::load('orm/observer');
@@ -59,13 +58,6 @@ abstract class mapper
 
     protected $module = null;
 
-    protected $useIdentityMap = false;
-
-    /**
-     * @var identityMap
-     */
-    protected $identityMap;
-
     public function __construct()
     {
         foreach ($this->map as $key => $value) {
@@ -82,8 +74,6 @@ abstract class mapper
         if (is_null($this->class)) {
             $this->class = $this->table();
         }
-
-        $this->identityMap = new identityMap($this);
     }
 
     public function searchOneByCriteria(criteria $criteria)
@@ -129,10 +119,6 @@ abstract class mapper
      */
     public function searchByKey($key)
     {
-        if ($object = $this->identityMapGet($key)) {
-            return $object;
-        }
-
         $criteria = new criteria();
 
         if (is_array($key)) {
@@ -462,7 +448,9 @@ abstract class mapper
 
     public function createItemFromRow($row)
     {
-        $this->notify('processRow', $row);
+        if ($this->notify('processRow', $row)) {
+            return $row;
+        }
 
         if (is_null($row[$this->pk])) {
             return null;
@@ -476,35 +464,7 @@ abstract class mapper
 
         $this->notify('postCreate', $object);
 
-        $this->identityMapSet($row[$this->pk], $object);
-
         return $object;
-    }
-
-    public function identityMap($value)
-    {
-        $this->useIdentityMap = (bool)$value;
-    }
-
-    public function identityMapGet($key)
-    {
-        if ($this->useIdentityMap) {
-            return $this->identityMap->get($key);
-        }
-    }
-
-    public function identityMapSet($key, $object)
-    {
-        if ($this->useIdentityMap) {
-            $this->identityMap->set($key, $object);
-        }
-    }
-
-    public function identityMapDelay($key)
-    {
-        if ($this->useIdentityMap) {
-            $this->identityMap->delay($key);
-        }
     }
 
     public function module()

@@ -155,14 +155,6 @@ class relation
         return systemToolkit::getInstance()->getMapper($module, $do);
     }
 
-    private function addIdentityMapDelay($mapper, $field_name, $key)
-    {
-        //echo '<pre>'; var_dump($mapper->pk(), $field_name); echo '</pre>';
-        if ($mapper->pk() == $field_name) {
-            $mapper->identityMapDelay($key);
-        }
-    }
-
     public function addLazy(entity $object)
     {
         $row = $object->export();
@@ -175,8 +167,6 @@ class relation
                     $row[$key],
                     true));
                 $row[$key] = $lazy;
-
-                $this->addIdentityMapDelay($val, $row[$key]);
             }
         }
 
@@ -187,8 +177,6 @@ class relation
                 $row[$val['local_key']],
                 true));
             $row[$key] = $lazy;
-
-            $this->addIdentityMapDelay($val['mapper'], $val['local_key'], $row[$val['local_key']]);
         }
 
         foreach ($this->oneToMany() as $key => $val) {

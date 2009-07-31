@@ -32,7 +32,6 @@ class mapperTest extends unitTestCase
     public function setUp()
     {
         $this->mapper = new ormSimpleMapper();
-        $this->mapper->identityMap(false);
     }
 
     public function tearDown()
@@ -162,29 +161,6 @@ class mapperTest extends unitTestCase
         $this->assertEqual($collection->first()->getFoo(), 'foo3');
         $this->assertEqual($collection->last()->getFoo(), 'foo1');
     }
-
-    public function testIdentityMapSimpleMultipleRetrieveByKey()
-    {
-        $this->fixture();
-        $this->mapper->identityMap(true);
-
-        $object1 = $this->mapper->searchByKey(1);
-        $object2 = $this->mapper->searchByKey(1);
-
-        $this->assertTrue($object1 === $object2);
-    }
-
-    public function testIdentityMapSimpleRetrieveWithAnotherField()
-    {
-        $this->fixture();
-        $this->mapper->identityMap(true);
-
-        $collection = $this->mapper->searchAllByField('foo', 'foo1');
-        $object = $this->mapper->searchByKey(1);
-
-        $this->assertTrue($object === $collection[1]);
-    }
-
 
 
 
