@@ -62,8 +62,10 @@ class adminMenuController extends simpleController
             $action = $this->request->getRequestedAction();
         }
 
+        $toolbarAccess = $adminMapper->convertArgsToObj(array())->getAcl('devToolbar');
         $this->smarty->assign('current_module', $module);
         $this->smarty->assign('current_action', $action);
+        $this->smarty->assign('toolbarAccess', $toolbarAccess);
         $this->smarty->assign('menu', $menu);
         return $this->smarty->fetch('admin/menu.tpl');
     }
