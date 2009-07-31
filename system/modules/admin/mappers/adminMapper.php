@@ -86,12 +86,12 @@ class adminMapper extends mapper
      */
     public function searchClassById($id)
     {
-        return $this->db()->getRow("SELECT * FROM `' . $this->db()->getTablePrefix() . 'sys_classes` WHERE `id` = " . (int)$id);
+        return $this->db()->getRow('SELECT * FROM `' . $this->db()->getTablePrefix() . 'sys_classes` WHERE `id` = ' . (int)$id);
     }
 
     public function searchModuleById($id)
     {
-        return $this->db()->getRow("SELECT * FROM `' . $this->db()->getTablePrefix() . 'sys_modules` WHERE `id` = " . (int)$id);
+        return $this->db()->getRow('SELECT * FROM `' . $this->db()->getTablePrefix() . 'sys_modules` WHERE `id` = ' . (int)$id);
     }
 
     /**
@@ -102,9 +102,9 @@ class adminMapper extends mapper
      */
     public function searchClassWithModuleById($id)
     {
-        return $this->db()->getRow("SELECT `c`.`name` AS `class_name`, `m`.`name` AS `module_name` FROM `' . $this->db()->getTablePrefix() . 'sys_classes` `c`
+        return $this->db()->getRow('SELECT `c`.`name` AS `class_name`, `m`.`name` AS `module_name` FROM `' . $this->db()->getTablePrefix() . 'sys_classes` `c`
                                    INNER JOIN `' . $this->db()->getTablePrefix() . 'sys_modules` `m` ON `c`.`module_id` = `m`.`id`
-                                    WHERE `c`.`id` = " . (int)$id);
+                                    WHERE `c`.`id` = ' . (int)$id);
     }
 
     /**
