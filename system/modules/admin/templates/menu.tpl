@@ -10,7 +10,7 @@
             <li id="mzz-adm-menu-{$moduleName}" class="{if count($module.actions) > 1 || (count($module.actions) === 1 && !isset($module.actions.admin))}mzz-menu-has-sub{/if} {if $moduleName eq $current_module}active{/if}">
                 <div class="mzz-menu-item">
                     <div class="mzz-menu-title">
-                        {if isset($module.actions.admin)}<a href="{url route=withAnyParam section='admin' name=$moduleName action='admin'}">{/if}<span class="mzz-icon mzz-icon-block"></span>{$module.title}{if isset($module.actions.admin)}</a>{/if}
+                        {if isset($module.actions.admin)}<a href="{url route=withAnyParam module='admin' name=$moduleName action='admin'}">{/if}<span class="mzz-icon mzz-icon-block"></span>{$module.title}{if isset($module.actions.admin)}</a>{/if}
                     </div>
                     <div class="mzz-menu-toggle"></div>
                 </div>
@@ -18,7 +18,7 @@
                     <div class="mzz-menu-sub"><ul>
                     {foreach from=$module.actions item="options" name="moduleActions" key="action"}
                         {if $action != 'admin'}
-                                <li{if $action eq $current_action} class="active"{/if}><a href="{url route=withAnyParam section='admin' name=$moduleName action=$action}">{if isset($options.title)}{$options.title|i18n:$moduleName}{else}{$module.title}{/if}</a></li>
+                                <li{if $action eq $current_action} class="active"{/if}><a href="{url route=withAnyParam module='admin' name=$moduleName action=$action}">{if isset($options.title)}{$options.title|i18n:$moduleName}{else}{$module.title}{/if}</a></li>
                         {/if}
                     {/foreach}
                     </ul></div>

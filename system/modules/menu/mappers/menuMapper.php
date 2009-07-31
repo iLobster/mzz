@@ -13,8 +13,7 @@
  */
 
 fileLoader::load('menu');
-
-fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('orm/plugins/acl_simplePlugin');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
@@ -28,13 +27,6 @@ fileLoader::load('modules/jip/plugins/jipPlugin');
 class menuMapper extends mapper
 {
     /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'menu';
-
-    /**
      * Имя класса DataObject
      *
      * @var string
@@ -43,11 +35,33 @@ class menuMapper extends mapper
 
     protected $table = 'menu_menu';
 
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'once', 'pk'
+            ),
+        ),
+        'name' => array(
+            'accessor' => 'getName',
+            'mutator' => 'setName',
+        ),
+        'items' => array(
+            'accessor' => 'getItems',
+            'mutator' => 'setItems',
+            'relation' => 'many',
+            'mapper' => 'menu/menuItem',
+            'foreign_key' => 'menu_id',
+            'local_key' => 'id'
+        )
+    );
+
     public function __construct()
     {
         parent::__construct();
         $this->plugins('jip');
-        $this->plugins('acl_ext');
+        $this->plugins('acl_simple');
     }
 
     public function searchById($id)
@@ -84,12 +98,6 @@ class menuMapper extends mapper
         return $result;
     }
 
-    public function get404()
-    {
-        fileLoader::load('menu/controllers/menu404Controller');
-        return new menu404Controller();
-    }
-
     public function delete(menu $menu)
     {
         $itemMapper = systemToolkit::getInstance()->getMapper('menu', 'menuItem');
@@ -114,20 +122,6 @@ class menuMapper extends mapper
 
         throw new mzzDONotFoundException();
     }
-
-    protected $map = array(
-        'id' => array(
-            'accessor' => 'getId',
-            'mutator' => 'setId',
-            'options' => array(
-                'once', 'pk'
-            ),
-        ),
-        'name' => array(
-            'accessor' => 'getName',
-            'mutator' => 'setName',
-         )
-    );
 }
 
 ?>

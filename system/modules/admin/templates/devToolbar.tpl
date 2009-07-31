@@ -80,7 +80,7 @@
 </div>
 
 <div class="toolbarBlock">
-    <span class="toolbarSectionName">Зарегистрированные объекты <a href="{url route="default2" section="admin" action="addObjToRegistry"}" class="mzz-jip-link"><span class="mzz-icon mzz-icon-db"><span class="mzz-bullet mzz-bullet-add"></span></span></a></span>
+    <span class="toolbarSectionName">Зарегистрированные объекты <a href="{url route="default2" module="admin" action="addObjToRegistry"}" class="mzz-jip-link"><span class="mzz-icon mzz-icon-db"><span class="mzz-bullet mzz-bullet-add"></span></span></a></span>
     <table class="toolbar admin" id="aclObjects" cellspacing="0">
         <thead>
             <tr class="first">
@@ -91,7 +91,7 @@
         <tbody>
         {foreach from=$latestObjects item=latestObject name=latestObjects}
             <tr class="{if $smarty.foreach.latestObjects.last}last{/if}">
-                <td class="first center"><a href="{url route="withId" section="access" id=$latestObject.obj_id action="editACL"}" class="mzz-jip-link">{$latestObject.obj_id}</a></td>
+                <td class="first center"><a href="{url route="withId" module="access" id=$latestObject.obj_id action="editACL"}" class="mzz-jip-link">{$latestObject.obj_id}</a></td>
                 <td class="last">{$latestObject.class_name}</td>
             </tr>
         {/foreach}

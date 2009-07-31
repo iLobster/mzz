@@ -24,7 +24,7 @@
             </tr>
         {/if}
         <tr>
-            <td colspan="2"><a href="{url route=withAnyParam section=user action=addToGroup name=$group->getId()}" class="mzz-jip-link" title="{_ add_user_to_group}"><span class="mzz-icon mzz-icon-user-add"></span> {_ add_user_to_group}</a></td>
+            <td colspan="2"><a href="{url route=withAnyParam module=user action=addToGroup name=$group->getId()}" class="mzz-jip-link" title="{_ add_user_to_group}"><span class="mzz-icon mzz-icon-user-add"></span> {_ add_user_to_group}</a></td>
         </tr>
     </table>
 </form>

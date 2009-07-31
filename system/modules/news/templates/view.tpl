@@ -11,4 +11,4 @@
     <div class="news_text">{$news->getText()|h}</div>
 </div>
 
-{load module="comments" section="comments" action="list" object=$news}
+{load module="comments" action="list" object=$news}

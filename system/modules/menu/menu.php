@@ -17,22 +17,11 @@
  *
  * @package modules
  * @subpackage menu
- * @version 0.1
+ * @version 0.1.1
  */
 
 class menu extends entity
 {
-    protected $name = 'menu';
-    protected $items;
-
-    public function getItems()
-    {
-        if (!is_array($this->items)) {
-            $mapper = systemToolkit::getInstance()->getMapper('menu', 'menu');
-            $this->items = $mapper->searchItemsById($this->getId());
-        }
-        return $this->items;
-    }
 }
 
 ?>

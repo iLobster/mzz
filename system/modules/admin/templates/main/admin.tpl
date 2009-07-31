@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="loginInfo">
-            {load module="user" action="login" section="user" onlyForm=true tplPrefix="admin/"}
+            {load module="user" action="login" onlyForm=true tplPrefix="admin/"}
         </div>
     </div>
 </div>

@@ -21,8 +21,6 @@
  */
 abstract class menuItem extends entity
 {
-    protected $name = 'menu';
-
     protected $isActive = null;
     protected $childrens = array();
     protected $arguments = null;

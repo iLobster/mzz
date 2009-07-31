@@ -22,7 +22,6 @@
 
 class menuFolder extends entity
 {
-    protected $name = 'menu';
 }
 
 ?>

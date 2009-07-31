@@ -23,7 +23,6 @@
 
 class comments extends entity
 {
-    protected $name = 'comments';
 }
 
 ?>

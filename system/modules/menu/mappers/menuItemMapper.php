@@ -13,7 +13,7 @@
  */
 
 fileLoader::load('menu/menuItem');
-fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('orm/plugins/acl_simplePlugin');
 fileLoader::load('modules/i18n/plugins/i18nPlugin');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 
@@ -30,13 +30,6 @@ class menuItemMapper extends mapper
     const ITEMTYPE_SIMPLE = 1;
     const ITEMTYPE_ADVANCED = 2;
     const ITEMTYPE_EXTERNAL = 3;
-
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $name = 'menu';
 
     /**
      * Имя класса DataObject
@@ -94,7 +87,7 @@ class menuItemMapper extends mapper
         parent::__construct();
         $this->plugins('jip');
         $this->plugins('i18n');
-        $this->plugins('acl_ext');
+        $this->plugins('acl_simple');
     }
 
     public function searchById($id)
@@ -267,19 +260,10 @@ class menuItemMapper extends mapper
         return array($typeId, $className);
     }
 
-    private function getObjId()
-    {
-        $obj_id = systemToolkit::getInstance()->getObjectId($this->section . '_menuItem');
-        $this->register($obj_id);
-        return $obj_id;
-    }
-
     public function convertArgsToObj($args)
     {
         if ($args['id'] == 0) {
-            $obj = $this->createItemFromRow(array());
-            $obj->import(array('obj_id' => $this->getObjId()));
-            return $obj;
+            return $this->create();
         }
         $item = $this->searchById($args['id']);
 

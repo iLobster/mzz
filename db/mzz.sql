@@ -1,4 +1,4 @@
-# SQL Manager 2007 for MySQL 4.4.0.3
+# SQL Manager 2007 for MySQL 4.4.0.5
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
@@ -796,7 +796,7 @@ CREATE TABLE `sys_classes_actions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `class_id` (`class_id`, `action_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=331 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=338 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_classes_actions` table  (LIMIT 0,500)
@@ -844,7 +844,6 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (182,32,3),
   (185,33,71),
   (186,32,2),
-  (199,24,29),
   (253,1,97),
   (259,48,98),
   (264,50,20),
@@ -886,7 +885,14 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (327,9,120),
   (328,9,121),
   (329,9,122),
-  (330,6,9);
+  (330,6,9),
+  (331,25,3),
+  (332,25,91),
+  (333,25,62),
+  (334,25,29),
+  (335,24,4),
+  (336,24,1),
+  (337,24,2);
 COMMIT;
 
 #
@@ -1187,7 +1193,7 @@ CREATE TABLE `user_userAuth` (
   `time` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=135 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=136 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userAuth` table  (LIMIT 0,500)
@@ -1204,7 +1210,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (128,2,'10.30.35.9','639eb7566aaf6b368863cfb4ba8afd1e',NULL,NULL),
   (132,2,'10.30.35.150','c54fbf06a0f11f5a10f4822e493a82bd',NULL,NULL),
   (133,2,'127.0.0.1','021d2bab67d5c4d478dd39d7cfaca0b2',NULL,NULL),
-  (134,2,'127.0.0.1','254be4b2e6328875e8dfe2291eead872',NULL,NULL);
+  (134,2,'127.0.0.1','254be4b2e6328875e8dfe2291eead872',NULL,NULL),
+  (135,2,'127.0.0.1','f028a4c7dd2cfce774e71b1d86cba0a4',NULL,NULL);
 COMMIT;
 
 #
