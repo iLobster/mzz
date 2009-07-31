@@ -668,7 +668,7 @@ class httpRequest implements iRequest
             $_SERVER['QUERY_STRING'] = '';
         }
 
-        $this->urlPath = trim(preg_replace('/(%2F)+/', '/', urlencode($this->readScope('path', SC_REQUEST))), '/');
+        $this->urlPath = trim(preg_replace('!/+!', '/', $this->readScope('path', SC_REQUEST)), '/');
     }
 
     /**

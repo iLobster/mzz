@@ -160,7 +160,7 @@ class httpRequestTest extends unitTestCase
         $_SERVER['SERVER_PORT'] = '80';
         $_SERVER['HTTP_HOST'] = 'www.mzz.ru';
         $this->httprequest->refresh();
-        $this->assertEqual($this->httprequest->getRequestUrl(), 'http://www.mzz.ru' . SITE_PATH . '/news/%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9/18/10/2005/list?_TEST_INTEGER=2006');
+        $this->assertEqual($this->httprequest->getRequestUrl(), 'http://www.mzz.ru' . SITE_PATH . '/news/русский/18/10/2005/list?_TEST_INTEGER=2006');
     }
 
     public function testUrlPort()
@@ -180,7 +180,7 @@ class httpRequestTest extends unitTestCase
 
     public function testGetPath()
     {
-        $this->assertEqual($this->httprequest->getPath(), 'news/%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9/18/10/2005/list');
+        $this->assertEqual($this->httprequest->getPath(), 'news/русский/18/10/2005/list');
     }
 
     public function testGetModule()
