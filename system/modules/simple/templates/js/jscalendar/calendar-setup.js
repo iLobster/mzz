@@ -97,7 +97,7 @@ Calendar.setup = function (params) {
 		}
 	}
 	if (!(params.flat || params.multiple || params.inputField || params.displayArea || params.button)) {
-		alert("Calendar.setup:\n  Nothing to setup (no fields found).  Please check your code");
+		console.log("Calendar.setup:\n  Nothing to setup (no fields found).  Please check your code");
 		return false;
 	}
 
@@ -125,7 +125,7 @@ Calendar.setup = function (params) {
 		if (typeof params.flat == "string")
 			params.flat = document.getElementById(params.flat);
 		if (!params.flat) {
-			alert("Calendar.setup:\n  Flat specified but can't find parent.");
+			console.log("Calendar.setup:\n  Flat specified but can't find parent.");
 			return false;
 		}
 		var cal = new Calendar(params.firstDay, params.date, params.onSelect || onSelect);
