@@ -28,7 +28,7 @@ class formCallbackRule extends formAbstractRule
         }
         $funcName = array_shift($this->params);
         if (!is_callable($funcName)) {
-            throw new Exception('Указанная функция ' . $funcName . ' не является валидным callback\'ом');
+            throw new Exception('Указанная функция ' . (is_array($funcName) ? get_class($funcName[0]) . '::' . $funcName[1] : $funcName) . ' не является валидным callback\'ом');
         }
         return call_user_func_array($funcName, array_merge(array($this->value), $this->params));
     }
