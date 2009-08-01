@@ -41,7 +41,7 @@
 
             if ($.isUndefined(params.id)) {
                 console.log('MZZ.window::init() HALT! "id" not set, class instantinated with params = ', params);
-                return false;
+                return;
             }
             
             this._onClose = null; 

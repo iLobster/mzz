@@ -1,5 +1,5 @@
 {strip}
-{add file="jquery.js"}
+{add file="jquery.js" join=false}
 {add file="jquery-ui/ui.core.js"}
 {add file="jquery-ui/effects.core.js"}
 {add file="jquery-ui.css"}
@@ -13,9 +13,10 @@
 {add file="bullets.css"}
 {add file="flags.css"}
 {add file="tiny_mce/tiny_mce.js" join=false}
+{*add file="tiny_mce/jquery.tinymce.js" join=false*}
 
-{add file="jip/fileLoader.js"}
-{add file="jip/window.js"}
+{add file="fileLoader.js"}
+{add file="window.js"}
 {add file="jip/jipMenu.js"}
 {add file="jip/jipWindow.js"}
 {/strip}
