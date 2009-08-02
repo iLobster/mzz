@@ -12,6 +12,7 @@
     //<!--
     var SITE_PATH = '{$SITE_PATH}';
     var SITE_LANG = '{$current_lang}';
+    var tinyMCEPreInit = {ldelim}suffix: '', base : SITE_PATH + '/templates/js/tiny_mce'{rdelim};
     //-->
     </script>
     {include file='include.external.js.tpl'}

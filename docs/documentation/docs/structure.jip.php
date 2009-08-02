@@ -1,7 +1,7 @@
 <p>JIP - это быстрый доступ к действиям над объектом.</p>
 <p>Все действия, на которые есть права у текущего пользователя, собраны в виде элементов меню, которое отображается при нажатии на кнопку JIP рядом с объектом. При нажатии на такой элемент открывается JIP окно и благодаря технологии AJAX позволяет выполнить действие над объектом не покидая текущую страницу.</p>
 
-<p>Реализация клиентской части JIP состоит из трех Javascript-файлов: <code>fileLoader.js</code>, <code>window.js</code>, <code>jipMenu.js</code>, <code>jipWindow.js</code>
+<p>Реализация клиентской части JIP состоит из трех Javascript-файлов: <code>window.js</code>, <code>jipMenu.js</code>, <code>jipWindow.js</code>
 и одного CSS: <code>jip.css</code>. Подключение Javascript/CSS файлов, используемых только в JIP-окнах, может располагаться в шаблоне <code>jip.tpl</code> (см. <a href="structure.templates.html#structure.templates.add">{add}</a>).</p>
 <<note>>
 Кнопка JIP появляется только когда у текущего пользователя есть хотя бы одно разрешенное действие над объектом.
@@ -46,9 +46,9 @@ jip = "1"
 &lt;div class="jipTitle"&gt;Создать новость&lt;/div&gt;
 <</code>>
 
-<p>Форму можно отправить через Ajax добавив атрибут <code>onsubmit="return mzzWindow.sendForm(this);"</code>:</p>
+<p>Форму можно отправить через Ajax добавив атрибут <code>onsubmit="return jipWindow.sendForm(this);"</code>:</p>
 <<code html>>
-&lt;form action="/winner/add" method="post" onsubmit="return mzzWindow.sendForm(this);"&gt;<br />
+&lt;form action="/winner/add" method="post" onsubmit="return jipWindow.sendForm(this);"&gt;<br />
 Имя: &lt;input size="60" name="name" type="text"&gt;<br />
 &lt;input type="submit"&gt;<br />
 &lt;/form&gt;
