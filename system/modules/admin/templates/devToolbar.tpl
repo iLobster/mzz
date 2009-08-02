@@ -5,8 +5,8 @@
 {add file="dui.js"}
 {add file="jquery.ex.js"}
 {add file="jip.css"}
-{add file="jip/fileLoader.js"}
-{add file="jip/window.js"}
+{add file="fileLoader.js"}
+{add file="window.js"}
 {add file="jip/jipMenu.js"}
 {add file="jip/jipWindow.js"}
 {add file="admin/toolbar.css"}
