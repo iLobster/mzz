@@ -12,7 +12,6 @@
 {add file="icons.css"}
 {add file="bullets.css"}
 {add file="flags.css"}
-{add file="tiny_mce/tiny_mce_jquery.js"}
 
 {add file="fileLoader.js"}
 {add file="window.js"}

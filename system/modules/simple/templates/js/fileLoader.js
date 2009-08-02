@@ -59,6 +59,20 @@
                                  elms.start(elm.url);
                              }
                          },
+//                         'success': function (data, textStatus) {
+//                            var w = window;
+//
+//                            // Evaluate script
+//                            if (!w.execScript) {
+//                                try {
+//                                    eval.call(w, data);
+//                                } catch (ex) {
+//                                    eval(data, w); // Firefox 3.0a8
+//                                }
+//                            } else {
+//                                w.execScript(data); // IE
+//                            }
+//                         },
                          'complete':  function(transport, status){
                              if (elm.cache) {
                                  self.scripts.push(elm.url);

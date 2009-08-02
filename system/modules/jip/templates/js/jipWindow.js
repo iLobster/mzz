@@ -44,9 +44,10 @@
             };
         },
 
-        open: function(url, isNew, method, params) {
+        open: function(url, isNew, method, params, options) {
             isNew = isNew || false
             params = params || {};
+            options = options || {};
             params.ajax = 1;
             method = (method && method.toUpperCase() == 'POST') ? 'POST' : 'GET';
 
@@ -60,7 +61,7 @@
                 }
                 this.stack[this.currentWindow] = [];
                 this.tinyMCEIds[this.currentWindow] = [];
-                this.window = new MZZ.window($.extend({id: 'jip_window_' + this.currentWindow},this.options));
+                this.window = new MZZ.window($.extend({id: 'jip_window_' + this.currentWindow}, options, this.options));
 
                 this.window.addButton('close', SITE_PATH + '/templates/images/jip/btn-close.png', '', function(){jipWindow.close()});                
                 this.window.top(this.window.top() + $(window).scrollTop());
@@ -102,8 +103,10 @@
                     this.window.content().find('select').addClass('mzz-ie-visibility');
                 }
 
-                for (var i = 0, l = this.tinyMCEIds[this.currentWindow].length; i < l; i++) {
-                    tinyMCE.execCommand('mceRemoveControl', false, this.tinyMCEIds[this.currentWindow][i]);
+                if (!$.isUndefined(tinyMCE)) {
+                    for (var i = 0, l = this.tinyMCEIds[this.currentWindow].length; i < l; i++) {
+                        tinyMCE.execCommand('mceRemoveControl', false, this.tinyMCEIds[this.currentWindow][i]);
+                    }
                 }
 
                 this.tinyMCEIds[this.currentWindow] = [];
