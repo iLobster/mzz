@@ -392,7 +392,7 @@ class tree_mpPlugin extends observer
     private function addSelectFields(criteria $criteria, $alias = null)
     {
         if (is_null($alias)) {
-            $alias = $this->mapper->table();
+            $alias = $this->mapper->table(false);
             $self = 'tree';
         } else {
             $self = $alias . '_tree';

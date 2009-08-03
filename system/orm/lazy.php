@@ -87,7 +87,7 @@ class lazy
 
     private function loadMapperManyToMany()
     {
-        $criterion = new criterion('reference.' . $this->ref_foreign_key, $this->mapper->table() . '.' . $this->foreign_key, criteria::EQUAL, true);
+        $criterion = new criterion('reference.' . $this->ref_foreign_key, $this->mapper->table(false) . '.' . $this->foreign_key, criteria::EQUAL, true);
         $criterion->addAnd(new criterion('reference.' . $this->key, $this->value));
 
         $criteria = new criteria();

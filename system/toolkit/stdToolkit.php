@@ -264,7 +264,7 @@ class stdToolkit extends toolkit
 
     public function getUserAuth()
     {
-        $userAuthMapper = $this->getMapper('user', 'userAuth', 'user');
+        $userAuthMapper = $this->getMapper('user', 'userAuth');
         $hash = $this->getRequest()->getString(userAuthMapper::$auth_cookie_name, SC_COOKIE);
         $ip = $this->getRequest()->getServer('REMOTE_ADDR');
         return $userAuthMapper->getAuth($hash, $ip);

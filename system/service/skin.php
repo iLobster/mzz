@@ -17,10 +17,10 @@ class skin
 
             $this->db = DB::factory();
 
-            $stmt = $this->db->query('SELECT * FROM `sys_skins` WHERE `id` = ' . (int)$id);
+            $stmt = $this->db->query('SELECT * FROM `' . $this->db->getTablePrefix() . 'sys_skins` WHERE `id` = ' . (int)$id);
 
             if (!$row = $stmt->fetch()) {
-                $stmt = $this->db->query('SELECT * FROM `sys_skins` WHERE `id` = ' . (int)systemConfig::$defaultSkin);
+                $stmt = $this->db->query('SELECT * FROM `' . $this->db->getTablePrefix() . 'sys_skins` WHERE `id` = ' . (int)systemConfig::$defaultSkin);
                 $row = $stmt->fetch();
             }
         } else {
@@ -50,7 +50,7 @@ class skin
     public static function searchAll()
     {
         $db= DB::factory();
-        $stmt = $db->query('SELECT * FROM `sys_skins`');
+        $stmt = $db->query('SELECT * FROM `' . $db->getTablePrefix() . 'sys_skins`');
 
         $result = array();
         while ($row = $stmt->fetch()) {
