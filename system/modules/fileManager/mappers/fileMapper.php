@@ -13,6 +13,7 @@
  */
 
 fileLoader::load('fileManager/file');
+fileLoader::load('fileManager/plugins/fileExtraPlugin');
 
 /**
  * fileMapper: маппер
@@ -92,6 +93,7 @@ class fileMapper extends mapper
     public function __construct()
     {
         parent::__construct();
+        $this->plugins('fileExtra');
         $this->plugins('acl_simple');
         $this->plugins('jip');
     }
@@ -106,12 +108,7 @@ class fileMapper extends mapper
     {
         return $this->searchAllByField('folder_id', (int)$folder_id);
     }
-/*
-    public function searchById($id)
-    {
-        return $this->searchOneByField('id', $id);
-    }
-*/
+
     public function getExclusionExtensions()
     {
         return array('tar.gz', 'tar.bz2');
@@ -154,48 +151,14 @@ class fileMapper extends mapper
         return $this->searchAllByCriteria($criteria);
     }
 
-    /**
-     * Выполнение операций с массивом $fields перед обновлением в БД
-     *
-     * @param array $fields
-     */
-    /*
-    protected function updateDataModify(&$fields)
-    {
-        if (isset($fields['name']) && !isset($fields['ext'])) {
-            $fields['ext'] = '';
-            if (($dot = strrpos($fields['name'], '.')) !== false) {
-                $fields['ext'] = strtolower(substr($fields['name'], $dot + 1));
-            }
-        }
-
-        $fields['modified'] = new sqlFunction('UNIX_TIMESTAMP');
-    }*/
-
     public function delete(file $file)
     {
         $id = $file->getId();
-
-        /*if ($file->extra() instanceof fmSimpleFile) {
-            $file->extra()->delete();
-        }*/
 
         $file->getStorage()->delete($file);
 
         parent::delete($id);
     }
-
-    /**
-     * Выполнение операций с массивом $fields перед вставкой в БД
-     *
-     * @param array $fields
-     */
-    /*
-    protected function insertDataModify(&$fields)
-    {
-        $this->updateDataModify($fields);
-    }
-*/
 
     public function convertArgsToObj($args)
     {
@@ -217,18 +180,21 @@ class fileMapper extends mapper
 
     public function getMimetypes()
     {
-        return array(
+        return $this->mime_types;
+    }
+
+        protected $mime_types = array(
         '3ds'           => 'image/x-3ds',
-        'BLEND'         => 'application/x-blender',
-        'C'             => 'text/x-c++src',
-        'CSSL'          => 'text/css',
-        'NSV'           => 'video/x-nsv',
-        'PAR2'          => 'application/x-par2',
-        'XM'            => 'audio/x-mod',
-        'Z'             => 'application/x-compress',
+        'blend'         => 'application/x-blender',
+        'c'             => 'text/x-c++src',
+        'cssl'          => 'text/css',
+        'nsv'           => 'video/x-nsv',
+        'par2'          => 'application/x-par2',
+        'mz'            => 'audio/x-mod',
+        'z'             => 'application/x-compress',
         'a'             => 'application/x-archive',
         'abw'           => 'application/x-abiword',
-        'abw.CRASHED'   => 'application/x-abiword',
+        'abw.crashed'   => 'application/x-abiword',
         'abw.gz'        => 'application/x-abiword',
         'ac3'           => 'audio/ac3',
         'adb'           => 'text/x-adasrc',
@@ -475,7 +441,7 @@ class fileMapper extends mapper
         'pbm'           => 'image/x-portable-bitmap',
         'pcd'           => 'image/x-photo-cd',
         'pcf'           => 'application/x-font-pcf',
-        'pcf.Z'         => 'application/x-font-type1',
+        'pcf.z'         => 'application/x-font-type1',
         'pcl'           => 'application/vnd.hp-pcl',
         'pdb'           => 'application/vnd.palm',
         'pdf'           => 'application/pdf',
@@ -588,7 +554,7 @@ class fileMapper extends mapper
         'sylk'          => 'text/spreadsheet',
         't'             => 'application/x-troff',
         'tar'           => 'application/x-tar',
-        'tar.Z'         => 'application/x-tarz',
+        'tar.z'         => 'application/x-tarz',
         'tar.bz'        => 'application/x-bzip-compressed-tar',
         'tar.bz2'       => 'application/x-bzip-compressed-tar',
         'tar.gz'        => 'application/x-compressed-tar',
@@ -688,7 +654,6 @@ class fileMapper extends mapper
         '123'           => 'application/vnd.lotus-1-2-3',
         '669'           => 'audio/x-mod'
         );
-    }
 }
 
 ?>

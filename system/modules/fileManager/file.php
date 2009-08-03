@@ -64,23 +64,6 @@ class file extends entity
         return strtolower($this->__call('getExt', array()));
     }
 
-    public function extra()
-    {
-        fileLoader::load('modules/fileManager/extras/fmSimpleFile');
-        if (empty($this->extra)) {
-            if ($this->getExt() == 'jpg' || $this->getExt() == 'png' || $this->getExt() == 'gif') {
-                fileLoader::load('modules/fileManager/extras/fmImageFile');
-                $this->extra = new fmImageFile($this);
-            }
-        }
-        return $this->extra;
-    }
-/*
-    public function delete()
-    {
-        return $this->getStorage()->delete($this);
-    }
-*/
     /**
      * Загрузка файла
      *

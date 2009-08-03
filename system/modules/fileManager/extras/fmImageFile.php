@@ -35,12 +35,12 @@ class fmImageFile extends fmSimpleFile
         return $this->publicPath . '/thumbnails/' . $thumbNameFile;
     }
 
-    protected function getThumbName()
+    private function getThumbName()
     {
         return md5($this->file->getId() . $this->file->getName());
     }
 
-    protected function getThumbPath()
+    private function getThumbPath()
     {
         return systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . $this->publicPath . DIRECTORY_SEPARATOR . 'thumbnails';
     }
