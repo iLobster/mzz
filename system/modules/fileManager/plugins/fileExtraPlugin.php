@@ -1,8 +1,4 @@
 <?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 fileLoader::load('modules/fileManager/extras/fmSimpleFile');
 
@@ -49,7 +45,7 @@ class fileExtraPlugin extends observer
     public function preDelete(entity $object) {
         $object->getExtra()->delete();
     }
-
+    
     public function getExtra(entity $object)
     {
         $extra = null;

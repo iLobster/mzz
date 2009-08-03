@@ -1,5 +1,5 @@
 <?php
-abstract class fmSimpleFile
+class fmSimpleFile
 {
     protected $file = null;
 
@@ -8,8 +8,11 @@ abstract class fmSimpleFile
         $this->file = $file;
     }
 
-    public function delete()
+    protected function getHash()
     {
+        return md5($this->file->getId() . $this->file->getRealname());
     }
+
+    public function delete() {}
 }
 ?>

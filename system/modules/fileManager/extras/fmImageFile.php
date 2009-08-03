@@ -13,7 +13,7 @@ class fmImageFile extends fmSimpleFile
 
     public function getThumbnail($width = 80, $height = 60)
     {
-        $thumbName = $this->getThumbName();
+        $thumbName = $this->getHash();
         $thumbNameFile = $thumbName . '_' . $width . 'x' . $height . '.' . $this->file->getExt();
         $path = $this->getThumbPath();
         $file = $path . DIRECTORY_SEPARATOR . $thumbNameFile;
@@ -35,11 +35,6 @@ class fmImageFile extends fmSimpleFile
         return $this->publicPath . '/thumbnails/' . $thumbNameFile;
     }
 
-    private function getThumbName()
-    {
-        return md5($this->file->getId() . $this->file->getName());
-    }
-
     private function getThumbPath()
     {
         return systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . $this->publicPath . DIRECTORY_SEPARATOR . 'thumbnails';
@@ -47,7 +42,7 @@ class fmImageFile extends fmSimpleFile
 
     public function delete()
     {
-        $thumbName = $this->getThumbName();
+        $thumbName = $this->getHash();
         $path = $this->getThumbPath();
 
         $thumbnails = glob($path . DIRECTORY_SEPARATOR . $thumbName . '*');
