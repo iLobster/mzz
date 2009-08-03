@@ -74,7 +74,7 @@ class tree_alPlugin extends observer
 
     public function preSqlSelect(criteria $criteria)
     {
-        $criterion = new criterion('tree.foreign_key', $this->mapper->table() . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
+        $criterion = new criterion('tree.foreign_key', $this->mapper->table(false) . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
         $criteria->addJoin($this->table(), $criterion, 'tree');
         $this->addSelectFields($criteria);
     }
@@ -99,7 +99,7 @@ class tree_alPlugin extends observer
     private function addSelectFields(criteria $criteria, $alias = null)
     {
         if (is_null($alias)) {
-            $alias = $this->mapper->table();
+            $alias = $this->mapper->table(false);
             $self = 'tree';
         } else {
             $self = $alias . '_tree';

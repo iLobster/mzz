@@ -333,9 +333,9 @@ abstract class mapper
         return $this->db;
     }
 
-    public function table()
+    public function table($withPrefix = true)
     {
-        return $this->table_prefix . $this->table;
+        return ($withPrefix ? $this->table_prefix : '') . $this->table;
     }
 
     public function getClass()
@@ -373,7 +373,7 @@ abstract class mapper
 
         $criteria->append($searchCriteria);
 
-        $criteria->setTable($this->table());
+        $criteria->setTable($this->table(), $this->table(false));
         $this->addSelectFields($criteria);
 
         $this->relations->add($criteria);
@@ -396,7 +396,7 @@ abstract class mapper
         }
 
         if (is_null($alias)) {
-            $alias = $mapper->table();
+            $alias = $mapper->table(false);
         }
 
         foreach ($this->getSelectFields($mapper) as $field) {
@@ -449,7 +449,7 @@ abstract class mapper
 
         $this->relations->retrieve($tmp);
 
-        return $tmp[$this->table()];
+        return $tmp[$this->table(false)];
     }
 
     public function createItemFromRow($row)

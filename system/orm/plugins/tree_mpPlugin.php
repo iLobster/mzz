@@ -76,7 +76,7 @@ class tree_mpPlugin extends observer
 
     public function preSqlSelect(criteria $criteria)
     {
-        $criterion = new criterion('tree.foreign_key', $this->mapper->table() . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
+        $criterion = new criterion('tree.foreign_key', $this->mapper->table(false) . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
         $criteria->addJoin($this->table(), $criterion, 'tree');
         $criteria->setOrderByFieldAsc('tree.spath');
         $this->addSelectFields($criteria);
