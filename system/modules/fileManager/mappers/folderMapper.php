@@ -92,7 +92,7 @@ class folderMapper extends mapper
     {
         $mapper = systemToolkit::getInstance()->getMapper('fileManager', $this->classOfItem);
 
-        if ($this->plugin('pager')) {
+        if ($this->isAttached('pager')) {
             $mapper->attach(new pagerPlugin($this->plugin('pager')->getPager()));
             $this->detach('pager');
         }
