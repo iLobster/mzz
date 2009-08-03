@@ -72,6 +72,8 @@ class relation
 
                     $tmp['mapper'] = $this->loadMapperClass($val['mapper']);
 
+                    $tmp['options'] = isset($val['options']) ? $val['options'] : array();
+
                     $map = $tmp['mapper']->map();
                     $tmp['methods'] = array(
                         $map[$val['foreign_key']]['accessor'],
@@ -161,12 +163,7 @@ class relation
 
         foreach ($this->oneToOne() as $key => $val) {
             if (is_scalar($row[$key])) {
-                $lazy = new lazy(array(
-                    $val['mapper'],
-                    $val['foreign_key'],
-                    $row[$key],
-                    true));
-                $row[$key] = $lazy;
+                $row[$key] = $this->oneToOneLazy($val, $row[$key]);
             }
         }
 
@@ -201,12 +198,31 @@ class relation
         $object->import($row);
     }
 
+    private function oneToOneLazy($val, $value)
+    {
+        return new lazy(array(
+                    $val['mapper'],
+                    $val['foreign_key'],
+                    $value,
+                    true));
+    }
+
     public function retrieve(& $data)
     {
         foreach ($this->oneToOne() + $this->oneToOneBack() as $key => $val) {
-            $object = $val['mapper']->createItemFromRow($data[$key]);
+            if ($this->isLazy($val)) {
+                $object = $this->oneToOneLazy($val, $data[$this->table][$key]);
+            } else {
+                $object = $val['mapper']->createItemFromRow($data[$key]);
+            }
+
             $data[$this->table][$key] = $object;
         }
+    }
+
+    private function isLazy($val)
+    {
+        return isset($val['options']) && in_array('lazy', $val['options']);
     }
 
     public function add(criteria $criteria)
@@ -214,6 +230,11 @@ class relation
         foreach ($this->oneToOne() + $this->oneToOneBack() as $key => $val) {
             if (!isset($val['local_key'])) {
                 $val['local_key'] = $key;
+            }
+
+            // if there is lazy loading - just skip criteria
+            if ($this->isLazy($val)) {
+                continue;
             }
 
             $this->mapper->addSelectFields($criteria, $val['mapper'], $key);

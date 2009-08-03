@@ -29,6 +29,15 @@ class ormSimpleMapperWithRelationMapper extends mapper
     );
 }
 
+class ormSimpleMapperWithRelationAndLazyMapper extends ormSimpleMapperWithRelationMapper
+{
+    public function __construct()
+    {
+        $this->map['related']['options'] = array('lazy');
+        parent::__construct();
+    }
+}
+
 class ormSimpleRelatedMapper extends mapper
 {
     protected $table = 'ormRelated';
@@ -416,6 +425,26 @@ class mapperRelationsTest extends unitTestCase
         $innerJoinMapper = new ormSimpleMapperWithInnerJoinRelation;
         $objects = $innerJoinMapper->searchAll();
         $this->assertEqual($objects->count(), 3);
+    }
+
+    public function testLazyOption()
+    {
+        $this->fixture();
+
+        $collection = $this->mapper->searchAll();
+
+        $this->db->query('UPDATE `ormRelated` SET `baz` = "foo" WHERE `id` = 1');
+        $related = $collection[1]->getRelated();
+        // when lazy load don't specified - update doesn't affected. because data already fetched before update
+        $this->assertEqual($related->getBaz(), 'baz1');
+
+        $mapper = new ormSimpleMapperWithRelationAndLazyMapper();
+        $collectionWithLazy = $mapper->searchAll();
+
+        $this->db->query('UPDATE `ormRelated` SET `baz` = "bar" WHERE `id` = 1');
+        $related = $collectionWithLazy[1]->getRelated();
+        // with lazy load update affects to result. because data loaded after updating with lazy query
+        $this->assertEqual($related->getBaz(), 'bar');
     }
 }
 
