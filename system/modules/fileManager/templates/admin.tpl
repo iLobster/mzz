@@ -44,7 +44,7 @@
             <td class="first"><img src="{$SITE_PATH}/templates/images/fileManager/{$file->getExt()}.gif" alt="" title="" /></td>
             <td class="left"><a href="{$file->getDownloadLink()}">{$file->getName()}</a></td>
             <td>{$file->getSize()|filesize}</td>
-            <td>{$file->getType()}</td>
+            <td>{$file->getExt()}</td>
             <td>{$file->getDownloads()|default:0}</td>
             <td class="last">{$file->getJip()}</td>
         </tr>
