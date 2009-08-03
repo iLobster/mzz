@@ -55,6 +55,8 @@ abstract class mapper
     private $observers = array();
 
     protected $class;
+    protected $table;
+    protected $table_prefix = null;
 
     protected $module = null;
 
@@ -73,6 +75,10 @@ abstract class mapper
 
         if (is_null($this->class)) {
             $this->class = $this->table;
+        }
+
+        if (is_null($this->table_prefix)) {
+            $this->table_prefix = $this->db()->getTablePrefix();
         }
     }
 
@@ -329,7 +335,7 @@ abstract class mapper
 
     public function table()
     {
-        return $this->db()->getTablePrefix() . $this->table;
+        return $this->table_prefix . $this->table;
     }
 
     public function getClass()

@@ -84,10 +84,6 @@ class mzzPdo extends PDO
     {
         $this->alias = $alias;
         parent::__construct($dsn, $username, $password, $pdoOptions);
-
-        if (substr($dsn, 0, 5) == 'mysql') {
-            $this->query("SET NAMES '" . $charset . "'");
-        }
     }
 
     /**

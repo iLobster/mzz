@@ -51,7 +51,8 @@ systemConfig::$db['default']['dsn']  = 'mysql:host=localhost;dbname=mzz';
 systemConfig::$db['default']['user'] = 'root';
 systemConfig::$db['default']['password'] = '';
 systemConfig::$db['default']['charset'] = 'utf8';
-systemConfig::$db['default']['pdoOptions'] = array();
+systemConfig::$db['default']['pdoOptions'] = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES `utf8`');
+
 
 systemConfig::$pathToApplication = dirname(__FILE__) . '/..';
 systemConfig::$pathToTemp = realpath(dirname(__FILE__) . '/../../tmp');
