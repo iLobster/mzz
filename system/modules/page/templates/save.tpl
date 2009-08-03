@@ -9,20 +9,20 @@ fileLoader.loadJS(SITE_PATH + '/templates/js/tiny_mce/jquery.tinymce.js');
 (function($) {
     toggleEditor = function(id) {
         //console.log($.isUndefined(tinyMCE));
-        if (typeof tinyMCE === 'undefined' || tinyMCE.getInstanceById(id) == null) {
+        if (!(tinyMCE) || tinyMCE.getInstanceById(id) == null) {
             $('#' + id).tinymce({
                 script_url: SITE_PATH + '/templates/js/tiny_mce/tiny_mce_jquery.js',
                 theme : "advanced",
                 skin : 'o2k7',
                 skin_variant : "silver",
                 mode : "none",
-                plugins : "inlinepopups,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,mzzfm",
+                plugins : "inlinepopups,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,mzzfm,ibrowser",
                 language : "ru",
                 theme_advanced_buttons1_add : "fontselect,fontsizeselect",
                 theme_advanced_buttons2_add : "separator,forecolor,backcolor,advsearchreplace",
                 theme_advanced_buttons2_add_before: "cut,copy,paste,pastetext,pasteword,separator,search,replace,separator",
                 theme_advanced_buttons3_add_before : "insertdate,inserttime,preview,separator,tablecontrols,separator",
-                theme_advanced_buttons3_add : "emotions,mzzfm,iespell,separator,print",
+                theme_advanced_buttons3_add : "emotions,mzzfm,ibrowser,iespell,separator,print",
                 theme_advanced_buttons4 : "ltr,rtl,separator,fullscreen,separator,insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,|,visualchars,nonbreaking",
                 theme_advanced_toolbar_location : "top",
                 theme_advanced_toolbar_align : "left",
