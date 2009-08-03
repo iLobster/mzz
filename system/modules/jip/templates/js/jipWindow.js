@@ -103,7 +103,7 @@
                     this.window.content().find('select').addClass('mzz-ie-visibility');
                 }
 
-                if (typeof(tinyMCE) == 'undefined') {
+                if (!$.isUndefined(tinyMCE)) {
                     for (var i = 0, l = this.tinyMCEIds[this.currentWindow].length; i < l; i++) {
                         tinyMCE.execCommand('mceRemoveControl', false, this.tinyMCEIds[this.currentWindow][i]);
                     }
