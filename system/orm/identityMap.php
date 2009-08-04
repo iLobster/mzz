@@ -41,14 +41,17 @@ class identityMap
 
     public function delay($id)
     {
-        $this->delayed[] = $id;
+        if (!$this->exists($id)) {
+            $this->delayed[] = $id;
+        }
     }
 
     public function loadDelayed()
     {
         if ($this->delayed) {
-            $this->mapper->searchByKey($this->delayed);
+            $delayed = $this->delayed;
             $this->delayed = array();
+            $this->mapper->searchByKey($delayed);
         }
     }
 }
