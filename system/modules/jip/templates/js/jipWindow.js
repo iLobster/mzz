@@ -24,6 +24,8 @@
                 onKill: {'animation': 'fadeOut', 'speed': 'normal'}
             };
 
+            this.em = new MZZ.eventManager(['close', 'open', 'success', 'error', 'complete']);
+
             this.window = false;    //текущее окно
             this.windows = []; //стэк окошков
             this.windowCount = 0;   //всего окон
@@ -45,13 +47,13 @@
         },
 
         open: function(url, isNew, method, params, options) {
-            isNew = isNew || false
+            isNew = (this.windowCount == 0) ? true : (isNew || false);
             params = params || {};
             options = options || {};
             params.ajax = 1;
             method = (method && method.toUpperCase() == 'POST') ? 'POST' : 'GET';
 
-            if (isNew || this.windowCount == 0) {
+            if (isNew) {
                 this.currentWindow = this.windowCount++;
 
                 if (this.currentWindow > 0) {
@@ -79,10 +81,9 @@
                 if(url.match(/[&\?]_confirm=/) == null) {
                     this.stack[this.currentWindow].push(url);
                 }
-
-                return false;
             }
 
+            this.em.fire('open', {'id': this.currentWindow, 'fullId': 'jip_window_' + this.currentWindow, 'count': this.windowCount, 'isNew': isNew, 'url': url, 'method': method, 'params': params});
             return false;
         },
 
@@ -388,7 +389,17 @@
                 e.stopImmediatePropagation();
                 jipWindow.close();
             }
+        },
+
+        getId: function()
+        {
+            return 'jip_window_' + this.currentWindow;
+        },
+
+        bind: function(event, cb) {
+            this.em.bind(event, cb);
         }
+
     });
 
     /**

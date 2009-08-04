@@ -62,8 +62,14 @@ var Cookie = {
         return typeof object == "undefined";
     };
 
-    MZZ = { /* MZZ top-level namespace */ };
+    Array.prototype.remove = function(from, to) {
+      var rest = this.slice((to || from) + 1 || this.length);
+      this.length = from < 0 ? this.length + from : from;
+      return this.push.apply(this, rest);
+    };
 
+    MZZ = { /* MZZ top-level namespace */ };
+    
     MZZ.browser = DUI.Class.create({
 
       init: function() {
@@ -104,6 +110,82 @@ var Cookie = {
 
     MZZ.browser = new MZZ.browser;
 
+
+    MZZ.eventManager = DUI.Class.create({
+        _events: [],
+        _binds: {},
+        
+        init: function(events) {
+            this._events = $.isArray(events) ? events : [];
+            this._binds = {};
+        },
+
+        bind: function(event, cb, once) {
+            if ($.isString(event) && $.isFunction(cb)) {
+                var t = this;
+                once = once || false;
+                $.each(event.split(/\s+/), function(i, type) {
+                    if ($.inArray(type, t._events) != -1) {
+                        
+                        if (!t._binds[type]) {
+                            t._binds[type] = [];
+                        }
+                        t._binds[type].push({
+                            'cb': cb,
+                            'once': once
+                        });
+                    }
+                });
+            }
+            
+            return this;
+        },
+
+        unbind: function(event, cb) {
+            var t = this;
+            if ($.isString(event)) {
+                $.each(event.split(/\s+/), function(i, type) {
+                    if(t._binds[type]) {
+                        if ($.isFunction(cb)) {
+                            $.each(t._binds[type], function(i) {
+                                if (this.cb == cb) {
+                                    t._binds[type].remove(i);
+                                }
+                            });
+                            if (t._binds[type].length == 0) {
+                                delete t._binds[type];
+                            }
+                        } else {
+                            delete t._binds[type];
+                        }
+                    }
+                });
+            } else if ($.isFunction(event)) {
+                $.each(this._binds, function(type) {t.unbind(type, event);});
+            }
+
+            return this;
+        },
+
+        fire: function(event, context) {            
+            if(this._binds[event]) {
+                var t = this;
+                $.each(this._binds[event], function(i) {
+                    if (arguments.length < 2) {
+                        this.cb.call(context);
+                    } else {
+                        this.cb.apply(context, Array.prototype.slice.call(arguments, 2));
+                    }
+
+                    if (this.cb.once) {
+                        t._binds[event].remove(i);
+                    }
+                });
+            }
+
+            return this;
+        }
+    });
 })(jQuery);
 
 /* IE && Opera`s console.log fix */
