@@ -1,17 +1,29 @@
-{if !$form->isValid()}
-<div id="fmUploadStatusError">
-<ul>
-{foreach from=$form->export() item=formError}
-    <li>{$formError}</li>
-{/foreach}
-</ul></div>
-{elseif isset($success) && isset($file_name)}
-<div id="fmUploadStatus">Файл {$file_name} загружен.</div>
+{if !$form->isValid() or $success eq true}
+<div id="status">{if $success}1{else}0{/if}</div>
+<div id="messages">
+    {foreach from=$messages item=message}
+        <span>{$message}</span>
+    {/foreach}
+</div>
 {else}
-{assign var="folderTitle" value=$folder->getTitle()}
-<div class="jipTitle">Загрузка файла в каталог {$folderTitle}</div>
+<div class="jipTitle">Загрузка файла в каталог {$folder->getTitle()}</div>
 
-{form action=$form_action method="post" class="mzz-jip-form" enctype="multipart/form-data" ajaxUpload="fm"}
+{literal}
+<script type="text/javascript">
+    var cb = {submit: function() {$j('#fmUploadSubmit').attr('disabled', true);},
+              complete: function() {$j('#fmUploadSubmit').attr('disabled', false);},
+              error: function(messages) { var t = $j("#fmStatus"); t.empty();
+                                          $j.each(messages, function(){t.append("<div>" + this + "</div>");})
+                                         },
+              success: function(){jipWindow.refreshAfterClose(true);jipWindow.close();}
+              };
+
+    fileLoader.loadJS(SITE_PATH + '/templates/js/fileManager/fileUpload.js', function() {fileUpload.create('fmUpload', cb);});
+</script>
+{/literal}
+<div id="fmStatus"></div>
+
+{form action=$form_action method="post" class="mzz-jip-form" id="fmUpload"}
     <ul>
         <li>
             {form->caption name="path" value="Каталог"}
@@ -46,6 +58,6 @@
             <span class="input">{form->checkbox name="direct_link" value=0}</span>
         </li>
     </ul>
-    <span class="buttons">{form->submit name="submit" id="fmUploadSubmitButton" value="Загрузить"} {form->reset jip=true name="reset" value="_ simple/cancel"}</span>
+    <span class="buttons">{form->submit name="submit" id="fmUploadSubmit" value="Загрузить"} {form->reset jip=true name="reset" value="_ simple/cancel"}</span>
 </form>
 {/if}

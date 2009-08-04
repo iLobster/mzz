@@ -37,7 +37,7 @@ class fileManagerUploadController extends simpleController
         $validator->add('regex', 'name', 'Недопустимые символы в имени', '/^[a-zа-я0-9_\.\-! ]+$/ui');
 
         $errors = $validator->getErrors();
-
+        $success = false;
         if ($validator->validate()) {
             $name = $this->request->getString('name', SC_POST);
             $header = $this->request->getString('header', SC_POST);
@@ -54,7 +54,8 @@ class fileManagerUploadController extends simpleController
                 $fileMapper->save($file);
 
                 $this->smarty->assign('file_name', $file->getName());
-                $this->smarty->assign('success', true);
+                $success = true;
+                $messages = array();
             } catch (mzzRuntimeException $e) {
                 $errors->set('file', $e->getMessage());
             }
@@ -65,7 +66,8 @@ class fileManagerUploadController extends simpleController
         $url->add('name', $folder->getTreePath());
         $this->smarty->assign('form_action', $url->get());
 
-        $this->smarty->assign('errors', $errors);
+        $this->smarty->assign('success', $success);
+        $this->smarty->assign('messages', isset($messages) ? $messages : $errors->export());
 
         $this->smarty->assign('folder', $folder);
 
