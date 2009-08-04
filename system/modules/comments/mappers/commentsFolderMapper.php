@@ -78,6 +78,7 @@ class commentsFolderMapper extends mapper
         parent::__construct();
         $this->plugins('acl_simple');
         $this->plugins('jip');
+        $this->plugins('identityMap');
     }
 
     public function searchById($id)
