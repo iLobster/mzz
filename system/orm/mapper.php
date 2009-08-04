@@ -131,8 +131,7 @@ abstract class mapper
             $criteria->add($this->pk, $key, criteria::IN);
             return $this->searchAllByCriteria($criteria);
         } else {
-            $criteria->add($this->pk, $key);
-            return $this->searchOneByCriteria($criteria);
+            return $this->searchOneByField($this->pk, $key);
         }
     }
 
@@ -145,6 +144,11 @@ abstract class mapper
 
     public function searchOneByField($name, $value)
     {
+        $data = array($name, $value);
+        if ($this->notify('preSearchOneByField', $data)) {
+            return $data;
+        }
+
         $criteria = new criteria();
         $criteria->add($name, $value);
         return $this->searchOneByCriteria($criteria);

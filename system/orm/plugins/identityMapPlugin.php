@@ -31,12 +31,27 @@ class identityMapPlugin extends observer
         $this->identityMap->set($key, $object);
     }
 
+    public function preSearchOneByField(& $data)
+    {
+        if ($data[0] == $this->mapper->pk() && $object = $this->identityMap->get($data[1])) {
+            $data = $object;
+            return true;
+        }
+    }
+
     public function processRow(& $row)
     {
         $key = $row[$this->pk];
-        if ($object = $this->identityMap->get($key)) {
+        if ($this->identityMap->exists($key) && $object = $this->identityMap->get($key)) {
             $row = $object;
             return true;
+        }
+    }
+
+    public function delay($key, $value)
+    {
+        if ($this->mapper->pk() == $key) {
+            $this->identityMap->delay($value);
         }
     }
 }

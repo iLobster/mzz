@@ -71,6 +71,21 @@ class identityMapPluginTest extends unitTestCase
 
         $this->assertTrue($object === $collection[1]);
     }
+
+    public function testDelayLoad()
+    {
+        $this->mapper->plugin('identityMap')->delay('id', 1);
+        $this->mapper->plugin('identityMap')->delay('id', 2);
+        $this->mapper->plugin('identityMap')->delay('id', 3);
+
+        $count = $this->db->getQueriesNum();
+
+        $this->mapper->searchByKey(1);
+        $this->mapper->searchByKey(2);
+        $this->mapper->searchByKey(3);
+
+        $this->assertEqual($count + 1, $this->db->getQueriesNum());
+    }
 }
 
 ?>

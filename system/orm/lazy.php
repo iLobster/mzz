@@ -47,6 +47,10 @@ class lazy
                 $this->mapper = $data[0];
                 $this->key = $data[1];
                 $this->value = $data[2];
+
+                if ($this->mapper->isAttached('identityMap')) {
+                    $this->mapper->plugin('identityMap')->delay($this->key, $this->value);
+                }
             } elseif (count($data) == 6) {
                 $this->type = 'mapperManyToMany';
 

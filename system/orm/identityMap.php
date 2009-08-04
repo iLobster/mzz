@@ -29,9 +29,14 @@ class identityMap
 
         $this->loadDelayed();
 
-    	if (isset($this->objects[$id])) {
+    	if ($this->exists($id)) {
     	    return $this->objects[$id];
     	}
+    }
+
+    public function exists($id)
+    {
+        return isset($this->objects[$id]);
     }
 
     public function delay($id)
@@ -39,7 +44,7 @@ class identityMap
         $this->delayed[] = $id;
     }
 
-    private function loadDelayed()
+    public function loadDelayed()
     {
         if ($this->delayed) {
             $this->mapper->searchByKey($this->delayed);
