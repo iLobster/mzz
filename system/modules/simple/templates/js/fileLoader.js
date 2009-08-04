@@ -21,20 +21,26 @@
          * url {String} - of the script
          * onLoadEnd {Function} - to call on load end
          * onLoadStart {Function} - to call on before load (fired only if not cached)
-         * cache {Boolean} - cache control, default - false (as in $.Ajax)
+         * cache {Boolean} - cache control, default - true
          *
          * NOTE: cache control don't work yet
          */
-        loadJS: function(url, onLoadEnd, onLoadStart, cache) {
+        loadJS: function(url, cb_end, cb_start, cache) {
 
             url = url || false;
 
             if (url) {
-                cache = cache || false;
-                if (cache && ( $('script[src=' + url + ']').length > 0 || $.inArray(url, this.scripts) >= 0) ) {
-                    this._loaded('js', url, onLoadEnd, 0);
+                //cache = cache || false;
+                if (typeof cb_start == 'boolean') {
+                    cache = cb_start;
                 } else {
-                    this.queue.push({'url': url, 'start': onLoadStart, 'end': onLoadEnd, 'cache': cache});
+                    cache = cache || true;
+                }
+
+                if (cache && ( $('script[src=' + url + ']').length > 0 || $.inArray(url, this.scripts) >= 0) ) {
+                    this._loaded('js', url, cb_end, 0);
+                } else {
+                    this.queue.push({'url': url, 'start': cb_start, 'end': cb_end, 'cache': cache});
                     this._check();
                 }
             }

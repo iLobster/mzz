@@ -1,16 +1,2 @@
-﻿---------------------- plugins --------------------------------
-*plugins/save/editor_plugin_src.js
-> comment line 74-79:
-					for (var i=0; i<formObj.elements.length; i++) {
-						var elementId = formObj.elements[i].name ? formObj.elements[i].name : formObj.elements[i].id;
-
-						if (elementId.indexOf('mce_editor_') == 0)
-							formObj.elements[i].disabled = true;
-					}
-
-
-> replace line 84:
-						inst.formElement.form.submit();
-> to:
-						mzzAjax.sendForm(formObj);
-
+file: jquery.tinymce.js
+- replaced jQuery's b.getScript() to fileLoader.loadJS().
