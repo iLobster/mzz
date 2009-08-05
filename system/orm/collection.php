@@ -102,6 +102,17 @@ class collection extends arrayDataspace implements Serializable
         return $this->modified;
     }
 
+    public function next()
+    {
+        $this->current++;
+
+        do {
+            $data = next($this->data);
+        } while (in_array($this->key(), $this->deleted));
+
+        return $data;
+    }
+
     public function save()
     {
         $this->modified = false;
