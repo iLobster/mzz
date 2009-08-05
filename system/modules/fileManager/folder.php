@@ -110,13 +110,6 @@ class folder extends entity
             $file = false;
         }
 
-        if ($filesize = $this->getFilesize()) {
-            $size_in_mb = round($info['size'] / 1024 / 1024, 3);
-            if ($size_in_mb > $filesize) {
-                throw new mzzRuntimeException('Ограничение на загрузку файла: ' . $filesize . ' Мб. У загружаемого файла размер: ' . $size_in_mb . ' Мб');
-            }
-        }
-
         if ($exts = $this->getExts()) {
             $exts = explode(';', $exts);
 
