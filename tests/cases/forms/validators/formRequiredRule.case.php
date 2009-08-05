@@ -35,18 +35,19 @@ class formRequiredRuleTest extends UnitTestCase
 
     public function testMultiple()
     {
-        $rule = new formRequiredRule(array('foo', 'bar'), $msg = 'The value must exists');
+        $values = array('foo' => null, 'bar' => null);
+        $rule = new formRequiredRule(array('foo', 'bar'), $msg = 'The value must exists', array(), $values);
         $this->assertEqual($rule->getName(), 'foo bar');
         $this->assertFalse($rule->validate());
         $this->assertEqual($rule->getErrorMsg(), $msg);
 
-        $rule->setValue('test', 'first');
+        $rule->setValue('test', 'foo');
         $this->assertFalse($rule->validate());
 
-        $rule->setValue('test', 'second');
+        $rule->setValue('test', 'bar');
         $this->assertTrue($rule->validate());
 
-        $rule->setValue('', 'first');
+        $rule->setValue('', 'foo');
         $this->assertFalse($rule->validate());
     }
 }

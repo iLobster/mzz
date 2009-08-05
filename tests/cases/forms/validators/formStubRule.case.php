@@ -7,11 +7,6 @@ class formStubRule extends formAbstractRule
     {
         return true;
     }
-
-    public function getFromRequest($name, $type)
-    {
-        return $type . "-" . $name;
-    }
 }
 
 class formMultipleStubRule extends formStubRule
@@ -58,7 +53,7 @@ class formStubRuleTest extends UnitTestCase
 
     public function testSetValue()
     {
-        $rule = new formStubRule('field', '');
+        $rule = new formStubRule('field', '', array(), 'string-field');
         $this->assertEqual($rule->getValue(), 'string-field');
         $rule->setValue($val = "newvalue");
         $this->assertEqual($rule->getValue(), $val);
@@ -66,7 +61,8 @@ class formStubRuleTest extends UnitTestCase
 
     public function testSetValueMultiple()
     {
-        $rule = new formMultipleStubRule(array('first' => 'field1', 'second' => 'field2'), '');
+        $values = array('first' => 'string-field1', 'second' => 'string-field2');
+        $rule = new formMultipleStubRule(array('first' => 'field1', 'second' => 'field2'), '', array(), $values);
         $this->assertEqual($rule->getValue(), array('first' => 'string-field1', 'second' => 'string-field2'));
         $rule->setValue($val = 'newvalue', 'second');
         $this->assertEqual($rule->getValue(), array('first' => 'string-field1', 'second' => 'newvalue'));
@@ -74,7 +70,8 @@ class formStubRuleTest extends UnitTestCase
 
     public function testGetValueMultiple()
     {
-        $rule = new formMultipleStubRule(array('first' => 'field1', 'second' => 'field2'), '');
+        $values = array('first' => 'string-field1', 'second' => 'string-field2');
+        $rule = new formMultipleStubRule(array('first' => 'field1', 'second' => 'field2'), '', array(), $values);
         $this->assertEqual($rule->getValue('first'), 'string-field1');
         $this->assertEqual($rule->getValue('second'), 'string-field2');
     }
@@ -90,20 +87,6 @@ class formStubRuleTest extends UnitTestCase
         } catch (Exception $e) {
             $this->fail('Брошено не ожидаемое исключение');
         }
-    }
-
-    public function testHandyNamesMultiple()
-    {
-        $rule = new formMultipleStubRule(array('field1', 'field2', 'field3', 'field4'), '');
-        $this->assertEqual($rule->getValue('first'), 'string-field1');
-        $this->assertEqual($rule->getValue('second'), 'string-field2');
-        $this->assertNull($rule->getValue('field4'));
-        $this->assertEqual($rule->getValue(3), 'string-field4');
-
-        $rule->setValue($val = 'newvalue1', 'first');
-        $rule->setValue($val = 'newvalue2', 'second');
-        $this->assertEqual($rule->getValue('first'), 'newvalue1');
-        $this->assertEqual($rule->getValue('second'), 'newvalue2');
     }
 }
 

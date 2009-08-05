@@ -84,7 +84,7 @@ class formValidator
         $validatorName = 'form' . ucfirst($validator) . 'Rule';
         fileLoader::load('forms/validators/' . $validatorName);
 
-        $validator = new $validatorName($name, $errorMsg, $params);
+        $validator = new $validatorName($name, $errorMsg, $params, $this->getRequestValues($name));
         $this->validators[] = $validator;
         return $validator;
     }
@@ -175,6 +175,40 @@ class formValidator
     public function getErrors()
     {
         return $this->errors;
+    }
+
+    protected function getRequestValues($names)
+    {
+        $values = array();
+        foreach ((array)$names as $key => $name) {
+            $name = explode(':', $name, 2);
+            $type = 'string';
+            if (sizeof($name) > 1) {
+                if (in_array($name[0], array('array', 'integer', 'numeric', 'string', 'boolean'))) {
+                    $type = $name[0];
+                }
+                $name = $name[1];
+            } else {
+                $name = $name[0];
+            }
+
+            // just for handy :)
+            $handynames = array('first', 'second', 'third');
+            if (is_integer($key) && $key < 3) {
+                $key = $handynames[$key];
+            }
+
+            $values[$key] = $this->getFromRequest($name, $type);
+        }
+
+        return $values;
+    }
+
+    protected function getFromRequest($name, $type)
+    {
+        $funcName = 'get' . ucfirst(strtolower($type));
+        $request = systemToolkit::getInstance()->getRequest();
+        return $request->$funcName($name, SC_REQUEST);
     }
 }
 

@@ -58,12 +58,18 @@ abstract class formAbstractRule
      * @param string $name
      * @param string $errorMsg
      * @param array $params
+     * @param mixed $values values for validation
      */
-    public function __construct($name = '', $errorMsg = '', $params = '')
+    public function __construct($name = '', $errorMsg = '', $params = '', $values = null)
     {
         $this->isMultiple = $this->multiple && is_array($name);
         $this->name = $this->generateName($name);
-        $this->initRequestValue($name);
+
+        $this->value = $values;
+        if (!$this->isMultiple && is_array($this->value)) {
+            $this->value = array_shift($this->value);
+        }
+
         $this->errorMsg = $errorMsg;
         $this->params = $params;
     }
@@ -145,41 +151,6 @@ abstract class formAbstractRule
             $name = array_shift($name);
         }
         return $this->deleteTypeFromName($name);
-    }
-
-    protected function getFromRequest($name, $type)
-    {
-        $funcName = 'get' . ucfirst(strtolower($type));
-        $request = systemToolkit::getInstance()->getRequest();
-        return $request->$funcName($name, SC_REQUEST);
-    }
-
-    protected function initRequestValue($names)
-    {
-        foreach ((array)$names as $key => $name) {
-            $name = explode(':', $name, 2);
-            $type = 'string';
-            if (sizeof($name) > 1) {
-                if (in_array($name[0], array('array', 'integer', 'numeric', 'string', 'boolean'))) {
-                    $type = $name[0];
-                }
-                $name = $name[1];
-            } else {
-                $name = $name[0];
-            }
-
-            // just for handy :)
-            $handynames = array('first', 'second', 'third');
-            if (is_integer($key) && $key < 3) {
-                $key = $handynames[$key];
-            }
-
-            $this->value[$key] = $this->getFromRequest($name, $type);
-        }
-
-        if (!$this->isMultiple && is_array($this->value)) {
-            $this->value = array_shift($this->value);
-        }
     }
 
     private function deleteTypeFromName($name)
