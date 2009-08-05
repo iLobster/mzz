@@ -21,7 +21,7 @@
                         frm.attr('enctype', 'multipart/form-data');
                         frm.attr('target', name + '_fileUpload');
                         frm.unbind();
-                        frm.bind('submit', function (e){fileUpload.sendForm(name);});
+                        frm.bind('submit', function (e){fileUpload.sendForm(name, e);});
 
                         this._forms[name] = {form: frm, callback: cb};
                     } else {
@@ -32,10 +32,15 @@
                 }
             },
 
-            sendForm: function(name)
+            sendForm: function(name, e)
             {
                 if (this._forms[name]) {
-                    this.notify(name, 'submit');
+                    var res = this.notify(name, 'submit');
+                    if (typeof res == 'boolean' && res == false) {
+                        e.preventDefault();
+                        return;
+                    }
+
                     var iframe = $('#' + name + '_fileUpload');
 
                     if (iframe.length) {
@@ -52,12 +57,12 @@
 
             loadFrame: function(name, frame) {
                 if (this._forms[name]) {
-                    frame = $(frame);
+                    var frame = $(frame);
                     var success = frame.contents().find('#status').html();
                     var messages = [];
                     frame.contents().find('#messages').find('span').each(function(){messages.push($(this).html());});
                     this.notify(name, 'complete', success, messages);
-                    frame.remove();
+                    frame.unbind();
                 }
             },
 
@@ -67,20 +72,22 @@
                     var cb = this._forms[name].callback;
                     var form = this._forms[name].form;
                     if ($.isFunction(cb)) {
-                        cb.call(form, event, success, messages);
+                        return cb.call(form, event, success, messages);
                     } else {
                         if (event == 'submit' && cb.submit) {
-                            cb.submit.call(form);
+                           return cb.submit.call(form);
                         } else if (event == 'complete' && $.isFunction(cb.complete)) {
-                            cb.complete.call(form, success, messages);
+                           cb.complete.call(form, success, messages);
                             if (success == 1 && $.isFunction(cb.success)) {
-                                cb.success.call(form, messages);
+                               cb.success.call(form, messages);
                             } else if ($.isFunction(cb.error)) {
-                                cb.error.call(form, messages);
+                               cb.error.call(form, messages);
                             }
                         }
                     }
                 }
+                
+                return false;
             }
 
         });
