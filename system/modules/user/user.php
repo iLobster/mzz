@@ -52,12 +52,6 @@ class user extends entity
         $id = parent::__call('getSkin', array());
         return new skin($id);
     }
-
-    public function getAcl($name)
-    {
-        // @todo: исправить! в acl решить что делать с obj_id = 0 (вероятно брать дефолты)
-        return true;
-    }
 }
 
 ?>
