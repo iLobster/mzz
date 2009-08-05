@@ -84,10 +84,8 @@ class loadDispatcher
                 $request->restore();
                 return $controller->run();
             }
-        }
-
-        // проверяем, не включен ли ручной режим проверки прав
-        if ($handle403 === 'manual') {
+        } elseif ($handle403 === 'manual') {
+            // проверяем, не включен ли ручной режим проверки прав
             $request->setParam('access', $access);
             $access = true;
         }

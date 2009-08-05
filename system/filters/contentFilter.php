@@ -21,6 +21,7 @@ fileLoader::load('core/loadDispatcher');
  * @subpackage filters
  * @version 0.2.8
  */
+
 class contentFilter implements iFilter
 {
     /**
@@ -49,7 +50,7 @@ class contentFilter implements iFilter
 
         $tplPath = systemConfig::$pathToApplication . '/templates';
 
-        $template = $this->getTemplateName($request, $tplPath);
+        $template = $this->getTemplateName($request, $tplPath, $toolkit);
 
         $smarty->assign('current_module', $request->getRequestedModule());
         $smarty->assign('current_action', $request->getRequestedAction());
@@ -59,32 +60,23 @@ class contentFilter implements iFilter
         $smarty->assign('available_langs', $toolkit->getLocale()->searchAll());
         $request->setRequestedParams($request->getParams());
 
-        if (empty($template)) {
+        if ($template === false) {
             try {
-                $output = $this->runActiveTemplate($request, $toolkit, $request, $smarty);
+                $output = $this->runActiveTemplate($request, $toolkit, $smarty);
             } catch (mzzNoActionException $e) {
+                // the only one way to catch this exception - is to call the action with "deny" active template
                 if (DEBUG_MODE) {
                     throw $e;
                 }
 
-                $output = $this->get404();
-                if ($output === false) {
-                    $template = $this->getTemplateName($request, $tplPath);
-                    if (empty($template)) {
-                        $output = $this->runActiveTemplate($request, $toolkit, $request, $smarty);
-                    }
-                }
+                $this->get404();
+                $output = $this->runActiveTemplate($request, $toolkit, $smarty);
             }
-        }
-
-        // если вывода ещё не было (не 404 страница), или был (404, но вернувшая false - что значит что должен быть запущен стандартный запуск через активный шаблон)
-        if (!isset($output) || $output === false) {
+        } else {
             $output = $smarty->fetch($template);
         }
 
         $response->append($output);
-
-        $filter_chain->next();
     }
 
     /**
@@ -121,7 +113,7 @@ class contentFilter implements iFilter
         return false;
     }
 
-    public function runActiveTemplate($request, $toolkit, $request, $smarty)
+    public function runActiveTemplate($request, $toolkit, $smarty)
     {
         $module = $request->getModule();
         $action = $toolkit->getAction($module);
