@@ -82,6 +82,12 @@ abstract class mapper
         }
     }
 
+    /**
+     * retrieve entity by criteria
+     *
+     * @param criteria $criteria
+     * @return entity
+     */
     public function searchOneByCriteria(criteria $criteria)
     {
         $stmt = $this->searchByCriteria($criteria);
@@ -95,6 +101,12 @@ abstract class mapper
         return null;
     }
 
+    /**
+     * retrieve collection of entities by criteria
+     *
+     * @param criteria $criteria
+     * @return collection
+     */
     public function searchAllByCriteria(criteria $criteria)
     {
         $stmt = $this->searchByCriteria($criteria);
@@ -135,6 +147,13 @@ abstract class mapper
         }
     }
 
+    /**
+     * retrieve collection of entities by field value
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return collection
+     */
     public function searchAllByField($name, $value)
     {
         $criteria = new criteria();
@@ -142,6 +161,13 @@ abstract class mapper
         return $this->searchAllByCriteria($criteria);
     }
 
+    /**
+     * retrieve entity by field value
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return entity
+     */
     public function searchOneByField($name, $value)
     {
         $data = array($name, $value);
@@ -154,6 +180,13 @@ abstract class mapper
         return $this->searchOneByCriteria($criteria);
     }
 
+    /**
+     * retrieve collection of all existing entities
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return collection
+     */
     public function searchAll()
     {
         return $this->searchAllByCriteria(new criteria());
