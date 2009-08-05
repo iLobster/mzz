@@ -10,10 +10,10 @@
 
 {literal}
 <script type="text/javascript">
-    var cb = {submit: function() {$j('#fmUploadSubmit').attr('disabled', true);},
+    var cb = {submit: function() {$j('#fmUploadSubmit').attr('disabled', true); $j("#fmStatus").hide().empty();},
               complete: function() {$j('#fmUploadSubmit').attr('disabled', false);},
-              error: function(messages) { var t = $j("#fmStatus"); t.empty();
-                                          $j.each(messages, function(){t.append("<div>" + this + "</div>");})
+              error: function(messages) { var t = $j("#fmStatus"); var u = $j("<ul style='margin-bottom: 0px'>"); t.empty().show().append(u);
+                                          $j.each(messages, function(){u.append("<li>" + this + "</li>");});
                                          },
               success: function(){jipWindow.refreshAfterClose(true);jipWindow.close();}
               };
@@ -21,7 +21,7 @@
     fileLoader.loadJS(SITE_PATH + '/templates/js/fileManager/fileUpload.js', function() {fileUpload.create('fmUpload', cb);});
 </script>
 {/literal}
-<div id="fmStatus"></div>
+<div id="fmStatus" style="display: none; padding: 5px; border: 1px solid #FBC4C4; background-color: #FDDFDF; color: #840909; font-weight: bold"></div>
 
 {form action=$form_action method="post" class="mzz-jip-form" id="fmUpload"}
     <ul>
