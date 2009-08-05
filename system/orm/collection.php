@@ -107,7 +107,7 @@ class collection extends arrayDataspace implements Serializable
         $this->current++;
 
         do {
-            $data = next($this->data);
+            $data = parent::next();
         } while (in_array($this->key(), $this->deleted));
 
         return $data;
