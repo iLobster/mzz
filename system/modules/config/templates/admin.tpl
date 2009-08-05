@@ -1,3 +1,4 @@
+{strip}
 {add file="jquery.js"}
 {add file="jquery-ui/ui.core.js"}
 {add file="jquery-ui/effects.core.js"}
@@ -6,11 +7,17 @@
 {add file="jquery-ui/ui.resizable.js"}
 {add file="dui.js"}
 {add file="jquery.ex.js"}
+
 {add file="jip.css"}
-{add file="jip/fileLoader.js"}
-{add file="jip/window.js"}
+{add file="icons.css"}
+{add file="bullets.css"}
+{add file="flags.css"}
+
+{add file="fileLoader.js"}
+{add file="window.js"}
 {add file="jip/jipMenu.js"}
 {add file="jip/jipWindow.js"}
+{/strip}
 
 <div class="title">Конфигурация модулей</div>
 {foreach from=$folders item="folder"}
