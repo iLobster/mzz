@@ -50,7 +50,7 @@ class accessEditAccessUserController extends simpleController
         if ($validator->validate() && $user_id == $this->user->getId()) {
             $setted = $this->request->getArray('access', SC_POST);
 
-            $admin_access = !empty($setted['admin_access']['allow']) && !empty($setted['admin_access']['deny']);
+            $admin_access = !empty($setted['admin_access']['allow']) && empty($setted['admin_access']['deny']);
             unset($setted['admin_access']);
             unset($access['admin_access']);
 
