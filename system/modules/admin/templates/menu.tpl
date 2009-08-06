@@ -13,7 +13,7 @@
                     <div class="mzz-menu-sub"><ul>
                     {foreach from=$module.actions item="options" name="moduleActions" key="action"}
                         {if $action != 'admin'}
-                                <li{if $action eq $current_action} class="active"{/if}><a href="{if $moduleName == 'admin'}{url route=adminSimpleActions action=$action}{else}{url route=withAnyParam module='admin' name=$moduleName action=$action}{/if}">{if isset($options.title)}{$options.title|i18n:$moduleName}{else}{$module.title}{/if}</a></li>
+                                <li{if $action eq $current_action} class="active"{/if}>{if !empty($options.icon)}{icon sprite=$options.icon active=true}{/if}<a href="{if $moduleName == 'admin'}{url route=adminSimpleActions action=$action}{else}{url route=withAnyParam module='admin' name=$moduleName action=$action}{/if}">{if isset($options.title)}{$options.title|i18n:$moduleName}{else}{$module.title}{/if}</a></li>
                         {/if}
                     {/foreach}
                     </ul></div>

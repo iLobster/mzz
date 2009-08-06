@@ -161,6 +161,11 @@ class adminMapper extends mapper
                                       WHERE `c`.`name` = ' . $this->db()->quote($name));
     }
 
+    public function searchModuleByName($name)
+    {
+        return $this->db()->getRow('SELECT * FROM `' . $this->db()->getTablePrefix() . 'sys_modules` WHERE `name` = ' . $this->db()->quote($name));
+    }
+
     /**
      * Метод получения списка модулей и классов, которые им принадлежат
      *

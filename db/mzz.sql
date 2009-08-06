@@ -629,7 +629,7 @@ CREATE TABLE `sys_actions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=123 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=137 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_actions` table  (LIMIT 0,500)
@@ -730,7 +730,21 @@ INSERT INTO `sys_actions` (`id`, `name`) VALUES
   (119,'addObjToRegistry'),
   (120,'editSections'),
   (121,'map'),
-  (122,'dashboard');
+  (122,'dashboard'),
+  (123,'admin_access'),
+  (124,'addUser'),
+  (125,'editUser'),
+  (126,'editGroup'),
+  (127,'addGroup'),
+  (128,'deleteGroup'),
+  (129,'deleteUser'),
+  (130,'addGroupDefault'),
+  (131,'editGroupDefault'),
+  (132,'deleteGroupDefault'),
+  (133,'addUserDefault'),
+  (134,'editUserDefault'),
+  (135,'deleteUserDefault'),
+  (136,'editOwner');
 COMMIT;
 
 #
@@ -795,7 +809,7 @@ CREATE TABLE `sys_classes_actions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `class_id` (`class_id`, `action_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=340 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=354 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_classes_actions` table  (LIMIT 0,500)
@@ -891,7 +905,21 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (336,24,1),
   (337,24,2),
   (338,7,9),
-  (339,50,5);
+  (339,50,5),
+  (340,7,123),
+  (341,7,124),
+  (342,7,125),
+  (343,7,126),
+  (344,7,127),
+  (345,7,128),
+  (346,7,129),
+  (347,7,130),
+  (348,7,131),
+  (349,7,132),
+  (350,7,133),
+  (351,7,134),
+  (352,7,135),
+  (353,7,136);
 COMMIT;
 
 #

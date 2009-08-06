@@ -74,11 +74,33 @@ class accessMapper extends mapper
     {
         $access = $this->create();
 
+        if (isset($args['module_name'])) {
+            $toolkit = systemToolkit::getInstance();
+
+            $adminMapper = $toolkit->getMapper('admin', 'admin');
+            $module = $adminMapper->searchModuleByName($args['module_name']);
+
+            if (!$module) {
+                throw new mzzDONotFoundException();
+            }
+
+            $obj_id = $toolkit->getObjectId('access_' . $args['module_name']);
+            $adminMapper->register($obj_id, 'access');
+
+            $access->merge(array(
+                'obj_id' => $obj_id));
+            return $access;
+        }
+
         if (isset($args['class_name'])) {
             $toolkit = systemToolkit::getInstance();
 
             $adminMapper = $toolkit->getMapper('admin', 'admin');
             $module = $adminMapper->searchModuleByClass($args['class_name']);
+
+            if (!$module) {
+                throw new mzzDONotFoundException();
+            }
 
             $obj_id = $toolkit->getObjectId('access_' . $module['name']);
             $adminMapper->register($obj_id, 'access');

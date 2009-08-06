@@ -124,11 +124,6 @@ class loadDispatcher
 
         $actionName = $action->getAlias(systemToolkit::getInstance()->getRequest()->getAction());
 
-        if (isset($args['module_name']) && $actionName == 'admin') {
-            $toolkit = systemToolkit::getInstance();
-            $mapper = $toolkit->getMapper('admin', 'admin');
-        }
-
         $obj = $mapper->convertArgsToObj($args);
 
         return $obj->getAcl($actionName);

@@ -27,19 +27,16 @@ class adminMenuController extends simpleController
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
         $menu = array();
         foreach ($adminMapper->getModulesComplete() as $moduleName => $module) {
-            $actions = $this->toolkit->getAction($moduleName)->getActions(array('admin' => true));
-/*
-            $obj_id = $this->toolkit->getObjectId('access_' . $moduleName);
-            $acl = new acl($this->toolkit->getUser());
-*/
+            $actions = $this->toolkit->getAction($moduleName)->getActions(array(
+                'admin' => true));
+
+            try {
+                $this->toolkit->getSectionName($moduleName);
+            } catch (mzzRuntimeException $e) {
+                continue;
+            }
+
             foreach ($actions as $className => $action) {
-                try {
-                    $this->toolkit->getSectionName($moduleName);
-                } catch (mzzRuntimeException $e) {
-                    break;
-                }
-/*                $acl->register($obj_id, $className);
-                $acl = new acl($this->toolkit->getUser(), $obj_id);*/
                 $acl = new acl($this->toolkit->getUser(), 0, $className);
                 $access = $acl->getDefault();
 
