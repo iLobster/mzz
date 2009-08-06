@@ -24,6 +24,8 @@ fileLoader::load('user/userAuth');
 
 class userAuthMapper extends mapper
 {
+    const AUTH_COOKIE_NAME = 'auth';
+
     /**
      * Имя класса DataObject
      *
@@ -36,31 +38,32 @@ class userAuthMapper extends mapper
         'id' => array(
             'accessor' => 'getId',
             'mutator' => 'setId',
-            'options' => array(
-                'once',
-                'pk')),
+            'options' => array('once','pk')
+        ),
         'hash' => array(
             'accessor' => 'getHash',
             'mutator' => 'setHash',
-            'options' => array(
-                'once')),
+            'options' => array('once')
+        ),
         'ip' => array(
             'accessor' => 'getIp',
             'mutator' => 'setIp',
-            'options' => array(
-                'once')),
+            'options' => array('once')
+        ),
         'user_id' => array(
-            'accessor' => 'getUserId',
-            'mutator' => 'setUserId',
-            'options' => array(
-                'once')),
+            'accessor' => 'getUser',
+            'mutator' => 'setUser',
+            'relation' => 'one',
+            'foreign_key' => 'id',
+            'mapper' => 'user/user',
+            'join_type' => 'inner',
+            'options' => array('once')
+        ),
         'time' => array(
             'accessor' => 'getTime',
             'mutator' => 'setTime',
-            ),
-        );
-
-    public static $auth_cookie_name = 'auth';
+        ),
+    );
 
     public function getAuth($hash, $ip)
     {

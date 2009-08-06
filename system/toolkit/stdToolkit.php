@@ -262,14 +262,6 @@ class stdToolkit extends toolkit
         $this->user = $user;
     }
 
-    public function getUserAuth()
-    {
-        $userAuthMapper = $this->getMapper('user', 'userAuth');
-        $hash = $this->getRequest()->getString(userAuthMapper::$auth_cookie_name, SC_COOKIE);
-        $ip = $this->getRequest()->getServer('REMOTE_ADDR');
-        return $userAuthMapper->getAuth($hash, $ip);
-    }
-
     /**
      * Возвращает уникальный идентификатор необходимый для идентификации объектов
      *

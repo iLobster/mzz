@@ -187,7 +187,7 @@ class userMapper extends mapper
         }
     }
 
-    public function updateLastLoginTime($user)
+    public function updateLastLoginTime(user $user)
     {
         $user->setLastLogin(new sqlFunction('unix_timestamp'));
         $this->save($user);
