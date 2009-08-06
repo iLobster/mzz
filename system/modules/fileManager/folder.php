@@ -110,14 +110,6 @@ class folder extends entity
             $file = false;
         }
 
-        if ($exts = $this->getExts()) {
-            $exts = explode(';', $exts);
-
-            if (!in_array($ext, $exts)) {
-                throw new mzzRuntimeException('Ограничение на расширение файла: ' . $this->getExts() . '. У загружаемого файла расширение: "' . $ext . '"');
-            }
-        }
-
         $storage = $this->getStorage();
 
         while (true) {

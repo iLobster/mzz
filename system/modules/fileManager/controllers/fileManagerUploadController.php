@@ -34,7 +34,15 @@ class fileManagerUploadController extends simpleController
 
         $validator = new formValidator();
         $validator->add('uploaded', 'file', 'Укажите файл для загрузки');
-        $validator->add('filesize', 'file', 'Превышен размер', ($folder));
+        $validator->add('filesize', 'file', 'Превышен размер', $folder);
+
+        if ($exts = $folder->getExts()) {
+            $exts = explode(';', $exts);
+        } else {
+            $exts = array();
+        }
+
+        $validator->add('fileext', 'file', 'Неверное расширение!', $exts);
         $validator->add('regex', 'name', 'Недопустимые символы в имени', '/^[a-zа-я0-9_\.\-! ]+$/ui');
 
         $errors = $validator->getErrors();
