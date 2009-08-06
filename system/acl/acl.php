@@ -216,8 +216,14 @@ class acl
             return $result[$clean][$full];
         } else {
             $access = isset($result[$clean][$full][$param]) ? $result[$clean][$full][$param] : false;
+
+            if ($this->isRoot) {
+                if (is_bool($access) && !$access) {
+                    return true;
+                }
+            }
+
             return $access;
-            //return $access || $this->isRoot;
         }
     }
 
