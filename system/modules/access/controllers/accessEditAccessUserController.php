@@ -56,7 +56,7 @@ class accessEditAccessUserController extends simpleController
 
             $result = array();
 
-            foreach ($access as $key => $val) {
+            foreach ($setted as $key => $val) {
                 $action = $this->getAdminsActions($key);
 
                 $result[$action['class']][$key]['allow'] = isset($setted[$key]) && !empty($setted[$key]['allow']);
