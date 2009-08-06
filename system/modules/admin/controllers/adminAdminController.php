@@ -28,10 +28,28 @@ class adminAdminController extends simpleController
 
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
 
+        if (is_null($module)) {
+            $module = 'admin';
+
+            if (is_null($action)) {
+                $action = 'dashboard';
+            }
+        }
+
         $modules = $adminMapper->getModules();
         $sections = $this->toolkit->getSectionsList();
 
-        if (is_null($module) || $module == 'admin') {
+        $actionFinder = new action($module);
+        $class = $actionFinder->getClass($action);
+
+        $acl = new acl($this->toolkit->getUser(), 0, $class);
+        $access = $acl->getDefault();
+
+        if (empty($access[$action]) && !$acl->isRoot()) {
+            return $this->forward403($adminMapper);
+        }
+
+        if ($module == 'admin' && in_array($action, array('dashboard', 'admin'))) {
             return $this->mainAdminPage();
         }
 

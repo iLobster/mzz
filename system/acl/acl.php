@@ -419,6 +419,11 @@ class acl
         return $result;
     }
 
+    public function isRoot()
+    {
+        return $this->isRoot;
+    }
+
     /**
      * Получение прав для владельца вновь создаваемого объекта
      *

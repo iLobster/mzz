@@ -20,8 +20,6 @@ CREATE DATABASE `mzz`
 
 USE `mzz`;
 
-SET sql_mode = '';
-
 #
 # Structure for the `comments_comments` table : 
 #
@@ -549,7 +547,7 @@ CREATE TABLE `sys_access` (
   KEY `obj_id_gid` (`obj_id`, `gid`),
   KEY `obj_id_uid` (`obj_id`, `uid`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=9097 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=9099 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_access` table  (LIMIT 0,500)
@@ -573,7 +571,8 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`,
   (9093,3,6,9,NULL,1,1,0),
   (9094,3,6,9,NULL,2,1,0),
   (9095,3,6,10,NULL,1,1,0),
-  (9096,3,6,10,NULL,2,1,0);
+  (9096,3,6,10,NULL,2,1,0),
+  (9098,5,50,0,5,NULL,1,0);
 COMMIT;
 
 #
@@ -796,7 +795,7 @@ CREATE TABLE `sys_classes_actions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `class_id` (`class_id`, `action_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=338 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=340 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_classes_actions` table  (LIMIT 0,500)
@@ -846,10 +845,8 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (186,32,2),
   (253,1,97),
   (259,48,98),
-  (264,50,20),
   (266,50,69),
   (270,50,4),
-  (271,50,51),
   (279,52,51),
   (280,52,14),
   (281,48,100),
@@ -892,7 +889,9 @@ INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES
   (334,25,29),
   (335,24,4),
   (336,24,1),
-  (337,24,2);
+  (337,24,2),
+  (338,7,9),
+  (339,50,5);
 COMMIT;
 
 #
@@ -993,11 +992,11 @@ AUTO_INCREMENT=26 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci
 #
 
 INSERT INTO `sys_modules` (`id`, `name`, `title`, `icon`, `order`) VALUES 
-  (1,'news','Новости','news.gif',10),
+  (1,'news','Новости','mzz-icon mzz-icon-block',10),
   (2,'user','Пользователи','users.gif',90),
   (4,'page','Страницы','pages.gif',20),
   (5,'access','Права доступа','access.gif',10),
-  (6,'admin','Администрирование','admin.gif',120),
+  (6,'admin','Администрирование','mzz-icon mzz-icon-wrench-cross',0),
   (8,'comments','Комментарии','comments.gif',40),
   (12,'menu','Меню','pages.gif',90),
   (18,'captcha','Captcha','',0),
@@ -1165,7 +1164,7 @@ CREATE TABLE `user_user` (
   PRIMARY KEY (`id`),
   KEY `login` (`login`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=5 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=6 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_user` table  (LIMIT 0,500)
@@ -1175,7 +1174,8 @@ INSERT INTO `user_user` (`id`, `login`, `password`, `created`, `confirmed`, `las
   (1,'guest','',NULL,NULL,1225005849,NULL,3,1),
   (2,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1246339083,1,3,1),
   (3,'moderator','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1),
-  (4,'user','098f6bcd4621d373cade4e832627b4f6',1243925700,NULL,NULL,NULL,3,1);
+  (4,'user','098f6bcd4621d373cade4e832627b4f6',1243925700,NULL,NULL,NULL,3,1),
+  (5,'qwe','202cb962ac59075b964b07152d234b70',1249521132,NULL,NULL,1,3,1);
 COMMIT;
 
 #
@@ -1193,7 +1193,7 @@ CREATE TABLE `user_userAuth` (
   `time` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=136 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=137 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userAuth` table  (LIMIT 0,500)
@@ -1211,7 +1211,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (132,2,'10.30.35.150','c54fbf06a0f11f5a10f4822e493a82bd',NULL,NULL),
   (133,2,'127.0.0.1','021d2bab67d5c4d478dd39d7cfaca0b2',NULL,NULL),
   (134,2,'127.0.0.1','254be4b2e6328875e8dfe2291eead872',NULL,NULL),
-  (135,2,'127.0.0.1','f028a4c7dd2cfce774e71b1d86cba0a4',NULL,NULL);
+  (135,2,'127.0.0.1','f028a4c7dd2cfce774e71b1d86cba0a4',NULL,NULL),
+  (136,5,'10.30.35.150','b77e872c8cdbe566085756413d0beef1',NULL,NULL);
 COMMIT;
 
 #
@@ -1228,7 +1229,7 @@ CREATE TABLE `user_userGroup_rel` (
   UNIQUE KEY `group_id` (`group_id`, `user_id`),
   KEY `user_id` (`user_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=33 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=34 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userGroup_rel` table  (LIMIT 0,500)
@@ -1240,7 +1241,8 @@ INSERT INTO `user_userGroup_rel` (`id`, `group_id`, `user_id`) VALUES
   (24,3,2),
   (30,2,3),
   (31,2,4),
-  (32,4,3);
+  (32,4,3),
+  (33,2,5);
 COMMIT;
 
 #

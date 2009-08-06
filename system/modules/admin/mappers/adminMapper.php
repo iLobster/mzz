@@ -216,6 +216,17 @@ class adminMapper extends mapper
         return $this->modules;
     }
 
+    public function getModulesComplete()
+    {
+        if (empty($this->modules_complete)) {
+            $modules = $this->db()->getAll('SELECT * FROM `' . $this->db()->getTablePrefix() . 'sys_modules` `m` ORDER BY `order`, `name`', PDO::FETCH_ASSOC);
+            foreach ($modules as $key => $values) {
+                $this->modules_complete[$values['name']] = $values;
+            }
+        }
+        return $this->modules_complete;
+    }
+
     /**
      * Получение списка классов
      *

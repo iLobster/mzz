@@ -26,27 +26,28 @@ class adminMenuController extends simpleController
     {
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
         $menu = array();
-        foreach ($adminMapper->getModules() as $moduleName => $module) {
+        foreach ($adminMapper->getModulesComplete() as $moduleName => $module) {
             $actions = $this->toolkit->getAction($moduleName)->getActions(array('admin' => true));
-
+/*
             $obj_id = $this->toolkit->getObjectId('access_' . $moduleName);
             $acl = new acl($this->toolkit->getUser());
-
+*/
             foreach ($actions as $className => $action) {
                 try {
                     $this->toolkit->getSectionName($moduleName);
                 } catch (mzzRuntimeException $e) {
                     break;
                 }
-                $acl->register($obj_id, $className);
-                $acl = new acl($this->toolkit->getUser(), $obj_id);
+/*                $acl->register($obj_id, $className);
+                $acl = new acl($this->toolkit->getUser(), $obj_id);*/
+                $acl = new acl($this->toolkit->getUser(), 0, $className);
+                $access = $acl->getDefault();
 
                 foreach ($action as $actionName => $options) {
-                    if ($acl->get($actionName)) {
+                    if (!empty($access[$actionName]) || $acl->isRoot()) {
                         if (!isset($menu[$moduleName])) {
-                            $menu[$moduleName] = array();
+                            $menu[$moduleName] = $module;
                             $menu[$moduleName]['actions'] = array();
-                            $menu[$moduleName]['title'] = $module;
                         }
                         $menu[$moduleName]['actions'][$actionName] = $options;
                     }
@@ -62,10 +63,8 @@ class adminMenuController extends simpleController
             $action = $this->request->getRequestedAction();
         }
 
-        $toolbarAccess = $adminMapper->convertArgsToObj(array())->getAcl('devToolbar');
         $this->smarty->assign('current_module', $module);
         $this->smarty->assign('current_action', $action);
-        $this->smarty->assign('toolbarAccess', $toolbarAccess);
         $this->smarty->assign('menu', $menu);
         return $this->smarty->fetch('admin/menu.tpl');
     }
