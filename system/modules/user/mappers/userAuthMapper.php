@@ -79,7 +79,7 @@ class userAuthMapper extends mapper
         return $auth;
     }
 
-    public function saveAuth($user_id, $hash, $ip)
+    public function saveAuth($user, $hash, $ip)
     {
         $userAuth = $this->getAuth($hash, $ip);
 
@@ -90,8 +90,7 @@ class userAuthMapper extends mapper
         if (is_null($userAuth)) {
             $userAuth = $this->create();
             $userAuth->setIp($ip);
-            $userAuth->setHash($hash = md5(microtime(true)));
-            $userAuth->setUserId($user_id);
+            $userAuth->setUser($user);
             $this->save($userAuth);
         }
 
@@ -116,6 +115,14 @@ class userAuthMapper extends mapper
 
         foreach ($auths as $auth) {
             $this->delete($auth);
+        }
+    }
+
+    protected function preInsert(& $data)
+    {
+        if (is_array($data)) {
+            $data['time'] = time();
+            $data['hash'] = md5(microtime(true));
         }
     }
 

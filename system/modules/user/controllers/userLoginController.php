@@ -76,7 +76,7 @@ class userLoginController extends simpleController
         $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth');
         $hash = $this->request->getString(userAuthMapper::AUTH_COOKIE_NAME, SC_COOKIE);
         $ip = $this->request->getServer('REMOTE_ADDR');
-        $userAuth = $userAuthMapper->saveAuth($user->getId(), $hash, $ip);
+        $userAuth = $userAuthMapper->saveAuth($user, $hash, $ip);
 
         $this->response->setCookie(userAuthMapper::AUTH_COOKIE_NAME, $userAuth->getHash(), time() + 10 * 365 * 86400, '/');
     }
