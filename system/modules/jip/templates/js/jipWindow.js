@@ -170,7 +170,7 @@
                 url: url,
                 type: type,
                 data: data,
-                cache: 'false',
+                cache: false,
                 complete: function(transport, status) {
                     if(status == 'success') {
                         jipWindow.successRequest(transport);
