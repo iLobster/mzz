@@ -325,7 +325,8 @@
         {
             if (this.window) {
                 this.setStyle('error').setTitle('error');
-                this.window.content('<p align=center>' + MZZ.jipI18n[JIP_LANG].error + '</p>');
+                var reason = 'Причина: ' + ((transport.status == 404) ? '404 Not found' : '') + ((transport.status == 403) ? '403 Forbidden' : '') + ((transport.status == 500) ? '500 серверу плохо' : '') + '';
+                this.window.content('<p align="center">' + MZZ.jipI18n[JIP_LANG].error + ' ' + reason + '</p>');
             }
         },
 
