@@ -71,6 +71,7 @@ class menuItemMapper extends mapper
         'order' => array(
             'accessor' => 'getOrder',
             'mutator' => 'setOrder',
+            'orderBy' => 1
         ),
         'menu_id' => array(
             'accessor' => 'getMenu',
