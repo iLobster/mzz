@@ -38,7 +38,7 @@
          *                        ... all other see this.defaults;
          */
         init: function(params) {
-
+            var t = this;
             if ($.isUndefined(params.id)) {
                 console.log('MZZ.window::init() HALT! "id" not set, class instantinated with params = ', params);
                 return;
@@ -46,7 +46,7 @@
             
             this._onClose = null; 
             this._params = $.extend(true, {}, this.defaults, params);
-
+            this._em = new MZZ.eventManager(['dragstart', 'drag', 'dragstop', 'resizestart', 'resize', 'resizestop']);
             
             this._holder = $('<div class="mzz-window-holder" />');
             this._holder.attr('id', this._params.id);
@@ -73,6 +73,10 @@
                     this._params.dragOpts.opacity = null;  //fix for IE opacity problems
                 }
 
+                this._params.dragOpts.start = function(event, ui) {t._em.fire('dragstart', null, event, ui);}
+                this._params.dragOpts.drag = function(event, ui) {t._em.fire('drag', null, event, ui);}
+                this._params.dragOpts.stop = function(event, ui) {t._em.fire('dragstop', null, event, ui);}
+
                 this._holder.draggable(this._params.dragOpts);
                 this._holder.css('position', '');         //for some reasons jQuery sets position: relative
             } else {
@@ -85,6 +89,10 @@
                     this._params.resizeOpts.alsoResize = this._holder.find(this._params.resizeOpts.alsoResize);
                 }
 
+                this._params.resizeOpts.start = function(event, ui) {t._em.fire('resizestart', null, event, ui);}
+                this._params.resizeOpts.drag = function(event, ui) {t._em.fire('resize', null, event, ui);}
+                this._params.resizeOpts.stop = function(event, ui) {t._em.fire('resizestop', null, event, ui);}
+
                 this._holder.resizable(this._params.resizeOpts);
             } else {
                 this._params.resize = false;
@@ -93,7 +101,7 @@
             if (this._params.visible) {
                 this.show();
             }
-            
+
         },
         
         /**
@@ -352,6 +360,14 @@
 
                 window.kill();
             }
+        },
+
+        bind: function(event, callback) {
+            return this._em.bind(event, callback);
+        },
+
+        undind: function(event, callback) {
+            return this._em.unbind(event, callback);
         }
     });
 })(jQuery);

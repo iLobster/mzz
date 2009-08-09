@@ -116,7 +116,7 @@ var Cookie = {
         _binds: {},
         
         init: function(events) {
-            this._events = $.isArray(events) ? events : [];
+            this._events = $.isArray(events) ? events : Array.prototype.slice.call(arguments, 0);
             this._binds = {};
         },
 
@@ -126,7 +126,7 @@ var Cookie = {
                 once = once || false;
                 $.each(event.split(/\s+/), function(i, type) {
                     if ($.inArray(type, t._events) != -1) {
-                        
+
                         if (!t._binds[type]) {
                             t._binds[type] = [];
                         }
@@ -167,14 +167,15 @@ var Cookie = {
             return this;
         },
 
-        fire: function(event, context) {            
+        fire: function(event, context) {
             if(this._binds[event]) {
                 var t = this;
+                var args = Array.prototype.slice.call(arguments, 0);
                 $.each(this._binds[event], function(i) {
-                    if (arguments.length < 2) {
+                    if (args.length < 2) {
                         this.cb.call(context);
                     } else {
-                        this.cb.apply(context, Array.prototype.slice.call(arguments, 2));
+                        this.cb.apply(context, args.slice(2));
                     }
 
                     if (this.cb.once) {
