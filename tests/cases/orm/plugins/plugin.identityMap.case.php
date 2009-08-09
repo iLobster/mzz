@@ -86,6 +86,18 @@ class identityMapPluginTest extends unitTestCase
 
         $this->assertEqual($count + 1, $this->db->getQueriesNum());
     }
+
+    public function testUpdate()
+    {
+        $object = $this->mapper->searchByKey(1);
+
+        $this->assertEqual($object->getFoo(), 'foo1');
+
+        $object->setFoo($new = 'new foo');
+        $this->mapper->save($object);
+
+        $this->assertEqual($object->getFoo(), $new);
+    }
 }
 
 ?>
