@@ -34,7 +34,7 @@ class accessEditAccessUserController extends simpleController
         $obj_id = $module['obj_id'];
         $module['name'] = $this->module_name;
 
-        $user_id = $this->request->getInteger('user_id', SC_PATH | SC_POST);
+        $user_id = $this->request->getInteger('user_id', SC_PATH | SC_POST | SC_GET);
 
         $userMapper = $this->toolkit->getMapper('user', 'user');
         $this->user = $userMapper->searchByKey($user_id);
@@ -43,11 +43,9 @@ class accessEditAccessUserController extends simpleController
 
         $validator = new formValidator();
 
-        $validator->add('required', 'user_id');
-
         list($access, $actions) = $this->getActionsList($obj_id);
 
-        if ($validator->validate() && $user_id == $this->user->getId()) {
+        if ($this->request->getMethod() == 'POST' && $user_id == $this->user->getId()) {
             $setted = $this->request->getArray('access', SC_POST);
 
             $admin_access = !empty($setted['admin_access']['allow']) && empty($setted['admin_access']['deny']);
@@ -55,6 +53,12 @@ class accessEditAccessUserController extends simpleController
             unset($access['admin_access']);
 
             $result = array();
+
+            foreach ($access as $key => $val) {
+                if (!isset($setted[$key])) {
+                    $setted[$key] = array('allow' => 0, 'deny' => 0);
+                }
+            }
 
             foreach ($setted as $key => $val) {
                 $action = $this->getAdminsActions($key);

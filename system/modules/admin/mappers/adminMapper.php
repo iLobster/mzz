@@ -115,7 +115,7 @@ class adminMapper extends mapper
      */
     public function searchClassesByModuleId($id)
     {
-        return $this->db()->getAll('SELECT * FROM `' . $this->db()->getTablePrefix() . 'sys_classes` WHERE `module_id` = ' . (int)$id, PDO::FETCH_ASSOC | PDO::FETCH_GROUP);
+        return $this->db()->getAll('SELECT * FROM `' . $this->db()->getTablePrefix() . 'sys_classes` WHERE `module_id` = ' . (int)$id, PDO::FETCH_ASSOC);
     }
 
     /**

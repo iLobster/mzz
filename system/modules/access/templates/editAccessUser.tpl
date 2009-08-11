@@ -7,7 +7,6 @@
 
 {set name="form_action"}{url}{/set}
 {form action=$form_action method="post" jip=true}
-    {form->hidden name=user_id value=$user->getId()}
     <table border="0" width="99%" cellpadding="4" cellspacing="1" class="systemTable">
             <tr>
                 <td colspan="3">
