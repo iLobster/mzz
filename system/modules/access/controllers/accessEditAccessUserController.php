@@ -142,7 +142,7 @@ class accessEditAccessUserController extends simpleController
             $access = array_merge($access, $acl_default->getDefault(true));
 
             foreach ($item as $key => $admin_action) {
-                $actions[$key]['title'] = $admin_action['title'];
+                $actions[$key]['title'] = isset($admin_action['title']) ? $admin_action['title'] : $key;
             }
         }
 
