@@ -41,7 +41,7 @@ class accessDeleteAccessUserController extends simpleController
 
             foreach ($adminMapper->searchClassesByModuleId($module['id']) as $class) {
                 $acl = new acl($user, 0, $class['name']);
-                $acl->deleteGroupDefault();
+                $acl->deleteDefault();
             }
         }
 
