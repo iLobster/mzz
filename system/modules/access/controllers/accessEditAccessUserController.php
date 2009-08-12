@@ -45,7 +45,7 @@ class accessEditAccessUserController extends simpleController
 
         list($access, $actions) = $this->getActionsList($obj_id);
 
-        if ($this->request->getMethod() == 'POST' && $user_id == $this->user->getId()) {
+        if ($this->request->getMethod() == 'POST' && $this->user) {
             $setted = $this->request->getArray('access', SC_POST);
 
             $admin_access = !empty($setted['admin_access']['allow']) && empty($setted['admin_access']['deny']);
