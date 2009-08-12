@@ -13,16 +13,16 @@
  */
 
 /**
- * accessEditAccessUserController
+ * accessEditAccessGroupController
  * @package modules
  * @subpackage access
  * @version 0.1
  */
-class accessEditAccessUserController extends simpleController
+class accessEditAccessGroupController extends simpleController
 {
     private $module_name;
 
-    private $user;
+    private $group;
 
     protected function getView()
     {
@@ -34,23 +34,24 @@ class accessEditAccessUserController extends simpleController
         $obj_id = $module['obj_id'];
         $module['name'] = $this->module_name;
 
-        $user_id = $this->request->getInteger('user_id', SC_PATH | SC_POST | SC_GET);
+        $group_id = $this->request->getInteger('user_id', SC_PATH | SC_POST | SC_GET);
 
-        $userMapper = $this->toolkit->getMapper('user', 'user');
-        $this->user = $userMapper->searchByKey($user_id);
+        $groupMapper = $this->toolkit->getMapper('user', 'group');
+        $this->group = $groupMapper->searchByKey($group_id);
 
-        $acl = new acl($this->user, $obj_id);
+        $acl = new acl($this->toolkit->getUser(), $obj_id);
 
         $validator = new formValidator();
 
         list ($access, $actions) = $this->getActionsList($obj_id);
 
-        if ($this->request->getMethod() == 'POST' && $this->user) {
+        if ($this->request->getMethod() == 'POST' && $this->group) {
             $setted = $this->request->getArray('access', SC_POST);
 
             $admin_access = array(
-                'allow' => !empty($setted['admin_access']['allow']),
-                'deny' => !empty($setted['admin_access']['deny']));
+                'admin' => array(
+                    'allow' => !empty($setted['admin_access']['allow']),
+                    'deny' => !empty($setted['admin_access']['deny'])));
 
             unset($setted['admin_access']);
             unset($access['admin_access']);
@@ -73,36 +74,36 @@ class accessEditAccessUserController extends simpleController
             }
 
             foreach ($result as $key => $val) {
-                $acl_default = new acl($this->user, 0, $key);
-                $acl_default->setDefault($user_id, $val, true);
+                $acl_default = new acl($this->toolkit->getUser(), 0, $key);
+                $acl_default->setDefault($group_id, $val);
             }
 
-            $acl->set('admin', $admin_access);
+            $acl->setForGroup($group_id, $admin_access);
 
             return jipTools::closeWindow();
         }
 
         $action = $this->request->getAction();
-        $users = false;
+        $groups = false;
 
-        if ($action == 'addAccessUser') {
+        if ($action == 'addAccessGroup') {
             $accessMapper = $this->toolkit->getMapper('access', 'access');
-            $criterion = new criterion('a.uid', $userMapper->table() . '.' . $userMapper->pk(), criteria::EQUAL, true);
+            $criterion = new criterion('a.gid', $groupMapper->table() . '.' . $groupMapper->pk(), criteria::EQUAL, true);
             $criterion->addAnd(new criterion('a.obj_id', $obj_id));
 
             $criteria = new criteria();
             $criteria->addJoin($accessMapper->table(), $criterion, 'a');
-            $criteria->add('a.uid', null, criteria::IS_NULL);
+            $criteria->add('a.gid', null, criteria::IS_NULL);
 
-            $users = $userMapper->searchAllByCriteria($criteria);
+            $groups = $groupMapper->searchAllByCriteria($criteria);
         }
 
         $this->smarty->assign('acl', $access);
-        $this->smarty->assign('user', $this->user);
-        $this->smarty->assign('users', $users);
+        $this->smarty->assign('group', $this->group);
+        $this->smarty->assign('groups', $groups);
         $this->smarty->assign('actions', $actions);
 
-        return $this->smarty->fetch('access/editAccessUser.tpl');
+        return $this->smarty->fetch('access/editAccessGroup.tpl');
     }
 
     private function getAdminsActions($name = null)
@@ -134,12 +135,19 @@ class accessEditAccessUserController extends simpleController
 
         $access = array();
 
-        $acl = new acl($this->user, $obj_id);
-        $access['admin_access'] = $acl->get('admin', false, true);
+        $acl = new acl($this->toolkit->getUser(), $obj_id);
+        if ($this->group) {
+            $tmp = $acl->getForGroup($this->group->getId());
+            $access['admin_access'] = array(
+                'allow' => isset($tmp['admin']) && $tmp['admin'],
+                'deny' => isset($tmp['admin']) && !$tmp['admin']);
+        }
 
         foreach ($this->getAdminsActions() as $module => $item) {
-            $acl_default = new acl($this->user, 0, $module);
-            $access = array_merge($access, $acl_default->getDefault(true));
+            $acl_default = new acl($this->toolkit->getUser(), 0, $module);
+            if ($this->group) {
+                $access = array_merge($access, $acl_default->getForGroupDefault($this->group->getId(), true));
+            }
 
             foreach ($item as $key => $admin_action) {
                 $actions[$key]['title'] = $admin_action['title'];

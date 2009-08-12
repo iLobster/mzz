@@ -353,6 +353,10 @@ class acl
                 $result[$gid][$full][$row['name']] = $value;
             }
 
+            if (!isset($result[$gid])) {
+                $result[$gid][$full] = array();
+            }
+
             $this->cache->set($cacheKey, $result);
         }
 

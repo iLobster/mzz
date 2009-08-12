@@ -13,18 +13,18 @@
  */
 
 /**
- * accessDeleteAccessUserController
+ * accessDeleteAccessGroupController
  *
  * @package modules
  * @subpackage access
  * @version 0.1
  */
 
-class accessDeleteAccessUserController extends simpleController
+class accessDeleteAccessGroupController extends simpleController
 {
     protected function getView()
     {
-        if ($user_id = $this->request->getInteger('user_id')) {
+        if ($group_id = $this->request->getInteger('user_id')) {
             $this->module_name = $this->request->getString('module_name');
 
             $adminMapper = $this->toolkit->getMapper('admin', 'admin');
@@ -33,15 +33,15 @@ class accessDeleteAccessUserController extends simpleController
             $obj_id = $module['obj_id'];
             $module['name'] = $this->module_name;
 
-            $userMapper = $this->toolkit->getMapper('user', 'user');
-            $user = $userMapper->searchByKey($user_id);
+            $groupMapper = $this->toolkit->getMapper('user', 'group');
+            $group = $groupMapper->searchByKey($group_id);
 
-            $acl = new acl($user, $obj_id);
-            $acl->deleteUser($user_id);
+            $acl = new acl($this->toolkit->getUser(), $obj_id);
+            $acl->deleteGroup($group_id);
 
             foreach ($adminMapper->searchClassesByModuleId($module['id']) as $class) {
-                $acl = new acl($user, 0, $class['name']);
-                $acl->deleteGroupDefault();
+                $acl = new acl($this->toolkit->getUser(), 0, $class['name']);
+                $acl->deleteGroupDefault($group_id);
             }
         }
 
