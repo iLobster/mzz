@@ -32,7 +32,7 @@ class adminAdminController extends simpleController
             $module = 'admin';
 
             if (is_null($action)) {
-                $action = 'dashboard';
+                $action = 'admin';
             }
         }
 
