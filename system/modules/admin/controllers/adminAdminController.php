@@ -43,7 +43,7 @@ class adminAdminController extends simpleController
         $class = $actionFinder->getClass($action);
 
         $acl = new acl($this->toolkit->getUser(), 0, $class);
-        $access = $acl->getDefault();
+        $access = $acl->getDefaultCombined();
 
         if (empty($access[$action]) && !$acl->isRoot()) {
             return $this->forward403($adminMapper);

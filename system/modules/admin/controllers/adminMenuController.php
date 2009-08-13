@@ -38,7 +38,7 @@ class adminMenuController extends simpleController
 
             foreach ($actions as $className => $action) {
                 $acl = new acl($this->toolkit->getUser(), 0, $className);
-                $access = $acl->getDefault();
+                $access = $acl->getDefaultCombined();
 
                 foreach ($action as $actionName => $options) {
                     if (!empty($access[$actionName]) || $acl->isRoot()) {

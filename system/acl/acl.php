@@ -430,6 +430,45 @@ class acl
         return $result;
     }
 
+    public function getDefaultCombined($full = false)
+    {
+        $userMapper = systemToolkit::getInstance()->getMapper('user', 'user');
+
+        $qry = 'SELECT `sa`.`name`, (`a`.`allow` - `a`.`deny` = 1) as `access`, `a`.`allow`, `a`.`deny` FROM `' . $this->db->getTablePrefix() . 'sys_access` `a`
+                    INNER JOIN `' . $this->db->getTablePrefix() . 'sys_classes` `c` ON (`c`.`id` = `a`.`class_id`) AND (`c`.`name` = ' . $this->db->quote($this->class) . ')
+                      INNER JOIN `' . $this->db->getTablePrefix() . 'sys_actions` `sa` ON `sa`.`id` = `a`.`action_id`
+                       LEFT JOIN `' . $userMapper->table() . '` `u` ON `u`.`id` = `a`.`uid`
+                        WHERE `a`.`obj_id` = 0 AND (`a`.`uid` = ' . $this->uid;
+        if ($this->groups->count()) {
+            $grp = '';
+
+            foreach ($this->groups->keys() as $val) {
+                $grp .= $this->db->quote($val) . ', ';
+            }
+            $grp = substr($grp, 0, -2);
+
+            $qry .= ' OR `a`.`gid` IN (' . $grp . ')';
+        }
+
+        $qry .= ')';
+
+        $stmt = $this->db->query($qry);
+
+        $result = array();
+        while ($row = $stmt->fetch()) {
+            if ($full) {
+                $value = array(
+                    'allow' => (bool)$row['allow'],
+                    'deny' => (bool)$row['deny']);
+            } else {
+                $value = (bool)$row['access'];
+            }
+            $result[$row['name']] = $value;
+        }
+
+        return $result;
+    }
+
     public function isRoot()
     {
         return $this->isRoot;
