@@ -61,7 +61,7 @@ DUI.Class = {
     /**
 * @var {Array} _dontEnum Internal array of keys to omit when looking through a class' properties. Once the real DontEnum bit is writable we won't have to deal with this.
 */
-    _dontEnum: ['_ident', '_dontEnum', 'create', 'namespace', 'ns', 'supers', 'sup', 'init', 'each'],
+    _dontEnum: ['_ident', '_dontEnum', 'create', 'namespace', 'ns', 'supers', 'sup', 'each'], //'init' removed for workable this.sup() in child's init() function
 
     /**
 * @function create Make a class! Do work son, do work
@@ -221,9 +221,9 @@ Static classes are Objects, so we'll extend them directly */
             sup: function() {
                 try {
                     var caller = this.sup.caller.name;
-                    this.supers[caller].apply(this, arguments);
+                    return this.supers[caller].apply(this, arguments); //added 'return' for getting return from sup()
                 } catch(noSuper) {
-                    return false;
+                    return undefined;   //changed from 'false' to 'undefined' in case when super method not exists
                 }
             }
         }
@@ -252,7 +252,7 @@ Static classes are Objects, so we'll extend them directly */
                 /* Here we're going per-property instead of doing $.extend(extendee, this) so that
 * we overwrite each property instead of the whole namespace. Also: we omit the 'namespace'
 * helper method that DUI.Class tacks on, as there's no point in storing it as a super */
-                for(i in this) {
+                for(var i in this) { //added 'var' to remove i-binding in to the global scope
                     /* If a property is a function (other than our built-in helpers) and it already exists
 * in the class, save it as a super. note that this only saves the last occurrence */
                     if($.isFunction(extendee[i]) && _this._dontEnum.indexOf(i) == -1) {
