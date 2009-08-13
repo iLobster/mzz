@@ -222,8 +222,13 @@ class tree_alPlugin extends observer
             if (isset($data[$this->options['path_name']])) {
                 $this->path_name_changed = true;
             }
-            if (isset($data['tree_parent'])) {
+            if (array_key_exists('tree_parent', $data)) {
                 $this->parent = $data['tree_parent'];
+
+                if (is_null($this->parent)) {
+                    $this->parent = 0;
+                }
+
                 unset($data['tree_parent']);
             }
         }
@@ -276,34 +281,22 @@ class tree_alPlugin extends observer
 
     public function postUpdate(entity $object)
     {
-        // if parent was changed
-        if (!empty($this->parent)) {
+        // if moved to root
+        if ($this->parent === 0) {
+            $path = $object->{$this->options['path_name_accessor']}();
+
+            $this->moveNode($object, 1, '', 0, $path);
+
+            unset($this->parent);
+        } elseif (!empty($this->parent)) {
+            // if parent was changed
             $path = $this->parent->getTreePath() . '/' . $object->{$this->options['path_name_accessor']}();
 
             $newLevel = $this->parent->getTreeLevel() + 1;
+            $parentTreePath = $this->parent->getTreePath();
+            $parentTreeId = $this->parent->getTreeId();
 
-            $levelDelta = $newLevel - $object->getTreeLevel();
-
-            $ids = array_merge($this->searchChildren($object->getTreeId()), array(
-                $object->getTreeId()));
-
-            $sql = "UPDATE `" . $this->table() . "`
-                     SET `level` = `level` + " . $levelDelta . ", `path` = CONCAT(" . $this->mapper->db()->quote($this->parent->getTreePath()) . ", SUBSTRING(`path`, " . (strlen($object->getTreeParent()->getTreePath()) + 1) . "))
-                      WHERE `id` IN (" . implode(', ', $ids) . ")";
-
-            $this->mapper->db()->query($sql);
-
-            $criteria = new criteria($this->table());
-            $criteria->add('foreign_key', $object->{$this->options['foreign_accessor']}());
-            $update = new simpleUpdate($criteria);
-            $this->mapper->db()->query($update->toString(array(
-                'parent_id' => $this->parent->getTreeId())));
-
-            $object->merge(array(
-                'tree_level' => $newLevel,
-                'tree_parent_id' => $this->parent->getTreeId(),
-                'tree_path' => $path));
-            $this->postCreate($object);
+            $this->moveNode($object, $newLevel, $parentTreePath, $parentTreeId, $path);
 
             unset($this->parent);
         }
@@ -326,6 +319,32 @@ class tree_alPlugin extends observer
             $object->merge(array(
                 'tree_path' => $new));
         }
+    }
+
+    private function moveNode($object, $newLevel, $parentTreePath, $parentTreeId, $path)
+    {
+        $levelDelta = $newLevel - $object->getTreeLevel();
+
+        $ids = array_merge($this->searchChildren($object->getTreeId()), array(
+            $object->getTreeId()));
+
+        $sql = "UPDATE `" . $this->table() . "`
+                     SET `level` = `level` + " . $levelDelta . ", `path` = CONCAT(" . $this->mapper->db()->quote($parentTreePath) . ", SUBSTRING(`path`, " . (strlen($object->getTreeParent()->getTreePath()) + 1) . "))
+                      WHERE `id` IN (" . implode(', ', $ids) . ")";
+
+        $this->mapper->db()->query($sql);
+
+        $criteria = new criteria($this->table());
+        $criteria->add('foreign_key', $object->{$this->options['foreign_accessor']}());
+        $update = new simpleUpdate($criteria);
+        $this->mapper->db()->query($update->toString(array(
+            'parent_id' => $parentTreeId)));
+
+        $object->merge(array(
+            'tree_level' => $newLevel,
+            'tree_parent_id' => $parentTreeId,
+            'tree_path' => $path));
+        $this->postCreate($object);
     }
 
     private function searchChildren($node_id, $level = 0)

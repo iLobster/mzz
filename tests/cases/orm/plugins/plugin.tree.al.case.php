@@ -209,6 +209,7 @@ class pluginTreeALTest extends unitTestCase
 
         $this->assertEqual($object->getTreeLevel(), 1);
         $this->assertEqual($object->getTreePath(), 'new');
+        $this->assertNull($object->getTreeParent());
     }
 
     public function testCreateAsSubnode()
@@ -239,6 +240,16 @@ class pluginTreeALTest extends unitTestCase
         $this->assertEqual($object->getTreePath(), 'foo1/foo5');
         $this->assertEqual($object->getTreeLevel(), 2);
         $this->assertEqual($object->getTreeParent()->getId(), 1);
+    }
+
+    public function testMoveNodeToRoot()
+    {
+        $object = $this->mapper->searchByKey(5);
+        $object->setTreeParent(null);
+
+        $this->mapper->save($object);
+
+        $this->assertEqual($object->getTreeLevel(), 1);
     }
 
     public function testMoveNodeWithSubnodes()
