@@ -210,7 +210,7 @@ class adminAddActionController extends simpleController
         $aliases = array();
         foreach ($actionsInfo as $key => $val) {
             if ($action_name != $key) {
-                $aliases[$key] = isset($val['title']) ? $val['title'] : $key;
+                $aliases[$key] = isset($val['title']) ? i18n::getMessage($val['title'], $module['name']) : $key;
             }
         }
         $this->smarty->assign('aliases', $aliases);
