@@ -162,6 +162,26 @@ class mapperTest extends unitTestCase
         $this->assertEqual($collection->last()->getFoo(), 'foo1');
     }
 
+    public function testDeleteFromCollection()
+    {
+        $this->fixture();
+
+        $collection = $this->mapper->searchAll();
+
+        $this->assertEqual($collection->count(), 3);
+
+        unset($collection[2]);
+
+        $this->assertNull($collection->get(2));
+        $this->assertNull($collection[2]);
+
+        foreach ($collection as $key => $item) {
+            if ($key == 2) {
+                $this->fail('Unexpected key');
+            }
+        }
+    }
+
 
 
     public function testSerialize()

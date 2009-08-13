@@ -97,6 +97,15 @@ class collection extends arrayDataspace implements Serializable
         return array_keys($this->data);
     }
 
+    public function next()
+    {
+        do {
+            $result = parent::next();
+        } while (in_array($this->key(), $this->deleted));
+
+        return $result;
+    }
+
     public function isModified()
     {
         return $this->modified;
