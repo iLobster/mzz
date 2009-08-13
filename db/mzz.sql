@@ -20,6 +20,8 @@ CREATE DATABASE `mzz`
 
 USE `mzz`;
 
+SET sql_mode = '';
+
 #
 # Structure for the `comments_comments` table : 
 #
@@ -547,7 +549,7 @@ CREATE TABLE `sys_access` (
   KEY `obj_id_gid` (`obj_id`, `gid`),
   KEY `obj_id_uid` (`obj_id`, `uid`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=9099 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=9100 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `sys_access` table  (LIMIT 0,500)
@@ -572,7 +574,8 @@ INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`,
   (9094,3,6,9,NULL,2,1,0),
   (9095,3,6,10,NULL,1,1,0),
   (9096,3,6,10,NULL,2,1,0),
-  (9098,5,50,0,5,NULL,1,0);
+  (9098,5,50,0,5,NULL,1,0),
+  (9099,69,50,0,NULL,1,1,0);
 COMMIT;
 
 #
@@ -1182,6 +1185,7 @@ DROP TABLE IF EXISTS `user_user`;
 CREATE TABLE `user_user` (
   `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
   `login` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `email` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `password` VARCHAR(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `created` INTEGER(11) DEFAULT NULL,
   `confirmed` VARCHAR(32) COLLATE utf8_general_ci DEFAULT NULL,
@@ -1198,12 +1202,12 @@ AUTO_INCREMENT=6 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 # Data for the `user_user` table  (LIMIT 0,500)
 #
 
-INSERT INTO `user_user` (`id`, `login`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES 
-  (1,'guest','',NULL,NULL,1225005849,NULL,3,1),
-  (2,'admin','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1246339083,1,3,1),
-  (3,'moderator','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1),
-  (4,'user','098f6bcd4621d373cade4e832627b4f6',1243925700,NULL,NULL,NULL,3,1),
-  (5,'qwe','202cb962ac59075b964b07152d234b70',1249521132,NULL,NULL,1,3,1);
+INSERT INTO `user_user` (`id`, `login`, `email`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES 
+  (1,'guest','','',NULL,NULL,1225005849,NULL,3,1),
+  (2,'admin','','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1246339083,1,3,1),
+  (3,'moderator','','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1),
+  (4,'user','','098f6bcd4621d373cade4e832627b4f6',1243925700,NULL,NULL,NULL,3,1),
+  (5,'qwe','','202cb962ac59075b964b07152d234b70',1249521132,NULL,NULL,1,3,1);
 COMMIT;
 
 #

@@ -19,9 +19,7 @@
  * @subpackage user
  * @version 0.1
  */
-
 class userFolder extends entity
 {
 }
-
 ?>

@@ -27,12 +27,6 @@ class userRegisterController extends simpleController
     protected function getView()
     {
         $userMapper = $this->toolkit->getMapper('user', 'user');
-        $user = $this->toolkit->getUser();
-
-        if ($user->isLoggedIn()) {
-            $controller = new messageController('Вам не требуется регистрация', messageController::INFO);
-            return $controller->run();
-        }
 
         $userId = $this->request->getInteger('user', SC_GET);
         $confirm = $this->request->getString('confirm', SC_GET);
@@ -45,15 +39,16 @@ class userRegisterController extends simpleController
             $validator->add('email', 'email', 'Необходимо указать правильный e-mail');
             $validator->add('required', 'repassword', 'Необходимо указать повтор пароль');
             $validator->add('callback', 'login', 'Пользователь с таким логином уже существует', array(array($this, 'checkUniqueUserLogin'), $userMapper));
+            $validator->add('callback', 'email', 'Пользователь с таким email уже существует', array(array($this, 'checkUniqueUserУьфшд'), $userMapper));
             $validator->add('callback', 'repassword', 'Повтор пароля не совпадает', array(array($this, 'checkRepass'), $this->request->getString('password', SC_POST)));
 
             $url = new url('default2');
             $url->setAction('register');
 
             if (!$validator->validate()) {
-                $this->smarty->assign('action', $url->get());
+                $this->smarty->assign('form_action', $url->get());
                 $this->smarty->assign('errors', $validator->getErrors());
-                return $this->smarty->fetch('user/register.tpl');
+                return $this->smarty->fetch('user/register/form.tpl');
             } else {
                 $login = $this->request->getString('login', SC_POST);
                 $password = $this->request->getString('password', SC_POST);
@@ -61,21 +56,24 @@ class userRegisterController extends simpleController
 
                 $user = $userMapper->create();
                 $user->setLogin($login);
+                $user->setEmail($email);
                 $user->setPassword($password);
                 $user->setCreated(mktime());
                 $confirm = md5($email . mktime());
                 $user->setConfirmed($confirm);
                 $userMapper->save($user);
 
-                $url->add('user', $user->getId(), true);
-                $url->add('confirm', $confirm, true);
-                $this->smarty->assign('url', $url->get());
+                $this->smarty->assign('confirm', $confirm);
+                $this->smarty->assign('user', $user);
+                $body = $this->smarty->fetch('user/register/mailbody.tpl');
 
-                if (mail($email, 'Подтверждения регистрации', $this->smarty->fetch('user/mail.tpl'))) {
-                    return $this->smarty->fetch('user/success.tpl');
-                } else {
-                    return 'ошибка... не знаю чо написать. эксепшн наверное? откладываем до mzzMail';
-                }
+                fileLoader::load('service/mailer/mailer');
+                $mailer = mailer::factory();
+
+                $mailer->set($user->getEmail(), $user->getLogin(), 'noreply@mzz.ru', 'mzz', 'Подтверждение регистрации', $body);
+                $mailer->send();
+
+                return $this->smarty->fetch('user/register/success.tpl');
             }
         } else {
             $criteria = new criteria;
@@ -83,7 +81,7 @@ class userRegisterController extends simpleController
             $user = $userMapper->searchOneByCriteria($criteria);
 
             if ($user) {
-                $user->setConfirmed(null);
+                $user->setConfirmed('');
                 $userMapper->save($user);
 
                 $groupMapper = $this->toolkit->getMapper('user', 'group');
@@ -98,9 +96,9 @@ class userRegisterController extends simpleController
                     $userGroupMapper->save($userGroup);
                 }
 
-                return 'Регистрация подтверждена';
+                return $this->smarty->fetch('user/register/confirmed.tpl');
             } else {
-                return 'Нет такого пользователя';
+                return $this->smarty->fetch('user/register/confirmNoNeed.tpl');
             }
         }
     }
@@ -108,6 +106,12 @@ class userRegisterController extends simpleController
     function checkUniqueUserLogin($login, $userMapper)
     {
         $user = $userMapper->searchByLogin($login);
+        return is_null($user);
+    }
+
+    function checkUniqueUserEmail($email, $userMapper)
+    {
+        $user = $userMapper->searchByEmail($email);
         return is_null($user);
     }
 

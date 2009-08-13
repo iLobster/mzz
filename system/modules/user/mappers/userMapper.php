@@ -72,6 +72,9 @@ class userMapper extends mapper
         'last_login' => array(
             'accessor' => 'getLastLogin',
             'mutator' => 'setLastLogin'),
+        'email' => array(
+            'accessor' => 'getEmail',
+            'mutator' => 'setEmail'),
         'language_id' => array(
             'accessor' => 'getLanguageId',
             'mutator' => 'setLanguageId'),

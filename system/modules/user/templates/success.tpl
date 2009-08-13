@@ -1,1 +1,0 @@
-{_ email_confirm_sent}

@@ -1,4 +1,6 @@
-{form action=$action method="post"}
+{title append="Регистрация пользователя"}
+<h2>Регистрация пользователя</h2>
+{form action=$form_action method="post"}
     <table>
         <tr>
             <td><strong>{form->caption name="login" value="Логин:"}</strong></td>
@@ -17,7 +19,7 @@
             <td>{form->password value="" name="repassword" size="30" maxlength="255"} {$errors->get('repassword')}</td>
         </tr>
         <tr>
-            <td>{form->submit name="submit" value="Сохранить"}</td><td>{form->reset jip="true" name="reset" value="Отмена"}</td>
+            <td colspan="2">{form->submit name="submit" value="Зарегистрировать"}</td>
         </tr>
     </table>
 </form>
