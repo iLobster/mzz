@@ -45,6 +45,10 @@ $resolver->addResolver(new moduleMediaResolver($baseresolver));
 $resolver->addResolver(new extensionBasedModuleMediaResolver($baseresolver));
 $resolver->addResolver(new classFileResolver($baseresolver));
 
+if (function_exists('external_callback')) {
+    external_callback($resolver, $baseresolver);
+}
+
 $resolver = new cachingResolver($resolver, 'resolver.media.cache');
 fileLoader::setResolver($resolver);
 fileLoader::load('exceptions/init');
