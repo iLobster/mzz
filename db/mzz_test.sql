@@ -20,6 +20,8 @@ CREATE DATABASE `mzz_test`
 
 USE `mzz_test`;
 
+SET sql_mode = '';
+
 #
 # Structure for the `news_news` table : 
 #
@@ -615,7 +617,7 @@ CREATE TABLE `sys_sessions` (
   UNIQUE KEY `sid` (`sid`),
   KEY `valid` (`valid`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=376 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=381 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Structure for the `treeNS` table : 
@@ -656,6 +658,7 @@ DROP TABLE IF EXISTS `user_user`;
 CREATE TABLE `user_user` (
   `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
   `login` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `email` VARCHAR(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `password` VARCHAR(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `obj_id` INTEGER(11) DEFAULT NULL,
   `created` INTEGER(11) DEFAULT NULL,
