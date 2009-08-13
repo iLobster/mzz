@@ -77,16 +77,30 @@ class adminAddActionController extends simpleController
         $validator = new formValidator();
 
         $validator->add('required', 'action[name]', i18n::getMessage('action.error.name_required', 'admin'));
-        $validator->add('callback', 'action[name]', i18n::getMessage('action.error.unique', 'admin'), array(array($this, 'unique'), $adminMapper, $action_name, $class['id']));
-        $validator->add('callback', 'action[name]', i18n::getMessage('action.error.case', 'admin'), array(array($this, 'otherCase'), $adminMapper));
-        $validator->add('regex', 'action[name]', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')), '#^[a-z0-9_-]+$#i');
+        $validator->add('callback', 'action[name]', i18n::getMessage('action.error.unique', 'admin'), array(
+            array(
+                $this,
+                'unique'),
+            $adminMapper,
+            $action_name,
+            $class['id']));
+        $validator->add('callback', 'action[name]', i18n::getMessage('action.error.case', 'admin'), array(
+            array(
+                $this,
+                'otherCase'),
+            $adminMapper));
+        $validator->add('regex', 'action[name]', i18n::getMessage('error.use_chars', 'admin', null, array(
+            'a-zA-Z0-9_-')), '#^[a-z0-9_-]+$#i');
         $validator->add('required', 'action[main]', i18n::getMessage('action.error.main_required', 'admin'));
-        $validator->add('regex', 'action[main]', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-.')), '#^[a-z0-9_\-.]+$#i');
+        $validator->add('regex', 'action[main]', i18n::getMessage('error.use_chars', 'admin', null, array(
+            'a-zA-Z0-9_-.')), '#^[a-z0-9_\-.]+$#i');
         $validator->add('in', 'dest', i18n::getMessage('module.error.wrong_dest', 'admin'), array_keys($dests));
 
         if ($validator->validate()) {
             $values = $this->request->getArray('action', SC_POST);
             $dest = $this->request->getString('dest', SC_POST);
+
+            $values += $data;
 
             $this->normalize($values, $defaults);
 
@@ -111,9 +125,9 @@ class adminAddActionController extends simpleController
                             $tpl_name = $this->templates($action_name);
 
                             $controllerData = array(
-                            'name' => $values['controller'],
-                            'module' => $module['name'],
-                            'path' => $dest . '/' . $tpl_name);
+                                'name' => $values['controller'],
+                                'module' => $module['name'],
+                                'path' => $dest . '/' . $tpl_name);
                             $this->smarty->assign('controller_data', $controllerData);
 
                             $fileGenerator->create($this->controllers($module['name'], $values['controller']), $this->smarty->fetch('admin/generator/controller.tpl'));
@@ -122,7 +136,8 @@ class adminAddActionController extends simpleController
                     }
 
                     unset($values['name']);
-                    $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('merge', array($action_name => $values)));
+                    $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('merge', array(
+                        $action_name => $values)));
 
                     $fileGenerator->run();
 
@@ -137,6 +152,7 @@ class adminAddActionController extends simpleController
 
                 $new_action_name = $values['name'];
                 unset($values['name']);
+                unset($values['crud']);
 
                 try {
                     $fileGenerator = new fileGenerator($dests[$dest]);
@@ -144,7 +160,8 @@ class adminAddActionController extends simpleController
                     if ($new_action_name != $action_name) {
                         // переименовать в файле с экшнами секцию
                         $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('delete', $action_name));
-                        $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('merge', array($new_action_name => $values)));
+                        $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('merge', array(
+                            $new_action_name => $values)));
 
                         if ($values['controller'] == $new_action_name) {
                             // изменить имя контроллера
@@ -155,9 +172,9 @@ class adminAddActionController extends simpleController
                             // изменить контент шаблона
                             $tpl_name = $this->templates($new_action_name);
                             $controllerData = array(
-                            'name' => $new_action_name,
-                            'module' => $module['name'],
-                            'path' => $dest . '/' . $tpl_name);
+                                'name' => $new_action_name,
+                                'module' => $module['name'],
+                                'path' => $dest . '/' . $tpl_name);
                             $this->smarty->assign('controller_data', $controllerData);
                             $fileGenerator->edit($this->templates($action_name), new fileSearchReplaceTransformer(null, $this->smarty->fetch('admin/generator/template.tpl')));
 
@@ -170,7 +187,8 @@ class adminAddActionController extends simpleController
                     }
 
                     if ($this->isDataChanged($old, $values)) {
-                        $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('merge', array($new_action_name => $values)));
+                        $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('merge', array(
+                            $new_action_name => $values)));
                     }
 
                     $fileGenerator->run();
@@ -228,9 +246,9 @@ class adminAddActionController extends simpleController
         $map = $this->getMap($mapper);
 
         $controllerData = array(
-        'name' => $action_name,
-        'module' => $module['name'],
-        'class' => $class['name']);
+            'name' => $action_name,
+            'module' => $module['name'],
+            'class' => $class['name']);
         $this->smarty->assign('controller_data', $controllerData);
 
         $this->smarty->assign('map', $map);
@@ -244,9 +262,9 @@ class adminAddActionController extends simpleController
     private function crudDelete($module, $class, $action_name, & $values, $fileGenerator)
     {
         $controllerData = array(
-        'name' => $action_name,
-        'module' => $module['name'],
-        'class' => $class['name']);
+            'name' => $action_name,
+            'module' => $module['name'],
+            'class' => $class['name']);
         $this->smarty->assign('controller_data', $controllerData);
 
         $fileGenerator->create($this->controllers($module['name'], $action_name), $this->smarty->fetch('admin/generator/controller.delete.tpl'));
@@ -276,9 +294,9 @@ class adminAddActionController extends simpleController
         $map = $this->getMap($mapper);
 
         $controllerData = array(
-        'name' => $action_name,
-        'module' => $module['name'],
-        'class' => $class['name']);
+            'name' => $action_name,
+            'module' => $module['name'],
+            'class' => $class['name']);
         $this->smarty->assign('controller_data', $controllerData);
 
         $this->smarty->assign('map', $map);
@@ -295,9 +313,9 @@ class adminAddActionController extends simpleController
         $map = $this->getMap($mapper);
 
         $controllerData = array(
-        'name' => $action_name,
-        'module' => $module['name'],
-        'class' => $class['name']);
+            'name' => $action_name,
+            'module' => $module['name'],
+            'class' => $class['name']);
         $this->smarty->assign('controller_data', $controllerData);
 
         $this->smarty->assign('map', $map);
@@ -315,7 +333,7 @@ class adminAddActionController extends simpleController
         $exclude = array_keys($mapper->getRelations()->oneToOneBack() + $mapper->getRelations()->manyToMany() + $mapper->getRelations()->oneToMany());
 
         foreach ($map as $key => $val) {
-            if ((isset($val['options']) && (in_array('fake', $val['options']) || in_array('plugin', $val['options'])) ) || in_array($key, $exclude)) {
+            if ((isset($val['options']) && (in_array('fake', $val['options']) || in_array('plugin', $val['options']))) || in_array($key, $exclude)) {
                 unset($map[$key]);
             }
         }
@@ -356,11 +374,12 @@ class adminAddActionController extends simpleController
 
     private function getAclMethods()
     {
-        $aclMethods = array('none' => i18n::getMessage('action.acl.none', 'admin'));
+        $aclMethods = array(
+            'none' => i18n::getMessage('action.acl.none', 'admin'));
         if (in_array('acl', $this->plugins)) {
             $aclMethods += array(
-            'manual' => i18n::getMessage('action.acl.manual', 'admin'),
-            'auto' => i18n::getMessage('action.acl.auto', 'admin'));
+                'manual' => i18n::getMessage('action.acl.manual', 'admin'),
+                'auto' => i18n::getMessage('action.acl.auto', 'admin'));
         }
 
         return $aclMethods;
@@ -369,11 +388,10 @@ class adminAddActionController extends simpleController
     private function getCRUDList()
     {
         $crud = array(
-        'none' => 'none',
-        'view' => 'view',
-        'list' => 'list',
-        'save' => 'save'
-        );
+            'none' => 'none',
+            'view' => 'view',
+            'list' => 'list',
+            'save' => 'save');
 
         if (in_array('jip', $this->plugins)) {
             $crud['delete'] = 'delete';
@@ -402,25 +420,26 @@ class adminAddActionController extends simpleController
         $mapper = $this->toolkit->getMapper($module, $class);
 
         $defaults = array(
-        'name' => '',
-        'controller' => '',
-        'confirm' => '',
-        '403handle' => 'none',
-        'act_template' => '',
-        'crud' => 'none',
-        'main' => 'active.main.tpl');
+            'name' => '',
+            'controller' => '',
+            'confirm' => '',
+            '403handle' => 'auto',
+            'act_template' => '',
+            'lang' => '',
+            'crud' => 'none',
+            'main' => 'active.main.tpl');
 
         if ($mapper->isAttached('jip')) {
             $defaults += array(
-            'jip' => 0,
-            'title' => '',
-            'icon' => '');
+                'jip' => 0,
+                'title' => '',
+                'icon' => '');
             $this->plugins[] = 'jip';
         }
 
         if ($mapper->isAttached('acl_ext') || $mapper->isAttached('acl_simple')) {
             $defaults += array(
-            'alias' => '');
+                'alias' => '');
             $this->plugins[] = 'acl';
         }
 
@@ -430,11 +449,13 @@ class adminAddActionController extends simpleController
     private function normalize(& $values, $defaults)
     {
         $exclude = array(
-        '403handle', 'crud');
+            'crud');
 
         foreach ($values as $key => & $val) {
             if (!isset($defaults[$key]) || ($defaults[$key] == $val && !in_array($key, $exclude))) {
-                unset($values[$key]);
+                if (!preg_match('!^route[._].+!', $key)) {
+                    unset($values[$key]);
+                }
             }
         }
 
