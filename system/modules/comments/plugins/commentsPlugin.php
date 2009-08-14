@@ -31,17 +31,18 @@ class commentsPlugin extends observer
     }
     */
 
-    public function postDelete(entity $object)
+    public function preDelete(entity $object)
     {
         $toolkit = systemToolkit::getInstance();
         $commentsFolderMapper = $toolkit->getMapper('comments', 'commentsFolder');
 
-        $objectType = get_class($object);
+        $objectClass = get_class($object);
 
         $map = $this->mapper->map();
 
         $objectId = $object->$map[$this->getByField()]['accessor']();
-        $commentsFolder = $commentsFolderMapper->searchFolder($objectType, $objectId);
+
+        $commentsFolder = $commentsFolderMapper->searchFolder($objectClass, $objectId);
         if ($commentsFolder) {
             $commentsFolderMapper->delete($commentsFolder);
         }

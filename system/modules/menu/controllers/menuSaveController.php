@@ -36,7 +36,6 @@ class menuSaveController extends simpleController
         $id = $this->request->getInteger('id');
 
         if ($isRoot) {
-
             $menu = $menuMapper->searchById($id);
             if (!$menu) {
                 return $this->forward404($menuMapper);
@@ -101,9 +100,13 @@ class menuSaveController extends simpleController
                 $item->setType($item->getType());
 
                 if (!$isEdit) {
-                    $parent = ($isRoot) ? 0 : $parentItem->getId();
-                    $item->setParent($parent);
-                    $item->setOrder($itemMapper->getMaxOrder($parent, $menu->getId()) + 1);
+                    if (!$isRoot) {
+                        $item->setTreeParent($parentItem);
+                    }
+
+                    $parentId = (isset($parentItem)) ? $parentItem->getId() : 0;
+
+                    $item->setOrder($itemMapper->getMaxOrder($parentId, $menu->getId()) + 1);
                 }
 
                 $itemMapper->save($item);

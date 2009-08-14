@@ -64,14 +64,15 @@ CREATE TABLE `comments_commentsFolder` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `parent_id_2` (`parent_id`, `type`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=2 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=3 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `comments_commentsFolder` table  (LIMIT 0,500)
 #
 
 INSERT INTO `comments_commentsFolder` (`id`, `parent_id`, `module`, `type`, `by_field`, `comments_count`) VALUES 
-  (1,9,'page','page','obj_id',1);
+  (1,9,'page','page','obj_id',1),
+  (2,1,'page','page','id',0);
 COMMIT;
 
 #
@@ -239,25 +240,23 @@ DROP TABLE IF EXISTS `menu_menuItem`;
 
 CREATE TABLE `menu_menuItem` (
   `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `parent_id` INTEGER(10) UNSIGNED NOT NULL DEFAULT '0',
-  `type_id` INTEGER(10) UNSIGNED DEFAULT NULL,
-  `menu_id` INTEGER(10) UNSIGNED DEFAULT NULL,
-  `order` INTEGER(10) UNSIGNED DEFAULT '0',
+  `type_id` INTEGER(10) UNSIGNED NOT NULL DEFAULT '1',
+  `menu_id` INTEGER(10) UNSIGNED NOT NULL DEFAULT '0',
+  `order` INTEGER(10) UNSIGNED NOT NULL DEFAULT '0',
   `args` TEXT COLLATE utf8_general_ci NOT NULL,
-  `obj_id` INTEGER(10) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `menu_id` (`menu_id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=28 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `menu_menuItem` table  (LIMIT 0,500)
 #
 
-INSERT INTO `menu_menuItem` (`id`, `parent_id`, `type_id`, `menu_id`, `order`, `args`, `obj_id`) VALUES 
-  (9,0,2,6,1,'a:5:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";N;s:7:\"section\";s:4:\"news\";s:6:\"action\";s:0:\"\";s:12:\"activeRoutes\";a:2:{i:0;a:2:{s:5:\"route\";s:10:\"newsFolder\";s:6:\"params\";a:2:{s:4:\"name\";s:1:\"*\";s:6:\"action\";s:4:\"list\";}}i:1;a:2:{s:5:\"route\";s:6:\"withId\";s:6:\"params\";a:3:{s:7:\"section\";s:4:\"news\";s:2:\"id\";s:1:\"*\";s:6:\"action\";s:4:\"view\";}}}}',1186),
-  (14,0,2,6,3,'a:4:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";s:0:\"\";s:7:\"section\";s:5:\"admin\";s:6:\"action\";s:5:\"admin\";}',1191),
-  (24,0,2,6,2,'a:5:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";N;s:7:\"section\";s:4:\"page\";s:6:\"action\";s:0:\"\";s:12:\"activeRoutes\";a:3:{i:0;a:2:{s:5:\"route\";s:11:\"pageActions\";s:6:\"params\";a:2:{s:4:\"name\";s:4:\"main\";s:6:\"action\";s:4:\"view\";}}i:1;a:2:{s:5:\"route\";s:11:\"pageDefault\";s:6:\"params\";a:0:{}}i:2;a:2:{s:5:\"route\";s:7:\"default\";s:6:\"params\";a:0:{}}}}',1301);
+INSERT INTO `menu_menuItem` (`id`, `type_id`, `menu_id`, `order`, `args`) VALUES 
+  (1,2,6,1,'a:5:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";s:0:\"\";s:7:\"section\";s:4:\"news\";s:6:\"action\";s:0:\"\";s:12:\"activeRoutes\";a:2:{i:0;a:2:{s:5:\"route\";s:10:\"newsFolder\";s:6:\"params\";a:2:{s:4:\"name\";s:1:\"*\";s:6:\"action\";s:4:\"list\";}}i:1;a:2:{s:5:\"route\";s:6:\"withId\";s:6:\"params\";a:3:{s:7:\"section\";s:4:\"news\";s:2:\"id\";s:1:\"*\";s:6:\"action\";s:4:\"view\";}}}}'),
+  (2,2,6,2,'a:5:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";s:0:\"\";s:7:\"section\";s:4:\"page\";s:6:\"action\";s:0:\"\";s:12:\"activeRoutes\";a:3:{i:0;a:2:{s:5:\"route\";s:11:\"pageActions\";s:6:\"params\";a:2:{s:4:\"name\";s:4:\"main\";s:6:\"action\";s:4:\"view\";}}i:1;a:2:{s:5:\"route\";s:11:\"pageDefault\";s:6:\"params\";a:0:{}}i:2;a:2:{s:5:\"route\";s:7:\"default\";s:6:\"params\";a:0:{}}}}'),
+  (3,2,6,3,'a:5:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";s:0:\"\";s:7:\"section\";s:5:\"admin\";s:6:\"action\";s:5:\"admin\";s:12:\"activeRoutes\";a:0:{}}');
 COMMIT;
 
 #
@@ -279,6 +278,12 @@ CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 #
 
 INSERT INTO `menu_menuItem_lang` (`id`, `lang_id`, `title`) VALUES 
+  (1,1,'Новости'),
+  (1,2,'News'),
+  (2,1,'О нас'),
+  (2,2,'About us'),
+  (3,1,'ПУ'),
+  (3,2,'AP'),
   (9,1,'Новости'),
   (9,2,'News'),
   (10,1,'Каталог'),
@@ -293,6 +298,34 @@ INSERT INTO `menu_menuItem_lang` (`id`, `lang_id`, `title`) VALUES
   (14,2,'AP'),
   (24,1,'О нас'),
   (24,2,'About us');
+COMMIT;
+
+#
+# Structure for the `menu_menuItem_tree` table : 
+#
+
+DROP TABLE IF EXISTS `menu_menuItem_tree`;
+
+CREATE TABLE `menu_menuItem_tree` (
+  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `foreign_key` INTEGER(11) DEFAULT NULL,
+  `parent_id` INTEGER(11) DEFAULT NULL,
+  `level` INTEGER(11) DEFAULT NULL,
+  `path` TEXT COLLATE utf8_general_ci,
+  PRIMARY KEY (`id`),
+  KEY `foreign_key` (`foreign_key`),
+  KEY `parent_id` (`parent_id`)
+)ENGINE=MyISAM
+AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
+# Data for the `menu_menuItem_tree` table  (LIMIT 0,500)
+#
+
+INSERT INTO `menu_menuItem_tree` (`id`, `foreign_key`, `parent_id`, `level`, `path`) VALUES 
+  (1,1,0,1,'1/'),
+  (2,2,0,1,'2/'),
+  (3,3,0,1,'3/');
 COMMIT;
 
 #

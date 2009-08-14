@@ -16,6 +16,7 @@ fileLoader::load('menu/menuItem');
 fileLoader::load('orm/plugins/acl_simplePlugin');
 fileLoader::load('modules/i18n/plugins/i18nPlugin');
 fileLoader::load('modules/jip/plugins/jipPlugin');
+fileLoader::load('orm/plugins/tree_alPlugin');
 
 /**
  * itemMapper: маппер
@@ -44,14 +45,7 @@ class menuItemMapper extends mapper
         'id' => array(
             'accessor' => 'getId',
             'mutator' => 'setId',
-            'options' => array(
-                'pk',
-                'once',
-            ),
-        ),
-        'parent_id' => array(
-            'accessor' => 'getParent',
-            'mutator' => 'setParent',
+            'options' => array('pk','once')
         ),
         'type_id' => array(
             'accessor' => 'getType',
@@ -64,9 +58,7 @@ class menuItemMapper extends mapper
         'title' => array(
             'accessor' => 'getTitle',
             'mutator' => 'setTitle',
-            'options' => array(
-                'i18n',
-            ),
+            'options' => array('i18n'),
         ),
         'order' => array(
             'accessor' => 'getOrder',
@@ -86,6 +78,7 @@ class menuItemMapper extends mapper
     public function __construct()
     {
         parent::__construct();
+        $this->attach(new tree_alPlugin(array('path_name' => 'id')), 'tree');
         $this->plugins('jip');
         $this->plugins('i18n');
         $this->plugins('acl_simple');
@@ -93,7 +86,7 @@ class menuItemMapper extends mapper
 
     public function searchById($id)
     {
-        return $this->searchOneByField('id', $id);
+        return $this->searchByKey($id);
     }
 
     public static function getMenuItemsTypes()
@@ -117,11 +110,22 @@ class menuItemMapper extends mapper
     public function getMaxOrder($parent_id, $menu_id)
     {
         $criteria = new criteria($this->table);
-        $criteria->addSelectField(new sqlFunction('MAX', 'order', true), 'maxorder')->add('parent_id', (int)$parent_id)->add('menu_id', (int)$menu_id);
+        $this->plugin('tree')->preSqlSelect($criteria);
+
+        $criteria->clearSelectFields();
+        $criteria->addSelectField(new sqlFunction('MAX', $this->table(false) . '.order', true), 'maxorder')->add('tree.parent_id', (int)$parent_id)->add('menu_id', (int)$menu_id);
+
         $select = new simpleSelect($criteria);
-        $stmt = $this->db()->query($select->toString());
-        $maxorder = $stmt->fetch();
-        return (int)$maxorder['maxorder'];
+        $maxorder = $this->db()->getOne($select->toString());
+        return (int)$maxorder;
+    }
+
+    public function searchByIdInMenu($id, $menuId)
+    {
+        $criteria = new criteria;
+        $criteria->add('menu_id', $menuId)->add('id', $id);
+
+        return $this->searchOneByCriteria($criteria);
     }
 
     public function searchByOrderAndParentInMenu($order, $parent, $menu_id)

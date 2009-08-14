@@ -86,10 +86,10 @@ class commentsFolderMapper extends mapper
         return $this->searchByKey($id);
     }
 
-    public function searchFolder($parentType, $parentId)
+    public function searchFolder($objectClass, $parentId)
     {
         $criteria = new criteria;
-        $criteria->add('type', $parentType)->add('parent_id', $parentId);
+        $criteria->add('type', $objectClass)->add('parent_id', (int)$parentId);
         return $this->searchOneByCriteria($criteria);
     }
 

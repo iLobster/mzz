@@ -41,9 +41,6 @@ class commentsFolderListController extends simpleController
         if ($objectMapper->isAttached('comments')) {
             //Если у комментируемого маппера приаттачен плагин comments, то берем поле из плагина
             $byField = $objectMapper->plugin('comments')->getByField();
-        } elseif ($objectMapper->isAttached('obj_id')) {
-            //Если нет плагина comments, но есть плагин obj_id, то связь будет по полю obj_id
-            $byField = $objectMapper->plugin('obj_id')->getObjIdField();
         } else {
             //иначе пробуем связаться по первичному ключу
             $byField = $objectMapper->pk();
