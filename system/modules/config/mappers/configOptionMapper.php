@@ -23,6 +23,8 @@ fileLoader::load('config/configOption');
  */
 class configOptionMapper extends mapper
 {
+    protected $module = 'config';
+
     /**
      * Имя класса DataObject
      *

@@ -24,6 +24,7 @@ fileLoader::load('fileManager/storage');
 
 class storageMapper extends mapper
 {
+    protected $module = 'fileManager';
     /**
      * Имя класса DataObject
      *

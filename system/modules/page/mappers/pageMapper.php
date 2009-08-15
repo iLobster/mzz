@@ -26,6 +26,7 @@ fileLoader::load('modules/i18n/plugins/i18nPlugin');
  */
 class pageMapper extends mapper
 {
+    protected $module = 'page';
     /**
      * Имя класса DataObject
      *

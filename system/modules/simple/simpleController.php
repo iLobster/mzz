@@ -127,7 +127,7 @@ abstract class simpleController
     {
         if ($mapper instanceof mapper) {
             $class = $mapper->getClass() . '404Controller';
-            $module = $mapper->module();
+            $module = $mapper->getModule();
         } else {
             $module = $class = '';
         }
@@ -149,7 +149,7 @@ abstract class simpleController
     {
         if ($mapper instanceof mapper) {
             $class = $mapper->getClass() . '403Controller';
-            $module = $mapper->module();
+            $module = $mapper->getModule();
         } else {
             $module = $class = '';
         }

@@ -25,6 +25,7 @@ fileLoader::load('access');
 class accessMapper extends mapper
 {
     protected $table = 'sys_access';
+    protected $module = 'access';
     protected $class = 'access';
 
     protected $map = array(

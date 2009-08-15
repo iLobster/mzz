@@ -26,6 +26,7 @@ fileLoader::load('modules/i18n/plugins/i18nPlugin');
  */
 class newsMapper extends mapper
 {
+    protected $module = 'news';
     /**
      * Имя класса DataObject
      *

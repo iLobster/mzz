@@ -29,6 +29,13 @@ fileLoader::load('{{$mapper_data.module}}');
 class {{$mapper_data.name}}Mapper extends mapper
 {
     /**
+     * Module name
+     *
+     * @var string
+     */
+    protected $module = '{{$mapper_data.module}}';
+
+    /**
      * DomainObject class name
      *
      * @var string

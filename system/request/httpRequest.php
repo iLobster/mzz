@@ -459,7 +459,7 @@ class httpRequest implements iRequest
     }
 
     /**
-     * Возвращает текущую секцию
+     * Возвращает текущий модуль
      *
      * @return string
      */

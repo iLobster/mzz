@@ -25,6 +25,7 @@ fileLoader::load('modules/jip/plugins/jipPlugin');
  */
 class groupMapper extends mapper
 {
+    protected $module = 'user';
     protected $table = 'user_group';
     protected $class = 'group';
 

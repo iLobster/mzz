@@ -27,6 +27,7 @@ fileLoader::load('admin');
 class adminMapper extends mapper
 {
     protected $table = 'admin';
+    protected $module = 'admin';
     protected $modules = array();
 
     public function __construct()

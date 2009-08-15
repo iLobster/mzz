@@ -23,6 +23,8 @@ fileLoader::load('config/configFolder');
  */
 class configFolderMapper extends mapper
 {
+    protected $module = 'config';
+
     /**
      * Имя класса DataObject
      *

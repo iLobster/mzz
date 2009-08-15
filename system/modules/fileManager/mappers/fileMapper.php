@@ -25,6 +25,7 @@ fileLoader::load('fileManager/plugins/fileExtraPlugin');
 
 class fileMapper extends mapper
 {
+    protected $module = 'fileManager';
     protected $class = 'file';
     protected $table = 'fileManager_file';
 

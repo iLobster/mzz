@@ -31,7 +31,7 @@ class groupFolderMapper extends mapper
      *
      * @var string
      */
-    protected $name = 'user';
+    protected $module = 'user';
 
     /**
      * Имя класса DataObject

@@ -25,6 +25,7 @@ fileLoader::load('orm/plugins/tree_mpPlugin');
 
 class folderMapper extends mapper
 {
+    protected $module = 'fileManager';
     protected $class = 'folder';
     protected $table = 'fileManager_folder';
 

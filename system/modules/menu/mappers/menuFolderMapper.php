@@ -30,7 +30,7 @@ class menuFolderMapper extends mapper
      *
      * @var string
      */
-    protected $name = 'menu';
+    protected $module = 'menu';
 
     /**
      * Имя класса DataObject

@@ -23,6 +23,7 @@ fileLoader::load('user/userGroup');
  */
 class userGroupMapper extends mapper
 {
+    protected $module = 'user';
     protected $table = 'user_userGroup_rel';
     protected $class = 'userGroup';
 

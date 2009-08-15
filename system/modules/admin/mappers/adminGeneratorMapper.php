@@ -3,6 +3,7 @@
 class adminGeneratorMapper extends mapper
 {
     protected $table = 'admin';
+    protected $module = 'admin';
 
     public function createModule($name, $title, $icon, $order)
     {

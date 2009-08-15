@@ -26,6 +26,7 @@ class userAuthMapper extends mapper
 {
     const AUTH_COOKIE_NAME = 'auth';
 
+    protected $module = 'user';
     /**
      * Имя класса DataObject
      *

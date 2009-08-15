@@ -54,11 +54,10 @@ abstract class mapper
 
     private $observers = array();
 
+    protected $module;
     protected $class;
     protected $table;
     protected $table_prefix = null;
-
-    protected $module = null;
 
     public function __construct()
     {
@@ -351,6 +350,7 @@ abstract class mapper
     public function create()
     {
         $object = new $this->class();
+        $object->setModule($this->getModule());
         $object->setMap($this->map);
         $this->notify('preCreate', $object);
         return $object;
@@ -373,6 +373,11 @@ abstract class mapper
     public function table($withPrefix = true)
     {
         return ($withPrefix ? $this->table_prefix : '') . $this->table;
+    }
+
+    public function getModule()
+    {
+        return $this->module;
     }
 
     public function getClass()
@@ -508,21 +513,6 @@ abstract class mapper
         $this->notify('postCreate', $object);
 
         return $object;
-    }
-
-    public function module()
-    {
-        if (empty($this->module)) {
-            $class = new ReflectionClass(get_class($this));
-            $path = $class->getFileName();
-
-            $ds = preg_quote(DIRECTORY_SEPARATOR);
-
-            preg_match('!' . $ds . '([^' . $ds . ']*)' . $ds . 'mappers!', $path, $matches);
-
-            $this->module = $matches[1];
-        }
-        return $this->module;
     }
 
     public function getRelations()

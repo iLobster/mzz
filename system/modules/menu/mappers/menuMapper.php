@@ -26,13 +26,14 @@ fileLoader::load('modules/jip/plugins/jipPlugin');
 
 class menuMapper extends mapper
 {
+    protected $module = 'menu';
+
     /**
      * Имя класса DataObject
      *
      * @var string
      */
     protected $class = 'menu';
-
     protected $table = 'menu_menu';
 
     protected $map = array(

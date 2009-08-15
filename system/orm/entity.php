@@ -30,18 +30,16 @@ class entity implements serializable
     protected $dataChanged = array();
     protected $state = self::STATE_NEW;
 
-    protected $module = null;
+    protected $module;
 
     public function module()
     {
-        if (empty($this->module)) {
-            $class = new ReflectionClass(get_class($this));
-            $path = $class->getFileName();
-
-            $path = pathinfo($path, PATHINFO_DIRNAME);
-            $this->module = substr($path, strrpos($path, DIRECTORY_SEPARATOR) + 1);
-        }
         return $this->module;
+    }
+
+    public function setModule($module)
+    {
+        $this->module = (string)$module;
     }
 
     public function setMap($map)
@@ -206,7 +204,7 @@ class entity implements serializable
             $this->$k = $v;
         }
 
-        $mapper = systemToolkit::getInstance()->getMapper($this->module, get_class($this));
+        $mapper = systemToolkit::getInstance()->getMapper($this->module(), get_class($this));
         $this->map = $mapper->map();
         $mapper->notify('preUnserialize', $this);
 

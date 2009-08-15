@@ -26,6 +26,13 @@ fileLoader::load('modules/jip/plugins/jipPlugin');
 class commentsFolderMapper extends mapper
 {
     /**
+     * Имя модуля
+     *
+     * @var string
+     */
+    protected $module = 'comments';
+
+    /**
      * Имя класса DataObject
      *
      * @var string

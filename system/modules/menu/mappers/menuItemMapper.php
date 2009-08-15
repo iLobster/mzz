@@ -32,6 +32,8 @@ class menuItemMapper extends mapper
     const ITEMTYPE_ADVANCED = 2;
     const ITEMTYPE_EXTERNAL = 3;
 
+    protected $module = 'menu';
+
     /**
      * Имя класса DataObject
      *
