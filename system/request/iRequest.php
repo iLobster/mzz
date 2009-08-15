@@ -47,6 +47,20 @@ interface iRequest
     public function isAjax();
 
     /**
+     * Возвращает текущий модуль
+     *
+     * @return string
+     */
+    public function getModule();
+
+    /**
+     * Устанавливает текущий модуль
+     *
+     * @param string $module
+     */
+    public function setModule($module);
+
+    /**
      * Возвращает текущее действие
      *
      * @return string
