@@ -180,7 +180,7 @@ class collection extends arrayDataspace implements Serializable
         $serializable = $this->serializableProperties();
         $vars = array_intersect_key(get_object_vars($this), array_flip($serializable));
 
-        $vars['mapper']['module'] = $this->mapper->module();
+        $vars['mapper']['module'] = $this->mapper->getModule();
         $vars['mapper']['class'] = $this->mapper->getClass();
 
         return serialize($vars);
