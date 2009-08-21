@@ -30,7 +30,7 @@ class mzzPdo extends PDO
      *
      * @var object
      */
-    private static $instances;
+    protected static $instances;
 
     /**
      * число запросов к БД
