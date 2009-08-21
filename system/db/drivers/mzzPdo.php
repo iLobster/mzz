@@ -14,9 +14,6 @@
  * @version $Id$
 */
 
-define('PDO_AUTOQUERY_INSERT', 0);
-define('PDO_AUTOQUERY_UPDATE', 1);
-
 fileLoader::load('db/drivers/mzzPdoStatement');
 
 /**
@@ -33,7 +30,7 @@ class mzzPdo extends PDO
      *
      * @var object
      */
-    private static $instances;
+    protected static $instances;
 
     /**
      * число запросов к БД
@@ -80,7 +77,7 @@ class mzzPdo extends PDO
      * @param string $charset   кодировка
      * @return void
      */
-    public function __construct($alias, $dsn, $username='', $password='', $charset = '', $pdoOptions = array())
+    public function __construct($alias, $dsn, $username = '', $password = '', $charset = '', $pdoOptions = array())
     {
         $this->alias = $alias;
         parent::__construct($dsn, $username, $password, $pdoOptions);
@@ -161,82 +158,6 @@ class mzzPdo extends PDO
         $stmt = parent::prepare($query, $driver_options);
         $stmt->setDbConnection($this);
         return $stmt;
-    }
-
-    /**
-     * Автоматически генерирует insert или update запросы и передает его в prepare()
-     *
-     * @param string $table имя таблицы
-     * @param array $fields массив имен полей
-     * @param int $mode тип запроса: PDO_AUTOQUERY_INSERT или PDO_AUTOQUERY_UPDATE
-     * @param string $where для UPDATE запрсоов: добавляет WHERE в запрос
-     * @return resource
-     */
-    public function autoPrepare($table, $fields, $mode = PDO_AUTOQUERY_INSERT, $where = false)
-    {
-        $query = $this->buildInsertUpdateQuery($table, $fields, $mode, $where);
-        return $this->prepare($query);
-    }
-
-    /**
-     * Возвращает запрос для autoPrepare()
-     *
-     * @param string $table имя таблицы
-     * @param array $fields массив имен полей
-     * @param int $mode тип запроса: PDO_AUTOQUERY_INSERT или PDO_AUTOQUERY_UPDATE
-     * @param string $where для UPDATE запрсоов: добавляет WHERE в запрос
-     * @return string
-     */
-    protected function buildInsertUpdateQuery($table, $fields, $mode, $where = false)
-    {
-        switch ($mode) {
-            case PDO_AUTOQUERY_INSERT:
-                $values = array();
-                $names = array();
-                foreach ($fields as $value) {
-                    $names[] = '`' . $value . '`';
-                    $values[] = ':' . $value;
-                }
-                $names = implode(', ', $names);
-                $values = implode(', ', $values);
-                return 'INSERT INTO `' . $table . '` (' . $names . ') VALUES (' . $values . ')';
-            case PDO_AUTOQUERY_UPDATE:
-                $field = array();
-                foreach ($fields as $value) {
-                    $field[] = '`' . $value . '` = :' . $value;
-                }
-                $field = implode(', ', $field);
-                $sql = 'UPDATE `' . $table . '` SET ' . $field;
-                if ($where == true) {
-                    $sql .= " WHERE " . $where;
-                }
-                return $sql;
-            default:
-                throw new mzzRuntimeException("Unknown PDO_AUTOQUERY mode: " . $mode);
-        }
-    }
-
-    /**
-     * Автоматически генерирует INSERT или UPDATE запрос,
-     * вызывает prepare() и execute()
-     *
-     * @param string $table имя таблицы
-     * @param array $values массив имен полей
-     * @param int $mode тип запроса: PDO_AUTOQUERY_INSERT или PDO_AUTOQUERY_UPDATE
-     * @param string $where для UPDATE запрсоов: добавляет WHERE в запрос
-     * @return mixed
-     */
-    function autoExecute($table, $values, $mode = PDO_AUTOQUERY_INSERT, $where = false)
-    {
-        $stmt = $this->autoPrepare($table, array_keys($values), $mode, $where);
-        $stmt->bindValues($values);
-        $result = $stmt->execute();
-        $stmt->closeCursor();
-        if ($mode == PDO_AUTOQUERY_INSERT) {
-            return $this->lastInsertId();
-        }
-
-        return $result;
     }
 
     /**
