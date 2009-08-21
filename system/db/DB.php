@@ -23,42 +23,60 @@
 */
 class DB
 {
+    const DEFAULT_CONFIG_NAME = 'default';
+
     /**
-     * Callback information
+     * Array of Different Instances
+     *
+     * @var object
      */
-    protected static $callback = false;
+    protected static $instances = array();
 
     /**
      * The factory method
      *
      * @param string $alias ключ массива [systemConfig::$dbMulti] с данными о доп. соединении
+     * @param array $configs configurations (if passed as null, the system configurations will be used)
      *
      * @return object
      */
-    public static function factory($alias = 'default')
+    public static function factory($alias = self::DEFAULT_CONFIG_NAME, $configs = null)
     {
-        if(!isset(systemConfig::$db[$alias])) {
-            $alias = 'default';
+        $configs = empty($configs) ? systemConfig::$db : $configs;
+
+        if (!isset($configs[$alias])) {
+            throw new mzzUnknownDBConfigException($configName);
         }
 
-        if (self::$callback == false) {
+        $config = $configs[$alias];
+        if (!isset(self::$instances[$alias])) {
             $driverName = systemConfig::$db[$alias]['driver'];
             $driver = 'mzz' . ucfirst($driverName);
 
             fileLoader::load('db/drivers/' . $driver);
-            self::$callback = array($driver, 'getInstance');
+
+            $dsn      = isset(systemConfig::$db[$alias]['dsn']) ? systemConfig::$db[$alias]['dsn'] : systemConfig::$db[self::DEFAULT_CONFIG_NAME]['dsn'];
+            $username = isset(systemConfig::$db[$alias]['user']) ? systemConfig::$db[$alias]['user'] : systemConfig::$db[self::DEFAULT_CONFIG_NAME]['user'];
+            $password = isset(systemConfig::$db[$alias]['password']) ? systemConfig::$db[$alias]['password'] : systemConfig::$db[self::DEFAULT_CONFIG_NAME]['password'];
+            $charset  = isset(systemConfig::$db[$alias]['charset']) ? systemConfig::$db[$alias]['charset'] : '';
+            $options = isset(systemConfig::$db[$alias]['options']) ? systemConfig::$db[$alias]['options'] : array();
+            $tablePrefix = isset(systemConfig::$db[$alias]['tablePrefix']) ? systemConfig::$db[$alias]['tablePrefix'] : '';
+
+            $dbType = strtolower(substr($dsn, 0, 5));
+            if ($charset && $dbType == 'mysql') {
+                $options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES `' . $charset . '`';
+            }
+
+            self::$instances[$alias] = new $driver($dsn, $username, $password, $options);
+            self::$instances[$alias]->setTablePrefix($tablePrefix);
+
+            if (in_array($dbType, array('mssql', 'dblib'))) {
+                $this->query('SET ANSI_NULLS ON');
+                $this->query('SET ANSI_WARNINGS ON');
+            }
         }
 
-        if (!is_callable(self::$callback)) {
-            self::$callback = false;
-            throw new mzzCallbackException(self::$callback);
-            return false;
-        } else {
-            return call_user_func(self::$callback, $alias);
-        }
+        return self::$instances[$alias];
     }
-
-
-
 }
 ?>

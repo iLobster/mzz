@@ -26,13 +26,6 @@ fileLoader::load('db/drivers/mzzPdoStatement');
 class mzzPdo extends PDO
 {
     /**
-     * Array of Different Instances
-     *
-     * @var object
-     */
-    protected static $instances;
-
-    /**
      * число запросов к БД
      *
      * @var int
@@ -54,13 +47,6 @@ class mzzPdo extends PDO
     private $queriesPrepared = 0;
 
     /**
-     * Название текущего соединения
-     *
-     * @var string
-     */
-    private $alias;
-
-    /**
      * Префикс имени таблиц
      *
      * @var string
@@ -70,59 +56,29 @@ class mzzPdo extends PDO
     /**
      * Декорируем конструктор PDO: при соединении с БД устанавливается кодировка SQL-базы.
      *
-     * @param string $alias     имя набора с данными о соединении
      * @param string $dsn       DSN
      * @param string $username  логин к БД
      * @param string $password  пароль к БД
      * @param string $charset   кодировка
      * @return void
      */
-    public function __construct($alias, $dsn, $username = '', $password = '', $charset = '', $pdoOptions = array())
+    public function __construct($dsn, $username = '', $password = '', $pdoOptions = array())
     {
-        $this->alias = $alias;
         parent::__construct($dsn, $username, $password, $pdoOptions);
-    }
 
-    /**
-     * The singleton method
-     *
-     * @param string $alias ключ массива [systemConfig::$db] с данными о соединении
-     * @return object
-     */
-    public static function getInstance($alias = 'default')
-    {
-        if(!isset(self::$instances[$alias])) {
-            $classname = __CLASS__;
-            $dsn      = isset(systemConfig::$db[$alias]['dsn']) ? systemConfig::$db[$alias]['dsn'] : systemConfig::$db['default']['dsn'];
-            $username = isset(systemConfig::$db[$alias]['user']) ? systemConfig::$db[$alias]['user'] : systemConfig::$db['default']['user'];
-            $password = isset(systemConfig::$db[$alias]['password']) ? systemConfig::$db[$alias]['password'] : systemConfig::$db['default']['password'];
-            $charset  = isset(systemConfig::$db[$alias]['charset']) ? systemConfig::$db[$alias]['charset'] : systemConfig::$db['default']['charset'];
-            $pdoOptions = isset(systemConfig::$db[$alias]['pdoOptions']) ? systemConfig::$db[$alias]['pdoOptions'] : systemConfig::$db['default']['pdoOptions'];
-            $tablePrefix = isset(systemConfig::$db[$alias]['tablePrefix']) ? systemConfig::$db[$alias]['tablePrefix'] : '';
+        $this->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('mzzPdoStatement'));
+        $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            self::$instances[$alias] = new $classname($alias, $dsn, $username, $password, $charset, $pdoOptions);
-            self::$instances[$alias]->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('mzzPdoStatement'));
-            self::$instances[$alias]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            self::$instances[$alias]->setTablePrefix($tablePrefix);
-
-            try {
-                // из-за проблем вынимания lastInsertId с prepared-запросов в mysql 4.x
-                // пользуемся парсером pdo
-                self::$instances[$alias]->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-                self::$instances[$alias]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
-            } catch (PDOException $e) {
-                if ($e->getCode() != 'IM001') {
-                    throw $e;
-                }
-            }
-
-            if (in_array(substr($dsn, 0, 5), array('mssql', 'dblib'))) {
-                self::$instances[$alias]->query('SET ANSI_NULLS ON');
-                self::$instances[$alias]->query('SET ANSI_WARNINGS ON');
+        try {
+            // из-за проблем вынимания lastInsertId с prepared-запросов в mysql 4.x
+            // пользуемся парсером pdo
+            $this->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+            $this->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+        } catch (PDOException $e) {
+            if ($e->getCode() != 'IM001') {
+                throw $e;
             }
         }
-
-        return self::$instances[$alias];
     }
 
     /**
@@ -260,16 +216,6 @@ class mzzPdo extends PDO
     public function getPreparedNum()
     {
         return $this->queriesPrepared;
-    }
-
-    /**
-     * метод получения названия текущего соединения
-     *
-     * @return string
-     */
-    public function getAlias()
-    {
-        return $this->alias;
     }
 
     /**
