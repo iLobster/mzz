@@ -35,7 +35,7 @@ define('MZZ_USER_GUEST_ID', 1);
  */
 define('MZZ_ROOT_GID', 3);
 
-require_once SYSTEM_PATH . '/systemConfig.php';
+require_once SYSTEM_PATH . DIRECTORY_SEPARATOR . 'systemConfig.php';
 
 // дефолтный язык приложения
 systemConfig::$i18n = 'ru';
