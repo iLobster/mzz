@@ -55,9 +55,9 @@ class DB
 
             fileLoader::load('db/drivers/' . $driver);
 
-            $dsn      = isset(systemConfig::$db[$alias]['dsn']) ? systemConfig::$db[$alias]['dsn'] : systemConfig::$db[self::DEFAULT_CONFIG_NAME]['dsn'];
-            $username = isset(systemConfig::$db[$alias]['user']) ? systemConfig::$db[$alias]['user'] : systemConfig::$db[self::DEFAULT_CONFIG_NAME]['user'];
-            $password = isset(systemConfig::$db[$alias]['password']) ? systemConfig::$db[$alias]['password'] : systemConfig::$db[self::DEFAULT_CONFIG_NAME]['password'];
+            $dsn      = isset(systemConfig::$db[$alias]['dsn']) ? systemConfig::$db[$alias]['dsn'] : '';
+            $username = isset(systemConfig::$db[$alias]['user']) ? systemConfig::$db[$alias]['user'] : '';
+            $password = isset(systemConfig::$db[$alias]['password']) ? systemConfig::$db[$alias]['password'] : '';
             $charset  = isset(systemConfig::$db[$alias]['charset']) ? systemConfig::$db[$alias]['charset'] : '';
             $options = isset(systemConfig::$db[$alias]['options']) ? systemConfig::$db[$alias]['options'] : array();
             $tablePrefix = isset(systemConfig::$db[$alias]['tablePrefix']) ? systemConfig::$db[$alias]['tablePrefix'] : '';

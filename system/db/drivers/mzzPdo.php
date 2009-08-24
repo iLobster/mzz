@@ -54,12 +54,12 @@ class mzzPdo extends PDO
     private $tablePrefix;
 
     /**
-     * Декорируем конструктор PDO: при соединении с БД устанавливается кодировка SQL-базы.
+     * Декорируем конструктор PDO
      *
      * @param string $dsn       DSN
      * @param string $username  логин к БД
      * @param string $password  пароль к БД
-     * @param string $charset   кодировка
+     * @param array $pdoOptions дополнительные опции соединения
      * @return void
      */
     public function __construct($dsn, $username = '', $password = '', $pdoOptions = array())
@@ -82,7 +82,7 @@ class mzzPdo extends PDO
     }
 
     /**
-     * Декорирует оригинальный метод для подсчета числа запросов
+     * Декорирует оригинальный метод выполнения sql запросов
      *
      * @param string $query запрос к БД
      * @return object
@@ -102,7 +102,7 @@ class mzzPdo extends PDO
     }
 
     /**
-     * Декорирует оригинальный метод для подсчета числа запросов
+     * Декорирует оригинальный метод для выполнения prepared запросов
      *
      * @param string $query запрос к БД
      * @param array $driver_options атрибуты для PDOStatement
@@ -117,7 +117,7 @@ class mzzPdo extends PDO
     }
 
     /**
-     * Декорирует оригинальный метод для подсчета числа запросов
+     * Декорирует оригинальный метод exec
      *
      * @param string $query запрос к БД
      * @return integer
