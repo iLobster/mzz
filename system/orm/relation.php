@@ -24,7 +24,11 @@ class relation
     private $map;
     private $table;
     private $mapper;
-    private $relations = array();
+    private $relations = array(
+        'one' => array(),
+        'many' => array(),
+        'many-to-many' => array(),
+        'oneBack' => array());
 
     public function __construct($mapper)
     {
@@ -32,6 +36,7 @@ class relation
         $this->map = $mapper->map();
         $this->mapper = $mapper;
 
+        //      $this->parse();
         $this->markOneToBack();
     }
 
@@ -157,66 +162,68 @@ class relation
         return systemToolkit::getInstance()->getMapper($module, $do);
     }
 
-    public function addLazy(entity $object)
+    public function load($field, $data)
     {
-        $row = $object->export();
+        $info = $this->map[$field];
 
-        foreach ($this->oneToOne() as $key => $val) {
-            if (is_scalar($row[$key])) {
-                $row[$key] = $this->oneToOneLazy($val, $row[$key]);
+        if ($info['relation'] == 'one') {
+            $back = $this->oneToOneBack();
+            if (isset($back[$field])) {
+                $infoRel = $back[$field];
+                return $infoRel['mapper']->searchOneByField($infoRel['foreign_key'], $data[$infoRel['local_key']]);
+            } else {
+                $infoRel = $this->oneToOne();
+                $infoRel = $infoRel[$field];
+
+                return $infoRel['mapper']->searchOneByField($infoRel['foreign_key'], $data[$field]);
             }
-        }
+        } elseif ($info['relation'] == 'many') {
+            $infoRel = $this->oneToMany();
+            $infoRel = $infoRel[$field];
 
-        foreach ($this->oneToOneBack() as $key => $val) {
-            $lazy = new lazy(array(
-                $val['mapper'],
-                $val['foreign_key'],
-                $row[$val['local_key']],
-                true));
-            $row[$key] = $lazy;
-        }
+            $key = $infoRel['foreign_key'];
+            $value = $data[$infoRel['local_key']];
 
-        foreach ($this->oneToMany() as $key => $val) {
-            $lazy = new lazy(array(
-                $val['mapper'],
-                $val['foreign_key'],
-                $row[$val['local_key']]));
-            $row[$key] = $lazy;
-        }
+            $collection = $infoRel['mapper']->searchAllByField($key, $value);
+            $collection->setParams($key, $value);
 
-        foreach ($this->manyToMany() as $key => $val) {
-            $lazy = new lazy(array(
-                $val['mapper'],
-                $val['ref_local_key'],
-                $row[$val['local_key']],
-                $val['ref_foreign_key'],
-                $val['foreign_key'],
-                $val['reference']));
-            $row[$key] = $lazy;
-        }
+            return $collection;
+        } elseif ($info['relation'] == 'many-to-many') {
+            $infoRel = $this->manyToMany();
+            $infoRel = $infoRel[$field];
 
-        $object->import($row);
+            $criterion = new criterion('reference.' . $info['ref_foreign_key'], $infoRel['mapper']->table(false) . '.' . $info['foreign_key'], criteria::EQUAL, true);
+            $criterion->addAnd(new criterion('reference.' . $info['ref_local_key'], $data[$info['local_key']]));
+
+            $criteria = new criteria();
+            $criteria->addJoin($this->mapper->db()->getTablePrefix() . $info['reference'], $criterion, 'reference', criteria::JOIN_INNER);
+
+            $collection = $infoRel['mapper']->searchAllByCriteria($criteria);
+
+            $modifyCriteria = new criteria($info['reference']);
+            $collection->setMtoMParams($data[$info['local_key']], $info['ref_local_key'], $info['ref_foreign_key'], $modifyCriteria);
+
+            return $collection;
+        }
     }
 
     private function oneToOneLazy($val, $value)
     {
+        throw new Exception('deprecated');
         return new lazy(array(
-                    $val['mapper'],
-                    $val['foreign_key'],
-                    $value,
-                    true));
+            $val['mapper'],
+            $val['foreign_key'],
+            $value,
+            true));
     }
 
     public function retrieve(& $data)
     {
         foreach ($this->oneToOne() + $this->oneToOneBack() as $key => $val) {
-            if ($this->isLazy($val)) {
-                $object = $this->oneToOneLazy($val, $data[$this->table][$key]);
-            } else {
+            if (!$this->isLazy($val)) {
                 $object = $val['mapper']->createItemFromRow($data[$key]);
+                $data[$this->table][$key] = $object;
             }
-
-            $data[$this->table][$key] = $object;
         }
     }
 
@@ -232,7 +239,6 @@ class relation
                 $val['local_key'] = $key;
             }
 
-            // if there is lazy loading - just skip criteria
             if ($this->isLazy($val)) {
                 continue;
             }

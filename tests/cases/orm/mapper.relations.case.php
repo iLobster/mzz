@@ -435,6 +435,7 @@ class mapperRelationsTest extends unitTestCase
 
         $this->db->query('UPDATE `ormRelated` SET `baz` = "foo" WHERE `id` = 1');
         $related = $collection[1]->getRelated();
+
         // when lazy load don't specified - update doesn't affected. because data already fetched before update
         $this->assertEqual($related->getBaz(), 'baz1');
 
@@ -443,6 +444,7 @@ class mapperRelationsTest extends unitTestCase
 
         $this->db->query('UPDATE `ormRelated` SET `baz` = "bar" WHERE `id` = 1');
         $related = $collectionWithLazy[1]->getRelated();
+
         // with lazy load update affects to result. because data loaded after updating with lazy query
         $this->assertEqual($related->getBaz(), 'bar');
     }

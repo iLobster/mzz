@@ -33,7 +33,7 @@ class identityMapTest extends unitTestCase
 
     public function testSetGet()
     {
-        $this->mock->setReturnValue('create', $obj = new imTest());
+        $this->mock->setReturnValue('create', $obj = new imTest($this->mock));
 
         $object = $this->mock->create();
 

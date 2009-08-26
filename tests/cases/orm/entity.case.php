@@ -2,13 +2,19 @@
 
 fileLoader::load('orm/entity');
 
+class stubMapper extends mapper
+{
+
+}
+
 class entityTest extends unitTestCase
 {
     private $entity;
 
     public function setUp()
     {
-        $this->entity = new entity();
+        $mapper = new stubMapper();
+        $this->entity = new entity($mapper);
     }
 
     public function fixture()
