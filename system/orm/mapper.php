@@ -349,7 +349,7 @@ abstract class mapper
      */
     public function create()
     {
-        $object = new $this->class();
+        $object = new $this->class($this);
         $object->setModule($this->getModule());
         $object->setMap($this->map);
         $this->notify('preCreate', $object);
@@ -508,8 +508,6 @@ abstract class mapper
         $object->merge($row);
         $object->state(entity::STATE_CLEAN);
 
-        $this->relations->addLazy($object);
-
         $this->notify('postCreate', $object);
 
         return $object;
@@ -528,14 +526,12 @@ abstract class mapper
             $oneToOne = $this->relations->oneToOne();
 
             // traverse all one-to-one related fields and if changed - replace them with scalar foreign_key values
-            foreach ($oneToOne as $key => $value) {
+            foreach ($oneToOne as $key => $val) {
                 if (isset($data[$key]) && $data[$key] instanceof entity) {
-                    // recursive call to replace related objects with scalar
-                    //$this->data[$key]->replaceRelated();
                     // if nested related objects are not clean - mark current object as dirty and save related
                     if ($data[$key]->state() != entity::STATE_CLEAN) {
                         $object->state(entity::STATE_DIRTY);
-                        $value['mapper']->save($data[$key]);
+                        $val['mapper']->save($data[$key]);
                         $dataChanged[$key] = $data[$key];
                     }
                 }
@@ -544,9 +540,9 @@ abstract class mapper
                 if (isset($dataChanged[$key]) && $dataChanged[$key] instanceof entity) {
                     // if changed related field is not clean too - save it
                     if ($dataChanged[$key]->state() != entity::STATE_CLEAN) {
-                        $value['mapper']->save($dataChanged[$key]);
+                        $val['mapper']->save($dataChanged[$key]);
                     }
-                    $accessor = $value['methods'][0];
+                    $accessor = $val['methods'][0];
                     $dataChanged[$key] = $dataChanged[$key]->$accessor();
                 }
             }
@@ -583,6 +579,15 @@ abstract class mapper
 
             $object->import($data);
         }
+    }
+
+    public function load($field, $data, $args = array())
+    {
+        if (is_a($data[$field], 'lazy')) {
+            return $data[$field]->load($args);
+        }
+
+        return $this->relations->load($field, $data);
     }
 }
 

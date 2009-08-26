@@ -19,18 +19,27 @@
  * @subpackage orm
  * @version 0.2
  */
-class entity implements serializable
+class entity //implements serializable
 {
     const STATE_DIRTY = 1;
     const STATE_CLEAN = 2;
     const STATE_NEW = 3;
 
     protected $map = array();
+    /**
+     * @var mapper
+     */
+    protected $mapper;
     protected $data = array();
     protected $dataChanged = array();
     protected $state = self::STATE_NEW;
 
     protected $module;
+
+    public function __construct(mapper $mapper)
+    {
+        $this->mapper = $mapper;
+    }
 
     public function module()
     {
@@ -76,6 +85,21 @@ class entity implements serializable
         return $this->dataChanged;
     }
 
+    private function isLazy($field)
+    {
+        if ($this->data[$field] instanceof lazy) {
+            return true;
+        }
+
+        if (is_object($this->data[$field])) {
+            return false;
+        }
+
+        if (!empty($this->map[$field]['relation'])) {
+            return true;
+        }
+    }
+
     public function __call($name, $args)
     {
         if ($attr = $this->validateMethod($name)) {
@@ -86,8 +110,8 @@ class entity implements serializable
                     $this->data[$field] = null;
                 }
 
-                if ($this->data[$field] instanceof lazy) {
-                    $result = $this->data[$field]->load($args);
+                if ($this->isLazy($field)) {
+                    $result = $this->mapper->load($field, $this->data, $args);
                     if ($this->hasOption($field, 'nocache')) {
                         return $result;
                     }
@@ -166,7 +190,7 @@ class entity implements serializable
     {
         return array('data', 'module', 'state', 'dataChanged');
     }
-
+/*
     public function serialize()
     {
 
@@ -210,9 +234,9 @@ class entity implements serializable
 
         //@todo: hm.... i'm at a loss :/
         $mapper->notify('preCreate', $this);
-        $mapper->getRelations()->addLazy($this);
+        //$mapper->getRelations()->addLazy($this);
         $mapper->notify('postCreate', $this);
-    }
+    } */
 }
 
 ?>
