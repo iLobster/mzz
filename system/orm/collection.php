@@ -183,8 +183,6 @@ class collection extends arrayDataspace implements Serializable
         $vars['mapper']['module'] = $this->mapper->getModule();
         $vars['mapper']['class'] = $this->mapper->getClass();
 
-        print_r($vars);
-
         return serialize($vars);
     }
 
