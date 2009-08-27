@@ -189,6 +189,7 @@ class entity implements serializable
 
         $serializable = $this->serializableProperties();
         $vars = array_intersect_key(get_object_vars($this), array_flip($serializable));
+        $vars['module'] = $this->mapper->getModule();
 
         foreach ($this->data as $k => $v) {
             if ($v instanceof lazy) {
@@ -212,11 +213,15 @@ class entity implements serializable
     public function unserialize($data)
     {
         $array = unserialize($data);
+
+        $module = $array['module'];
+        unset($array['module']);
+
         foreach ($array as $k => $v) {
             $this->$k = $v;
         }
 
-        $mapper = systemToolkit::getInstance()->getMapper($this->module(), get_class($this));
+        $mapper = systemToolkit::getInstance()->getMapper($module, get_class($this));
         $this->__construct($mapper);
 
         $mapper->notify('preUnserialize', $this);
