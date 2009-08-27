@@ -187,7 +187,6 @@ class entity implements serializable
         return array(
             'data',
             'module',
-            'map',
             'state',
             'dataChanged');
     }
@@ -226,7 +225,7 @@ class entity implements serializable
         }
 
         $mapper = systemToolkit::getInstance()->getMapper($this->module(), get_class($this));
-        $this->mapper = $mapper;
+        $this->__construct($mapper);
 
         $mapper->notify('preUnserialize', $this);
         $mapper->notify('preCreate', $this);
