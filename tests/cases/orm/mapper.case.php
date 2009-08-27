@@ -182,20 +182,19 @@ class mapperTest extends unitTestCase
         }
     }
 
-
-/* @todo don't forget
-    public function testSerialize()
+    public function testSerializeUnserialize()
     {
-
         $this->fixture();
 
         $criteria = new criteria();
         $criteria->add('foo', 'foo1');
 
-        $object = $this->mapper->searchOneByCriteria($criteria);
+        $object = systemToolkit::getInstance()->getMapper('test', 'ormSimple')->searchOneByCriteria($criteria);
+
         $object2 = unserialize(serialize($object));
+
         $this->assertEqual($object, $object2);
-    } */
+    }
 }
 
 ?>

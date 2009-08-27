@@ -350,8 +350,6 @@ abstract class mapper
     public function create()
     {
         $object = new $this->class($this);
-        $object->setModule($this->getModule());
-        $object->setMap($this->map);
         $this->notify('preCreate', $object);
         return $object;
     }
@@ -418,7 +416,7 @@ abstract class mapper
         $criteria->setTable($this->table(), $this->table(false));
         $this->addSelectFields($criteria);
 
-        $this->relations->add($criteria);
+        $this->relations->add($criteria, $this);
 
         $this->addOrderBy($criteria);
 
@@ -587,7 +585,7 @@ abstract class mapper
             return $data[$field]->load($args);
         }
 
-        return $this->relations->load($field, $data);
+        return $this->relations->load($field, $data, $this);
     }
 }
 

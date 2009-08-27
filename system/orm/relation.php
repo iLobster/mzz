@@ -23,24 +23,17 @@ class relation
 {
     private $map;
     private $table;
-    private $mapper;
-    private $relations = array(
-        'one' => array(),
-        'many' => array(),
-        'many-to-many' => array(),
-        'oneBack' => array());
+    private $relations;
 
     public function __construct($mapper)
     {
         $this->table = $mapper->table();
         $this->map = $mapper->map();
-        $this->mapper = $mapper;
 
-        //      $this->parse();
-        $this->markOneToBack();
+        $this->markOneToBack($mapper);
     }
 
-    private function markOneToBack()
+    private function markOneToBack($mapper)
     {
         $changed = false;
 
@@ -55,7 +48,7 @@ class relation
         }
 
         if ($changed) {
-            $this->mapper->map($this->map);
+            $mapper->map($this->map);
         }
     }
 
@@ -162,7 +155,7 @@ class relation
         return systemToolkit::getInstance()->getMapper($module, $do);
     }
 
-    public function load($field, $data)
+    public function load($field, $data, $mapper)
     {
         $info = $this->map[$field];
 
@@ -196,7 +189,7 @@ class relation
             $criterion->addAnd(new criterion('reference.' . $info['ref_local_key'], $data[$info['local_key']]));
 
             $criteria = new criteria();
-            $criteria->addJoin($this->mapper->db()->getTablePrefix() . $info['reference'], $criterion, 'reference', criteria::JOIN_INNER);
+            $criteria->addJoin($mapper->db()->getTablePrefix() . $info['reference'], $criterion, 'reference', criteria::JOIN_INNER);
 
             $collection = $infoRel['mapper']->searchAllByCriteria($criteria);
 
@@ -232,7 +225,7 @@ class relation
         return isset($val['options']) && in_array('lazy', $val['options']);
     }
 
-    public function add(criteria $criteria)
+    public function add(criteria $criteria, $mapper)
     {
         foreach ($this->oneToOne() + $this->oneToOneBack() as $key => $val) {
             if (!isset($val['local_key'])) {
@@ -243,7 +236,7 @@ class relation
                 continue;
             }
 
-            $this->mapper->addSelectFields($criteria, $val['mapper'], $key);
+            $mapper->addSelectFields($criteria, $val['mapper'], $key);
 
             $joinType = isset($val['join_type']) && $val['join_type'] == 'inner' ? criteria::JOIN_INNER : criteria::JOIN_LEFT;
 

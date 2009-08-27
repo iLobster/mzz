@@ -19,13 +19,14 @@
  * @subpackage orm
  * @version 0.2
  */
-class entity //implements serializable
+class entity implements serializable
 {
     const STATE_DIRTY = 1;
     const STATE_CLEAN = 2;
     const STATE_NEW = 3;
 
     protected $map = array();
+    protected $module;
     /**
      * @var mapper
      */
@@ -34,21 +35,16 @@ class entity //implements serializable
     protected $dataChanged = array();
     protected $state = self::STATE_NEW;
 
-    protected $module;
-
     public function __construct(mapper $mapper)
     {
         $this->mapper = $mapper;
+        $this->map = $mapper->map();
+        $this->module = $mapper->getModule();
     }
 
     public function module()
     {
         return $this->module;
-    }
-
-    public function setModule($module)
-    {
-        $this->module = (string)$module;
     }
 
     public function setMap($map)
@@ -188,33 +184,34 @@ class entity //implements serializable
 
     protected function serializableProperties()
     {
-        return array('data', 'module', 'state', 'dataChanged');
+        return array(
+            'data',
+            'module',
+            'map',
+            'state',
+            'dataChanged');
     }
-/*
+
     public function serialize()
     {
-
-        $mapper = systemToolkit::getInstance()->getMapper($this->module, get_class($this));
-        $mapper->notify('preSerialize', $this);
+        $this->mapper->notify('preSerialize', $this);
 
         $serializable = $this->serializableProperties();
         $vars = array_intersect_key(get_object_vars($this), array_flip($serializable));
 
         foreach ($this->data as $k => $v) {
             if ($v instanceof lazy) {
-                $vars['data'][$k] = $v->getValue();
+                //$vars['data'][$k] = $v->load();
             } elseif (is_object($v)) {
                 $vars['data'][$k] = serialize($v);
             }
         }
 
-        if ($this->dataChanged === entity::STATE_DIRTY) {
-            foreach ($this->dataChanged as $k => $v) {
-                if ($v instanceof lazy) {
-                    $vars['dataChanged'][$k] = $v->getValue();
-                } elseif (is_object($v)) {
-                    $vars['dataChanged'][$k] = serialize($v);
-                }
+        foreach ($this->dataChanged as $k => $v) {
+            if ($v instanceof lazy) {
+                //$vars['dataChanged'][$k] = $v->load();
+            } elseif (is_object($v)) {
+                $vars['dataChanged'][$k] = serialize($v);
             }
         }
 
@@ -224,19 +221,17 @@ class entity //implements serializable
     public function unserialize($data)
     {
         $array = unserialize($data);
-        foreach($array as $k => $v) {
+        foreach ($array as $k => $v) {
             $this->$k = $v;
         }
 
         $mapper = systemToolkit::getInstance()->getMapper($this->module(), get_class($this));
-        $this->map = $mapper->map();
-        $mapper->notify('preUnserialize', $this);
+        $this->mapper = $mapper;
 
-        //@todo: hm.... i'm at a loss :/
+        $mapper->notify('preUnserialize', $this);
         $mapper->notify('preCreate', $this);
-        //$mapper->getRelations()->addLazy($this);
         $mapper->notify('postCreate', $this);
-    } */
+    }
 }
 
 ?>
