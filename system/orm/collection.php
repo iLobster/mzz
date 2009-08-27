@@ -172,7 +172,7 @@ class collection extends arrayDataspace implements Serializable
 
     protected function serializableProperties()
     {
-        return array('data', 'current', 'deleted', 'inserted', 'modified', 'local_key', 'local_accessor', 'local_mutator', 'foreign_value', 'name', 'foreign_field_name', 'local_field_name', 'criteria');
+        return array('deleted', 'inserted', 'modified', 'local_key', 'local_accessor', 'local_mutator', 'foreign_value', 'name', 'foreign_field_name', 'local_field_name', 'criteria');
     }
 
     public function serialize()
@@ -182,6 +182,8 @@ class collection extends arrayDataspace implements Serializable
 
         $vars['mapper']['module'] = $this->mapper->getModule();
         $vars['mapper']['class'] = $this->mapper->getClass();
+
+        print_r($vars);
 
         return serialize($vars);
     }
