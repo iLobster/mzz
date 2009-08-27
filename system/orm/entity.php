@@ -25,12 +25,12 @@ class entity implements serializable
     const STATE_CLEAN = 2;
     const STATE_NEW = 3;
 
-    protected $map = array();
-    protected $module;
     /**
      * @var mapper
      */
     protected $mapper;
+    protected $methodsMap = array();
+
     protected $data = array();
     protected $dataChanged = array();
     protected $state = self::STATE_NEW;
@@ -38,23 +38,12 @@ class entity implements serializable
     public function __construct(mapper $mapper)
     {
         $this->mapper = $mapper;
-        $this->map = $mapper->map();
-        $this->module = $mapper->getModule();
+        $this->methodsMap = $this->generateMethodsMap($mapper->map());
     }
 
     public function module()
     {
-        return $this->module;
-    }
-
-    public function setMap($map)
-    {
-        $this->map = $map;
-    }
-
-    public function getMap()
-    {
-        return $this->map;
+        return $this->mapper->getModule();
     }
 
     public function import($data)
@@ -64,8 +53,9 @@ class entity implements serializable
 
     public function merge($data)
     {
+        $map = $this->mapper->map();
         foreach ($data as $key => $val) {
-            if (isset($this->map[$key])) {
+            if (isset($map[$key])) {
                 $this->data[$key] = $val;
             }
         }
@@ -91,7 +81,8 @@ class entity implements serializable
             return false;
         }
 
-        if (!empty($this->map[$field]['relation'])) {
+        $map = $this->mapper->map();
+        if (!empty($map[$field]['relation'])) {
             return true;
         }
     }
@@ -108,7 +99,7 @@ class entity implements serializable
 
                 if ($this->isLazy($field)) {
                     $result = $this->mapper->load($field, $this->data, $args);
-                    if ($this->hasOption($field, 'nocache')) {
+                    if ($this->mapper->hasOption($field, 'nocache')) {
                         return $result;
                     }
                     $this->data[$field] = $result;
@@ -116,15 +107,15 @@ class entity implements serializable
 
                 return $this->data[$field];
             } else {
-                if ($this->hasOption($field, 'ro')) {
+                if ($this->mapper->hasOption($field, 'ro')) {
                     throw new mzzRuntimeException(get_class($this) . '::' . $name . '() is declared as read only');
                 }
 
-                if ($this->hasOption($field, 'once') && isset($this->data[$field]) && !is_null($this->data[$field])) {
+                if ($this->mapper->hasOption($field, 'once') && isset($this->data[$field]) && !is_null($this->data[$field])) {
                     throw new mzzRuntimeException(get_class($this) . '::' . $name . '() is declared as setted once');
                 }
 
-                if ($this->state() == self::STATE_NEW && $this->hasOption($field, 'one-to-one-back')) {
+                if ($this->state() == self::STATE_NEW && $this->mapper->hasOption($field, 'one-to-one-back')) {
                     throw new mzzRuntimeException(get_class($this) . '::' . $name . '() cannot be specified during object creation');
                 }
 
@@ -143,6 +134,32 @@ class entity implements serializable
         }
     }
 
+    private function validateMethod($name)
+    {
+        // strtolower used here to dispose stupid php strtolower when parent::<method> through __call
+        $name = strtolower($name);
+
+        if (isset($this->methodsMap[$name])) {
+            return $this->methodsMap[$name];
+        }
+    }
+
+    private function generateMethodsMap(Array $map)
+    {
+        $methodsMap = array();
+        foreach ($map as $field => $data) {
+            if (isset($data['accessor'])) {
+                $methodsMap[strtolower($data['accessor'])] = array('accessor', $field);
+            }
+
+            if (isset($data['mutator'])) {
+                $methodsMap[strtolower($data['mutator'])] = array('mutator', $field);
+            }
+        }
+
+        return $methodsMap;
+    }
+
     public function state($state = null)
     {
         if (!is_null($state)) {
@@ -158,37 +175,12 @@ class entity implements serializable
         return $this->state;
     }
 
-    private function validateMethod($name)
-    {
-        // strtolower used here to dispose stupid php strtolower when parent::<method> through __call
-        $name = strtolower($name);
-
-        foreach ($this->map as $key => $value) {
-            if (strtolower($value['accessor']) == $name) {
-                return array(
-                    'accessor',
-                    $key);
-            }
-            if (isset($value['mutator']) && strtolower($value['mutator']) == $name) {
-                return array(
-                    'mutator',
-                    $key);
-            }
-        }
-    }
-
-    private function hasOption($field, $name)
-    {
-        return isset($this->map[$field]['options']) && in_array($name, $this->map[$field]['options']);
-    }
-
     protected function serializableProperties()
     {
         return array(
             'data',
-            'module',
-            'state',
-            'dataChanged');
+            'dataChanged',
+            'state');
     }
 
     public function serialize()

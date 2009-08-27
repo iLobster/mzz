@@ -399,6 +399,11 @@ abstract class mapper
         return $this->pk;
     }
 
+    public function hasOption($field, $name)
+    {
+        return isset($this->map[$field]['options']) && in_array($name, $this->map[$field]['options']);
+    }
+
     /**
      * searching data with the criteria
      *

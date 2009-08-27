@@ -4,7 +4,23 @@ fileLoader::load('orm/entity');
 
 class stubMapper extends mapper
 {
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId'
+        )
+    );
+}
 
+class stubMapperRO extends mapper
+{
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array('ro')
+        )
+    );
 }
 
 class entityTest extends unitTestCase
@@ -17,37 +33,10 @@ class entityTest extends unitTestCase
         $this->entity = new entity($mapper);
     }
 
-    public function fixture()
-    {
-        $map = array(
-            'id' => array(
-                'accessor' => 'getId',
-                'mutator' => 'setId'));
-        $this->entity->setMap($map);
-    }
-
-    public function testSetGetMap()
-    {
-        $map = array(
-            'id' => array(
-                'accessor' => 'getId',
-                'mutator' => 'setId'));
-
-        $this->entity->setMap($map);
-        $this->assertEqual($this->entity->getMap(), $map);
-    }
-
     public function testImportExportMerge()
     {
         $data = array(
             'id' => 1);
-
-        $map = array(
-            'id' => array(
-                'accessor' => 'getId',
-                'mutator' => 'setId'));
-
-        $this->entity->setMap($map);
 
         $this->entity->import($data);
         $this->assertEqual($this->entity->export(), $data);
@@ -59,8 +48,6 @@ class entityTest extends unitTestCase
 
     public function testUnknownMethod()
     {
-        $this->fixture();
-
         try {
             $this->entity->getUnknown();
             $this->fail();
@@ -71,8 +58,6 @@ class entityTest extends unitTestCase
 
     public function testAccessor()
     {
-        $this->fixture();
-
         $data = array(
             'id' => 1);
         $this->entity->import($data);
@@ -91,8 +76,6 @@ class entityTest extends unitTestCase
 
     public function testMutator()
     {
-        $this->fixture();
-
         $this->assertEqual($this->entity->state(), entity::STATE_NEW);
         $this->entity->setId(2);
         $this->assertEqual($this->entity->state(), entity::STATE_NEW);
@@ -102,8 +85,6 @@ class entityTest extends unitTestCase
 
     public function testEmptyMutator()
     {
-        $this->fixture();
-
         try {
             $this->entity->setId();
             $this->fail();
@@ -114,17 +95,11 @@ class entityTest extends unitTestCase
 
     public function testRO()
     {
-        $map = array(
-            'id' => array(
-                'accessor' => 'getId',
-                'mutator' => 'setId',
-                'options' => array(
-                    'ro')));
-
-        $this->entity->setMap($map);
+        $mapper = new stubMapperRO();
+        $entity = new entity($mapper);
 
         try {
-            $this->entity->setId(666);
+            $entity->setId(666);
             $this->fail('exception expected');
         } catch (mzzRuntimeException $e) {
             $this->assertPattern('/setId.*read only/i', $e->getMessage());
