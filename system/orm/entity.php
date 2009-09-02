@@ -193,7 +193,7 @@ class entity implements serializable
 
         foreach ($this->data as $k => $v) {
             if ($v instanceof lazy) {
-                //$vars['data'][$k] = $v->load();
+                $vars['data'][$k] = $v->load();
             } elseif (is_object($v)) {
                 $vars['data'][$k] = serialize($v);
             }
@@ -201,7 +201,7 @@ class entity implements serializable
 
         foreach ($this->dataChanged as $k => $v) {
             if ($v instanceof lazy) {
-                //$vars['dataChanged'][$k] = $v->load();
+                $vars['dataChanged'][$k] = $v->load();
             } elseif (is_object($v)) {
                 $vars['dataChanged'][$k] = serialize($v);
             }
