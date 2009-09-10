@@ -36,14 +36,21 @@ abstract class mapper
 
     protected $map = array();
 
+    protected $pk;
+
     /**
      * connection to database
      *
-     * @var mzzPdo
+     * @var object
      */
-    private $db;
+    private $db = null;
 
-    protected $pk;
+    /**
+     * Alias for db connection
+     *
+     * @var string
+     */
+    protected $db_alias = null;
 
     /**
      * relation
@@ -71,6 +78,10 @@ abstract class mapper
         }
 
         $this->relations = new relation($this);
+
+        if (is_null($this->db_alias)) {
+            $this->db_alias = DB::DEFAULT_CONFIG_NAME;
+        }
 
         if (is_null($this->class)) {
             $this->class = $this->table;
@@ -317,7 +328,7 @@ abstract class mapper
 
     public function detach($name)
     {
-        if (isset($this->observers[$name])) {
+        if ($this->isAttached($name)) {
             unset($this->observers[$name]);
         }
     }
@@ -361,11 +372,19 @@ abstract class mapper
      */
     public function db()
     {
-        if (!$this->db) {
-            $this->db = DB::factory();
+        if (is_null($this->db)) {
+            $this->db = DB::factory($this->db_alias);
         }
 
         return $this->db;
+    }
+
+    public function setDBAlias($alias)
+    {
+        $oldAlias = $this->db_alias;
+        $this->db_alias = $alias;
+        $this->db = DB::factory($alias);
+        return $oldAlias;
     }
 
     public function table($withPrefix = true)
