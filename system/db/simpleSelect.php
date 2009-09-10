@@ -68,7 +68,7 @@ class simpleSelect extends simpleSqlGenerator
                 $aliases[] = $alias;
             }
 
-            if ($select instanceof sqlFunction ) {
+            if ($select instanceof sqlFunction || $select instanceof sqlOperator) {
                 $field = $select->toString($this);
             } else {
                 if (($dotpos = strpos($select, '.')) !== false) {

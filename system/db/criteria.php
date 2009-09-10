@@ -599,7 +599,7 @@ class criteria
      */
     public function addSelectField($field, $alias = null)
     {
-        if ($field instanceof sqlFunction) {
+        if ($field instanceof sqlFunction || $field instanceof sqlOperator) {
             $this->selectFieldsAliases[$field->getFieldName()] = $alias;
         } else {
             $this->selectFieldsAliases[$field] = $alias;
@@ -627,7 +627,11 @@ class criteria
     public function getSelectFieldAlias($field = null)
     {
         if ($field) {
-            $name = ($field instanceof sqlFunction) ? $field->getFieldName() : $field;
+            if ($field instanceof sqlFunction || $field instanceof sqlOperator) {
+                $name = $field->getFieldName();
+            } else {
+                $name = $field;
+            }
             return isset($this->selectFieldsAliases[$name]) ? $this->selectFieldsAliases[$name] : null;
         }
 

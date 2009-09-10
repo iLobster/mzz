@@ -143,6 +143,21 @@ class sqlOperator
 
         return $arg;
     }
+
+    public function getFieldName()
+    {
+        $name = 'op_' . $this->operator;
+
+        foreach ($this->arguments as $key => $argument) {
+            if ($argument instanceof sqlFunction || $argument instanceof sqlOperator) {
+                $name .= '_' . implode('_', $argument->getArguments());
+            } else {
+                $name .= '_' . (is_int($key) ? '' :  $key . '_') . $argument;
+            }
+        }
+
+        return $name;
+    }
 }
 
 ?>
