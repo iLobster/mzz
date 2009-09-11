@@ -15,13 +15,13 @@
 fileLoader::load('codegenerator/directoryGenerator');
 
 /**
- * adminAddModuleController: контроллер для метода addModule модуля admin
+ * adminSaveModuleController: контроллер для метода addModule|editModule модуля admin
  *
  * @package modules
  * @subpackage admin
  * @version 0.3
  */
-class adminAddModuleController extends simpleController
+class adminSaveModuleController extends simpleController
 {
     protected function getView()
     {
@@ -61,7 +61,9 @@ class adminAddModuleController extends simpleController
 
         $validator = new formValidator();
 
-        $validator->add('required', 'name', i18n::getMessage('module.error.name_required', 'admin'));
+        if (!$isEdit) {
+            $validator->add('required', 'name', i18n::getMessage('module.error.name_required', 'admin'));
+        }
         $validator->add('required', 'title', i18n::getMessage('module.error.title_required', 'admin'));
         $validator->add('regex', 'name', i18n::getMessage('module.error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
         $validator->add('callback', 'name', i18n::getMessage('module.error.unique', 'admin'), array(array($this, 'checkUniqueModuleName'), $adminMapper, $data['name']));
@@ -127,7 +129,7 @@ class adminAddModuleController extends simpleController
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('dests', $dests);
 
-        return $this->smarty->fetch('admin/addModule.tpl');
+        return $this->smarty->fetch('admin/saveModule.tpl');
     }
 
     public function checkUniqueModuleName($name, $adminMapper, $module_name)

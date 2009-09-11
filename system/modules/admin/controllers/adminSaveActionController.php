@@ -17,13 +17,13 @@ fileLoader::load('codegenerator/fileIniTransformer');
 fileLoader::load('codegenerator/fileSearchReplaceTransformer');
 
 /**
- * adminAddActionController: контроллер для метода addAction модуля admin
+ * adminSaveActionController: контроллер для метода addAction|editAction модуля admin
  *
  * @package modules
  * @subpackage admin
  * @version 0.3
  */
-class adminAddActionController extends simpleController
+class adminSaveActionController extends simpleController
 {
     private $plugins = array();
 
@@ -237,7 +237,7 @@ class adminAddActionController extends simpleController
 
         $this->smarty->assign('isEdit', $isEdit);
 
-        return $this->smarty->fetch('admin/addAction.tpl');
+        return $this->smarty->fetch('admin/saveAction.tpl');
     }
 
     private function crudView($module, $class, $action_name, $values, $fileGenerator)

@@ -16,7 +16,7 @@
                 var mRow = $('<table id="module-' + name + '" class="toolbar admin" cellspacing="0" />')
                              .append($('<thead />')
                              .append($('<tr class="first" />')
-                             .append('<th class="name first">' + name + '</th>')
+                             .append($('<th class="first name" />').append('<img src="' + SITE_PATH + '/templates/images/exp_minus.png" onclick="devToolbar.toggleModule(\'' + name + '\', this);" width="16" height="16" alt="expand/close classes list" title="expand/collapse classes" style="cursor: pointer" />').append(name))
                              .append($('<th class="actions last" />').append(this.convertLinks(links)))))
                              .append('<tbody id="module-' + name + '-classes"><tr class="row last empty"><td class="first">--- классов нет ---</td><td class="last"></td></tr></tbody>');
 
@@ -53,7 +53,7 @@
                     cRow.prev().remove();
                 }
 
-                
+
                 if (!cRow.next().length) {
                     cRow.addClass('last').prev().removeClass('last');
                 }
@@ -79,7 +79,7 @@
            $.each(links, function(e) {
                links[e] = '<a href="' + this.url + '" class="mzz-jip-link" title="' + this.alt + '"><span class="mzz-icon mzz-icon-' + this.ico + '">' + ((this.over) ? '<span class="mzz-bullet mzz-bullet-' + this.over + '">'  : '') + ((this.over) ? '</span>' : '') + '</span></a>';
            });
-           return $(links.join(''));
+           return $(links.join("\n"));
         },
 
         toggleModule: function(id, img) {

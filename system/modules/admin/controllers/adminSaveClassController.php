@@ -15,13 +15,13 @@
 fileLoader::load('codegenerator/fileGenerator');
 
 /**
- * adminAddClassController: контроллер для метода addClass модуля admin
+ * adminSaveClassController: контроллер для метода addClass|editClass модуля admin
  *
  * @package modules
  * @subpackage admin
  * @version 0.3
  */
-class adminAddClassController extends simpleController
+class adminSaveClassController extends simpleController
 {
     protected function getView()
     {
@@ -159,7 +159,7 @@ class adminAddClassController extends simpleController
 
         $this->smarty->assign('dests', $dests);
 
-        return $this->smarty->fetch('admin/addClass.tpl');
+        return $this->smarty->fetch('admin/saveClass.tpl');
     }
 
     private function actions($name)
