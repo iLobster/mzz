@@ -48,7 +48,7 @@ class cacheMemory implements iCache
             return false;
         }
 
-        return $this->set($key, $value);
+        return $this->set($key, $value, $expire, $params);
     }
 
     public function set($key, $value, $expire = null, $params = array())

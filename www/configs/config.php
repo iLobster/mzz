@@ -64,6 +64,9 @@ systemConfig::$cache['default']['backend'] = 'memory';
 systemConfig::$cache['memory']['backend'] = 'memory';
 //systemConfig::$cache['default']['params'] = array('path' => systemConfig::$pathToTemp . DIRECTORY_SEPARATOR . 'cache', 'prefix' => 'cf2_');
 
+systemConfig::$cache['insession']['backend'] = 'session';
+systemConfig::$cache['insession']['params'] = array('session_key' => 'cache__');
+
 /*
 systemConfig::$cache['memcached']['backend'] = 'memcached';
 systemConfig::$cache['memcached']['params'] = array('servers' => array('localhost' => array()));
