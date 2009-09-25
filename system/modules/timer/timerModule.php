@@ -13,14 +13,13 @@
  */
 
 /**
- * adminModule
+ * timerModule
  *
  * @package modules
- * @subpackage admin
+ * @subpackage timer
  * @version 0.0.1
  */
-class adminModule extends simpleModule
+class timerModule extends simpleModule
 {
-    protected $classes = array('admin', 'adminGenerator');
 }
 ?>

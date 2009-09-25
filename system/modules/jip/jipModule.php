@@ -13,14 +13,13 @@
  */
 
 /**
- * adminModule
+ * jipModule
  *
  * @package modules
- * @subpackage admin
+ * @subpackage jip
  * @version 0.0.1
  */
-class adminModule extends simpleModule
+class jipModule extends simpleModule
 {
-    protected $classes = array('admin', 'adminGenerator');
 }
 ?>

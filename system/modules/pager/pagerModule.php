@@ -13,14 +13,13 @@
  */
 
 /**
- * adminModule
+ * pagerModule
  *
  * @package modules
- * @subpackage admin
+ * @subpackage pager
  * @version 0.0.1
  */
-class adminModule extends simpleModule
+class pagerModule extends simpleModule
 {
-    protected $classes = array('admin', 'adminGenerator');
 }
 ?>

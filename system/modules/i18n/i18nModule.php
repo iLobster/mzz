@@ -13,14 +13,13 @@
  */
 
 /**
- * adminModule
+ * i18nModule
  *
  * @package modules
- * @subpackage admin
+ * @subpackage i18n
  * @version 0.0.1
  */
-class adminModule extends simpleModule
+class i18nModule extends simpleModule
 {
-    protected $classes = array('admin', 'adminGenerator');
 }
 ?>
