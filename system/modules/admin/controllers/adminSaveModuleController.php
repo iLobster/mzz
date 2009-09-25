@@ -12,8 +12,6 @@
  * @version $Id$
  */
 
-fileLoader::load('codegenerator/directoryGenerator');
-
 /**
  * adminSaveModuleController: контроллер для метода addModule|editModule модуля admin
  *
@@ -25,15 +23,11 @@ class adminSaveModuleController extends simpleController
 {
     protected function getView()
     {
-        $id = $this->request->getInteger('id');
-
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
         $adminGeneratorMapper = $this->toolkit->getMapper('admin', 'adminGenerator');
 
         $action = $this->request->getAction();
         $isEdit = $action == 'editModule';
-
-        $data = null;
 
         $dests = $adminGeneratorMapper->getDests(true);
 
@@ -42,6 +36,20 @@ class adminSaveModuleController extends simpleController
             return $controller->run();
         }
 
+        $currentDestination = 'app';
+
+        if ($isEdit) {
+            $name = $this->request->getString('name');
+            try {
+                $module = $this->toolkit->getModule($name);
+            } catch (mzzModuleNotFoundException $e) {
+                return $this->forward404($adminMapper);
+            }
+
+            $currentDestination = current($adminGeneratorMapper->getDests(true, $module->getName()));
+        }
+
+        /*
         $nameRO = false;
         if ($isEdit) {
             $data = $adminMapper->searchModuleById($id);
@@ -58,65 +66,42 @@ class adminSaveModuleController extends simpleController
 
             $nameRO = sizeof($modules[$data['id']]['classes']) > 0;
         }
+        */
 
         $validator = new formValidator();
 
         if (!$isEdit) {
             $validator->add('required', 'name', i18n::getMessage('module.error.name_required', 'admin'));
+            $validator->add('regex', 'name', i18n::getMessage('module.error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
+            $validator->add('callback', 'name', i18n::getMessage('module.error.unique', 'admin'), array(array($this, 'checkUniqueModuleName'), $adminMapper));
+            $validator->add('in', 'dest', i18n::getMessage('module.error.wrong_dest', 'admin'), array_keys($dests));
         }
-        $validator->add('required', 'title', i18n::getMessage('module.error.title_required', 'admin'));
-        $validator->add('regex', 'name', i18n::getMessage('module.error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
-        $validator->add('callback', 'name', i18n::getMessage('module.error.unique', 'admin'), array(array($this, 'checkUniqueModuleName'), $adminMapper, $data['name']));
-        $validator->add('in', 'dest', i18n::getMessage('module.error.wrong_dest', 'admin'), array_keys($dests));
-        $validator->add('numeric', 'order', i18n::getMessage('module.error.not_numeric_order', 'admin'));
 
         if ($validator->validate()) {
-            $name = $this->request->getString('name', SC_POST);
-            $icon = $this->request->getString('icon', SC_POST);
-            $title = $this->request->getString('title', SC_POST);
-            $order = $this->request->getInteger('order', SC_POST);
-            $dest = $this->request->getString('dest', SC_POST);
-
             if (!$isEdit) {
-                $generator = new directoryGenerator($dests[$dest]);
+                $name = $this->request->getString('name', SC_POST);
+                $dest = $this->request->getString('dest', SC_POST);
 
                 try {
-                    $generator->create($name);
-                    $generator->create($name . '/actions');
-                    $generator->create($name . '/controllers');
-                    $generator->create($name . '/i18n');
-                    $generator->create($name . '/mappers');
-                    $generator->create($name . '/templates');
-
-                    $generator->run();
+                    $module = $adminGeneratorMapper->createModule($name, $dests[$dest]);
                 } catch (Exception $e) {
-                    return $e->getMessage();
+                    $controller = new messageController($e->getMessage(), messageController::WARNING);
+                    return $controller->run();
                 }
 
-                $id = $adminGeneratorMapper->createModule($name, $title, $icon, $order);
-
-                $this->smarty->assign('id', $id);
                 $this->smarty->assign('dest', $dests[$dest]);
-                $this->smarty->assign('name', $name);
+                $this->smarty->assign('module', $module);
                 return $this->smarty->fetch('admin/addModuleResult.tpl');
             }
-
-            if (!$nameRO) {
-                $generator = new directoryGenerator($data['dest']);
-                $generator->rename($data['name'], $name);
-                $generator->run();
-
-                $adminGeneratorMapper->renameModule($id, $name);
-            }
-
-            $adminGeneratorMapper->updateModule($id, array('icon' => $icon, 'title' => $title, 'order' => $order));
 
             return jipTools::redirect();
         }
 
         if ($isEdit) {
-            $url = new url('withId');
-            $url->add('id', $data['id']);
+            $url = new url('adminModule');
+            $url->add('name', $name);
+
+            $this->smarty->assign('module', $module);
         } else {
             $url = new url('default2');
         }
@@ -124,15 +109,14 @@ class adminSaveModuleController extends simpleController
 
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('isEdit', $isEdit);
-        $this->smarty->assign('nameRO', $nameRO);
-        $this->smarty->assign('data', $data);
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('dests', $dests);
+        $this->smarty->assign('currentDestination', $currentDestination);
 
         return $this->smarty->fetch('admin/saveModule.tpl');
     }
 
-    public function checkUniqueModuleName($name, $adminMapper, $module_name)
+    public function checkUniqueModuleName($name, $adminMapper, $module_name = '')
     {
         if ($name == $module_name) {
             return true;
@@ -142,6 +126,7 @@ class adminSaveModuleController extends simpleController
 
         return !array_key_exists($name, $modules);
     }
+
 }
 
 ?>
