@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('menu/menuFolder');
+fileLoader::load('menu/model/menuFolder');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
@@ -25,13 +25,6 @@ fileLoader::load('modules/jip/plugins/jipPlugin');
 
 class menuFolderMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $module = 'menu';
-
     /**
      * Имя класса DataObject
      *
@@ -56,7 +49,6 @@ class menuFolderMapper extends mapper
     {
         parent::__construct();
         $this->plugins('jip');
-        $this->plugins('acl_simple');
     }
 
     public function getFolder()

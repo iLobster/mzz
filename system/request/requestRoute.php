@@ -22,9 +22,9 @@ fileLoader::load('request/iRoute');
  *
  * Примеры:
  * <code>
- * new requestRoute(':controller/:id/:action'); // совпадает с news/1/view
- * new requestRoute(':controller/:id', array('action' => 'view')); // совпадает с news/1
- * new requestRoute(':controller/{:id}some', array(), array('id' => '\d+')); // совпадает с news/1some
+ * new requestRoute(':module/:id/:action'); // совпадает с news/1/view
+ * new requestRoute(':module/:id', array('action' => 'view')); // совпадает с news/1
+ * new requestRoute(':module/{:id}some', array(), array('id' => '\d+')); // совпадает с news/1some
  * </code>
  *
  * @package system
@@ -51,6 +51,9 @@ class requestRoute implements iRoute
      */
     const REGEX_DELIMITER = '#';
 
+    protected $part_delimiter = '/';
+
+    protected $default_regex = '[^/]';
 
     /**
      * Имя роута
@@ -109,12 +112,6 @@ class requestRoute implements iRoute
      */
     protected $debug;
 
-    /**
-     * Если true, то учитывается информация о языке
-     *
-     * @var boolean
-     */
-    protected $withLang = false;
 
     /**
      * Конструктор
@@ -130,7 +127,6 @@ class requestRoute implements iRoute
         $this->defaults = $defaults;
         $this->requirements = $requirements;
         $this->debug = $debug;
-        $this->withLang = systemConfig::$i18nEnable;
     }
 
     /**
@@ -198,7 +194,7 @@ class requestRoute implements iRoute
      */
     protected function replaceStar()
     {
-        $params = explode('/', trim($this->values['*'], '/'));
+        $params = explode($this->part_delimiter, trim($this->values['*'], $this->part_delimiter));
         while ($key = current($params)) {
             next($params);
             if (!isset($this->values[$key])) {
@@ -218,21 +214,13 @@ class requestRoute implements iRoute
         $this->parts = preg_split('#(?:\{?(\\\?\:[a-z_]*)\}?)|(/\*$)#i', $this->pattern, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         $this->regex = self::REGEX_DELIMITER . '^';
 
-        if ($this->withLang) {
-            array_unshift($this->parts, ':lang', '/');
-            $this->requirements['lang'] = '^[a-z]{2}(?=/)|^[a-z]{2}(?=/?)$';
-            $this->defaults['lang'] = '';
-        }
-
         foreach ($this->parts as $i => $part) {
             if($part[0] === self::VARIABLE_PREFIX) {
                 $part = substr($part, 1);
                 if (isset($this->requirements[$part])) {
                     $regex = $this->requirements[$part];
                 } else {
-                    // чтобы идентификатор языка дефолтная регулярка не приняла за свое устанавливаем
-                    // условие "более 3 символов" если она идет сразу же за регуляркой для языка
-                    $regex = self::DEFAULT_REGEX . ($this->withLang && $i == 2 ? '{3,}' : '+');
+                    $regex = $this->default_regex . '+';
                 }
 
                 $this->parts[$i] = array('name'=> $part, 'isVar' => true, 'regex' => $regex);
@@ -240,7 +228,7 @@ class requestRoute implements iRoute
                 $prevPartName = ($i > 0) ? $this->parts[$i-1]['name'] : false;
 
                 if (array_key_exists($part, $this->defaults)) {
-                    if ($prevPartName !== '/' && substr($prevPartName, -1) === '/') {
+                    if ($prevPartName !== $this->part_delimiter && substr($prevPartName, -1) === $this->part_delimiter) {
                         $this->regex = substr($this->regex, 0, -2) . ')/?';
                     }
                     $postfix = ')?';
@@ -250,7 +238,7 @@ class requestRoute implements iRoute
                     $withDefault = false;
                 }
 
-                $prefix = ($withDefault && $prevPartName === '/') ? '?(' : '(';
+                $prefix = ($withDefault && $prevPartName === $this->part_delimiter) ? '?(' : '(';
 
             } elseif ($part === '/*') {
                 $this->parts[$i] = array('name'=> '*', 'isVar' => true, 'regex' => '/?(.*)');
@@ -262,7 +250,7 @@ class requestRoute implements iRoute
                 }
                 $this->parts[$i] = array('name'=> $part, 'isVar' => false, 'regex' => preg_quote($part, self::REGEX_DELIMITER));
                 $prefix = '(';
-                $postfix = ($this->withLang && $i === 1) ? ')?' : ')';
+                $postfix = ($i === 1) ? ')?' : ')';
             }
 
             $this->regex .= $prefix . $this->parts[$i]['regex'] . $postfix;
@@ -271,14 +259,6 @@ class requestRoute implements iRoute
         $this->regex .= '$' . self::REGEX_DELIMITER . 'i';
     }
 
-    /**
-     * Включение учета языка
-     *
-     */
-    public function enableLang()
-    {
-        $this->withLang = true;
-    }
 
     /**
      * Собирает из массива параметров path для URL согласно данному Route
@@ -288,11 +268,6 @@ class requestRoute implements iRoute
      */
     public function assemble($values = array())
     {
-        static $lang;
-        if (empty($lang)) {
-            $lang = systemToolkit::getInstance()->getLocale()->getName();
-        }
-
         if (empty($this->parts)) {
             $this->prepare();
         }
@@ -307,16 +282,8 @@ class requestRoute implements iRoute
                     $url[] = $values[$part['name']];
                     $url_names[] = $part['name'];
                     unset($values[$part['name']]);
-                } elseif (isset($this->defaults[$part['name']])) {
-                    if ($part['name'] == 'lang' && $this->withLang) {
-                        $url[] = $lang;
-                        $url_names[] = 'lang';
-                    } else {
-                        // ?
-                        //$url = substr($url, 0, -1);
-                    }
-                } else {
-                    throw new mzzRuntimeException('Отсутствует значение для ' . $this->name . ' route: ' . $part['name']);
+                } elseif (!isset($this->defaults[$part['name']])) {
+                    throw new mzzRuntimeException('No value for ' . $this->name . ' route variable: ' . $part['name']);
                 }
             } else {
                 $url[] = $part['name'];
@@ -326,7 +293,7 @@ class requestRoute implements iRoute
 
         $break = -1;
         foreach (array_reverse($url_names, true) as $key => $val) {
-            if ($val == '/' || (isset($this->defaults[$val]) && $val != 'lang' && $url[$key] == $this->defaults[$val])) {
+            if ($val == $this->part_delimiter || (isset($this->defaults[$val]) && $val != 'lang' && $url[$key] == $this->defaults[$val])) {
                 $break = $key;
             } else {
                 break;
@@ -339,7 +306,7 @@ class requestRoute implements iRoute
 
         $url = implode('', $url);
 
-        return trim($url, '/');
+        return trim($url, $this->part_delimiter);
     }
 
     public function getValues()

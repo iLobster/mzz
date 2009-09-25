@@ -12,8 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('user/group');
-fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('user/model/group');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
@@ -25,14 +24,12 @@ fileLoader::load('modules/jip/plugins/jipPlugin');
  */
 class groupMapper extends mapper
 {
-    protected $module = 'user';
     protected $table = 'user_group';
     protected $class = 'group';
 
     public function __construct()
     {
         parent::__construct();
-        $this->plugins('acl_simple');
         $this->plugins('jip');
     }
 

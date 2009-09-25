@@ -38,7 +38,6 @@ class fileResolver implements iResolver
         $this->pattern = $pattern;
     }
 
-
     /**
      * запуск процесса поиска файла по паттернам
      *

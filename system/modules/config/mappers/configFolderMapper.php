@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('config/configFolder');
+fileLoader::load('config/model/configFolder');
 
 /**
  * configFolderMapper: маппер
@@ -23,8 +23,6 @@ fileLoader::load('config/configFolder');
  */
 class configFolderMapper extends mapper
 {
-    protected $module = 'config';
-
     /**
      * Имя класса DataObject
      *

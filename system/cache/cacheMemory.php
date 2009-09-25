@@ -12,9 +12,7 @@
  * @package system
  * @subpackage cache
  * @version $Id$
-*/
-
-require_once systemConfig::$pathToSystem . '/cache/iCache.php';
+ */
 
 /**
  * cacheMemory: драйвер кэширования в память
@@ -24,7 +22,7 @@ require_once systemConfig::$pathToSystem . '/cache/iCache.php';
  * @version 0.0.1
  */
 
-class cacheMemory implements iCache
+class cacheMemory extends cache
 {
     /**
      * Контейнер для данных
@@ -42,26 +40,25 @@ class cacheMemory implements iCache
         $this->flush();
     }
 
-    public function add($key, $value, $expire = null, $params = array())
+    public function set($key, $value, array $tags = array())
     {
-        if ($this->data->exists($key)) {
-            return false;
-        }
+        $data = $this->setTags($value, $tags);
 
-        return $this->set($key, $value, $expire, $params);
-    }
-
-    public function set($key, $value, $expire = null, $params = array())
-    {
-        return $this->data->set($key, $value);
+        return $this->data->set($key, $data);
     }
 
     public function get($key)
     {
-        return $this->data->get($key);
+        $data = $this->data->get($key);
+
+        if (is_array($data) && isset($data['data'])) {
+            $this->checkTags($data, $key);
+
+            return $data['data'];
+        }
     }
 
-    public function delete($key, $params = array())
+    public function delete($key)
     {
         if ($this->data->has($key)) {
             return $this->data->delete($key);

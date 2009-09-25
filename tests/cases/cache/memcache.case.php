@@ -4,14 +4,39 @@ fileLoader::load('cache');
 
 class memcachedTest extends unitTestCase
 {
+    /**
+     * @var cacheMemcache
+     */
+    private $cache;
+
+    public function setUp()
+    {
+        $this->cache = cache::factory('memcache', array(
+            'memcache' => array(
+                'backend' => 'memcache')));
+        $this->flush();
+    }
+
+    public function tearDown()
+    {
+        $this->flush();
+    }
+
+    private function flush()
+    {
+        $this->cache->flush();
+    }
+
     public function skip()
     {
         $this->skipIf($skip = !extension_loaded('memcache'), 'Memcache extension not found. Test skipped.');
         $this->skipIf($skip = !class_exists('Memcache'), 'Memcache class not found. Test skipped.');
 
         if (!$skip) {
-            $this->_createCache()->get('blahblah'); // try to get something from the server
-            $this->skipIf(!$this->_createCache()->getStatus(cacheMemcache::DEFAULT_HOST, cacheMemcache::DEFAULT_PORT), 'memcached connect error');
+            $this->setUp();
+
+            $this->cache->get('blahblah'); // try to get something from the server
+            $this->skipIf(!$this->cache->getStatus(cacheMemcache::DEFAULT_HOST, cacheMemcache::DEFAULT_PORT), 'memcached connect error');
         }
         /*
         try {
@@ -24,33 +49,35 @@ class memcachedTest extends unitTestCase
 
     public function testGetSet()
     {
-        $cache = $this->_createCache();
-        $cache->set($identifier = 'baz', $data = 'foobar');
-        $this->assertEqual($cache->get($identifier), $data);
+        $this->assertTrue($this->cache->set($identifier = 'baz', $data = 'foobar'));
+        $this->assertEqual($this->cache->get($identifier), $data);
 
-        $cache->set($identifier2 = 'baz2', $data2 = 'foobar2');
-        $this->assertEqual($cache->get($identifier2), $data2);
+        $this->cache->set($identifier2 = 'baz2', $data2 = 'foobar2');
+        $this->assertEqual($this->cache->get($identifier2), $data2);
     }
 
     public function testGetNonExistIdentifier()
     {
-        $cache = $this->_createCache();
-        $this->assertFalse($cache->get('foobar'));
+        $this->assertFalse($this->cache->get('foobar'));
     }
 
     public function testDrop()
     {
-        $cache = $this->_createCache();
-        $cache->set($identifier = 'foobar', $data = 'baz');
-        $this->assertEqual($cache->get($identifier), $data);
+        $this->cache->set($identifier = 'foobar', $data = 'baz');
+        $this->assertEqual($this->cache->get($identifier), $data);
 
-        $cache->flush();
-        $this->assertFalse($cache->get($identifier));
+        $this->cache->flush();
+        $this->assertFalse($this->cache->get($identifier));
     }
 
-    public function _createCache()
+    public function testTags()
     {
-        return cache::factory('memcache', array('memcache' => array('backend' => 'memcache')));
+        $this->cache->set('key', 'value', array(
+            't1',
+            't2'));
+        $this->assertEqual($this->cache->get('key'), 'value');
+        $this->cache->clear('t1');
+        $this->assertFalse($this->cache->get('key'));
     }
 }
 

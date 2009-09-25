@@ -12,8 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('menu');
-fileLoader::load('orm/plugins/acl_simplePlugin');
+fileLoader::load('menu/model/menu');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
@@ -26,8 +25,6 @@ fileLoader::load('modules/jip/plugins/jipPlugin');
 
 class menuMapper extends mapper
 {
-    protected $module = 'menu';
-
     /**
      * Имя класса DataObject
      *
@@ -62,7 +59,6 @@ class menuMapper extends mapper
     {
         parent::__construct();
         $this->plugins('jip');
-        $this->plugins('acl_simple');
     }
 
     public function searchById($id)

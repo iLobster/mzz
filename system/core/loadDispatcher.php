@@ -12,9 +12,7 @@
  * @package system
  * @subpackage template
  * @version $Id$
-*/
-
-fileLoader::load('acl');
+ */
 
 /**
  * loadDispatcher: dispatches load params to a controller of a module
@@ -30,7 +28,7 @@ class loadDispatcher
      *
      * @var iRequest
      */
-    static protected $request;
+    protected static $request;
 
     /**
      * Dispatch load params to a controller
@@ -40,23 +38,21 @@ class loadDispatcher
      * @param array $params
      * @return string|null
      */
-    static public function dispatch($module, $actionName, $params = array())
+    static public function dispatch($moduleName, $actionName, $params = array())
     {
-        if (empty($module)) {
+        if (empty($moduleName)) {
             throw new mzzRuntimeException("Module loading error: the name of the module is not specified.");
         }
 
         $toolkit = systemToolkit::getInstance();
 
-        // prepare action
-        $action = $toolkit->getAction($module);
-        $actionOptions = $action->getOptions($actionName);
-        $handle403 = isset($actionOptions['403handle']) ? $actionOptions['403handle'] : false;
+        $module = $toolkit->getModule($moduleName);
+        $action = $module->getAction($actionName);
 
         // prepare request
         $request = $toolkit->getRequest();
         $request->save();
-        $request->setModule($module);
+        $request->setModule($moduleName);
         $request->setAction($actionName);
 
         foreach ($params as $name => $value) {
@@ -66,43 +62,28 @@ class loadDispatcher
             self::$request = $request;
         }
 
-        // доступ разрешен перед проверкой прав
-        $access = true;
-
-        // проверяем - не отключена ли в данном запуске модуля проверка прав
-        if ($handle403 !== 'none') {
-            $class = $action->getClass($actionName);
-            $mappername = $class . 'Mapper';
-            $mapper = $toolkit->getMapper($module, $class);
-
+        //if ($action->canRun()) {
+        //$mapper = $module->getMapper($action->getClassName());
+        /*
             try {
-                $access = self::getAccess($mapper, $action);
+                $access = true; //self::getAccess($mapper, $action);
             } catch (mzzDONotFoundException $e) {
                 fileLoader::load('simple/simple404Controller');
                 $controller = new simple404Controller();
                 $controller->applyMapper($mapper);
                 $request->restore();
                 return $controller->run();
-            }
-        }
+            } */
+        //}
 
-        if ($handle403 === 'manual') {
-            // проверяем, не включен ли ручной режим проверки прав
-            $request->setParam('access', $access);
-            $access = true;
-        }
 
         // run action if we have access
-        if ($access) {
-            if (empty($controller)) {
-                // если права на запуск модуля есть - запускаем
-                $controller = $toolkit->getController($module, $actionName);
-                $view = $controller->run();
-            }
+        if ($action->canRun()) {
+            $view = $action->run();
         } else {
             fileLoader::load('simple/simple403Controller');
-            $controller = new simple403Controller();
-            $view = $controller->forward403($mapper);
+            $controller = new simple403Controller($action);
+            $view = $controller->run();
         }
 
         $request->restore();
@@ -111,14 +92,15 @@ class loadDispatcher
         return $view;
     }
 
-    /**
-     * Get access to an action using the mapper and the action class
-     *
-     * @param string $mapper
-     * @param string $action
-     * @return boolean
-     */
-    protected static function getAccess($mapper, $action)
+/**
+ * @todo: reimplement for roles
+ * Get access to an action using the mapper and the action class
+ *
+ * @param string $mapper
+ * @param string $action
+ * @return boolean
+ */
+/*protected static function getAccess($mapper, $action)
     {
         $args = self::$request->getParams();
 
@@ -127,7 +109,7 @@ class loadDispatcher
         $obj = $mapper->convertArgsToObj($args);
 
         return $obj->getAcl($actionName);
-    }
+    } */
 }
 
 ?>

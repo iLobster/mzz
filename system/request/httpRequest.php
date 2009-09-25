@@ -15,7 +15,6 @@
 */
 
 fileLoader::load('request/iRequest');
-fileLoader::load('dataspace/arrayDataspace');
 
 /**
  * httpRequest: класс для работы с суперглобальными массивами.
@@ -343,11 +342,22 @@ class httpRequest implements iRequest
     /**
      * Возвращает true если используется AJAX
      *
+     * @todo убрать это или заменить на что-то, использующее HTTP заголовки
      * @return boolean
      */
     public function isAjax()
     {
         return isset($_REQUEST['ajax']);
+    }
+
+    /**
+     * Возвращает true если используется JIP
+     *
+     * @return boolean
+     */
+    public function isJip()
+    {
+        return isset($_REQUEST['jip']);
     }
 
     /**
@@ -391,7 +401,7 @@ class httpRequest implements iRequest
     public function getUrl()
     {
         $port = $this->getUrlPort();
-        $scheme = 'http' . ($this->isSecure() ? 's' : '');
+        $scheme = $this->getScheme();
 
         if(($scheme == 'http' && $port == 80) || ($scheme == 'https' && $port == 443)) {
             $port = '';
@@ -400,6 +410,11 @@ class httpRequest implements iRequest
         }
 
         return $scheme . '://' . $this->getUrlHost() . $port . SITE_PATH;
+    }
+
+    public function getScheme()
+    {
+        return 'http' . ($this->isSecure() ? 's' : '');
     }
 
     /**

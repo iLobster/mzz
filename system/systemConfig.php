@@ -54,6 +54,13 @@ class systemConfig
     public static $mailer;
 
     /**
+     * Name of the app
+     *
+     * @var string
+     */
+    public static $appName;
+
+    /**
      * Путь до приложения
      *
      * @var string

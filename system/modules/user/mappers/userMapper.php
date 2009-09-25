@@ -12,8 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('user');
-fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('user/model/user');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
@@ -36,8 +35,6 @@ class userMapper extends mapper
      *
      */
     const WRONG_AUTH_DATA = 0;
-
-    protected $module = 'user';
 
     /**
      * Имя таблицы
@@ -108,7 +105,6 @@ class userMapper extends mapper
     public function __construct()
     {
         parent::__construct();
-        $this->plugins('acl_simple');
         $this->plugins('jip');
     }
 

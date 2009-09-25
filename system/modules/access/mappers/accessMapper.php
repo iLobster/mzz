@@ -20,7 +20,7 @@
  * @version 0.1
  */
 
-fileLoader::load('access');
+fileLoader::load('access/model/access');
 
 class accessMapper extends mapper
 {
@@ -59,12 +59,6 @@ class accessMapper extends mapper
         'section_id' => array(
             'accessor' => 'getSection_id',
             'mutator' => 'setSection_id'));
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->plugins('acl_ext');
-    }
 
     public function searchByObjId($obj_id)
     {

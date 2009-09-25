@@ -12,9 +12,8 @@
  * @version $Id$
  */
 
-fileLoader::load('page/pageFolder');
+fileLoader::load('page/model/pageFolder');
 fileLoader::load('orm/plugins/tree_mpPlugin');
-fileLoader::load('orm/plugins/acl_extPlugin');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
@@ -27,7 +26,6 @@ fileLoader::load('modules/jip/plugins/jipPlugin');
 
 class pageFolderMapper extends mapper
 {
-    protected $module = 'page';
     /**
      * Имя класса DataObject
      *
@@ -59,7 +57,6 @@ class pageFolderMapper extends mapper
     {
         parent::__construct();
         $this->attach(new tree_mpPlugin(array('path_name' => 'name')), 'tree');
-        $this->plugins('acl_ext');
         $this->plugins('jip');
     }
 

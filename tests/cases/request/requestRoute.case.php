@@ -1,25 +1,21 @@
 <?php
 
 fileLoader::load('request/requestRoute');
+fileLoader::load('request/requestHostnameRoute');
 
 
 class requestRouteTest extends unitTestCase
 {
-    private $i18n_default;
-
     public function __construct()
     {
-        $this->i18n_default = systemConfig::$i18nEnable;
     }
 
     public function setUp()
     {
-        systemConfig::$i18nEnable = false;
     }
 
     public function tearDown()
     {
-        systemConfig::$i18nEnable = $this->i18n_default;
     }
 
     public function testSimpleRoute()
@@ -121,24 +117,6 @@ class requestRouteTest extends unitTestCase
         );
     }
 
-    public function testAssembleWithLang()
-    {
-        $route = new requestRoute('somepath/:controller/{:id}-:action/:default', array('default' => 'default', 'action' => 'view'));
-        $route->enableLang();
-        $this->assertEqual(
-            $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'list', 'default' => 'default')),
-            'en/somepath/news/1-list'
-        );
-        $this->assertEqual(
-            $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'view', 'lang' => 'ru')),
-            'ru/somepath/news/1-'
-        );
-        $this->assertEqual(
-            $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'view', 'lang' => '')),
-            'somepath/news/1-'
-        );
-    }
-
     public function testAssembleException()
     {
         $route = new requestRoute(':req_param');
@@ -151,47 +129,6 @@ class requestRouteTest extends unitTestCase
         }
     }
 
-    public function testRouteWithLang()
-    {
-        systemConfig::$i18n = 'en';
-        $route = new requestRoute(':controller/:action', array('controller' => 'page', 'action' => 'list'));
-        $route->enableLang();
-        $this->assertEqual(
-            $route->match('ru/news/view'),
-            array('action' => 'view', 'controller' => 'news', 'lang' => 'ru')
-        );
-        $this->assertEqual(
-            $route->match('news/view'),
-            array('action' => 'view', 'controller' => 'news', 'lang' => '')
-        );
-        $this->assertEqual(
-            $route->match('ru/rus/ru'),
-            array('action' => 'ru', 'controller' => 'rus', 'lang' => 'ru')
-        );
-        $this->assertEqual(
-            $route->match('ru'),
-            array('action' => 'list', 'controller' => 'page', 'lang' => 'ru')
-        );
-
-        $route = new requestRoute('');
-        $route->enableLang();
-        $this->assertEqual(
-            $route->match(''),
-            array('lang' => '')
-        );
-
-        $route = new requestRoute('somepath/:action', array('action' => 'list'));
-        $route->enableLang();
-        $this->assertEqual(
-            $route->match('somepath'),
-            array('action' => 'list', 'lang' => '')
-        );
-        $this->assertEqual(
-            $route->match('ru/somepath/list'),
-            array('action' => 'list', 'lang' => 'ru')
-        );
-    }
-
     public function testGetDefaults()
     {
         $defaults = array(
@@ -202,6 +139,28 @@ class requestRouteTest extends unitTestCase
         $route = new requestRoute('somepath/:name/:action', $defaults);
         $this->assertEqual($route->getDefaults(), $defaults);
     }
+
+
+
+    public function testSimpleHostRoute()
+    {
+        $route = new requestHostnameRoute(':user.domain.com');
+        $this->assertEqual(
+            $route->match('admin.domain.com'),
+            array('user' => 'admin')
+        );
+    }
+
+    public function testHostnameAssemble()
+    {
+        $route = new requestHostnameRoute(':user.domain.com');
+        $scheme = systemToolkit::getInstance()->getRequest()->getScheme();
+        $this->assertEqual(
+            $route->assemble(array('user' => 'admin')),
+            $scheme . '://admin.domain.com'
+        );
+    }
+
 }
 
 ?>

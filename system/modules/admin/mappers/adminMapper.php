@@ -12,8 +12,6 @@
  * @version $Id$
  */
 
-fileLoader::load('orm/plugins/acl_extPlugin');
-
 /**
  * adminMapper: маппер
  *
@@ -22,19 +20,46 @@ fileLoader::load('orm/plugins/acl_extPlugin');
  * @version 0.1.9
  */
 
-fileLoader::load('admin');
+fileLoader::load('admin/model/admin');
 
 class adminMapper extends mapper
+{
+    public function getModules()
+    {
+        $toolkit = systemToolkit::getInstance();
+        $systemPath = systemConfig::$pathToSystem . '/modules';
+        $appPath = systemConfig::$pathToApplication . '/modules';
+
+        $allModules = glob($systemPath . '/*');
+        $appModules = glob($appPath . '/*');
+
+        if (is_array($appModules)) {
+            $allModules = array_merge($allModules, $appModules);
+        }
+
+        $modules = array();
+        foreach ($allModules as $module) {
+            $module = substr(strrchr($module, '/'), 1);
+            // @todo: remove it and make specified modules as regular (with foobarModule class)
+            if (!in_array($module, array(
+                'i18n',
+                'jip',
+                'pager',
+                'simple',
+                'timer'))) {
+                $modules[$module] = $toolkit->getModule($module);
+            }
+        }
+
+        return $modules;
+    }
+}
+
+class oldadminMapper extends mapper
 {
     protected $table = 'admin';
     protected $module = 'admin';
     protected $modules = array();
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->plugins('acl_ext');
-    }
 
     /**
      * Метод получения общей инормации об установленных модулях, разделах и их отношений

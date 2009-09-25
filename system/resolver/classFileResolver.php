@@ -12,8 +12,6 @@
  * @version $Id$
  */
 
-require_once systemConfig::$pathToSystem . '/resolver/partialFileResolver.php';
-
 /**
  * classFileResolver: резолвит основные классы
  * Примеры:
@@ -27,25 +25,17 @@ require_once systemConfig::$pathToSystem . '/resolver/partialFileResolver.php';
  */
 class classFileResolver extends partialFileResolver
 {
-    /**
-     * проверка на соответствие запроса некоторому шаблону
-     * определяем что файл действительно тот, который требуется
-     *
-     * @param string $request строка запроса
-     * @return string|null переписанный запрос, если запрос совпадает с шаблоном, либо null
-     */
     protected function partialResolve($request)
     {
-        $result = $request;
         if (strpos($request, '/') === false) {
-            $result = $request . '/' . $request;
+            $request .= '/' . $request;
         }
 
-        if (strpos($result, '.ini') !== false) {
-            return $result;
+        if (strpos($request, '.ini') !== false) {
+            return $request;
         }
 
-        return $result . '.php';
+        return $request . '.php';
     }
 }
 

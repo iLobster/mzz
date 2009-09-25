@@ -12,8 +12,6 @@
  * @version $Id$
  */
 
-require_once systemConfig::$pathToSystem . '/resolver/partialFileResolver.php';
-
 /**
  * moduleResolver: резолвит файлы модулей
  *
@@ -23,23 +21,6 @@ require_once systemConfig::$pathToSystem . '/resolver/partialFileResolver.php';
  */
 class moduleResolver extends partialFileResolver
 {
-    /**
-     * конструктор
-     *
-     * @param object $resolver базовый резолвер
-     */
-    public function __construct(iResolver $resolver)
-    {
-        parent::__construct($resolver);
-    }
-
-    /**
-     * проверка на соответствие запроса некоторому шаблону
-     * определяем что файл действительно тот, который требуется
-     *
-     * @param string $request строка запроса
-     * @return string|null переписанный запрос, если запрос совпадает с шаблоном, либо null
-     */
     protected function partialResolve($request)
     {
         $result = null;

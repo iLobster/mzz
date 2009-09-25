@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('fileManager/folder');
+fileLoader::load('fileManager/model/folder');
 fileLoader::load('orm/plugins/tree_mpPlugin');
 
 /**
@@ -25,7 +25,6 @@ fileLoader::load('orm/plugins/tree_mpPlugin');
 
 class folderMapper extends mapper
 {
-    protected $module = 'fileManager';
     protected $class = 'folder';
     protected $table = 'fileManager_folder';
 
@@ -75,7 +74,6 @@ class folderMapper extends mapper
     {
         parent::__construct();
         $this->attach(new tree_mpPlugin(array('path_name' => 'name')), 'tree');
-        $this->plugins('acl_simple');
         $this->plugins('jip');
     }
 

@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('fileManager/storage');
+fileLoader::load('fileManager/model/storage');
 
 /**
  * storageMapper: маппер
@@ -24,7 +24,6 @@ fileLoader::load('fileManager/storage');
 
 class storageMapper extends mapper
 {
-    protected $module = 'fileManager';
     /**
      * Имя класса DataObject
      *

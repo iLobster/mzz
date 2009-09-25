@@ -99,6 +99,8 @@ class requestRouter
         if ($this->withLang) {
             $route->enableLang();
         }
+
+        return $this;
     }
 
     /**
@@ -180,20 +182,14 @@ class requestRouter
             }
         }
 
-        if (!isset($params) || !is_array($params)) {
+        if (!isset($params) || !is_array($params) || !isset($params['module'], $params['action'])) {
             fileLoader::load('exceptions/mzzRouteException');
             throw new mzzRouteException(404);
         }
 
-        if (isset($params['section'])) {
-            $toolkit = systemToolkit::getInstance();
-            $this->request->setModule($toolkit->getModuleName($params['section']));
-            unset($params['section']);
-        }
-        if (isset($params['action'])) {
-            $this->request->setAction($params['action']);
-            unset($params['action']);
-        }
+        $this->request->setModule($params['module']);
+        $this->request->setAction($params['action']);
+        unset($params['module'], $params['action']);
 
         $this->request->setParams($params);
     }

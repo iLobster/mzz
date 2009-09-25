@@ -1,5 +1,5 @@
 {* main="header.tpl" placeholder="content" *}
-{load module="user" action="login" section="user" onlyForm=true _side="left"}
+{load module="user" action="login" module="user" onlyForm=true _side="left"}
 <div id="wrapper">
     <div id="nonFooter">
         <div id="hbackground">

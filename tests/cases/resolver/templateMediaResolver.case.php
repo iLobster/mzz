@@ -1,7 +1,7 @@
 <?php
 
 fileLoader::load('resolver/templateMediaResolver');
-mock::generate('sysFileResolver');
+mock::generate('fileResolver');
 
 class templateMediaResolverTest extends UnitTestCase
 {
@@ -10,7 +10,7 @@ class templateMediaResolverTest extends UnitTestCase
 
     public function setUp()
     {
-        $this->mock = new mocksysFileResolver();
+        $this->mock = new mockfileResolver();
         $this->resolver = new templateMediaResolver($this->mock);
     }
 

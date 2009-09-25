@@ -12,9 +12,7 @@
  * @package system
  * @subpackage cache
  * @version $Id$
-*/
-
-require_once systemConfig::$pathToSystem . '/cache/iCache.php';
+ */
 
 /**
  * cacheFile: драйвер кэширования в файлы
@@ -24,7 +22,7 @@ require_once systemConfig::$pathToSystem . '/cache/iCache.php';
  * @version 0.0.1
  */
 
-class cacheFile implements iCache
+class cacheFile extends cache
 {
     /**
      * Путь до каталога, где будут храниться файлы кэша
@@ -40,6 +38,8 @@ class cacheFile implements iCache
      */
     protected $prefix;
 
+    private $expire = 60;
+
     /**
      * Конструктор
      *
@@ -52,22 +52,33 @@ class cacheFile implements iCache
 
         $this->path = $params['path'];
         $this->prefix = isset($params['prefix']) ? $params['prefix'] : 'cf_';
+
+        if (isset($params['expire'])) {
+            $this->expire = $params['expire'];
+        }
     }
 
-    public function add($key, $value, $expire = 60, $params = array())
+    public function set($key, $value, array $tags = array(), $expire = null)
     {
-        $cachedValue = $this->get($key);
-        if ($cachedValue) {
-            return false;
+        if (is_null($expire)) {
+            $expire = $this->expire;
         }
 
-        return $this->set($key, $value, $expire, $params);
-    }
-
-    public function set($key, $value, $expire = 60, $params = array())
-    {
         $cacheFile = $this->getPattern(md5($key), $expire);
-        file_put_contents($cacheFile, serialize($value));
+
+        $data = $this->setTags($value, $tags);
+
+        if (is_object($value)) {
+            $data['data'] = 'mark';
+        }
+
+        $data_str = var_export($data, true);
+
+        if (is_object($value)) {
+            $data_str = str_replace("'data' => 'mark'", "'data' => unserialize('" . str_replace("'", "\'", serialize($value)) . "')", $data_str);
+        }
+
+        file_put_contents($cacheFile, "<?php\r\nreturn " . $data_str . ';');
 
         return true;
     }
@@ -79,11 +90,13 @@ class cacheFile implements iCache
             $expire = $this->extractExpire(basename($file));
 
             if (is_file($file) && ((filemtime($file) + $expire) > time())) {
-                return unserialize(file_get_contents($file));
+                $data = require $file;
+
+                $this->checkTags($data, $key);
+
+                return $data['data'];
             }
         }
-
-        return null;
     }
 
     public function delete($key, $params = array())

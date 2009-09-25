@@ -56,14 +56,14 @@ class requestRouterTest extends unitTestCase
 
         $routeFirst->setReturnValue('match', false);
 
-        $result = array('section' => 'news', 'action' => 'view', 'someparam' => '1');
+        $result = array('module' => 'news', 'action' => 'view', 'someparam' => '1');
         $routeSecond->setReturnValue('match', $result);
 
         $this->router->addRoute('first', $routeFirst);
         $this->router->addRoute('second', $routeSecond);
 
-        $this->request->expectOnce('setModule', array(systemToolkit::getInstance()->getModuleName($result['section'])));
-        unset($result['section']);
+        $this->request->expectOnce('setModule', array($result['module']));
+        unset($result['module']);
         $this->request->expectOnce('setAction', array($result['action']));
         unset($result['action']);
         $this->request->expectOnce('setParams', array($result));
@@ -79,7 +79,7 @@ class requestRouterTest extends unitTestCase
         $routeFirst->expectCallCount('match', 1);
         $routeSecond->expectCallCount('match', 1);
 
-        $result = array('section' => 'news', 'action' => 'view', 'someparam' => '1');
+        $result = array('module' => 'news', 'action' => 'view', 'someparam' => '1');
         $routeFirst->setReturnValue('match', $result);
 
         $routeSecond->setReturnValue('match', false);
@@ -87,8 +87,8 @@ class requestRouterTest extends unitTestCase
         $this->router->addRoute('first', $routeFirst);
         $this->router->addRoute('second', $routeSecond);
 
-        $this->request->expectOnce('setModule', array(systemToolkit::getInstance()->getModuleName($result['section'])));
-        unset($result['section']);
+        $this->request->expectOnce('setModule', array($result['module']));
+        unset($result['module']);
         $this->request->expectOnce('setAction', array($result['action']));
         unset($result['action']);
         $this->request->expectOnce('setParams', array($result));
@@ -100,7 +100,7 @@ class requestRouterTest extends unitTestCase
         $routeFirst = new mockstubRoute;
         $routeSecond = new mockstubRoute;
 
-        $result = array('controller' => 'news', 'action' => 'list');
+        $result = array('module' => 'news', 'action' => 'list');
         $routeFirst->setReturnValue('match', $result);
         $routeSecond->setReturnValue('match', false);
 

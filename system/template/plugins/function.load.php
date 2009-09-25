@@ -37,7 +37,7 @@ function smarty_function_load($params, $smarty)
 {
     $allParams = $params;
     $allParams['params'] = $params;
-    foreach (array('module', 'section', 'action', '_side') as $name) {
+    foreach (array('module', 'action', '_side') as $name) {
         unset($allParams['params'][$name]);
     }
     $allParams = new arrayDataspace($allParams);

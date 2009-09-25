@@ -2,37 +2,44 @@
 
 fileLoader::load('cache');
 
-class memoryTest extends unitTestCase
+class cacheMemoryTest extends unitTestCase
 {
+    private $cache;
+
+    public function setUp()
+    {
+        $this->cache = cache::factory('memory', array('memory' => array('backend' => 'memory')));
+    }
+
     public function testGetSet()
     {
-        $cache = $this->_createCache();
-        $cache->set($identifier = 'baz', $data = 'foobar');
-        $this->assertEqual($cache->get($identifier), $data);
+        $this->cache->set($identifier = 'baz', $data = 'foobar');
+        $this->assertEqual($this->cache->get($identifier), $data);
 
-        $cache->set($identifier2 = 'baz2', $data2 = 'foobar2');
-        $this->assertEqual($cache->get($identifier2), $data2);
+        $this->cache->set($identifier2 = 'baz2', $data2 = 'foobar2');
+        $this->assertEqual($this->cache->get($identifier2), $data2);
     }
 
     public function testGetNonExistIdentifier()
     {
-        $cache = $this->_createCache();
-        $this->assertFalse($cache->get('foobar'));
+        $this->assertFalse($this->cache->get('foobar'));
     }
 
     public function testDrop()
     {
-        $cache = $this->_createCache();
-        $cache->set($identifier = 'foobar', $data = 'baz');
-        $this->assertEqual($cache->get($identifier), $data);
+        $this->cache->set($identifier = 'foobar', $data = 'baz');
+        $this->assertEqual($this->cache->get($identifier), $data);
 
-        $cache->flush();
-        $this->assertFalse($cache->get($identifier));
+        $this->cache->flush();
+        $this->assertFalse($this->cache->get($identifier));
     }
 
-    public function _createCache()
+    public function testTags()
     {
-        return cache::factory('memory', array('memory' => array('backend' => 'memory')));
+        $this->cache->set('key', 'value', array('t1', 't2'));
+        $this->assertEqual($this->cache->get('key'), 'value');
+        $this->cache->clear('t1');
+        $this->assertFalse($this->cache->get('key'));
     }
 }
 

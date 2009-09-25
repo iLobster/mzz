@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('user/userOnline');
+fileLoader::load('user/model/userOnline');
 
 /**
  * userOnlineMapper: маппер
@@ -24,12 +24,6 @@ fileLoader::load('user/userOnline');
 
 class userOnlineMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $module = 'user';
 
     /**
      * Имя класса DataObject

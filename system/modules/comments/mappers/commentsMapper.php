@@ -12,9 +12,8 @@
  * @version $Id$
 */
 
-fileLoader::load('comments');
+fileLoader::load('comments/model/comments');
 fileLoader::load('orm/plugins/tree_alPlugin');
-fileLoader::load('orm/plugins/acl_simplePlugin');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
@@ -26,8 +25,6 @@ fileLoader::load('modules/jip/plugins/jipPlugin');
  */
 class commentsMapper extends mapper
 {
-    protected $module = 'comments';
-
     /**
      * Имя класса DataObject
      *
@@ -74,7 +71,6 @@ class commentsMapper extends mapper
     {
         parent::__construct();
         $this->attach(new tree_alPlugin(array('path_name' => 'id')), 'tree');
-        $this->plugins('acl_simple');
         $this->plugins('jip');
     }
 

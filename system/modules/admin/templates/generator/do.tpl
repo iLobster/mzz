@@ -13,16 +13,14 @@
  */
 
 /**
- * {{$do_data.name}}
+ * {{$name}}
  * generated with mzz scaffolding
  *
  * @package modules
- * @subpackage {{$do_data.module}}
- * @version 0.1
+ * @subpackage {{$module->getName()}}
+ * @version 0.0.1
  */
-
-class {{$do_data.name}} extends entity
+class {{$name}} extends entity
 {
 }
-
 ?>

@@ -9,7 +9,7 @@
         <tr>
             <td style="text-align: right; width: 15px; color: #999;">{$user->getId()}</td>
             {assign var=user_id value=$user->getId()}
-            <td><a href="{url route=withAnyParam section=access action=editUser name="$id/$user_id"}" class="mzz-jip-link">{$user->getLogin()}</a></td>
+            <td><a href="{url route=withAnyParam module=access action=editUser name="$id/$user_id"}" class="mzz-jip-link">{$user->getLogin()}</a></td>
             <td style="text-align: right;"><a href="{url route=withAnyParam module=access action=deleteUser name="$id/$user_id"}" class="mzz-jip-link" title="Удалить пользователя"><span class="mzz-icon mzz-icon-user"><span class="mzz-bullet mzz-bullet-del"></span></span></a></td>
         </tr>
     {/foreach}

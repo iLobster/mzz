@@ -12,9 +12,7 @@
  * @version $Id$
 */
 
-fileLoader::load('comments/commentsFolder');
-fileLoader::load('orm/plugins/acl_simplePlugin');
-fileLoader::load('modules/jip/plugins/jipPlugin');
+fileLoader::load('comments/model/commentsFolder');
 
 /**
  * commentsFolderMapper: маппер
@@ -25,13 +23,6 @@ fileLoader::load('modules/jip/plugins/jipPlugin');
  */
 class commentsFolderMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $module = 'comments';
-
     /**
      * Имя класса DataObject
      *
@@ -83,7 +74,6 @@ class commentsFolderMapper extends mapper
     public function __construct()
     {
         parent::__construct();
-        $this->plugins('acl_simple');
         $this->plugins('jip');
         $this->plugins('identityMap');
     }

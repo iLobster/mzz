@@ -2,6 +2,7 @@
 
 class ormSimpleMapper extends mapper
 {
+    protected $module = 'test';
     protected $table = 'ormSimple';
 
     protected $map = array(

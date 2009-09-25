@@ -12,49 +12,37 @@
  * @version $Id$
  */
 
-{{if $mapper_data.module ne $mapper_data.name}}
-fileLoader::load('{{$mapper_data.module}}/{{$mapper_data.name}}');
-{{else}}
-fileLoader::load('{{$mapper_data.module}}');
-{{/if}}
+fileLoader::load('{{$module->getName()}}/models/{{$name}}');
 
 /**
- * {{$mapper_data.name}}Mapper
+ * {{$name}}Mapper
  *
  * @package modules
- * @subpackage {{$mapper_data.module}}
- * @version 0.1
+ * @subpackage {{$module->getName()}}
+ * @version 0.0.1
  */
-
-class {{$mapper_data.name}}Mapper extends mapper
+class {{$name}}Mapper extends mapper
 {
-    /**
-     * Module name
-     *
-     * @var string
-     */
-    protected $module = '{{$mapper_data.module}}';
-
     /**
      * DomainObject class name
      *
      * @var string
      */
-    protected $class = '{{$mapper_data.name}}';
+    protected $class = '{{$name}}';
 
     /**
      * Table name
      *
      * @var string
      */
-    protected $table = '{{$mapper_data.table}}';
+    protected $table = '{{$table}}';
 
     /**
      * Map
      *
      * @var array
      */
-    protected $map = {{$mapper_data.map}};
+    protected $map = {{$map}};
 }
 
 ?>

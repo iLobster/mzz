@@ -99,14 +99,10 @@ class contentFilter implements iFilter
      */
     public function getTemplateName($request, $path)
     {
-        try {
-            $action = $request->getAction();
-            $section = systemToolkit::getInstance()->getSectionName($request->getModule());
-        } catch (mzzRuntimeException $e) {
-            return false;
-        }
+        $module_name = $request->getModule();
+        $action_name = $request->getAction();
 
-        $tpl_name = self::TPL_PRE . $section . '/' . $action . self::TPL_EXT;
+        $tpl_name = self::TPL_PRE . $module_name . '/' . $action_name . self::TPL_EXT;
         if (file_exists($path . '/' . $tpl_name)) {
             return $tpl_name;
         }
@@ -115,15 +111,18 @@ class contentFilter implements iFilter
 
     public function runActiveTemplate($request, $toolkit, $smarty)
     {
-        $module = $request->getModule();
-        $action = $toolkit->getAction($module);
+        $moduleName = $request->getModule();
         $actionName = $request->getAction();
-        $activeTemplate = $action->getActiveTemplate($actionName);
+
+        $module = $toolkit->getModule($moduleName);
+        $action = $module->getAction($actionName);
+
+        $activeTemplate = $action->getActiveTemplate();
 
         if ($activeTemplate == 'deny') {
             throw new mzzNoActionException('Direct access to this action is deny');
         }
-        $smarty->assign('module', $module);
+        $smarty->assign('module', $moduleName);
         $smarty->assign('action', $actionName);
 
         return $smarty->fetch($activeTemplate);

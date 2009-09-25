@@ -25,29 +25,17 @@ class adminMenuController extends simpleController
     protected function getView()
     {
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+
         $menu = array();
-        foreach ($adminMapper->getModulesComplete() as $moduleName => $module) {
-            $actions = $this->toolkit->getAction($moduleName)->getActions(array(
-                'admin' => true));
 
-            try {
-                $this->toolkit->getSectionName($moduleName);
-            } catch (mzzRuntimeException $e) {
-                continue;
-            }
-
-            foreach ($actions as $className => $action) {
-                $acl = new acl($this->toolkit->getUser(), 0, $className);
-                $access = $acl->getDefaultCombined();
-
-                foreach ($action as $actionName => $options) {
-                    if (!empty($access[$actionName]) || $acl->isRoot()) {
-                        if (!isset($menu[$moduleName])) {
-                            $menu[$moduleName] = $module;
-                            $menu[$moduleName]['actions'] = array();
-                        }
-                        $menu[$moduleName]['actions'][$actionName] = $options;
+        foreach ($adminMapper->getModules() as $moduleName => $module) {
+            foreach ($module->getActions() as $action) {
+                if ($action->isAdmin()) {
+                    if (!isset($menu[$action->getModuleName()])) {
+                        $menu[$action->getModuleName()]['info'] = $module;
                     }
+
+                    $menu[$action->getModuleName()]['actions'][$action->getName()] = $action;
                 }
             }
         }

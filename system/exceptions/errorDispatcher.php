@@ -65,7 +65,7 @@ class errorDispatcher
      *
      * @param errorDispatcher $dispatcher обработчик
      */
-    public function setDispatcher($dispatcher)
+    public static function setDispatcher($dispatcher)
     {
         set_error_handler(array($dispatcher, 'errorHandler'));
         set_exception_handler(array($dispatcher, 'exceptionHandler'));

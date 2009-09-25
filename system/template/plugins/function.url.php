@@ -23,16 +23,16 @@
  *
  * Примеры использования:<br />
  * <code>
- * {url route="default" section="news" action="list"}
+ * {url route="default" module="news" action="list"}
  * {url onlyPath=true}
- * {url route="guestbookActions" section="guestbook" action="delete" params="41"}
- * {url route="newsActions" section="news" params="2006/08/12"}
+ * {url route="guestbookActions" module="guestbook" action="delete" params="41"}
+ * {url route="newsActions" module="news" params="2006/08/12"}
  * </code>
  *
  * GET-параметры задаются с префиксом "_". Примеры
  * <code>
- * {url route="default" section="news" action="list" _order="desc" _orderField="id"}
- * {url route="default" section="news" action="list" _order="desc" _orderField="id" appendGet=true}
+ * {url route="default" module="news" action="list" _order="desc" _orderField="id"}
+ * {url route="default" module="news" action="list" _order="desc" _orderField="id" appendGet=true}
  * </code>
  * сгенерирует /news/list/?order=desc&orderField=id и /news/list/?order=desc&orderField=id&page=3 соответственно
  * (page=3 как пример того, что может уже содержаться в GET-параметрах)

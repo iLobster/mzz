@@ -12,7 +12,7 @@
  * @package system
  * @subpackage core
  * @version $Id$
-*/
+ */
 
 /**
  * core: mzz front controller
@@ -43,27 +43,32 @@ class core
             $this->loadCommonFiles();
 
             $this->composeToolkit();
-
-            $response = $this->toolkit->getResponse();
-            $request = $this->toolkit->getRequest();
             fileLoader::load('i18n/charset/utf8Wrapper');
 
-            $filter_chain = new filterChain($response, $request);
-
-            $this->composeFilters($filter_chain);
-
-            $this->preprocess();
-
-            $filter_chain->process();
-            $response->send();
+            $this->handle();
         } catch (Exception $e) {
-            if (!($e instanceof mzzException) && class_exists('mzzException'))  {
+            if (!($e instanceof mzzException) && class_exists('mzzException')) {
                 $name = get_class($e);
                 $e = new mzzException($e->getMessage(), $e->getCode(), $e->getLine(), $e->getFile(), $e->getTrace());
                 $e->setName($name);
             }
             throw $e;
         }
+    }
+
+    protected function handle()
+    {
+        $response = $this->toolkit->getResponse();
+        $request = $this->toolkit->getRequest();
+
+        $filter_chain = new filterChain($response, $request);
+
+        $this->composeFilters($filter_chain);
+
+        $this->preprocess();
+
+        $filter_chain->process();
+        $response->send();
     }
 
     /**
@@ -73,7 +78,6 @@ class core
      */
     protected function preprocess()
     {
-
     }
 
     /**
@@ -87,15 +91,13 @@ class core
         require_once systemConfig::$pathToSystem . '/core/fileLoader.php';
 
         $baseresolver = new compositeResolver();
-        $baseresolver->addResolver(new appFileResolver());
-        $baseresolver->addResolver(new sysFileResolver());
+        $baseresolver->addResolver(new fileResolver(systemConfig::$pathToApplication . '/*'));
+        $baseresolver->addResolver(new fileResolver(systemConfig::$pathToSystem . '/*'));
 
         $resolver = new compositeResolver();
         $resolver->addResolver(new classFileResolver($baseresolver));
         $resolver->addResolver(new moduleResolver($baseresolver));
-        $resolver->addResolver(new configFileResolver($baseresolver));
-        $resolver->addResolver(new libResolver($baseresolver));
-        $resolver->addResolver(new templateResolver($baseresolver));
+        $resolver->addResolver(new commonFileResolver($baseresolver));
 
         $cachingResolver = new cachingResolver($resolver);
 
@@ -111,36 +113,23 @@ class core
         fileLoader::load('exceptions/init');
         errorDispatcher::setDispatcher(new errorDispatcher());
 
-        fileLoader::load('request/url');
-        fileLoader::load('dataspace/arrayDataspace');
+        fileLoader::load('service/arrayDataspace');
 
-        fileLoader::load('orm/mapper');
-        //fileLoader::load('simple');
-        //fileLoader::load('simple/simpleMapper');
-        //fileLoader::load('simple/simpleCatalogueMapper');
-        fileLoader::load('simple/simpleController');
-        fileLoader::load('simple/simpleFactory');
-        fileLoader::load('simple/jipTools');
-        //fileLoader::load('simple/simpleCatalogue');
-        //fileLoader::load('simple/simpleCatalogueMapper');
-        fileLoader::load('simple/messageController');
+        fileLoader::load('request/init');
+
+        fileLoader::load('orm/init');
+
+        fileLoader::load('simple/init');
 
         fileLoader::load('filters/init');
 
-        fileLoader::load('i18n');
-        fileLoader::load('i18n/locale');
+        fileLoader::load('i18n/init');
 
-        fileLoader::load('db/DB');
-        fileLoader::load('db/simpleSelect');
+        fileLoader::load('db/init');
 
-        fileLoader::load('iterators/mzzIniFilterIterator');
+        fileLoader::load('toolkit/init');
 
-        fileLoader::load('toolkit');
-        fileLoader::load('toolkit/stdToolkit');
-        fileLoader::load('toolkit/systemToolkit');
-
-        fileLoader::load('core/action');
-        fileLoader::load('forms/validators/formValidator');
+        fileLoader::load('forms/init');
     }
 
     /**
@@ -166,7 +155,6 @@ class core
         $filter_chain->registerFilter(new routingFilter());
         $filter_chain->registerFilter(new userFilter());
         $filter_chain->registerFilter(new userPreferencesFilter());
-        //$filter_chain->registerFilter(new userOnlineFilter());
         $filter_chain->registerFilter(new contentFilter());
         return $filter_chain;
     }

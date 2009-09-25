@@ -24,17 +24,6 @@
 interface iCache
 {
     /**
-     * Добавляет данные в кэш. Если значение уже существует, то возвращает false
-     *
-     * @param mixed $key - идентификатор значения в кэшэ
-     * @param mixed $value - кэшируемое значение
-     * @param int[optional] $expire - количество секунд до того, как кэш будет просрочен
-     * @param array[optional] $params - дополнительные параметры
-     * @return bool
-     */
-    public function add($key, $value, $expire = null, $params = array());
-
-    /**
      * Добавляет данные в кэш.
      *
      * @param mixed $key - идентификатор значения в кэшэ
@@ -43,7 +32,7 @@ interface iCache
      * @param array[optional] $params - дополнительные параметры
      * @return bool
      */
-    public function set($key, $value, $expire = null, $params = array());
+    public function set($key, $value, $tags = array(), $expire = null);
 
     /**
      * Получает данные из кэша. Если такого значения нет в кэшэ, то возвращает false
@@ -60,7 +49,7 @@ interface iCache
      * @param array[optional] $params дополнительные параметры
      * @return bool
      */
-    public function delete($key, $params = array());
+    public function delete($key);
 
     /**
      * Очищает весь кэш

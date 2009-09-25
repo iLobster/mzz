@@ -12,7 +12,6 @@
  * @version $Id$
  */
 
-fileLoader::load('codegenerator/directoryGenerator');
 
 /**
  * adminDeleteModuleController: контроллер для метода deleteModule модуля admin
@@ -21,26 +20,32 @@ fileLoader::load('codegenerator/directoryGenerator');
  * @subpackage admin
  * @version 0.2
  */
-
 class adminDeleteModuleController extends simpleController
 {
     protected function getView()
     {
-        $id = $this->request->getInteger('id');
-
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
-        $adminGeneratorMapper = $this->toolkit->getMapper('admin', 'adminGenerator');
-        $modules = $adminMapper->getModulesList();
 
-        if (!isset($modules[$id])) {
-            $controller = new messageController(i18n::getMessage('module.error.not_exists', 'admin'), messageController::WARNING);
+        $name = $this->request->getString('name');
+        try {
+            $module = $this->toolkit->getModule($name);
+        } catch (mzzModuleNotFoundException $e) {
+            return $this->forward404($adminMapper);
+        }
+
+        $adminGeneratorMapper = $this->toolkit->getMapper('admin', 'adminGenerator');
+
+        try {
+            $adminGeneratorMapper->deleteModule($module);
+        } catch (Exception $e) {
+            $controller = new messageController($e->getMessage(), messageController::WARNING);
             return $controller->run();
         }
 
-        /*if (sizeof($modules[$id]['classes'])) {
-            $controller = new messageController(i18n::getMessage('module.error.cannot_delete', 'admin'), messageController::WARNING);
-            return $controller->run();
-        }*/
+        /*
+        $currentDestination = current($adminGeneratorMapper->getDests(true, $module->getName()));
+
+
 
         $dest = current($adminGeneratorMapper->getDests(true, $modules[$id]['name']));
         $dest = pathinfo($dest, PATHINFO_DIRNAME);
@@ -57,14 +62,9 @@ class adminDeleteModuleController extends simpleController
         $this->deleteClasses(array_keys($modules[$id]['classes']), $adminGeneratorMapper);
         $adminGeneratorMapper->deleteModule($id);
 
-        return jipTools::redirect();
-    }
+        */
 
-    private function deleteClasses(array $classes, adminGeneratorMapper $adminGeneratorMapper)
-    {
-        foreach ($classes as $class_id) {
-            $adminGeneratorMapper->deleteClass($class_id);
-        }
+        return jipTools::redirect();
     }
 }
 

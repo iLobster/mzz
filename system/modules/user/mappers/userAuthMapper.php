@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('user/userAuth');
+fileLoader::load('user/model/userAuth');
 
 /**
  * userAuthMapper: маппер
@@ -26,7 +26,6 @@ class userAuthMapper extends mapper
 {
     const AUTH_COOKIE_NAME = 'auth';
 
-    protected $module = 'user';
     /**
      * Имя класса DataObject
      *

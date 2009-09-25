@@ -24,10 +24,10 @@ class urlTest extends unitTestCase
         $route = new requestRoute('');
         $this->router->addRoute('default', $route);
 
-        $route = new requestRoute(':section/:action');
+        $route = new requestRoute(':module/:action');
         $this->router->addRoute('urlHttpsWithoutParams', $route);
 
-        $route = new requestRoute(':section/:param/:other/:action');
+        $route = new requestRoute(':module/:param/:other/:action');
         $this->router->addRoute('urlRoute', $route);
     }
 
@@ -104,7 +104,7 @@ class urlTest extends unitTestCase
 
     public function testHttpsWithoutGet()
     {
-        $route = new requestRoute(':section/:action');
+        $route = new requestRoute(':module/:action');
         $this->router->addRoute('urlHttpsWithoutGet', $route);
 
         $url = new url('urlHttpsWithoutGet');
@@ -127,14 +127,6 @@ class urlTest extends unitTestCase
         $url = new url('default');
         $url->add('#', 'anchor');
         $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH . '/#anchor');
-    }
-
-    public function testModuleSection()
-    {
-        $url = new url('urlHttpsWithoutParams');
-        $url->setModule($module = 'test');
-        $url->setAction($action = 'bar');
-        $this->assertEqual($url->get(), 'http://localhost' . SITE_PATH . '/test_section/bar');
     }
 }
 

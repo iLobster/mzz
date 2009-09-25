@@ -17,9 +17,7 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.1
  */
-
 class messageController extends simpleController
 {
     const INFO = 1;
@@ -29,24 +27,28 @@ class messageController extends simpleController
     private $type;
     private $templates;
 
-    public function __construct($message, $type = messageController::WARNING)
+    public function __construct(simpleAction $action, $message, $type = messageController::WARNING)
     {
-        parent::__construct();
+        parent::__construct($action);
 
         $this->message = $message;
         $this->type = $type;
         $this->templates = array(
-        self::INFO => 'info',
-        self::WARNING => 'warning'
-        );
+            self::INFO => 'info',
+            self::WARNING => 'warning');
+
+        if (!isset($this->templates[$this->type])) {
+            $this->type = self::INFO;
+        }
+    }
+
+    public function run()
+    {
+        return $this->getView();
     }
 
     protected function getView()
     {
-        if (!isset($this->templates[$this->type])) {
-            $this->type = self::INFO;
-        }
-
         $this->smarty->assign('message', $this->message);
         return $this->smarty->fetch('simple/' . $this->templates[$this->type] . '.tpl');
     }

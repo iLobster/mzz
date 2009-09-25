@@ -17,36 +17,41 @@
 <!-- модули и классы -->
 <div id="modulesAndClasses" class="toolbarBlock">
     <span class="toolbarSectionName"><strong>Модули</strong> и классы <a href="{url route="default2" module="admin" action="addModule"}" class="mzz-jip-link"><span class="mzz-icon mzz-icon-block"><span class="mzz-bullet mzz-bullet-add"></span></span></a></span>
-    {foreach from=$modules item=module key=name}
-        {assign var="count" value=$module.classes|@sizeof}
+    {foreach from=$modules item=module}
+        {assign var=name value=$module->getName()}
+        {assign var="count" value=$module->getActions()|@sizeof}
         <table id="module-{$name}" class="toolbar admin" cellspacing="0">
             <thead>
                 <tr class="first">
                     <th class="first name"><img src="{$SITE_PATH}/templates/images/exp_{if isset($hiddenClasses.$name)}plus{else}minus{/if}.png" onclick="devToolbar.toggleModule('{$name}', this);" width="16" height="16" alt="expand/close classes list" title="expand/collapse classes" style="cursor: pointer" />{$name}</th>
                     <th class="last actions">
+                        {*
                         {if not empty($module.editACL)}
-                            <a href="{url route=withId section="access" id="`$module.obj_id`" action="editACL"}" class="mzz-jip-link" title="Редактировать права"><span class="mzz-icon mzz-icon-key"></span></a>
+                            <a href="{url route=withId module="access" id="`$module.obj_id`" action="editACL"}" class="mzz-jip-link" title="Редактировать права"><span class="mzz-icon mzz-icon-key"></span></a>
                         {/if}
-                        <a href="{url route="aclDefaultsAdd" class_name=$name action="admin_access"}" class="mzz-jip-link" title="Редактировать права доступа"><span class="mzz-icon mzz-icon-key"><span class="mzz-bullet mzz-bullet-edit"></span></span></a>
-                        <a href="{url route="withId" module="admin" id=$module.id action="editModule"}" class="mzz-jip-link" title="Редактировать модуль"><span class="mzz-icon mzz-icon-block"><span class="mzz-bullet mzz-bullet-edit"></span></span></a>
-                        <a href="{url route="withId" module="admin" id=$module.id action="deleteModule"}" class="mzz-jip-link" title="Удалить модуль"><span class="mzz-icon mzz-icon-block"><span class="mzz-bullet mzz-bullet-del"></span></span></a>
-                        <a href="{url route="withId" module="admin" id=$module.id action="addClass"}" class="mzz-jip-link" title="Добавить класс"><span class="mzz-icon mzz-icon-script"><span class="mzz-bullet mzz-bullet-add"></span></span></a>
+                        *}
+                        <a href="{url route="accessEditRoles" module_name=$name action="list"}" class="mzz-jip-link" title="Редактировать права доступа"><span class="mzz-icon mzz-icon-key"><span class="mzz-bullet mzz-bullet-edit"></span></span></a>
+                        <a href="{url route="withAnyParam" module="admin" name=$name action="editModule"}" class="mzz-jip-link" title="Редактировать модуль"><span class="mzz-icon mzz-icon-block"><span class="mzz-bullet mzz-bullet-edit"></span></span></a>
+                        <a href="{url route="withAnyParam" module="admin" name=$name action="deleteModule"}" class="mzz-jip-link" title="Удалить модуль"><span class="mzz-icon mzz-icon-block"><span class="mzz-bullet mzz-bullet-del"></span></span></a>
+                        <a href="{url route="withAnyParam" module="admin" name=$name action="addClass"}" class="mzz-jip-link" title="Добавить класс"><span class="mzz-icon mzz-icon-script"><span class="mzz-bullet mzz-bullet-add"></span></span></a>
                         <a href="{url route="withId" module="config" id=$name action="list"}" class="mzz-jip-link" title="Редактировать опции модуля"><span class="mzz-icon mzz-icon-wrench"></span></a>
                     </th>
                 </tr>
             </thead>
             <tbody id="module-{$name}-classes" {if isset($hiddenClasses.$name)}style="display: none"{/if}>
-            {foreach from=$module.classes item=class key=id name=classes}
+            {foreach from=$module->getClasses() item=class name=classes}
                 <tr id="class-{$class}" class="{if $smarty.foreach.classes.last}last{/if}">
                     <td class="first name">{$class}</td>
                     <td class="last actions">
+                        {*
                         {if not empty($module.editDefault)}
-                        <a href="{url route=withAnyParam section="access" name=$class action="editDefault"}" class="mzz-jip-link" title="Редактировать права 'по умолчанию'"><span class="mzz-icon mzz-icon-key"><span class="mzz-bullet mzz-bullet-default"></span></span></a>
+                        <a href="{url route=withAnyParam module="access" name=$class action="editDefault"}" class="mzz-jip-link" title="Редактировать права 'по умолчанию'"><span class="mzz-icon mzz-icon-key"><span class="mzz-bullet mzz-bullet-default"></span></span></a>
                         {/if}
-                        <a href="{url route="withId" module="admin" id=$id action="listActions"}" class="mzz-jip-link" title="Редактировать действия класса"><span class="mzz-icon mzz-icon-cog"><span class="mzz-bullet mzz-bullet-edit"></span></span></a>
-                        <a href="{url route="withId" module="admin" id=$id action="map"}" class="mzz-jip-link" title="Map"><span class="mzz-icon mzz-icon-db-table"></span></a>
-                        <a href="{url route="withId" module="admin" id=$id action="editClass"}" class="mzz-jip-link" title="Редактировать класс"><span class="mzz-icon mzz-icon-script"><span class="mzz-bullet mzz-bullet-edit"></span></span></a>
-                        <a href="{url route="withId" module="admin" id=$id action="deleteClass"}" class="mzz-jip-link" title="Удалить класс"><span class="mzz-icon mzz-icon-script"><span class="mzz-bullet mzz-bullet-del"></span></span></a>
+                        *}
+                        <a href="{url route="adminModuleEntity" module="admin" module_name=$name class_name=$class action="listActions"}" class="mzz-jip-link" title="Редактировать действия класса"><span class="mzz-icon mzz-icon-cog"><span class="mzz-bullet mzz-bullet-edit"></span></span></a>
+                        <a href="{url route="adminModuleEntity" module="admin" module_name=$name class_name=$class action="map"}" class="mzz-jip-link" title="Map"><span class="mzz-icon mzz-icon-db-table"></span></a>
+                        <a href="{url route="adminModuleEntity" module="admin" module_name=$name class_name=$class action="editClass"}" class="mzz-jip-link" title="Редактировать класс"><span class="mzz-icon mzz-icon-script"><span class="mzz-bullet mzz-bullet-edit"></span></span></a>
+                        <a href="{url route="adminModuleEntity" module="admin" module_name=$name class_name=$class action="deleteClass"}" class="mzz-jip-link" title="Удалить класс"><span class="mzz-icon mzz-icon-script"><span class="mzz-bullet mzz-bullet-del"></span></span></a>
                     </td>
                 </tr>
             {foreachelse}
@@ -79,7 +84,7 @@
         </tbody>
     </table>
 </div>
-
+{*
 <div class="toolbarBlock">
     <span class="toolbarSectionName">Зарегистрированные объекты <a href="{url route="default2" module="admin" action="addObjToRegistry"}" class="mzz-jip-link"><span class="mzz-icon mzz-icon-db"><span class="mzz-bullet mzz-bullet-add"></span></span></a></span>
     <table class="toolbar admin" id="aclObjects" cellspacing="0">
@@ -98,10 +103,5 @@
         {/foreach}
         </tbody>
     </table>
-    {*
-    @todo: will be reimplemented later
-    <br />
-    <span class="toolbarSectionName">Переводы</span>
-    <a href="{url route=default2 section=admin action=translate}" class="mzz-jip-link">Перевод модулей</a>
-    *}
 </div>
+*}

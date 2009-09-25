@@ -4,16 +4,9 @@ fileLoader::load('jip');
 
 class jipPlugin extends observer
 {
-    public function setMapper(mapper $mapper)
-    {
-        parent::setMapper($mapper);
-
-        if (!isset($this->options['identity_method'])) {
-            $map = $this->mapper->map();
-
-            $this->options['identity_method'] = !$this->mapper->pk() ? 'getObjId' : $map[$this->mapper->pk()]['accessor'];
-        }
-    }
+    protected $options = array(
+        'byField' => 'id'
+    );
 
     protected function updateMap(& $map)
     {
@@ -30,23 +23,28 @@ class jipPlugin extends observer
      * @param string $tpl шаблон JIP-меню
      * @return string
      */
-    public function getJip($object, $menu_id = 1, $class = null, $tpl = jip::DEFAULT_TEMPLATE) // $obj_id = null, $class = null, $tpl = jip::DEFAULT_TEMPLATE)
+    public function getJip($object, $menu_id = 1, $tpl = jip::DEFAULT_TEMPLATE, $class = null) // $obj_id = null, $class = null, $tpl = jip::DEFAULT_TEMPLATE)
     {
         $class = is_null($class) ? get_class($object): $class;
 
-        $action = systemToolkit::getInstance()->getAction($object->module());
-
-        $actions = $action->getActions(array('class' => $class, 'jip' => $menu_id));
-
-        try {
-            $object->getObjId();
-        } catch(mzzORMNotExistMethodException $e) {
-            unset($actions['editACL']);
+        $map = $this->mapper->map();
+        if (!isset($map[$this->getByField()])) {
+            throw new mzzInvalidParameterException('Invalid byField value for jip plugin');
         }
 
-        $obj_id = $object->{$this->options['identity_method']}();
+        $objectId = $object->$map[$this->getByField()]['accessor']();
 
-        $jip = new jip($obj_id, $class, $actions, $object, $tpl);
+        $module = systemToolkit::getInstance()->getModule($object->module());
+        $actions = $module->getClassActions($class);
+
+        $jipActions = array();
+        foreach ($actions as $actionName => $actionObject) {
+            if ($actionObject->isJip() && $actionObject->getJipMenuId() == $menu_id) {
+                $jipActions[$actionName] = $actionObject;
+            }
+        }
+
+        $jip = new jip($objectId, $jipActions, $object, $tpl, $class);
         return $jip->draw();
     }
 
@@ -60,6 +58,11 @@ class jipPlugin extends observer
                 $object)));
 
         $object->merge($tmp);
+    }
+
+    public function getByField()
+    {
+        return $this->options['byField'];
     }
 }
 

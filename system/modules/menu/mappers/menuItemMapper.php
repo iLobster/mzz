@@ -12,8 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('menu/menuItem');
-fileLoader::load('orm/plugins/acl_simplePlugin');
+fileLoader::load('menu/model/menuItem');
 fileLoader::load('modules/i18n/plugins/i18nPlugin');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 fileLoader::load('orm/plugins/tree_alPlugin');
@@ -31,8 +30,6 @@ class menuItemMapper extends mapper
     const ITEMTYPE_SIMPLE = 1;
     const ITEMTYPE_ADVANCED = 2;
     const ITEMTYPE_EXTERNAL = 3;
-
-    protected $module = 'menu';
 
     /**
      * Имя класса DataObject
@@ -83,7 +80,6 @@ class menuItemMapper extends mapper
         $this->attach(new tree_alPlugin(array('path_name' => 'id')), 'tree');
         $this->plugins('jip');
         $this->plugins('i18n');
-        $this->plugins('acl_simple');
     }
 
     public function searchById($id)

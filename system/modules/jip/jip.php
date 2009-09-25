@@ -23,32 +23,32 @@
 class jip
 {
     /**
-     * Имя JIP-шаблона по умолчанию
+     * Default template for jip
      *
      * @var string
      */
     const DEFAULT_TEMPLATE = 'jip/jip.tpl';
 
     /**
-     * Имя модуля
+     * JIP object id
      *
-     * @var string
-     */
-    private $module;
-
-    /**
-     * Идентификатор
-     *
-     * @var string
+     * @var int
      */
     private $id;
 
     /**
-     * Тип
+     * JIP object type
      *
      * @var string
      */
     private $type;
+
+    /**
+     * JIP Object
+     *
+     * @var simple
+     */
+    private $obj;
 
     /**
      * Действия для JIP
@@ -56,13 +56,6 @@ class jip
      * @var array
      */
     private $actions;
-
-    /**
-     * Объект, для которого строится JIP-меню
-     *
-     * @var simple
-     */
-    private $obj;
 
     /**
      * Результат сборки массива элементов JIP-меню
@@ -82,20 +75,18 @@ class jip
      * Конструктор
      *
      * @param integer $id идентификатор
-     * @param string $type тип доменного объекта
      * @param array $actions действия для JIP
      * @param simple $obj объект
      * @param string $tpl шаблон JIP-меню
+     * @param string $type тип доменного объекта
      */
-    public function __construct($id, $type, Array $actions, entity $obj, $tpl = self::DEFAULT_TEMPLATE)
+    public function __construct($id, Array $actions, entity $obj, $tpl = self::DEFAULT_TEMPLATE, $type)
     {
-        $this->module = $obj->module();
         $this->id = $id;
-        $this->type = $type;
         $this->actions = $actions;
         $this->obj = $obj;
         $this->tpl = $tpl;
-        $this->generate();
+        $this->type = $type;
     }
 
     /**
@@ -105,20 +96,23 @@ class jip
      * @param string $action_name действие модуля
      * @return string
      */
-    private function buildUrl($action, $action_name)
+    private function buildUrl(simpleAction $action, $action_name)
     {
-        $url = new url(isset($action['route_name']) ? $action['route_name'] : 'withId');
-        $url->setModule($this->module);
+        $url = new url();
+        $url->setModule($this->obj->module());
         $url->setAction($action_name);
 
-        if (isset($action['route_name'])) {
-            foreach ($action as $name => $value) {
+        $routeName = $action->getData('route_name');
+        if (!$routeName) {
+            $url->setRoute('withId');
+            $url->add('id', $this->id);
+        } else {
+            $url->setRoute($routeName);
+            foreach ($action->getAllData() as $name => $value) {
                 if (strpos($name, 'route.') === 0) {
                     $url->add(substr($name, 6), strpos($value, '->') === 0 ? $this->callObjectMethodFromString($value): $value);
                 }
             }
-        } else {
-            $url->add('id', $this->id);
         }
 
         return $url->get();
@@ -135,48 +129,29 @@ class jip
     }
 
     /**
-     * Генерирует ссылку для JIP на редактирование ACL
-     *
-     * @param integer $obj_id идентификатор объекта
-     * @return string
-     */
-    private function buildACLUrl($obj_id)
-    {
-        $url = new url('withId');
-        $url->setModule('access');
-        $url->setAction('editACL');
-        $url->add('id', $obj_id);
-        return $url->get();
-    }
-
-    /**
      * Генерирует массив JIP из названия и ссылки для действия модуля
      *
      * @return array
      */
     private function generate()
     {
-        $toolkit = systemToolkit::getInstance();
+        $this->result = array();
+        foreach ($this->actions as $key => $action) {
+            $item = array();
+            $item['url'] = $this->buildUrl($action, $key);
+            $item['id'] = $this->getJipMenuId() . '_' . $action->getControllerName();
+            $item['lang'] = $action->isLang();
+            $item['icon'] = $action->getIcon();
 
-        foreach ($this->actions as $key => $item) {
-            $action = isset($item['alias']) ? $item['alias'] : $key;
-            if ($this->obj->getAcl($action)) {
-                $item['url'] = isset($item['url']) ? $item['url'] : (($key != 'editACL') ? $this->buildUrl($item, $key) : $this->buildACLUrl($this->obj->getObjId()));
-                $item['id'] = $this->getJipMenuId() . '_' . $item['controller'];
-                $item['icon'] = isset($item['icon']) ? $item['icon'] : '';
-                $item['lang'] = (isset($item['lang']) && systemConfig::$i18nEnable) ? (boolean)$item['lang'] : false;
-                $item['target'] = (isset($item['jip_target']) && $item['jip_target'] == 'new') ? 1 : 0;
+            $target = $action->getData('jip_target');
+            $item['target'] = ($target === 'new');
 
-                if (!isset($item['title'])) {
-                    $item['title'] = '_ ' . $key;
-                }
-
-                if (i18n::isName($item['title'])) {
-                    $item['title'] = i18n::getMessage(i18n::extractName($item['title']), 'jip');
-                }
-
-                $this->result[$key] = new arrayDataspace($item);
+            $item['title'] = $action->getTitle() ? $action->getTitle() : '_ ' . $key;
+            if (i18n::isName($item['title'])) {
+                $item['title'] = i18n::getMessage(i18n::extractName($item['title']), 'jip');
             }
+
+            $this->result[$key] = new arrayDataspace($item);
         }
     }
 
@@ -212,7 +187,7 @@ class jip
      */
     private function getJipMenuId()
     {
-        return $this->module . '_' . $this->type . '_' . $this->id;
+        return $this->obj->module() . '_' . $this->type . '_' . $this->id;
     }
 
     /**
@@ -239,6 +214,7 @@ class jip
             $smarty->assign('langs', $langs);
 
             $smarty->assign('jip', $this->result);
+            //@todo: wtf str_replace?
             $smarty->assign('jipMenuId', str_replace('/', '_', $this->getJipMenuId()));
             $this->result = array();
 

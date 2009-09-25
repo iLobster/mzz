@@ -12,17 +12,6 @@
  * @version $Id$
  */
 
-fileLoader::load('orm/entity');
-fileLoader::load('orm/relation');
-fileLoader::load('orm/lazy');
-fileLoader::load('orm/collection');
-fileLoader::load('orm/observer');
-fileLoader::load('db/simpleSelect');
-fileLoader::load('db/simpleInsert');
-fileLoader::load('db/simpleUpdate');
-fileLoader::load('db/simpleDelete');
-fileLoader::load('orm/mzzORMNotExistMethodException');
-
 /**
  * mapper: implementation of the Data Mapper pattern
  *
@@ -397,6 +386,11 @@ abstract class mapper
         return $this->module;
     }
 
+    public function setModule($module)
+    {
+        $this->module = $module;
+    }
+
     public function getClass()
     {
         return $this->class;
@@ -435,12 +429,12 @@ abstract class mapper
 
         $this->notify('preSelect', $criteria);
 
-        $criteria->append($searchCriteria);
-
         $criteria->setTable($this->table(), $this->table(false));
         $this->addSelectFields($criteria);
 
         $this->relations->add($criteria, $this);
+
+        $criteria->append($searchCriteria);
 
         $this->addOrderBy($criteria);
 

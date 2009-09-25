@@ -27,7 +27,6 @@ class stdToolkit extends toolkit
      * @var object
      */
     private $request;
-    private $registry;
     private $response;
     private $session;
     private $smarty;
@@ -45,7 +44,6 @@ class stdToolkit extends toolkit
     /**#@+
      * @var array
      */
-    private $actionNames = array();
     private $mappers = array();
     private $modules = array();
     /**#@-*/
@@ -65,8 +63,6 @@ class stdToolkit extends toolkit
     public function __construct()
     {
         parent::__construct();
-        $this->actionNames = new arrayDataspace($this->actionNames);
-
         $this->toolkit = systemToolkit::getInstance();
     }
 
@@ -78,25 +74,10 @@ class stdToolkit extends toolkit
     public function getRequest()
     {
         if (empty($this->request)) {
-            fileLoader::load('request/httpRequest');
             $this->request = new httpRequest();
         }
 
         return $this->request;
-    }
-
-    /**
-     * Возвращает объект arrayDataspace
-     *
-     * @return arrayDataspace
-     */
-    public function getRegistry()
-    {
-        if (empty($this->registry)) {
-            $this->registry = new arrayDataspace();
-        }
-
-        return $this->registry;
     }
 
     /**
@@ -107,8 +88,7 @@ class stdToolkit extends toolkit
     public function getResponse()
     {
         if (empty($this->response)) {
-            fileLoader::load('request/httpResponse');
-            $this->response = new httpResponse($this->toolkit->getSmarty());
+            $this->response = new httpResponse();
         }
 
         return $this->response;
@@ -155,7 +135,6 @@ class stdToolkit extends toolkit
             fileLoader::load('template/plugins/modifier.filesize');
             $this->smarty->register_modifier('filesize', 'smarty_modifier_filesize');
 
-            fileLoader::load('forms/form');
             $this->smarty->register_object('form', new form());
 
             fileLoader::load('service/sideHelper');
@@ -221,21 +200,6 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает объект с описанием действий конкретного модуля
-     *
-     * @param string $module имя модуля
-     * @return object
-     */
-    public function getAction($module)
-    {
-        if (!$this->actionNames->exists($module)) {
-            $this->actionNames->set($module, new action($module));
-        }
-
-        return $this->actionNames->get($module);
-    }
-
-    /**
      * Возвращает объект текущего пользователя
      *
      * @return user
@@ -264,6 +228,7 @@ class stdToolkit extends toolkit
         $this->user = $user;
     }
 
+
     /**
      * Возвращает уникальный идентификатор необходимый для идентификации объектов
      *
@@ -280,37 +245,41 @@ class stdToolkit extends toolkit
         return $this->objectIdGenerator->generate($name, $generateNew);
     }
 
+    public function getModule($moduleName)
+    {
+        if (!isset($this->modules[$moduleName])) {
+            $moduleClassName = $moduleName . 'Module';
+            try {
+                fileLoader::load($moduleName . '/' . $moduleClassName);
+            } catch (mzzIoException $e) {
+                throw new mzzModuleNotFoundException($moduleName);
+            }
+
+            //@todo: прикрутить сюда кэширование, чтобы не тыкаться в ФС каждый раз!
+            $appModuleClassName = simpleModule::OVERRIDE_PREFIX . ucfirst($moduleName) . 'Module';
+            try {
+                fileLoader::load($moduleName . '/' . $appModuleClassName);
+                $moduleClassName = $appModuleClassName;
+            } catch (mzzIoException $e) {}
+
+            $this->modules[$moduleName] = new $moduleClassName();
+        }
+
+        return $this->modules[$moduleName];
+    }
+
     /**
      * Возвращает необходимый маппер
      *
      * @param string $module имя модуля
      * @param string $do имя доменного объекта
+     * @deprecated use toolkit->getModule($module)->getMapper($do);
      * @return mapper
      */
     public function getMapper($module, $do)
     {
-        if (!isset($this->mappers[$do])) {
-            $mapperName = $do . 'Mapper';
-            if (!class_exists($mapperName)) {
-                fileLoader::load($module . '/mappers/' . $mapperName);
-            }
-            $this->mappers[$do] = new $mapperName();
-        }
-
-        return $this->mappers[$do];
-    }
-
-    /**
-     * Получение контроллера
-     *
-     * @param string $moduleName имя модуля
-     * @param string $actionName имя экшна
-     * @return simpleController контроллер
-     */
-    public function getController($moduleName, $actionName)
-    {
-        $factory = new simpleFactory($this->getAction($moduleName), $moduleName);
-        return $factory->getController($actionName);
+        $module = $this->getModule($module);
+        return $module->getMapper($do);
     }
 
     /**
@@ -349,7 +318,6 @@ class stdToolkit extends toolkit
     {
         $this->validator = $value;
     }
-
 
     /**
      * Устанавливает объект Request
@@ -440,42 +408,5 @@ class stdToolkit extends toolkit
 
         return $this->charsetDriver;
     }
-
-    public function getSectionName($module_name)
-    {
-        $this->initModulesList();
-
-        if (($key = array_search($module_name, $this->modules)) === false) {
-            throw new mzzRuntimeException('No section for the module ' . $module_name);
-        }
-
-        return $key;
-    }
-
-    public function getModuleName($section_name)
-    {
-        $this->initModulesList();
-
-        if (!isset($this->modules[$section_name])) {
-            throw new mzzRuntimeException('No module for the section ' . $section_name);
-        }
-
-        return $this->modules[$section_name];
-    }
-
-    public function getSectionsList()
-    {
-        $this->initModulesList();
-        return $this->modules;
-    }
-
-    protected function initModulesList()
-    {
-        if (empty($this->modules)) {
-            include(fileLoader::resolve('configs/modules'));
-            $this->modules = $modules;
-        }
-    }
 }
-
 ?>

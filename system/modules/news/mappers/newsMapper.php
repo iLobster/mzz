@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('news');
+fileLoader::load('news/model/news');
 fileLoader::load('modules/comments/plugins/commentsPlugin');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 fileLoader::load('modules/i18n/plugins/i18nPlugin');
@@ -26,7 +26,6 @@ fileLoader::load('modules/i18n/plugins/i18nPlugin');
  */
 class newsMapper extends mapper
 {
-    protected $module = 'news';
     /**
      * Имя класса DataObject
      *
@@ -96,7 +95,6 @@ class newsMapper extends mapper
     public function __construct()
     {
         parent::__construct();
-        $this->plugins('acl_simple');
         $this->plugins('jip');
         $this->plugins('obj_id');
         $this->plugins('i18n');

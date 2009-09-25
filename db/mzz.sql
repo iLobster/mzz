@@ -109,8 +109,8 @@ DROP TABLE IF EXISTS `fileManager_file`;
 
 CREATE TABLE `fileManager_file` (
   `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `realname` VARCHAR(255) COLLATE utf8_general_ci DEFAULT 'РёРјСЏ РІ С„СЃ РІ РєР°С‚Р°Р»РѕРіРµ РЅР° СЃРµСЂРІРµСЂРµ',
-  `name` VARCHAR(255) COLLATE utf8_general_ci DEFAULT 'РёРјСЏ СЃ РєРѕС‚РѕСЂС‹Рј С„Р°Р№Р» Р±СѓРґРµС‚ РѕС‚РґР°РІР°С‚СЊСЃСЏ РєР»РёРµРЅС‚Сѓ',
+  `realname` VARCHAR(255) COLLATE utf8_general_ci DEFAULT 'имя в фс в каталоге на сервере',
+  `name` VARCHAR(255) COLLATE utf8_general_ci DEFAULT 'имя с которым файл будет отдаваться клиенту',
   `ext` VARCHAR(20) COLLATE utf8_general_ci DEFAULT NULL,
   `size` INTEGER(11) DEFAULT NULL,
   `modified` INTEGER(11) DEFAULT NULL,
@@ -254,9 +254,9 @@ AUTO_INCREMENT=4 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 #
 
 INSERT INTO `menu_menuItem` (`id`, `type_id`, `menu_id`, `order`, `args`) VALUES 
-  (1,2,6,1,'a:5:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";s:0:\"\";s:7:\"section\";s:4:\"news\";s:6:\"action\";s:0:\"\";s:12:\"activeRoutes\";a:2:{i:0;a:2:{s:5:\"route\";s:10:\"newsFolder\";s:6:\"params\";a:2:{s:4:\"name\";s:1:\"*\";s:6:\"action\";s:4:\"list\";}}i:1;a:2:{s:5:\"route\";s:6:\"withId\";s:6:\"params\";a:3:{s:7:\"section\";s:4:\"news\";s:2:\"id\";s:1:\"*\";s:6:\"action\";s:4:\"view\";}}}}'),
-  (2,2,6,2,'a:5:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";s:0:\"\";s:7:\"section\";s:4:\"page\";s:6:\"action\";s:0:\"\";s:12:\"activeRoutes\";a:3:{i:0;a:2:{s:5:\"route\";s:11:\"pageActions\";s:6:\"params\";a:2:{s:4:\"name\";s:4:\"main\";s:6:\"action\";s:4:\"view\";}}i:1;a:2:{s:5:\"route\";s:11:\"pageDefault\";s:6:\"params\";a:0:{}}i:2;a:2:{s:5:\"route\";s:7:\"default\";s:6:\"params\";a:0:{}}}}'),
-  (3,2,6,3,'a:5:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";s:0:\"\";s:7:\"section\";s:5:\"admin\";s:6:\"action\";s:5:\"admin\";s:12:\"activeRoutes\";a:0:{}}');
+  (1,2,6,1,'a:5:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";s:0:\"\";s:6:\"module\";s:4:\"news\";s:6:\"action\";s:0:\"\";s:12:\"activeRoutes\";a:2:{i:0;a:2:{s:5:\"route\";s:10:\"newsFolder\";s:6:\"params\";a:2:{s:4:\"name\";s:1:\"*\";s:6:\"action\";s:4:\"list\";}}i:1;a:2:{s:5:\"route\";s:6:\"withId\";s:6:\"params\";a:3:{s:6:\"module\";s:0:\"\";s:2:\"id\";s:1:\"*\";s:6:\"action\";s:4:\"view\";}}}}'),
+  (2,2,6,2,'a:5:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";s:0:\"\";s:6:\"module\";s:4:\"page\";s:6:\"action\";s:0:\"\";s:12:\"activeRoutes\";a:3:{i:0;a:2:{s:5:\"route\";s:11:\"pageActions\";s:6:\"params\";a:2:{s:4:\"name\";s:4:\"main\";s:6:\"action\";s:4:\"view\";}}i:1;a:2:{s:5:\"route\";s:11:\"pageDefault\";s:6:\"params\";a:0:{}}i:2;a:2:{s:5:\"route\";s:7:\"default\";s:6:\"params\";a:0:{}}}}'),
+  (3,2,6,3,'a:5:{s:5:\"route\";s:8:\"default2\";s:6:\"regexp\";s:0:\"\";s:6:\"module\";s:5:\"admin\";s:6:\"action\";s:5:\"admin\";s:12:\"activeRoutes\";a:0:{}}');
 COMMIT;
 
 #
@@ -278,25 +278,25 @@ CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 #
 
 INSERT INTO `menu_menuItem_lang` (`id`, `lang_id`, `title`) VALUES 
-  (1,1,'РќРѕРІРѕСЃС‚Рё'),
+  (1,1,'Новости'),
   (1,2,'News'),
-  (2,1,'Рћ РЅР°СЃ'),
+  (2,1,'О нас'),
   (2,2,'About us'),
-  (3,1,'РџРЈ'),
+  (3,1,'ПУ'),
   (3,2,'AP'),
-  (9,1,'РќРѕРІРѕСЃС‚Рё'),
+  (9,1,'Новости'),
   (9,2,'News'),
-  (10,1,'РљР°С‚Р°Р»РѕРі'),
+  (10,1,'Каталог'),
   (10,2,'Catalogue'),
-  (11,1,'Р“Р°Р»РµСЂРµСЏ'),
+  (11,1,'Галерея'),
   (11,2,'Gallery'),
   (12,1,'FAQ'),
   (12,2,'FAQ'),
-  (13,1,'Р¤РѕСЂСѓРј'),
+  (13,1,'Форум'),
   (13,2,'Forum'),
-  (14,1,'РџРЈ'),
+  (14,1,'ПУ'),
   (14,2,'AP'),
-  (24,1,'Рћ РЅР°СЃ'),
+  (24,1,'О нас'),
   (24,2,'About us');
 COMMIT;
 
@@ -400,9 +400,9 @@ ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 #
 
 INSERT INTO `news_newsFolder_lang` (`id`, `lang_id`, `title`) VALUES 
-  (2,1,'РќРѕРІРѕСЃС‚Рё'),
+  (2,1,'Новости'),
   (2,2,'News'),
-  (18,1,'Р“Р»Р°РІРЅРѕРµ'),
+  (18,1,'Главное'),
   (18,2,'Main');
 COMMIT;
 
@@ -452,7 +452,7 @@ CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 #
 
 INSERT INTO `news_news_lang` (`id`, `lang_id`, `title`, `annotation`, `text`) VALUES 
-  (169,1,'Р РѕСЃСЃРёСЏРЅРµ РЅР°Р·РІР°Р»Рё СЃРІРѕРё Р»СЋР±РёРјС‹Рµ Р±СЂРµРЅРґС‹','РџРµСЂРІС‹Рµ С‚СЂРё РјРµСЃС‚Р° СЂРµР№С‚РёРЅРіР° Р»СЋР±РёРјС‹С… Р±СЂРµРЅРґРѕРІ СЂРѕСЃСЃРёСЏРЅ Р·Р°РЅСЏР»Рё Samsung, Sony Рё Nokia. РќР° С‡РµС‚РІРµСЂС‚РѕРј РјРµСЃС‚Рµ Panasonic, Р° РЅР° РїСЏС‚РѕРј - Toyota. РўР°РєРёРµ СЂРµР·СѓР»СЊС‚Р°С‚С‹ РґР°Р»Рѕ РёСЃСЃР»РµРґРѕРІР°РЅРёРµ РєРѕРјРїР°РЅРёРё Online Market Intelligence. Р’ РґРІР°РґС†Р°С‚РєСѓ Р»СЋР±РёРјС‹С… СЂРѕСЃСЃРёСЏРЅР°РјРё Р±СЂРµРЅРґРѕРІ РІРѕС€Р»Рё Nissan, Reebok Рё Honda, РЅРµ РїРѕРїР°РІС€РёРµ РІ РїСЂРѕС€Р»РѕРіРѕРґРЅРёР№ СЂРµР№С‚РёРЅРі.','РџРµСЂРІС‹Рµ С‚СЂРё РјРµСЃС‚Р° СЂРµР№С‚РёРЅРіР° Р»СЋР±РёРјС‹С… Р±СЂРµРЅРґРѕРІ СЂРѕСЃСЃРёСЏРЅ Р·Р°РЅСЏР»Рё Samsung, Sony Рё Nokia. РўР°РєРёРµ СЂРµР·СѓР»СЊС‚Р°С‚С‹ РґР°Р»Рѕ РёСЃСЃР»РµРґРѕРІР°РЅРёРµ, РїСЂРѕРІРµРґРµРЅРЅРѕРµ РєРѕРјРїР°РЅРёРµР№ Online Market Intelligence.\n\nРўР°РєРёРј РѕР±СЂР°Р·РѕРј, РІ С‚СЂРѕР№РєРµ Р»РёРґРµСЂРѕРІ РѕРєР°Р·Р°Р»РёСЃСЊ С‚Рµ Р¶Рµ Р±СЂРµРЅРґС‹, С‡С‚Рѕ Рё РІ 2008 РіРѕРґСѓ, РЅРѕ Samsung РїРѕРґРЅСЏР»СЃСЏ РЅР° РїРµСЂРІРѕРµ РјРµСЃС‚Рѕ СЃРѕ РІС‚РѕСЂРѕРіРѕ, Р° Sony РїРѕС‚РµСЂСЏР»Р° РѕРґРЅСѓ СЃС‚СЂРѕС‡РєСѓ. РќР° С‡РµС‚РІРµСЂС‚РѕРј РјРµСЃС‚Рµ Panasonic, Р° РЅР° РїСЏС‚РѕРј - Toyota. Р’ РїСЂРѕС€Р»РѕРј РіРѕРґСѓ РїСЏС‚РѕРµ РјРµСЃС‚Рѕ Р·Р°РЅРёРјР°Р» Adidas, РѕРїСѓСЃС‚РёРІС€РёР№СЃСЏ РЅР° С€РµСЃС‚СѓСЋ СЃС‚СЂРѕС‡РєСѓ.\n\nРЎРёР»СЊРЅРµРµ РІСЃРµРіРѕ СѓРїР°Р»Рё РІ СЂРµР№С‚РёРЅРіРµ Р±СЂРµРЅРґС‹ BMW (РѕРїСѓСЃС‚РёР»СЃСЏ СЃ СЃРµРґСЊРјРѕРіРѕ РјРµСЃС‚Р° РЅР° РґРµРІСЏС‚РЅР°РґС†Р°С‚РѕРµ) Рё Mercedes (СЃ РІРѕСЃСЊРјРѕРіРѕ РЅР° РІРѕСЃРµРјРЅР°РґС†Р°С‚РѕРµ). РњРµР¶РґСѓ С‚РµРј, РІ РґРІР°РґС†Р°С‚РєСѓ Р»СЋР±РёРјС‹С… Р±СЂРµРЅРґРѕРІ РїРѕРїР°Р»Рё Nissan, Reebok Рё Honda, РЅРµ РІРѕС€РµРґС€РёРµ РІ СЂРµР№С‚РёРЅРі 2008 РіРѕРґР°.\n\nРџРѕР»РЅРѕСЃС‚СЊСЋ СЃРїРёСЃРѕРє Р»СЋР±РёРјС‹С… Р±СЂРµРЅРґРѕРІ РІС‹РіР»СЏРґРёС‚ СЃР»РµРґСѓСЋС‰РёРј РѕР±СЂР°Р·РѕРј:\n\n   1. Samsung\n   2. Sony\n   3. Nokia\n   4. Panasonic\n   5. Toyota\n   6. Adidas\n   7. Canon\n   8. Bosch\n   9. Asus\n  10. Philips\n  11. HP\n  12. Sony Ericsson\n  13. Nike\n  14. LG\n  15. Nissan\n  16. Coca-Cola\n  17. Reebok\n  18. Mercedes\n  19. BMW\n  20. Honda \n\nР’ РѕСЃРЅРѕРІСѓ СЂРµР№С‚РёРЅРіР° Р»РµРіР»Р° РґРѕР»СЏ СѓРїРѕРјСЏРЅСѓРІС€РёС… РєР°Р¶РґС‹Р№ Р±СЂРµРЅРґ РѕС‚ РѕР±С‰РµРіРѕ С‡РёСЃР»Р° СЂРµСЃРїРѕРЅРґРµРЅС‚РѕРІ, РЅР°Р·РІР°РІС€РёС… С…РѕС‚СЏ Р±С‹ РѕРґРёРЅ Р±СЂРµРЅРґ. РЎРѕРѕР±С‰Р°РµС‚СЃСЏ С‚Р°РєР¶Рµ, С‡С‚Рѕ РїРѕР»РЅС‹Р№ РјР°С‚РµСЂРёР°Р» Рѕ СЂРµР·СѓР»СЊС‚Р°С‚Р°С… РёСЃСЃР»РµРґРѕРІР°РЅРёСЏ СЃ РєРѕРјРјРµРЅС‚Р°СЂРёСЏРјРё СЌРєСЃРїРµСЂС‚РѕРІ Р±СѓРґРµС‚ РѕРїСѓР±Р»РёРєРѕРІР°РЅ РІ РµР¶РµРЅРµРґРµР»СЊРЅРёРєРµ \"РљРѕРјРїР°РЅРёСЏ\". ');
+  (169,1,'Россияне назвали свои любимые бренды','Первые три места рейтинга любимых брендов россиян заняли Samsung, Sony и Nokia. На четвертом месте Panasonic, а на пятом - Toyota. Такие результаты дало исследование компании Online Market Intelligence. В двадцатку любимых россиянами брендов вошли Nissan, Reebok и Honda, не попавшие в прошлогодний рейтинг.','Первые три места рейтинга любимых брендов россиян заняли Samsung, Sony и Nokia. Такие результаты дало исследование, проведенное компанией Online Market Intelligence.\n\nТаким образом, в тройке лидеров оказались те же бренды, что и в 2008 году, но Samsung поднялся на первое место со второго, а Sony потеряла одну строчку. На четвертом месте Panasonic, а на пятом - Toyota. В прошлом году пятое место занимал Adidas, опустившийся на шестую строчку.\n\nСильнее всего упали в рейтинге бренды BMW (опустился с седьмого места на девятнадцатое) и Mercedes (с восьмого на восемнадцатое). Между тем, в двадцатку любимых брендов попали Nissan, Reebok и Honda, не вошедшие в рейтинг 2008 года.\n\nПолностью список любимых брендов выглядит следующим образом:\n\n   1. Samsung\n   2. Sony\n   3. Nokia\n   4. Panasonic\n   5. Toyota\n   6. Adidas\n   7. Canon\n   8. Bosch\n   9. Asus\n  10. Philips\n  11. HP\n  12. Sony Ericsson\n  13. Nike\n  14. LG\n  15. Nissan\n  16. Coca-Cola\n  17. Reebok\n  18. Mercedes\n  19. BMW\n  20. Honda \n\nВ основу рейтинга легла доля упомянувших каждый бренд от общего числа респондентов, назвавших хотя бы один бренд. Сообщается также, что полный материал о результатах исследования с комментариями экспертов будет опубликован в еженедельнике \"Компания\". ');
 COMMIT;
 
 #
@@ -554,408 +554,12 @@ CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 #
 
 INSERT INTO `page_page_lang` (`id`, `lang_id`, `title`, `content`, `keywords`, `description`) VALUES 
-  (1,1,'Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ!','<p>Р’ РЅРѕРІРѕР№ РІРµСЂСЃРёРё РЅР°С€РµРіРѕ С„СЂРµР№РјРІРѕСЂРєР° РјС‹ РїСЂРѕРґРµР»Р°Р»Рё РѕРіСЂРѕРјРЅСѓСЋ СЂР°Р±РѕС‚Сѓ, СЃРґРµР»Р°РІ С„СЂРµР№РјРІРѕСЂРє РµС‰С‘ СЃС‚Р°Р±РёР»СЊРЅРµРµ Рё РіРёР±С‡Рµ.<br /> <br /> РР· РёР·РјРµРЅРµРЅРёР№ РѕСЃРѕР±Рѕ С…РѕС‚РµР»РѕСЃСЊ Р±С‹ РІС‹РґРµР»РёС‚СЊ РЅРѕРІС‹Р№ ORM, Р±РѕР»РµРµ Р±С‹СЃС‚СЂС‹Р№ Рё РіРёР±РєРёР№ Р±Р»Р°РіРѕРґР°СЂСЏ РїР»Р°РіРёРЅР°Рј. Р’РјРµСЃС‚Рѕ СЃС‚Р°СЂРѕРіРѕ ACL, mzz РѕР±Р·Р°РІС‘Р»СЃСЏ С‚РµРїРµСЂСЊ РґРІСѓРјСЏ РїРѕР»РёС‚РёРєР°РјРё РѕР±СЂР°Р±РѕС‚РєРё РїСЂР°РІ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№: acl_simple (СѓРїСЂРѕС‰РµРЅРЅС‹Р№) Рё acl_ext (СЂР°СЃС€РёСЂРµРЅРЅС‹Р№). РЈРїСЂРѕС‰С‘РЅРЅС‹Р№ РѕРїРµСЂРёСЂСѓРµС‚ РєР»Р°СЃСЃР°РјРё РѕР±СЉРµРєС‚РѕРІ, СЂР°СЃС€РёСЂРµРЅРЅС‹Р№ - С‚Р°Рє Р¶Рµ РєР°Рє Рё СЂР°РЅСЊС€Рµ, РєРѕРЅРєСЂРµС‚РЅС‹РјРё РѕР±СЉРµРєС‚Р°РјРё. Р’ Р±РѕР»СЊС€РёРЅСЃС‚РІРµ СЃР»СѓС‡Р°РµРІ РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ С„СѓРЅРєС†РёР№ РїСЂРѕСЃС‚РѕРіРѕ ACL, С‡С‚Рѕ РїРѕР·РІРѕР»СЏРµС‚ РёР·Р±РµР¶Р°С‚СЊ Р»РёС€РЅРёС… Р·Р°РїСЂРѕСЃРѕРІ Рє Р‘Р” Рё СЃРґРµР»Р°С‚СЊ РїСЂРёР»РѕР¶РµРЅРёРµ РµС‰Рµ Р±С‹СЃС‚СЂРµРµ, Р° СѓРїСЂР°РІР»РµРЅРёРµ РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР° - РµС‰С‘ РїСЂРѕС‰Рµ. Р’ РєР°С‡РµСЃС‚РІРµ javascript-С„СЂРµР№РјРІРѕСЂРєР° С‚РµРїРµСЂСЊ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ jQuery (РІ СЂРµР¶РёРјРµ СЃРѕРІРјРµСЃС‚РёРјРѕСЃС‚Рё).<br /> <br /> Р’ СЌС‚РѕС‚ СЂРµР»РёР· Р±С‹Р»Рё РІРєР»СЋС‡РµРЅС‹ РїРµСЂРµРїРёСЃР°РЅРЅС‹Рµ СЃ СѓС‡РµС‚РѕРј РЅРѕРІРѕРІРІРµРґРµРЅРёР№ СЃР°РјС‹Рµ РЅРµРѕР±С…РѕРґРёРјС‹Рµ РёР· РїСЂРµРґС‹РґСѓС‰РёС… РјРѕРґСѓР»РµР№: РЅРѕРІРѕСЃС‚Рё, СЃС‚СЂР°РЅРёС†С‹, С„Р°Р№Р»РѕРІС‹Р№ РјРµРЅРµРґР¶РµСЂ, РєРѕРјРјРµРЅС‚Р°СЂРёРё, РјРµРЅСЋ, captcha. Р’ СЃР»РµРґСѓСЋС‰РёС… РІРµСЂСЃРёСЏС…, РїР°СЂР°Р»Р»РµР»СЊРЅРѕ СЃ СЂР°Р·РІРёС‚РёРµРј СЃР°РјРѕРіРѕ С„СЂРµР№РјРІРѕСЂРєР°, Р±СѓРґРµС‚ РґРѕР±Р°РІР»РµРЅ РµС‰С‘ СЂСЏРґ РјРѕРґСѓР»РµР№.<br /> <br /> Р‘РѕР»РµРµ РїРѕРґСЂРѕР±РЅСѓСЋ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РІРЅСѓС‚СЂРµРЅРЅРµРј СѓСЃС‚СЂРѕР№СЃС‚РІРµ С„СЂРµР№РјРІРѕСЂРєР° РјРѕР¶РЅРѕ РЅР°Р№С‚Рё РІ РґРѕРєСѓРјРµРЅС‚Р°С†РёРё. РџРѕ РІСЃРµРј РІРѕРїСЂРѕСЃР°Рј, РєР°СЃР°СЋС‰РёРјСЃСЏ СЂР°Р·СЂР°Р±РѕС‚РєРё СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј mzz, РІС‹ РјРѕР¶РµС‚Рµ РѕР±СЂР°С‰Р°С‚СЊСЃСЏ РІ РЅР°С€ <a href=\"http://mzz.ru/forum\">С„РѕСЂСѓРј</a>, Р»РёР±Рѕ <a style=\"color: #006620; background-color: #fff9ab;\" title=\"Linkification: irc://mzz@irc.rusnet.ru\">irc://mzz@irc.rusnet.ru</a>.<br /> <br /> Р”Р»СЏ Р°РІС‚РѕСЂРёР·Р°С†РёРё РІ РґРµРјРѕ-РїСЂРёР»РѕР¶РµРЅРёРё РёСЃРїРѕР»СЊР·СѓР№С‚Рµ СЃР»РµРґСѓСЋС‰РёРµ РґР°РЅРЅС‹Рµ:<br /> Р›РѕРіРёРЅ: admin<br /> РџР°СЂРѕР»СЊ: test</p>','',''),
+  (1,1,'Добро пожаловать!','<p>В новой версии нашего фреймворка мы проделали огромную работу, сделав фреймворк ещё стабильнее и гибче.<br /> <br /> Из изменений особо хотелось бы выделить новый ORM, более быстрый и гибкий благодаря плагинам. Вместо старого ACL, mzz обзавёлся теперь двумя политиками обработки прав пользователей: acl_simple (упрощенный) и acl_ext (расширенный). Упрощённый оперирует классами объектов, расширенный - так же как и раньше, конкретными объектами. В большинстве случаев достаточно функций простого ACL, что позволяет избежать лишних запросов к БД и сделать приложение еще быстрее, а управление правами доступа - ещё проще. В качестве javascript-фреймворка теперь используется jQuery (в режиме совместимости).<br /> <br /> В этот релиз были включены переписанные с учетом нововведений самые необходимые из предыдущих модулей: новости, страницы, файловый менеджер, комментарии, меню, captcha. В следующих версиях, параллельно с развитием самого фреймворка, будет добавлен ещё ряд модулей.<br /> <br /> Более подробную информацию о внутреннем устройстве фреймворка можно найти в документации. По всем вопросам, касающимся разработки с использованием mzz, вы можете обращаться в наш <a href=\"http://mzz.ru/forum\">форум</a>, либо <a style=\"color: #006620; background-color: #fff9ab;\" title=\"Linkification: irc://mzz@irc.rusnet.ru\">irc://mzz@irc.rusnet.ru</a>.<br /> <br /> Для авторизации в демо-приложении используйте следующие данные:<br /> Логин: admin<br /> Пароль: test</p>','',''),
   (1,2,'About us','<strong>mzz</strong> - is a php5 framework for web-applications.',NULL,NULL),
-  (2,1,'404 Not Found','Р—Р°РїСЂР°С€РёРІР°РµРјР°СЏ СЃС‚СЂР°РЅРёС†Р° РЅРµ РЅР°Р№РґРµРЅР°!',NULL,NULL),
+  (2,1,'404 Not Found','Запрашиваемая страница не найдена!',NULL,NULL),
   (2,2,'404 Not Found','Page doesn''t exist',NULL,NULL),
-  (4,1,'Р”РѕСЃС‚СѓРї Р·Р°РїСЂРµС‰С‘РЅ','Р”РѕСЃС‚СѓРї Р·Р°РїСЂРµС‰С‘РЅ',NULL,NULL),
+  (4,1,'Доступ запрещён','Доступ запрещён',NULL,NULL),
   (4,2,'Access not allowed.','Access not allowed. Try to login or register.',NULL,NULL);
-COMMIT;
-
-#
-# Structure for the `sys_access` table : 
-#
-
-DROP TABLE IF EXISTS `sys_access`;
-
-CREATE TABLE `sys_access` (
-  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `action_id` INTEGER(11) UNSIGNED DEFAULT NULL,
-  `class_id` INTEGER(11) DEFAULT NULL,
-  `obj_id` INTEGER(11) DEFAULT NULL,
-  `uid` INTEGER(11) DEFAULT NULL,
-  `gid` INTEGER(11) DEFAULT NULL,
-  `allow` TINYINT(1) UNSIGNED DEFAULT '0',
-  `deny` TINYINT(1) UNSIGNED DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `class_action_id` (`class_id`, `obj_id`, `uid`, `gid`),
-  KEY `obj_id_gid` (`obj_id`, `gid`),
-  KEY `obj_id_uid` (`obj_id`, `uid`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=9100 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `sys_access` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_access` (`id`, `action_id`, `class_id`, `obj_id`, `uid`, `gid`, `allow`, `deny`) VALUES 
-  (9079,3,1,0,NULL,1,1,0),
-  (9080,3,1,0,NULL,2,1,0),
-  (9081,3,1,0,NULL,4,1,0),
-  (9082,1,1,0,NULL,4,1,0),
-  (9083,29,1,0,NULL,4,1,0),
-  (9084,2,1,0,NULL,4,1,0),
-  (9085,5,2,0,NULL,1,1,0),
-  (9086,5,2,0,NULL,2,1,0),
-  (9087,4,2,0,NULL,4,1,0),
-  (9088,5,2,0,NULL,4,1,0),
-  (9089,6,2,0,NULL,4,1,0),
-  (9090,7,2,0,NULL,4,1,0),
-  (9091,30,2,0,NULL,4,1,0),
-  (9092,8,2,0,NULL,4,1,0),
-  (9093,3,6,9,NULL,1,1,0),
-  (9094,3,6,9,NULL,2,1,0),
-  (9095,3,6,10,NULL,1,1,0),
-  (9096,3,6,10,NULL,2,1,0),
-  (9098,5,50,0,5,NULL,1,0),
-  (9099,69,50,0,NULL,1,1,0);
-COMMIT;
-
-#
-# Structure for the `sys_access_registry` table : 
-#
-
-DROP TABLE IF EXISTS `sys_access_registry`;
-
-CREATE TABLE `sys_access_registry` (
-  `obj_id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `class_id` INTEGER(11) UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`obj_id`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=1462 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `sys_access_registry` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_access_registry` (`obj_id`, `class_id`) VALUES 
-  (9,6),
-  (10,6),
-  (57,6),
-  (1443,9),
-  (1444,7),
-  (1445,7),
-  (1446,7),
-  (1447,7),
-  (1448,7),
-  (1449,7),
-  (1450,7),
-  (1451,7),
-  (1452,7),
-  (1453,7),
-  (1454,50),
-  (1455,52),
-  (1456,3),
-  (1457,1),
-  (1458,11),
-  (1459,11),
-  (1460,7),
-  (1461,10);
-COMMIT;
-
-#
-# Structure for the `sys_actions` table : 
-#
-
-DROP TABLE IF EXISTS `sys_actions`;
-
-CREATE TABLE `sys_actions` (
-  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=137 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `sys_actions` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_actions` (`id`, `name`) VALUES 
-  (1,'edit'),
-  (2,'delete'),
-  (3,'view'),
-  (4,'create'),
-  (5,'list'),
-  (6,'createFolder'),
-  (7,'editFolder'),
-  (8,'deleteFolder'),
-  (9,'editACL'),
-  (10,'login'),
-  (11,'exit'),
-  (12,'memberOf'),
-  (13,'groupDelete'),
-  (14,'groupsList'),
-  (15,'groupEdit'),
-  (16,'membersList'),
-  (17,'addToGroup'),
-  (18,'editDefault'),
-  (19,'post'),
-  (20,'admin'),
-  (21,'devToolbar'),
-  (27,'upload'),
-  (28,'get'),
-  (29,'move'),
-  (30,'moveFolder'),
-  (51,'groupCreate'),
-  (52,'viewGallery'),
-  (53,'createAlbum'),
-  (54,'editAlbum'),
-  (55,'viewAlbum'),
-  (57,'viewThumbnail'),
-  (59,'viewPhoto'),
-  (60,'editPhoto'),
-  (61,'save'),
-  (62,'deletemenu'),
-  (63,'addmenu'),
-  (64,'editmenu'),
-  (65,'additem'),
-  (66,'last'),
-  (67,'moveUp'),
-  (68,'moveDown'),
-  (69,'register'),
-  (70,'results'),
-  (71,'send'),
-  (72,'addCategory'),
-  (73,'deleteCategory'),
-  (74,'editCategory'),
-  (75,'viewActual'),
-  (76,'deleteAlbum'),
-  (77,'deletecat'),
-  (78,'createcat'),
-  (79,'editcat'),
-  (80,'forum'),
-  (81,'thread'),
-  (82,'newThread'),
-  (83,'createCategory'),
-  (84,'createForum'),
-  (85,'editForum'),
-  (86,'goto'),
-  (87,'editThread'),
-  (88,'moveThread'),
-  (89,'up'),
-  (90,'down'),
-  (91,'createRoot'),
-  (92,'browse'),
-  (93,'new'),
-  (94,'editTags'),
-  (95,'tagsCloud'),
-  (96,'itemsTagsCloud'),
-  (97,'searchByTag'),
-  (98,'profile'),
-  (99,'groupAdmin'),
-  (100,'editProfile'),
-  (101,'massAction'),
-  (102,'translate'),
-  (103,'configuration'),
-  (104,'adminTypes'),
-  (105,'adminProperties'),
-  (106,'add'),
-  (107,'menu'),
-  (108,'configure'),
-  (109,'addClass'),
-  (110,'editClass'),
-  (111,'deleteClass'),
-  (112,'addModule'),
-  (113,'editModule'),
-  (114,'deleteModule'),
-  (115,'listActions'),
-  (116,'addAction'),
-  (117,'editAction'),
-  (118,'deleteAction'),
-  (119,'addObjToRegistry'),
-  (120,'editSections'),
-  (121,'map'),
-  (122,'dashboard'),
-  (123,'admin_access'),
-  (124,'addUser'),
-  (125,'editUser'),
-  (126,'editGroup'),
-  (127,'addGroup'),
-  (128,'deleteGroup'),
-  (129,'deleteUser'),
-  (130,'addGroupDefault'),
-  (131,'editGroupDefault'),
-  (132,'deleteGroupDefault'),
-  (133,'addUserDefault'),
-  (134,'editUserDefault'),
-  (135,'deleteUserDefault'),
-  (136,'editOwner');
-COMMIT;
-
-#
-# Structure for the `sys_classes` table : 
-#
-
-DROP TABLE IF EXISTS `sys_classes`;
-
-CREATE TABLE `sys_classes` (
-  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-  `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `module_id` INTEGER(11) UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=61 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `sys_classes` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_classes` (`id`, `name`, `module_id`) VALUES 
-  (1,'news',1),
-  (2,'newsFolder',1),
-  (3,'user',2),
-  (4,'group',2),
-  (6,'page',4),
-  (7,'access',5),
-  (8,'userGroup',2),
-  (9,'admin',6),
-  (10,'comments',8),
-  (11,'commentsFolder',8),
-  (12,'userAuth',2),
-  (13,'pageFolder',4),
-  (24,'menuItem',12),
-  (25,'menu',12),
-  (26,'menuFolder',12),
-  (27,'userOnline',2),
-  (32,'message',14),
-  (33,'messageCategory',14),
-  (47,'captcha',18),
-  (48,'profile',15),
-  (50,'userFolder',2),
-  (52,'groupFolder',2),
-  (55,'configOption',22),
-  (56,'configFolder',22),
-  (58,'file',25),
-  (59,'folder',25),
-  (60,'storage',25);
-COMMIT;
-
-#
-# Structure for the `sys_classes_actions` table : 
-#
-
-DROP TABLE IF EXISTS `sys_classes_actions`;
-
-CREATE TABLE `sys_classes_actions` (
-  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `class_id` INTEGER(11) UNSIGNED DEFAULT NULL,
-  `action_id` INTEGER(11) UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `class_id` (`class_id`, `action_id`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=354 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `sys_classes_actions` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_classes_actions` (`id`, `class_id`, `action_id`) VALUES 
-  (1,1,1),
-  (2,1,2),
-  (3,1,3),
-  (5,2,4),
-  (6,2,5),
-  (7,2,6),
-  (8,2,7),
-  (9,2,8),
-  (11,3,10),
-  (12,3,11),
-  (13,3,5),
-  (14,3,1),
-  (15,3,12),
-  (16,3,2),
-  (17,4,13),
-  (19,4,15),
-  (20,4,16),
-  (21,4,17),
-  (24,6,3),
-  (28,6,1),
-  (29,6,2),
-  (31,7,18),
-  (37,10,2),
-  (47,13,7),
-  (48,13,6),
-  (49,13,4),
-  (50,13,5),
-  (51,9,21),
-  (70,1,29),
-  (76,2,30),
-  (91,13,8),
-  (92,13,30),
-  (114,7,20),
-  (116,6,29),
-  (158,26,20),
-  (160,26,63),
-  (161,25,64),
-  (181,33,5),
-  (182,32,3),
-  (185,33,71),
-  (186,32,2),
-  (253,1,97),
-  (259,48,98),
-  (266,50,69),
-  (270,50,4),
-  (279,52,51),
-  (280,52,14),
-  (281,48,100),
-  (295,10,1),
-  (296,55,2),
-  (300,56,108),
-  (301,58,20),
-  (302,58,2),
-  (303,58,1),
-  (304,58,28),
-  (305,58,29),
-  (306,59,92),
-  (307,59,6),
-  (308,59,8),
-  (309,59,7),
-  (310,59,5),
-  (311,59,30),
-  (312,59,27),
-  (313,9,20),
-  (314,9,107),
-  (315,9,102),
-  (316,9,109),
-  (317,9,110),
-  (318,9,111),
-  (319,9,112),
-  (320,9,113),
-  (321,9,114),
-  (322,9,115),
-  (323,9,116),
-  (324,9,117),
-  (325,9,118),
-  (326,9,119),
-  (327,9,120),
-  (328,9,121),
-  (329,9,122),
-  (330,6,9),
-  (331,25,3),
-  (332,25,91),
-  (333,25,62),
-  (334,25,29),
-  (335,24,4),
-  (336,24,1),
-  (337,24,2),
-  (338,7,9),
-  (339,50,5),
-  (340,7,123),
-  (341,7,124),
-  (342,7,125),
-  (343,7,126),
-  (344,7,127),
-  (345,7,128),
-  (346,7,129),
-  (347,7,130),
-  (348,7,131),
-  (349,7,132),
-  (350,7,133),
-  (351,7,134),
-  (352,7,135),
-  (353,7,136);
 COMMIT;
 
 #
@@ -983,8 +587,8 @@ AUTO_INCREMENT=5 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 #
 
 INSERT INTO `sys_config` (`id`, `module_name`, `name`, `title`, `type_id`, `value`, `args`) VALUES 
-  (3,'news','items_per_page','РљРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РЅР° СЃС‚СЂР°РЅРёС†Сѓ',1,'20',''),
-  (4,'fileManager','public_path','РџСѓС‚СЊ РґРѕ РїР°Р±Р»РёРє РїР°РїРєРё',2,'','');
+  (3,'news','items_per_page','Количество элементов на страницу',1,'20',''),
+  (4,'fileManager','public_path','Путь до паблик папки',2,'','');
 COMMIT;
 
 #
@@ -1006,7 +610,7 @@ AUTO_INCREMENT=3 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
 #
 
 INSERT INTO `sys_lang` (`id`, `name`, `title`) VALUES 
-  (1,'ru','СЂСѓ'),
+  (1,'ru','ру'),
   (2,'en','en');
 COMMIT;
 
@@ -1029,45 +633,10 @@ ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 #
 
 INSERT INTO `sys_lang_lang` (`id`, `lang_id`, `name`) VALUES 
-  (1,1,'СЂСѓСЃСЃРєРёР№'),
+  (1,1,'русский'),
   (1,2,'russian'),
-  (2,1,'Р°РЅРіР»РёР№СЃРєРёР№'),
+  (2,1,'английский'),
   (2,2,'english');
-COMMIT;
-
-#
-# Structure for the `sys_modules` table : 
-#
-
-DROP TABLE IF EXISTS `sys_modules`;
-
-CREATE TABLE `sys_modules` (
-  `id` INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `title` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `icon` CHAR(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `order` INTEGER(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-)ENGINE=MyISAM
-AUTO_INCREMENT=26 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-#
-# Data for the `sys_modules` table  (LIMIT 0,500)
-#
-
-INSERT INTO `sys_modules` (`id`, `name`, `title`, `icon`, `order`) VALUES 
-  (1,'news','РќРѕРІРѕСЃС‚Рё','mzz-icon mzz-icon-block',10),
-  (2,'user','РџРѕР»СЊР·РѕРІР°С‚РµР»Рё','users.gif',90),
-  (4,'page','РЎС‚СЂР°РЅРёС†С‹','pages.gif',20),
-  (5,'access','РџСЂР°РІР° РґРѕСЃС‚СѓРїР°','access.gif',10),
-  (6,'admin','РђРґРјРёРЅРёСЃС‚СЂРёСЂРѕРІР°РЅРёРµ','mzz-icon mzz-icon-wrench-cross',0),
-  (8,'comments','РљРѕРјРјРµРЅС‚Р°СЂРёРё','comments.gif',40),
-  (12,'menu','РњРµРЅСЋ','pages.gif',90),
-  (18,'captcha','Captcha','',0),
-  (19,'pager','РџРµР№РґР¶РµСЂ',NULL,NULL),
-  (20,'simple','simple',NULL,NULL),
-  (22,'config','РљРѕРЅС„РёРіСѓСЂР°С†РёСЏ','config.gif',0),
-  (25,'fileManager','file manager','',0);
 COMMIT;
 
 #
@@ -1210,6 +779,22 @@ INSERT INTO `user_group` (`id`, `name`, `is_default`) VALUES
 COMMIT;
 
 #
+# Structure for the `user_roles` table : 
+#
+
+DROP TABLE IF EXISTS `user_roles`;
+
+CREATE TABLE `user_roles` (
+  `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
+  `group_id` INTEGER(11) NOT NULL,
+  `module` VARCHAR(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `role` VARCHAR(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `group_module_role` (`group_id`, `module`, `role`)
+)ENGINE=MyISAM
+AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+#
 # Structure for the `user_user` table : 
 #
 
@@ -1237,7 +822,7 @@ AUTO_INCREMENT=6 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 INSERT INTO `user_user` (`id`, `login`, `email`, `password`, `created`, `confirmed`, `last_login`, `language_id`, `timezone`, `skin`) VALUES 
   (1,'guest','','',NULL,NULL,1225005849,NULL,3,1),
-  (2,'admin','','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1246339083,1,3,1),
+  (2,'admin','','098f6bcd4621d373cade4e832627b4f6',NULL,NULL,1253665584,1,3,1),
   (3,'moderator','','098f6bcd4621d373cade4e832627b4f6',1188187851,NULL,1203767664,1,3,1),
   (4,'user','','098f6bcd4621d373cade4e832627b4f6',1243925700,NULL,NULL,NULL,3,1),
   (5,'qwe','','202cb962ac59075b964b07152d234b70',1249521132,NULL,NULL,1,3,1);
@@ -1258,7 +843,7 @@ CREATE TABLE `user_userAuth` (
   `time` INTEGER(11) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM
-AUTO_INCREMENT=137 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+AUTO_INCREMENT=138 ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 #
 # Data for the `user_userAuth` table  (LIMIT 0,500)
@@ -1277,7 +862,8 @@ INSERT INTO `user_userAuth` (`id`, `user_id`, `ip`, `hash`, `obj_id`, `time`) VA
   (133,2,'127.0.0.1','021d2bab67d5c4d478dd39d7cfaca0b2',NULL,NULL),
   (134,2,'127.0.0.1','254be4b2e6328875e8dfe2291eead872',NULL,NULL),
   (135,2,'127.0.0.1','f028a4c7dd2cfce774e71b1d86cba0a4',NULL,NULL),
-  (136,5,'10.30.35.150','b77e872c8cdbe566085756413d0beef1',NULL,NULL);
+  (136,5,'10.30.35.150','b77e872c8cdbe566085756413d0beef1',NULL,NULL),
+  (137,2,'127.0.0.1','ba3c6bca2a06f107dfaeb0d72d3ea278',NULL,1253230671);
 COMMIT;
 
 #

@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('news/newsFolder');
+fileLoader::load('news/model/newsFolder');
 fileLoader::load('orm/plugins/tree_mpPlugin');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 fileLoader::load('modules/i18n/plugins/i18nPlugin');
@@ -27,7 +27,6 @@ fileLoader::load('modules/i18n/plugins/i18nPlugin');
 
 class newsFolderMapper extends mapper
 {
-    protected $module = 'news';
     /**
      * Имя класса DataObject
      *
@@ -60,7 +59,6 @@ class newsFolderMapper extends mapper
         parent::__construct();
         $this->attach(new tree_mpPlugin(array(
             'path_name' => 'name')), 'tree');
-        $this->plugins('acl_simple');
         $this->plugins('jip');
         $this->plugins('i18n');
     }

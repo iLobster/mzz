@@ -14,18 +14,16 @@ require_once systemConfig::$pathToSystem . '/version.php';
 
 require_once systemConfig::$pathToSystem . '/resolver/init.php';
 require_once systemConfig::$pathToSystem . '/resolver/casesFileResolver.php';
-require_once systemConfig::$pathToSystem . '/resolver/testFileResolver.php';
 
 $baseresolver = new compositeResolver();
-//$baseresolver->addResolver(new appFileResolver());
-$baseresolver->addResolver(new testFileResolver());
-$baseresolver->addResolver(new sysFileResolver());
+
+$baseresolver->addResolver(new fileResolver(systemConfig::$pathToTests . '/*'));
+$baseresolver->addResolver(new fileResolver(systemConfig::$pathToSystem . '/*'));
 $resolver = new compositeResolver();
 $resolver->addResolver(new classFileResolver($baseresolver));
 $resolver->addResolver(new casesFileResolver($baseresolver));
-$resolver->addResolver(new libResolver($baseresolver));
 $resolver->addResolver(new moduleResolver($baseresolver));
-$resolver->addResolver(new configFileResolver($baseresolver));
+$resolver->addResolver(new commonFileResolver($baseresolver));
 fileLoader::setResolver($resolver);
 
 fileLoader::load('exceptions/init');
@@ -33,30 +31,27 @@ $dispatcher = new errorDispatcher();
 
 set_error_handler('simpletest_error_handler');
 
-fileLoader::load('dataspace/arrayDataspace');
+fileLoader::load('service/arrayDataspace');
 fileLoader::load('orm/mapper');
 fileLoader::load('simple/simpleController');
-fileLoader::load('simple/simpleFactory');
 
 fileLoader::load('libs/simpletest/unit_tester');
 fileLoader::load('libs/simpletest/mock_objects');
 fileLoader::load('libs/simpletest/reporter');
 restore_error_handler();
 
-fileLoader::load('db/DB');
+fileLoader::load('db/init');
+fileLoader::load('orm/init');
+fileLoader::load('forms/init');
 fileLoader::load('filters/init');
-fileLoader::load('request/httpResponse');
+fileLoader::load('request/init');
 fileLoader::load('template/mzzSmarty');
 
-fileLoader::load('toolkit');
-fileLoader::load('toolkit/stdToolkit');
-fileLoader::load('toolkit/systemToolkit');
+fileLoader::load('toolkit/init');
 
-fileLoader::load('iterators/mzzIniFilterIterator');
-
-fileLoader::load('core/action');
+fileLoader::load('simple/init');
 fileLoader::load('timer');
-fileLoader::load('i18n/locale');
+fileLoader::load('i18n/init');
 
 $toolkit = systemToolkit::getInstance();
 $toolkit->addToolkit(new stdToolkit());

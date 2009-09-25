@@ -1,6 +1,6 @@
 <?php
 
-mock::generate('sysFileResolver');
+mock::generate('fileResolver');
 
 class classFileResolverTest extends UnitTestCase
 {
@@ -9,7 +9,7 @@ class classFileResolverTest extends UnitTestCase
 
     public function setUp()
     {
-        $this->mock = new mocksysFileResolver();
+        $this->mock = new mockfileResolver();
         $this->resolver = new classFileResolver($this->mock);
     }
 

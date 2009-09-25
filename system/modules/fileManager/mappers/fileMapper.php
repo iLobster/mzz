@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('fileManager/file');
+fileLoader::load('fileManager/model/file');
 fileLoader::load('fileManager/plugins/fileExtraPlugin');
 
 /**
@@ -25,7 +25,6 @@ fileLoader::load('fileManager/plugins/fileExtraPlugin');
 
 class fileMapper extends mapper
 {
-    protected $module = 'fileManager';
     protected $class = 'file';
     protected $table = 'fileManager_file';
 
@@ -95,7 +94,6 @@ class fileMapper extends mapper
     {
         parent::__construct();
         $this->plugins('fileExtra');
-        $this->plugins('acl_simple');
         $this->plugins('jip');
     }
 

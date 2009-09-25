@@ -53,6 +53,7 @@ systemConfig::$db['default']['password'] = '';
 systemConfig::$db['default']['charset'] = 'utf8';
 systemConfig::$db['default']['options'] = array();
 
+systemConfig::$appName = 'mzz';
 systemConfig::$pathToApplication = dirname(__FILE__) . '/..';
 systemConfig::$pathToTemp = realpath(dirname(__FILE__) . '/../../tmp');
 systemConfig::$pathToConf = dirname(__FILE__);

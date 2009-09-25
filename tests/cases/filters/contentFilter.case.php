@@ -25,7 +25,7 @@ class contentFilterTest extends unitTestCase
         $this->request->expectOnce('getAction', array());
         $this->request->setReturnValue('getAction', 'bar');
 
-        $this->assertEqual($this->contentFilter->getTemplateName($this->request, $this->path), "act/test_section/bar.tpl");
+        $this->assertEqual($this->contentFilter->getTemplateName($this->request, $this->path), "act/test/bar.tpl");
     }
 
     public function testSectionMapperFalse()

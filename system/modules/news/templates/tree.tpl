@@ -6,7 +6,7 @@
             {if $smarty.foreach.folders.first == false}
             {'&nbsp;&nbsp;'|str_repeat:$current_folder->getTreeLevel()-1}
             {if $newsFolder->getTreePath() ne $current_folder->getTreePath()}
-                <a href="{url route=withAnyParam section=news action=list name=$current_folder->getTreePath()}">{$current_folder->getTitle()|h}</a>
+                <a href="{url route=withAnyParam module=news action=list name=$current_folder->getTreePath()}">{$current_folder->getTitle()|h}</a>
             {else}
                 <strong>{$current_folder->getTitle()|h}</strong>
             {/if}

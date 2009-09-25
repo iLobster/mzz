@@ -23,59 +23,49 @@ class adminAdminController extends simpleController
 {
     protected function getView()
     {
-        $module = $this->request->getString('module_name');
-        $action = $this->request->getString('action_name');
+        $moduleName = $this->request->getString('module_name');
+        $actionName = $this->request->getString('action_name');
 
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
 
-        if (is_null($module)) {
-            $module = 'admin';
+        if (is_null($moduleName)) {
+            $moduleName = 'admin';
 
-            if (is_null($action)) {
-                $action = 'admin';
+            if (is_null($actionName)) {
+                $actionName = 'admin';
             }
         }
 
-        $modules = $adminMapper->getModules();
-        $sections = $this->toolkit->getSectionsList();
-
-        $actionFinder = new action($module);
-        $class = $actionFinder->getClass($action);
-
-        $acl = new acl($this->toolkit->getUser(), 0, $class);
-        $access = $acl->getDefaultCombined();
-
-        if (empty($access[$action]) && !$acl->isRoot()) {
-            return $this->forward403($adminMapper);
-        }
-
-        if ($module == 'admin' && in_array($action, array('dashboard', 'admin'))) {
+        if ($moduleName == 'admin' && in_array($actionName, array(
+            'dashboard',
+            'admin'))) {
             return $this->mainAdminPage();
         }
 
-        if (isset($modules[$module]) && in_array($module, $sections)) {
-            return $this->forward($module, $action);
+        $module = $this->toolkit->getModule($moduleName);
+
+        try {
+            $action = $module->getAction($actionName);
+            return $this->forward($moduleName, $actionName);
+        } catch (mzzUnknownModuleActionException $e) {
+            $this->smarty->assign('module', $moduleName);
+            return $this->smarty->fetch('admin/404.tpl');
         }
-
-        $this->smarty->assign('module', $module);
-
-        return $this->smarty->fetch('admin/noModule.tpl');
     }
 
     protected function mainAdminPage()
     {
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
-        $dashboard_modules = array();
+        $dashboard = array();
         foreach ($adminMapper->getModules() as $moduleName => $module) {
-            $modules_actions = $this->toolkit->getAction($moduleName)->getActions();
-            foreach ($modules_actions as $class_actions) {
-                if (array_key_exists('dashboard', $class_actions)) {
-                    $dashboard_modules[] = $moduleName;
+            foreach ($module->getActions() as $action) {
+                if ($action->isDashboard()) {
+                    $dashboard[] = $action;
                 }
             }
         }
 
-        $this->smarty->assign('dashboard_modules', $dashboard_modules);
+        $this->smarty->assign('dashboard', $dashboard);
         return $this->smarty->fetch('admin/main.tpl');
     }
 }

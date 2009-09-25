@@ -12,9 +12,7 @@
  * @package system
  * @subpackage cache
  * @version $Id$
-*/
-
-require_once systemConfig::$pathToSystem . '/cache/iCache.php';
+ */
 
 /**
  * cacheMemcache: драйвер кэширования memcache
@@ -23,11 +21,11 @@ require_once systemConfig::$pathToSystem . '/cache/iCache.php';
  * @subpackage cache
  * @version 0.0.4
  */
-class cacheMemcache implements iCache
+class cacheMemcache extends cache
 {
     const DEFAULT_HOST = '127.0.0.1';
     const DEFAULT_PORT = 11211;
-    const DEFAULT_PERSISTENT = true;
+    const DEFAULT_PERSISTENT = false;
     const DEFAULT_WEIGHT = 1;
     const DEFAULT_TIMEOUT = 1;
     const DEFAULT_RETRYINTERVAL = 15;
@@ -38,6 +36,8 @@ class cacheMemcache implements iCache
 
     protected $memcache;
 
+    private $expire = 60;
+
     public function __construct(Array $params = array())
     {
         if (!class_exists('Memcache')) {
@@ -47,47 +47,40 @@ class cacheMemcache implements iCache
         $this->memcache = new Memcache();
 
         if (!isset($params['servers']) || !is_array($params['servers'])) {
-            $params['servers'] = array(self::DEFAULT_HOST => array());
+            $params['servers'] = array(
+                self::DEFAULT_HOST => array());
         }
 
         $defaultsParams = array(
-        'port' => self::DEFAULT_PORT,
-        'persistent' => self::DEFAULT_PERSISTENT,
-        'weight' => self::DEFAULT_WEIGHT,
-        'timeout' => self::DEFAULT_TIMEOUT,
-        'retry_interval' => self::DEFAULT_RETRYINTERVAL,
-        'status' => self::DEFAULT_STATUS,
-        'failure_callback' => array($this, 'failureCallback'),
-        );
+            'port' => self::DEFAULT_PORT,
+            'persistent' => self::DEFAULT_PERSISTENT,
+            'weight' => self::DEFAULT_WEIGHT,
+            'timeout' => self::DEFAULT_TIMEOUT,
+            'retry_interval' => self::DEFAULT_RETRYINTERVAL,
+            'status' => self::DEFAULT_STATUS,
+            'failure_callback' => array(
+                $this,
+                'failureCallback'));
         foreach ($params['servers'] as $host => $serverParams) {
             $serverParams = array_merge($defaultsParams, $serverParams);
             if (!empty($serverParams['failure_callback']) && !is_callable($serverParams['failure_callback'])) {
                 throw new mzzCallbackException($serverParams['failure_callback']);
             }
 
-            $this->memcache->addServer(
-            $host,
-            $serverParams['port'],
-            (bool)$serverParams['persistent'],
-            (int)$serverParams['weight'],
-            (int)$serverParams['timeout'],
-            (int)$serverParams['retry_interval'],
-            (bool)$serverParams['status'],
-            $serverParams['failure_callback']
-            );
-
-            /*
-            if (!$this->memcache->getServerStatus($host, $serverParams['port'])) {
-                $this->failureCallback($host, $serverParams['port']);
-            }
-            */
+            $this->memcache->addServer($host, $serverParams['port'], (bool)$serverParams['persistent'], (int)$serverParams['weight'], (int)$serverParams['timeout'], (int)$serverParams['retry_interval'], (bool)$serverParams['status'], $serverParams['failure_callback']);
         }
 
         if (isset($params['compress']) && $params['compress'] == true) {
             $threshold = isset($params['threshold']) ? $params['threshold'] : self::DEFAULT_COMPRESSTRESHOLD;
-            $min_savings = isset($params['min_savings']) ? $params['min_savings'] : self::DEFAULT_COMPRESSTRESHOLD;
+            $min_savings = isset($params['min_savings']) ? $params['min_savings'] : self::DEFAULT_MINSAVINGS;
             $this->memcache->setCompressThreshold($threshold, $min_savings);
         }
+
+        if (isset($params['expire'])) {
+            $this->expire = $params['expire'];
+        }
+
+        $this->expire += time();
     }
 
     public function getStatus($host, $port)
@@ -95,21 +88,18 @@ class cacheMemcache implements iCache
         return $this->memcache->getServerStatus($host, $port);
     }
 
-    public function add($key, $value, $expire = null, $params = array())
+    public function set($key, $value, array $tags = array(), $expire = null)
     {
-        try {
-            $flag = isset($params['flag']) ? $params['flag'] : null;
-            return $this->memcache->add($key, $value, $flag, $expire);
-        } catch (mzzException $e) {
-            return false;
+        if (is_null($expire)) {
+            $expire = $this->expire;
+        } else {
+            $expire += time();
         }
-    }
 
-    public function set($key, $value, $expire = null, $params = array())
-    {
+        $data = $this->setTags($value, $tags);
+
         try {
-            $flag = isset($params['flag']) ? $params['flag'] : null;
-            return $this->memcache->set($key, $value, $flag, $expire);
+            return $this->memcache->set($key, $data, null, $expire);
         } catch (mzzException $e) {
             return false;
         }
@@ -118,18 +108,18 @@ class cacheMemcache implements iCache
     public function get($key)
     {
         try {
-            $value = $this->memcache->get($key);
-            return ($value === false) ? null : $value;
+            $data = $this->memcache->get($key);
+            $this->checkTags($data, $key);
+            return $data['data'];
         } catch (mzzException $e) {
             return null;
         }
     }
 
-    public function delete($key, $params = array())
+    public function delete($key)
     {
         try {
-            $timeout = isset($params['timeout']) ? $params['timeout'] : null;
-            return $this->memcache->delete($key, $timeout);
+            return $this->memcache->delete($key);
         } catch (mzzException $e) {
             return false;
         }
@@ -160,6 +150,19 @@ class cacheMemcache implements iCache
         } catch (mzzException $e) {
             return false;
         }
+    }
+
+    public function inc($key)
+    {
+        if (!$this->memcache->increment($key)) {
+            $this->memcache->set($key, 1);
+
+        }
+    }
+
+    protected function getTag($tag)
+    {
+        return (int)$this->memcache->get('tag_' . $tag);
     }
 
     public function getStats()

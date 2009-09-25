@@ -12,8 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('user/userFolder');
-fileLoader::load('orm/plugins/acl_extPlugin');
+fileLoader::load('user/model/userFolder');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
@@ -26,13 +25,6 @@ fileLoader::load('modules/jip/plugins/jipPlugin');
 
 class userFolderMapper extends mapper
 {
-    /**
-     * Имя модуля
-     *
-     * @var string
-     */
-    protected $module = 'user';
-
     /**
      * Имя класса DataObject
      *
@@ -52,7 +44,6 @@ class userFolderMapper extends mapper
     public function __construct()
     {
         parent::__construct();
-        $this->plugins('acl_ext');
         $this->plugins('jip');
     }
 
@@ -65,8 +56,6 @@ class userFolderMapper extends mapper
     {
         $toolkit = systemToolkit::getInstance();
         $obj_id = $toolkit->getObjectId($this->class);
-        $acl = new acl($toolkit->getUser());
-        $acl->register($obj_id, $this->class);
         return $obj_id;
     }
 

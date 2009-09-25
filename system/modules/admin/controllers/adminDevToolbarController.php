@@ -25,16 +25,14 @@ class adminDevToolbarController extends simpleController
     {
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
 
-        $info = $adminMapper->getInfo();
-
-        $sections = $this->toolkit->getSectionsList();
+        $info = $adminMapper->getModules();
 
         $hiddenClasses = array_flip(explode(',', $this->request->getString('mzz-devToolbarH', SC_COOKIE)));
 
         $this->smarty->assign('modules', $info);
-        $this->smarty->assign('sections', $sections);
+        $this->smarty->assign('sections', array());
         $this->smarty->assign('hiddenClasses', $hiddenClasses);
-        $this->smarty->assign('latestObjects', $adminMapper->getLatestRegisteredObj());
+        //$this->smarty->assign('latestObjects', $adminMapper->getLatestRegisteredObj());
         return $this->smarty->fetch('admin/devToolbar.tpl');
     }
 }

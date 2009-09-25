@@ -15,16 +15,13 @@
 */
 
 require_once systemConfig::$pathToSystem . '/resolver/iResolver.php';
+require_once systemConfig::$pathToSystem . '/resolver/partialFileResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/fileResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/compositeResolver.php';
-require_once systemConfig::$pathToSystem . '/resolver/sysFileResolver.php';
-require_once systemConfig::$pathToSystem . '/resolver/appFileResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/classFileResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/moduleResolver.php';
-require_once systemConfig::$pathToSystem . '/resolver/configFileResolver.php';
-require_once systemConfig::$pathToSystem . '/resolver/libResolver.php';
+require_once systemConfig::$pathToSystem . '/resolver/commonFileResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/decoratingResolver.php';
 require_once systemConfig::$pathToSystem . '/resolver/cachingResolver.php';
-require_once systemConfig::$pathToSystem . '/resolver/templateResolver.php';
 
 ?>

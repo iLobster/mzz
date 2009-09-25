@@ -51,6 +51,13 @@ abstract class simpleController
     protected $smarty;
 
     /**
+     * Action object
+     *
+     * @var simpleAction
+     */
+    protected $action;
+
+    /**
      * Сообщение для подтверждения выполнения действия.
      * Если null, сообщение берется из конфигурации действий
      *
@@ -76,12 +83,13 @@ abstract class simpleController
      * Конструктор
      *
      */
-    public function __construct()
+    public function __construct(simpleAction $action)
     {
         $this->toolkit = systemToolkit::getInstance();
         $this->request = $this->toolkit->getRequest();
         $this->smarty = $this->toolkit->getSmarty();
         $this->response = $this->toolkit->getResponse();
+        $this->action = $action;
 
         $this->lang_id = $this->request->getInteger('lang_id', SC_GET);
 
@@ -113,14 +121,15 @@ abstract class simpleController
     /**
      * Передача управления другому контроллеру
      *
-     * @param string $module имя модуля
-     * @param string $action имя экшна
+     * @param string $moduleName имя модуля
+     * @param string $actionName имя экшна
      * @return mixed результат работы контроллера
      */
-    protected function forward($module, $action)
+    protected function forward($moduleName, $actionName)
     {
-        $controller = systemToolkit::getInstance()->getController($module, $action);
-        return $controller->run();
+        $module = $this->toolkit->getModule($moduleName);
+        $action = $module->getAction($actionName);
+        return $action->run();
     }
 
     protected function forward404($mapper = null)
@@ -168,7 +177,7 @@ abstract class simpleController
     }
 
     /**
-     * Возвращает объект отображения
+     * Возвращает результат отображения
      *
      */
     abstract protected function getView();
@@ -182,7 +191,7 @@ abstract class simpleController
      */
     public function run()
     {
-        $confirm = $this->toolkit->getRegistry()->get('confirm');
+        $confirm = $this->getAction()->getConfirm();
         $confirmCode = $this->request->getString('_confirm', SC_GET);
         $session = $this->toolkit->getSession();
 
@@ -194,7 +203,7 @@ abstract class simpleController
             $view = $this->getView();
         }
 
-        if ($this->toolkit->getRegistry()->get('isJip') && $this->request->isAjax()) {
+        if ($this->getAction()->isJip() && $this->request->isJip()) {
             $this->smarty->setActiveTemplate('main.xml.tpl');
             $this->response->setHeader('Content-Type', 'text/xml');
         }
@@ -286,6 +295,11 @@ abstract class simpleController
             $this->smarty->assign('postData', $postData);
         }
         return $this->smarty->fetch('simple/confirm.tpl');
+    }
+
+    public function getAction()
+    {
+        return $this->action;
     }
 
     /**

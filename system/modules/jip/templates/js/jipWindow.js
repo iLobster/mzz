@@ -50,7 +50,7 @@
             isNew = (this.windowCount == 0) ? true : (isNew || false);
             params = params || {};
             options = options || {};
-            params.ajax = 1;
+            params.jip = 1;
             method = (method && method.toUpperCase() == 'POST') ? 'POST' : 'GET';
 
             if (isNew) {
@@ -65,7 +65,7 @@
                 this.tinyMCEIds[this.currentWindow] = [];
                 this.window = new MZZ.window($.extend({id: 'jip_window_' + this.currentWindow}, options, this.options));
 
-                this.window.addButton('close', SITE_PATH + '/templates/images/jip/btn-close.png', '', function(){jipWindow.close()});                
+                this.window.addButton('close', SITE_PATH + '/templates/images/jip/btn-close.png', '', function(){jipWindow.close()});
                 this.window.top(this.window.top() + $(window).scrollTop());
                 this.setStatus('<strong>Window url:</strong> ' + url);
                 $(document).keypress(this.eventKey);
@@ -111,7 +111,7 @@
                 }
 
                 this.tinyMCEIds[this.currentWindow] = [];
-                
+
                 windows = (windows >= 0) ? windows : 1;
 
                 var stack = this.stack[this.currentWindow];
@@ -156,8 +156,8 @@
             var url = frm.attr('action') || window.location.href;
             var method = frm.attr('method') || 'GET';
             var params = frm.serializeArray();
-            
-            params.push({name: 'ajax', value: '1'});
+
+            params.push({name: 'jip', value: '1'});
 
             this.clean();
             this.request(url, method, params);
@@ -280,7 +280,7 @@
         },
 
         successRequest: function(transport) {
-            
+
             if (this.window){
                 if ($.isUndefined(transport.responseXML) && $.isUndefined(transport.responseText)) {
                     console.log('MZZ.jipWindow::successRequest() undefined responseXML && responseText, transport = ', transport);
@@ -451,6 +451,6 @@
 
     var JIP_LANG = (!$.isUndefined(SITE_LANG) && !$.isUndefined(MZZ.jipI18n[SITE_LANG])) ? SITE_LANG : 'en';
 })(jQuery);
-    
+
 var jipWindow = new MZZ.jipWindow;
 var tinyMCE = false;

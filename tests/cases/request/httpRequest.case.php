@@ -1,7 +1,6 @@
 <?php
 
 fileLoader::load('request/httpRequest');
-fileLoader::load('dataspace/arrayDataspace');
 
 class httpRequestTest extends unitTestCase
 {

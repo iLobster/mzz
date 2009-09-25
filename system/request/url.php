@@ -93,14 +93,8 @@ class url
 
         $params = $this->params;
 
-        if (empty($params['section'])) {
-            if (empty($params['module'])) {
-                $params['module'] = $request->getModule();
-            }
-
-            if (!empty($params['module'])) {
-                $params['section'] = $toolkit->getSectionName($params['module']);
-            }
+        if (empty($params['module'])) {
+            $params['module'] = $request->getModule();
         }
 
         $path = $this->route->assemble($params);
@@ -179,7 +173,7 @@ class url
     /**
      * Устанавливает текущий роут, по которому будет собран url
      *
-     * @param iRoute $route
+     * @param string $route
      */
     public function setRoute($route)
     {

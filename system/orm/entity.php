@@ -194,6 +194,7 @@ class entity implements serializable
         foreach ($this->data as $k => $v) {
             if ($v instanceof lazy) {
                 $vars['data'][$k] = $v->load();
+                unset($vars['data'][$k]);
             } elseif (is_object($v)) {
                 $vars['data'][$k] = serialize($v);
             }

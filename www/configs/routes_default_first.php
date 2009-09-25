@@ -1,5 +1,5 @@
 <?php
 
-$router->addRoute('withId', new requestRoute(':section/:id/:action', array('action' => 'view'), array('id' => '\d+')));
+$router->addRoute('withId', new requestRoute(':module/:id/:action', array('action' => 'view'), array('id' => '\d+')));
 
 ?>

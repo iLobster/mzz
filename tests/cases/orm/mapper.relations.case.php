@@ -24,7 +24,7 @@ class ormSimpleMapperWithRelationMapper extends mapper
             'mutator' => 'setRelated',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'tests/ormSimpleRelated'
+            'mapper' => 'test/ormSimpleRelated'
         ),
     );
 }
@@ -57,7 +57,7 @@ class ormSimpleRelatedMapper extends mapper
             'relation' => 'many',
             'foreign_key' => 'related',
             'local_key' => 'id',
-            'mapper' => 'tests/ormSimpleMapperWithRelation'));
+            'mapper' => 'test/ormSimpleMapperWithRelation'));
 }
 
 class ormSimpleBackedMapper extends mapper
@@ -97,7 +97,7 @@ class ormSimpleRelatedBackMapper extends mapper
             'relation' => 'one',
             'foreign_key' => 'related',
             'local_key' => 'id',
-            'mapper' => 'tests/ormSimpleWithBackRelation'));
+            'mapper' => 'test/ormSimpleWithBackRelation'));
 }
 
 class ormSimpleWithBackRelationMapper extends mapper
@@ -125,7 +125,7 @@ class ormSimpleWithBackRelationMapper extends mapper
             'relation' => 'one',
             'foreign_key' => 'backrelated_id',
             'local_key' => 'id',
-            'mapper' => 'tests/ormSimpleBacked'
+            'mapper' => 'test/ormSimpleBacked'
         )
     );
 }
@@ -151,7 +151,7 @@ class ormSimpleMapperWithInnerJoinRelation extends mapper
             'mutator' => 'setRelated',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'tests/ormSimpleRelated',
+            'mapper' => 'test/ormSimpleRelated',
             'join_type' => 'inner'
         ),
     );
