@@ -146,6 +146,7 @@ class jip
             $target = $action->getData('jip_target');
             $item['target'] = ($target === 'new');
 
+            //@todo: вынесим это дело в simpleAction?
             $item['title'] = $action->getTitle() ? $action->getTitle() : '_ ' . $key;
             if (i18n::isName($item['title'])) {
                 $item['title'] = i18n::getMessage(i18n::extractName($item['title']), 'jip');

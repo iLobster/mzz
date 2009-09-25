@@ -23,40 +23,33 @@ class adminListActionsController extends simpleController
 {
     protected function getView()
     {
-        $id = $this->request->getInteger('id');
-
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
         $adminGeneratorMapper = $this->toolkit->getMapper('admin', 'adminGenerator');
 
-        $class = $adminMapper->searchClassById($id);
+        $module_name = $this->request->getString('module_name');
+        $class_name = $this->request->getString('class_name');
+        try {
+            $module = $this->toolkit->getModule($module_name);
+        } catch (mzzModuleNotFoundException $e) {
+            return $this->forward404($adminMapper);
+        }
 
-        if ($class === false) {
-            $controller = new messageController(i18n::getMessage('class.error.not_exists', 'admin'), messageController::WARNING);
+        $classes = $module->getClasses();
+        if (!in_array($class_name, $classes)) {
+            return $this->forward404($adminMapper);
+        }
+
+        $dests = $adminGeneratorMapper->getDests(true, $module->getName());
+
+        if (!sizeof($dests)) {
+            $controller = new messageController(i18n::getMessage('error.write_denied', 'admin'), messageController::WARNING);
             return $controller->run();
         }
 
-        $module = $adminMapper->searchModuleById($class['module_id']);
-
-        $actions_db = $adminGeneratorMapper->getActions($id);
-
-        $act = new action($module['name']);
-        $actions_module = $act->getActions();
-        $actions_class = $actions_module[$class['name']];
-
-        $to_delete = array_diff($actions_db, array_keys($actions_class));
-        $to_add = array_diff(array_keys($actions_class), $actions_db);
-
-        foreach ($to_add as $action) {
-            $adminGeneratorMapper->createAction($action, $class['id']);
-        }
-
-        foreach ($to_delete as $action) {
-            $adminGeneratorMapper->deleteAction($action, $class['id']);
-        }
-
-        $this->smarty->assign('id', $id);
-        $this->smarty->assign('actions', $actions_class);
-
+        $actions = $module->getClassActions($class_name);
+        $this->smarty->assign('module', $module);
+        $this->smarty->assign('class_name', $class_name);
+        $this->smarty->assign('actions', $actions);
         return $this->smarty->fetch('admin/listActions.tpl');
     }
 }

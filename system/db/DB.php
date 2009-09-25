@@ -62,7 +62,7 @@ class DB
             $options = isset(systemConfig::$db[$alias]['options']) ? systemConfig::$db[$alias]['options'] : array();
             $tablePrefix = isset(systemConfig::$db[$alias]['tablePrefix']) ? systemConfig::$db[$alias]['tablePrefix'] : '';
 
-            $dbType = strtolower(substr($dsn, 0, 5));
+            $dbType = strtolower(substr($dsn, 0, strpos($dsn, ':')));
             if ($charset && $dbType == 'mysql') {
                 $options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES `' . $charset . '`';
             }
