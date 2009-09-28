@@ -31,6 +31,7 @@ abstract class simpleModule
      * @var string
      */
     protected $moduleName = null;
+    protected $moduleTitle = null;
 
     /**
      * Array of classes of the module
@@ -238,7 +239,16 @@ abstract class simpleModule
      */
     public function getTitle()
     {
-        return $this->getName();
+        if (is_null($this->moduleTitle)) {
+            $key = '_ ' . $this->getName();
+            $title = i18n::getMessage($key, $this->getName());
+            if ($title == $key) {
+                $title = $this->getName();
+            }
+            $this->moduleTitle = $title;
+        }
+
+        return $this->moduleTitle;
     }
 }
 ?>
