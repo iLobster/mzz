@@ -1,4 +1,4 @@
 Автоматически сгенерированный шаблон<br />
-Модуль: {{$controller_data.module}}<br />
-Экшн: {{$controller_data.name}}<br />
-Путь до этого файла: {{$controller_data.path}}
+Модуль: {{$module->getName()}}<br />
+Экшн: {{$action_name}}<br />
+Путь до этого файла: {{$path}}/{{$templateFileName}}

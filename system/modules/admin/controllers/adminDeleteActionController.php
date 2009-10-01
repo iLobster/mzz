@@ -26,51 +26,40 @@ class adminDeleteActionController extends simpleController
 {
     protected function getView()
     {
-        $id = $this->request->getInteger('id');
-        $action_name = $this->request->getString('action_name');
-
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
         $adminGeneratorMapper = $this->toolkit->getMapper('admin', 'adminGenerator');
 
-        $class = $adminMapper->searchClassById($id);
+        $module_name = $this->request->getString('module_name');
+        try {
+            $module = $this->toolkit->getModule($module_name);
+        } catch (mzzModuleNotFoundException $e) {
+            return $this->forward404($adminMapper);
+        }
 
-        if ($class === false) {
-            $controller = new messageController(i18n::getMessage('class.error.not_exists', 'admin'), messageController::WARNING);
+        $action_name = $this->request->getString('class_name');
+        try {
+            $actionObject = $module->getAction($action_name);
+        } catch (mzzUnknownModuleActionException $e) {
+            return $this->forward404($adminMapper);
+        }
+
+        $class_name = $actionObject->getClassName();
+
+        $dests = $adminGeneratorMapper->getDests(true, $module->getName());
+
+        if (!sizeof($dests)) {
+            $controller = new messageController($this->getAction(), i18n::getMessage('error.write_denied', 'admin'), messageController::WARNING);
             return $controller->run();
         }
 
-        $module = $adminMapper->searchModuleById($class['module_id']);
-
-        $act = new action($module['name']);
-        $actions = $act->getActions();
-
-        if (!isset($actions[$class['name']][$action_name])) {
-            $controller = new messageController(i18n::getMessage('action.error.not_exists', 'admin'), messageController::WARNING);
-            return $controller->run();
-        }
-
-        $actionInfo = $actions[$class['name']][$action_name];
-
-        $dest = current($adminGeneratorMapper->getDests(true, $module['name']));
+        $dest = current($dests);
 
         try {
-            $fileGenerator = new fileGenerator($dest);
-
-            $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('delete', $action_name));
-
-            if ($action_name == $actionInfo['controller']) {
-                $fileGenerator->delete($this->controllers($module['name'], $action_name));
-                $fileGenerator->delete($this->templates($action_name));
-            }
-
-            $action_id = $adminGeneratorMapper->deleteAction($action_name, $class['id']);
-
-            $this->cleanAcl($module, $class, $action_id);
-
-            $fileGenerator->run();
+            $adminGeneratorMapper->deleteAction($module, $actionObject, $dest);
         } catch (Exception $e) {
-            $controller = new messageController($e->getMessage(), messageController::WARNING);
-            return $controller->run();
+            return $e->getMessage();
+            //$controller = new messageController($this->getAction(), $e->getMessage(), messageController::WARNING);
+            //return $controller->run();
         }
 
         return jipTools::closeWindow();
@@ -85,20 +74,6 @@ class adminDeleteActionController extends simpleController
         }
     }
 
-    private function actions($name)
-    {
-        return 'actions/' . $name . '.ini';
-    }
-
-    private function templates($name)
-    {
-        return 'templates/' . $name . '.tpl';
-    }
-
-    private function controllers($module, $action)
-    {
-        return 'controllers/' . $module . ucfirst($action) . 'Controller.php';
-    }
 }
 
 ?>

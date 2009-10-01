@@ -111,7 +111,9 @@ class fileGenerator
 
     private function run_delete($data)
     {
-        unlink($data['name']);
+        if (is_file($data['name'])) {
+            unlink($data['name']);
+        }
     }
 
     private function run_edit($data)

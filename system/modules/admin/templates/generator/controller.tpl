@@ -13,18 +13,17 @@
  */
 
 /**
- * {{$controller_data.module}}{{$controller_data.name|ucfirst}}Controller
+ * {{$module->getName()}}{{$actionData.controller|ucfirst}}Controller
  *
  * @package modules
- * @subpackage {{$controller_data.module}}
- * @version 0.1
+ * @subpackage {{$module->getName()}}
+ * @version 0.0.1
  */
-class {{$controller_data.module}}{{$controller_data.name|ucfirst}}Controller extends simpleController
+class {{$module->getName()}}{{$actionData.controller|ucfirst}}Controller extends simpleController
 {
     protected function getView()
     {
-        return $this->smarty->fetch('{{$controller_data.module}}/{{$controller_data.name}}.tpl');
+        return $this->smarty->fetch('{{$module->getName()}}/{{$action_name}}.tpl');
     }
 }
-
 ?>

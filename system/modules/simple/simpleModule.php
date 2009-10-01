@@ -152,27 +152,29 @@ abstract class simpleModule
             $actions = array();
             foreach ($this->classes as $className) {
                 $actionsDataFile = $this->paths['sys'] . '/actions/' . $className . '.php';
+                $actionsData = array();
                 if (is_file($actionsDataFile)) {
                     $actionsData = include $actionsDataFile;
+                }
 
-                    $projectActionsDataFile = $this->paths['app'] . '/modules/' . $this->getName() . '/actions/' . $className . '.php';
-                    if (is_file($projectActionsDataFile)) {
-                        $projectActionsData = include $projectActionsDataFile;
-                        if (is_array($projectActionsData)) {
-                            $actionsData = array_merge($actionsData, $projectActionsData);
+                $projectActionsDataFile = $this->paths['app'] . '/actions/' . $className . '.php';
+
+                if (is_file($projectActionsDataFile)) {
+                    $projectActionsData = include $projectActionsDataFile;
+                    if (is_array($projectActionsData)) {
+                        $actionsData = array_merge($actionsData, $projectActionsData);
+                    }
+                }
+
+                if (is_array($actionsData)) {
+                    $actionsObjects = array();
+                    foreach ($actionsData as $actionName => $data) {
+                        if (!empty($data)) {
+                            $actionsObjects[$actionName] = $this->createActionByArray($actionName, $className, $data);
                         }
                     }
 
-                    if (is_array($actionsData)) {
-                        $actionsObjects = array();
-                        foreach ($actionsData as $actionName => $data) {
-                            if (!empty($data)) {
-                                $actionsObjects[$actionName] = $this->createActionByArray($actionName, $className, $data);
-                            }
-                        }
-
-                        $actions = array_merge($actions, $actionsObjects);
-                    }
+                    $actions = array_merge($actions, $actionsObjects);
                 }
             }
 
@@ -245,6 +247,7 @@ abstract class simpleModule
             if ($title == $key) {
                 $title = $this->getName();
             }
+
             $this->moduleTitle = $title;
         }
 

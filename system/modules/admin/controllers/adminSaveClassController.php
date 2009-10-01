@@ -52,8 +52,8 @@ class adminSaveClassController extends simpleController
 
             $mapper = $module->getMapper($class_name);
 
-            $data['tableName'] = $mapper->table();
             $data['className'] = $class_name;
+            $data['tableName'] = $mapper->table();
         } else {
             $name = $this->request->getString('name');
             try {
@@ -63,10 +63,10 @@ class adminSaveClassController extends simpleController
             }
         }
 
-        $dests = $adminGeneratorMapper->getDests(true, $module->getName());
+       $dests = $adminGeneratorMapper->getDests(true, $module->getName());
 
         if (!sizeof($dests)) {
-            $controller = new messageController(i18n::getMessage('error.write_denied', 'admin'), messageController::WARNING);
+            $controller = new messageController($this->getAction(), i18n::getMessage('error.write_denied', 'admin'), messageController::WARNING);
             return $controller->run();
         }
 

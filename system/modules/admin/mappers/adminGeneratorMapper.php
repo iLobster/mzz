@@ -47,20 +47,24 @@ class adminGeneratorMapper extends mapper
 
     public function renameModule($id, $name)
     {
+        /*
         $stmt = $this->db()->prepare('UPDATE `' . $this->db()->getTablePrefix() . 'sys_modules` SET `name` = :name WHERE `id` = :id');
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->bindValue(':name', $name, PDO::PARAM_STR);
         $stmt->execute();
+        */
     }
 
     public function updateModule($id, $data)
     {
+        /*
         $stmt = $this->db()->prepare('UPDATE `' . $this->db()->getTablePrefix() . 'sys_modules` SET `icon` = :icon, `title` = :title, `order` = :order WHERE `id` = :id');
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->bindValue(':icon', $data['icon'], PDO::PARAM_STR);
         $stmt->bindValue(':title', $data['title'], PDO::PARAM_STR);
         $stmt->bindValue(':order', $data['order'], PDO::PARAM_INT);
         $stmt->execute();
+        */
     }
 
     public function deleteModule(simpleModule $module)
@@ -112,6 +116,7 @@ class adminGeneratorMapper extends mapper
         $mapperContents = $smarty->fetch('admin/generator/mapper.tpl');
         $fileGenerator->create($mapperFileName, $mapperContents);
 
+        $smarty->assign('actionsArray', array());
         $actionFileName = $this->generateActionFileName($name);
         $actionContents = $smarty->fetch('admin/generator/actions.tpl');
         $fileGenerator->create($actionFileName, $actionContents);
@@ -143,41 +148,113 @@ class adminGeneratorMapper extends mapper
         $this->db()->query('DELETE FROM `' . $this->db()->getTablePrefix() . 'sys_classes` WHERE `id` = ' . (int)$id);
     }
 
-    public function createAction($name, $class_id)
+    public function saveAction(simpleModule $module, $class_name, $action_name, Array $actionData, $path, $isEdit)
     {
-        $action_id = $this->db()->getOne('SELECT `id` FROM `' . $this->db()->getTablePrefix() . 'sys_actions` WHERE `name` = ' . $this->db()->quote($name));
+        fileLoader::load('codegenerator/fileGenerator');
 
-        if (!$action_id) {
-            $this->db()->query('INSERT INTO `' . $this->db()->getTablePrefix() . 'sys_actions` (`name`) VALUES (' . $this->db()->quote($name) . ')');
-            $action_id = $this->db()->lastInsertId();
+        if (empty($actionData['controller'])) {
+            $actionData['controller'] = $action_name;
         }
 
-        $this->db()->query('INSERT INTO `' . $this->db()->getTablePrefix() . 'sys_classes_actions` (`class_id`, `action_id`) VALUES (' . (int)$class_id . ', ' . (int)$action_id . ')');
-    }
-
-    public function renameAction($oldName, $name, $class_id)
-    {
-        $action_id = $this->db()->getOne('SELECT `id` FROM `' . $this->db()->getTablePrefix() . 'sys_actions` WHERE `name` = ' . $this->db()->quote($oldName));
-        $new_action_id = $this->db()->getOne('SELECT `id` FROM `' . $this->db()->getTablePrefix() . 'sys_actions` WHERE `name` = ' . $this->db()->quote($name));
-
-        if (!$new_action_id) {
-            $this->db()->query('INSERT INTO `' . $this->db()->getTablePrefix() . 'sys_actions` (`name`) VALUES (' . $this->db()->quote($name) . ')');
-            $new_action_id = $this->db()->lastInsertId();
+        if (isset($actionData['main']) && $actionData['main'] == simpleAction::DEFAULT_ACTIVE_TPL) {
+            unset($actionData['main']);
         }
 
-        $this->db()->query('UPDATE `' . $this->db()->getTablePrefix() . 'sys_classes_actions` SET `action_id` = ' . $new_action_id . ' WHERE `action_id` = ' . $action_id . ' AND `class_id` = ' . (int)$class_id);
-        return $new_action_id;
-    }
-
-    public function deleteAction($name, $class_id)
-    {
-        $action_id = $this->db()->getOne('SELECT `id` FROM `' . $this->db()->getTablePrefix() . 'sys_actions` WHERE `name` = ' . $this->db()->quote($name));
-        if ($action_id) {
-            $this->db()->query('DELETE FROM `' . $this->db()->getTablePrefix() . 'sys_classes_actions` WHERE `class_id` = ' . (int)$class_id . ' AND `action_id` = ' . $action_id);
-            return $action_id;
+        if (isset($actionData['crud'])) {
+            $crud = $actionData['crud'];
+            unset($actionData['crud']);
+        } else {
+            $crud = null;
         }
+
+        $actionFileName = $this->generateActionFileName($class_name);
+        $actionFile = $path . '/' . $actionFileName;
+
+        $actionsArray = include $actionFile;
+        $actionsArray[$action_name] = $actionData;
+
+        $fileGenerator = new fileGenerator($path);
+        $this->addSaveActionsInGenerator($module, $class_name, $actionsArray, $fileGenerator);
+
+        if (!$isEdit) {
+            $toolkit = systemToolkit::getInstance();
+            $smarty = $toolkit->getSmarty();
+
+            $leftDelimeter = $smarty->left_delimiter;
+            $rightDelimeter = $smarty->right_delimiter;
+
+            $smarty->left_delimiter = '{{';
+            $smarty->right_delimiter = '}}';
+
+            $smarty->assign('module', $module);
+            $smarty->assign('name', $class_name);
+            $smarty->assign('actionsArray', $actionsArray);
+
+            $controllerFileName = $this->generateControllerFileName($module, $actionData['controller']);
+            $smarty->assign('actionData', $actionData);
+            $smarty->assign('action_name', $action_name);
+            $controllerContents = $smarty->fetch('admin/generator/controller.tpl');
+            $fileGenerator->create($controllerFileName, $controllerContents);
+
+            $templateFileName = $this->generateTemplateFileName($action_name);
+            $smarty->assign('path', $path);
+            $smarty->assign('templateFileName', $templateFileName);
+            $templateContents = $smarty->fetch('admin/generator/template.tpl');
+            $fileGenerator->create($templateFileName, $templateContents);
+
+            $smarty->left_delimiter = $leftDelimeter;
+            $smarty->right_delimiter = $rightDelimeter;
+        }
+
+        $fileGenerator->run();
     }
 
+    public function deleteAction(simpleModule $module, simpleAction $action, $path)
+    {
+        fileLoader::load('codegenerator/fileGenerator');
+        $fileGenerator = new fileGenerator($path);
+
+        $actionFileName = $this->generateActionFileName($action->getClassName());
+        $actionFile = $path . '/' . $actionFileName;
+
+        $actionsArray = include $actionFile;
+        unset($actionsArray[$action->getName()]);
+
+        $this->addSaveActionsInGenerator($module, $action->getClassName(), $actionsArray, $fileGenerator);
+
+        $fileGenerator->delete($this->generateControllerFileName($module, $action->getControllerName()), array('ignore'));
+        $fileGenerator->delete($this->generateTemplateFileName($action->getName()), array('ignore'));
+
+        $fileGenerator->run();
+    }
+
+    protected function addSaveActionsInGenerator(simpleModule $module, $class_name, Array $actionsArray, fileGenerator &$fileGenerator)
+    {
+        fileLoader::load('codegenerator/fileFullReplaceTransformer');
+
+        $toolkit = systemToolkit::getInstance();
+        $smarty = $toolkit->getSmarty();
+
+        $leftDelimeter = $smarty->left_delimiter;
+        $rightDelimeter = $smarty->right_delimiter;
+
+        $smarty->assign('module', $module);
+        $smarty->assign('name', $class_name);
+        $smarty->assign('actionsArray', $actionsArray);
+
+        $smarty->left_delimiter = '{{';
+        $smarty->right_delimiter = '}}';
+
+        $actionContents = $smarty->fetch('admin/generator/actions.tpl');
+
+        $smarty->left_delimiter = $leftDelimeter;
+        $smarty->right_delimiter = $rightDelimeter;
+
+        $actionFileName = $this->generateActionFileName($class_name);
+        $fileGenerator->edit($actionFileName, new fileFullReplaceTransformer($actionContents));
+    }
+
+    /*
     public function getActions($class_id)
     {
         $qry = 'SELECT `a`.`name`, `a`.`id` FROM `' . $this->db()->getTablePrefix() . 'sys_classes_actions` `ca`
@@ -192,6 +269,7 @@ class adminGeneratorMapper extends mapper
 
         return $actions;
     }
+    */
 
     /**
      * Получение списка каталогов, используемых для генерации модулей
@@ -310,6 +388,16 @@ class adminGeneratorMapper extends mapper
     protected function generateActionFileName($class_name)
     {
         return 'actions/' . $class_name . '.php';
+    }
+
+    private function generateControllerFileName(simpleModule $module, $name)
+    {
+        return 'controllers/' . $module->getName() . ucfirst($name) . 'Controller.php';
+    }
+
+    private function generateTemplateFileName($action_name)
+    {
+        return 'templates/' . $action_name . '.tpl';
     }
 }
 

@@ -29,213 +29,98 @@ class adminSaveActionController extends simpleController
 
     protected function getView()
     {
-        $id = $this->request->getInteger('id');
-        $action_name = $this->request->getString('action_name');
-
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
         $adminGeneratorMapper = $this->toolkit->getMapper('admin', 'adminGenerator');
 
         $action = $this->request->getAction();
-        $isEdit = $action == 'editAction';
+        $isEdit = ($action === 'editAction');
 
-        $class = $adminMapper->searchClassById($id);
-
-        if ($class === false) {
-            $controller = new messageController(i18n::getMessage('class.error.not_exists', 'admin'), messageController::WARNING);
-            return $controller->run();
+        $module_name = $this->request->getString('module_name');
+        try {
+            $module = $this->toolkit->getModule($module_name);
+        } catch (mzzModuleNotFoundException $e) {
+            return $this->forward404($adminMapper);
         }
-
-        $module = $adminMapper->searchModuleById($class['module_id']);
-
-        $act = new action($module['name']);
-        $actions = $act->getActions();
 
         if ($isEdit) {
-            if (!isset($actions[$class['name']][$action_name])) {
-                $controller = new messageController(i18n::getMessage('action.error.not_exists', 'admin'), messageController::WARNING);
-                return $controller->run();
+            $action_name = $this->request->getString('class_name');
+            try {
+                $actionObject = $module->getAction($action_name);
+            } catch (mzzUnknownModuleActionException $e) {
+                return $this->forward404($adminMapper);
             }
+
+            $class_name = $actionObject->getClassName();
+        } else {
+            $class_name = $this->request->getString('class_name');
+            $classes = $module->getClasses();
+            if (!in_array($class_name, $classes)) {
+                return $this->forward404($adminMapper);
+            }
+
+            $actionObject = new simpleAction('', $module->getName(), $class_name, '');
         }
 
-        $actionsInfo = $actions[$class['name']];
-
-        $dests = $adminGeneratorMapper->getDests(true, $module['name']);
+        $dests = $adminGeneratorMapper->getDests(true, $module->getName());
 
         if (!sizeof($dests)) {
-            $controller = new messageController(i18n::getMessage('error.write_denied', 'admin'), messageController::WARNING);
+            $controller = new messageController($this->getAction(), i18n::getMessage('error.write_denied', 'admin'), messageController::WARNING);
             return $controller->run();
-        }
-
-        $defaults = $this->getDefaults($module['name'], $class['name']);
-        $data = $defaults;
-
-        if ($isEdit) {
-            $data = array_merge($data, $actionsInfo[$action_name]);
-            $data['name'] = $action_name;
         }
 
         $validator = new formValidator();
 
-        $validator->add('required', 'action[name]', i18n::getMessage('action.error.name_required', 'admin'));
-        $validator->add('callback', 'action[name]', i18n::getMessage('action.error.unique', 'admin'), array(
-            array(
-                $this,
-                'unique'),
-            $adminMapper,
-            $action_name,
-            $class['id']));
-        $validator->add('callback', 'action[name]', i18n::getMessage('action.error.case', 'admin'), array(
-            array(
-                $this,
-                'otherCase'),
-            $adminMapper));
-        $validator->add('regex', 'action[name]', i18n::getMessage('error.use_chars', 'admin', null, array(
-            'a-zA-Z0-9_-')), '#^[a-z0-9_-]+$#i');
-        $validator->add('required', 'action[main]', i18n::getMessage('action.error.main_required', 'admin'));
-        $validator->add('regex', 'action[main]', i18n::getMessage('error.use_chars', 'admin', null, array(
-            'a-zA-Z0-9_-.')), '#^[a-z0-9_\-.]+$#i');
+        if (!$isEdit) {
+            $validator->add('required', 'action[name]', i18n::getMessage('action.error.name_required', 'admin'));
+            $validator->add('regex', 'action[name]', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')), '#^[a-z0-9_-]+$#i');
+            $validator->add('callback', 'action[name]', i18n::getMessage('action.error.unique', 'admin'), array(array($this, 'unique'), $module));
+        }
+
+        $validator->add('regex', 'action[main]', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-.')), '#^[a-z0-9_\-.]+$#i');
         $validator->add('in', 'dest', i18n::getMessage('module.error.wrong_dest', 'admin'), array_keys($dests));
 
         if ($validator->validate()) {
             $values = $this->request->getArray('action', SC_POST);
             $dest = $this->request->getString('dest', SC_POST);
 
-            $values += $data;
-
-            $this->normalize($values, $defaults);
-
             if (!$isEdit) {
                 $action_name = $values['name'];
-
-                $this->smartyBrackets();
-
-                try {
-                    $fileGenerator = new fileGenerator($dests[$dest]);
-
-                    $controllerName = $dests[$dest] . DIRECTORY_SEPARATOR . $this->controllers($module['name'], $values['controller']);
-
-                    if (!is_file($controllerName)) {
-                        $crud = $values['crud'];
-                        unset($values['crud']);
-
-                        if ($crud != 'none') {
-                            $method = 'crud' . ucfirst($crud);
-                            $this->$method($module, $class, $values['controller'], $values, $fileGenerator);
-                        } else {
-                            $tpl_name = $this->templates($action_name);
-
-                            $controllerData = array(
-                                'name' => $values['controller'],
-                                'module' => $module['name'],
-                                'path' => $dest . '/' . $tpl_name);
-                            $this->smarty->assign('controller_data', $controllerData);
-
-                            $fileGenerator->create($this->controllers($module['name'], $values['controller']), $this->smarty->fetch('admin/generator/controller.tpl'));
-                            $fileGenerator->create($tpl_name, $this->smarty->fetch('admin/generator/template.tpl'));
-                        }
-                    }
-
-                    unset($values['name']);
-                    $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('merge', array(
-                        $action_name => $values)));
-
-                    $fileGenerator->run();
-
-                    $adminGeneratorMapper->createAction($action_name, $class['id']);
-                } catch (Exception $e) {
-                    return $e->getMessage();
-                }
-
-                $this->smartyBrackets(true);
-            } else {
-                $old = $actionsInfo[$action_name];
-
-                $new_action_name = $values['name'];
                 unset($values['name']);
-                unset($values['crud']);
+            }
 
-                try {
-                    $fileGenerator = new fileGenerator($dests[$dest]);
-
-                    if ($new_action_name != $action_name) {
-                        // переименовать в файле с экшнами секцию
-                        $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('delete', $action_name));
-                        $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('merge', array(
-                            $new_action_name => $values)));
-
-                        if ($values['controller'] == $new_action_name) {
-                            // изменить имя контроллера
-                            $fileGenerator->edit($this->controllers($module['name'], $action_name), new fileSearchReplaceTransformer($module['name'] . ucfirst($action_name), $module['name'] . ucfirst($new_action_name)));
-                            // изменить имя шаблона в контроллере
-                            $fileGenerator->edit($this->controllers($module['name'], $action_name), new fileSearchReplaceTransformer($module['name'] . '/' . $action_name . '.tpl', $module['name'] . '/' . $new_action_name . '.tpl'));
-
-                            // изменить контент шаблона
-                            $tpl_name = $this->templates($new_action_name);
-                            $controllerData = array(
-                                'name' => $new_action_name,
-                                'module' => $module['name'],
-                                'path' => $dest . '/' . $tpl_name);
-                            $this->smarty->assign('controller_data', $controllerData);
-                            $fileGenerator->edit($this->templates($action_name), new fileSearchReplaceTransformer(null, $this->smarty->fetch('admin/generator/template.tpl')));
-
-                            // переименовать шаблон
-                            $fileGenerator->rename($this->templates($action_name), $tpl_name);
-
-                            // переименовать контроллер
-                            $fileGenerator->rename($this->controllers($module['name'], $action_name), $this->controllers($module['name'], $new_action_name));
-                        }
-                    }
-
-                    if ($this->isDataChanged($old, $values)) {
-                        $fileGenerator->edit($this->actions($class['name']), new fileIniTransformer('merge', array(
-                            $new_action_name => $values)));
-                    }
-
-                    $fileGenerator->run();
-
-                    // изменить в базе (sys_actions, sys_classes_actions, sys_access)
-                    $new_action_id = $adminGeneratorMapper->renameAction($action_name, $new_action_name, $class['id']);
-                    if (in_array('acl', $this->plugins)) {
-                        $acl = new acl();
-                        $acl->renameAction($class['id'], $action_name, $new_action_id);
-                    }
-                } catch (Exception $e) {
-                    return $e->getMessage();
-                }
+            try {
+                $adminGeneratorMapper->saveAction($module, $class_name, $action_name, $values, $dests[$dest], $isEdit);
+            } catch (Exception $e) {
+                return $e->getMessage();
+                //$controller = new messageController($this->getAction(), $e->getMessage(), messageController::WARNING);
+                //return $controller->run();
             }
 
             return jipTools::closeWindow();
         }
 
-        $aliases = array();
-        foreach ($actionsInfo as $key => $val) {
-            if ($action_name != $key) {
-                $aliases[$key] = isset($val['title']) ? i18n::getMessage($val['title'], $module['name']) : $key;
-            }
-        }
-        $this->smarty->assign('aliases', $aliases);
-
         $this->smarty->assign('aclMethods', $this->getAclMethods());
         $this->smarty->assign('crudList', $this->getCRUDList());
 
-        if ($isEdit) {
-            $url = new url('adminAction');
-            $url->add('action_name', $action_name);
-        } else {
-            $url = new url('withId');
-        }
+        $url = new url('adminModuleEntity');
+        $url->add('module_name', $module_name);
         $url->setAction($action);
-        $url->add('id', $id);
+
+        if ($isEdit) {
+            $url->add('class_name', $action_name);
+        } else {
+            $url->add('class_name', $class_name);
+        }
 
         $this->smarty->assign('plugins', $this->plugins);
 
         $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('errors', $validator->getErrors());
-        $this->smarty->assign('data', $data);
 
         $this->smarty->assign('dests', $dests);
 
         $this->smarty->assign('isEdit', $isEdit);
+        $this->smarty->assign('module', $module);
+        $this->smarty->assign('actionObject', $actionObject);
 
         return $this->smarty->fetch('admin/saveAction.tpl');
     }
@@ -341,15 +226,17 @@ class adminSaveActionController extends simpleController
         return $map;
     }
 
-    public function unique($name, $adminMapper, $action_name, $class_id)
+    public function unique($name, simpleModule $module, $action_name = null)
     {
         if ($name == $action_name) {
             return true;
         }
 
-        return !$adminMapper->searchActionByNameAndClassId($name, $class_id);
+        $actions = $module->getActions();
+        return !isset($actions[$name]);
     }
 
+    /*
     public function otherCase($name, $adminMapper)
     {
         $action = $adminMapper->searchActionByName($name);
@@ -360,6 +247,7 @@ class adminSaveActionController extends simpleController
 
         return true;
     }
+    */
 
     private function isDataChanged($old, $values)
     {
@@ -398,21 +286,6 @@ class adminSaveActionController extends simpleController
         }
 
         return $crud;
-    }
-
-    private function actions($name)
-    {
-        return 'actions/' . $name . '.ini';
-    }
-
-    private function templates($name)
-    {
-        return 'templates/' . $name . '.tpl';
-    }
-
-    private function controllers($module, $action)
-    {
-        return 'controllers/' . $module . ucfirst($action) . 'Controller.php';
     }
 
     private function getDefaults($module, $class)
@@ -462,18 +335,6 @@ class adminSaveActionController extends simpleController
         if (empty($values['controller'])) {
             $values['controller'] = $values['name'];
         }
-    }
-
-    private function smartyBrackets($back = false)
-    {
-        if ($back) {
-            $this->smarty->left_delimiter = '{';
-            $this->smarty->right_delimiter = '}';
-            return;
-        }
-
-        $this->smarty->left_delimiter = '{{';
-        $this->smarty->right_delimiter = '}}';
     }
 }
 
