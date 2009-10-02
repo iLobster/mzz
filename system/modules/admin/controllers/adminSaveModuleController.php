@@ -49,25 +49,6 @@ class adminSaveModuleController extends simpleController
             $currentDestination = current($adminGeneratorMapper->getDests(true, $module->getName()));
         }
 
-        /*
-        $nameRO = false;
-        if ($isEdit) {
-            $data = $adminMapper->searchModuleById($id);
-
-            if ($data === false) {
-                $controller = new messageController(i18n::getMessage('module.error.not_exists', 'admin'), messageController::WARNING);
-                return $controller->run();
-            }
-
-            $data['dest'] = current($adminGeneratorMapper->getDests(true, $data['name']));
-
-            $modules = $adminMapper->getModulesList();
-
-
-            $nameRO = sizeof($modules[$data['id']]['classes']) > 0;
-        }
-        */
-
         $validator = new formValidator();
 
         if (!$isEdit) {

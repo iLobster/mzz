@@ -4,6 +4,13 @@ class adminGeneratorMapper extends mapper
 {
     protected $table = 'admin';
 
+    /**
+     * Create module
+     *
+     * @param string $name
+     * @param string $path
+     * @return simpleModule
+     */
     public function createModule($name, $path)
     {
         fileLoader::load('codegenerator/directoryGenerator');
@@ -45,28 +52,11 @@ class adminGeneratorMapper extends mapper
         return $toolkit->getModule($name);
     }
 
-    public function renameModule($id, $name)
-    {
-        /*
-        $stmt = $this->db()->prepare('UPDATE `' . $this->db()->getTablePrefix() . 'sys_modules` SET `name` = :name WHERE `id` = :id');
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
-        $stmt->execute();
-        */
-    }
-
-    public function updateModule($id, $data)
-    {
-        /*
-        $stmt = $this->db()->prepare('UPDATE `' . $this->db()->getTablePrefix() . 'sys_modules` SET `icon` = :icon, `title` = :title, `order` = :order WHERE `id` = :id');
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        $stmt->bindValue(':icon', $data['icon'], PDO::PARAM_STR);
-        $stmt->bindValue(':title', $data['title'], PDO::PARAM_STR);
-        $stmt->bindValue(':order', $data['order'], PDO::PARAM_INT);
-        $stmt->execute();
-        */
-    }
-
+    /**
+     * Delete module
+     *
+     * @param simpleModule $module
+     */
     public function deleteModule(simpleModule $module)
     {
         fileLoader::load('codegenerator/directoryGenerator');
@@ -79,6 +69,14 @@ class adminGeneratorMapper extends mapper
         $generator->run();
     }
 
+    /**
+     * Module class creation
+     *
+     * @param simpleModule $module
+     * @param string $name
+     * @param string $table
+     * @param string $path
+     */
     public function createClass(simpleModule $module, $name, $table, $path)
     {
         fileLoader::load('codegenerator/fileRegexpSearchReplaceTransformer');
@@ -132,22 +130,50 @@ class adminGeneratorMapper extends mapper
         $fileGenerator->run();
     }
 
-    public function renameClass(simpleModule $module, $old_name, $name, $path)
+    /**
+     * Delete class of module
+     *
+     * @param simpleModule $module
+     * @param string $class_name
+     * @param string $path
+     * @todo будем вызывать удаление всех экшнов класса?
+     */
+    public function deleteClass(simpleModule $module, $class_name, $path)
     {
-        // @todo: написать трансформатор на изменение имён классов
+        fileLoader::load('codegenerator/fileGenerator');
+        fileLoader::load('codegenerator/fileRegexpSearchReplaceTransformer');
         $fileGenerator = new fileGenerator($path);
 
-        $fileGenerator->rename($this->generateActionFileName($old_name), $this->generateActionFileName($name));
-        $fileGenerator->rename($this->generateMapperFileName($old_name), $this->generateMapperFileName($name));
-        $fileGenerator->rename($this->generateDOFileName($old_name), $this->generateDOFileName($name));
+        $classes = $module->getClasses();
+        $class_index = array_search($class_name, $classes);
+        if ($class_index !== false) {
+            unset($classes[$class_index]);
+        }
+
+        $classString = '';
+        if (sizeof($classes)) {
+            $classString = '\'' . join("', '", $classes) . '\'';
+        }
+
+        $fileGenerator->edit($module->getName() . 'Module.php', new fileRegexpSearchReplaceTransformer('/protected \$classes = array\s*\(.*?\);[\r\n]+/s', 'protected $classes = array(' . $classString . ');' . "\r\n"));
+
+        $fileGenerator->delete($this->generateActionFileName($class_name), array('ignore'));
+        $fileGenerator->delete($this->generateMapperFileName($class_name), array('ignore'));
+        $fileGenerator->delete($this->generateDOFileName($class_name), array('ignore'));
+
         $fileGenerator->run();
     }
 
-    public function deleteClass($id)
-    {
-        $this->db()->query('DELETE FROM `' . $this->db()->getTablePrefix() . 'sys_classes` WHERE `id` = ' . (int)$id);
-    }
-
+    /**
+     * Save action info
+     *
+     * @param simpleModule $module
+     * @param string $class_name
+     * @param string $action_name
+     * @param array $actionData
+     * @param string $path
+     * @param bool $isEdit
+     */
     public function saveAction(simpleModule $module, $class_name, $action_name, Array $actionData, $path, $isEdit)
     {
         fileLoader::load('codegenerator/fileGenerator');
@@ -209,6 +235,13 @@ class adminGeneratorMapper extends mapper
         $fileGenerator->run();
     }
 
+    /**
+     * Delete action
+     *
+     * @param simpleModule $module
+     * @param simpleAction $action
+     * @param string $path
+     */
     public function deleteAction(simpleModule $module, simpleAction $action, $path)
     {
         fileLoader::load('codegenerator/fileGenerator');
@@ -228,6 +261,14 @@ class adminGeneratorMapper extends mapper
         $fileGenerator->run();
     }
 
+    /**
+     * Add generator's scenario for action config file content
+     *
+     * @param simpleModule $module
+     * @param string $class_name
+     * @param array $actionsArray
+     * @param fileGenerator $fileGenerator
+     */
     protected function addSaveActionsInGenerator(simpleModule $module, $class_name, Array $actionsArray, fileGenerator &$fileGenerator)
     {
         fileLoader::load('codegenerator/fileFullReplaceTransformer');
@@ -253,23 +294,6 @@ class adminGeneratorMapper extends mapper
         $actionFileName = $this->generateActionFileName($class_name);
         $fileGenerator->edit($actionFileName, new fileFullReplaceTransformer($actionContents));
     }
-
-    /*
-    public function getActions($class_id)
-    {
-        $qry = 'SELECT `a`.`name`, `a`.`id` FROM `' . $this->db()->getTablePrefix() . 'sys_classes_actions` `ca`
-                   INNER JOIN `' . $this->db()->getTablePrefix() . 'sys_actions` `a` ON `a`.`id` = `ca`.`action_id`
-                    WHERE `ca`.`class_id` = ' . (int)$class_id;
-        $stmt = $this->db()->query($qry);
-
-        $actions = array();
-        while ($row = $stmt->fetch()) {
-            $actions[] = $row['name'];
-        }
-
-        return $actions;
-    }
-    */
 
     /**
      * Получение списка каталогов, используемых для генерации модулей

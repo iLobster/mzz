@@ -72,20 +72,20 @@ class adminSaveClassController extends simpleController
 
         $validator = new formValidator();
 
-        $validator->add('required', 'name', i18n::getMessage('class.error.name_required', 'admin'));
-        $validator->add('callback', 'name', i18n::getMessage('class.error.unique', 'admin'), array(array($this, 'checkUniqueClassName'), $adminMapper, $isEdit ? $data['className'] : ''));
-        $validator->add('regex', 'name', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
-        $validator->add('in', 'dest', i18n::getMessage('module.error.wrong_dest', 'admin'), array_keys($dests));
-
         if (!$isEdit) {
+            $validator->add('required', 'name', i18n::getMessage('class.error.name_required', 'admin'));
+            $validator->add('callback', 'name', i18n::getMessage('class.error.unique', 'admin'), array(array($this, 'checkUniqueClassName'), $adminMapper, $isEdit ? $data['className'] : ''));
+            $validator->add('regex', 'name', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
+            $validator->add('in', 'dest', i18n::getMessage('module.error.wrong_dest', 'admin'), array_keys($dests));
+
+
             $validator->add('required', 'table', i18n::getMessage('class.error.table_required', 'admin'));
             $validator->add('regex', 'table', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
         }
 
         if ($validator->validate()) {
-            $name = $this->request->getString('name', SC_POST);
-
             if (!$isEdit) {
+                $name = $this->request->getString('name', SC_POST);
                 $table = $this->request->getString('table', SC_POST);
                 $dest = $this->request->getString('dest', SC_POST);
 
@@ -101,8 +101,6 @@ class adminSaveClassController extends simpleController
 
                 return $this->smarty->fetch('admin/addClassResult.tpl');
             } else {
-                $adminGeneratorMapper->renameClass($module, $data['className'], $name, current($dests));
-
                 return jipTools::redirect();
             }
         }

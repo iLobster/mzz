@@ -18,7 +18,7 @@
  *
  * @package modules
  * @subpackage admin
- * @version 0.2
+ * @version 0.3
  */
 class adminDeleteModuleController extends simpleController
 {
@@ -38,31 +38,9 @@ class adminDeleteModuleController extends simpleController
         try {
             $adminGeneratorMapper->deleteModule($module);
         } catch (Exception $e) {
-            $controller = new messageController($e->getMessage(), messageController::WARNING);
+            $controller = new messageController($this->getAction(), $e->getMessage(), messageController::WARNING);
             return $controller->run();
         }
-
-        /*
-        $currentDestination = current($adminGeneratorMapper->getDests(true, $module->getName()));
-
-
-
-        $dest = current($adminGeneratorMapper->getDests(true, $modules[$id]['name']));
-        $dest = pathinfo($dest, PATHINFO_DIRNAME);
-
-        $generator = new directoryGenerator($dest);
-        try {
-            $generator->delete($modules[$id]['name'], array('recursive', 'skip'));
-            $generator->run();
-        } catch (Exception $e) {
-            $controller = new messageController($e->getMessage(), messageController::WARNING);
-            return $controller->run();
-        }
-
-        $this->deleteClasses(array_keys($modules[$id]['classes']), $adminGeneratorMapper);
-        $adminGeneratorMapper->deleteModule($id);
-
-        */
 
         return jipTools::redirect();
     }

@@ -19,47 +19,38 @@ fileLoader::load('codegenerator/fileGenerator');
  *
  * @package modules
  * @subpackage admin
- * @version 0.2
+ * @version 0.3
  */
-
 class adminDeleteClassController extends simpleController
 {
     protected function getView()
     {
-        $id = $this->request->getInteger('id');
-
-        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
         $adminGeneratorMapper = $this->toolkit->getMapper('admin', 'adminGenerator');
 
-        $class = $adminMapper->searchClassById($id);
-
-        if (!$class) {
-            $controller = new messageController(i18n::getMessage('class.error.not_exists', 'admin'), messageController::WARNING);
-            return $controller->run();
+        $module_name = $this->request->getString('module_name');
+        try {
+            $module = $this->toolkit->getModule($module_name);
+        } catch (mzzModuleNotFoundException $e) {
+            return $this->forward404($adminMapper);
         }
 
-        $module = $adminMapper->searchModuleById($class['module_id']);
-        $module_name = $module['name'];
-        $class_name = $class['name'];
+        $classes = $module->getClasses();
+        $class_name = $this->request->getString('class_name');
+        if (!in_array($class_name, $classes)) {
+            return $this->forward404($adminMapper);
+        }
 
         $dest = current($adminGeneratorMapper->getDests(true, $module_name));
 
-        $generator = new fileGenerator($dest);
         try {
-            $generator->delete('actions/' . $class_name . '.ini', array('ignore'));
-            $generator->delete('mappers/' . $class_name . 'Mapper.php', array('ignore'));
-            $generator->delete($class_name . '.php', array('ignore'));
-
-            $generator->run();
+            $adminGeneratorMapper->deleteClass($module, $class_name, $dest);
         } catch (Exception $e) {
-            $controller = new messageController($e->getMessage(), messageController::WARNING);
+            return $e->getMessage();
+            $controller = new messageController($this->getAction(), $e->getMessage(), messageController::WARNING);
             return $controller->run();
         }
-
-        $adminGeneratorMapper->deleteClass($id);
 
         return jipTools::redirect();
     }
 }
-
 ?>
