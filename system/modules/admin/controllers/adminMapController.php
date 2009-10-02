@@ -26,26 +26,28 @@ class adminMapController extends simpleController
 {
     protected function getView()
     {
-        $id = $this->request->getInteger('id');
-
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
         $adminGeneratorMapper = $this->toolkit->getMapper('admin', 'adminGenerator');
 
-        $class = $adminMapper->searchClassById($id);
-
-        if (!$class) {
-            $controller = new messageController(i18n::getMessage('class.error.not_exists', 'admin'), messageController::WARNING);
-            return $controller->run();
+        $module_name = $this->request->getString('module_name');
+        try {
+            $module = $this->toolkit->getModule($module_name);
+        } catch (mzzModuleNotFoundException $e) {
+            return $this->forward404($adminMapper);
         }
 
-        $module = $adminMapper->searchModuleById($class['module_id']);
+        $classes = $module->getClasses();
+        $class_name = $this->request->getString('class_name');
+        if (!in_array($class_name, $classes)) {
+            return $this->forward404($adminMapper);
+        }
 
-        $mapper = $this->toolkit->getMapper($module['name'], $class['name']);
+        $mapper = $module->getMapper($class_name);
 
         try {
             $schema = $adminGeneratorMapper->getTableSchema($mapper->table());
         } catch (PDOException $e) {
-            $controller = new messageController($e->getMessage(), messageController::WARNING);
+            $controller = new messageController($this->getAction(), $e->getMessage(), messageController::WARNING);
             return $controller->run();
         }
 
@@ -65,15 +67,14 @@ class adminMapController extends simpleController
             unset($map[$key]);
         }
 
-        $dest = current($adminGeneratorMapper->getDests(true, $module['name']));
+        $dest = current($adminGeneratorMapper->getDests(true, $module->getName()));
 
         if (sizeof($add) || sizeof($delete)) {
             try {
-                $fileGenerator = new fileGenerator($dest . '/mappers');
-
+                $fileGenerator = new fileGenerator($dest);
                 $map_str = $adminGeneratorMapper->generateMapString($map);
 
-                $fileGenerator->edit($class['name'] . 'Mapper.php', new fileRegexpSearchReplaceTransformer('/(protected|public) \$map = array\s*\(.*?\);[\r\n]+/s', '\\1 $map = ' . $map_str . ";\r\n"));
+                $fileGenerator->edit($mapperName, new fileRegexpSearchReplaceTransformer('/(protected|public) \$map = array\s*\(.*?\);[\r\n]+/s', '\\1 $map = ' . $map_str . ";\r\n"));
 
                 $fileGenerator->run();
             } catch (Exception $e) {

@@ -399,27 +399,27 @@ class adminGeneratorMapper extends mapper
         */
     }
 
-    protected function generateMapperFileName($class_name)
+    public function generateMapperFileName($class_name)
     {
         return 'mappers/' . $class_name . 'Mapper.php';
     }
 
-    protected function generateDOFileName($class_name)
+    public function generateDOFileName($class_name)
     {
         return 'models/' . $class_name . '.php';
     }
 
-    protected function generateActionFileName($class_name)
+    public function generateActionFileName($class_name)
     {
         return 'actions/' . $class_name . '.php';
     }
 
-    private function generateControllerFileName(simpleModule $module, $name)
+    public function generateControllerFileName(simpleModule $module, $name)
     {
         return 'controllers/' . $module->getName() . ucfirst($name) . 'Controller.php';
     }
 
-    private function generateTemplateFileName($action_name)
+    public function generateTemplateFileName($action_name)
     {
         return 'templates/' . $action_name . '.tpl';
     }
