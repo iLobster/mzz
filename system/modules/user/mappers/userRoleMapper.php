@@ -64,7 +64,7 @@ class userRoleMapper extends mapper
 
             $criterion = new criterion('rel.group_id', $this->table(true) . '.group_id', criteria::EQUAL, true);
             $criterion->addAnd(new criterion('rel.user_id', $this->user->getId()));
-            $critera->addJoin('user_userGroup_rel', $criterion, 'rel');
+            $critera->addJoin('user_userGroup_rel', $criterion, 'rel', criteria::JOIN_INNER);
 
             $this->roles[$module] = $this->searchAllByCriteria($critera);
         }

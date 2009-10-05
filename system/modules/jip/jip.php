@@ -110,7 +110,7 @@ class jip
             $url->setRoute($routeName);
             foreach ($action->getAllData() as $name => $value) {
                 if (strpos($name, 'route.') === 0) {
-                    $url->add(substr($name, 6), strpos($value, '->') === 0 ? $this->callObjectMethodFromString($value): $value);
+                    $url->add(substr($name, 6), strpos($value, '->') === 0 ? $this->callObjectMethodFromString($value) : $value);
                 }
             }
         }
@@ -137,22 +137,24 @@ class jip
     {
         $this->result = array();
         foreach ($this->actions as $key => $action) {
-            $item = array();
-            $item['url'] = $this->buildUrl($action, $key);
-            $item['id'] = $this->getJipMenuId() . '_' . $action->getControllerName();
-            $item['lang'] = $action->isLang();
-            $item['icon'] = $action->getIcon();
+            if ($action->canRun()) {
+                $item = array();
+                $item['url'] = $this->buildUrl($action, $key);
+                $item['id'] = $this->getJipMenuId() . '_' . $action->getControllerName();
+                $item['lang'] = $action->isLang();
+                $item['icon'] = $action->getIcon();
 
-            $target = $action->getData('jip_target');
-            $item['target'] = ($target === 'new');
+                $target = $action->getData('jip_target');
+                $item['target'] = ($target === 'new');
 
-            //@todo: вынесим это дело в simpleAction?
-            $item['title'] = $action->getTitle() ? $action->getTitle() : '_ ' . $key;
-            if (i18n::isName($item['title'])) {
-                $item['title'] = i18n::getMessage(i18n::extractName($item['title']), 'jip');
+                //@todo: вынесим это дело в simpleAction?
+                $item['title'] = $action->getTitle() ? $action->getTitle() : '_ ' . $key;
+                if (i18n::isName($item['title'])) {
+                    $item['title'] = i18n::getMessage(i18n::extractName($item['title']), 'jip');
+                }
+
+                $this->result[$key] = new arrayDataspace($item);
             }
-
-            $this->result[$key] = new arrayDataspace($item);
         }
     }
 
@@ -172,7 +174,7 @@ class jip
      *
      * @return array
      */
-    public function & getItem($name)
+    public function &getItem($name)
     {
         if (isset($this->result[$name])) {
             return $this->result[$name];
