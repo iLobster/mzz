@@ -751,7 +751,7 @@ CREATE TABLE `user_roles` (
   `role` varchar(32) NOT NULL default '',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `group_module_role` (`group_id`,`module`,`role`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -759,7 +759,7 @@ SET character_set_client = @saved_cs_client;
 --
 
 /*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
-INSERT INTO `user_roles` VALUES (1,4,'page','moderator'),(2,2,'page','user'),(3,1,'page','user');
+INSERT INTO `user_roles` VALUES (1,4,'page','moderator'),(2,2,'page','user'),(3,1,'page','user'),(4,3,'page','moderator'),(5,3,'page','user'),(6,4,'page','user'),(7,4,'news','moderator'),(8,4,'news','user'),(9,3,'news','moderator'),(10,3,'news','user'),(11,1,'news','user'),(12,2,'news','user');
 /*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
 
 --
@@ -887,4 +887,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2009-10-05  0:50:36
+-- Dump completed on 2009-10-05  1:22:48

@@ -174,7 +174,7 @@ abstract class simpleModule
                         }
                     }
 
-                    $actions = array_merge($actions, $actionsObjects);
+                    $actions += $actionsObjects;
                 }
             }
 
@@ -218,6 +218,7 @@ abstract class simpleModule
     public function getAction($actionName)
     {
         $actions = $this->getActions();
+
         if (!isset($actions[$actionName])) {
             throw new mzzUnknownModuleActionException($this->getName(), $actionName);
         }

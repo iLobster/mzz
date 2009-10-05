@@ -23,7 +23,11 @@ class newsModule extends simpleModule
 {
     protected $classes = array(
         'news',
-        'newsFolder'
-    );
+        'newsFolder');
+
+    protected $roles = array(
+        'moderator',
+        'user');
 }
+
 ?>

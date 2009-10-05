@@ -29,4 +29,5 @@ class pageModule extends simpleModule
         'moderator',
         'user');
 }
+
 ?>

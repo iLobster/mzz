@@ -46,6 +46,11 @@ class adminAdminController extends simpleController
 
         try {
             $action = $module->getAction($actionName);
+
+            if (!$action->canRun()) {
+                return $this->forward('admin', '403');
+            }
+
             return $this->forward($moduleName, $actionName);
         } catch (mzzUnknownModuleActionException $e) {
             $this->smarty->assign('module', $moduleName);

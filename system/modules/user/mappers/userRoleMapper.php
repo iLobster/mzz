@@ -58,13 +58,15 @@ class userRoleMapper extends mapper
     private function getRoles($module)
     {
         if (!isset($this->roles[$module])) {
+            $relMapper = systemToolkit::getInstance()->getMapper('user', 'userGroup');
+
             $critera = new criteria();
 
             $critera->add('module', $module);
 
             $criterion = new criterion('rel.group_id', $this->table(true) . '.group_id', criteria::EQUAL, true);
             $criterion->addAnd(new criterion('rel.user_id', $this->user->getId()));
-            $critera->addJoin('user_userGroup_rel', $criterion, 'rel', criteria::JOIN_INNER);
+            $critera->addJoin($relMapper->table(), $criterion, 'rel', criteria::JOIN_INNER);
 
             $this->roles[$module] = $this->searchAllByCriteria($critera);
         }
