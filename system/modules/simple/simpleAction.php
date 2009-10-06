@@ -33,6 +33,13 @@ class simpleAction
     protected $name;
 
     /**
+     * Action title
+     *
+     * @var string
+     */
+    protected $title;
+
+    /**
      * Action module
      *
      * @var string
@@ -142,9 +149,19 @@ class simpleAction
      */
     public function getTitle()
     {
-        if (isset($this->data['title'])) {
-            return $this->data['title'];
+        if (is_null($this->title)) {
+            $title = '_ ' . $this->name;
+            if (isset($this->data['title'])) {
+                $title = $this->data['title'];
+                if (i18n::isName($title)) {
+                    $title = i18n::getMessage(i18n::extractName($title));
+                }
+            }
+
+            $this->title = $title;
         }
+
+        return $this->title;
     }
 
     public function getIcon()

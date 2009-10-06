@@ -64,7 +64,7 @@
         </table>
     {/foreach}
 </div>
-
+{*
 <div class="toolbarBlock">
     <span class="toolbarSectionName"><strong>Разделы</strong> и модули <a href="{url route="default2" module="admin" action="editSections"}" class="mzz-jip-link"><span class="mzz-icon mzz-icon-script"><span class="mzz-bullet mzz-bullet-edit"></span></span></a></span>
     <table class="toolbar admin" cellspacing="0">
@@ -84,6 +84,7 @@
         </tbody>
     </table>
 </div>
+*}
 {*
 <div class="toolbarBlock">
     <span class="toolbarSectionName">Зарегистрированные объекты <a href="{url route="default2" module="admin" action="addObjToRegistry"}" class="mzz-jip-link"><span class="mzz-icon mzz-icon-db"><span class="mzz-bullet mzz-bullet-add"></span></span></a></span>
