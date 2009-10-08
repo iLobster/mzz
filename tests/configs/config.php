@@ -38,7 +38,7 @@ systemConfig::$db['another']['dsn']  = "mysql:host=localhost;dbname=mzz_test";
 systemConfig::$cache['default']['backend'] = 'memory';
 systemConfig::$cache['memory']['backend'] = 'memory';
 
-systemConfig::$i18n = 'ru';
+systemConfig::$i18n = 'en';
 systemConfig::$i18nEnable = true;
 
 systemConfig::$pathToApplication = realpath($application_path);
