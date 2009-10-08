@@ -63,16 +63,24 @@ class DB
             $tablePrefix = isset(systemConfig::$db[$alias]['tablePrefix']) ? systemConfig::$db[$alias]['tablePrefix'] : '';
 
             $dbType = strtolower(substr($dsn, 0, strpos($dsn, ':')));
-            if ($charset && $dbType == 'mysql') {
+
+            //@todo: хак для php5.3, в котором забыли положить PDO::MYSQL_ATTR_INIT_COMMAND
+            $version_compare = version_compare(PHP_VERSION, '5.3.0');
+            if ($version_compare !== 0 && $charset && $dbType == 'mysql') {
                 $options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES `' . $charset . '`';
             }
 
             self::$instances[$alias] = new $driver($dsn, $username, $password, $options);
             self::$instances[$alias]->setTablePrefix($tablePrefix);
 
+            //@todo: хак для php5.3, в котором забыли положить PDO::MYSQL_ATTR_INIT_COMMAND
+            if ($version_compare === 0 && $charset && $dbType == 'mysql') {
+                self::$instances[$alias]->query('SET NAMES `' . $charset . '`');
+            }
+
             if (in_array($dbType, array('mssql', 'dblib'))) {
-                $this->query('SET ANSI_NULLS ON');
-                $this->query('SET ANSI_WARNINGS ON');
+                self::$instances[$alias]->query('SET ANSI_NULLS ON');
+                self::$instances[$alias]->query('SET ANSI_WARNINGS ON');
             }
         }
 

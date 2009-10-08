@@ -1,5 +1,10 @@
 <?php
 
+//хак для php < 5.3
+if (!defined('TC_DOLLAR_CURLY')) {
+    define('TC_DOLLAR_CURLY', '$');
+}
+
 class iniFile
 {
     private $options;
