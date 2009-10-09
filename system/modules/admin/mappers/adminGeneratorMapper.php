@@ -329,12 +329,13 @@ class adminGeneratorMapper extends mapper
         foreach ($this->db()->getAll('SHOW COLUMNS FROM `' . $table . '`') as $field) {
             $key = $field['Field'];
 
-            preg_match('/^([^(]+)(?:\((\d+)\)\s?(.*))?$/', $field['Type'], $matches);
-            $result[$key] = array('type' => $matches[1]);
-            if ($matches[1] == 'int') {
-                $result[$key]['range'] = $matches[3] ? array(0, pow(2, 32)) : array(-pow(2, 31) + 1, pow(2, 31));
-            } elseif ($matches[1] == 'char' || $matches[1] == 'varchar') {
-                $result[$key]['maxlength'] = (int)$matches[2];
+            if (preg_match('/^([^(]+)(?:\((\d+)\)\s?(.*))?$/', $field['Type'], $matches)) {
+                $result[$key] = array('type' => $matches[1]);
+                if ($matches[1] == 'int') {
+                    $result[$key]['range'] = $matches[3] ? array(0, pow(2, 32)) : array(-pow(2, 31) + 1, pow(2, 31));
+                } elseif ($matches[1] == 'char' || $matches[1] == 'varchar') {
+                    $result[$key]['maxlength'] = (int)$matches[2];
+                }
             }
         }
 
@@ -384,19 +385,6 @@ class adminGeneratorMapper extends mapper
         $map_str = preg_replace('/^/m', str_repeat(' ', 4) . '\\1', $map_str);
 
         return $map_str;
-
-        /*
-        $map_str = var_export($map, true);
-
-        echo $map_str;
-        exit;
-
-        $map_str = preg_replace('/^( +)/m', '$1$1', $map_str);
-        $map_str = preg_replace('/^/m', str_repeat(' ', 4) . '\\1', $map_str);
-        $map_str = trim($map_str);
-
-        return $map_str;
-        */
     }
 
     public function generateMapperFileName($class_name)
