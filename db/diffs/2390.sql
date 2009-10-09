@@ -1,3 +1,0 @@
-SET NAMES `utf8`;
-
-ALTER TABLE `user_user` ADD COLUMN `language_id` INTEGER(11) DEFAULT NULL;
