@@ -279,7 +279,30 @@ class simpleAction
 
     public function canRun()
     {
-        $roleMapper = systemToolkit::getInstance()->getModule('user')->getMapper('userRole');
+        $toolkit = systemToolkit::getInstance();
+
+        $mapper = $toolkit->getMapper($this->moduleName, $this->className);
+        if ($mapper instanceof iACLMapper) {
+            $object = $mapper->convertArgsToObj($toolkit->getRequest()->getParams());
+            if ($object instanceof iACL) {
+                $can = $object->getAcl($this->name);
+
+                if (is_bool($can)) {
+                    return $can;
+                }
+            }
+        }
+
+        $module = $toolkit->getModule($this->moduleName);
+        if ($module instanceof iACL) {
+            $can = $module->getAcl($this->name);
+
+            if (is_bool($can)) {
+                return $can;
+            }
+        }
+
+        $roleMapper = $toolkit->getModule('user')->getMapper('userRole');
         return $roleMapper->hasRole($this->moduleName, $this->getRoles());
     }
 }

@@ -7,5 +7,6 @@ fileLoader::load('orm/lazy');
 fileLoader::load('orm/collection');
 fileLoader::load('orm/observer');
 fileLoader::load('orm/mzzORMNotExistMethodException');
+fileLoader::load('orm/iACL');
 
 ?>

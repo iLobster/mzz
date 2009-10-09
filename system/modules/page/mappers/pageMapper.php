@@ -23,7 +23,7 @@ fileLoader::load('modules/i18n/plugins/i18nPlugin');
  * @subpackage page
  * @version 0.2.1
  */
-class pageMapper extends mapper
+class pageMapper extends mapper implements iACLMapper
 {
     /**
      * Имя класса DataObject
@@ -129,7 +129,7 @@ class pageMapper extends mapper
         return $this->searchOneByCriteria($criteria);
     }
 
-    public function convertArgsToObj($args)
+    public function convertArgsToObj(array $args)
     {
         if (isset($args['id'])) {
             $page = $this->searchByKey($args['id']);

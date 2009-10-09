@@ -19,7 +19,7 @@
  * @subpackage page
  * @version 0.0.1
  */
-class pageModule extends simpleModule
+class pageModule extends simpleModule implements iACL
 {
     protected $classes = array(
         'page',
@@ -28,6 +28,11 @@ class pageModule extends simpleModule
     protected $roles = array(
         'moderator',
         'user');
+
+    public function getAcl($action)
+    {
+        return;
+    }
 }
 
 ?>
