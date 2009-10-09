@@ -284,12 +284,14 @@ class simpleAction
         $mapper = $toolkit->getMapper($this->moduleName, $this->className);
         if ($mapper instanceof iACLMapper) {
             $object = $mapper->convertArgsToObj($toolkit->getRequest()->getParams());
-            if ($object instanceof iACL) {
-                $can = $object->getAcl($this->name);
+            if (!($object instanceof iACL)) {
+                throw new mzzRuntimeException('Class ' . $this->className . ' should implement iACL interface to resolve getAcl() invocations');
+            }
 
-                if (is_bool($can)) {
-                    return $can;
-                }
+            $can = $object->getAcl($this->name);
+
+            if (is_bool($can)) {
+                return $can;
             }
         }
 
