@@ -65,7 +65,7 @@
                 this.tinyMCEIds[this.currentWindow] = [];
                 this.window = new MZZ.window($.extend({id: 'jip_window_' + this.currentWindow}, options, this.options));
 
-                this.window.addButton('close', SITE_PATH + '/templates/images/jip/btn-close.png', '', function(){jipWindow.close()});
+                this.window.addButton('close', SITE_PATH + '/images/jip/btn-close.png', '', function(){jipWindow.close()});
                 this.window.top(this.window.top() + $(window).scrollTop());
                 this.setStatus('<strong>Window url:</strong> ' + url);
                 $(document).keypress(this.eventKey);
@@ -334,7 +334,7 @@
         {
             if (this.window) {
                 this.setStyle('default').setTitle('loading...');
-                this.window.content('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[JIP_LANG].loading + '<br /><a href="javascript: void(jipWindow.close());">' + MZZ.jipI18n[JIP_LANG].cancel + '</a></div>');
+                this.window.content('<div id="jipLoad"><img src="' + SITE_PATH + '/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[JIP_LANG].loading + '<br /><a href="javascript: void(jipWindow.close());">' + MZZ.jipI18n[JIP_LANG].cancel + '</a></div>');
             }
         },
 
@@ -342,7 +342,7 @@
         {
             if (this.window) {
                 this.setStyle('default').setTitle('Refresh');
-                this.window.content('<div id="jipLoad"><img src="' + SITE_PATH + '/templates/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[JIP_LANG].refresh + '</div>');
+                this.window.content('<div id="jipLoad"><img src="' + SITE_PATH + '/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[JIP_LANG].refresh + '</div>');
             }
         },
 

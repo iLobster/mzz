@@ -3,7 +3,7 @@ jipWindow.setStyle('alert');
 </script>
 <div class="confirm">
 <div class="confirmImg">
-<img src="{$SITE_PATH}/templates/images/confirm.gif" hspace="20" vspace="5" /></div>
+<img src="{$SITE_PATH}/images/confirm.gif" hspace="20" vspace="5" /></div>
 <div class="confirmMsg">{$message}<br />
 {form action=$url method=$method jip=true}
 {if isset($postData)}

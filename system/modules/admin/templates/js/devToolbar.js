@@ -16,7 +16,7 @@
                 var mRow = $('<table id="module-' + name + '" class="toolbar admin" cellspacing="0" />')
                              .append($('<thead />')
                              .append($('<tr class="first" />')
-                             .append($('<th class="first name" />').append('<img src="' + SITE_PATH + '/templates/images/exp_minus.png" onclick="devToolbar.toggleModule(\'' + name + '\', this);" width="16" height="16" alt="expand/close classes list" title="expand/collapse classes" style="cursor: pointer" />').append(name))
+                             .append($('<th class="first name" />').append('<img src="' + SITE_PATH + '/images/exp_minus.png" onclick="devToolbar.toggleModule(\'' + name + '\', this);" width="16" height="16" alt="expand/close classes list" title="expand/collapse classes" style="cursor: pointer" />').append(name))
                              .append($('<th class="actions last" />').append(this.convertLinks(links)))))
                              .append('<tbody id="module-' + name + '-classes"><tr class="row last empty"><td class="first">--- классов нет ---</td><td class="last"></td></tr></tbody>');
 
@@ -91,10 +91,10 @@
                 elm.toggle();
                 var pos = $.inArray(id, cook);
                 if (elm.css('display') == 'none' && pos < 0) {
-                    $(img).attr({src: SITE_PATH + '/templates/images/exp_plus.png'});
+                    $(img).attr({src: SITE_PATH + '/images/exp_plus.png'});
                     cook.push(id);
                 } else {
-                    $(img).attr({src: SITE_PATH + '/templates/images/exp_minus.png'});
+                    $(img).attr({src: SITE_PATH + '/images/exp_minus.png'});
                     cook.splice(pos,1);
                 }
             }

@@ -12,7 +12,7 @@
             })(jQuery);
             {/literal}
             </script>
-            {_ username}: <input type="text" value="" name="filter"> <input type="image" src="{$SITE_PATH}/templates/images/search.gif">
+            {_ username}: <input type="text" value="" name="filter"> <input type="image" src="{$SITE_PATH}/images/search.gif">
         </form>
     </div>
     <div id='users' style='padding: 15px;'>

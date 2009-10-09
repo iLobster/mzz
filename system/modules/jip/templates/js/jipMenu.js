@@ -39,7 +39,7 @@
                 this.cMenu.hide();
                 this.cMenu = false;
                 this.cButton.attr({
-                    src: SITE_PATH + '/templates/images/jip/jip.gif'
+                    src: SITE_PATH + '/images/jip/jip.gif'
                 });
                 this.cButton = false;
                 $(document).unbind('keypress', this.eventKey);
@@ -67,7 +67,7 @@
 
                 this.draw(button, id, items, langs);
                 this.cButton.attr({
-                    src: SITE_PATH + '/templates/images/jip/jip_active.gif'
+                    src: SITE_PATH + '/images/jip/jip_active.gif'
                 });
             } else {
                 this.close();

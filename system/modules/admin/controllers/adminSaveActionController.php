@@ -163,7 +163,7 @@ class adminSaveActionController extends simpleController
         }
 
         if (empty($values['icon'])) {
-            $values['icon'] = '/templates/images/delete.gif';
+            $values['icon'] = '/images/delete.gif';
         }
 
         if (empty($values['main'])) {

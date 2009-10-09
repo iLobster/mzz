@@ -23,7 +23,7 @@
         <table id="module-{$name}" class="toolbar admin" cellspacing="0">
             <thead>
                 <tr class="first">
-                    <th class="first name"><img src="{$SITE_PATH}/templates/images/exp_{if isset($hiddenClasses.$name)}plus{else}minus{/if}.png" onclick="devToolbar.toggleModule('{$name}', this);" width="16" height="16" alt="expand/close classes list" title="expand/collapse classes" style="cursor: pointer" />{$name}</th>
+                    <th class="first name"><img src="{$SITE_PATH}/images/exp_{if isset($hiddenClasses.$name)}plus{else}minus{/if}.png" onclick="devToolbar.toggleModule('{$name}', this);" width="16" height="16" alt="expand/close classes list" title="expand/collapse classes" style="cursor: pointer" />{$name}</th>
                     <th class="last actions">
                         {*
                         {if not empty($module.editACL)}

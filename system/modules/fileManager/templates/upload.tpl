@@ -18,7 +18,7 @@
               success: function(){jipWindow.refreshAfterClose(true);jipWindow.close();}
               };
 
-    fileLoader.loadJS(SITE_PATH + '/templates/js/fileManager/fileUpload.js', function() {fileUpload.create('fmUpload', cb);});
+    fileLoader.loadJS(SITE_PATH + '/js/fileManager/fileUpload.js', function() {fileUpload.create('fmUpload', cb);});
 </script>
 {/literal}
 <div id="fmStatus" style="display: none; padding: 5px; border: 1px solid #FBC4C4; background-color: #FDDFDF; color: #840909; font-weight: bold"></div>

@@ -1,5 +1,5 @@
 {*<div style='width: 99%;'>
-<div style="padding: 4px 10px; text-align: right; float: right; margin-top: -2px; background-image: url('{$SITE_PATH}/templates/images/submenu_background.png');"><img src="{$SITE_PATH}/templates/images/filter.gif" align=absmiddle /> Поиск</div>
+<div style="padding: 4px 10px; text-align: right; float: right; margin-top: -2px; background-image: url('{$SITE_PATH}/images/submenu_background.png');"><img src="{$SITE_PATH}/images/filter.gif" align=absmiddle /> Поиск</div>
 
 </div>*}
 <div class="title">{_ news_list}</div>
@@ -19,7 +19,7 @@
 
     {if $newsFolder->getTreeLevel() ne 1}
         <tr class="center">
-            <td class="first"><img src="{$SITE_PATH}/templates/images/news/folder.gif" alt="folder" /></td>
+            <td class="first"><img src="{$SITE_PATH}/images/news/folder.gif" alt="folder" /></td>
             <td class="left"><a href="{url route='admin' params=$newsFolder->getTreeParent()->getTreePath() action_name=admin module_name=news}">..</a></td>
             <td>—</td>
             <td>—</td>
@@ -30,7 +30,7 @@
     {foreach from=$newsFolder->getTreeBranch(1) item=current_folder name=folders}
         {if $current_folder->getId() != $newsFolder->getId()}
             <tr class="center">
-                <td class="first"><img src="{$SITE_PATH}/templates/images/news/folder.gif" alt="folder" /></td>
+                <td class="first"><img src="{$SITE_PATH}/images/news/folder.gif" alt="folder" /></td>
                 <td class="left"><a href="{url route='admin' params=$current_folder->getTreePath() action_name=admin module_name=news}">{$current_folder->getTitle()|htmlspecialchars}</a></td>
                 <td>—</td>
                 <td>—</td>
@@ -41,7 +41,7 @@
 
     {foreach from=$news item=current_news}
         <tr class="center">
-            <td class="first" style="width: 30px;"><img src="{$SITE_PATH}/templates/images/news/news.gif" alt="" title="{_ author}: {$current_news->getEditor()->getLogin()}" /></td>
+            <td class="first" style="width: 30px;"><img src="{$SITE_PATH}/images/news/news.gif" alt="" title="{_ author}: {$current_news->getEditor()->getLogin()}" /></td>
             <td class="left"><a href="{url route='withId' module=news id=$current_news->getId()}">{$current_news->getTitle()|htmlspecialchars}</a></td>
             <td>{$current_news->getCreated()|date_format:"%d/%m/%Y %H:%M"}</td>
             <td>{$current_news->getUpdated()|date_format:"%d/%m/%Y %H:%M"}</td>

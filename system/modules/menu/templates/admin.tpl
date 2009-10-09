@@ -66,7 +66,7 @@
     </div>
 {/foreach}
 <div style="visibility: hidden;">
-<img alt="preload" src="{$SITE_PATH}/templates/images/menu/left_side_yellow.gif" width="1" height="1"/>
-<img alt="preload" src="{$SITE_PATH}/templates/images/menu/bg_yellow.gif" width="1" height="1"/>
+<img alt="preload" src="{$SITE_PATH}/images/menu/left_side_yellow.gif" width="1" height="1"/>
+<img alt="preload" src="{$SITE_PATH}/images/menu/bg_yellow.gif" width="1" height="1"/>
 </div>
 </div>

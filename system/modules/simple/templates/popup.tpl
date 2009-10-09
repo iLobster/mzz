@@ -3,7 +3,7 @@
 <head>
     <title>{title separator=" | " start=" - "}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="{$SITE_PATH}/templates/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="{$SITE_PATH}/css/style.css" />
     <script type="text/javascript">
     <!--
     var SITE_PATH = '{$SITE_PATH}';

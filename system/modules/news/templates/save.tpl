@@ -4,12 +4,12 @@
     <div class="jipTitle">{_ create_news}</div>
     {literal}<script type="text/javascript">
     (function($) {
-        fileLoader.loadCSS(SITE_PATH + '/templates/css/calendar-blue.css');
-        fileLoader.loadJS(SITE_PATH + '/templates/js/jscalendar/calendar.js',
+        fileLoader.loadCSS(SITE_PATH + '/css/calendar-blue.css');
+        fileLoader.loadJS(SITE_PATH + '/js/jscalendar/calendar.js',
             function(url, type, status){
                 if (status == 0 || status == 'success'){
-                    fileLoader.loadJS(SITE_PATH + '/templates/js/jscalendar/calendar-ru.js');
-                    fileLoader.loadJS(SITE_PATH + '/templates/js/jscalendar/calendar-setup.js', function() {
+                    fileLoader.loadJS(SITE_PATH + '/js/jscalendar/calendar-ru.js');
+                    fileLoader.loadJS(SITE_PATH + '/js/jscalendar/calendar-setup.js', function() {
                         Calendar.setup({
                             'inputField': 'calendar-field-created',
                             'button': 'calendar-trigger-created',

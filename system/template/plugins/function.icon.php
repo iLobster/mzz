@@ -25,7 +25,7 @@
  * [active - false|true] - активное состояние иконки (имеет приоритет)
  * [disabled - false|true] - задизабленное состояние
  *
- * {icon sprite="/templates/images/add.gif"} = <img src="/templates/images/add.gif" width="16" height="16" alt="icon" />
+ * {icon sprite="/images/add.gif"} = <img src="/images/add.gif" width="16" height="16" alt="icon" />
  * {icon sprite="sprite:mzz-icon/folder/add"} = <span class="mzz-icon mzz-icon-folder"><span class="mzz-bullet mzz-bullet-add"></span></span>
  * {icon sprite="sprite:mzz-icon/folder/add" jip=true} = {'sprite':'mzz-icon','index':'folder', 'bullet':'add'}
  * </code>

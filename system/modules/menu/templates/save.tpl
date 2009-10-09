@@ -6,7 +6,7 @@
         (function($){
             loadForm = function(typeId) {
                 if (typeId > 0) {
-                    $('#properties').empty().append('<img id="loadingImg" src="' + SITE_PATH +  '/templates/images/menu/propsload.gif" alt="Идёт загрузка..." />');
+                    $('#properties').empty().append('<img id="loadingImg" src="' + SITE_PATH +  '/images/menu/propsload.gif" alt="Идёт загрузка..." />');
                     $('#properties').load(url, {type: typeId, onlyProperties: true});
                 } else {
                     $('#properties').empty().text('<strong>Укажите тип</strong>');

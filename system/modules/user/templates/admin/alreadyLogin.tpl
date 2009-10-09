@@ -1,1 +1,1 @@
-<span>{$user->getLogin()} (ID: {$user->getId()}) <a href="{url route=default2 module=user action=exit}/?url={url}"><img src="{$SITE_PATH}/templates/images/admin/exit.gif" class="loginExit" width="13" height="15" alt="{_ logout}" title="{_ logout}" /></a></span>
+<span>{$user->getLogin()} (ID: {$user->getId()}) <a href="{url route=default2 module=user action=exit}/?url={url}"><img src="{$SITE_PATH}/images/admin/exit.gif" class="loginExit" width="13" height="15" alt="{_ logout}" title="{_ logout}" /></a></span>

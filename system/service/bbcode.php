@@ -682,7 +682,7 @@ class bbcode
     protected function buildSmileys()
     {
         $this->smileys_cache = array();
-        $html = '<img src="' . SITE_PATH . '/templates/images/smileys/%1$s.gif" alt="%2$s" />';
+        $html = '<img src="' . SITE_PATH . '/images/smileys/%1$s.gif" alt="%2$s" />';
         foreach ($this->smileys as $smiley => $image) {
             $this->smileys_cache[] =  sprintf($html, $image, $smiley);
         }

@@ -1,4 +1,4 @@
-<div class="moduleActions"><img src="{$SITE_PATH}/templates/images/fileManager/upload.gif" width="15" height="15" alt="" /> <a href="{url route=withAnyParam action=upload name=$current_folder->getPath()}" class="mzz-jip-link">Загрузить файл</a></div>
+<div class="moduleActions"><img src="{$SITE_PATH}/images/fileManager/upload.gif" width="15" height="15" alt="" /> <a href="{url route=withAnyParam action=upload name=$current_folder->getPath()}" class="mzz-jip-link">Загрузить файл</a></div>
 <div style="height: 45px;"></div>
 
 <div class="pageContent">
@@ -17,7 +17,7 @@
 
         {if $current_folder->getTreeLevel() ne 1}
             <tr align="center">
-                <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/templates/images/pages/folder.gif" /></td>
+                <td style="color: #8B8B8B;"><img src="{$SITE_PATH}/images/pages/folder.gif" /></td>
                 <td style="text-align: left;"><a href="{url route='admin' params=$current_folder->getTreeParent()->getPath() section_name=$current_section module_name=fileManager}">..</a></td>
                 <td>-</td>
                 <td>-</td>
@@ -29,7 +29,7 @@
 
         {foreach from=$current_folder->getFolders() item=folder}
             <tr align="center">
-              <td><img src="{$SITE_PATH}/templates/images/fileManager/folder.gif" /></td>
+              <td><img src="{$SITE_PATH}/images/fileManager/folder.gif" /></td>
               <td align="left"><a href="{url route='admin' params=$folder->getPath() section_name=$current_section module_name=fileManager}">{$folder->getTitle()}</a></td>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
@@ -41,7 +41,7 @@
 
         {foreach from=$files item=file}
             <tr align="center">
-                <td style="width: 30px;"><img src="{$SITE_PATH}/templates/images/fileManager/{$file->getExt()}.gif" align="absmiddle" style="padding: 0px 5px;" /></td>
+                <td style="width: 30px;"><img src="{$SITE_PATH}/images/fileManager/{$file->getExt()}.gif" align="absmiddle" style="padding: 0px 5px;" /></td>
                 <td style="text-align: left;"><a href="{$file->getDownloadLink()}">{$file->getName()}</a></td>
                 <td style="text-align: right;">{$file->getSize()|filesize}</td>
                 <td>{$file->getExt()}</td>

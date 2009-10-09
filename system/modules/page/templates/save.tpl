@@ -4,14 +4,14 @@
 
 {literal}<script type="text/javascript">
 
-fileLoader.loadJS(SITE_PATH + '/templates/js/tiny_mce/jquery.tinymce.js');
+fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
 
 (function($) {
     toggleEditor = function(id) {
         //console.log($.isUndefined(tinyMCE));
         if (!(tinyMCE) || tinyMCE.getInstanceById(id) == null) {
             $('#' + id).tinymce({
-                script_url: SITE_PATH + '/templates/js/tiny_mce/tiny_mce_jquery.js',
+                script_url: SITE_PATH + '/js/tiny_mce/tiny_mce_jquery.js',
                 theme : "advanced",
                 skin : 'o2k7',
                 skin_variant : "silver",
