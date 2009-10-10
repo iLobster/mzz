@@ -55,7 +55,12 @@ class requestHostnameRoute extends requestRoute
      */
     public function assemble($values = array())
     {
-        return $this->getRequest()->getScheme() . '://' . parent::assemble($values);
+        if (isset($values['scheme'])) {
+            $scheme = $values['scheme'];
+        } else {
+            $scheme = $this->getRequest()->getScheme();
+        }
+        return $scheme . '://' . parent::assemble($values);
     }
 }
 

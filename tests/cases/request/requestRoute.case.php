@@ -1,21 +1,25 @@
 <?php
 
 fileLoader::load('request/requestRoute');
-fileLoader::load('request/requestHostnameRoute');
 
 
 class requestRouteTest extends unitTestCase
 {
+    private $i18n_default;
+
     public function __construct()
     {
+        $this->i18n_default = systemConfig::$i18nEnable;
     }
 
     public function setUp()
     {
+        systemConfig::$i18nEnable = false;
     }
 
     public function tearDown()
     {
+        systemConfig::$i18nEnable = $this->i18n_default;
     }
 
     public function testSimpleRoute()
@@ -117,6 +121,24 @@ class requestRouteTest extends unitTestCase
         );
     }
 
+    public function testAssembleWithLang()
+    {
+        $route = new requestRoute('somepath/:controller/{:id}-:action/:default', array('default' => 'default', 'action' => 'view'));
+        $route->enableLang();
+        $this->assertEqual(
+            $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'list', 'default' => 'default')),
+            'en/somepath/news/1-list'
+        );
+        $this->assertEqual(
+            $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'view', 'lang' => 'ru')),
+            'ru/somepath/news/1-'
+        );
+        $this->assertEqual(
+            $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'view', 'lang' => '')),
+            'somepath/news/1-'
+        );
+    }
+
     public function testAssembleException()
     {
         $route = new requestRoute(':req_param');
@@ -140,27 +162,64 @@ class requestRouteTest extends unitTestCase
         $this->assertEqual($route->getDefaults(), $defaults);
     }
 
-
-
-    public function testSimpleHostRoute()
+    public function testRouteWithLang()
     {
-        $route = new requestHostnameRoute(':user.domain.com');
+        systemConfig::$i18n = 'en';
+        $route = new requestRoute(':controller/:action', array('controller' => 'page', 'action' => 'list'));
+        $route->enableLang();
         $this->assertEqual(
-            $route->match('admin.domain.com'),
-            array('user' => 'admin')
+            $route->match('ru/news/view'),
+            array('action' => 'view', 'controller' => 'news', 'lang' => 'ru')
+        );
+        $this->assertEqual(
+            $route->match('news/view'),
+            array('action' => 'view', 'controller' => 'news', 'lang' => '')
+        );
+        $this->assertEqual(
+            $route->match('ru/rus/ru'),
+            array('action' => 'ru', 'controller' => 'rus', 'lang' => 'ru')
+        );
+        $this->assertEqual(
+            $route->match('ru'),
+            array('action' => 'list', 'controller' => 'page', 'lang' => 'ru')
+        );
+
+        $route = new requestRoute('');
+        $route->enableLang();
+        $this->assertEqual(
+            $route->match(''),
+            array('lang' => '')
+        );
+
+        $route = new requestRoute('somepath/:action', array('action' => 'list'));
+        $route->enableLang();
+        $this->assertEqual(
+            $route->match('somepath'),
+            array('action' => 'list', 'lang' => '')
+        );
+        $this->assertEqual(
+            $route->match('ru/somepath/list'),
+            array('action' => 'list', 'lang' => 'ru')
         );
     }
 
-    public function testHostnameAssemble()
+    public function testRoutePrepend()
     {
-        $route = new requestHostnameRoute(':user.domain.com');
-        $scheme = systemToolkit::getInstance()->getRequest()->getScheme();
+        $route_first = new requestRoute('somepath/:id', array('action' => 'list'), array('id' => '\d+'));
+        $route_second = new requestRoute('test/:action', array('action' => 'view'));
+
+        $route_second->prepend($route_first);
+
         $this->assertEqual(
-            $route->assemble(array('user' => 'admin')),
-            $scheme . '://admin.domain.com'
+            $route_second->match('somepath/5/test/view', true),
+            array('action' => 'view', 'action' => 'view', 'id' => '5')
+        );
+
+        $this->assertEqual(
+            $route_second->match('somepath/5/test', true),
+            array('action' => 'view', 'action' => 'view', 'id' => '5')
         );
     }
-
 }
 
 ?>

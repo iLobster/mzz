@@ -103,7 +103,7 @@ class requestRoute implements iRoute
      *
      * @var array
      */
-    protected $values;
+    protected $values = array();
 
     /**
      * Debug информация
@@ -112,6 +112,16 @@ class requestRoute implements iRoute
      */
     protected $debug;
 
+    /**
+     * Add/extract the lang from the path
+     *
+     * @var boolean
+     */
+    protected $withLang = false;
+
+    protected $prepends = array();
+
+    protected $matchedPath;
 
     /**
      * Конструктор
@@ -127,6 +137,7 @@ class requestRoute implements iRoute
         $this->defaults = $defaults;
         $this->requirements = $requirements;
         $this->debug = $debug;
+        $this->withLang = systemConfig::$i18nEnable;
     }
 
     /**
@@ -137,7 +148,7 @@ class requestRoute implements iRoute
     public function setName($name)
     {
         if (!empty($this->name)) {
-            throw new mzzRuntimeException('У Route уже есть имя - ' . $this->name);
+            throw new mzzRuntimeException('Route already has a name: ' . $this->name);
         }
         $this->name = $name;
     }
@@ -153,25 +164,40 @@ class requestRoute implements iRoute
     }
 
     /**
+     * Adds a route to the prepend route's list that will be executed before the main route
+     *
+     * @param iRoute $route
+     */
+    public function prepend(iRoute $route)
+    {
+        $this->prepends[] = $route;
+    }
+
+    /**
      * Проверка совпадения PATH с шаблоном.
      *
      * @param string $path полученный path из URL
      * @param boolean $debug режим отладки работы маршрутизатора
      * @return array|false
      */
-    public function match($path, $debug = false)
+    public function match($path, $partial = false, $debug = false)
     {
         if (empty($this->regex)) {
-            $this->prepare();
+            $this->prepare($partial);
         }
 
         $this->values = $this->defaults;
+
+        if (!$this->executePrepends($path, $partial)) {
+            return false;
+        }
 
         if ($debug) {
             $this->dumpParameters($this->getName(), $this->pattern, $this->regex, $path);
         }
 
         if (preg_match_all($this->regex, $path, $matches, PREG_SET_ORDER)) {
+            $this->setMatchedPath($matches[0][0]);
             unset($matches[0][0]);
             foreach ($matches[0] as $i => $match) {
                 if($this->parts[$i - 1]['isVar'] && $match !== '') {
@@ -186,6 +212,22 @@ class requestRoute implements iRoute
         }
 
         return false;
+    }
+
+    protected function executePrepends(&$path, $partial)
+    {
+        foreach ($this->prepends as $route) {
+            if ($result = $route->match($path, $partial)) {
+                $this->values += $result;
+
+                if ($subPath = $route->getMatchedPath()) {
+                    $path = substr($path, strlen($subPath) + 1);
+                }
+            } else {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -204,61 +246,82 @@ class requestRoute implements iRoute
         }
     }
 
+    protected function addLang()
+    {
+        array_unshift($this->parts, ':lang', '/');
+        $this->requirements['lang'] = '^[a-z]{2}(?=/)|^[a-z]{2}(?=/?)$';
+        $this->defaults['lang'] = '';
+    }
+
     /**
      * Генерирует регулярное выражение, по которому будет выполнена проверка
      * на совпадение PATH с шаблоном
      *
      */
-    protected function prepare()
+    protected function prepare($partial = false)
     {
         $this->parts = preg_split('#(?:\{?(\\\?\:[a-z_]*)\}?)|(/\*$)#i', $this->pattern, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         $this->regex = self::REGEX_DELIMITER . '^';
 
+        if ($this->withLang) {
+            $this->addLang();
+        }
+
         foreach ($this->parts as $i => $part) {
             if($part[0] === self::VARIABLE_PREFIX) {
+                // route variable
                 $part = substr($part, 1);
                 if (isset($this->requirements[$part])) {
                     $regex = $this->requirements[$part];
                 } else {
-                    $regex = $this->default_regex . '+';
+                    // чтобы идентификатор языка дефолтная регулярка не приняла за свое устанавливаем
+                    // условие "более 3 символов" если она идет сразу же за регуляркой для языка
+                    $regex = self::DEFAULT_REGEX . ($this->withLang && $i == 2 ? '{3,}' : '+');
                 }
 
                 $this->parts[$i] = array('name'=> $part, 'isVar' => true, 'regex' => $regex);
 
                 $prevPartName = ($i > 0) ? $this->parts[$i-1]['name'] : false;
 
-                if (array_key_exists($part, $this->defaults)) {
+                $postfix = ')';
+                if ($withDefault = array_key_exists($part, $this->defaults)) {
                     if ($prevPartName !== $this->part_delimiter && substr($prevPartName, -1) === $this->part_delimiter) {
                         $this->regex = substr($this->regex, 0, -2) . ')/?';
                     }
-                    $postfix = ')?';
-                    $withDefault = true;
-                } else {
-                    $postfix = ')';
-                    $withDefault = false;
+                    $postfix .= '?';
                 }
 
                 $prefix = ($withDefault && $prevPartName === $this->part_delimiter) ? '?(' : '(';
 
             } elseif ($part === '/*') {
+                // grab all params
                 $this->parts[$i] = array('name'=> '*', 'isVar' => true, 'regex' => '/?(.*)');
                 $prefix = '';
                 $postfix = '';
             } else {
+                // static parameter
                 if ($part[0] == '\\' && $part[1] == self::VARIABLE_PREFIX) {
                     $part = substr($part, 1);
                 }
                 $this->parts[$i] = array('name'=> $part, 'isVar' => false, 'regex' => preg_quote($part, self::REGEX_DELIMITER));
                 $prefix = '(';
-                $postfix = ($i === 1) ? ')?' : ')';
+                $postfix = ($this->withLang && $i === 1) ? ')?' : ')';
             }
 
             $this->regex .= $prefix . $this->parts[$i]['regex'] . $postfix;
         }
 
-        $this->regex .= '$' . self::REGEX_DELIMITER . 'i';
+        $this->regex .= ($partial ? '' : '$') . self::REGEX_DELIMITER . 'i';
     }
 
+    /**
+     * Включение учета языка
+     *
+     */
+    public function enableLang()
+    {
+        $this->withLang = true;
+    }
 
     /**
      * Собирает из массива параметров path для URL согласно данному Route
@@ -268,10 +331,13 @@ class requestRoute implements iRoute
      */
     public function assemble($values = array())
     {
+        if ($this->withLang) {
+            $currentLang = systemToolkit::getInstance()->getLocale()->getName();
+        }
+
         if (empty($this->parts)) {
             $this->prepare();
         }
-        $url = '';
 
         $url = array();
         $url_names = array();
@@ -282,8 +348,13 @@ class requestRoute implements iRoute
                     $url[] = $values[$part['name']];
                     $url_names[] = $part['name'];
                     unset($values[$part['name']]);
-                } elseif (!isset($this->defaults[$part['name']])) {
-                    throw new mzzRuntimeException('No value for ' . $this->name . ' route variable: ' . $part['name']);
+                } elseif (isset($this->defaults[$part['name']])) {
+                    if ($part['name'] == 'lang' && $this->withLang) {
+                        $url[] = $currentLang;
+                        $url_names[] = 'lang';
+                    }
+                } else {
+                    throw new mzzRuntimeException('No value for a token, ' . $this->name . ' route: ' . $part['name']);
                 }
             } else {
                 $url[] = $part['name'];
@@ -327,6 +398,17 @@ class requestRoute implements iRoute
     {
         return $this->defaults;
     }
+
+    public function setMatchedPath($path)
+    {
+        $this->matchedPath = $path;
+    }
+
+    public function getMatchedPath()
+    {
+        return $this->matchedPath;
+    }
+
 
     protected function dumpParameters($name, $pattern, $regex, $path)
     {

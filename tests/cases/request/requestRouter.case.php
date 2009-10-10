@@ -9,6 +9,8 @@ class stubRoute implements iRoute {
     }
     public function setName($name) {
     }
+    public function prepend(iRoute $route) {
+    }
 }
 Mock::generate('stubRoute');
 Mock::generate('httpRequest');
@@ -170,6 +172,26 @@ class requestRouterTest extends unitTestCase
         $this->assertEqual($routeFirst, $this->router->getDefaultRoute());
     }
 
+    public function testRoutePrepend()
+    {
+        $routeFirst = new mockstubRoute;
+        $routeSecond = new mockstubRoute;
+
+        $routeFirst->expectCallCount('prepend', 0);
+        $routeSecond->expectCallCount('prepend', 1);
+
+        $result_first = array('action' => 'view');
+        $routeFirst->setReturnValue('match', $result_first);
+
+        $result_second = array('module' => 'news');
+        $routeSecond->setReturnValue('match', $result_second);
+
+        $result = $result_first + $result_second;
+        $this->router->addRoute('second', $routeSecond);
+        $this->router->prepend($routeFirst);
+
+        $this->router->route('path');
+    }
 }
 
 ?>

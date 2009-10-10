@@ -73,6 +73,8 @@ class requestRouter
      */
     protected $defaultName = 'default';
 
+    protected $prepend;
+
     /**
      * Конструктор
      *
@@ -176,20 +178,29 @@ class requestRouter
     public function route($path)
     {
         foreach (array_reverse($this->routes) as $route) {
+            if ($this->prepend) {
+                $route->prepend($this->prepend);
+            }
             if ($params = $route->match($path, $this->debug)) {
                 $this->current = $route;
                 break;
             }
         }
 
-        if (!isset($params) || !is_array($params) || !isset($params['module'], $params['action'])) {
+        if (!isset($params) || !is_array($params)) {
             fileLoader::load('exceptions/mzzRouteException');
             throw new mzzRouteException(404);
         }
 
-        $this->request->setModule($params['module']);
-        $this->request->setAction($params['action']);
-        unset($params['module'], $params['action']);
+        if (isset($params['module'])) {
+            $this->request->setModule($params['module']);
+            unset($params['module']);
+        }
+
+        if (isset($params['action'])) {
+            $this->request->setAction($params['action']);
+            unset($params['action']);
+        }
 
         $this->request->setParams($params);
     }
@@ -201,6 +212,16 @@ class requestRouter
     public function enableLang()
     {
         $this->withLang = true;
+    }
+
+    /**
+     * Adds a prepend route to all routes
+     *
+     * @param iRoute $prepend
+     */
+    public function prepend(iRoute $route)
+    {
+        $this->prepend = $route;
     }
 
     /**
