@@ -150,7 +150,7 @@ abstract class simpleController
             }
         }
 
-        $controller = new $class();
+        $controller = new $class($this->getAction());
         return $controller->run();
     }
 
@@ -172,7 +172,7 @@ abstract class simpleController
             }
         }
 
-        $controller = new $class();
+        $controller = new $class($this->getAction());
         return $controller->run();
     }
 
@@ -207,6 +207,7 @@ abstract class simpleController
             $this->smarty->setActiveTemplate('main.xml.tpl');
             $this->response->setHeader('Content-Type', 'text/xml');
         }
+
         return $view;
     }
 

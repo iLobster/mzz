@@ -40,9 +40,9 @@ class simple404Controller extends simpleController
      *
      * @param boolean $onlyHeaders
      */
-    public function __construct($onlyHeaders = false)
+    public function __construct(simpleAction $action, $onlyHeaders = false)
     {
-        parent::__construct();
+        parent::__construct($action);
         $this->onlyHeaders = (bool)$onlyHeaders;
     }
 
