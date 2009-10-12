@@ -63,7 +63,7 @@ class contentFilter implements iFilter
         if ($template === false) {
             try {
                 $output = $this->runActiveTemplate($request, $toolkit, $smarty);
-            } catch (mzzNoActionException $e) {
+            } catch (mzzException $e) {
                 // the only one way to catch this exception - is to call the action with "deny" active template
                 if (DEBUG_MODE) {
                     throw $e;

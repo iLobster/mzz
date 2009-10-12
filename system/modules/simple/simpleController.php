@@ -83,7 +83,7 @@ abstract class simpleController
      * Конструктор
      *
      */
-    public function __construct(simpleAction $action)
+    public function __construct(simpleAction $action = null)
     {
         $this->toolkit = systemToolkit::getInstance();
         $this->request = $this->toolkit->getRequest();
