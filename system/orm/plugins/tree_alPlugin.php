@@ -4,6 +4,7 @@ class tree_alPlugin extends observer
 {
     private $parent;
     private $path_name_changed;
+    private $old_path;
 
     protected $options = array(
         'postfix' => 'tree');
@@ -232,6 +233,10 @@ class tree_alPlugin extends observer
                 unset($data['tree_parent']);
             }
         }
+
+        if (is_object($data)) {
+            $this->old_path = $data->getTreePath();
+        }
     }
 
     public function getBranchByPath($path, $depth = 0)
@@ -302,16 +307,18 @@ class tree_alPlugin extends observer
         }
 
         if ($this->path_name_changed) {
+            $oldPath = $this->old_path;
+            $this->old_path = null;
             $this->path_name_changed = false;
 
             $new = $object->getTreeLevel() != 1 ? $object->getTreeParent()->getTreePath() . '/' : '';
-            $new .= $object->{$this->options['path_name_accessor']}() . '/';
+            $new .= $object->{$this->options['path_name_accessor']}();
 
             $ids = array_merge($this->searchChildren($object->getTreeId()), array(
                 $object->getTreeId()));
 
             $sql = "UPDATE `" . $this->table() . "`
-                     SET `path` = CONCAT(" . $this->mapper->db()->quote($new) . ", SUBSTRING(`path`, " . (strlen($object->getTreePath()) + 2) . "))
+                     SET `path` = CONCAT(" . $this->mapper->db()->quote($new . '/') . ", SUBSTRING(`path`, " . (strlen($oldPath) + 2) . "))
                       WHERE `id` IN (" . implode(', ', $ids) . ")";
 
             $this->mapper->db()->query($sql);
@@ -329,7 +336,7 @@ class tree_alPlugin extends observer
             $object->getTreeId()));
 
         $sql = "UPDATE `" . $this->table() . "`
-                     SET `level` = `level` + " . $levelDelta . ", `path` = CONCAT(" . $this->mapper->db()->quote($parentTreePath) . ", SUBSTRING(`path`, " . (strlen($object->getTreeParent()->getTreePath()) + 1) . "))
+                     SET `level` = `level` + " . $levelDelta . ", `path` = CONCAT(" . $this->mapper->db()->quote($parentTreePath) . ", SUBSTRING(`path`, " . ($object->getTreeLevel() > 1 ? strlen($object->getTreeParent()->getTreePath()) + 1 : 1) . "))
                       WHERE `id` IN (" . implode(', ', $ids) . ")";
 
         $this->mapper->db()->query($sql);

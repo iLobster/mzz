@@ -379,6 +379,19 @@ class pluginTreeALTest extends unitTestCase
         $this->assertEqual($object2->getTreePath(), 'foo1/foo3/foo7');
         $this->assertEqual($object2->getTreeParentBranch()->count(), 3);
     }
+
+    public function testMoveRootNode()
+    {
+        $node = $this->mapper->searchByKey(1);
+
+        $node->setTreeParent(null);
+        $node->setFoo('new_root_name');
+
+        $this->mapper->save($node);
+
+        $new_node = $this->mapper->searchByKey(2);
+        $this->assertEqual($new_node->getTreePath(), 'new_root_name/foo2');
+    }
 }
 
 ?>

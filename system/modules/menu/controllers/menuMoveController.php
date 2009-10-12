@@ -45,7 +45,7 @@ class menuMoveController extends simpleController
                                 $item->setTreeParent($itemParent);
                             }
                         } else {
-                            $item->setTreeParent(0);
+                            $item->setTreeParent(null);
                         }
 
                         $item->setOrder($node['order']);
