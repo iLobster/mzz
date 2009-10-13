@@ -68,17 +68,7 @@ class cacheFile extends cache
 
         $data = $this->setTags($value, $tags);
 
-        if (is_object($value)) {
-            $data['data'] = 'mark';
-        }
-
-        $data_str = var_export($data, true);
-
-        if (is_object($value)) {
-            $data_str = str_replace("'data' => 'mark'", "'data' => unserialize('" . str_replace("'", "\'", serialize($value)) . "')", $data_str);
-        }
-
-        file_put_contents($cacheFile, "<?php\r\nreturn " . $data_str . ';');
+        file_put_contents($cacheFile, serialize($data));
 
         return true;
     }
@@ -90,7 +80,7 @@ class cacheFile extends cache
             $expire = $this->extractExpire(basename($file));
 
             if (is_file($file) && ((filemtime($file) + $expire) > time())) {
-                $data = require $file;
+                $data = unserialize(file_get_contents($file));
 
                 $this->checkTags($data, $key);
 

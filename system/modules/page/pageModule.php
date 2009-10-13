@@ -33,6 +33,22 @@ class pageModule extends simpleModule implements iACL
     {
         return;
     }
+
+    public function getRoutes()
+    {
+        return array(
+            array(
+                'pageDefault' => new requestRoute('page', array(
+                    'module' => 'page',
+                    'action' => 'view',
+                    'name' => 'main')),
+                'pageActions' => new requestRoute('page/:name/:action', array(
+                    'module' => 'page',
+                    'action' => 'view'), array(
+                    'name' => '.+?',
+                    'action' => '(?:view|edit|list|create|delete|createFolder|editFolder|moveFolder|deleteFolder|move)'))),
+            array());
+    }
 }
 
 ?>

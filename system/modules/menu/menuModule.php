@@ -24,7 +24,18 @@ class menuModule extends simpleModule
     protected $classes = array(
         'menu',
         'menuFolder',
-        'menuItem'
-    );
+        'menuItem');
+
+    public function getRoutes()
+    {
+        return array(
+            array(),
+            array(
+                'menuMoveAction' => new requestRoute('menu/:id/:target/move', array(
+                    'module' => 'menu',
+                    'action' => 'move'), array(
+                    'id' => '\d+',
+                    'target' => '(?:up|down|\d+)'))));
+    }
 }
 ?>

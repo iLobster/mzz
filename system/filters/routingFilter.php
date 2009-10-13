@@ -34,7 +34,36 @@ class routingFilter implements iFilter
 
         $router = $toolkit->getRouter($request);
 
-        require_once fileLoader::resolve('configs/routes');
+        $cache = $toolkit->getCache();
+
+        if (!($routes = $cache->get('routes'))) {
+            $routes = array(
+                'first' => array(),
+                'last' => array());
+            $adminMapper = $toolkit->getMapper('admin', 'admin');
+            foreach ($adminMapper->getModules() as $module) {
+                if ($moduleRoutes = $module->getRoutes()) {
+                    $routes['first'] += $moduleRoutes[0];
+                    $routes['last'] += $moduleRoutes[1];
+                }
+            }
+
+            $cache->set('routes', $routes);
+        }
+
+        require_once fileLoader::resolve('routes/default_last');
+
+        foreach ($routes['last'] as $name => $route) {
+            $router->addRoute($name, $route);
+        }
+
+        require_once fileLoader::resolve('routes/default_first');
+
+        foreach ($routes['first'] as $name => $route) {
+            $router->addRoute($name, $route);
+        }
+
+        require_once fileLoader::resolve('routes/default');
 
         try {
             $router->route($request->getPath());

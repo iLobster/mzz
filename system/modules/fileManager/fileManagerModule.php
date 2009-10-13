@@ -24,7 +24,26 @@ class fileManagerModule extends simpleModule
     protected $classes = array(
         'file',
         'folder',
-        'storage'
-    );
+        'storage');
+
+    public function getRoutes()
+    {
+        return array(
+            array(),
+            array(
+                'fmFolder' => new requestRoute('fileManager/:name/:action', array(
+                    'module' => 'fileManager',
+                    'name' => 'root',
+                    'action' => 'get'), array(
+                    'name' => '.+?',
+                    'action' => '(?:list|upload|edit|delete|get|editFolder|createFolder|deleteFolder|move|moveFolder)')),
+                'fmFolderRoot' => new requestRoute('fileManager/:action', array(
+                    'module' => 'fileManager',
+                    'name' => 'root',
+                    'action' => 'list'), array(
+                    'name' => '.+?',
+                    'action' => '(?:list|upload)'))));
+    }
+
 }
 ?>

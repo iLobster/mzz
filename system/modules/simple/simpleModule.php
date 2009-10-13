@@ -254,5 +254,9 @@ abstract class simpleModule
 
         return $this->moduleTitle;
     }
+
+    public function getRoutes()
+    {
+    }
 }
 ?>

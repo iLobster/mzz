@@ -21,6 +21,17 @@
  */
 class captchaModule extends simpleModule
 {
-    protected $classes = array('captcha');
+    protected $classes = array(
+        'captcha');
+
+    public function getRoutes()
+    {
+        return array(
+            array(),
+            array(
+                'captcha' => new requestRoute('captcha', array(
+                    'module' => 'captcha',
+                    'action' => 'view'))));
+    }
 }
 ?>
