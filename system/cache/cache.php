@@ -14,6 +14,8 @@
  * @version $Id$
  */
 
+fileLoader::load('cache/cacheBackend');
+
 /**
  * cache: класс для работы с кэшем
  *
@@ -21,7 +23,7 @@
  * @subpackage cache
  * @version 0.0.1
  */
-abstract class cache
+class cache
 {
     const DEFAULT_CONFIG_NAME = 'default';
     /**
@@ -30,6 +32,13 @@ abstract class cache
      * @var array
      */
     protected static $instances = array();
+
+    /**
+     * @var cacheBackend
+     */
+    private $backend;
+
+    private $expire = 60;
 
     /**
      * Фабрика для получения объекта кэширования
@@ -63,10 +72,46 @@ abstract class cache
             if ($notFound || empty($config['backend'])) {
                 throw new mzzUnknownCacheBackendException($className);
             }
-            self::$instances[$configName] = new $className($params);
+            self::$instances[$configName] = new cache(new $className($params));
         }
 
         return self::$instances[$configName];
+    }
+
+    private function __construct(cacheBackend $backend)
+    {
+        $this->backend = $backend;
+    }
+
+    public function set($key, $val, array $tags = array(), $expire = null)
+    {
+        if (is_null($expire)) {
+            $expire = $this->expire;
+        }
+
+        $data = $this->setTags($val, $tags);
+        return $this->backend->set($key, $data, $expire);
+    }
+
+    public function get($key)
+    {
+        $data = $this->backend->get($key);
+
+        if (is_array($data) && isset($data['data'])) {
+            $this->checkTags($data, $key);
+
+            return $data['data'];
+        }
+    }
+
+    public function delete($key)
+    {
+        return $this->backend->delete($key);
+    }
+
+    public function flush()
+    {
+        $this->backend->flush();
     }
 
     protected function setTags($value, $tags)
@@ -96,7 +141,6 @@ abstract class cache
             foreach ($data['tags'] as $tag => $rev) {
                 if ($rev != $this->getTag($tag)) {
                     $data['data'] = false;
-                    $this->set($key, $data, $data['tags']);
                     break;
                 }
             }
@@ -105,22 +149,21 @@ abstract class cache
 
     protected function getTag($tag)
     {
-        return (int)$this->get('tag_' . $tag);
+        return (int)$this->backend->get('tag_' . $tag);
     }
 
     public function clear($tag)
     {
         $tag_key = 'tag_' . $tag;
 
-        return $this->inc($tag_key);
+        $this->backend->increment($tag_key);
     }
 
-    public function inc($key)
+    public function backend()
     {
-        $value = (int)$this->get($key) + 1;
-        $this->set($key, $value);
-        return $value;
+    	return $this->backend;
     }
+
 }
 
 ?>

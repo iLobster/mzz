@@ -30,7 +30,7 @@ class cacheMemoryTest extends unitTestCase
         $this->cache->set($identifier = 'foobar', $data = 'baz');
         $this->assertEqual($this->cache->get($identifier), $data);
 
-        $this->cache->flush();
+        $this->cache->delete($identifier);
         $this->assertFalse($this->cache->get($identifier));
     }
 

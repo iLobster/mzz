@@ -22,7 +22,7 @@
  * @version 0.0.1
  */
 
-class cacheMemory extends cache
+class cacheMemory extends cacheBackend
 {
     /**
      * Контейнер для данных
@@ -40,22 +40,14 @@ class cacheMemory extends cache
         $this->flush();
     }
 
-    public function set($key, $value, array $tags = array())
+    public function set($key, $value, $expire = 0)
     {
-        $data = $this->setTags($value, $tags);
-
-        return $this->data->set($key, $data);
+        return $this->data->set($key, $value);
     }
 
     public function get($key)
     {
-        $data = $this->data->get($key);
-
-        if (is_array($data) && isset($data['data'])) {
-            $this->checkTags($data, $key);
-
-            return $data['data'];
-        }
+        return $this->data->get($key);
     }
 
     public function delete($key)

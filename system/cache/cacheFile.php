@@ -22,7 +22,7 @@
  * @version 0.0.1
  */
 
-class cacheFile extends cache
+class cacheFile extends cacheBackend
 {
     /**
      * Путь до каталога, где будут храниться файлы кэша
@@ -58,7 +58,7 @@ class cacheFile extends cache
         }
     }
 
-    public function set($key, $value, array $tags = array(), $expire = null)
+    public function set($key, $value, $expire = null)
     {
         if (is_null($expire)) {
             $expire = $this->expire;
@@ -66,9 +66,7 @@ class cacheFile extends cache
 
         $cacheFile = $this->getPattern(md5($key), $expire);
 
-        $data = $this->setTags($value, $tags);
-
-        file_put_contents($cacheFile, serialize($data));
+        file_put_contents($cacheFile, serialize($value));
 
         return true;
     }
@@ -80,11 +78,7 @@ class cacheFile extends cache
             $expire = $this->extractExpire(basename($file));
 
             if (is_file($file) && ((filemtime($file) + $expire) > time())) {
-                $data = unserialize(file_get_contents($file));
-
-                $this->checkTags($data, $key);
-
-                return $data['data'];
+                return unserialize(file_get_contents($file));
             }
         }
     }

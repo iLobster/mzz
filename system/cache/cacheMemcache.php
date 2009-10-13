@@ -21,7 +21,7 @@
  * @subpackage cache
  * @version 0.0.4
  */
-class cacheMemcache extends cache
+class cacheMemcache extends cacheBackend
 {
     const DEFAULT_HOST = '127.0.0.1';
     const DEFAULT_PORT = 11211;
@@ -88,7 +88,7 @@ class cacheMemcache extends cache
         return $this->memcache->getServerStatus($host, $port);
     }
 
-    public function set($key, $value, array $tags = array(), $expire = null)
+    public function set($key, $value, $expire = null)
     {
         if (is_null($expire)) {
             $expire = $this->expire;
@@ -96,10 +96,8 @@ class cacheMemcache extends cache
             $expire += time();
         }
 
-        $data = $this->setTags($value, $tags);
-
         try {
-            return $this->memcache->set($key, $data, null, $expire);
+            return $this->memcache->set($key, $value, null, $expire);
         } catch (mzzException $e) {
             return false;
         }
@@ -108,9 +106,7 @@ class cacheMemcache extends cache
     public function get($key)
     {
         try {
-            $data = $this->memcache->get($key);
-            $this->checkTags($data, $key);
-            return $data['data'];
+            return $this->memcache->get($key);
         } catch (mzzException $e) {
             return null;
         }
@@ -137,7 +133,13 @@ class cacheMemcache extends cache
     public function increment($key, $value = 1)
     {
         try {
-            return $this->memcache->increment($key, $value);
+            $result = $this->memcache->increment($key, $value);
+
+            if ($result === false) {
+                $this->memcache->set($key, $result = 1);
+            }
+
+            return $result;
         } catch (mzzException $e) {
             return false;
         }

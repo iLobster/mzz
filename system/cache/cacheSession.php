@@ -14,8 +14,6 @@
  * @version $Id$
 */
 
-require_once systemConfig::$pathToSystem . '/cache/iCache.php';
-
 /**
  * cacheSession: session cache driver
  *
@@ -24,7 +22,7 @@ require_once systemConfig::$pathToSystem . '/cache/iCache.php';
  * @version 0.0.1
  */
 
-class cacheSession implements iCache
+class cacheSession extends cacheBackend
 {
     /**
      * Session object
@@ -55,16 +53,7 @@ class cacheSession implements iCache
         $this->session = systemToolkit::getInstance()->getSession();
     }
 
-    public function add($key, $value, $expire = 60, $params = array())
-    {
-        if ($this->getCacheData($key)) {
-            return false;
-        }
-
-        return $this->set($key, $value, $expire, $params);
-    }
-
-    public function set($key, $value, $expire = 60, $params = array())
+    public function set($key, $value, $expire = 60)
     {
         $data = array(
             'value' => $value,

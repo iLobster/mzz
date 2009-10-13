@@ -36,7 +36,7 @@ class memcachedTest extends unitTestCase
             $this->setUp();
 
             $this->cache->get('blahblah'); // try to get something from the server
-            $this->skipIf(!$this->cache->getStatus(cacheMemcache::DEFAULT_HOST, cacheMemcache::DEFAULT_PORT), 'memcached connect error');
+            $this->skipIf(!$this->cache->backend()->getStatus(cacheMemcache::DEFAULT_HOST, cacheMemcache::DEFAULT_PORT), 'memcached connect error');
         }
         /*
         try {

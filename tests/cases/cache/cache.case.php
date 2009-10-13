@@ -27,7 +27,7 @@ class cacheTest extends unitTestCase
     public function testGetRightCacheBackend()
     {
         $cache = cache::factory('memory', array('memory' => array('backend' => 'memory')));
-        $this->assertIsA($cache, 'cacheMemory');
+        $this->assertIsA($cache, 'cache');
     }
 }
 
