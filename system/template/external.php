@@ -20,7 +20,6 @@
  * @version 0.1.2
  */
 
-require_once '../configs/config.php';
 require_once systemConfig::$pathToSystem . '/index.php';
 
 class externalApplication extends core
