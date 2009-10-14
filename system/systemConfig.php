@@ -145,6 +145,31 @@ class systemConfig
     {
         self::$pathToSystem = dirname(__FILE__);
         self::$pathToApplication = realpath(self::$pathToApplication);
+
+        if (!isset(self::$cache['fast'])) {
+            self::$cache['fast'] = array(
+                'backend' => 'file',
+                'params' => array(
+                    'path' => systemConfig::$pathToTemp . DIRECTORY_SEPARATOR . 'cache',
+                    'prefix' => 'fast_',
+                    'expire' => 180));
+        }
+
+        if (!isset(self::$cache['session'])) {
+            self::$cache['session'] = array(
+                'backend' => 'session',
+                'params' => array(
+                    'expire' => 1800));
+        }
+
+        if (!isset(self::$cache['long'])) {
+            self::$cache['long'] = array(
+                'backend' => 'file',
+                'params' => array(
+                    'path' => systemConfig::$pathToTemp . DIRECTORY_SEPARATOR . 'cache',
+                    'prefix' => 'long_',
+                    'expire' => 86400));
+        }
     }
 }
 

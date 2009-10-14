@@ -12,7 +12,7 @@
  * @package system
  * @subpackage cache
  * @version $Id$
-*/
+ */
 
 /**
  * cacheSession: session cache driver
@@ -38,6 +38,8 @@ class cacheSession extends cacheBackend
      */
     private $session_key;
 
+    private $expire = 60;
+
     /**
      * Constructor
      *
@@ -45,21 +47,24 @@ class cacheSession extends cacheBackend
      */
     public function __construct(Array $params)
     {
-        if (!isset($params['session_key'])) {
-            throw new mzzRuntimeException('Set a session_key parameter for cacheSession');
-        }
-
         $this->session_key = (isset($params['session_key'])) ? $params['session_key'] : '__cache';
         $this->session = systemToolkit::getInstance()->getSession();
+
+        if (isset($params['expire'])) {
+            $this->expire = $params['expire'];
+        }
     }
 
-    public function set($key, $value, $expire = 60)
+    public function set($key, $value, $expire = null)
     {
+        if (is_null($expire)) {
+            $expire = $this->expire;
+        }
+
         $data = array(
             'value' => $value,
             'created' => time(),
-            'expire' => $expire
-        );
+            'expire' => $expire);
 
         $this->session->set($this->getSessionKey($key), $data);
         return true;
@@ -97,7 +102,10 @@ class cacheSession extends cacheBackend
         $sessionKey = $this->getSessionKey($key);
         $data = $this->session->get($sessionKey);
         if (is_array($data) && isset($data['value'], $data['expire'], $data['created'])) {
-            return array('value' => $data['value'], 'created' => $data['created'], 'expire' => $data['expire']);
+            return array(
+                'value' => $data['value'],
+                'created' => $data['created'],
+                'expire' => $data['expire']);
         }
 
         return null;
