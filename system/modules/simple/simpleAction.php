@@ -61,13 +61,6 @@ class simpleAction
     protected $controllerName;
 
     /**
-     * Controllers
-     *
-     * @var array
-     */
-    protected $controllers = array();
-
-    /**
      * Action data
      *
      * @var array
