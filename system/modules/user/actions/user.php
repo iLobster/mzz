@@ -2,15 +2,6 @@
 //user actions config
 
 return array(
-    'login' => array(
-        'controller' => 'login',
-        '403handle' => 'none',
-    ),
-    'exit' => array(
-        'controller' => 'exit',
-        '403handle' => 'none',
-        'main' => 'active.blank.tpl',
-    ),
     'edit' => array(
         'controller' => 'save',
         'jip' => '1',

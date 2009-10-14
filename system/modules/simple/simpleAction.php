@@ -247,14 +247,11 @@ class simpleAction
      */
     protected function getController()
     {
-        $name = $this->getControllerName();
-        if (!isset($this->controllers[$name])) {
-            $controllerClassName = $this->moduleName . ucfirst($name) . 'Controller';
+        $controllerClassName = $this->moduleName . $this->getControllerName() . 'Controller';
+        if (!class_exists($controllerClassName)) {
             fileLoader::load($this->moduleName . '/controllers/' . $controllerClassName);
-            $this->controllers[$name] = new $controllerClassName($this);
         }
-
-        return $this->controllers[$name];
+        return new $controllerClassName($this);
     }
 
     /**

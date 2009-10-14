@@ -14,6 +14,15 @@ return array(
         'controller' => 'register',
         'title' => 'Регистрация',
     ),
+    'login' => array(
+        'controller' => 'login',
+        '403handle' => 'none',
+    ),
+    'exit' => array(
+        'controller' => 'exit',
+        '403handle' => 'none',
+        'main' => 'active.blank.tpl',
+    ),
     'list' => array(
         'controller' => 'admin',
         'title' => '_ user/admin',
