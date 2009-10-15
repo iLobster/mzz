@@ -304,6 +304,10 @@ class stdToolkit extends toolkit
 
         $config = $configs[$cacheName];
         if (!isset(self::$cacheInstances[$cacheName])) {
+            if (!class_exists('cache')) {
+                fileLoader::load('cache');
+            }
+
             $className = 'cache' . ucfirst($config['backend']);
             $params = isset($config['params']) ? $config['params'] : array();
             try {
@@ -315,10 +319,6 @@ class stdToolkit extends toolkit
 
             if ($notFound || empty($config['backend'])) {
                 throw new mzzUnknownCacheBackendException($cacheName);
-            }
-
-            if (!class_exists('cache')) {
-                fileLoader::load('cache');
             }
 
             self::$cacheInstances[$cacheName] = new cache(new $className($params));
