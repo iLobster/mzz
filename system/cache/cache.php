@@ -39,6 +39,8 @@ class cache
      */
     private $backend;
 
+    private $type;
+
     /**
      * Фабрика для получения объекта кэширования
      *
@@ -74,29 +76,30 @@ class cache
             if ($notFound || empty($config['backend'])) {
                 throw new mzzUnknownCacheBackendException($className);
             }
-            self::$instances[$configName] = new cache(new $className($params));
+            self::$instances[$configName] = new cache(new $className($params), $configName);
         }
 
         return self::$instances[$configName];
     }
 
-    public function __construct(cacheBackend $backend)
+    public function __construct(cacheBackend $backend, $type)
     {
         $this->backend = $backend;
+        $this->type = $type;
     }
 
     public function set($key, $val, array $tags = array(), $expire = null)
     {
         $data = $this->setTags($val, $tags);
-        return $this->backend->set($key, $data, $expire);
+        return $this->backend->set($this->key($key), $data, $expire);
     }
 
     public function get($key)
     {
-        $data = $this->backend->get($key);
+        $data = $this->backend->get($this->key($key));
 
         if (is_array($data) && isset($data['data'])) {
-            $this->checkTags($data, $key);
+            $this->checkTags($data);
 
             return $data['data'];
         }
@@ -104,7 +107,7 @@ class cache
 
     public function delete($key)
     {
-        return $this->backend->delete($key);
+        return $this->backend->delete($this->key($key));
     }
 
     public function flush()
@@ -133,7 +136,7 @@ class cache
         return $data;
     }
 
-    protected function checkTags(& $data, $key)
+    protected function checkTags(& $data)
     {
         if (isset($data['tags']) && is_array($data['tags'])) {
             foreach ($data['tags'] as $tag => $rev) {
@@ -162,6 +165,10 @@ class cache
     	return $this->backend;
     }
 
+    private function key($key)
+    {
+        return systemConfig::$appName . '_' . systemConfig::$appVersion . '_' . MZZ_VERSION . '_' . $this->type . '_' . $key;
+    }
 }
 
 ?>

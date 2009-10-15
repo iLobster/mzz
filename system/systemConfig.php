@@ -61,6 +61,13 @@ class systemConfig
     public static $appName;
 
     /**
+     * Version of the app
+     *
+     * @var string
+     */
+    public static $appVersion;
+
+    /**
      * Путь до приложения
      *
      * @var string
