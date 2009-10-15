@@ -57,6 +57,8 @@ class session
             array($this->storageDriver, 'storageWrite'),
             array($this->storageDriver, 'storageDestroy'),
             array($this->storageDriver, 'storageGc'));
+        } else {
+            session_save_path(systemConfig::$pathToTemp . '/sessions');
         }
 
         session_start();

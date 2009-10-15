@@ -135,7 +135,7 @@ class systemConfig
      *
      * @var string
      */
-    public static $sessionStorageDrive = null;
+    public static $sessionStorageDriver = null;
 
     /**
      * Array for storing application's settings
