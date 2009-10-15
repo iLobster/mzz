@@ -170,6 +170,15 @@ class systemConfig
                     'prefix' => 'long_',
                     'expire' => 86400));
         }
+
+        if (!isset(self::$cache['memory'])) {
+            self::$cache['memory'] = array(
+                'backend' => 'memory');
+        }
+
+        if (!isset(self::$cache['default'])) {
+            self::$cache['default'] = self::$cache['fast'];
+        }
     }
 }
 
