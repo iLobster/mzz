@@ -25,12 +25,59 @@ fileLoader::load('cache/cacheBackend');
  */
 class cache
 {
+    const DEFAULT_CONFIG_NAME = 'default';
+
+    /**
+     * Cache backends instances
+     *
+     * @var array
+     */
+    protected static $instances = array();
+
     /**
      * @var cacheBackend
      */
     private $backend;
 
     private $expire = 60;
+
+    /**
+     * Фабрика для получения объекта кэширования
+     *
+     * @param string $configName the name of the cache backend configuration (it is also the instance name)
+     * @param array $configs configurations (if passed as null, the system configurations will be used)
+     * @return iCache
+     */
+    public static function factory($configName = self::DEFAULT_CONFIG_NAME, $configs = null)
+    {
+        $configs = empty($configs) ? systemConfig::$cache : $configs;
+
+        if ($configName == self::DEFAULT_CONFIG_NAME && !isset($configs[self::DEFAULT_CONFIG_NAME])) {
+            throw new mzzRuntimeException('no default cache configuration name');
+        }
+
+        if (!isset($configs[$configName])) {
+            throw new mzzUnknownCacheConfigException($configName);
+        }
+
+        $config = $configs[$configName];
+        if (!isset(self::$instances[$configName])) {
+            $className = 'cache' . ucfirst($config['backend']);
+            $params = isset($config['params']) ? $config['params'] : array();
+            try {
+                fileLoader::load('cache/' . $className);
+                $notFound = !class_exists($className);
+            } catch (mzzIoException $e) {
+                $notFound = true;
+            }
+            if ($notFound || empty($config['backend'])) {
+                throw new mzzUnknownCacheBackendException($className);
+            }
+            self::$instances[$configName] = new cache(new $className($params));
+        }
+
+        return self::$instances[$configName];
+    }
 
     public function __construct(cacheBackend $backend)
     {

@@ -8,7 +8,7 @@ class cacheMemoryTest extends unitTestCase
 
     public function setUp()
     {
-        $this->cache = systemToolkit::getInstance()->getCache('memory', array('memory' => array('backend' => 'memory')));
+        $this->cache = cache::factory('memory', array('memory' => array('backend' => 'memory')));
     }
 
     public function testGetSet()

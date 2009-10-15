@@ -6,9 +6,8 @@ class cacheTest extends unitTestCase
 {
     public function testUnknownConfig()
     {
-        $toolkit = systemToolkit::getInstance();
         try {
-            $cache = $toolkit->getCache('unknown');
+            $cache = cache::factory('unknown');
             $this->fail('no exception about unknown cache config');
         } catch (mzzUnknownCacheConfigException $e) {
             $this->pass();
@@ -17,9 +16,8 @@ class cacheTest extends unitTestCase
 
     public function testUnknownBackend()
     {
-        $toolkit = systemToolkit::getInstance();
         try {
-            $cache = $toolkit->getCache('default', array('default' => array('backend' => 'unknown')));
+            $cache = cache::factory('default', array('default' => array('backend' => 'unknown')));
             $this->fail('no exception about unknown backend');
         } catch (mzzUnknownCacheBackendException $e) {
             $this->pass();
@@ -28,9 +26,7 @@ class cacheTest extends unitTestCase
 
     public function testGetRightCacheBackend()
     {
-        $toolkit = systemToolkit::getInstance();
-
-        $cache = $toolkit->getCache('memory', array('memory' => array('backend' => 'memory')));
+        $cache = cache::factory('memory', array('memory' => array('backend' => 'memory')));
         $this->assertIsA($cache, 'cache');
     }
 }
