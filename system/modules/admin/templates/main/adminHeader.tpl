@@ -13,7 +13,7 @@
     <script type="text/javascript">
     //<!--
         var SITE_PATH = '{$SITE_PATH}';
-        var SITE_LANG = '{$current_lang}';
+        var SITE_LANG = '{$toolkit->getLocale()->getName()}';
     //-->
     </script>
     {include file='include.external.js.tpl'}
