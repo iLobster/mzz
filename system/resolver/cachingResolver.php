@@ -12,6 +12,9 @@
  * @version $Id$
  */
 
+require_once systemConfig::$pathToSystem . '/cache/cache.php';
+require_once systemConfig::$pathToSystem . '/cache/cacheFile.php';
+
 /**
  * cachingResolver: кэширующий резолвер
  * сохраняет результаты всех запросов в файл.
@@ -28,14 +31,14 @@ final class cachingResolver extends decoratingResolver
      *
      * @var array
      */
-    private $cache;
+    private $cache = array();
 
     /**
-     * объект для работы с файлом, в который записывается кэщ
-     *
-     * @var Fs
+     * @var cache
      */
-    private $cache_file;
+    private $cacheBackend;
+
+    private $cacheName;
 
     /**
      * флаг, устанавливается в true, если кеш нужно обновить
@@ -49,19 +52,13 @@ final class cachingResolver extends decoratingResolver
      *
      * @param object $resolver резолвер, который декорируется кэширующим резолвером
      */
-    public function __construct(iResolver $resolver, $cacheFile = 'resolver.cache')
+    public function __construct(iResolver $resolver, $cacheName = 'resolver_cache')
     {
-        // задаём имя файла, в котором будет хранится кэш
-        $filename = systemConfig::$pathToTemp . '/' . $cacheFile;
-        $mode = file_exists($filename) ? "r+" : "w";
-        $this->cache_file = new SplFileObject($filename, $mode);
-        // если файл существует - читаем его содержимое и десериализуем его в массив
-        if ($mode == "r+") {
-            while ($this->cache_file->eof() == false) {
-                $this->cache .= $this->cache_file->fgets();
-            }
-            $this->cache = unserialize($this->cache);
-        }
+        $this->cacheName = $cacheName;
+
+        $this->cacheBackend = cache::factory('long');
+
+        $this->cache = $this->cacheBackend->get($cacheName);
 
         parent::__construct($resolver);
     }
@@ -94,11 +91,8 @@ final class cachingResolver extends decoratingResolver
     public function __destruct()
     {
         if ($this->changed) {
-            $this->cache_file->fseek(0);
-            $serialized = serialize($this->cache);
-            $this->cache_file->fwrite($serialized, strlen($serialized));
+            $this->cacheBackend->set($this->cacheName, $this->cache);
         }
-        unset($this->cache_file);
     }
 }
 

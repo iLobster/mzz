@@ -14,7 +14,7 @@
  * @version $Id$
  */
 
-fileLoader::load('cache/cacheBackend');
+require_once systemConfig::$pathToSystem . '/cache/cacheBackend.php';
 
 /**
  * cache: класс для работы с кэшем
@@ -38,8 +38,6 @@ class cache
      * @var cacheBackend
      */
     private $backend;
-
-    private $expire = 60;
 
     /**
      * Фабрика для получения объекта кэширования
@@ -65,8 +63,11 @@ class cache
             $className = 'cache' . ucfirst($config['backend']);
             $params = isset($config['params']) ? $config['params'] : array();
             try {
-                fileLoader::load('cache/' . $className);
-                $notFound = !class_exists($className);
+                $notFound = false;
+                if (!class_exists($className)) {
+                    fileLoader::load('cache/' . $className);
+                    $notFound = !class_exists($className);
+                }
             } catch (mzzIoException $e) {
                 $notFound = true;
             }
@@ -86,10 +87,6 @@ class cache
 
     public function set($key, $val, array $tags = array(), $expire = null)
     {
-        if (is_null($expire)) {
-            $expire = $this->expire;
-        }
-
         $data = $this->setTags($val, $tags);
         return $this->backend->set($key, $data, $expire);
     }
