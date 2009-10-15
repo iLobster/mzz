@@ -16,7 +16,7 @@ class sessionCacheText extends unitTestCase
             )
         );
 
-        $this->cache = cache::factory('insession', $cacheData);
+        $this->cache = systemToolkit::getInstance()->getCache('insession', $cacheData);
     }
 
     public function setUp()

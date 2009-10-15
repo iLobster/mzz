@@ -11,7 +11,7 @@ class memcachedTest extends unitTestCase
 
     public function setUp()
     {
-        $this->cache = cache::factory('memcache', array(
+        $this->cache = systemToolkit::getInstance()->getCache('memcache', array(
             'memcache' => array(
                 'backend' => 'memcache')));
         $this->flush();

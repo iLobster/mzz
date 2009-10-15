@@ -16,7 +16,7 @@ class cacheFileTest extends unitTestCase
 
     public function setUp()
     {
-        $this->cache = cache::factory('memory', array(
+        $this->cache = systemToolkit::getInstance()->getCache('memory', array(
             'memory' => array(
                 'backend' => 'file',
                 'params' => array(

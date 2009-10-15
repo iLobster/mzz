@@ -48,12 +48,15 @@ class contentFilter implements iFilter
         $toolkit = systemToolkit::getInstance();
         $smarty = $toolkit->getSmarty();
 
+        $smarty->assign('toolkit', $toolkit);
+        /*
         $smarty->assign('current_module', $request->getRequestedModule());
         $smarty->assign('current_action', $request->getRequestedAction());
         $smarty->assign('current_path', $request->getPath());
         $smarty->assign('current_lang', $toolkit->getLocale()->getName());
         $smarty->assign('current_user', $toolkit->getUser());
         $smarty->assign('available_langs', $toolkit->getLocale()->searchAll());
+        */
         $request->setRequestedParams($request->getParams());
 
         try {

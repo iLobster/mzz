@@ -57,6 +57,13 @@ class stdToolkit extends toolkit
     private $locale;
 
     /**
+     * Cache backends instances
+     *
+     * @var array
+     */
+    private static $cacheInstances = array();
+
+    /**
      * Конструктор
      *
      */
@@ -287,16 +294,37 @@ class stdToolkit extends toolkit
      *
      * @return cache
      */
-    public function getCache($cacheName = 'default')
+    public function getCache($cacheName = 'default', Array $configs = null)
     {
-        fileLoader::load('cache');
-        try {
-            $cache = cache::factory($cacheName);
-        } catch (mzzUnknownCacheConfigException $ex) {
-            $cache = cache::factory(cache::DEFAULT_CONFIG_NAME);
+        $configs = empty($configs) ? systemConfig::$cache : $configs;
+
+        if (!isset($configs[$cacheName])) {
+            throw new mzzUnknownCacheConfigException($cacheName);
         }
 
-        return $cache;
+        $config = $configs[$cacheName];
+        if (!isset(self::$cacheInstances[$cacheName])) {
+            $className = 'cache' . ucfirst($config['backend']);
+            $params = isset($config['params']) ? $config['params'] : array();
+            try {
+                fileLoader::load('cache/' . $className);
+                $notFound = !class_exists($className);
+            } catch (mzzIoException $e) {
+                $notFound = true;
+            }
+
+            if ($notFound || empty($config['backend'])) {
+                throw new mzzUnknownCacheBackendException($cacheName);
+            }
+
+            if (!class_exists('cache')) {
+                fileLoader::load('cache');
+            }
+
+            self::$cacheInstances[$cacheName] = new cache(new $className($params));
+        }
+
+        return self::$cacheInstances[$cacheName];
     }
 
     /**
