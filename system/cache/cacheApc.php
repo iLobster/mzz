@@ -21,7 +21,7 @@ require_once systemConfig::$pathToSystem . '/cache/iCache.php';
  *
  * @package system
  * @subpackage cache
- * @version 0.0.1asdas
+ * @version 0.0.1
  */
 class cacheApc implements iCache
 {
