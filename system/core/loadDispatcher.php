@@ -77,6 +77,12 @@ class loadDispatcher
         //}
 
 
+        $mapper = $module->getMapper($action->getClassName());
+        if ($mapper instanceof iACLMapper) {
+            $object = $mapper->convertArgsToObj(self::$request->getParams());
+            $action->setObject($object);
+        }
+
         // run action if we have access
         if ($action->canRun()) {
             $view = $action->run();

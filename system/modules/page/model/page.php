@@ -27,9 +27,8 @@ class page extends entity implements iACL
         return substr($path, strpos($path, '/') + 1);
     }
 
-    public function getACL($action)
+    public function getAcl($action)
     {
-
     }
 }
 

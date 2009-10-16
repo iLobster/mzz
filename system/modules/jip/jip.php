@@ -137,6 +137,7 @@ class jip
     {
         $this->result = array();
         foreach ($this->actions as $key => $action) {
+            $action->setObject($this->obj);
             if ($action->canRun()) {
                 $item = array();
                 $item['title'] = $action->getTitle();

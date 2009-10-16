@@ -67,6 +67,8 @@ class simpleAction
      */
     protected $data = array();
 
+    protected $object;
+
     /**
      * Constructor
      *
@@ -83,6 +85,13 @@ class simpleAction
         $this->className = $className;
         $this->controllerName = $controllerName;
         $this->data = $data;
+    }
+
+    public function setObject(entity $object)
+    {
+        if ($object instanceof iACL) {
+            $this->object = $object;
+        }
     }
 
     /**
@@ -271,14 +280,8 @@ class simpleAction
     {
         $toolkit = systemToolkit::getInstance();
 
-        $mapper = $toolkit->getMapper($this->moduleName, $this->className);
-        if ($mapper instanceof iACLMapper) {
-            $object = $mapper->convertArgsToObj($toolkit->getRequest()->getParams());
-            if (!($object instanceof iACL)) {
-                throw new mzzRuntimeException('Class ' . $this->className . ' should implement iACL interface to resolve getAcl() invocations');
-            }
-
-            $can = $object->getAcl($this->name);
+        if ($this->object) {
+            $can = $this->object->getAcl($this->name);
 
             if (is_bool($can)) {
                 return $can;
