@@ -25,6 +25,7 @@ require_once systemConfig::$pathToSystem . '/cache/cacheBackend.php';
  */
 class cache
 {
+    asdasd
     const DEFAULT_CONFIG_NAME = 'default';
 
     /**
