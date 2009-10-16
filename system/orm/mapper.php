@@ -89,6 +89,7 @@ abstract class mapper
      */
     public function searchOneByCriteria(criteria $criteria)
     {
+        $criteria->setLimit(1);
         $stmt = $this->searchByCriteria($criteria);
 
         if ($row = $stmt->fetch()) {
@@ -176,6 +177,7 @@ abstract class mapper
 
         $criteria = new criteria();
         $criteria->add($name, $value);
+        $criteria->setLimit(1);
         return $this->searchOneByCriteria($criteria);
     }
 
