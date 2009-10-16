@@ -40,6 +40,10 @@ interface iRoute
     public function setName($name);
 
     public function prepend(iRoute $route);
+
+    public function setPartial($partial);
+
+    public function isPartial();
 }
 
 ?>

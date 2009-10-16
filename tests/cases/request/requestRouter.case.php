@@ -11,6 +11,14 @@ class stubRoute implements iRoute {
     }
     public function prepend(iRoute $route) {
     }
+
+    public function setPartial($partial) {
+
+    }
+
+    public function isPartial() {
+        return false;
+    }
 }
 Mock::generate('stubRoute');
 Mock::generate('httpRequest');

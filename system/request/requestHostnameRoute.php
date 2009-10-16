@@ -38,6 +38,12 @@ class requestHostnameRoute extends requestRoute
         $this->request = $request;
     }
 
+    public function match($path, $debug = false)
+    {
+        $path = $this->getRequest()->getHttpHost();
+        return parent::match($path, $debug);
+    }
+
     public function getRequest()
     {
         if ($this->request == null) {

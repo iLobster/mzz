@@ -144,7 +144,8 @@ class httpRequestTest extends unitTestCase
     {
         $_SERVER['HTTPS'] = 'on';
         $_SERVER['SERVER_PORT'] = '8080';
-        $_SERVER['HTTP_HOST'] = 'www.mzz.ru';
+        $_SERVER['HTTP_HOST'] = null;
+        $_SERVER['SERVER_NAME'] = 'www.mzz.ru';
         $_GET['path'] = "/news/";
         $this->httprequest->refresh();
         $this->assertEqual($this->httprequest->getUrl(), 'https://www.mzz.ru:8080' . SITE_PATH);

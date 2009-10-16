@@ -400,16 +400,29 @@ class httpRequest implements iRequest
      */
     public function getUrl()
     {
-        $port = $this->getUrlPort();
         $scheme = $this->getScheme();
 
-        if(($scheme == 'http' && $port == 80) || ($scheme == 'https' && $port == 443)) {
+        return $scheme . '://' . $this->getHttpHost() . SITE_PATH;
+    }
+
+    public function getHttpHost()
+    {
+        $host = $this->getServer('HTTP_HOST');
+        if (!empty($host)) {
+            return $host;
+        }
+
+        $scheme = $this->getScheme();
+        $port = $this->getServer('SERVER_PORT');
+        $host = $this->getServer('SERVER_NAME');
+
+        if (($scheme == 'http' && $port == 80) || ($scheme == 'https' && $port == 443)) {
             $port = '';
         } else {
             $port = ':' . $port;
         }
 
-        return $scheme . '://' . $this->getUrlHost() . $port . SITE_PATH;
+        return $host . $port;
     }
 
     public function getScheme()

@@ -36,7 +36,8 @@ class urlTest extends unitTestCase
         $this->SERVER = $_SERVER;
         $_SERVER['HTTPS'] = false;
         $_SERVER['SERVER_PORT'] = '80';
-        $_SERVER['HTTP_HOST'] = 'localhost';
+        $_SERVER['SERVER_NAME'] = 'localhost';
+        $_SERVER['HTTP_HOST'] = null;
         $this->request = $this->toolkit->setRequest(new HttpRequest());
 
         systemConfig::$i18nEnable = false;

@@ -123,6 +123,8 @@ class requestRoute implements iRoute
 
     protected $matchedPath;
 
+    protected $partial = false;
+
     /**
      * Конструктор
      *
@@ -171,6 +173,18 @@ class requestRoute implements iRoute
     public function prepend(iRoute $route)
     {
         $this->prepends[] = $route;
+        $this->setPartial(true);
+        $route->setPartial(true);
+    }
+
+    public function setPartial($partial)
+    {
+        $this->partial = $partial;
+    }
+
+    public function isPartial()
+    {
+        return $this->partial;
     }
 
     /**
@@ -180,17 +194,30 @@ class requestRoute implements iRoute
      * @param boolean $debug режим отладки работы маршрутизатора
      * @return array|false
      */
-    public function match($path, $partial = false, $debug = false)
+    public function match($path, $debug = false)
     {
-        if (empty($this->regex)) {
-            $this->prepare($partial);
-        }
-
         $this->values = $this->defaults;
 
-        if (!$this->executePrepends($path, $partial)) {
+        if (!$this->matchPrepends($path)) {
             return false;
         }
+
+        $hasLangOld = $this->hasLang();
+        if (!empty($this->prepends) && $hasLangOld) {
+            $this->setHasLang(false);
+        }
+
+        if (empty($this->regex)) {
+            $this->prepare($this->partial);
+        }
+
+        if (!empty($this->prepends) && $hasLangOld) {
+            $this->setHasLang($hasLangOld, false);
+        }
+
+        // if the prepare() method changes defaults values (by adding lang token)
+        // we need to add the new values to the values array
+        $this->values += $this->defaults;
 
         if ($debug) {
             $this->dumpParameters($this->getName(), $this->pattern, $this->regex, $path);
@@ -214,19 +241,25 @@ class requestRoute implements iRoute
         return false;
     }
 
-    protected function executePrepends(&$path, $partial)
+    protected function matchPrepends(&$path)
     {
+        $first = true;
         foreach ($this->prepends as $route) {
-            if ($result = $route->match($path, $partial)) {
+            $hasLangOld = $route->hasLang();
+            if (!$first && $hasLangOld) {
+                $route->setHasLang(false);
+            }
+            if ($result = $route->match($path)) {
                 $this->values += $result;
 
-                if ($subPath = $route->getMatchedPath()) {
+                if (($subPath = $route->getMatchedPath()) && $subPath === substr($path, 0, strlen($subPath))) {
                     $path = substr($path, strlen($subPath) + 1);
                 }
             } else {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -250,7 +283,7 @@ class requestRoute implements iRoute
     {
         array_unshift($this->parts, ':lang', '/');
         $this->requirements['lang'] = '^[a-z]{2}(?=/)|^[a-z]{2}(?=/?)$';
-        $this->defaults['lang'] = '';
+        $this->defaults['lang'] = systemToolkit::getInstance()->getLocale()->getName();
     }
 
     /**
@@ -318,9 +351,18 @@ class requestRoute implements iRoute
      * Включение учета языка
      *
      */
-    public function enableLang()
+    public function setHasLang($lang, $reset = true)
     {
-        $this->withLang = true;
+        $this->withLang = $lang;
+        if ($reset) {
+            $this->regex = null;
+            $this->parts = array();
+        }
+    }
+
+    public function hasLang()
+    {
+        return $this->withLang;
     }
 
     /**
@@ -335,12 +377,26 @@ class requestRoute implements iRoute
             $currentLang = systemToolkit::getInstance()->getLocale()->getName();
         }
 
+        $url = array();
+        $url_names = array();
+
+        $prepend = false;
+        if ($this->prepends) {
+            $prepend = $this->assemblePrepends($values);
+        }
+
+        $hasLangOld = $this->hasLang();
+        if ($prepend !== false && $hasLangOld) {
+            $this->setHasLang(false);
+        }
+
         if (empty($this->parts)) {
             $this->prepare();
         }
 
-        $url = array();
-        $url_names = array();
+        if ($prepend !== false && $hasLangOld) {
+            $this->setHasLang($hasLangOld, false);
+        }
 
         foreach ($this->parts as $part) {
             if ($part['isVar']) {
@@ -375,9 +431,25 @@ class requestRoute implements iRoute
             $url = array_slice($url, 0, $break);
         }
 
-        $url = implode('', $url);
+        $url = $prepend . implode('', $url);
 
         return trim($url, $this->part_delimiter);
+    }
+
+    protected function assemblePrepends($values)
+    {
+        $prepend = null;
+        $first = true;
+        foreach ($this->prepends as $route) {
+            $hasLangOld = $route->hasLang();
+            if (!$first && $hasLangOld) {
+                $route->setHasLang(false);
+            }
+            $prepend .= $route->assemble($values) . $this->part_delimiter;
+            $route->setHasLang($hasLangOld);
+            $first = false;
+        }
+        return $prepend;
     }
 
     public function getValues()

@@ -124,7 +124,7 @@ class requestRouteTest extends unitTestCase
     public function testAssembleWithLang()
     {
         $route = new requestRoute('somepath/:controller/{:id}-:action/:default', array('default' => 'default', 'action' => 'view'));
-        $route->enableLang();
+        $route->setHasLang(true);
         $this->assertEqual(
             $route->assemble(array('controller' => 'news', 'id' => 1, 'action' => 'list', 'default' => 'default')),
             'en/somepath/news/1-list'
@@ -162,18 +162,19 @@ class requestRouteTest extends unitTestCase
         $this->assertEqual($route->getDefaults(), $defaults);
     }
 
+
     public function testRouteWithLang()
     {
         systemConfig::$i18n = 'en';
         $route = new requestRoute(':controller/:action', array('controller' => 'page', 'action' => 'list'));
-        $route->enableLang();
+        $route->setHasLang(true);
         $this->assertEqual(
             $route->match('ru/news/view'),
             array('action' => 'view', 'controller' => 'news', 'lang' => 'ru')
         );
         $this->assertEqual(
             $route->match('news/view'),
-            array('action' => 'view', 'controller' => 'news', 'lang' => '')
+            array('action' => 'view', 'controller' => 'news', 'lang' => 'en')
         );
         $this->assertEqual(
             $route->match('ru/rus/ru'),
@@ -185,17 +186,17 @@ class requestRouteTest extends unitTestCase
         );
 
         $route = new requestRoute('');
-        $route->enableLang();
+        $route->setHasLang(true);
         $this->assertEqual(
             $route->match(''),
-            array('lang' => '')
+            array('lang' => 'en')
         );
 
         $route = new requestRoute('somepath/:action', array('action' => 'list'));
-        $route->enableLang();
+        $route->setHasLang(true);
         $this->assertEqual(
             $route->match('somepath'),
-            array('action' => 'list', 'lang' => '')
+            array('action' => 'list', 'lang' => 'en')
         );
         $this->assertEqual(
             $route->match('ru/somepath/list'),
@@ -205,20 +206,99 @@ class requestRouteTest extends unitTestCase
 
     public function testRoutePrepend()
     {
+        systemConfig::$i18n = 'en';
         $route_first = new requestRoute('somepath/:id', array('action' => 'list'), array('id' => '\d+'));
         $route_second = new requestRoute('test/:action', array('action' => 'view'));
 
         $route_second->prepend($route_first);
 
         $this->assertEqual(
-            $route_second->match('somepath/5/test/view', true),
+            $route_second->match('somepath/5/test/view'),
             array('action' => 'view', 'action' => 'view', 'id' => '5')
         );
 
         $this->assertEqual(
-            $route_second->match('somepath/5/test', true),
+            $route_second->match('somepath/5/test'),
             array('action' => 'view', 'action' => 'view', 'id' => '5')
         );
+
+        $route_first->setHasLang(true);
+        $route_second->setHasLang(true); // shouldn't add lang to that route
+
+        $this->assertEqual(
+            $route_second->match('zz/somepath/5/test/view'),
+            array('action' => 'view', 'action' => 'view', 'id' => '5', 'lang' => 'zz')
+        );
+
+        $this->assertFalse(
+            $route_second->match('zz/somepath/5/zz/test/view')
+        );
+
+        $this->assertEqual(
+            $route_second->match('somepath/5/test/view'),
+            array('action' => 'view', 'action' => 'view', 'id' => '5', 'lang' => 'en')
+        );
+    }
+
+    public function testPartialAssemble()
+    {
+        systemConfig::$i18n = 'en';
+        $route_first = new requestRoute('somepath/:id', array('action' => 'list'), array('id' => '\d+'));
+        $route_second = new requestRoute('test/:action', array('action' => 'view'));
+
+
+        $this->assertEqual(
+            $route_first->assemble(array('id' => '5')),
+            'somepath/5'
+        );
+
+        $this->assertEqual(
+            $route_second->assemble(array('action' => 'view')),
+            'test'
+        );
+
+        $route_second->prepend($route_first);
+
+
+        $this->assertEqual(
+            $route_second->assemble(array('action' => 'test', 'id' => '5')),
+            'somepath/5/test/test'
+        );
+
+        $this->assertEqual(
+            $route_second->assemble(array('action' => 'view',  'id' => '5')),
+            'somepath/5/test'
+        );
+
+        $route_first->setHasLang(true);
+        $route_second->setHasLang(true); // shouldn't add lang to that route
+        $this->assertEqual(
+            $route_second->assemble(array('action' => 'view',  'id' => '5')),
+            'en/somepath/5/test'
+        );
+        $this->assertEqual(
+            $route_second->assemble(array('action' => 'view',  'id' => '5', 'lang' => 'ru')),
+            'ru/somepath/5/test'
+        );
+    }
+
+    public function testSetPartial()
+    {
+        $route = new requestRoute('somepath/:name/:action', array());
+        $this->assertFalse($route->isPartial());
+        $route->setPartial(true);
+        $this->assertTrue($route->isPartial());
+
+
+        $route_first = new requestRoute('somepath/:id', array('action' => 'list'));
+        $route_second = new requestRoute('test/:action', array('action' => 'view'));
+
+        $this->assertFalse($route_first->isPartial());
+        $this->assertFalse($route_second->isPartial());
+        $route_second->prepend($route_first);
+
+        $this->assertTrue($route_first->isPartial());
+        $this->assertTrue($route_second->isPartial());
     }
 }
 
