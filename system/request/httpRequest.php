@@ -114,27 +114,6 @@ class httpRequest implements iRequest
     protected $requestedParams = null;
 
     /**
-     * Порт
-     *
-     * @var integer
-     */
-    protected $urlPort;
-
-    /**
-     * Хост
-     *
-     * @var string
-     */
-    protected $urlHost;
-
-    /**
-     * Запрошенный путь
-     *
-     * @var string
-     */
-    protected $urlPath;
-
-    /**
      * Конструктор.
      *
      */
@@ -407,22 +386,16 @@ class httpRequest implements iRequest
 
     public function getHttpHost()
     {
-        $host = $this->getServer('HTTP_HOST');
-        if (!empty($host)) {
-            return $host;
-        }
-
+        $host = $this->getHost();
         $scheme = $this->getScheme();
-        $port = $this->getServer('SERVER_PORT');
-        $host = $this->getServer('SERVER_NAME');
 
-        if (($scheme == 'http' && $port == 80) || ($scheme == 'https' && $port == 443)) {
-            $port = '';
+        if (($scheme == 'http' && $host['port'] == 80) || ($scheme == 'https' && $host['port'] == 443)) {
+            $host['port'] = '';
         } else {
-            $port = ':' . $port;
+            $host['name'] .= ':' . $host['port'];
         }
 
-        return $host . $port;
+        return $host['name'];
     }
 
     public function getScheme()
@@ -450,7 +423,8 @@ class httpRequest implements iRequest
      */
     public function getUrlPort()
     {
-        return $this->urlPort;
+        $host = $this->getHost();
+        return $host['port'];
     }
 
     /**
@@ -460,7 +434,8 @@ class httpRequest implements iRequest
      */
     public function getUrlHost()
     {
-        return $this->urlHost;
+        $host = $this->getHost();
+        return $host['name'];
     }
 
     /**
@@ -470,7 +445,7 @@ class httpRequest implements iRequest
      */
     public function getPath()
     {
-        return $this->urlPath;
+        return trim(preg_replace('!/+!', '/', $this->readScope('path', SC_REQUEST)), '/');
     }
 
     /**
@@ -665,21 +640,6 @@ class httpRequest implements iRequest
      */
     public function initialize()
     {
-        $host = 'localhost';
-        if ($http_host = $this->getServer('HTTP_HOST')) {
-            $host = $http_host;
-        } elseif ($server_name = $this->getServer('SERVER_NAME')) {
-            $host = $server_name;
-        }
-
-        if (strpos($host, ':')) {
-            list($host, $port) = explode(':', $host);
-        }
-
-        $this->urlPort = !empty($port) ? $port : (int)$this->getServer('SERVER_PORT');
-        $port = $this->getUrlPort();
-        $this->urlHost = $host;
-
         // @todo проверить на IIS
         if (!isset($_SERVER['REQUEST_URI']) && isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false) {
             if(isset($_SERVER['HTTP_X_REWRITE_URL'])) {
@@ -695,8 +655,23 @@ class httpRequest implements iRequest
         if (!isset($_SERVER['QUERY_STRING'])) {
             $_SERVER['QUERY_STRING'] = '';
         }
+    }
 
-        $this->urlPath = trim(preg_replace('!/+!', '/', $this->readScope('path', SC_REQUEST)), '/');
+    protected function getHost()
+    {
+        $name = 'localhost';
+        if ($http_host = $this->getServer('HTTP_HOST')) {
+            $name = $http_host;
+        } elseif ($server_name = $this->getServer('SERVER_NAME')) {
+            $name = $server_name;
+        }
+
+        if (strpos($name, ':')) {
+            list($name, $port) = explode(':', $name);
+        }
+
+        $port = !empty($port) ? $port : (int)$this->getServer('SERVER_PORT');
+        return array('name' => $name, 'port' => $port);
     }
 
     /**
