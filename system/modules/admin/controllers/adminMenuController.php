@@ -30,7 +30,7 @@ class adminMenuController extends simpleController
 
         foreach ($adminMapper->getModules() as $moduleName => $module) {
             foreach ($module->getActions() as $action) {
-                if ($action->isAdmin()) {
+                if ($action->isAdmin() && $action->canRun()) {
                     if (!isset($menu[$action->getModuleName()])) {
                         $menu[$action->getModuleName()]['info'] = $module;
                     }
