@@ -200,7 +200,6 @@ class adminGeneratorMapper extends mapper
         $actionsArray[$action_name] = $actionData;
 
         $fileGenerator = new fileGenerator($path);
-        $this->addSaveActionsInGenerator($module, $class_name, $actionsArray, $fileGenerator);
 
         if (!$isEdit) {
             $toolkit = systemToolkit::getInstance();
@@ -219,18 +218,84 @@ class adminGeneratorMapper extends mapper
             $controllerFileName = $this->generateControllerFileName($module, $actionData['controller']);
             $smarty->assign('actionData', $actionData);
             $smarty->assign('action_name', $action_name);
-            $controllerContents = $smarty->fetch('admin/generator/controller.tpl');
-            $fileGenerator->create($controllerFileName, $controllerContents);
 
             $templateFileName = $this->generateTemplateFileName($action_name);
             $smarty->assign('path', $path);
             $smarty->assign('templateFileName', $templateFileName);
-            $templateContents = $smarty->fetch('admin/generator/template.tpl');
-            $fileGenerator->create($templateFileName, $templateContents);
+
+            switch ($crud) {
+                case 'view':
+                    $mapper = $toolkit->getMapper($module->getName(), $class_name);
+                    $map = $this->getMapForCRUD($mapper);
+                    $smarty->assign('map', $map);
+
+                    $controllerContents = $smarty->fetch('admin/generator/controller.view.tpl');
+                    $templateContents = $smarty->fetch('admin/generator/template.view.tpl');
+
+                    $fileGenerator->create($controllerFileName, $controllerContents);
+                    $fileGenerator->create($templateFileName, $templateContents);
+                    break;
+
+                case 'delete':
+                    $controllerContents = $smarty->fetch('admin/generator/controller.delete.tpl');
+                    $fileGenerator->create($controllerFileName, $controllerContents);
+
+                    if (empty($actionData['jip'])) {
+                        $actionData['jip'] = true;
+                    }
+
+                    if (empty($actionData['confirm'])) {
+                        $actionData['confirm'] = '_ ' . $module->getName() . '/' . $class_name . '.delete.confirm';
+                    }
+
+                    if (empty($actionData['icon'])) {
+                        $actionData['icon'] = 'sprite:mzz-icon/page-text/del';
+                    }
+                    if (empty($actionData['main'])) {
+                        $actionData['main'] = 'active.blank.tpl';
+                    }
+                    $actionsArray[$action_name] = $actionData;
+
+                    break;
+
+                case 'list':
+                    $mapper = $toolkit->getMapper($module->getName(), $class_name);
+                    $map = $this->getMapForCRUD($mapper);
+                    $smarty->assign('map', $map);
+
+                    $controllerContents = $smarty->fetch('admin/generator/controller.list.tpl');
+                    $templateContents = $smarty->fetch('admin/generator/template.list.tpl');
+
+                    $fileGenerator->create($controllerFileName, $controllerContents);
+                    $fileGenerator->create($templateFileName, $templateContents);
+                    break;
+
+                case 'save':
+                    $mapper = $toolkit->getMapper($module->getName(), $class_name);
+                    $map = $this->getMapForCRUD($mapper);
+                    $smarty->assign('map', $map);
+
+                    $controllerContents = $smarty->fetch('admin/generator/controller.save.tpl');
+                    $templateContents = $smarty->fetch('admin/generator/template.save.tpl');
+
+                    $fileGenerator->create($controllerFileName, $controllerContents);
+                    $fileGenerator->create($templateFileName, $templateContents);
+                    break;
+
+                default:
+                    $controllerContents = $smarty->fetch('admin/generator/controller.tpl');
+                    $templateContents = $smarty->fetch('admin/generator/template.tpl');
+
+                    $fileGenerator->create($controllerFileName, $controllerContents);
+                    $fileGenerator->create($templateFileName, $templateContents);
+                    break;
+            }
 
             $smarty->left_delimiter = $leftDelimeter;
             $smarty->right_delimiter = $rightDelimeter;
         }
+
+        $this->addSaveActionsInGenerator($module, $class_name, $actionsArray, $fileGenerator);
 
         $fileGenerator->run();
     }
@@ -385,6 +450,21 @@ class adminGeneratorMapper extends mapper
         $map_str = preg_replace('/^/m', str_repeat(' ', 4) . '\\1', $map_str);
 
         return $map_str;
+    }
+
+    protected function getMapForCRUD(mapper $mapper)
+    {
+        $map = $mapper->map();
+
+        $exclude = array_keys($mapper->getRelations()->oneToOneBack() + $mapper->getRelations()->manyToMany() + $mapper->getRelations()->oneToMany());
+
+        foreach ($map as $key => $val) {
+            if ((isset($val['options']) && (in_array('fake', $val['options']) || in_array('plugin', $val['options']))) || in_array($key, $exclude)) {
+                unset($map[$key]);
+            }
+        }
+
+        return $map;
     }
 
     public function generateMapperFileName($class_name)

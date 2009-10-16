@@ -13,25 +13,24 @@
  */
 
 /**
- * {{$controller_data.module}}{{$controller_data.name|ucfirst}}Controller
+ * {{$module->getName()}}{{$actionData.controller|ucfirst}}Controller
  *
  * @package modules
- * @subpackage {{$controller_data.module}}
- * @version 0.1
+ * @subpackage {{$module->getName()}}
+ * @version 0.0.1
  */
-class {{$controller_data.module}}{{$controller_data.name|ucfirst}}Controller extends simpleController
+class {{$module->getName()}}{{$actionData.controller|ucfirst}}Controller extends simpleController
 {
     protected function getView()
     {
-        ${{$controller_data.class}}Mapper = $this->toolkit->getMapper('{{$controller_data.module}}', '{{$controller_data.class}}');
+        ${{$name}}Mapper = $this->toolkit->getMapper('{{$module->getName()}}', '{{$name}}');
 
-        $this->setPager(${{$controller_data.class}}Mapper);
+        $this->setPager(${{$name}}Mapper);
 
-        $all = ${{$controller_data.class}}Mapper->searchAll();
+        $all = ${{$name}}Mapper->searchAll();
 
         $this->smarty->assign('all', $all);
-
-        return $this->smarty->fetch('{{$controller_data.module}}/{{$controller_data.name}}.tpl');
+        return $this->smarty->fetch('{{$module->getName()}}/{{$action_name}}.tpl');
     }
 }
 

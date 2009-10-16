@@ -51,6 +51,16 @@ class adminSaveActionController extends simpleController
             }
 
             $class_name = $actionObject->getClassName();
+
+            $actionData = array(
+                'name' => $actionObject->getName(),
+                'controllerName' => $actionObject->getControllerName(),
+                'title' => $actionObject->getTitle(),
+                'confirm' => $actionObject->getConfirm(),
+                'activeTemplate' => $actionObject->getActiveTemplate(),
+                'jip' => $actionObject->isJip(),
+                'icon' => $actionObject->getIcon()
+            );
         } else {
             $class_name = $this->request->getString('class_name');
             $classes = $module->getClasses();
@@ -58,7 +68,16 @@ class adminSaveActionController extends simpleController
                 return $this->forward404($adminMapper);
             }
 
-            $actionObject = new simpleAction('', $module->getName(), $class_name, '');
+            $actionData = array(
+                'name' => '',
+                'controllerName' => '',
+                'title' => '',
+                'confirm' => '',
+                'activeTemplate' => simpleAction::DEFAULT_ACTIVE_TPL,
+                'jip' => false,
+                'icon' => ''
+            );
+
         }
 
         $dests = $adminGeneratorMapper->getDests(true, $module->getName());
@@ -86,6 +105,10 @@ class adminSaveActionController extends simpleController
             if (!$isEdit) {
                 $action_name = $values['name'];
                 unset($values['name']);
+
+                if ($values['main'] == simpleAction::DEFAULT_ACTIVE_TPL) {
+                    unset($values['main']);
+                }
             }
 
             try {
@@ -99,8 +122,18 @@ class adminSaveActionController extends simpleController
             return jipTools::closeWindow();
         }
 
-        $this->smarty->assign('aclMethods', $this->getAclMethods());
-        $this->smarty->assign('crudList', $this->getCRUDList());
+        $crud = array(
+            'view' => 'view',
+            'list' => 'list',
+            'save' => 'save'
+        );
+
+        $moduleClassMapper = $this->toolkit->getMapper($module_name, $class_name);
+        if ($moduleClassMapper->isAttached('jip')) {
+            $crud['delete'] = 'delete';
+        }
+
+        $this->smarty->assign('crudList', $crud);
 
         $url = new url('adminModuleEntity');
         $url->add('module_name', $module_name);
@@ -112,118 +145,15 @@ class adminSaveActionController extends simpleController
             $url->add('class_name', $class_name);
         }
 
-        $this->smarty->assign('plugins', $this->plugins);
-
         $this->smarty->assign('form_action', $url->get());
 
         $this->smarty->assign('dests', $dests);
-
         $this->smarty->assign('isEdit', $isEdit);
         $this->smarty->assign('module', $module);
-        $this->smarty->assign('actionObject', $actionObject);
+        $this->smarty->assign('moduleClassMapper', $moduleClassMapper);
+        $this->smarty->assign('actionData', $actionData);
 
         return $this->smarty->fetch('admin/saveAction.tpl');
-    }
-
-    private function crudView($module, $class, $action_name, $values, $fileGenerator)
-    {
-        $mapper = $this->toolkit->getMapper($module['name'], $class['name']);
-        $map = $this->getMap($mapper);
-
-        $controllerData = array(
-            'name' => $action_name,
-            'module' => $module['name'],
-            'class' => $class['name']);
-        $this->smarty->assign('controller_data', $controllerData);
-
-        $this->smarty->assign('map', $map);
-
-        $fileGenerator->create($this->controllers($module['name'], $action_name), $this->smarty->fetch('admin/generator/controller.view.tpl'));
-        $fileGenerator->create($this->templates($action_name), $this->smarty->fetch('admin/generator/template.view.tpl'));
-
-        $fileGenerator->run();
-    }
-
-    private function crudDelete($module, $class, $action_name, & $values, $fileGenerator)
-    {
-        $controllerData = array(
-            'name' => $action_name,
-            'module' => $module['name'],
-            'class' => $class['name']);
-        $this->smarty->assign('controller_data', $controllerData);
-
-        $fileGenerator->create($this->controllers($module['name'], $action_name), $this->smarty->fetch('admin/generator/controller.delete.tpl'));
-
-        if (empty($values['jip'])) {
-            $values['jip'] = true;
-        }
-
-        if (empty($values['confirm'])) {
-            $values['confirm'] = '_ ' . $module['name'] . '/' . $class['name'] . '.delete.confirm';
-        }
-
-        if (empty($values['icon'])) {
-            $values['icon'] = '/images/delete.gif';
-        }
-
-        if (empty($values['main'])) {
-            $values['main'] = 'active.blank.tpl';
-        }
-
-        $fileGenerator->run();
-    }
-
-    private function crudList($module, $class, $action_name, $values, $fileGenerator)
-    {
-        $mapper = $this->toolkit->getMapper($module['name'], $class['name']);
-        $map = $this->getMap($mapper);
-
-        $controllerData = array(
-            'name' => $action_name,
-            'module' => $module['name'],
-            'class' => $class['name']);
-        $this->smarty->assign('controller_data', $controllerData);
-
-        $this->smarty->assign('map', $map);
-
-        $fileGenerator->create($this->controllers($module['name'], $action_name), $this->smarty->fetch('admin/generator/controller.list.tpl'));
-        $fileGenerator->create($this->templates($action_name), $this->smarty->fetch('admin/generator/template.list.tpl'));
-
-        $fileGenerator->run();
-    }
-
-    private function crudSave($module, $class, $action_name, $values, $fileGenerator)
-    {
-        $mapper = $this->toolkit->getMapper($module['name'], $class['name']);
-        $map = $this->getMap($mapper);
-
-        $controllerData = array(
-            'name' => $action_name,
-            'module' => $module['name'],
-            'class' => $class['name']);
-        $this->smarty->assign('controller_data', $controllerData);
-
-        $this->smarty->assign('map', $map);
-
-        $fileGenerator->create($this->controllers($module['name'], $action_name), $this->smarty->fetch('admin/generator/controller.save.tpl'));
-        $fileGenerator->create($this->templates($action_name), $this->smarty->fetch('admin/generator/template.save.tpl'));
-
-        $fileGenerator->run();
-    }
-
-    private function getMap(mapper $mapper)
-    {
-        $map = $mapper->map();
-
-        $exclude = array_keys($mapper->getRelations()->oneToOneBack() + $mapper->getRelations()->manyToMany() + $mapper->getRelations()->oneToMany());
-
-        foreach ($map as $key => $val) {
-            if ((isset($val['options']) && (in_array('fake', $val['options']) || in_array('plugin', $val['options']))) || in_array($key, $exclude)) {
-                unset($map[$key]);
-            }
-        }
-
-        return $map;
     }
 
     public function unique($name, simpleModule $module, $action_name = null)
@@ -234,30 +164,6 @@ class adminSaveActionController extends simpleController
 
         $actions = $module->getActions();
         return !isset($actions[$name]);
-    }
-
-    /*
-    public function otherCase($name, $adminMapper)
-    {
-        $action = $adminMapper->searchActionByName($name);
-
-        if ($action) {
-            return $action['name'] == $name;
-        }
-
-        return true;
-    }
-    */
-
-    private function isDataChanged($old, $values)
-    {
-        foreach ($values as $key => $value) {
-            if (!isset($old[$key]) || $old[$key] != $value) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     private function getAclMethods()
@@ -273,69 +179,6 @@ class adminSaveActionController extends simpleController
         return $aclMethods;
     }
 
-    private function getCRUDList()
-    {
-        $crud = array(
-            'none' => 'none',
-            'view' => 'view',
-            'list' => 'list',
-            'save' => 'save');
-
-        if (in_array('jip', $this->plugins)) {
-            $crud['delete'] = 'delete';
-        }
-
-        return $crud;
-    }
-
-    private function getDefaults($module, $class)
-    {
-        $mapper = $this->toolkit->getMapper($module, $class);
-
-        $defaults = array(
-            'name' => '',
-            'controller' => '',
-            'confirm' => '',
-            '403handle' => 'auto',
-            'act_template' => '',
-            'lang' => '',
-            'crud' => 'none',
-            'main' => 'active.main.tpl');
-
-        if ($mapper->isAttached('jip')) {
-            $defaults += array(
-                'jip' => 0,
-                'title' => '',
-                'icon' => '');
-            $this->plugins[] = 'jip';
-        }
-
-        if ($mapper->isAttached('acl_ext') || $mapper->isAttached('acl_simple')) {
-            $defaults += array(
-                'alias' => '');
-            $this->plugins[] = 'acl';
-        }
-
-        return $defaults;
-    }
-
-    private function normalize(& $values, $defaults)
-    {
-        $exclude = array(
-            'crud');
-
-        foreach ($values as $key => & $val) {
-            if (!isset($defaults[$key]) || ($defaults[$key] == $val && !in_array($key, $exclude))) {
-                if (!preg_match('!^route[._].+!', $key)) {
-                    unset($values[$key]);
-                }
-            }
-        }
-
-        if (empty($values['controller'])) {
-            $values['controller'] = $values['name'];
-        }
-    }
 }
 
 ?>

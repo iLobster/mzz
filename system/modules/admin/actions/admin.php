@@ -7,13 +7,11 @@ return array(
         'controller' => 'admin',
         'main' => 'active.admin.tpl',
         'admin' => '1',
-        'role' => array('moderator'),
-        '403handle' => 'manual'),
+        'role' => array('moderator')),
     'access' => array(
         'controller' => 'access',
         'role' => array('moderator'),
-        'main' => 'active.admin.tpl',
-        '403handle' => 'manual'),
+        'main' => 'active.admin.tpl'),
     'devToolbar' => array(
         'controller' => 'devToolbar',
         'role' => array('moderator'),
@@ -110,14 +108,12 @@ return array(
         'main' => 'active.blank.tpl'),
     'menu' => array(
         'controller' => 'menu',
-        '403handle' => 'none',
         'main' => 'deny'),
     'dashboard' => array(
-        '403handle' => 'none',
         'role' => array('moderator'),
         'controller' => 'dashboard',
         'dashboard' => true,
-        'main' => 'deny'),
-    '403' => array(
-        'controller' => '403'));
+        'main' => 'deny'
+    )
+);
 ?>

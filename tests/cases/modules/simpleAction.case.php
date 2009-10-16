@@ -32,26 +32,5 @@ class simpleActionTest extends unitTestCase
         $action = new simpleAction('action', 'foo', 'bar', $controller, $data);
         $this->assertEqual($action->getActiveTemplate(), $data['main']);
     }
-
-    /**
-     * @todo: replace to test roles
-     *
-     */
-    /*
-    public function testGet403Handle()
-    {
-        $controller = 'test';
-        $data = array();
-        $action = new simpleAction('foo', 'bar', $controller, $data);
-        $this->assertEqual($action->get403Handler(), '');
-
-        $controller = 'test';
-        $data = array(
-            '403handle' => 'abrakadabra'
-        );
-        $action = new simpleAction('foo', 'bar', $controller, $data);
-        $this->assertEqual($action->get403Handler(), $data['403handle']);
-    }*/
-
 }
 ?>

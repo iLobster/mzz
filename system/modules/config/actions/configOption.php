@@ -7,8 +7,7 @@ return array(
         'jip' => '1',
         'role' => array('moderator'),
         'icon' => 'sprite:mzz-icon/wrench/edit',
-        'title' => 'Редактировать',
-        '403handle' => 'none',
+        'title' => 'Редактировать'
     ),
     'delete' => array(
         'controller' => 'delete',
@@ -16,8 +15,7 @@ return array(
         'role' => array('moderator'),
         'icon' => 'sprite:mzz-icon/wrench/del',
         'title' => 'Удалить',
-        'confirm' => 'Вы уверены?',
-        '403handle' => 'none',
+        'confirm' => 'Вы уверены?'
     ),
 );
 ?>

@@ -1,16 +1,18 @@
 <div class="jipTitle">
-    {if $isEdit}Editing{else}Creating{/if} object {{$controller_data.class}}
+    {if $isEdit}Editing{else}Creating{/if} object {{$name}}
 </div>
 
 {form action=$form_action method="post" jip=true}
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         {{foreach from=$map item=property key=field}}
 <tr>
-            <td>{form->caption name="{{$controller_data.class}}[{{$field}}]" value="{{$field}}"}</td>
+            <td>{form->caption name="{{$name}}[{{$field}}]" value="{{$field}}"}</td>
 {{if !isset($property.options) || !in_array('pk', $property.options) || !in_array('once', $property.options)}}
-            <td>{form->text name="{{$controller_data.class}}[{{$field}}]" size="30" value=${{$controller_data.class}}->{{$property.accessor}}()}{$errors->get('{{$controller_data.class}}[{{$field}}]')}</td>
+            <td>
+                {form->text name="{{$name}}[{{$field}}]" size="30" value=${{$name}}->{{$property.accessor}}()}{$errors->get('{{$name}}[{{$field}}]')}
+            </td>
 {{else}}
-            <td>{${{$controller_data.class}}->{{$property.accessor}}()}</td>
+            <td>{${{$name}}->{{$property.accessor}}()}</td>
 {{/if}}
         </tr>
         {{/foreach}}

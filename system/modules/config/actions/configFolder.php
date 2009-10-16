@@ -4,7 +4,6 @@
 return array(
     'list' => array(
         'controller' => 'list',
-        '403handle' => 'none',
         'main' => 'active.blank.tpl',
     ),
     'add' => array(
@@ -12,8 +11,7 @@ return array(
         'jip' => '1',
         'role' => array('moderator'),
         'icon' => 'sprite:mzz-icon/wrench/add',
-        'title' => 'Добавить параметр',
-        '403handle' => 'none',
+        'title' => 'Добавить параметр'
     ),
     'admin' => array(
         'controller' => 'admin',
@@ -24,8 +22,7 @@ return array(
         'controller' => 'configure',
         'jip' => '1',
         'role' => array('moderator'),
-        'title' => 'Конфигурация модуля',
-        '403handle' => 'none',
+        'title' => 'Конфигурация модуля'
     ),
 );
 ?>

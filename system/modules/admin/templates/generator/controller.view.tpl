@@ -13,28 +13,28 @@
  */
 
 /**
- * {{$controller_data.module}}{{$controller_data.name|ucfirst}}Controller
+ * {{$module->getName()}}{{$actionData.controller|ucfirst}}Controller
  *
  * @package modules
- * @subpackage {{$controller_data.module}}
- * @version 0.1
+ * @subpackage {{$module->getName()}}
+ * @version 0.0.1
  */
-class {{$controller_data.module}}{{$controller_data.name|ucfirst}}Controller extends simpleController
+class {{$module->getName()}}{{$actionData.controller|ucfirst}}Controller extends simpleController
 {
     protected function getView()
     {
-        ${{$controller_data.class}}Mapper = $this->toolkit->getMapper('{{$controller_data.module}}', '{{$controller_data.class}}');
-        
-        $id = $this->request->getInteger('id');
-        ${{$controller_data.class}} = ${{$controller_data.class}}Mapper->searchByKey($id);
+        ${{$name}}Mapper = $this->toolkit->getMapper('{{$module->getName()}}', '{{$name}}');
 
-        if (empty(${{$controller_data.class}})) {
-            return $this->forward404(${{$controller_data.class}}Mapper);
+        $id = $this->request->getInteger('id');
+        ${{$name}} = ${{$name}}Mapper->searchByKey($id);
+
+        if (empty(${{$name}})) {
+            return $this->forward404(${{$name}}Mapper);
         }
 
-        $this->smarty->assign('{{$controller_data.class}}', ${{$controller_data.class}});
+        $this->smarty->assign('{{$name}}', ${{$name}});
 
-        return $this->smarty->fetch('{{$controller_data.module}}/{{$controller_data.name}}.tpl');
+        return $this->smarty->fetch('{{$module->getName()}}/{{$action_name}}.tpl');
     }
 }
 

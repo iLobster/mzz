@@ -3,8 +3,7 @@
 
 return array(
     'view' => array(
-        'controller' => 'view',
-        '403handle' => 'none',
+        'controller' => 'view'
     ),
     'createRoot' => array(
         'controller' => 'save',

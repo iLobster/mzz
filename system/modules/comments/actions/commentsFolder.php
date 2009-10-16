@@ -4,16 +4,14 @@
 return array(
     'list' => array(
         'controller' => 'folderList',
-        '403handle' => 'none',
-        'main' => 'deny',
+        'main' => 'deny'
     ),
     'post' => array(
         'controller' => 'post',
-        'title' => 'Comment post',
-        '403handle' => 'none',
+        'title' => 'Comment post'
     ),
     'deleteFolder' => array(
-        'controller' => 'folderDeleteFolder',
-    ),
+        'controller' => 'folderDeleteFolder'
+    )
 );
 ?>

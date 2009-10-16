@@ -8,20 +8,17 @@ return array(
         'role' => array('moderator'),
         'icon' => 'sprite:mzz-icon/user/add',
         'title' => 'Добавить пользователя',
-        'main' => 'active.blank.tpl',
-        'alias' => 'list',
+        'main' => 'active.blank.tpl'
     ),
     'register' => array(
         'controller' => 'register',
         'title' => 'Регистрация',
     ),
     'login' => array(
-        'controller' => 'login',
-        '403handle' => 'none',
+        'controller' => 'login'
     ),
     'exit' => array(
         'controller' => 'exit',
-        '403handle' => 'none',
         'main' => 'active.blank.tpl',
     ),
     'list' => array(

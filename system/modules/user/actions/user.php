@@ -30,7 +30,6 @@ return array(
         'controller' => 'loginForm',
         'title' => 'loginForm',
         'alias' => 'login',
-        '403handle' => 'none',
         'main' => 'active.blank.tpl',
     ),
 );

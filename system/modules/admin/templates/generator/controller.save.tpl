@@ -13,17 +13,17 @@
  */
 
 /**
- * {{$controller_data.module}}{{$controller_data.name|ucfirst}}Controller
+ * {{$module->getName()}}{{$actionData.controller|ucfirst}}Controller
  *
  * @package modules
- * @subpackage {{$controller_data.module}}
- * @version 0.1
+ * @subpackage {{$module->getName()}}
+ * @version 0.0.1
  */
-class {{$controller_data.module}}{{$controller_data.name|ucfirst}}Controller extends simpleController
+class {{$module->getName()}}{{$actionData.controller|ucfirst}}Controller extends simpleController
 {
     protected function getView()
     {
-        ${{$controller_data.class}}Mapper = $this->toolkit->getMapper('{{$controller_data.module}}', '{{$controller_data.class}}');
+        ${{$name}}Mapper = $this->toolkit->getMapper('{{$module->getName()}}', '{{$name}}');
 
         $id = $this->request->getInteger('id');
         $action = $this->request->getAction();
@@ -31,40 +31,37 @@ class {{$controller_data.module}}{{$controller_data.name|ucfirst}}Controller ext
         $isEdit = strpos($action, 'edit') !== false;
 
         if ($isEdit) {
-            ${{$controller_data.class}} = ${{$controller_data.class}}Mapper->searchByKey($id);
-            if (empty(${{$controller_data.class}})) {
-                return $this->forward404(${{$controller_data.class}}Mapper);
+            ${{$name}} = ${{$name}}Mapper->searchByKey($id);
+            if (empty(${{$name}})) {
+                return $this->forward404(${{$name}}Mapper);
             }
         } else {
-            ${{$controller_data.class}} = ${{$controller_data.class}}Mapper->create();
+            ${{$name}} = ${{$name}}Mapper->create();
         }
 
         $validator = new formValidator();
 
-{{foreach from=$map item=property key=field}}
-{{assign var="propertyType" value=$property.type|default:false}}
+{{foreach from=$map item=property key=field}}{{assign var="propertyType" value=$property.type|default:false}}
 {{if !isset($property.options) || !in_array('pk', $property.options) || !in_array('once', $property.options)}}
-$validator->add('required', '{{$controller_data.class}}[{{$field}}]', 'Field {{$field}} is required');
+        $validator->add('required', '{{$name}}[{{$field}}]', 'Field {{$field}} is required');
 {{if $propertyType === 'char' || $propertyType === 'varchar'}}
-        $validator->add('length', '{{$controller_data.class}}[{{$field}}]', 'Field {{$field}} is out of length', array(0, {{$property.maxlength}}));
+        $validator->add('length', '{{$name}}[{{$field}}]', 'Field {{$field}} is out of length', array(0, {{$property.maxlength|default:255}}));
 {{elseif $propertyType === 'int'}}
-        $validator->add('numeric', '{{$controller_data.class}}[{{$field}}]', 'Field {{$field}} is not numeric as expected');
-        {{assign var="propertyRange" value=$property.range|default:false}}{{if $propertyRange}}$validator->add('range', '{{$controller_data.class}}[{{$field}}]', 'Field {{$field}} is out of range', array({{$property.range[0]}}, {{$property.range[1]}}));
-        {{/if}}
-{{/if}}
-{{/if}}
-        {{/foreach}}
+        $validator->add('numeric', '{{$name}}[{{$field}}]', 'Field {{$field}} is not numeric as expected');
+        {{assign var="propertyRange" value=$property.range|default:false}}{{if $propertyRange}}$validator->add('range', '{{$name}}[{{$field}}]', 'Field {{$field}} is out of range', array({{$property.range[0]}}, {{$property.range[1]}}));
+{{/if}}{{/if}}{{/if}}
+{{/foreach}}
 
         if ($validator->validate()) {
-            $data = $this->request->getArray('{{$controller_data.class}}', SC_POST);
+            $data = $this->request->getArray('{{$name}}', SC_POST);
 
 {{foreach from=$map item=property key=field}}
 {{if !isset($property.options) || !in_array('pk', $property.options) || !in_array('once', $property.options)}}
-${{$controller_data.class}}->{{$property.mutator}}($data['{{$field}}']);
+${{$name}}->{{$property.mutator}}($data['{{$field}}']);
 {{/if}}
             {{/foreach}}
 
-            ${{$controller_data.class}}Mapper->save(${{$controller_data.class}});
+            ${{$name}}Mapper->save(${{$name}});
 
             return jipTools::redirect();
         }
@@ -75,10 +72,10 @@ ${{$controller_data.class}}->{{$property.mutator}}($data['{{$field}}']);
 
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());
-        $this->smarty->assign('{{$controller_data.class}}', ${{$controller_data.class}});
+        $this->smarty->assign('{{$name}}', ${{$name}});
         $this->smarty->assign('isEdit', $isEdit);
 
-        return $this->smarty->fetch('{{$controller_data.module}}/{{$controller_data.name}}.tpl');
+        return $this->smarty->fetch('{{$module->getName()}}/{{$action_name}}.tpl');
     }
 }
 
