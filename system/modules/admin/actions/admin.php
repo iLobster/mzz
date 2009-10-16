@@ -113,7 +113,9 @@ return array(
         'role' => array('moderator'),
         'controller' => 'dashboard',
         'dashboard' => true,
-        'main' => 'deny'
+        'main' => 'deny'),
+    '403' => array(
+        'controller' => '403'
     )
 );
 ?>
