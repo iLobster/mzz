@@ -36,7 +36,6 @@ class core
      */
     final public function run()
     {
-    	$this;
         try {
             $resolver = $this->composeResolvers();
             fileLoader::setResolver($resolver);
