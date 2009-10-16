@@ -26,6 +26,10 @@ class fileManagerModule extends simpleModule
         'folder',
         'storage');
 
+    protected $roles = array(
+        'moderator',
+        'user');
+
     public function getRoutes()
     {
         return array(

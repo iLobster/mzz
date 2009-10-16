@@ -31,5 +31,9 @@ class userModule extends simpleModule
         'userOnline',
         'userRole'
     );
+
+    protected $roles = array(
+        'moderator',
+        'user');
 }
 ?>

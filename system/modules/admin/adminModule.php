@@ -21,6 +21,13 @@
  */
 class adminModule extends simpleModule
 {
-    protected $classes = array('admin', 'adminGenerator');
+    protected $classes = array(
+        'admin',
+        'adminGenerator');
+
+    protected $roles = array(
+        'moderator',
+        'user');
 }
+
 ?>

@@ -26,6 +26,10 @@ class menuModule extends simpleModule
         'menuFolder',
         'menuItem');
 
+    protected $roles = array(
+        'moderator',
+        'user');
+
     public function getRoutes()
     {
         return array(
