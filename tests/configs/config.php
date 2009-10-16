@@ -36,7 +36,9 @@ systemConfig::$db['default']['charset'] = "utf8";
 systemConfig::$db['another']['dsn']  = "mysql:host=localhost;dbname=mzz_test";
 
 systemConfig::$cache['default']['backend'] = 'memory';
-systemConfig::$cache['memory']['backend'] = 'memory';
+systemConfig::$cache['long']['backend'] = 'memory';
+systemConfig::$cache['fast']['backend'] = 'memory';
+systemConfig::$cache['session']['backend'] = 'memory';
 
 systemConfig::$i18n = 'en';
 systemConfig::$i18nEnable = true;

@@ -66,6 +66,11 @@ class locale
     private static $langs = false;
 
     /**
+     * @var cache
+     */
+    private $cache;
+
+    /**
      * Конструктор
      *
      * @param string $lang
@@ -80,6 +85,8 @@ class locale
 
         $file = new iniFile($this->locale_file);
         $this->data = $file->read();
+
+        $this->cache = systemToolkit::getInstance()->getCache('long');
     }
 
     /**
@@ -173,9 +180,15 @@ class locale
         static $ids;
 
         if (empty($this->langId) && !isset($ids[$this->name])) {
-            $db = db::factory();
-            $stmt = $db->query('SELECT `id` FROM `' . $db->getTablePrefix() . 'sys_lang` WHERE `name` = ' . $db->quote($this->name));
-            $this->langId = (int)$stmt->fetchColumn();
+            $cache_key = 'lang_' . $this->name;
+            if (!($this->langId = $this->cache->get($cache_key))) {
+                $db = db::factory();
+                $stmt = $db->query('SELECT `id` FROM `' . $db->getTablePrefix() . 'sys_lang` WHERE `name` = ' . $db->quote($this->name));
+                $this->langId = (int)$stmt->fetchColumn();
+
+                $this->cache->set($cache_key, $this->langId, array(
+                    'lang'));
+            }
             $ids[$this->name] = $this->langId;
         }
 
@@ -276,17 +289,29 @@ class locale
      */
     public static function searchAll($id = null)
     {
+        static $cache;
+
+        if (is_null($cache)) {
+            $cache = systemToolkit::getInstance()->getCache('long');
+        }
+
+        $cache_key = 'lang_all';
         if (self::$langs === false) {
-            $db = db::factory();
-            $stmt = $db->query('SELECT `d`.`id`, `d`.`name`, `l`.`name` AS `title` FROM `' . $db->getTablePrefix() . 'sys_lang` `d` LEFT JOIN `' . $db->getTablePrefix() . 'sys_lang_lang` `l` ON `l`.`id` = `d`.`id` AND `l`.`lang_id` = ' . systemToolkit::getInstance()->getLang() . ' ORDER BY `id`');
+            if (!($result = $cache->get($cache_key))) {
+                $db = db::factory();
+                $stmt = $db->query('SELECT `d`.`id`, `d`.`name`, `l`.`name` AS `title` FROM `' . $db->getTablePrefix() . 'sys_lang` `d` LEFT JOIN `' . $db->getTablePrefix() . 'sys_lang_lang` `l` ON `l`.`id` = `d`.`id` AND `l`.`lang_id` = ' . systemToolkit::getInstance()->getLang() . ' ORDER BY `id`');
 
-            $result = array();
+                $result = array();
 
-            while ($row = $stmt->fetch()) {
-                $tmp = new locale($row['name']);
-                $tmp->setId($row['id']);
-                $tmp->setTranslatedName($row['title'] ? $row['title'] : $tmp->getLanguageName());
-                $result[$row['id']] = $tmp;
+                while ($row = $stmt->fetch()) {
+                    $tmp = new locale($row['name']);
+                    $tmp->setId($row['id']);
+                    $tmp->setTranslatedName($row['title'] ? $row['title'] : $tmp->getLanguageName());
+                    $result[$row['id']] = $tmp;
+                }
+
+                $cache->set($cache_key, $result, array(
+                    'lang'));
             }
 
             self::$langs = $result;
@@ -328,10 +353,7 @@ class locale
      */
     public static function isExists($name)
     {
-        $db = db::factory();
-        $stmt = $db->query('SELECT `l`.`id` FROM `' . $db->getTablePrefix() . 'sys_lang` `l` WHERE `l`.`name` = ' . $db->quote($name));
-        $result = $stmt->fetch();
-        return !empty($result);
+        return !is_null(self::searchAll($name));
     }
 
     /**
