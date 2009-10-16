@@ -141,7 +141,7 @@ class cache
         if (isset($data['tags']) && is_array($data['tags'])) {
             foreach ($data['tags'] as $tag => $rev) {
                 if ($rev != $this->getTag($tag)) {
-                    $data['data'] = false;
+                    $data['data'] = null;
                     break;
                 }
             }

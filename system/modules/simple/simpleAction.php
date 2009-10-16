@@ -280,6 +280,10 @@ class simpleAction
     {
         $toolkit = systemToolkit::getInstance();
 
+        if ($toolkit->getUser()->isRoot()) {
+            return true;
+        }
+
         if ($this->object) {
             $can = $this->object->getAcl($this->name);
 

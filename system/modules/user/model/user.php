@@ -52,6 +52,17 @@ class user extends entity
         $id = parent::__call('getSkin', array());
         return new skin($id);
     }
+
+    public function isRoot()
+    {
+        foreach ($this->getGroups() as $group) {
+            if ($group->getId() == MZZ_ROOT_GID) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
 
 ?>
