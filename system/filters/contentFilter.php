@@ -93,7 +93,7 @@ class contentFilter implements iFilter
 
         $tpl_name = self::TPL_PRE . $module_name . '/' . $action_name . self::TPL_EXT;
         if (file_exists($tplPath . '/' . $tpl_name)) {
-            return $smarty->fetch($tplPath . '/' . $tpl_name);
+            return $smarty->fetch($tpl_name);
         }
 
         $module = $toolkit->getModule($module_name);

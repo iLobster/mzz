@@ -64,16 +64,14 @@ class simple404Controller extends simpleController
             return $this->result;
         }
 
-        $module = 'page';
-        $action = 'view';
-        $name = '404';
+        $module = 'simple';
+        $action = '404';
 
         if ($this->request->getModule() == $module && $this->request->getString('name') == $name && $this->request->getAction() == $action) {
             throw new mzzRuntimeException('Recursion detected: the 404 controller was called twice.');
         }
 
         $this->request->setModule($module);
-        $this->request->setParams(array('name' => $name));
         $this->request->setAction($action);
 
         return $this->onlyHeaders ? false : $this->forward($module, $action);
