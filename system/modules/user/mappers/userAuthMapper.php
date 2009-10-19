@@ -68,7 +68,7 @@ class userAuthMapper extends mapper
     public function getAuth($hash, $ip)
     {
         $criteria = new criteria();
-        $criteria->where('hash', $hash)->add('ip', $ip);
+        $criteria->where('hash', $hash)->where('ip', $ip);
 
         $auth = $this->searchOneByCriteria($criteria);
 
