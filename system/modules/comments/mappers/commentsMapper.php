@@ -82,7 +82,7 @@ class commentsMapper extends mapper
     public function searchByFolderAndId(commentsFolder $folder, $id)
     {
         $criteria = new criteria;
-        $criteria->add('folder_id', $folder->getId())->add('id', $id);
+        $criteria->where('folder_id', $folder->getId())->where('id', $id);
         return $this->searchOneByCriteria($criteria);
     }
 

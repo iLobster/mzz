@@ -89,7 +89,7 @@ abstract class mapper
      */
     public function searchOneByCriteria(criteria $criteria)
     {
-        $criteria->setLimit(1);
+        $criteria->limit(1);
         $stmt = $this->searchByCriteria($criteria);
 
         if ($row = $stmt->fetch()) {
@@ -140,7 +140,7 @@ abstract class mapper
         $criteria = new criteria();
 
         if (is_array($key)) {
-            $criteria->add($this->pk, $key, criteria::IN);
+            $criteria->where($this->pk, $key, criteria::IN);
             return $this->searchAllByCriteria($criteria);
         } else {
             return $this->searchOneByField($this->pk, $key);
@@ -157,7 +157,7 @@ abstract class mapper
     public function searchAllByField($name, $value)
     {
         $criteria = new criteria();
-        $criteria->add($name, $value);
+        $criteria->where($name, $value);
         return $this->searchAllByCriteria($criteria);
     }
 
@@ -176,8 +176,8 @@ abstract class mapper
         }
 
         $criteria = new criteria();
-        $criteria->add($name, $value);
-        $criteria->setLimit(1);
+        $criteria->where($name, $value);
+        $criteria->limit(1);
         return $this->searchOneByCriteria($criteria);
     }
 
@@ -240,7 +240,7 @@ abstract class mapper
 
         if ($data) {
             $criteria = new criteria($this->table());
-            $criteria->add($this->pk, $object->$accessor());
+            $criteria->where($this->pk, $object->$accessor());
 
             $this->notify('preSqlUpdate', $criteria);
 
@@ -265,7 +265,7 @@ abstract class mapper
 
         $criteria = new criteria($this->table());
         $accessor = $this->map[$this->pk]['accessor'];
-        $criteria->add($this->pk, $object->$accessor());
+        $criteria->where($this->pk, $object->$accessor());
 
         if (!$this->notify('preSqlDelete', $criteria)) {
             $this->relations->delete($object);
@@ -431,7 +431,7 @@ abstract class mapper
 
         $this->notify('preSelect', $criteria);
 
-        $criteria->setTable($this->table(), $this->table(false));
+        $criteria->table($this->table(), $this->table(false));
         $this->addSelectFields($criteria);
 
         $this->relations->add($criteria, $this);
@@ -460,7 +460,7 @@ abstract class mapper
         }
 
         foreach ($this->getSelectFields($mapper) as $field) {
-            $criteria->addSelectField($alias . '.' . $field, $alias . self::TABLE_KEY_DELIMITER . $field);
+            $criteria->select($alias . '.' . $field, $alias . self::TABLE_KEY_DELIMITER . $field);
         }
     }
 
@@ -481,7 +481,7 @@ abstract class mapper
         ksort($orderBy);
 
         foreach ($orderBy as $val) {
-            $val['direction'] == 'asc' ? $criteria->setOrderByFieldAsc($val['key']) : $criteria->setOrderByFieldDesc($val['key']);;
+            $val['direction'] == 'asc' ? $criteria->orderByAsc($val['key']) : $criteria->orderByDesc($val['key']);;
         }
     }
 

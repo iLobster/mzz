@@ -48,7 +48,7 @@ class versionablePlugin extends observer
     public function revert(entity $object, $revision)
     {
         $criteria = $this->getPKCriteria($object);
-        $criteria->add($this->options['field'], $revision);
+        $criteria->where($this->options['field'], $revision);
         $select = new simpleSelect($criteria);
 
         $data = $this->mapper->db()->getRow($select->toString());
@@ -71,7 +71,7 @@ class versionablePlugin extends observer
         $key = $object->$accessor();
 
         $criteria = new criteria($this->mapper->table() . '_' . $this->options['postfix']);
-        $criteria->add($this->mapper->pk(), $key);
+        $criteria->where($this->mapper->pk(), $key);
 
         return $criteria;
     }

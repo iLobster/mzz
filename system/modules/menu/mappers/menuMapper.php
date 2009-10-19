@@ -74,7 +74,7 @@ class menuMapper extends mapper
     public function searchItemsById($menuId)
     {
         $criteria = new criteria;
-        $criteria->add('menu_id', $menuId)->setOrderByFieldAsc('order')->setOrderByFieldDesc('id');
+        $criteria->where('menu_id', $menuId)->orderByAsc('order')->orderByDesc('id');
 
         $itemMapper = systemToolkit::getInstance()->getMapper('menu', 'menuItem');
         $data = $itemMapper->searchAllByCriteria($criteria);

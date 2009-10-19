@@ -64,7 +64,7 @@ class userMemberOfController extends simpleController
         $groupMapper = $this->toolkit->getMapper('user', 'group');
 
         $criteria = new criteria();
-        $criteria->setOrderByFieldAsc('name');
+        $criteria->orderByAsc('name');
         $groups = $groupMapper->searchAll($criteria);
 
         $url = new url('withId');

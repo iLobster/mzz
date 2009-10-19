@@ -125,7 +125,7 @@ class pageMapper extends mapper implements iACLMapper
     public function searchByNameInFolder($name, $folder_id)
     {
         $criteria = new criteria();
-        $criteria->add('name', $name)->add('folder_id', $folder_id);
+        $criteria->where('name', $name)->where('folder_id', $folder_id);
         return $this->searchOneByCriteria($criteria);
     }
 

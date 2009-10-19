@@ -12,7 +12,7 @@ class simpleDeleteTest extends unitTestCase
     public function setUp()
     {
         $this->criteria = new criteria();
-        $this->criteria->setTable('table');
+        $this->criteria->table('table');
         $this->delete = new simpleDelete($this->criteria);
     }
 
@@ -23,7 +23,7 @@ class simpleDeleteTest extends unitTestCase
 
     public function testDeleteWithConditions()
     {
-        $this->criteria->add('id', 100);
+        $this->criteria->where('id', 100);
         $this->assertEqual($this->delete->toString(), "DELETE FROM `table` WHERE `table`.`id` = 100");
     }
 }

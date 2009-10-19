@@ -60,7 +60,7 @@ class collection extends arrayDataspace implements Serializable
         $this->criteria = $criteria;
         $this->foreign_value = $value;
 
-        $this->criteria->add($this->foreign_field_name, $value);
+        $this->criteria->where($this->foreign_field_name, $value);
     }
 
     public function delete($key)
@@ -141,7 +141,7 @@ class collection extends arrayDataspace implements Serializable
     {
         if ($this->criteria) {
             $criteria = clone $this->criteria;
-            $criteria->add($this->local_field_name, $key);
+            $criteria->where($this->local_field_name, $key);
             $delete = new simpleDelete($criteria);
 
             $this->mapper->db()->query($delete->toString());

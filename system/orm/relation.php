@@ -189,7 +189,7 @@ class relation
             $criterion->addAnd(new criterion('reference.' . $info['ref_local_key'], $data[$info['local_key']]));
 
             $criteria = new criteria();
-            $criteria->addJoin($mapper->db()->getTablePrefix() . $info['reference'], $criterion, 'reference', criteria::JOIN_INNER);
+            $criteria->join($mapper->db()->getTablePrefix() . $info['reference'], $criterion, 'reference', criteria::JOIN_INNER);
 
             $collection = $infoRel['mapper']->searchAllByCriteria($criteria);
 
@@ -241,7 +241,7 @@ class relation
             $joinType = isset($val['join_type']) && $val['join_type'] == 'inner' ? criteria::JOIN_INNER : criteria::JOIN_LEFT;
 
             $criterion = new criterion($this->table . '.' . $val['local_key'], $key . '.' . $val['foreign_key'], criteria::EQUAL, true);
-            $criteria->addJoin($val['mapper']->table(), $criterion, $key, $joinType);
+            $criteria->join($val['mapper']->table(), $criterion, $key, $joinType);
 
             $data = array(
                 $criteria,
@@ -257,7 +257,7 @@ class relation
             $accessor = $map[$val['local_key']]['accessor'];
 
             $criteria = new criteria($val['reference']);
-            $criteria->add($val['ref_local_key'], $object->$accessor());
+            $criteria->where($val['ref_local_key'], $object->$accessor());
             $delete = new simpleDelete($criteria);
             $val['mapper']->db()->query($delete->toString());
         }

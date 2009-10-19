@@ -76,7 +76,7 @@ class tree_alPlugin extends observer
     public function preSqlSelect(criteria $criteria)
     {
         $criterion = new criterion('tree.foreign_key', $this->mapper->table(false) . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
-        $criteria->addJoin($this->table(), $criterion, 'tree');
+        $criteria->join($this->table(), $criterion, 'tree');
         $this->addSelectFields($criteria);
     }
 
@@ -88,7 +88,7 @@ class tree_alPlugin extends observer
         $table_name = $alias . '_tree';
 
         $criterion = new criterion($table_name . '.foreign_key', $alias . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
-        $criteria->addJoin($this->table(), $criterion, $table_name);
+        $criteria->join($this->table(), $criterion, $table_name);
         $this->addSelectFields($criteria, $alias);
     }
 
@@ -112,7 +112,7 @@ class tree_alPlugin extends observer
             'foreign_key',
             'level',
             'parent_id') as $field) {
-            $criteria->addSelectField($self . '.' . $field, $alias . mapper::TABLE_KEY_DELIMITER . 'tree_' . $field);
+            $criteria->select($self . '.' . $field, $alias . mapper::TABLE_KEY_DELIMITER . 'tree_' . $field);
         }
     }
 
@@ -148,11 +148,11 @@ class tree_alPlugin extends observer
         $parent_id = $object->getTreeParentId();
 
         $criteria = new criteria($this->table());
-        $criteria->addSelectField('parent_id')->addSelectField('foreign_key');
+        $criteria->select('parent_id')->select('foreign_key');
         $select = new simpleSelect($criteria);
 
         while ($parent_id != 0) {
-            $criteria->add('id', $parent_id);
+            $criteria->where('id', $parent_id);
             $row = $this->mapper->db()->getRow($select->toString());
 
             $ids[] = $row['foreign_key'];
@@ -160,7 +160,7 @@ class tree_alPlugin extends observer
         }
 
         $criteria = new criteria();
-        $criteria->add($this->options['foreign_key'], $ids, criteria::IN);
+        $criteria->where($this->options['foreign_key'], $ids, criteria::IN);
 
         return $this->mapper->searchAllByCriteria($criteria);
     }
@@ -174,7 +174,7 @@ class tree_alPlugin extends observer
             $object->getTreeId()), $this->searchChildren($object->getTreeId(), $depth));
 
         $criteria = new criteria();
-        $criteria->add($this->options['foreign_key'], $ids, criteria::IN);
+        $criteria->where($this->options['foreign_key'], $ids, criteria::IN);
 
         return $this->mapper->searchAllByCriteria($criteria);
     }
@@ -242,10 +242,10 @@ class tree_alPlugin extends observer
     public function getBranchByPath($path, $depth = 0)
     {
         $criteria = new criteria();
-        $criteria->add('tree.path', $path . '%', criteria::LIKE);
+        $criteria->where('tree.path', $path . '%', criteria::LIKE);
 
         if ($depth) {
-            $criteria->add('tree.level', $this->calcLevelByPath($path) + $depth, criteria::LESS_EQUAL);
+            $criteria->where('tree.level', $this->calcLevelByPath($path) + $depth, criteria::LESS_EQUAL);
         }
 
         return $this->mapper->searchAllByCriteria($criteria);
@@ -342,7 +342,7 @@ class tree_alPlugin extends observer
         $this->mapper->db()->query($sql);
 
         $criteria = new criteria($this->table());
-        $criteria->add('foreign_key', $object->{$this->options['foreign_accessor']}());
+        $criteria->where('foreign_key', $object->{$this->options['foreign_accessor']}());
         $update = new simpleUpdate($criteria);
         $this->mapper->db()->query($update->toString(array(
             'parent_id' => $parentTreeId)));
@@ -359,11 +359,11 @@ class tree_alPlugin extends observer
         $result = array();
 
         $criteria = new criteria($this->table());
-        $criteria->addSelectField('id');
-        $criteria->add('parent_id', $node_id);
+        $criteria->select('id');
+        $criteria->where('parent_id', $node_id);
 
         if ($level) {
-            $criteria->add('level', $level, criteria::LESS_EQUAL);
+            $criteria->where('level', $level, criteria::LESS_EQUAL);
         }
 
         $select = new simpleSelect($criteria);
@@ -380,7 +380,7 @@ class tree_alPlugin extends observer
     {
         // retrieve all subnodes
         $criteria = new criteria($this->table());
-        $criteria->add('tree.parent_id', $object->getTreeId());
+        $criteria->where('tree.parent_id', $object->getTreeId());
 
         // traverse subnodes and delete each
         foreach ($this->mapper->searchAllByCriteria($criteria) as $subnode) {
@@ -389,7 +389,7 @@ class tree_alPlugin extends observer
 
         // delete current node
         $criteria = new criteria($this->table());
-        $criteria->add('foreign_key', $object->{$this->options['foreign_accessor']}());
+        $criteria->where('foreign_key', $object->{$this->options['foreign_accessor']}());
         $delete = new simpleDelete($criteria);
         $this->mapper->db()->query($delete->toString());
     }

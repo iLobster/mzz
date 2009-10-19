@@ -268,7 +268,7 @@ class pager
 
         $offset = $this->getOffset();
 
-        return $criteria->setLimit($this->perPage)->setOffset($offset);
+        return $criteria->limit($this->perPage)->offset($offset);
     }
 
     /**

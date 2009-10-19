@@ -50,8 +50,8 @@ class accessAdminAccessController extends simpleController
         $criterion->addAnd(new criterion('a.obj_id', $id));
 
         $criteria = new criteria($userMapper->table());
-        $criteria->addSelectField(new sqlFunction('count', '*', 'true'), 'cnt');
-        $criteria->addJoin($accessMapper->table(), $criterion, 'a');
+        $criteria->select(new sqlFunction('count', '*', 'true'), 'cnt');
+        $criteria->join($accessMapper->table(), $criterion, 'a');
         $criteria->add('a.uid', null, criteria::IS_NULL);
 
         $select = new simpleSelect($criteria);
@@ -64,7 +64,7 @@ class accessAdminAccessController extends simpleController
         $criterion->addAnd(new criterion('a.obj_id', $id));
 
         $criteria = new criteria($groupMapper->table());
-        $criteria->addSelectField(new sqlFunction('count', '*', 'true'), 'cnt');
+        $criteria->select(new sqlFunction('count', '*', 'true'), 'cnt');
         $criteria->addJoin($accessMapper->table(), $criterion, 'a');
         $criteria->add('a.gid', null, criteria::IS_NULL);
 

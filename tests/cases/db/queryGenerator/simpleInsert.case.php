@@ -12,7 +12,7 @@ class simpleInsertTest extends unitTestCase
     public function setUp()
     {
         $this->criteria = new criteria();
-        $this->criteria->setTable('table');
+        $this->criteria->table('table');
         $this->insert = new simpleInsert($this->criteria);
     }
 

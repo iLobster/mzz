@@ -232,7 +232,7 @@ class criteria
     public function __construct($table = null, $alias = null)
     {
         if ($table) {
-            $this->setTable($table, $alias);
+            $this->table($table, $alias);
         }
     }
 
@@ -243,7 +243,7 @@ class criteria
      * @param string $alias алиас, который будет присвоен таблице
      * @return criteria текущий объект
      */
-    public function setTable($table, $alias = null)
+    public function table($table, $alias = null)
     {
         if (!empty($alias)) {
             $this->table = array('table' => $table, 'alias' => $alias);
@@ -272,7 +272,7 @@ class criteria
      * @param string $comparsion тип сравнения. не используется если в качестве $field передаётся criterion
      * @return criteria текущий объект
      */
-    public function add($field, $value = null, $comparsion = criteria::EQUAL)
+    public function where($field, $value = null, $comparsion = criteria::EQUAL)
     {
         if ($field instanceof criterion) {
             if (!is_null($name = $field->getField())) {
@@ -299,7 +299,7 @@ class criteria
      * @param string $comparsion тип сравнения. не используется если в качестве $field передаётся criterion
      * @return criteria текущий объект
      */
-    public function addHaving($field, $value = null, $comparsion = criteria::EQUAL)
+    public function having($field, $value = null, $comparsion = criteria::EQUAL)
     {
         if ($field instanceof criterion) {
             if (!is_null($name = $field->getField())) {
@@ -377,7 +377,7 @@ class criteria
         $base = $this->getTable();
         $outer = $criteria->getTable();
         if (!is_scalar($outer['table']) && !is_null($outer['table'])) {
-            $this->setTable($outer['table'], $base['alias']);
+            $this->table($outer['table'], $base['alias']);
             //алиас не трогаем
         }
     }
@@ -439,7 +439,7 @@ class criteria
      * @param boolean $alias
      * @return criteria текущий объект
      */
-    public function setOrderByFieldAsc($field, $alias = true)
+    public function orderByAsc($field, $alias = true)
     {
         $this->setOrderBy($field, 'ASC', $alias);
         return $this;
@@ -452,7 +452,7 @@ class criteria
      * @param boolean $alias
      * @return criteria текущий объект
      */
-    public function setOrderByFieldDesc($field, $alias = true)
+    public function orderByDesc($field, $alias = true)
     {
         $this->setOrderBy($field, 'DESC', $alias);
         return $this;
@@ -527,7 +527,7 @@ class criteria
      * @param integer $limit
      * @return criteria сам объект
      */
-    public function setLimit($limit)
+    public function limit($limit)
     {
         $this->limit = $limit;
         return $this;
@@ -539,7 +539,7 @@ class criteria
      * @param integer $offset
      * @return criteria сам объект
      */
-    public function setOffset($offset)
+    public function offset($offset)
     {
         $this->offset = $offset;
         return $this;
@@ -584,7 +584,7 @@ class criteria
      *
      * @return criteria текущий объект
      */
-    public function clearSelectFields()
+    public function clearSelect()
     {
         $this->selectFields = array();
         return $this;
@@ -597,7 +597,7 @@ class criteria
      * @param string $alias алиас, который будет присвоен выбираемому полю
      * @return criteria текущий объект
      */
-    public function addSelectField($field, $alias = null)
+    public function select($field, $alias = null)
     {
         if ($field instanceof sqlFunction || $field instanceof sqlOperator) {
             $this->selectFieldsAliases[$field->getFieldName()] = $alias;
@@ -657,7 +657,7 @@ class criteria
      * @param string $joinType тип объединения
      * @return criteria текущий объект
      */
-    public function addJoin($tablename, criterion $criterion, $alias = '', $joinType = self::JOIN_LEFT)
+    public function join($tablename, criterion $criterion, $alias = '', $joinType = self::JOIN_LEFT)
     {
         $arr = array('table' => $tablename, 'criterion' => $criterion);
         $arr['type'] = $joinType;
@@ -675,7 +675,7 @@ class criteria
      * @param string $field имя поля
      * @return criteria текущий объект
      */
-    public function addGroupBy($field)
+    public function groupBy($field)
     {
         $field = '`' . str_replace('.', '`.`', $field) . '`';
         $this->groupBy[] = $field;
@@ -718,7 +718,7 @@ class criteria
      *
      * @param boolean $value
      */
-    public function setDistinct($value = true)
+    public function distinct($value = true)
     {
         $this->distinct = (bool)$value;
     }

@@ -69,7 +69,7 @@ class fileManagerEditController extends simpleController
         }
 
         $criteria = new criteria();
-        $criteria->add('folder_id', $file->getFolder()->getId())->add('name', $name);
+        $criteria->where('folder_id', $file->getFolder()->getId())->add('name', $name);
 
         $fileMapper = systemToolkit::getInstance()->getMapper('fileManager', 'file');
         return is_null($fileMapper->searchOneByCriteria($criteria));

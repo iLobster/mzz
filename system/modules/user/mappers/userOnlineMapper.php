@@ -101,8 +101,8 @@ class userOnlineMapper extends mapper
             $request = $toolkit->getRequest();
 
             $criteria = new criteria();
-            $criteria->add('user_id', $me->getId());
-            $criteria->add('session', $session->getId());
+            $criteria->where('user_id', $me->getId());
+            $criteria->where('session', $session->getId());
             $exists = $this->searchOneByCriteria($criteria);
             if (!$exists) {
                 $exists = $this->create();
@@ -117,7 +117,7 @@ class userOnlineMapper extends mapper
             // удаляем по таймауту, а также пользователей, с такой же сессией но другим user_id (при смене логина)
             // @todo: таймаут переносить в конфиг
             $criteria = new criteria();
-            $criteria->add('last_activity', new sqlOperator('-', array(new sqlFunction('unix_timestamp'), 15 * 60)), criteria::LESS);
+            $criteria->where('last_activity', new sqlOperator('-', array(new sqlFunction('unix_timestamp'), 15 * 60)), criteria::LESS);
             $users = $this->searchAllByCriteria($criteria);
 
             if (sizeof($users)) {
@@ -151,8 +151,8 @@ class userOnlineMapper extends mapper
     {
         $session = systemToolkit::getInstance()->getSession();
         $criteria = new criteria();
-        $criteria->add('user_id', $me->getId(), criteria::NOT_EQUAL);
-        $criteria->add('session', $session->getId());
+        $criteria->where('user_id', $me->getId(), criteria::NOT_EQUAL);
+        $criteria->where('session', $session->getId());
         $users = $this->searchAllbyCriteria($criteria);
         foreach ($users as $user) {
             $this->delete($user->getId());

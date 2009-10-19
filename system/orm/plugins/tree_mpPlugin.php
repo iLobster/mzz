@@ -77,14 +77,14 @@ class tree_mpPlugin extends observer
     public function preSqlSelect(criteria $criteria)
     {
         $criterion = new criterion('tree.foreign_key', $this->mapper->table(false) . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
-        $criteria->addJoin($this->table(), $criterion, 'tree');
-        $criteria->setOrderByFieldAsc('tree.spath');
+        $criteria->join($this->table(), $criterion, 'tree');
+        $criteria->orderByAsc('tree.spath');
         $this->addSelectFields($criteria);
     }
 
     public function preSelect(criteria $criteria)
     {
-        $criteria->setOrderByFieldAsc('tree.level');
+        $criteria->orderByAsc('tree.level');
     }
 
     public function preSqlJoin(array & $data)
@@ -95,8 +95,8 @@ class tree_mpPlugin extends observer
         $table_name = $alias . '_tree';
 
         $criterion = new criterion($table_name . '.foreign_key', $alias . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
-        $criteria->addJoin($this->table(), $criterion, $table_name);
-        $criteria->setOrderByFieldAsc($table_name . '.spath');
+        $criteria->join($this->table(), $criterion, $table_name);
+        $criteria->orderByAsc($table_name . '.spath');
         $this->addSelectFields($criteria, $alias);
     }
 
@@ -130,7 +130,7 @@ class tree_mpPlugin extends observer
         $parent = substr($path, 0, strrpos(substr($path, 0, -1), '/')) . '/';
 
         $criteria = new criteria();
-        $criteria->add('tree.spath', $parent);
+        $criteria->where('tree.spath', $parent);
 
         return $this->mapper->searchOneByCriteria($criteria);
     }
@@ -149,7 +149,7 @@ class tree_mpPlugin extends observer
         }
 
         $criteria = new criteria();
-        $criteria->add('tree.spath', $nodes, criteria::IN);
+        $criteria->where('tree.spath', $nodes, criteria::IN);
 
         return $this->mapper->searchAllByCriteria($criteria);
     }
@@ -164,10 +164,10 @@ class tree_mpPlugin extends observer
             $criteria->append($sortCriteria);
         }
 
-        $criteria->add('tree.spath', $path . '%', criteria::LIKE);
+        $criteria->where('tree.spath', $path . '%', criteria::LIKE);
 
         if ($depth) {
-            $criteria->add('tree.level', $object->getTreeLevel() + $depth, criteria::LESS_EQUAL);
+            $criteria->where('tree.level', $object->getTreeLevel() + $depth, criteria::LESS_EQUAL);
         }
 
         $collection = $this->mapper->searchAllByCriteria($criteria);
@@ -179,7 +179,7 @@ class tree_mpPlugin extends observer
     {
         $path = $object->getTreeSPath();
         $criteria = new criteria();
-        $criteria->add('tree.spath', $path . '%', criteria::NOT_LIKE);
+        $criteria->where('tree.spath', $path . '%', criteria::NOT_LIKE);
         return $this->mapper->searchAllByCriteria($criteria);;
     }
 
@@ -240,10 +240,10 @@ class tree_mpPlugin extends observer
     public function getBranchByPath($path, $depth = 0)
     {
         $criteria = new criteria();
-        $criteria->add('tree.path', $path . '%', criteria::LIKE);
+        $criteria->where('tree.path', $path . '%', criteria::LIKE);
 
         if ($depth) {
-            $criteria->add('tree.level', $this->calcLevelByPath($path) + $depth, criteria::LESS_EQUAL);
+            $criteria->where('tree.level', $this->calcLevelByPath($path) + $depth, criteria::LESS_EQUAL);
         }
 
         return $this->mapper->searchAllByCriteria($criteria);
@@ -283,7 +283,7 @@ class tree_mpPlugin extends observer
         // insert the record to tree table linked with data table
         $this->mapper->db()->query($insert->toString(array(
             'foreign_key' => $object->{$this->options['foreign_accessor']}())));
-        $criteria->add('foreign_key', $object->{$this->options['foreign_accessor']}());
+        $criteria->where('foreign_key', $object->{$this->options['foreign_accessor']}());
         // update path
         $update = new simpleUpdate($criteria);
 
@@ -360,10 +360,10 @@ class tree_mpPlugin extends observer
     {
         // retrieve all subnodes
         $criteria = new criteria($this->table());
-        $criteria->addSelectField('foreign_key');
-        $criteria->add('spath', $object->getTreeSPath() . '%', criteria::LIKE);
-        $criteria->add('level', $object->getTreeLevel() + 1);
-        $criteria->add('id', $object->getTreeId(), criteria::NOT_EQUAL);
+        $criteria->select('foreign_key');
+        $criteria->where('spath', $object->getTreeSPath() . '%', criteria::LIKE);
+        $criteria->where('level', $object->getTreeLevel() + 1);
+        $criteria->where('id', $object->getTreeId(), criteria::NOT_EQUAL);
 
         $select = new simpleSelect($criteria);
 
@@ -374,7 +374,7 @@ class tree_mpPlugin extends observer
 
         // delete current node
         $criteria = new criteria($this->table());
-        $criteria->add('foreign_key', $object->{$this->options['foreign_accessor']}());
+        $criteria->where('foreign_key', $object->{$this->options['foreign_accessor']}());
         $delete = new simpleDelete($criteria);
         $this->mapper->db()->query($delete->toString());
     }
@@ -404,7 +404,7 @@ class tree_mpPlugin extends observer
             'path',
             'foreign_key',
             'level') as $field) {
-            $criteria->addSelectField($self . '.' . $field, $alias . mapper::TABLE_KEY_DELIMITER . 'tree_' . $field);
+            $criteria->select($self . '.' . $field, $alias . mapper::TABLE_KEY_DELIMITER . 'tree_' . $field);
         }
     }
 

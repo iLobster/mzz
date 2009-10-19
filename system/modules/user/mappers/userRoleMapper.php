@@ -62,11 +62,11 @@ class userRoleMapper extends mapper
 
             $critera = new criteria();
 
-            $critera->add('module', $module);
+            $critera->where('module', $module);
 
             $criterion = new criterion('rel.group_id', $this->table(true) . '.group_id', criteria::EQUAL, true);
             $criterion->addAnd(new criterion('rel.user_id', $this->user->getId()));
-            $critera->addJoin($relMapper->table(), $criterion, 'rel', criteria::JOIN_INNER);
+            $critera->join($relMapper->table(), $criterion, 'rel', criteria::JOIN_INNER);
 
             $this->roles[$module] = $this->searchAllByCriteria($critera);
         }
@@ -110,8 +110,8 @@ class userRoleMapper extends mapper
     public function getGroups($module)
     {
         $criteria = new criteria();
-        $criteria->add('module', $module);
-        $criteria->addGroupBy('group_id');
+        $criteria->where('module', $module);
+        $criteria->groupBy('group_id');
 
         return $this->searchAllByCriteria($criteria);
     }
@@ -124,8 +124,8 @@ class userRoleMapper extends mapper
         $criterion->addAnd(new criterion('r.module', $module));
 
         $criteria = new criteria($groupMapper->table());
-        $criteria->addJoin($this->table(), $criterion, 'r');
-        $criteria->add('r.id', null, criteria::IS_NULL);
+        $criteria->join($this->table(), $criterion, 'r');
+        $criteria->where('r.id', null, criteria::IS_NULL);
 
         return $groupMapper->searchAllByCriteria($criteria);
     }
@@ -135,8 +135,8 @@ class userRoleMapper extends mapper
         if (!isset($this->roles_group[$module][$group_id])) {
             $critera = new criteria();
 
-            $critera->add('module', $module);
-            $critera->add('group_id', $group_id);
+            $critera->where('module', $module);
+            $critera->where('group_id', $group_id);
 
             $result = array();
 
@@ -153,8 +153,8 @@ class userRoleMapper extends mapper
     public function deleteRolesGorGroup($module, $group_id)
     {
         $criteria = new criteria();
-        $criteria->add('group_id', $group_id);
-        $criteria->add('module', $module);
+        $criteria->where('group_id', $group_id);
+        $criteria->where('module', $module);
 
         foreach ($this->searchAllByCriteria($criteria) as $role) {
             $this->delete($role);

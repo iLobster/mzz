@@ -28,8 +28,8 @@ class commentsFolderDeleteFolderController extends simpleController
         $commentsMapper = $this->toolkit->getMapper('comments', 'comments', 'comments');
 
         $criteria = new criteria();
-        $criteria->addJoin('sys_access_registry', new criterion('r.obj_id', 'commentsFolder.parent_id', criteria::EQUAL, true), 'r');
-        $criteria->add('r.obj_id', null, criteria::IS_NULL);
+        $criteria->join('sys_access_registry', new criterion('r.obj_id', 'commentsFolder.parent_id', criteria::EQUAL, true), 'r');
+        $criteria->where('r.obj_id', null, criteria::IS_NULL);
         $commentsFolders = $commentsFolderMapper->searchAllByCriteria($criteria);
 
         foreach ($commentsFolders as $val) {

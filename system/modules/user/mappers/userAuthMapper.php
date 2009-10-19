@@ -68,7 +68,7 @@ class userAuthMapper extends mapper
     public function getAuth($hash, $ip)
     {
         $criteria = new criteria();
-        $criteria->add('hash', $hash)->add('ip', $ip);
+        $criteria->where('hash', $hash)->add('ip', $ip);
 
         $auth = $this->searchOneByCriteria($criteria);
 
@@ -109,7 +109,7 @@ class userAuthMapper extends mapper
     public function clearExpired($timestamp)
     {
         $criteria = new criteria();
-        $criteria->add('time', $timestamp, criteria::LESS);
+        $criteria->where('time', $timestamp, criteria::LESS);
 
         $auths = $this->searchAllByCriteria($criteria);
 

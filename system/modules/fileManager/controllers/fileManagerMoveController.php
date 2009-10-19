@@ -83,7 +83,7 @@ class fileManagerMoveController extends simpleController
         }
 
         $criteria = new criteria();
-        $criteria->add('folder_id', $destFolder->getId())->add('name', $file->getName());
+        $criteria->where('folder_id', $destFolder->getId())->add('name', $file->getName());
 
         return is_null($fileMapper->searchOneByCriteria($criteria));
     }

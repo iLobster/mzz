@@ -14,111 +14,111 @@ class simpleSelectTest extends unitTestCase
 
     public function testSelectAllNoConditions()
     {
-        $this->criteria->setTable('table');
+        $this->criteria->table('table');
         $this->assertEqual($this->select->toString(), 'SELECT * FROM `table`');
     }
 
     public function testSelectAllWithTableAliasNoConditions()
     {
-        $this->criteria->setTable('table', 'tbl');
+        $this->criteria->table('table', 'tbl');
         $this->assertEqual($this->select->toString(), 'SELECT * FROM `table` `tbl`');
     }
 
     public function testSelectAllEqualsCondition()
     {
-        $this->criteria->setTable('table');
-        $this->criteria->add('field', 'value');
-        $this->criteria->add('field2', 'value2');
+        $this->criteria->table('table');
+        $this->criteria->where('field', 'value');
+        $this->criteria->where('field2', 'value2');
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` WHERE `table`.`field` = 'value' AND `table`.`field2` = 'value2'");
     }
 
     public function testSelectAllWithCompexHaving()
     {
-        $this->criteria->setTable('table');
-        $this->criteria->addGroupBy('field');
-        $this->criteria->addHaving(new sqlFunction('count', '*', true), 666, criteria::GREATER);
+        $this->criteria->table('table');
+        $this->criteria->groupBy('field');
+        $this->criteria->having(new sqlFunction('count', '*', true), 666, criteria::GREATER);
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` GROUP BY `field` HAVING COUNT(*) > 666");
     }
 
     public function testSelectConditionOrderLimit()
     {
-        $this->criteria->setTable('table')->add('field', 'value')->setLimit(10)->setOffset(15)->setOrderByFieldDesc('field');
+        $this->criteria->table('table')->where('field', 'value')->limit(10)->offset(15)->orderByDesc('field');
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` WHERE `table`.`field` = 'value' ORDER BY `table`.`field` DESC LIMIT 15, 10");
     }
 
     public function testSelectOrderWithAlias()
     {
-        $this->criteria->setTable('table', 'alias')->setOrderByFieldDesc('table2.field')->setOrderByFieldAsc('table3.field2')->setOrderByFieldAsc('field3');
+        $this->criteria->table('table', 'alias')->orderByDesc('table2.field')->orderByAsc('table3.field2')->orderByAsc('field3');
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` `alias` ORDER BY `table2`.`field` DESC, `table3`.`field2` ASC, `alias`.`field3` ASC");
     }
 
     public function testSelectOrderWithoutAlias()
     {
-        $this->criteria->setTable('table')->setOrderByFieldDesc('field', false)->setOrderByFieldAsc('field2', false);
+        $this->criteria->table('table')->orderByDesc('field', false)->orderByAsc('field2', false);
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` ORDER BY `field` DESC, `field2` ASC");
     }
 
     public function testSelectOrderByFunction()
     {
-        $this->criteria->setTable('table')->setOrderByFieldAsc(new sqlFunction('RAND'), false);
+        $this->criteria->table('table')->orderByAsc(new sqlFunction('RAND'), false);
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` ORDER BY RAND() ASC");
     }
 
     public function testSelectWithSimpleJoin()
     {
-        $this->criteria->setTable('table');
+        $this->criteria->table('table');
         $this->assertEqual($this->select->toString(), 'SELECT * FROM `table`');
-        $this->criteria->addJoin('foo', new criterion('foo.id', 'table.id', criteria::EQUAL, true));
+        $this->criteria->join('foo', new criterion('foo.id', 'table.id', criteria::EQUAL, true));
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` LEFT JOIN `foo` ON `foo`.`id` = `table`.`id`");
     }
 
     public function testSelectInnerJoin()
     {
-        $this->criteria->setTable('table');
+        $this->criteria->table('table');
         $this->assertEqual($this->select->toString(), 'SELECT * FROM `table`');
-        $this->criteria->addJoin('foo', new criterion('alias.id', 'table.id', criteria::EQUAL, true), 'alias', criteria::JOIN_INNER);
+        $this->criteria->join('foo', new criterion('alias.id', 'table.id', criteria::EQUAL, true), 'alias', criteria::JOIN_INNER);
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` INNER JOIN `foo` `alias` ON `alias`.`id` = `table`.`id`");
     }
 
     public function testSelectSomeFieldsWithSimpleJoin()
     {
-        $this->criteria->setTable('table');
-        $this->criteria->addSelectField('table.*')->addSelectField('foo.id', 'foo_id');
-        $this->criteria->addJoin('foo', new criterion('foo.id', 'table.id', criteria::EQUAL, true));
+        $this->criteria->table('table');
+        $this->criteria->select('table.*')->select('foo.id', 'foo_id');
+        $this->criteria->join('foo', new criterion('foo.id', 'table.id', criteria::EQUAL, true));
         $this->assertEqual($this->select->toString(), "SELECT `table`.*, `foo`.`id` AS `foo_id` FROM `table` LEFT JOIN `foo` ON `foo`.`id` = `table`.`id`");
     }
 
     public function testAutoAddPrefixToCondition()
     {
-        $this->criteria->setTable('table');
-        $this->criteria->add('field', 'value');
+        $this->criteria->table('table');
+        $this->criteria->where('field', 'value');
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` WHERE `table`.`field` = 'value'");
     }
 
     public function testGroupBy()
     {
-        $this->criteria->setTable('table');
-        $this->criteria->addGroupBy('table.field');
+        $this->criteria->table('table');
+        $this->criteria->groupBy('table.field');
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` GROUP BY `table`.`field`");
     }
 
     public function testDistinct()
     {
-        $this->criteria->setTable('table');
-        $this->criteria->setDistinct();
+        $this->criteria->table('table');
+        $this->criteria->distinct();
         $this->assertEqual($this->select->toString(), "SELECT DISTINCT * FROM `table`");
 
-        $this->criteria->addSelectField('foo');
+        $this->criteria->select('foo');
         $this->assertEqual($this->select->toString(), "SELECT DISTINCT `foo` FROM `table`");
 
-        $this->criteria->setDistinct(false);
+        $this->criteria->distinct(false);
         $this->assertEqual($this->select->toString(), "SELECT `foo` FROM `table`");
     }
 
     public function testSubselect()
     {
-        $this->criteria->setTable('table');
-        $this->criteria->addGroupBy('table.field');
+        $this->criteria->table('table');
+        $this->criteria->groupBy('table.field');
 
         $criteria = new criteria($this->criteria, 'x');
         $select = new simpleSelect($criteria);
@@ -128,13 +128,13 @@ class simpleSelectTest extends unitTestCase
 
     public function testSubselectInJoin()
     {
-        $this->criteria->setTable('table');
-        $this->criteria->addSelectField('table.*')->addSelectField('foo.id', 'foo_id');
+        $this->criteria->table('table');
+        $this->criteria->select('table.*')->select('foo.id', 'foo_id');
 
         $criteria = new criteria('zzz');
-        $criteria->add('asd', 666);
+        $criteria->where('asd', 666);
 
-        $this->criteria->addJoin($criteria, new criterion('x.id', 'table.id', criteria::EQUAL, true), 'x');
+        $this->criteria->join($criteria, new criterion('x.id', 'table.id', criteria::EQUAL, true), 'x');
 
         $this->assertEqual($this->select->toString(), "SELECT `table`.*, `foo`.`id` AS `foo_id` FROM `table` LEFT JOIN (SELECT * FROM `zzz` WHERE `zzz`.`asd` = 666) `x` ON `x`.`id` = `table`.`id`");
     }
@@ -143,35 +143,35 @@ class simpleSelectTest extends unitTestCase
     {
         $function = new sqlFunction('INET_ATON', 'table.field', true);
         $function2 = new sqlFunction('MAX', 'table.field', true);
-        $this->criteria->addSelectField($function, 'alias')->addSelectField($function2, 'alias2');
+        $this->criteria->select($function, 'alias')->select($function2, 'alias2');
         $this->assertEqual($this->select->toString(), 'SELECT INET_ATON(`table`.`field`) AS `alias`, MAX(`table`.`field`) AS `alias2`');
     }
 
     public function testSelectOperator()
     {
         $operator = new sqlOperator('+', array('table.field2', 100));
-        $this->criteria->setTable('table');
-        $this->criteria->add('field', $operator);
+        $this->criteria->table('table');
+        $this->criteria->where('field', $operator);
         $this->assertEqual($this->select->toString(), 'SELECT * FROM `table` WHERE `table`.`field` = `table`.`field2` + 100');
     }
 
     public function testSelectFunctionsAndOperators()
     {
         $function = new sqlFunction('count', '*', true);
-        $this->criteria->addSelectField($function, 'cnt');
+        $this->criteria->select($function, 'cnt');
         $this->assertEqual($this->select->toString(), 'SELECT COUNT(*) AS `cnt`');
 
         $function = new sqlFunction('count', new sqlOperator('DISTINCT', 'field'));
-        $this->criteria->addSelectField($function, 'cnt');
+        $this->criteria->select($function, 'cnt');
         $this->assertEqual($this->select->toString(), 'SELECT COUNT(DISTINCT `field`) AS `cnt`');
     }
 
     public function testSelectConcreteFieldsNoConditionsSelectFieldsAlias()
     {
-        $this->criteria->setTable('table');
-        $this->criteria->addSelectField('field1');
-        $this->criteria->addSelectField('field2', 'alias');
-        $this->criteria->addSelectField('field3');
+        $this->criteria->table('table');
+        $this->criteria->select('field1');
+        $this->criteria->select('field2', 'alias');
+        $this->criteria->select('field3');
         $this->assertEqual($this->select->toString(), 'SELECT `field1`, `field2` AS `alias`, `field3` FROM `table`');
     }
 
@@ -180,9 +180,9 @@ class simpleSelectTest extends unitTestCase
         $criterion = new criterion('f1', 'v1');
         $criterion->addOr(new criterion('f2', 'v2'));
 
-        $this->criteria->setTable('table');
-        $this->criteria->add($criterion);
-        $this->criteria->add('f3', 'v3');
+        $this->criteria->table('table');
+        $this->criteria->where($criterion);
+        $this->criteria->where('f3', 'v3');
         $this->assertEqual($this->select->toString(), "SELECT * FROM `table` WHERE ((`table`.`f1` = 'v1') OR (`table`.`f2` = 'v2')) AND `table`.`f3` = 'v3'");
     }
 }

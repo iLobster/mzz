@@ -65,7 +65,7 @@ class i18nPlugin extends observer
     {
         $criterion = new criterion('i18n.id', $this->mapper->table(false) . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
         $criterion->addAnd(new criterion('i18n.lang_id', $this->getLangId()));
-        $criteria->addJoin($this->table(), $criterion, 'i18n', $this->forceLangId ? criteria::JOIN_LEFT : criteria::JOIN_INNER);
+        $criteria->join($this->table(), $criterion, 'i18n', $this->forceLangId ? criteria::JOIN_LEFT : criteria::JOIN_INNER);
         $this->addSelectFields($criteria);
     }
 
@@ -78,7 +78,7 @@ class i18nPlugin extends observer
 
         $criterion = new criterion($table_name . '.id', $alias . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
         $criterion->addAnd(new criterion($table_name . '.lang_id', $this->getLangId()));
-        $criteria->addJoin($this->table(), $criterion, $table_name);
+        $criteria->join($this->table(), $criterion, $table_name);
         $this->addSelectFields($criteria, $alias);
     }
 
@@ -92,7 +92,7 @@ class i18nPlugin extends observer
         }
 
         foreach (array_merge(array('lang_id'), $this->i18nFields) as $field) {
-            $criteria->addSelectField($self . '.' . $field, $alias . mapper::TABLE_KEY_DELIMITER . $field);
+            $criteria->select($self . '.' . $field, $alias . mapper::TABLE_KEY_DELIMITER . $field);
         }
     }
 
@@ -111,7 +111,7 @@ class i18nPlugin extends observer
             $criteria = new criteria($this->table());
             $criterion = new criterion('id', $id);
             $criterion->addAnd(new criterion('lang_id', $this->getLangId()));
-            $criteria->add($criterion);
+            $criteria->where($criterion);
 
             $update = new simpleUpdate($criteria);
 

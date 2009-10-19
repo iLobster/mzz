@@ -77,7 +77,7 @@ class userRegisterController extends simpleController
             }
         } else {
             $criteria = new criteria;
-            $criteria->add('id', $userId)->add('confirmed', $confirm);
+            $criteria->where('id', $userId)->add('confirmed', $confirm);
             $user = $userMapper->searchOneByCriteria($criteria);
 
             if ($user) {

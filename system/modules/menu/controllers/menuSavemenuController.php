@@ -72,7 +72,7 @@ class menuSavemenuController extends simpleController
         }
 
         $criteria = new criteria();
-        $criteria->add('name', $name);
+        $criteria->where('name', $name);
         return is_null($menuMapper->searchOneByCriteria($criteria));
     }
 }

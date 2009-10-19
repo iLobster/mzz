@@ -26,7 +26,7 @@ class userOnlineController extends simpleController
     {
         $userOnlineMapper = $this->toolkit->getMapper('user', 'userOnline');
         $criteria = new criteria();
-        $criteria->setOrderByFieldDesc('last_activity');
+        $criteria->orderByDesc('last_activity');
         $users = $userOnlineMapper->searchAll($criteria);
 
         $guests = 0;

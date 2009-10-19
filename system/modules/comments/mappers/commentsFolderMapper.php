@@ -86,7 +86,7 @@ class commentsFolderMapper extends mapper
     public function searchFolder($objectClass, $parentId)
     {
         $criteria = new criteria;
-        $criteria->add('type', $objectClass)->add('parent_id', (int)$parentId);
+        $criteria->where('type', $objectClass)->where('parent_id', (int)$parentId);
         return $this->searchOneByCriteria($criteria);
     }
 
@@ -98,8 +98,8 @@ class commentsFolderMapper extends mapper
         $commentsFolder = $data['commentFolderObject'];
 
         $criteria = new criteria($commentsMapper->table());
-        $criteria->addSelectField(new sqlFunction('COUNT', '*'), 'comments_count');
-        $criteria->add('folder_id', $commentsFolder->getId());
+        $criteria->select(new sqlFunction('COUNT', '*'), 'comments_count');
+        $criteria->where('folder_id', $commentsFolder->getId());
 
         $select = new simpleSelect($criteria);
         $commentsCount = $this->db()->getOne($select->toString());

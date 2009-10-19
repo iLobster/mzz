@@ -128,7 +128,7 @@ class fileMapper extends mapper
 
             if (!is_null($folder)) {
                 $criteria = new criteria();
-                $criteria->add('name', $pagename)->add('folder_id', $folder->getId());
+                $criteria->where('name', $pagename)->add('folder_id', $folder->getId());
                 return $this->searchOneByCriteria($criteria);
             }
         }
@@ -145,8 +145,8 @@ class fileMapper extends mapper
     {
         $criterion = new criterion('name', $mask, criteria::LIKE);
         $criteria = new criteria();
-        $criteria->add($criterion);
-        $criteria->setOrderByFieldAsc('name');
+        $criteria->where($criterion);
+        $criteria->orderByAsc('name');
         return $this->searchAllByCriteria($criteria);
     }
 

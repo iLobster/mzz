@@ -344,8 +344,8 @@ class pluginTreeALTest extends unitTestCase
     public function testGetTreeWithoutRoot()
     {
         $criteria = new criteria();
-        $criteria->add('id', 1, criteria::NOT_EQUAL);
-        $criteria->add('tree.level', 2);
+        $criteria->where('id', 1, criteria::NOT_EQUAL);
+        $criteria->where('tree.level', 2);
 
         $collection = $this->mapper->searchAllByCriteria($criteria);
 

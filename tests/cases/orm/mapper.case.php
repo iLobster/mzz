@@ -68,7 +68,7 @@ class mapperTest extends unitTestCase
         $this->fixture();
 
         $criteria = new criteria();
-        $criteria->add('foo', 'foo1');
+        $criteria->where('foo', 'foo1');
 
         $object = $this->mapper->searchOneByCriteria($criteria);
 
@@ -82,7 +82,7 @@ class mapperTest extends unitTestCase
         $this->fixture();
 
         $criteria = new criteria();
-        $criteria->add('id', 2, criteria::LESS_EQUAL);
+        $criteria->where('id', 2, criteria::LESS_EQUAL);
 
         $objects = $this->mapper->searchAllByCriteria($criteria);
 
@@ -187,7 +187,7 @@ class mapperTest extends unitTestCase
         $this->fixture();
 
         $criteria = new criteria();
-        $criteria->add('foo', 'foo1');
+        $criteria->where('foo', 'foo1');
 
         $object = systemToolkit::getInstance()->getMapper('test', 'ormSimple')->searchOneByCriteria($criteria);
 

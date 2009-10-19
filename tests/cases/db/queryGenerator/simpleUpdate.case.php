@@ -12,7 +12,7 @@ class simpleUpdateTest extends unitTestCase
     public function setUp()
     {
         $this->criteria = new criteria();
-        $this->criteria->setTable('table');
+        $this->criteria->table('table');
         $this->update = new simpleUpdate($this->criteria);
     }
 
@@ -25,7 +25,7 @@ class simpleUpdateTest extends unitTestCase
 
     public function testUpdateWithConditions()
     {
-        $this->criteria->add('id', 100);
+        $this->criteria->where('id', 100);
         $this->assertEqual($this->update->toString(array(
             'field' => 'value')), "UPDATE `table` SET `field` = 'value' WHERE `table`.`id` = 100");
     }
