@@ -39,7 +39,8 @@ class cacheFileTest extends unitTestCase
     public function testSimpleSetGet()
     {
         $this->cache->set('key', 'value');
-        $this->assertEqual($this->cache->get('key'), 'value');
+        $this->cache->get('key', $result);
+        $this->assertEqual($result, 'value');
     }
 
     public function testSetGetObject()
@@ -47,15 +48,17 @@ class cacheFileTest extends unitTestCase
         $object = new stdClass();
 
         $this->cache->set('object', $object);
-        $this->assertEqual($this->cache->get('object'), $object);
+        $this->cache->get('object', $result);
+        $this->assertEqual($result, $object);
     }
 
     public function testTags()
     {
         $this->cache->set('key_with_tag', 'foo', array('tag1'));
-        $this->assertEqual($this->cache->get('key_with_tag'), 'foo');
+        $this->cache->get('key_with_tag', $result);
+        $this->assertEqual($result, 'foo');
         $this->cache->clear('tag1');
-        $this->assertFalse($this->cache->get('key_with_tag'));
+        $this->assertFalse($this->cache->get('key_with_tag', $result));
     }
 }
 

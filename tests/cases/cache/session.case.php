@@ -29,14 +29,13 @@ class sessionCacheText extends unitTestCase
         $result = $this->cache->set('cache_key', $cacheString = 'cachemeplease', array(), $expire = 100);
         $this->assertTrue($result);
 
-        $resultString = $this->cache->get('cache_key');
-        $this->assertEqual($cacheString, $resultString);
+        $this->cache->get('cache_key', $result);
+        $this->assertEqual($cacheString, $result);
     }
 
     public function testGetNotExists()
     {
-        $result = $this->cache->get('i-am-not-exists');
-        $this->assertNull($result);
+        $this->assertFalse($this->cache->get('i-am-not-exists'));
     }
 
     public function testExpired()
@@ -45,9 +44,10 @@ class sessionCacheText extends unitTestCase
         $value = 'i-am-not-long-lived-value';
 
         $this->cache->set($cacheKey, $value, array(), 1);
-        $this->assertEqual($this->cache->get($cacheKey), $value);
+        $this->assertTrue($this->cache->get($cacheKey, $result));
+        $this->assertEqual($result, $value);
         sleep(2);
-        $this->assertNull($this->cache->get($cacheKey));
+        $this->assertFalse($this->cache->get($cacheKey));
     }
 
     public function testFlush()
@@ -58,7 +58,7 @@ class sessionCacheText extends unitTestCase
         $result = $this->cache->set($cacheKey, $value, array(), 1);
         $this->assertTrue($result);
         $this->cache->flush();
-        $this->assertNull($this->cache->get($cacheKey));
+        $this->assertFalse($this->cache->get($cacheKey));
     }
 }
 

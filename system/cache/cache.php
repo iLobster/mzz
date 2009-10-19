@@ -94,15 +94,19 @@ class cache
         return $this->backend->set($this->key($key), $data, $expire);
     }
 
-    public function get($key)
+    public function get($key, & $result = null)
     {
         $data = $this->backend->get($this->key($key));
 
         if (is_array($data) && isset($data['data'])) {
             $this->checkTags($data);
 
-            return $data['data'];
+            $result = $data['data'];
+        } else {
+            $result = null;
         }
+
+        return !is_null($result);
     }
 
     public function delete($key)

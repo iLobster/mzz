@@ -58,7 +58,7 @@ final class cachingResolver extends decoratingResolver
 
         $this->cacheBackend = cache::factory('long');
 
-        $this->cache = $this->cacheBackend->get($cacheName);
+        $this->cacheBackend->get($cacheName, $this->cache);
 
         parent::__construct($resolver);
     }

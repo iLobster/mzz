@@ -34,6 +34,8 @@ class cacheMemcache extends cacheBackend
     const DEFAULT_COMPRESSTRESHOLD = 20000;
     const DEFAULT_MINSAVINGS = 0.2;
 
+    const EXISTS_FALSE = '_exists_false';
+
     protected $memcache;
 
     private $expire = 60;
@@ -97,7 +99,11 @@ class cacheMemcache extends cacheBackend
         }
 
         try {
-            return $this->memcache->set($key, $value, null, $expire);
+            $result = $this->memcache->set($key, $value, null, $expire);
+            if ($value === false) {
+                $this->memcache->set($key . self::EXISTS_FALSE, true, null, $expire);
+            }
+            return $result;
         } catch (mzzException $e) {
             return false;
         }
@@ -106,7 +112,11 @@ class cacheMemcache extends cacheBackend
     public function get($key)
     {
         try {
-            return $this->memcache->get($key);
+            $result = $this->memcache->get($key);
+            if ($result === false) {
+                return $this->memcache->get($key . self::EXISTS_FALSE) ? false : null;
+            }
+            return $result;
         } catch (mzzException $e) {
             return null;
         }
@@ -115,7 +125,9 @@ class cacheMemcache extends cacheBackend
     public function delete($key)
     {
         try {
-            return $this->memcache->delete($key);
+            $result = $this->memcache->delete($key);
+            $this->memcache->delete($key . self::EXISTS_FALSE);
+            return $result;
         } catch (mzzException $e) {
             return false;
         }

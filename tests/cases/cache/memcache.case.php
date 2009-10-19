@@ -35,7 +35,7 @@ class memcachedTest extends unitTestCase
         if (!$skip) {
             $this->setUp();
 
-            $this->cache->get('blahblah'); // try to get something from the server
+            $this->cache->get('blahblah', $result); // try to get something from the server
             $this->skipIf(!$this->cache->backend()->getStatus(cacheMemcache::DEFAULT_HOST, cacheMemcache::DEFAULT_PORT), 'memcached connect error');
         }
         /*
@@ -50,10 +50,12 @@ class memcachedTest extends unitTestCase
     public function testGetSet()
     {
         $this->assertTrue($this->cache->set($identifier = 'baz', $data = 'foobar'));
-        $this->assertEqual($this->cache->get($identifier), $data);
+        $this->cache->get($identifier, $result);
+        $this->assertEqual($result, $data);
 
         $this->cache->set($identifier2 = 'baz2', $data2 = 'foobar2');
-        $this->assertEqual($this->cache->get($identifier2), $data2);
+        $this->cache->get($identifier2, $result);
+        $this->assertEqual($result, $data2);
     }
 
     public function testGetNonExistIdentifier()
@@ -61,10 +63,20 @@ class memcachedTest extends unitTestCase
         $this->assertFalse($this->cache->get('foobar'));
     }
 
+    public function testNullAndFasleValue()
+    {
+        $this->cache->set('foo', false);
+        $this->assertTrue($this->cache->get('foo', $result));
+        $this->assertIdentical($result, false);
+        $this->assertFalse($this->cache->get('bar', $result));
+        $this->assertIdentical($result, null);
+    }
+
     public function testDrop()
     {
         $this->cache->set($identifier = 'foobar', $data = 'baz');
-        $this->assertEqual($this->cache->get($identifier), $data);
+        $this->cache->get($identifier, $result);
+        $this->assertEqual($result, $data);
 
         $this->cache->flush();
         $this->assertFalse($this->cache->get($identifier));
@@ -75,7 +87,8 @@ class memcachedTest extends unitTestCase
         $this->cache->set('key', 'value', array(
             't1',
             't2'));
-        $this->assertEqual($this->cache->get('key'), 'value');
+        $this->cache->get('key', $result);
+        $this->assertEqual($result, 'value');
         $this->cache->clear('t1');
         $this->assertFalse($this->cache->get('key'));
     }

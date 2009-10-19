@@ -36,7 +36,7 @@ class routingFilter implements iFilter
 
         $cache = $toolkit->getCache('long');
 
-        if (!($routes = $cache->get('routes'))) {
+        if (!$cache->get('routes', $routes)) {
             $routes = array(
                 'first' => array(),
                 'last' => array());
