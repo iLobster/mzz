@@ -148,7 +148,7 @@ class userMapper extends mapper
     public function login($login, $password, $loginField = 'login')
     {
         $criteria = new criteria();
-        $criteria->where($loginField, $login)->add('password', $this->cryptPassword($password));
+        $criteria->where($loginField, $login)->where('password', $this->cryptPassword($password));
 
         $user = $this->searchOneByCriteria($criteria);
 
