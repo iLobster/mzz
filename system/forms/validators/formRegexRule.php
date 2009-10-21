@@ -21,9 +21,9 @@
  */
 class formRegexRule extends formAbstractRule
 {
-    public function validate()
+    protected function _validate($value)
     {
-        return $this->isEmpty() || preg_match($this->params, $this->value);
+        return (bool)preg_match($this->params, $value);
     }
 }
 
