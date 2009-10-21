@@ -74,7 +74,11 @@ class adminMapController extends simpleController
                 $fileGenerator = new fileGenerator($dest);
                 $map_str = $adminGeneratorMapper->generateMapString($map);
 
-                $fileGenerator->edit($adminGeneratorMapper->generateMapperFileName($class_name), new fileRegexpSearchReplaceTransformer('/(protected|public) \$map = array\s*\(.*?\);[\r\n]+/s', '\\1 $map = ' . $map_str . ";\r\n"));
+                //echo '<pre>';
+                //print_r($map_str);
+                //exit;
+
+                $fileGenerator->edit($adminGeneratorMapper->generateMapperFileName($class_name), new fileRegexpSearchReplaceTransformer('/(protected|public) \$map =\s+array\s*\(.*?\);[\r\n]+/s', '\\1 $map = ' . $map_str . ";\r\n"));
 
                 $fileGenerator->run();
             } catch (Exception $e) {
