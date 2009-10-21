@@ -21,28 +21,16 @@
  */
 class formRequiredRule extends formAbstractRule
 {
-    protected $multiple = true;
+    protected $message = 'Field is required';
 
-    public function validate()
+    public function notExists()
     {
-        if ($this->isMultiple) {
-            foreach ($this->value as $value) {
-                if ($this->testValue($value) == false) {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        return $this->testValue($this->value);
+        $this->validation = false;
     }
 
-    protected function testValue($value)
+    protected function _validate($value)
     {
-        if (is_array($value)) {
-            return count($value) > 0;
-        }
-        return trim($value) != '';
+        return $this->validation !== false;
     }
 }
 

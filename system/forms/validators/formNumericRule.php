@@ -21,9 +21,11 @@
  */
 class formNumericRule extends formAbstractRule
 {
-    public function validate()
+    protected $message = 'Value is not numeric';
+
+    protected function _validate($value)
     {
-        return $this->isEmpty() || is_numeric($this->value);
+        return is_numeric($value);
     }
 }
 

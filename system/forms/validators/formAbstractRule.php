@@ -21,6 +21,54 @@
  */
 abstract class formAbstractRule
 {
+    protected $notExists = false;
+
+    protected $validation = null;
+
+    public function __construct($message = '', $options = null)
+    {
+        if ($options) {
+            $this->options = $options;
+        }
+
+        if ($message) {
+            $this->message = $message;
+        }
+    }
+
+    public function notExists()
+    {
+        $this->notExists = true;
+    }
+
+    public function validate($value = null)
+    {
+        if ($this->notExists) {
+            return true;
+        }
+
+        if (!is_null($this->validation)) {
+            return $this->validation;
+        }
+
+        $this->validation = $this->_validate($value);
+
+        return $this->validation;
+    }
+
+    abstract protected function _validate($value);
+
+
+    public function getErrorMsg()
+    {
+        if ($this->validation === false) {
+            return $this->message;
+        }
+    }
+}
+
+abstract class oldformAbstractRule
+{
     /**
      * Имя валидируемого поля
      *
@@ -146,7 +194,9 @@ abstract class formAbstractRule
     protected function generateName($name)
     {
         if (is_array($name) && $this->multiple) {
-            return implode(' ', array_map(array($this, 'deleteTypeFromName'), $name));
+            return implode(' ', array_map(array(
+                $this,
+                'deleteTypeFromName'), $name));
         } elseif (is_array($name)) {
             $name = array_shift($name);
         }

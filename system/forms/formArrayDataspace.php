@@ -7,7 +7,7 @@ class formArrayDataspace extends arrayDataspace
      */
     private $validator;
 
-    public function __construct(formValidator $validator, $data = array())
+    public function __construct($validator, $data = array())
     {
         $this->import($data);
         $this->validator = $validator;

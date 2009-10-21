@@ -1,55 +1,48 @@
 <?php
 
-fileLoader::load('forms/validators/formValidator');
+fileLoader::load('forms/validators/newFormValidator');
 
 class formValidatorTest extends UnitTestCase
 {
+    /**
+     * @var newFormValidator
+     */
     protected $validator;
-    protected $request;
 
-    public function setup()
+    public function setUp()
     {
-        $this->validator = new formValidator();
-        $this->validator->disableCSRF();
-
-        $this->request = systemToolkit::getInstance()->getRequest();
-        $this->request->save();
+        $this->validator = new newFormValidator();
     }
 
-    function teardown()
+    public function tearDown()
     {
-        $this->request->restore();
     }
 
     public function testNotValidateWithNoSubmit()
     {
-        $validator = new formValidator();
-        $this->assertFalse($validator->validate());
+        $this->assertFalse($this->validator->validate());
     }
 
     public function testValidate()
     {
-        $_POST['submit'] = 'submit';
-        $this->request->refresh();
+        $this->validator->setData(array('data' => 'value', 'submit' => true));
 
-        $this->validator->add('required', 'data')->setValue('value');
-        $this->validator->add('required', 'data2')->setValue('value');
-        $this->validator->add('required', 'data3')->setValue('value');
+        $this->validator->rule('required', 'data');
+
         $this->assertTrue($this->validator->validate());
     }
 
     public function testValidateError()
     {
-        $_POST['submit'] = 'submit';
-        $this->request->refresh();
+        $this->validator->setData(array('data' => 'value', 'submit' => true));
 
-        $this->validator->add('required', 'data')->setValue('value');;
-        $this->validator->add('required', $field = 'data5', $errorMsg = 'Some error message');
+        $this->validator->rule('required', 'data');
+        $this->validator->rule('required', $field = 'data5', $errorMsg = 'Some error message');
         $this->assertFalse($this->validator->validate());
         $errors = $this->validator->getErrors();
         $this->assertEqual($errors->get($field), $errorMsg);
     }
-
+/*
     public function testValidateFromArg()
     {
         $data = array('foo'=> true);
@@ -70,6 +63,7 @@ class formValidatorTest extends UnitTestCase
      * @todo move to formCsrfRuleTest?
      *
      */
+/*
     public function testValidateCSRF()
     {
         $this->validator->enableCSRF();
@@ -80,7 +74,7 @@ class formValidatorTest extends UnitTestCase
         $_POST[form::$CSRFField] = $key;
         $this->assertTrue($this->validator->validate());
         systemToolkit::getInstance()->getSession()->destroy('CSRFToken');
-    }
+    } */
 }
 
 ?>
