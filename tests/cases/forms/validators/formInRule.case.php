@@ -5,58 +5,49 @@ fileLoader::load('forms/validators/formInRule');
 
 class formInRuleTest extends UnitTestCase
 {
-    public function setup()
-    {
-    }
-
-    function teardown()
-    {
-    }
-
     public function testIn()
     {
-        $rule = new formInRule('foo', '', array('bar', 'baz'));
-        $this->assertTrue($rule->setValue('bar')->validate());
+        $rule = new formInRule('', array('bar', 'baz'));
+        $this->assertTrue($rule->validate('bar'));
     }
 
     public function testInWithKeys()
     {
-        $rule = new formInRule('foo', '', array('somekey' => 'bar', 'baz'));
-        $this->assertTrue($rule->setValue('bar')->validate());
+        $rule = new formInRule('', array('somekey' => 'bar', 'baz'));
+        $this->assertTrue($rule->validate('bar'));
     }
 
     public function testInWithArray()
     {
-        $rule = new formInRule('array:foo', '', array('bar', 'baz'));
-        $this->assertTrue($rule->setValue(array('bar', 'baz'))->validate());
+        $rule = new formInRule('', array('bar', 'baz'));
+        $this->assertTrue($rule->validate(array('bar', 'baz')));
     }
 
     public function testNotInWithArray()
     {
-        $rule = new formInRule('array:foo', '', array('baz'));
-        $this->assertFalse($rule->setValue(array('bar', 'baz'))->validate());
+        $rule = new formInRule('', array('baz'));
+        $this->assertFalse($rule->validate(array('bar', 'baz')));
     }
 
     public function testNullInAndZeroNotIn()
     {
-        $rule = new formInRule('foo', '', array(1, 2));
-        $this->assertFalse($rule->setValue('0')->validate());
-        $this->assertTrue($rule->setValue(0)->validate());
-        $this->assertTrue($rule->setValue(null)->validate());
+        $rule = new formInRule('', array(1, 2));
+        $this->assertFalse($rule->validate('0'));
+        $this->assertFalse($rule->validate(0));
+        $this->assertFalse($rule->validate(null));
     }
 
     public function testNotIn()
     {
-        $rule = new formInRule('foo', '', array('bar', 'baz'));
-        $this->assertFalse($rule->setValue('foobar')->validate());
+        $rule = new formInRule('', array('bar', 'baz'));
+        $this->assertFalse($rule->validate('foobar'));
     }
 
     public function testNotArray()
     {
-        $rule = new formInRule('foo', '', 'string');
-        $rule->setValue('foobar');
+        $rule = new formInRule('', 'string');
         try {
-            $rule->validate();
+            $rule->validate('foobar');
             $this->fail('Должно быть брошено исключение');
         } catch (mzzInvalidParameterException $e) {
             $this->pass();

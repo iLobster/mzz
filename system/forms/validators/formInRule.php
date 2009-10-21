@@ -21,22 +21,18 @@
  */
 class formInRule extends formAbstractRule
 {
-    public function validate()
+    protected function _validate($value)
     {
-        if ($this->isEmpty()) {
-            return true;
-        }
-
         if (!is_array($this->params)) {
             throw new mzzInvalidParameterException('Ожидается массив', $this->params);
         }
 
-        if (!is_array($this->value)) {
-            $this->value = array($this->value);
+        if (!is_array($value)) {
+            $value = array($value);
         }
 
-        foreach ($this->value as $value) {
-            if (!in_array($value, array_values($this->params))) {
+        foreach ($value as $current_value) {
+            if (!in_array($current_value, array_values($this->params))) {
                 return false;
             }
         }

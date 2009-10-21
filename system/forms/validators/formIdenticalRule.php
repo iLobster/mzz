@@ -22,20 +22,19 @@
  */
 class formIdenticalRule extends formAbstractRule
 {
-    public function validate()
+    protected function _validate($value)
     {
         if (empty($this->params)) {
             throw new mzzRuntimeException('Необходимо указать поле с котором сравнивается значение');
         }
 
-        $request = systemToolkit::getInstance()->getRequest();
-        $value_second = $request->getString($this->params, SC_REQUEST);
-
-        if ($this->isEmpty() && empty($value_second)) {
-            return true;
+        if (!isset($this->data[$this->params[0]])) {
+            throw new mzzRuntimeException('Вторая переменная не определена');
         }
 
-        return $this->value === $value_second;
+        $second = $this->data[$this->params[0]];
+
+        return $value === $second;
     }
 }
 
