@@ -49,19 +49,19 @@ class formHostnameRule extends formAbstractRule
     'zw'
     );
 
-    public function validate()
+    protected function _validate($value)
     {
-        if ($this->isEmpty() || preg_match('#^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$#', $this->value)) {
+        if (preg_match('#^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$#', $value)) {
             return true;
         }
 
-        $domainParts = explode('.', $this->value);
+        $domainParts = explode('.', $value);
 
         if (sizeof($domainParts) < 2) {
             return false;
         }
 
-        if (strlen($this->value) > 254 || strlen($this->value) < 4) {
+        if (strlen($value) > 254 || strlen($value) < 4) {
             return false;
         }
 
@@ -70,7 +70,6 @@ class formHostnameRule extends formAbstractRule
         if (!in_array(strtolower($tld), $this->validTlds)) {
             return false;
         }
-
 
         $validChars = 'a-z0-9\-';
         foreach ($domainParts as $part) {

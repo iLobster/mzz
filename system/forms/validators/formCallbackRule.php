@@ -21,16 +21,13 @@
  */
 class formCallbackRule extends formAbstractRule
 {
-    public function validate()
+    protected function _validate($value)
     {
-        if ($this->isEmpty()) {
-            return true;
-        }
         $funcName = array_shift($this->params);
         if (!is_callable($funcName)) {
             throw new Exception('Указанная функция ' . (is_array($funcName) ? get_class($funcName[0]) . '::' . $funcName[1] : $funcName) . ' не является валидным callback\'ом');
         }
-        return call_user_func_array($funcName, array_merge(array($this->value), $this->params));
+        return call_user_func_array($funcName, array_merge(array($value), $this->params));
     }
 }
 

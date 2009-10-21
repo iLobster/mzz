@@ -25,10 +25,12 @@ abstract class formAbstractRule
 
     protected $validation = null;
 
-    public function __construct($message = '', $options = null)
+    protected $params;
+
+    public function __construct($message = '', $params = null)
     {
-        if ($options) {
-            $this->options = $options;
+        if ($params) {
+            $this->params = $params;
         }
 
         if ($message) {
@@ -47,17 +49,12 @@ abstract class formAbstractRule
             return true;
         }
 
-        if (!is_null($this->validation)) {
-            return $this->validation;
-        }
-
         $this->validation = $this->_validate($value);
 
         return $this->validation;
     }
 
     abstract protected function _validate($value);
-
 
     public function getErrorMsg()
     {

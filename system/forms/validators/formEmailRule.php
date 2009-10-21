@@ -23,13 +23,9 @@ fileLoader::load('forms/validators/formHostnameRule');
  */
 class formEmailRule extends formAbstractRule
 {
-    public function validate()
+    protected function _validate($value)
     {
-        if ($this->isEmpty()) {
-            return true;
-        }
-
-        if (!preg_match('/^(.+)@([^@]+)$/', $this->value, $matches)) {
+        if (!preg_match('/^(.+)@([^@]+)$/', $value, $matches)) {
             return false;
         }
 
@@ -37,9 +33,7 @@ class formEmailRule extends formAbstractRule
         $hostname = $matches[2];
 
         $hostnameValidator = new formHostnameRule();
-        $hostnameValidator->setValue($hostname);
-
-        if (!$hostnameValidator->validate()) {
+        if (!$hostnameValidator->validate($hostname)) {
             return false;
         }
 

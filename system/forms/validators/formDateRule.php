@@ -28,23 +28,19 @@ class formDateRule extends formAbstractRule
      *
      * @return boolean
      */
-    public function validate()
+    protected function _validate($value)
     {
-        if ($this->isEmpty()) {
-            return true;
-        }
-
-        if (is_array($this->value)) {
-            $date = $this->convertDateArrayToTimestamp($this->value);
+        if (is_array($value)) {
+            $date = $this->convertDateArrayToTimestamp($value);
         } elseif (isset($this->params['regex'])) {
-            if (!preg_match($this->params['regex'], $this->value, $match)) {
+            if (!preg_match($this->params['regex'], $value, $match)) {
                 return false;
             }
             $date = $this->convertDateArrayToTimestamp($match);
-        } elseif (!is_numeric($this->value)) {
-            $date = strtotime($this->value);
+        } elseif (!is_numeric($value)) {
+            $date = strtotime($value);
         } else {
-            $date = false; //смысла делать валидными просто цифры по-моему нет.
+            $date = false;
         }
 
         if ($date === false || $date < 0) {
