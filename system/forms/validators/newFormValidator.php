@@ -30,9 +30,11 @@ class newFormValidator
 
     public function rule($type, $name, $message = null, $options = null)
     {
+        $validator = $this->loadValidator($type, $message, $options);
+        $validator->setData($this->data);
         $this->rules[] = array(
             'name' => $name,
-            'validator' => $this->loadValidator($type, $message, $options));
+            'validator' => $validator);
     }
 
     private function loadValidator($type, $message, $options)

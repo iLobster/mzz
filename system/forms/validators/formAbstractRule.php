@@ -27,6 +27,8 @@ abstract class formAbstractRule
 
     protected $params;
 
+    protected $data = array();
+
     public function __construct($message = '', $params = null)
     {
         if ($params) {
@@ -36,6 +38,11 @@ abstract class formAbstractRule
         if ($message) {
             $this->message = $message;
         }
+    }
+
+    public function setData($data)
+    {
+        $this->data = $data;
     }
 
     public function notExists()

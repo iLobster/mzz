@@ -21,19 +21,19 @@
  */
 class formEqualRule extends formAbstractRule
 {
-    public function validate()
+    protected function _validate($value)
     {
         if (!isset($this->params[0])) {
             throw new mzzRuntimeException('Отсутствует имя второй переменной для сравнения');
         }
 
-        $second = systemToolkit::getInstance()->getRequest()->getString($this->params[0], SC_REQUEST);
-
-        if (is_null($second)) {
+        if (!isset($this->data[$this->params[0]])) {
             throw new mzzRuntimeException('Вторая переменная не определена');
         }
 
-        return (!isset($this->params[1]) || $this->params[1]) ? $this->value == $second : $this->value != $second;
+        $second = $this->data[$this->params[0]];
+
+        return (!isset($this->params[1]) || $this->params[1]) ? $value == $second : $value != $second;
     }
 }
 
