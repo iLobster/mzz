@@ -21,13 +21,9 @@
  */
 class formLengthRule extends formAbstractRule
 {
-    public function validate()
+    protected function _validate($value)
     {
-        if ($this->isEmpty()) {
-            return true;
-        }
-
-        $length = mzz_strlen($this->value);
+        $length = mzz_strlen($value);
 
         if (is_integer($this->params)) {
             return $length == $this->params;
