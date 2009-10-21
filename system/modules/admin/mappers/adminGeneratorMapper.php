@@ -441,6 +441,23 @@ class adminGeneratorMapper extends mapper
         $smarty->left_delimiter = '{{';
         $smarty->right_delimiter = '}}';
 
+        $mainParams = array('accessor', 'mutator', 'type', 'range', 'maxlength', 'options');
+
+        //тут чуть-чуть полуненужных действий. зато мапа будет красивой
+        foreach ($map as $field => &$fieldMap) {
+            $newFieldMap = array();
+            foreach ($mainParams as $mainParam) {
+                if (isset($fieldMap[$mainParam])) {
+                    $newFieldMap[$mainParam] = $fieldMap[$mainParam];
+                    unset($fieldMap[$mainParam]);
+                }
+            }
+
+            $newFieldMap['additional'] = $fieldMap;
+
+            $fieldMap = $newFieldMap;
+        }
+
         $smarty->assign('map', $map);
         $map_str = $smarty->fetch('admin/generator/map.tpl');
 
