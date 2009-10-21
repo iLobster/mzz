@@ -5,58 +5,54 @@ fileLoader::load('forms/validators/formHostnameRule');
 
 class formHostnameRuleTest extends UnitTestCase
 {
-    public function setup()
+    public function setUp()
     {
-        $this->rule = new formHostnameRule('host', '');
-    }
-
-    function teardown()
-    {
+        $this->rule = new formHostnameRule();
     }
 
     public function testSimple()
     {
-        $this->assertTrue($this->rule->setValue('foo.ru')->validate());
+        $this->assertTrue($this->rule->validate('foo.ru'));
     }
 
     public function testTooLong()
     {
-        $this->assertFalse($this->rule->setValue(str_repeat('a', 300) . '.ru')->validate());
+        $this->assertFalse($this->rule->validate(str_repeat('a', 300) . '.ru'));
     }
 
     public function testTooShort()
     {
-        $this->assertFalse($this->rule->setValue('ru')->validate());
+        $this->assertFalse($this->rule->validate('ru'));
     }
 
     public function testInvalidChars()
     {
-        $this->assertFalse($this->rule->setValue('домен.ru')->validate());
+        $this->assertFalse($this->rule->validate('домен.ru'));
     }
 
     public function testDashFirst()
     {
-        $this->assertFalse($this->rule->setValue('-domain.ru')->validate());
+        $this->assertFalse($this->rule->validate('-domain.ru'));
     }
 
     public function testDashLast()
     {
-        $this->assertFalse($this->rule->setValue('domain-.ru')->validate());
+        $this->assertFalse($this->rule->validate('domain-.ru'));
     }
 
     public function testDash3And4()
     {
-        $this->assertFalse($this->rule->setValue('do--main.ru')->validate());
+        $this->assertFalse($this->rule->validate('do--main.ru'));
     }
 
     public function testInvalidTLD()
     {
-        $this->assertFalse($this->rule->setValue('domain.foo')->validate());
+        $this->assertFalse($this->rule->validate('domain.foo'));
     }
 
     public function testIp()
     {
-        $this->assertTrue($this->rule->setValue('127.0.0.1')->validate());
+        $this->assertTrue($this->rule->validate('127.0.0.1'));
     }
 }
 

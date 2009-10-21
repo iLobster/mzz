@@ -23,19 +23,16 @@ fileLoader::load('forms/validators/formHostnameRule');
  */
 class formUrlRule extends formHostnameRule
 {
-    public function validate()
+    protected function _validate($value)
     {
-        if ($this->isEmpty()) {
-            return true;
-        }
         $pattern = '#^((https?|ftps?)://)?(?P<domain>[-A-Z0-9.]+)(:[0-9]{2,4})?(/[-A-Z0-9+&@\#/%=~_|!:,.;]*)?(\?[-A-Z0-9+&@\#/%=~_|!:,.;]*)?$#i';
 
-        if(!preg_match($pattern, $this->value, $matches)) {
+        if(!preg_match($pattern, $value, $matches)) {
             return false;
         }
 
-        $this->value = $matches['domain'];
-        return parent::validate();
+        $value = $matches['domain'];
+        return parent::_validate($value);
     }
 }
 
