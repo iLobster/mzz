@@ -37,12 +37,12 @@ class userSaveController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'user[login]', 'Обязательное для заполнения поле');
+        $validator->rule('required', 'user[login]', 'Обязательное для заполнения поле');
         if (!$isEdit) {
-            $validator->add('required', 'user[password]', 'Обязательное для заполнения поле');
+            $validator->rule('required', 'user[password]', 'Обязательное для заполнения поле');
         }
 
-        $validator->add('callback', 'user[login]', 'Пользователь с таким логином же существует', array(
+        $validator->rule('callback', 'user[login]', 'Пользователь с таким логином же существует', array(
             array(
                 $this,
                 'checkUniqueUserLogin'),

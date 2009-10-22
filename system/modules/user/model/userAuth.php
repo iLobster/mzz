@@ -13,14 +13,12 @@
 */
 
 /**
- * userAuth: класс для работы с ...
+ * userAuth
  *
  * @package modules
  * @subpackage user
  * @version 0.1
  */
-
-
 class userAuth extends entity
 {
 }

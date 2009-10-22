@@ -45,8 +45,8 @@ class pageMoveController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'dest', i18n::getMessage('error_dest_required', 'page'));
-        $validator->add('callback', 'dest', i18n::getMessage('error_dest_not_exists', 'page'), array(array($this, 'checkDestPageFolderExists'), $pageFolderMapper));
+        $validator->rule('required', 'dest', i18n::getMessage('error_dest_required', 'page'));
+        $validator->rule('callback', 'dest', i18n::getMessage('error_dest_not_exists', 'page'), array(array($this, 'checkDestPageFolderExists'), $pageFolderMapper));
 
         if ($validator->validate()) {
             $destFolder = $pageFolderMapper->searchByKey($dest);

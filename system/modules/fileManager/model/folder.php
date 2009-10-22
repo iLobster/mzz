@@ -54,7 +54,7 @@ class folder extends entity
         $name = preg_replace('/[^a-zа-я0-9!_. \-\[\]()]/ui', '', $name);
 
         $criteria = new criteria();
-        $criteria->where('folder_id', $this->getId())->add('name', $name);
+        $criteria->where('folder_id', $this->getId())->where('name', $name);
 
         $fileMapper = systemToolkit::getInstance()->getMapper('fileManager', 'file');
         $file = $fileMapper->searchOneByCriteria($criteria);
@@ -92,7 +92,7 @@ class folder extends entity
             $criterion->addAnd(new criterion('name', $name_wo_ext . '\_%' . ($ext ? '.' . $ext : ''), criteria::LIKE));
 
             $criteria = new criteria();
-            $criteria->where('folder_id', $this->getId())->add($criterion);
+            $criteria->where('folder_id', $this->getId())->where($criterion);
             $criteria->orderByAsc('name');
             $files = $fileMapper->searchAllByCriteria($criteria);
 

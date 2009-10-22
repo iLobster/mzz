@@ -37,11 +37,11 @@ class configConfigureController extends simpleController
 
         $validator = new formValidator();
         foreach ($options as $option) {
-            $validator->add('required', $option->getName(), 'Укажите значение для ' . $option->getTitle());
+            $validator->rule('required', $option->getName(), 'Укажите значение для ' . $option->getTitle());
 
             switch ($option->getType()) {
                 case configOption::TYPE_INT:
-                    $validator->add('numeric', $option->getName(), 'Только числовые значения для ' . $option->getTitle());
+                    $validator->rule('numeric', $option->getName(), 'Только числовые значения для ' . $option->getTitle());
                     break;
             }
         }

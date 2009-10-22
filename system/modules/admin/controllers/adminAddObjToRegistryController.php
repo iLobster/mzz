@@ -33,8 +33,8 @@ class adminAddObjToRegistryController extends simpleController
         $classes = $adminMapper->getClasses();
 
         $validator = new formValidator();
-        $validator->add('required', 'class', 'Необходимо указать класс');
-        $validator->add('callback', 'class', 'Укажите существующий класс', array(
+        $validator->rule('required', 'class', 'Необходимо указать класс');
+        $validator->rule('callback', 'class', 'Укажите существующий класс', array(
             array(
                 $this,
                 'checkClassExists'),

@@ -66,11 +66,11 @@ class advancedMenuItemHelper implements iMenuItemHelper
 
     public function injectItem($validator, $item = null, $smarty = null, array $args = null)
     {
-        $validator->add('callback', 'activeRegExp', 'Введенная строка является ошибочным рег.выражением', array(array($this, 'checkStringRegex')));
-        $validator->add('required', 'route', 'Укажите роут');
+        $validator->rule('callback', 'activeRegExp', 'Введенная строка является ошибочным рег.выражением', array(array($this, 'checkStringRegex')));
+        $validator->rule('required', 'route', 'Укажите роут');
         $routeName = $this->getRouteName($item, $args);
         $this->prepareRoutes($item, $args);
-        $validator->add('in', 'route', 'Укажите правильный роут', array_keys($this->routesSelect));
+        $validator->rule('in', 'route', 'Укажите правильный роут', array_keys($this->routesSelect));
 
         $smarty->assign('routesSelect', $this->routesSelect);
         $smarty->assign('routesParts', $this->routesParts);

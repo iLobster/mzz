@@ -37,10 +37,10 @@ class pageSaveFolderController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'name', i18n::getMessage('error_name_required', 'page'));
-        $validator->add('required', 'title', i18n::getMessage('error_folder_title_required', 'page'));
-        $validator->add('regex', 'name', i18n::getMessage('error_name_invalid_name', 'page'), '/^[-_a-z0-9]+$/i');
-        $validator->add('callback', 'name', i18n::getMessage('error_name_unique', 'page'), array(array($this, 'checkUniqueFolderName'), $path, $isEdit));
+        $validator->rule('required', 'name', i18n::getMessage('error_name_required', 'page'));
+        $validator->rule('required', 'title', i18n::getMessage('error_folder_title_required', 'page'));
+        $validator->rule('regex', 'name', i18n::getMessage('error_name_invalid_name', 'page'), '/^[-_a-z0-9]+$/i');
+        $validator->rule('callback', 'name', i18n::getMessage('error_name_unique', 'page'), array(array($this, 'checkUniqueFolderName'), $path, $isEdit));
 
         if ($validator->validate()) {
             $name = $this->request->getString('name', SC_POST);

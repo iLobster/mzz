@@ -52,9 +52,9 @@ class pageSaveController extends simpleController
 
 
         $validator = new formValidator();
-        $validator->add('required', 'page[name]', i18n::getMessage('error_name_required', 'page'));
-        $validator->add('regex', 'page[name]', i18n::getMessage('error_name_invalid', 'page'), '/^[-_a-z0-9]+$/i');
-        $validator->add('callback', 'page[name]', i18n::getMessage('error_name_unique', 'page'), array(array($this, 'checkUniquePageName'), $page, $pageFolder));
+        $validator->rule('required', 'page[name]', i18n::getMessage('error_name_required', 'page'));
+        $validator->rule('regex', 'page[name]', i18n::getMessage('error_name_invalid', 'page'), '/^[-_a-z0-9]+$/i');
+        $validator->rule('callback', 'page[name]', i18n::getMessage('error_name_unique', 'page'), array(array($this, 'checkUniquePageName'), $page, $pageFolder));
 
         if ($validator->validate()) {
             $data = new arrayDataspace($this->request->getArray('page', SC_POST));

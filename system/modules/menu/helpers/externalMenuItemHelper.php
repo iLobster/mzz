@@ -32,7 +32,7 @@ class externalMenuItemHelper implements iMenuItemHelper
 
     public function injectItem($validator, $item = null, $smarty = null, array $args = null)
     {
-        $validator->add('required', 'url', 'Укажите URL');
+        $validator->rule('required', 'url', 'Укажите URL');
     }
 }
 

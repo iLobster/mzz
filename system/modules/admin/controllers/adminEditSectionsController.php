@@ -33,8 +33,8 @@ class adminEditSectionsController extends simpleController
 
         $validator = new formValidator();
 
-        $validator->add('callback', 'array:section', 'неуникальны', array(array($this, 'unique')));
-        $validator->add('callback', 'array:section', 'символы', array(array($this, 'chars')));
+        $validator->rule('callback', 'array:section', 'неуникальны', array(array($this, 'unique')));
+        $validator->rule('callback', 'array:section', 'символы', array(array($this, 'chars')));
 
         if ($validator->validate()) {
             $data = $this->request->getArray('section', SC_POST);

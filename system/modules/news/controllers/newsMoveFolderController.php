@@ -43,19 +43,19 @@ class newsMoveFolderController extends simpleController
 
         $validator = new formValidator();
 
-        $validator->add('required', 'dest', i18n::getMessage('error_dest_required', 'news'));
-        $validator->add('callback', 'dest', i18n::getMessage('error_dest_not_exists', 'news'), array(
+        $validator->rule('required', 'dest', i18n::getMessage('error_dest_required', 'news'));
+        $validator->rule('callback', 'dest', i18n::getMessage('error_dest_not_exists', 'news'), array(
             array(
                 $this,
                 'checkDestNewsFolderExists'),
             $folderMapper));
-        $validator->add('callback', 'dest', i18n::getMessage('error_already_has_this_folder', 'news'), array(
+        $validator->rule('callback', 'dest', i18n::getMessage('error_already_has_this_folder', 'news'), array(
             array(
                 $this,
                 'checkUniqueNewsFolderName'),
             $folderMapper,
             $folder));
-        $validator->add('callback', 'dest', i18n::getMessage('error_could_not_move_to_children', 'news'), array(
+        $validator->rule('callback', 'dest', i18n::getMessage('error_could_not_move_to_children', 'news'), array(
             array(
                 $this,
                 'checkDestNewsFolderIsNotChildren'),

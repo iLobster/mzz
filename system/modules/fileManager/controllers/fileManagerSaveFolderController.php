@@ -41,13 +41,13 @@ class fileManagerSaveFolderController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Необходимо дать идентификатор папке');
-        $validator->add('required', 'title', 'Необходимо назвать папку');
-        $validator->add('numeric', 'filesize', 'Размер должен быть числовым');
-        $validator->add('regex', 'exts', 'Недопустимые символы в расширении', '/^[a-z0-9_;\-\.!]+$/i');
-        $validator->add('regex', 'name', 'Недопустимые символы в идентификаторе', '/^[a-z0-9_\.\-!]+$/i');
-        $validator->add('callback', 'name', 'Идентификатор должен быть уникален в пределах каталога', array(array($this, 'checkFileFolderName'), $path, $folderMapper, $isEdit));
-        $validator->add('in', 'storage', 'Недопустимый сторадж', array_keys($storages));
+        $validator->rule('required', 'name', 'Необходимо дать идентификатор папке');
+        $validator->rule('required', 'title', 'Необходимо назвать папку');
+        $validator->rule('numeric', 'filesize', 'Размер должен быть числовым');
+        $validator->rule('regex', 'exts', 'Недопустимые символы в расширении', '/^[a-z0-9_;\-\.!]+$/i');
+        $validator->rule('regex', 'name', 'Недопустимые символы в идентификаторе', '/^[a-z0-9_\.\-!]+$/i');
+        $validator->rule('callback', 'name', 'Идентификатор должен быть уникален в пределах каталога', array(array($this, 'checkFileFolderName'), $path, $folderMapper, $isEdit));
+        $validator->rule('in', 'storage', 'Недопустимый сторадж', array_keys($storages));
 
         if ($validator->validate()) {
             $name = $this->request->getString('name', SC_POST);

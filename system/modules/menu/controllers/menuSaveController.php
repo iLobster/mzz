@@ -76,7 +76,7 @@ class menuSaveController extends simpleController
 
         $validator = new formValidator();
         if ($item) {
-            $validator->add('required', 'title', 'Укажите заголовок');
+            $validator->rule('required', 'title', 'Укажите заголовок');
 
             $args = array(
             'routeName' => $this->request->getString('route', SC_POST),

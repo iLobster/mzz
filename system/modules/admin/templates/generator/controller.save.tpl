@@ -43,12 +43,12 @@ class {{$module->getName()}}{{$actionData.controller|ucfirst}}Controller extends
 
 {{foreach from=$map item=property key=field}}{{assign var="propertyType" value=$property.type|default:false}}
 {{if !isset($property.options) || !in_array('pk', $property.options) || !in_array('once', $property.options)}}
-        $validator->add('required', '{{$name}}[{{$field}}]', 'Field {{$field}} is required');
+        $validator->rule('required', '{{$name}}[{{$field}}]', 'Field {{$field}} is required');
 {{if $propertyType === 'char' || $propertyType === 'varchar'}}
-        $validator->add('length', '{{$name}}[{{$field}}]', 'Field {{$field}} is out of length', array(0, {{$property.maxlength|default:255}}));
+        $validator->rule('length', '{{$name}}[{{$field}}]', 'Field {{$field}} is out of length', array(0, {{$property.maxlength|default:255}}));
 {{elseif $propertyType === 'int'}}
-        $validator->add('numeric', '{{$name}}[{{$field}}]', 'Field {{$field}} is not numeric as expected');
-        {{assign var="propertyRange" value=$property.range|default:false}}{{if $propertyRange}}$validator->add('range', '{{$name}}[{{$field}}]', 'Field {{$field}} is out of range', array({{$property.range[0]}}, {{$property.range[1]}}));
+        $validator->rule('numeric', '{{$name}}[{{$field}}]', 'Field {{$field}} is not numeric as expected');
+        {{assign var="propertyRange" value=$property.range|default:false}}{{if $propertyRange}}$validator->rule('range', '{{$name}}[{{$field}}]', 'Field {{$field}} is out of range', array({{$property.range[0]}}, {{$property.range[1]}}));
 {{/if}}{{/if}}{{/if}}
 {{/foreach}}
 

@@ -38,7 +38,7 @@ class newsMoveController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'dest', 'Необходимо указать каталог назначения');
+        $validator->rule('required', 'dest', 'Необходимо указать каталог назначения');
 
         if ($validator->validate()) {
             $dest = $this->request->getInteger('dest', SC_POST);

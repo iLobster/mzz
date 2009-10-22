@@ -19,12 +19,10 @@ fileLoader::load('service/skin');
  *
  * @package modules
  * @subpackage user
- * @version 0.1.5
+ * @version 0.1.6
  */
 class user extends entity
 {
-    protected $name = 'user';
-
     /**
      * Проверяет является ли пользователь авторизированным
      * Пользователь считается таковым, если у него установлен

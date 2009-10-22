@@ -35,7 +35,7 @@ class commentsEditController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'text', 'Введите комментарий');
+        $validator->rule('required', 'text', 'Введите комментарий');
 
         if ($validator->validate()) {
             $text = $this->request->getString('text', SC_POST);

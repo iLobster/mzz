@@ -7,7 +7,7 @@
             <dt>Ошибка добавления комментария:</dt>
             <dd>
                 <ul>
-                {foreach from=$form->export() item="error"}
+                {foreach from=$validator->getErrors() item="error"}
                     <li>{$error}</li>
                 {/foreach}
                 </ul>

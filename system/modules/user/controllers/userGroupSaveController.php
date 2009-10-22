@@ -38,8 +38,8 @@ class userGroupSaveController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Обязательное для заполнения поле');
-        $validator->add('callback', 'name', 'Группа с таким именем уже существует', array(array($this, 'checkUniqueGroupName'), $group, $groupMapper));
+        $validator->rule('required', 'name', 'Обязательное для заполнения поле');
+        $validator->rule('callback', 'name', 'Группа с таким именем уже существует', array(array($this, 'checkUniqueGroupName'), $group, $groupMapper));
 
         if ($validator->validate()) {
             if (!$isEdit) {

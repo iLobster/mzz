@@ -40,10 +40,10 @@ class fileManagerMoveFolderController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'dest', 'Обязательное для заполнения поле');
-        $validator->add('in', 'dest', 'Каталог назначения не существует', $folders->keys());
-        $validator->add('callback', 'dest', 'В каталоге назначения уже есть каталог с таким именем', array(array($this, 'checkUniqueFolderName'), $folderMapper, $folder));
-        $validator->add('callback', 'dest', 'Нельзя перенести каталог во вложенные каталоги', array(array($this, 'checkDestFolderIsNotChildren'), $folders));
+        $validator->rule('required', 'dest', 'Обязательное для заполнения поле');
+        $validator->rule('in', 'dest', 'Каталог назначения не существует', $folders->keys());
+        $validator->rule('callback', 'dest', 'В каталоге назначения уже есть каталог с таким именем', array(array($this, 'checkUniqueFolderName'), $folderMapper, $folder));
+        $validator->rule('callback', 'dest', 'Нельзя перенести каталог во вложенные каталоги', array(array($this, 'checkDestFolderIsNotChildren'), $folders));
 
         if ($validator->validate()) {
             $destFolder = $folderMapper->searchById($dest);

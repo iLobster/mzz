@@ -39,10 +39,10 @@ class newsSaveFolderController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'name', i18n::getMessage('error_name_required', 'news'));
-        $validator->add('required', 'title', i18n::getMessage('error_folder_title_required', 'news'));
-        $validator->add('regex', 'name', i18n::getMessage('error_name_invalid_name', 'news'), '/^[-_a-z0-9]+$/i');
-        $validator->add('callback', 'name', i18n::getMessage('error_name_unique', 'news'), array(array($this, 'checkUniqueFolderName'), $path, $isEdit));
+        $validator->rule('required', 'name', i18n::getMessage('error_name_required', 'news'));
+        $validator->rule('required', 'title', i18n::getMessage('error_folder_title_required', 'news'));
+        $validator->rule('regex', 'name', i18n::getMessage('error_name_invalid_name', 'news'), '/^[-_a-z0-9]+$/i');
+        $validator->rule('callback', 'name', i18n::getMessage('error_name_unique', 'news'), array(array($this, 'checkUniqueFolderName'), $path, $isEdit));
 
 
         if ($validator->validate()) {

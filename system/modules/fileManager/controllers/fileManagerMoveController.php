@@ -38,9 +38,9 @@ class fileManagerMoveController extends simpleController
         $folders = $folderMapper->searchAll();
 
         $validator = new formValidator();
-        $validator->add('required', 'dest', 'Обязательное для заполнения поле');
-        $validator->add('callback', 'dest', 'В каталоге назначения уже есть файл с таким же именем', array(array($this, 'checkFilename'), $file));
-        $validator->add('in', 'dest', 'Каталог назначения не существует', $folders->keys());
+        $validator->rule('required', 'dest', 'Обязательное для заполнения поле');
+        $validator->rule('callback', 'dest', 'В каталоге назначения уже есть файл с таким же именем', array(array($this, 'checkFilename'), $file));
+        $validator->rule('in', 'dest', 'Каталог назначения не существует', $folders->keys());
 
         if ($validator->validate()) {
             $destFolder = $folderMapper->searchById($dest);
@@ -83,7 +83,7 @@ class fileManagerMoveController extends simpleController
         }
 
         $criteria = new criteria();
-        $criteria->where('folder_id', $destFolder->getId())->add('name', $file->getName());
+        $criteria->where('folder_id', $destFolder->getId())->where('name', $file->getName());
 
         return is_null($fileMapper->searchOneByCriteria($criteria));
     }

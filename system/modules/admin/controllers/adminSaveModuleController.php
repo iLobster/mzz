@@ -52,10 +52,10 @@ class adminSaveModuleController extends simpleController
         $validator = new formValidator();
 
         if (!$isEdit) {
-            $validator->add('required', 'name', i18n::getMessage('module.error.name_required', 'admin'));
-            $validator->add('regex', 'name', i18n::getMessage('module.error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
-            $validator->add('callback', 'name', i18n::getMessage('module.error.unique', 'admin'), array(array($this, 'checkUniqueModuleName'), $adminMapper));
-            $validator->add('in', 'dest', i18n::getMessage('module.error.wrong_dest', 'admin'), array_keys($dests));
+            $validator->rule('required', 'name', i18n::getMessage('module.error.name_required', 'admin'));
+            $validator->rule('regex', 'name', i18n::getMessage('module.error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
+            $validator->rule('callback', 'name', i18n::getMessage('module.error.unique', 'admin'), array(array($this, 'checkUniqueModuleName'), $adminMapper));
+            $validator->rule('in', 'dest', i18n::getMessage('module.error.wrong_dest', 'admin'), array_keys($dests));
         }
 
         if ($validator->validate()) {
@@ -90,7 +90,7 @@ class adminSaveModuleController extends simpleController
 
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('isEdit', $isEdit);
-        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('validator', $validator);
         $this->smarty->assign('dests', $dests);
         $this->smarty->assign('currentDestination', $currentDestination);
 

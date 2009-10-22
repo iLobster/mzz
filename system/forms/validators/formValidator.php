@@ -64,7 +64,7 @@ class formValidator
         }
 
         foreach ($this->rules as $rule) {
-            if ($this->isError($rule['name'])) {
+            if ($this->isFieldError($rule['name'])) {
                 continue;
             }
 
@@ -83,6 +83,18 @@ class formValidator
         return $this->isValid();
     }
 
+    private function setError($name, $message)
+    {
+        if (!$this->isFieldError($name)) {
+            $this->errors[$name] = $message;
+        }
+    }
+
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
     public function isFieldRequired($name)
     {
         foreach ($this->rules as $rule) {
@@ -94,21 +106,19 @@ class formValidator
         return false;
     }
 
-    private function setError($name, $message)
+    public function isFieldError($field)
     {
-        if (!$this->isError($name)) {
-            $this->errors[$name] = $message;
+        return isset($this->errors[$field]);
+    }
+
+    public function getFieldError($field)
+    {
+        $message = null;
+        if ($this->isFieldError($field)) {
+            $message = $this->errors[$field];
         }
-    }
 
-    public function getErrors()
-    {
-        return $this->errors;
-    }
-
-    public function isError($name)
-    {
-        return isset($this->errors[$name]);
+        return $message;
     }
 
     public function isValid()

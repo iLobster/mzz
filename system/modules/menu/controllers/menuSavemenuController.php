@@ -39,9 +39,9 @@ class menuSavemenuController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Необходимо имя');
-        $validator->add('regex', 'name', 'Недопустимые символы в имени', '/^[a-z0-9_]+$/i');
-        $validator->add('callback', 'name', 'Имя меню должно быть уникальным', array(array($this, 'checkName'), $menu, $menuMapper));
+        $validator->rule('required', 'name', 'Необходимо имя');
+        $validator->rule('regex', 'name', 'Недопустимые символы в имени', '/^[a-z0-9_]+$/i');
+        $validator->rule('callback', 'name', 'Имя меню должно быть уникальным', array(array($this, 'checkName'), $menu, $menuMapper));
 
         if (!$validator->validate()) {
             $url = new url($isEdit ? 'withId' : 'default2');

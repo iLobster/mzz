@@ -52,12 +52,12 @@ class configSaveController extends simpleController
         $types = $configOptionMapper->getTypes();
 
         $validator = new formValidator();
-        $validator->add('required', 'name', 'Укажите имя для параметра');
-        $validator->add('required', 'title', 'Укажите заголовок для параметра');
-        $validator->add('required', 'type_id', 'Укажите тип параметра');
-        $validator->add('in', 'type_id', 'Укажите тип параметра', array_keys($types));
-        $validator->add('regex', 'name', 'Недопустимые символы в имени', '/^[a-z0-9_\.\-!]+$/i');
-        $validator->add('callback', 'name', 'Такое имя уже есть в этом модуле', array('checkOptionName', $option, $folder, $configOptionMapper));
+        $validator->rule('required', 'name', 'Укажите имя для параметра');
+        $validator->rule('required', 'title', 'Укажите заголовок для параметра');
+        $validator->rule('required', 'type_id', 'Укажите тип параметра');
+        $validator->rule('in', 'type_id', 'Укажите тип параметра', array_keys($types));
+        $validator->rule('regex', 'name', 'Недопустимые символы в имени', '/^[a-z0-9_\.\-!]+$/i');
+        $validator->rule('callback', 'name', 'Такое имя уже есть в этом модуле', array('checkOptionName', $option, $folder, $configOptionMapper));
 
         if ($validator->validate()) {
             $name = $this->request->getString('name', SC_POST);

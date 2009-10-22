@@ -111,7 +111,7 @@ class menuItemMapper extends mapper
         $this->plugin('tree')->preSqlSelect($criteria);
 
         $criteria->clearSelectFields();
-        $criteria->select(new sqlFunction('MAX', $this->table(false) . '.order', true), 'maxorder')->add('tree.parent_id', (int)$parent_id)->add('menu_id', (int)$menu_id);
+        $criteria->select(new sqlFunction('MAX', $this->table(false) . '.order', true), 'maxorder')->where('tree.parent_id', (int)$parent_id)->where('menu_id', (int)$menu_id);
 
         $select = new simpleSelect($criteria);
         $maxorder = $this->db()->getOne($select->toString());
@@ -121,7 +121,7 @@ class menuItemMapper extends mapper
     public function searchByIdInMenu($id, $menuId)
     {
         $criteria = new criteria;
-        $criteria->where('menu_id', $menuId)->add('id', $id);
+        $criteria->where('menu_id', $menuId)->where('id', $id);
 
         return $this->searchOneByCriteria($criteria);
     }
@@ -129,7 +129,7 @@ class menuItemMapper extends mapper
     public function searchByOrderAndParentInMenu($order, $parent, $menu_id)
     {
         $criteria = new criteria;
-        $criteria->where('order', (int)$order)->add('parent_id', (int)$parent)->add('menu_id', (int)$menu_id);
+        $criteria->where('order', (int)$order)->where('parent_id', (int)$parent)->where('menu_id', (int)$menu_id);
         return $this->searchOneByCriteria($criteria);
     }
 

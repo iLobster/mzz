@@ -33,14 +33,14 @@ class userRegisterController extends simpleController
 
         if (empty($userId) || empty($confirm)) {
             $validator = new formValidator();
-            $validator->add('required', 'login', 'Необходимо указать логин');
-            $validator->add('required', 'password', 'Необходимо указать пароль');
-            $validator->add('required', 'email', 'Необходимо указать обратный e-mail');
-            $validator->add('email', 'email', 'Необходимо указать правильный e-mail');
-            $validator->add('required', 'repassword', 'Необходимо указать повтор пароль');
-            $validator->add('callback', 'login', 'Пользователь с таким логином уже существует', array(array($this, 'checkUniqueUserLogin'), $userMapper));
-            $validator->add('callback', 'email', 'Пользователь с таким email уже существует', array(array($this, 'checkUniqueUserEmail'), $userMapper));
-            $validator->add('callback', 'repassword', 'Повтор пароля не совпадает', array(array($this, 'checkRepass'), $this->request->getString('password', SC_POST)));
+            $validator->rule('required', 'login', 'Необходимо указать логин');
+            $validator->rule('required', 'password', 'Необходимо указать пароль');
+            $validator->rule('required', 'email', 'Необходимо указать обратный e-mail');
+            $validator->rule('email', 'email', 'Необходимо указать правильный e-mail');
+            $validator->rule('required', 'repassword', 'Необходимо указать повтор пароль');
+            $validator->rule('callback', 'login', 'Пользователь с таким логином уже существует', array(array($this, 'checkUniqueUserLogin'), $userMapper));
+            $validator->rule('callback', 'email', 'Пользователь с таким email уже существует', array(array($this, 'checkUniqueUserEmail'), $userMapper));
+            $validator->rule('callback', 'repassword', 'Повтор пароля не совпадает', array(array($this, 'checkRepass'), $this->request->getString('password', SC_POST)));
 
             $url = new url('default2');
             $url->setAction('register');
@@ -77,7 +77,7 @@ class userRegisterController extends simpleController
             }
         } else {
             $criteria = new criteria;
-            $criteria->where('id', $userId)->add('confirmed', $confirm);
+            $criteria->where('id', $userId)->where('confirmed', $confirm);
             $user = $userMapper->searchOneByCriteria($criteria);
 
             if ($user) {

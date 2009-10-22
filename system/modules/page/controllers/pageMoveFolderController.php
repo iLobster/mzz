@@ -43,19 +43,19 @@ class pageMoveFolderController extends simpleController
 
         $validator = new formValidator();
 
-        $validator->add('required', 'dest', i18n::getMessage('error_dest_required', 'page'));
-        $validator->add('callback', 'dest', i18n::getMessage('error_dest_not_exists', 'page'), array(
+        $validator->rule('required', 'dest', i18n::getMessage('error_dest_required', 'page'));
+        $validator->rule('callback', 'dest', i18n::getMessage('error_dest_not_exists', 'page'), array(
             array(
                 $this,
                 'checkDestPageFolderExists'),
             $folderMapper));
-        $validator->add('callback', 'dest', i18n::getMessage('error_already_has_this_folder', 'page'), array(
+        $validator->rule('callback', 'dest', i18n::getMessage('error_already_has_this_folder', 'page'), array(
             array(
                 $this,
                 'checkUniquePageFolderName'),
             $folderMapper,
             $folder));
-        $validator->add('callback', 'dest', i18n::getMessage('error_could_not_move_to_children', 'page'), array(
+        $validator->rule('callback', 'dest', i18n::getMessage('error_could_not_move_to_children', 'page'), array(
             array(
                 $this,
                 'checkDestPageFolderIsNotChildren'),

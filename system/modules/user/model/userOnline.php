@@ -22,7 +22,6 @@
 
 class userOnline extends entity
 {
-    protected $module = 'user';
 }
 
 ?>

@@ -45,11 +45,11 @@ class newsSaveController extends simpleController
         }
 
         $validator = new formValidator();
-        $validator->add('required', 'title', i18n::getMessage('error_title_required', 'news'));
+        $validator->rule('required', 'title', i18n::getMessage('error_title_required', 'news'));
 
         if (!$isEdit) {
-            $validator->add('required', 'created', i18n::getMessage('error_created_required', 'news'));
-            $validator->add('regex', 'created', i18n::getMessage('error_created_format', 'news'), '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
+            $validator->rule('required', 'created', i18n::getMessage('error_created_required', 'news'));
+            $validator->rule('regex', 'created', i18n::getMessage('error_created_format', 'news'), '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#');
         }
 
         if ($validator->validate()) {

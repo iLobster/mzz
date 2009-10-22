@@ -90,13 +90,13 @@ class adminSaveActionController extends simpleController
         $validator = new formValidator();
 
         if (!$isEdit) {
-            $validator->add('required', 'action[name]', i18n::getMessage('action.error.name_required', 'admin'));
-            $validator->add('regex', 'action[name]', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')), '#^[a-z0-9_-]+$#i');
-            $validator->add('callback', 'action[name]', i18n::getMessage('action.error.unique', 'admin'), array(array($this, 'unique'), $module));
+            $validator->rule('required', 'action[name]', i18n::getMessage('action.error.name_required', 'admin'));
+            $validator->rule('regex', 'action[name]', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')), '#^[a-z0-9_-]+$#i');
+            $validator->rule('callback', 'action[name]', i18n::getMessage('action.error.unique', 'admin'), array(array($this, 'unique'), $module));
         }
 
-        $validator->add('regex', 'action[main]', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-.')), '#^[a-z0-9_\-.]+$#i');
-        $validator->add('in', 'dest', i18n::getMessage('module.error.wrong_dest', 'admin'), array_keys($dests));
+        $validator->rule('regex', 'action[main]', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-.')), '#^[a-z0-9_\-.]+$#i');
+        $validator->rule('in', 'dest', i18n::getMessage('module.error.wrong_dest', 'admin'), array_keys($dests));
 
         if ($validator->validate()) {
             $values = $this->request->getArray('action', SC_POST);

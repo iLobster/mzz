@@ -73,14 +73,14 @@ class adminSaveClassController extends simpleController
         $validator = new formValidator();
 
         if (!$isEdit) {
-            $validator->add('required', 'name', i18n::getMessage('class.error.name_required', 'admin'));
-            $validator->add('callback', 'name', i18n::getMessage('class.error.unique', 'admin'), array(array($this, 'checkUniqueClassName'), $adminMapper, $isEdit ? $data['className'] : ''));
-            $validator->add('regex', 'name', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
-            $validator->add('in', 'dest', i18n::getMessage('module.error.wrong_dest', 'admin'), array_keys($dests));
+            $validator->rule('required', 'name', i18n::getMessage('class.error.name_required', 'admin'));
+            $validator->rule('callback', 'name', i18n::getMessage('class.error.unique', 'admin'), array(array($this, 'checkUniqueClassName'), $adminMapper, $isEdit ? $data['className'] : ''));
+            $validator->rule('regex', 'name', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
+            $validator->rule('in', 'dest', i18n::getMessage('module.error.wrong_dest', 'admin'), array_keys($dests));
 
 
-            $validator->add('required', 'table', i18n::getMessage('class.error.table_required', 'admin'));
-            $validator->add('regex', 'table', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
+            $validator->rule('required', 'table', i18n::getMessage('class.error.table_required', 'admin'));
+            $validator->rule('regex', 'table', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
         }
 
         if ($validator->validate()) {
