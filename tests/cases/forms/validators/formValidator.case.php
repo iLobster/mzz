@@ -1,6 +1,6 @@
 <?php
 
-fileLoader::load('forms/validators/newFormValidator');
+fileLoader::load('forms/validators/formValidator');
 
 class formValidatorTest extends UnitTestCase
 {
@@ -11,7 +11,7 @@ class formValidatorTest extends UnitTestCase
 
     public function setUp()
     {
-        $this->validator = new newFormValidator();
+        $this->validator = new formValidator();
     }
 
     public function tearDown()
@@ -40,7 +40,7 @@ class formValidatorTest extends UnitTestCase
         $this->validator->rule('required', $field = 'data5', $errorMsg = 'Some error message');
         $this->assertFalse($this->validator->validate());
         $errors = $this->validator->getErrors();
-        $this->assertEqual($errors->get($field), $errorMsg);
+        $this->assertEqual($errors[$field], $errorMsg);
     }
 /*
     public function testValidateFromArg()

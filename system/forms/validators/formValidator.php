@@ -9,18 +9,26 @@ class formValidator
 
     private $rules = array();
 
-    /**
-     * @var formArrayDataspace
-     */
-    private $errors;
+    private $errors = array();
 
     private $submit = 'submit';
 
     public function __construct($data = null)
     {
-        $this->errors = new formArrayDataspace($this);
         $this->data = $data;
+        $this->rule('required', $this->submit);
+    }
 
+    public function submit($submit)
+    {
+        foreach ($this->rules as $key => $rule) {
+            if ($rule['name'] == $this->submit) {
+                unset($this->rules[$key]);
+                break;
+            }
+        }
+
+        $this->submit = $submit;
         $this->rule('required', $this->submit);
     }
 
@@ -50,6 +58,11 @@ class formValidator
 
     public function validate()
     {
+        if (is_null($this->data)) {
+            $request = systemToolkit::getInstance()->getRequest();
+            $this->data = $request->exportPost() + $request->exportGet();
+        }
+
         foreach ($this->rules as $rule) {
             if ($this->isError($rule['name'])) {
                 continue;
@@ -93,12 +106,12 @@ class formValidator
         return $this->errors;
     }
 
-    private function isError($name)
+    public function isError($name)
     {
         return isset($this->errors[$name]);
     }
 
-    private function isValid()
+    public function isValid()
     {
         return !sizeof($this->errors);
     }

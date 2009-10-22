@@ -60,9 +60,10 @@ class commentsPostController extends simpleController
             }
         }
 
-        $validator = new formValidator('commentSubmit');
-        $validator->add('required', 'text', 'Введите комментарий');
-        $validator->add('length', 'text', 'Слишком длинный комментарий! Максимум 2000 символов!', array(0, 2000));
+        $validator = new formValidator();
+        $validator->submit('commentSubmit');
+        $validator->rule('required', 'text', 'Введите комментарий');
+        $validator->rule('length', 'text', 'Слишком длинный комментарий! Максимум 2000 символов!', array(0, 2000));
 
         $isAjax = $this->isAjaxRequest();
         $backUrl = $this->request->getString('backUrl', SC_POST);
@@ -99,6 +100,7 @@ class commentsPostController extends simpleController
             $url->add('replyTo', $commentReply->getId(), true);
         }
 
+        $this->smarty->assign('validator', $validator);
         $this->smarty->assign('comment', $comment);
         $this->smarty->assign('commentReply', $commentReply);
         $this->smarty->assign('commentsFolder', $commentsFolder);
