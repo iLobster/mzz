@@ -44,10 +44,9 @@ var comments;
                     data: formData,
                     success: function(msg) {
                         if (baseHolder) {
-                            baseHolder.closest('div.entry-comments').find('a.selected').removeClass('selected');
-
                             formParent.empty();
                             if (msg.match(/<li class="hcomment new">/)) {
+                                baseHolder.closest('div.entry-comments').find('a.selected').removeClass('selected');
                                 if (replyTo != 0) {
                                     baseHolder.append($('<ul/>').append(msg));
                                 } else {

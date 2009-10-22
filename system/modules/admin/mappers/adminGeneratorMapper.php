@@ -395,7 +395,11 @@ class adminGeneratorMapper extends mapper
             $key = $field['Field'];
 
             if (preg_match('/^([^(]+)(?:\((\d+)\)\s?(.*))?$/', $field['Type'], $matches)) {
-                $result[$key] = array('type' => $matches[1]);
+                $result[$key] = array(
+                    'accessor' => '',
+                    'mutator' => '',
+                    'type' => $matches[1]
+                );
                 if ($matches[1] == 'int') {
                     $result[$key]['range'] = $matches[3] ? array(0, pow(2, 32)) : array(-pow(2, 31) + 1, pow(2, 31));
                 } elseif ($matches[1] == 'char' || $matches[1] == 'varchar') {
@@ -432,39 +436,11 @@ class adminGeneratorMapper extends mapper
 
     public function generateMapString($map)
     {
-        $toolkit = systemToolkit::getInstance();
-        $smarty = $toolkit->getSmarty();
+        $map_str = var_export($map, true);
 
-        $leftDelimeter = $smarty->left_delimiter;
-        $rightDelimeter = $smarty->right_delimiter;
-
-        $smarty->left_delimiter = '{{';
-        $smarty->right_delimiter = '}}';
-
-        $mainParams = array('accessor', 'mutator', 'type', 'range', 'maxlength', 'options');
-
-        //тут чуть-чуть полуненужных действий. зато мапа будет красивой
-        foreach ($map as $field => &$fieldMap) {
-            $newFieldMap = array();
-            foreach ($mainParams as $mainParam) {
-                if (isset($fieldMap[$mainParam])) {
-                    $newFieldMap[$mainParam] = $fieldMap[$mainParam];
-                    unset($fieldMap[$mainParam]);
-                }
-            }
-
-            $newFieldMap['additional'] = $fieldMap;
-
-            $fieldMap = $newFieldMap;
-        }
-
-        $smarty->assign('map', $map);
-        $map_str = $smarty->fetch('admin/generator/map.tpl');
-
-        $smarty->left_delimiter = $leftDelimeter;
-        $smarty->right_delimiter = $rightDelimeter;
-
+        $map_str = preg_replace('/^( +)/m', '$1$1', $map_str);
         $map_str = preg_replace('/^/m', str_repeat(' ', 4) . '\\1', $map_str);
+        $map_str = trim($map_str);
 
         return $map_str;
     }

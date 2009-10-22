@@ -78,7 +78,6 @@ class adminSaveClassController extends simpleController
             $validator->rule('regex', 'name', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
             $validator->rule('in', 'dest', i18n::getMessage('module.error.wrong_dest', 'admin'), array_keys($dests));
 
-
             $validator->rule('required', 'table', i18n::getMessage('class.error.table_required', 'admin'));
             $validator->rule('regex', 'table', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
         }
@@ -117,9 +116,9 @@ class adminSaveClassController extends simpleController
 
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('data', $data);
-
         $this->smarty->assign('isEdit', $isEdit);
         $this->smarty->assign('dests', $dests);
+        $this->smarty->assign('validator', $validator);
 
         return $this->smarty->fetch('admin/saveClass.tpl');
     }
