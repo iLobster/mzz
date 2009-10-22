@@ -297,9 +297,11 @@ class stdToolkit extends toolkit
      * Получение валидатора
      *
      * @return formValidator
+     * @deprecated
      */
     public function getValidator()
     {
+        throw new Exception('deprecated');
         return $this->validator;
     }
 
@@ -307,9 +309,11 @@ class stdToolkit extends toolkit
      * Установка валидатора
      *
      * @param formValidator $value
+     * @deprecated
      */
     public function setValidator($value)
     {
+        throw new Exception('deprecated');
         $this->validator = $value;
     }
 

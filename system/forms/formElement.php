@@ -195,8 +195,14 @@ abstract class formElement
      */
     protected function isRequired(Array $attributes)
     {
-        $validator = systemToolkit::getInstance()->getValidator();
+        $validator = $this->getValidator();
         return ($validator instanceof formValidator) ? $validator->isFieldRequired($attributes['name']) : null;
+    }
+
+    protected function getValidator()
+    {
+        $smarty = systemToolkit::getInstance()->getSmarty();
+        return $smarty->get_template_vars('validator');
     }
 
     /**
@@ -209,10 +215,10 @@ abstract class formElement
     {
         $hasErrors = false;
 
-        $validator = systemToolkit::getInstance()->getValidator();
+        $validator = $this->getValidator();
         if ($validator) {
             $errors = $validator->getErrors();
-            if (isset($attributes['name']) && !is_null($errors->get($attributes['name']))) {
+            if (isset($attributes['name']) && !empty($errors[$attributes['name']])) {
                 $hasErrors = true;
 
             }
