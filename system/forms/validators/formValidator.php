@@ -63,6 +63,10 @@ class formValidator
             $this->data = $request->exportPost() + $request->exportGet();
         }
 
+        if (!array_key_exists($this->submit, $this->data)) {
+            return;
+        }
+
         foreach ($this->rules as $rule) {
             if ($this->isFieldError($rule['name'])) {
                 continue;
