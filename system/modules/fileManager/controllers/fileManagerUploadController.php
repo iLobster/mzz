@@ -73,10 +73,12 @@ class fileManagerUploadController extends simpleController
         $url = new url('withAnyParam');
         $url->setAction('upload');
         $url->add('name', $folder->getTreePath());
+
         $this->smarty->assign('form_action', $url->get());
+        $this->smarty->assign('validator', $validator);
 
         $this->smarty->assign('success', $success);
-        $this->smarty->assign('messages', isset($messages) ? $messages : $errors->export());
+        $this->smarty->assign('messages', isset($messages) ? $messages : $validator->getErrors());
 
         $this->smarty->assign('folder', $folder);
 

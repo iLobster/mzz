@@ -2,12 +2,12 @@
 
 {form action=$form_action method="post" jip=true class="mzz-jip-form"}
     <ul>
-        <li class="{if $validator->isFieldRequired('name')}required{/if} {if $validator->isFieldError('name')}error{/if}">
+        <li class="{$validator->isFieldRequired('name', 'required')} {$validator->isFieldError('name', 'error')}">
             {form->caption name="name" value="_ module.name"}
             <span class="input">{if $isEdit}{$module->getName()|h}{else}{form->text name="name" size="30"}{/if}</span>
             {if $validator->isFieldError('name')}<div class="error">{$validator->getFieldError('name')}</div>{/if}
         </li>
-        <li class="{if $validator->isFieldRequired('dest')}required{/if} {if $validator->isFieldError('dest')}error{/if}">
+        <li class="{$validator->isFieldRequired('dest', 'required')} {$validator->isFieldError('dest', 'error')}">
             {form->caption name="dest" value="_ dest"}
             <span class="input">{if $isEdit}{$currentDestination|h}{else}{form->select name="dest" options=$dests one_item_freeze=1 value=$currentDestination}{/if}
             </span>

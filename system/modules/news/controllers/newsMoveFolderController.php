@@ -61,8 +61,6 @@ class newsMoveFolderController extends simpleController
                 'checkDestNewsFolderIsNotChildren'),
             $folders));
 
-        $errors = $validator->getErrors();
-
         if ($validator->validate()) {
             $destFolder = $folderMapper->searchByKey($dest);
             $folder->setTreeParent($destFolder);
@@ -74,6 +72,9 @@ class newsMoveFolderController extends simpleController
         $url->setAction('moveFolder');
         $url->add('name', $folder->getTreePath());
 
+        $this->smarty->assign('form_action', $url->get());
+        $this->smarty->assign('validator', $validator);
+
         $dests = array();
         foreach ($folders as $val) {
             $dests[$val->getId()] = str_repeat('&nbsp;', ($val->getTreeLevel() - 1) * 5) . $val->getTitle();
@@ -81,8 +82,7 @@ class newsMoveFolderController extends simpleController
 
         $this->smarty->assign('folder', $folder);
         $this->smarty->assign('dests', $dests);
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('errors', $errors);
+
         return $this->smarty->fetch('news/moveFolder.tpl');
     }
 

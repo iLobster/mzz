@@ -44,7 +44,6 @@ class newsSaveFolderController extends simpleController
         $validator->rule('regex', 'name', i18n::getMessage('error_name_invalid_name', 'news'), '/^[-_a-z0-9]+$/i');
         $validator->rule('callback', 'name', i18n::getMessage('error_name_unique', 'news'), array(array($this, 'checkUniqueFolderName'), $path, $isEdit));
 
-
         if ($validator->validate()) {
             $name = $this->request->getString('name', SC_POST);
             $title = $this->request->getString('title', SC_POST);
@@ -67,8 +66,8 @@ class newsSaveFolderController extends simpleController
         $url->add('name', $path);
         $url->setAction($action);
 
-        $this->smarty->assign('action', $url->get());
-        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('form_action', $url->get());
+        $this->smarty->assign('validator', $validator);
         $this->smarty->assign('isEdit', $isEdit);
 
         $targetFolder = $isEdit ? $targetFolder : $folderMapper->create();

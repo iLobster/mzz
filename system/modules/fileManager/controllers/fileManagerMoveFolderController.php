@@ -58,6 +58,8 @@ class fileManagerMoveFolderController extends simpleController
         $url->setAction('moveFolder');
         $url->add('name', $folder->getTreePath());
 
+        $this->smarty->assign('form_action', $url->get());
+        $this->smarty->assign('validator', $validator);
 
         $dests = array();
         $styles = array();
@@ -68,8 +70,6 @@ class fileManagerMoveFolderController extends simpleController
 
         $this->smarty->assign('dests', $dests);
         $this->smarty->assign('styles', $styles);
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('folder', $folder);
         return $this->smarty->fetch('fileManager/moveFolder.tpl');
     }

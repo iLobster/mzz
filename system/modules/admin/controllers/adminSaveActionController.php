@@ -146,6 +146,7 @@ class adminSaveActionController extends simpleController
         }
 
         $this->smarty->assign('form_action', $url->get());
+        $this->smarty->assign('validator', $validator);
 
         $this->smarty->assign('dests', $dests);
         $this->smarty->assign('isEdit', $isEdit);

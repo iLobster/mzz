@@ -56,8 +56,9 @@ class fileManagerEditController extends simpleController
         $url = new url('withAnyParam');
         $url->add('name', $name);
         $url->setAction('edit');
-        $this->smarty->assign('form_action', $url->get());
 
+        $this->smarty->assign('form_action', $url->get());
+        $this->smarty->assign('validator', $validator);
         $this->smarty->assign('file', $file);
         return $this->smarty->fetch('fileManager/edit.tpl');
     }

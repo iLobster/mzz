@@ -99,20 +99,24 @@ class formValidator
         return $this->errors;
     }
 
-    public function isFieldRequired($name)
+    public function isFieldRequired($name, $value = null)
     {
         foreach ($this->rules as $rule) {
             if ($rule['name'] == $name && $rule['validator'] instanceof formRequiredRule) {
-                return true;
+                return is_null($value) ? true : $value;
             }
         }
 
         return false;
     }
 
-    public function isFieldError($field)
+    public function isFieldError($field, $value = null)
     {
-        return isset($this->errors[$field]);
+        if (isset($this->errors[$field])) {
+            return is_null($value) ? true : $value;
+        }
+
+        return false;
     }
 
     public function getFieldError($field)

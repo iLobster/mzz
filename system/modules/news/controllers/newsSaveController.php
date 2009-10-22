@@ -82,7 +82,7 @@ class newsSaveController extends simpleController
         $url->setAction($action);
 
         $this->smarty->assign('action', $url->get());
-        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('validator', $validator);
         $this->smarty->assign('news', $news);
         $this->smarty->assign('isEdit', $isEdit);
 

@@ -6,63 +6,66 @@
 
 {form action=$form_action method="post" jip=true class="mzz-jip-form"}
     <ul>
-        <li class="{$form->required('dest','required')} {$form->error('dest','error')}">
+        <li class="{$validator->isFieldRequired('dest', 'required')} {$validator->isFieldError('dest', 'error')}">
             {form->caption name="dest" value="_ dest"}
             <span class="input">{form->select name="dest" options=$dests one_item_freeze=1 value=app}</span>
-            {if $form->error('dest')}<div class="error">{$form->message('dest')}</div>{/if}
+            {if $validator->isFieldError('dest')}<div class="error">{$validator->getFieldError('dest')}</div>{/if}
         </li>
         {if $isEdit}
-            <li>
-                {form->caption name="action[name]" value="_ action.name"}
-                <span class="input">{$actionData.name|h}</span>
-            </li>
-            <li>
-                {form->caption name="action[controller]" value="_ action.controller"}
-                <span class="input">{$actionData.controllerName|h}</span>
-            </li>
+        <li>
+            {form->caption name="action[name]" value="_ action.name"}
+            <span class="input">{$actionData.name|h}</span>
+        </li>
+        <li>
+            {form->caption name="action[controller]" value="_ action.controller"}
+            <span class="input">{$actionData.controllerName|h}</span>
+        </li>
         {else}
-            <li class="{$form->required('action[name]','required')} {$form->error('action[name]','error')}">
-                {form->caption name="action[name]" value="_ action.name"}
-                <span class="input">{form->text name="action[name]" size="30" value=$actionData.name}{* (<a href="#" onclick="return fillUpEditAclForm();">editAcl</a>)*}</span>
-                {if $form->error('action[name]')}<div class="error">{$form->message('action[name]')}</div>{/if}
-            </li>
-            <li class="{$form->required('action[controller]','required')} {$form->error('action[controller]','error')}">
-                {form->caption name="action[controller]" value="_ action.controller"}
-                <span class="input">{form->text name="action[controller]" size="30" value=$actionData.controllerName}</span>
-                {if $form->error('action[controller]')}<div class="error">{$form->message('action[controller]')}</div>{/if}
-            </li>
+        <li class="{$validator->isFieldRequired('action[name]', 'required')} {$validator->isFieldError('action[name]', 'error')}">
+            {form->caption name="action[name]" value="_ action.name"}
+            <span class="input">{form->text name="action[name]" size="30" value=$actionData.name}</span>
+            {if $validator->isFieldError('action[name]')}<div class="error">{$validator->getFieldError('action[name]')}</div>{/if}
+        </li>
+        <li class="{$validator->isFieldRequired('action[controller]', 'required')} {$validator->isFieldError('action[controller]', 'error')}">
+            {form->caption name="action[controller]" value="_ action.controller"}
+            <span class="input">{form->text name="action[controller]" size="30" value=$actionData.controllerName}</span>
+            {if $validator->isFieldError('action[controller]')}<div class="error">{$validator->getFieldError('action[controller]')}</div>{/if}
+        </li>
         {/if}
-
-        <li class="{$form->required('action[title]','required')} {$form->error('action[title]','error')}">
+        <li class="{$validator->isFieldRequired('action[title]', 'required')} {$validator->isFieldError('action[title]', 'error')}">
             {form->caption name="action[title]" value="Заголовок"}
             <span class="input">{form->text name="action[title]" size="30" value=$actionData.title}</span>
-            {if $form->error('action[title]')}<div class="error">{$form->message('action[title]')}</div>{/if}
+            {if $validator->isFieldError('action[title]')}<div class="error">{$validator->getFieldError('action[title]')}</div>{/if}
         </li>
-        <li class="{$form->required('action[confirm]','required')} {$form->error('action[confirm]','error')}">
+        <li class="{$validator->isFieldRequired('action[confirm]', 'required')} {$validator->isFieldError('action[confirm]', 'error')}">
             {form->caption name="action[confirm]" value="_ action.confirm"}
             <span class="input">{form->text name="action[confirm]" size="30" value=$actionData.confirm}</span>
-            {if $form->error('action[confirm]')}<div class="error">{$form->message('action[confirm]')}</div>{/if}
+            {if $validator->isFieldError('action[confirm]')}<div class="error">{$validator->getFieldError('action[confirm]')}</div>{/if}
         </li>
-        <li class="{$form->required('action[main]','required')} {$form->error('action[main]','error')}">
+        <li class="{$validator->isFieldRequired('action[main]', 'required')} {$validator->isFieldError('action[main]', 'error')}">
             {form->caption name="action[main]" value="_ action.main"}
             <span class="input">{form->text name="action[main]" size="30" value=$actionData.activeTemplate}</span>
-            {if $form->error('action[main]')}<div class="error">{$form->message('action[main]')}</div>{/if}
+            {if $validator->isFieldError('action[main]')}<div class="error">{$validator->getFieldError('action[main]')}</div>{/if}
         </li>
+
         {if $moduleClassMapper->isAttached('jip')}
-            <li class="{$form->required('action[jip]','required')} {$form->error('action[jip]','error')}">
-                {form->caption name="action[jip]" value="Добавить в JIP"}
-                <span class="input">{form->checkbox name="action[jip]" value=$actionData.jip}</span>
-            </li>
-            <li class="{$form->required('action[icon]','required')} {$form->error('action[icon]','error')}">
-                {form->caption name="action[icon]" value="Иконка для JIP"}
-                <span class="input">{form->text name="action[icon]" size="30" value=$actionData.icon}</span>
-            </li>
+        <li class="{$validator->isFieldRequired('action[jip]', 'required')} {$validator->isFieldError('action[jip]', 'error')}">
+            {form->caption name="action[jip]" value="Добавить в JIP"}
+            <span class="input">{form->checkbox name="action[jip]" value=$actionData.jip}</span>
+            {if $validator->isFieldError('action[jip]')}<div class="error">{$validator->getFieldError('action[jip]')}</div>{/if}
+        </li>
+        <li class="{$validator->isFieldRequired('action[icon]', 'required')} {$validator->isFieldError('action[icon]', 'error')}">
+            {form->caption name="action[icon]" value="Иконка для JIP"}
+            <span class="input">{form->text name="action[icon]" size="30" value=$actionData.icon}</span>
+            {if $validator->isFieldError('action[icon]')}<div class="error">{$validator->getFieldError('action[icon]')}</div>{/if}
+        </li>
         {/if}
 
         {if !$isEdit}
-        <li class="{$form->required('action[crud]','required')} {$form->error('action[crud]','error')}">
+        <li class="{$validator->isFieldRequired('action[crud]', 'required')} {$validator->isFieldError('action[crud]', 'error')}">
             {form->caption name="action[crud]" value="CRUD"}
             <span class="input">{form->select name="action[crud]" options=$crudList emptyFirst="none"}</span>
+            {if $validator->isFieldError('action[crud]')}<div class="error">{$validator->getFieldError('action[crud]')}</div>{/if}
         </li>
         {/if}
     </ul

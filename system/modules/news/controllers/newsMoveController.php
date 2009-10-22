@@ -65,9 +65,10 @@ class newsMoveController extends simpleController
         $url->setAction('move');
         $url->add('id', $news->getId());
 
+        $this->smarty->assign('form_action', $url->get());
+        $this->smarty->assign('validator', $validator);
+
         $this->smarty->assign('news', $news);
-        $this->smarty->assign('action', $url->get());
-        $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('dests', $dests);
         return $this->smarty->fetch('news/move.tpl');
     }

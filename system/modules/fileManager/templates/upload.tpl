@@ -29,7 +29,7 @@
             {form->caption name="path" value="Каталог"}
             <span class="input">{$folder->getTreePath()}</span>
         </li>
-        <li class="{$form->required('file', 'required')} {$form->error('file', 'error')}">
+        <li class="{$validator->isFieldRequired('file', 'required')} {$validator->isFieldError('file', 'error')}">
             {form->caption name="file" value="Файл"}
             <span class="input">{form->file name="file"}</span>
             <span style="text-align:center; color: #999; font-size: 90%;">
@@ -37,17 +37,17 @@
                 {assign var=exts value=$folder->getExts()}
                 {if not empty($exts)}<br />Ограничение на расширения файлов: <b>{$folder->getExts()}</b>{/if}
             </span>
-            {if $form->error('file')}<span class="error">{$form->message('file')}</span>{/if}
+            {if $validator->isFieldError('file')}<span class="error">{$validator->getFieldError('file')}</span>{/if}
         </li>
-        <li class="{$form->required('name', 'required')} {$form->error('name', 'error')}">
+        <li class="{$validator->isFieldRequired('name', 'required')} {$validator->isFieldError('name', 'error')}">
             {form->caption name="name" value="Новое имя"}
             <span class="input">{form->text name="name" style="width: 100%"}</span>
-            {if $form->error('name')}<span class="error">{$form->message('name')}</span>{/if}
+            {if $validator->isFieldError('name')}<span class="error">{$validator->getFieldError('name')}</span>{/if}
         </li>
-        <li class="{$form->required('about', 'required')} {$form->error('about', 'error')}">
+        <li class="{$validator->isFieldRequired('about', 'required')} {$validator->isFieldError('about', 'error')}">
             {form->caption name="about" value="Описание"}
             <span class="input">{form->textarea name="about" rows="7" style="width: 100%"}</span>
-            {if $form->error('about')}<span class="error">{$form->message('about')}</span>{/if}
+            {if $validator->isFieldError('about')}<span class="error">{$validator->getFieldError('about')}</span>{/if}
         </li>
         <li>
             {form->caption name="header" value="Отдавать с нужными заголовками"}

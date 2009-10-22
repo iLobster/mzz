@@ -2,7 +2,7 @@
 
 {form action=$form_action method="post" jip=true class="mzz-jip-form"}
     <ul>
-        <li class="{if $validator->isFieldRequired('name')}required{/if} {if $validator->isFieldError('name')}error{/if}">
+        <li class="{$validator->isFieldRequired('name', 'required')} {$validator->isFieldError('name', 'error')}">
             {form->caption name="name" value="_ class.name"}
             <span class="input">
                 {if $isEdit}
@@ -13,7 +13,7 @@
                 {/if}
             </span>
         </li>
-        <li class="{if $validator->isFieldRequired('table')}required{/if} {if $validator->isFieldError('table')}error{/if}">
+        <li class="{$validator->isFieldRequired('table', 'required')} {$validator->isFieldError('table', 'error')}">
             {form->caption name="table" value="_ class.table_name"}
             <span class="input">
                 {if $isEdit}
@@ -24,7 +24,7 @@
                 {/if}
             </span>
         </li>
-        <li class="{if $validator->isFieldRequired('dest')}required{/if} {if $validator->isFieldError('dest')}error{/if}">
+        <li class="{$validator->isFieldRequired('dest', 'required')} {$validator->isFieldError('dest', 'error')}">
             {form->caption name="dest" value="_ dest"}
             <span class="input">{form->select name="dest" options=$dests one_item_freeze=1 value=app}</span>
             {if $validator->isFieldError('dest')}<div class="error">{$validator->getFieldError('dest')}</div>{/if}
