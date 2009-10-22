@@ -1,8 +1,9 @@
 <?php
 
 fileLoader::load('forms/validators/formAbstractRule');
+fileLoader::load('forms/formArrayDataspace');
 
-class newFormValidator
+class formValidator
 {
     private $data;
 
