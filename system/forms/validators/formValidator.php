@@ -58,12 +58,14 @@ class formValidator
 
     public function validate()
     {
+        /*
         if (is_null($this->data)) {
             $request = systemToolkit::getInstance()->getRequest();
             $this->data = $request->exportPost() + $request->exportGet();
         }
+        */
 
-        if (!array_key_exists($this->submit, $this->data)) {
+        if (is_null(systemToolkit::getInstance()->getRequest()->getString($this->submit, SC_REQUEST))) {
             return;
         }
 
@@ -72,11 +74,11 @@ class formValidator
                 continue;
             }
 
-            if (!isset($this->data[$rule['name']])) {
+            $value = $this->getFromRequest($rule['name']);
+
+            if (is_null($value)) {
                 $rule['validator']->notExists();
                 $value = null;
-            } else {
-                $value = $this->data[$rule['name']];
             }
 
             if (!$rule['validator']->validate($value)) {
@@ -132,6 +134,13 @@ class formValidator
     public function isValid()
     {
         return !sizeof($this->errors);
+    }
+
+    protected function getFromRequest($name, $type = 'string')
+    {
+        $funcName = 'get' . ucfirst(strtolower($type));
+        $request = systemToolkit::getInstance()->getRequest();
+        return $request->$funcName($name, SC_REQUEST);
     }
 }
 
