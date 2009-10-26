@@ -1,23 +1,10 @@
 <?php
 
-fileLoader::load('forms/validators/formAbstractRule');
-fileLoader::load('forms/formArrayDataspace');
+fileLoader::load('forms/validators/validator');
 
-class formValidator
+class formValidator extends validator
 {
-    private $data;
-
-    private $rules = array();
-
-    private $errors = array();
-
-    private $submit = 'submit';
-
-    public function __construct($data = null)
-    {
-        $this->data = $data;
-        $this->rule('required', $this->submit);
-    }
+    protected $submit = 'submit';
 
     public function submit($submit)
     {
@@ -29,43 +16,11 @@ class formValidator
         }
 
         $this->submit = $submit;
-        $this->rule('required', $this->submit);
-    }
-
-    public function setData(array $data)
-    {
-        $this->data = $data;
-    }
-
-    public function rule($type, $name, $message = null, $options = null)
-    {
-        $validator = $this->loadValidator($type, $message, $options);
-        $validator->setData($this->data);
-        $this->rules[] = array(
-            'name' => $name,
-            'validator' => $validator);
-    }
-
-    private function loadValidator($type, $message, $options)
-    {
-        $class = 'form' . ucfirst($type) . 'Rule';
-        if (!class_exists($class)) {
-            fileLoader::load('forms/validators/' . $class);
-        }
-
-        return new $class($message, $options);
     }
 
     public function validate()
     {
-        /*
-        if (is_null($this->data)) {
-            $request = systemToolkit::getInstance()->getRequest();
-            $this->data = $request->exportPost() + $request->exportGet();
-        }
-        */
-
-        if (is_null(systemToolkit::getInstance()->getRequest()->getString($this->submit, SC_REQUEST))) {
+        if (!$this->getValue($this->submit, $submit)) {
             return;
         }
 
@@ -74,11 +29,8 @@ class formValidator
                 continue;
             }
 
-            $value = $this->getFromRequest($rule['name']);
-
-            if (is_null($value)) {
+            if (!$this->getValue($rule['name'], $value)) {
                 $rule['validator']->notExists();
-                $value = null;
             }
 
             if (!$rule['validator']->validate($value)) {
@@ -89,51 +41,20 @@ class formValidator
         return $this->isValid();
     }
 
-    private function setError($name, $message)
+    private function getValue($name, & $value)
     {
-        if (!$this->isFieldError($name)) {
-            $this->errors[$name] = $message;
-        }
-    }
-
-    public function getErrors()
-    {
-        return $this->errors;
-    }
-
-    public function isFieldRequired($name, $value = null)
-    {
-        foreach ($this->rules as $rule) {
-            if ($rule['name'] == $name && $rule['validator'] instanceof formRequiredRule) {
-                return is_null($value) ? true : $value;
-            }
+        if (!$this->data) {
+            $value = $this->getFromRequest($name);
+            return !is_null($value);
         }
 
-        return false;
-    }
-
-    public function isFieldError($field, $value = null)
-    {
-        if (isset($this->errors[$field])) {
-            return is_null($value) ? true : $value;
+        if (!isset($this->data[$name])) {
+            $value = null;
+            return false;
         }
 
-        return false;
-    }
-
-    public function getFieldError($field)
-    {
-        $message = null;
-        if ($this->isFieldError($field)) {
-            $message = $this->errors[$field];
-        }
-
-        return $message;
-    }
-
-    public function isValid()
-    {
-        return !sizeof($this->errors);
+        $value = $this->data[$name];
+        return true;
     }
 
     protected function getFromRequest($name, $type = 'string')
