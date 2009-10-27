@@ -75,6 +75,13 @@ class systemConfig
     public static $pathToApplication;
 
     /**
+     * Путь до www-папки
+     *
+     * @var string
+     */
+    public static $pathToWebRoot;
+
+    /**
      * Путь до ядра
      *
      * @var string

@@ -64,7 +64,7 @@ class externalApplication extends core
         require_once systemConfig::$pathToSystem . '/core/fileLoader.php';
 
         $baseresolver = new compositeResolver();
-        $baseresolver->addResolver(new fileResolver(systemConfig::$pathToApplication . '/*'));
+        $baseresolver->addResolver(new fileResolver(systemConfig::$pathToWebRoot . '/*'));
         $baseresolver->addResolver(new fileResolver(systemConfig::$pathToSystem . '/*'));
 
         $resolver = new compositeResolver();

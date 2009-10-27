@@ -22,8 +22,8 @@ class accessSaveController extends simpleController
             $groups = $roleMapper->getGroupsNotAddedYet($module_name)->toArray();
             $this->smarty->assign('groups', $groups);
 
-            $validator->add('required', 'group_id');
-            $validator->add('in', 'group_id', 'группа не найдена', array_keys($groups));
+            $validator->rule('required', 'group_id');
+            $validator->rule('in', 'group_id', 'группа не найдена', array_keys($groups));
         }
 
         try {

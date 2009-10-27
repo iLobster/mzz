@@ -26,7 +26,7 @@ class templateMediaResolver extends baseMediaResolver
 {
     protected function process(Array $fileinfo, $slash_count, $request)
     {
-        return 'templates/' . $fileinfo['extension'] . '/' . $request;
+        return $fileinfo['extension'] . '/' . $request;
     }
 }
 
