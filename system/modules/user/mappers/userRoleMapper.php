@@ -120,7 +120,7 @@ class userRoleMapper extends mapper
     {
         $groupMapper = systemToolkit::getInstance()->getMapper('user', 'group');
 
-        $criterion = new criterion('r.group_id', $groupMapper->table(true) . '.id', criteria::EQUAL, true);
+        $criterion = new criterion('r.group_id', $groupMapper->table(false) . '.id', criteria::EQUAL, true);
         $criterion->addAnd(new criterion('r.module', $module));
 
         $criteria = new criteria($groupMapper->table());
