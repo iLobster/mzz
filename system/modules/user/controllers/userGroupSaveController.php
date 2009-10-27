@@ -67,7 +67,7 @@ class userGroupSaveController extends simpleController
         $this->smarty->assign('group', $group);
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('isEdit', $isEdit);
-        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('validator', $validator);
         return $this->smarty->fetch('user/groupEdit.tpl');
     }
 

@@ -193,7 +193,7 @@ class relation
 
             $collection = $infoRel['mapper']->searchAllByCriteria($criteria);
 
-            $modifyCriteria = new criteria($info['reference']);
+            $modifyCriteria = new criteria($mapper->db()->getTablePrefix() . $info['reference']);
             $collection->setMtoMParams($data[$info['local_key']], $info['ref_local_key'], $info['ref_foreign_key'], $modifyCriteria);
 
             return $collection;

@@ -64,7 +64,7 @@ class userRoleMapper extends mapper
 
             $critera->where('module', $module);
 
-            $criterion = new criterion('rel.group_id', $this->table(true) . '.group_id', criteria::EQUAL, true);
+            $criterion = new criterion('rel.group_id', $this->table(false) . '.group_id', criteria::EQUAL, true);
             $criterion->addAnd(new criterion('rel.user_id', $this->user->getId()));
             $critera->join($relMapper->table(), $criterion, 'rel', criteria::JOIN_INNER);
 
