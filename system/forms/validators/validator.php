@@ -30,7 +30,7 @@ class validator
             'validator' => $validator);
     }
 
-    private function loadValidator($type, $message, $options)
+    protected function loadValidator($type, $message = null, $options = null)
     {
         $class = 'form' . ucfirst($type) . 'Rule';
         if (!class_exists($class)) {

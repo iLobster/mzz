@@ -21,10 +21,12 @@
  */
 class formCsrfRule extends formAbstractRule
 {
-    public function validate()
+    protected $message = 'csrf verification error';
+
+    protected function _validate($value)
     {
         $session = systemToolkit::getInstance()->getSession();
-        return $session->get('CSRFToken') === $this->value;
+        return $session->get('CSRFToken') === $value;
     }
 }
 

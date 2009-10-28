@@ -6,6 +6,8 @@ class formValidator extends validator
 {
     protected $submit = 'submit';
 
+    protected $csrf = true;
+
     public function submit($submit)
     {
         foreach ($this->rules as $key => $rule) {
@@ -24,7 +26,7 @@ class formValidator extends validator
             return;
         }
 
-        foreach ($this->rules as $rule) {
+        foreach ($this->rules() as $rule) {
             if ($this->isFieldError($rule['name'])) {
                 continue;
             }
@@ -39,6 +41,26 @@ class formValidator extends validator
         }
 
         return $this->isValid();
+    }
+
+    private function rules()
+    {
+        if (!$this->csrf) {
+            return $this->rules;
+        }
+
+        $required = $this->loadValidator('required');
+        $required->setData($this->data);
+        $csrf = $this->loadValidator('csrf');
+        $csrf->setData($this->data);
+
+        return $this->rules + array(
+            array(
+                'name' => '_csrf_token',
+                'validator' => $required),
+            array(
+                'name' => '_csrf_token',
+                'validator' => $csrf));
     }
 
     private function getValue($name, & $value)
