@@ -31,11 +31,13 @@ class formValidator extends validator
                 continue;
             }
 
-            if (!$this->getValue($rule['name'], $value)) {
+            $this->getValue($rule['name'], $value);
+
+            if (!$value) {
                 $rule['validator']->notExists();
             }
 
-            if (!$rule['validator']->validate($value)) {
+            if (!$rule['validator']->validate($value, $rule['name'])) {
                 $this->setError($rule['name'], $rule['validator']->getErrorMsg());
             }
         }

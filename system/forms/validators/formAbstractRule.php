@@ -52,13 +52,13 @@ abstract class formAbstractRule
         $this->notExists = true;
     }
 
-    public function validate($value = null)
+    public function validate($value = null, $name = null)
     {
         if ($this->notExists) {
             return true;
         }
 
-        $this->validation = $this->_validate($value);
+        $this->validation = $this->_validate($value, $name);
 
         return $this->validation;
     }

@@ -21,9 +21,9 @@
  */
 class formFileextRule extends formAbstractRule
 {
-    public function validate()
+    protected function _validate($value, $name = null)
     {
-        if (!isset($_FILES[$this->name])) {
+        if (!isset($_FILES[$name])) {
             return true;
         }
 
@@ -31,7 +31,7 @@ class formFileextRule extends formAbstractRule
             throw new mzzRuntimeException('Argument with array of valid extensions expected');
         }
 
-        $ext = substr(strrchr($_FILES[$this->name]['name'], '.'), 1);
+        $ext = substr(strrchr($_FILES[$name]['name'], '.'), 1);
 
         return empty($this->params) ? true : in_array($ext, $this->params);
     }

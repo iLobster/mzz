@@ -21,9 +21,14 @@
  */
 class formFilesizeRule extends formAbstractRule
 {
-    public function validate()
+    public function notExists()
     {
-        if (!isset($_FILES[$this->name])) {
+        $this->validation = false;
+    }
+
+    protected function _validate($value, $name = null)
+    {
+        if (!isset($_FILES[$name])) {
             return true;
         }
 
@@ -40,7 +45,7 @@ class formFilesizeRule extends formAbstractRule
             $size = $this->params;
         }
 
-        return $_FILES[$this->name]['size'] <= $size;
+        return $_FILES[$name]['size'] <= $size;
     }
 }
 
