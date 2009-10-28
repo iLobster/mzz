@@ -9,13 +9,25 @@ class formValidatorTest extends UnitTestCase
      */
     protected $validator;
 
+    /**
+     * @var httpRequest
+     */
+    protected $request;
+
+    public function __construct()
+    {
+        $this->request = systemToolkit::getInstance()->getRequest();
+    }
+
     public function setUp()
     {
+        $this->request->save();
         $this->validator = new formValidator();
     }
 
     public function tearDown()
     {
+        $this->request->restore();
     }
 
     public function testNotValidateWithNoSubmit()
@@ -42,6 +54,20 @@ class formValidatorTest extends UnitTestCase
         $errors = $this->validator->getErrors();
         $this->assertEqual($errors[$field], $errorMsg);
     }
+
+    public function testValidateFromRequest()
+    {
+        $_POST = array();
+        $_POST['data'] = 'foo';
+        $_POST['array']['nested'] = 'bar';
+        $_POST['submit'] = 'true';
+        $this->request->refresh();
+
+        $this->validator->rule('required', 'data');
+        $this->validator->rule('required', 'array[nested]');
+        $this->assertTrue($this->validator->validate());
+    }
+
 /*
     public function testValidateFromArg()
     {

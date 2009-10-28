@@ -44,9 +44,11 @@ class formValidator extends validator
     private function getValue($name, & $value)
     {
         if (!$this->data) {
-            $value = $this->getFromRequest($name);
-            return !is_null($value);
+            $request = systemToolkit::getInstance()->getRequest();
+            $this->data = $request->exportPost() + $request->exportGet();
         }
+
+        $indexName = $this->hasBrackets($name);
 
         if (!isset($this->data[$name])) {
             $value = null;
@@ -54,7 +56,22 @@ class formValidator extends validator
         }
 
         $value = $this->data[$name];
+
+        if ($indexName) {
+            $value = arrayDataspace::extractFromArray($indexName, $value);
+        }
+
         return true;
+    }
+
+    private function hasBrackets(&$name)
+    {
+        if ($bracket = strpos($name, '[')) {
+            $indexName = substr($name, $bracket);
+            $name = substr($name, 0, $bracket);
+
+            return $indexName;
+        }
     }
 
     protected function getFromRequest($name, $type = 'string')
