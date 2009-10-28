@@ -62,21 +62,6 @@ class loadDispatcher
             self::$request = $request;
         }
 
-        //if ($action->canRun()) {
-        //$mapper = $module->getMapper($action->getClassName());
-        /*
-            try {
-                $access = true; //self::getAccess($mapper, $action);
-            } catch (mzzDONotFoundException $e) {
-                fileLoader::load('simple/simple404Controller');
-                $controller = new simple404Controller();
-                $controller->applyMapper($mapper);
-                $request->restore();
-                return $controller->run();
-            } */
-        //}
-
-
         $mapper = $module->getMapper($action->getClassName());
         if ($mapper instanceof iACLMapper) {
             $object = $mapper->convertArgsToObj(self::$request->getParams());
@@ -97,25 +82,6 @@ class loadDispatcher
         // отдаём контент
         return $view;
     }
-
-/**
- * @todo: reimplement for roles
- * Get access to an action using the mapper and the action class
- *
- * @param string $mapper
- * @param string $action
- * @return boolean
- */
-/*protected static function getAccess($mapper, $action)
-    {
-        $args = self::$request->getParams();
-
-        $actionName = $action->getAlias(systemToolkit::getInstance()->getRequest()->getAction());
-
-        $obj = $mapper->convertArgsToObj($args);
-
-        return $obj->getAcl($actionName);
-    } */
 }
 
 ?>

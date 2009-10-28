@@ -12,8 +12,6 @@
  * @version $Id$
  */
 
-fileLoader::load('user/mappers/userRoleMapper');
-
 /**
  * simpleAction: class for action
  *
