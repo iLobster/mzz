@@ -236,7 +236,7 @@ class httpRequest implements iRequest
         }
 
         if (isset($indexName)) {
-            $result = $this->extractFromArray($indexName, $result);
+            $result = arrayDataspace::extractFromArray($indexName, $result);
         }
 
         if (is_null($result)) {
@@ -248,37 +248,6 @@ class httpRequest implements iRequest
         } else {
             return $this->setType($result, $type);
         }
-    }
-
-    /**
-     * Извлекает элемент массива, имя которого задано через квадратные скобки. Пример:
-     * [first], [last], [phone][1], ...
-     *
-     * @param string $name имя с "адресом" элемента массива
-     * @param array $array массив
-     * @return mixed|null
-     */
-    protected function extractFromArray($name, $array)
-    {
-        if (!is_array($array)) {
-            return null;
-        }
-        // извлекаем индексы (пустой индекс - 0)
-        $name = str_replace('[]', '[0]', $name);
-        preg_match_all('/\[["\']?(.*?)["\']?\]/', $name, $indexes);
-        // or str_replace(array('[]', '][', '[', ']'), array('', '[', '[', ''), substr($name, strpos($name, '[') + 1));
-        $indexes = $indexes[1];
-
-        // последовательно "пробираемся" к элементу
-        foreach($indexes as $index) {
-            if (!isset($array[$index])) {
-                $result = null;
-                break;
-            }
-            $array = $array[$index];
-        }
-        // возможно что уже не массив :)
-        return $array;
     }
 
     /**

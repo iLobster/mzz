@@ -12,7 +12,7 @@
  * @package system
  * @subpackage dataspace
  * @version $Id$
-*/
+ */
 
 /**
  * arrayDataspace: контейнер для удобной работы с массивами
@@ -191,25 +191,25 @@ class arrayDataspace implements ArrayAccess, Iterator, Countable
      *
      * @return array
      */
-    public function & export()
+    public function &export()
     {
         return $this->data;
     }
 
     /**
-    * Очищает все установленные данные
-    *
-    */
+     * Очищает все установленные данные
+     *
+     */
     public function clear()
     {
         $this->data = array();
     }
 
     /**
-    * Проверяет является ли Dataspace пустым
-    *
-    * @return boolean
-    */
+     * Проверяет является ли Dataspace пустым
+     *
+     * @return boolean
+     */
     public function isEmpty()
     {
         return empty($this->data);
@@ -251,6 +251,37 @@ class arrayDataspace implements ArrayAccess, Iterator, Countable
     public function valid()
     {
         return $this->current < sizeof($this->data);
+    }
+
+    /**
+     * Extracts the item using name specified with []. Sample:
+     * [first], [last], [phone][1], ...
+     *
+     * @param string $name the []-using name
+     * @param array $array source array
+     * @return mixed|null
+     */
+    public static function extractFromArray($name, $array)
+    {
+        if (!is_array($array)) {
+            return null;
+        }
+        // extracting indexes (empty index equals 0)
+        $name = str_replace('[]', '[0]', $name);
+        preg_match_all('/\[["\']?(.*?)["\']?\]/', $name, $indexes);
+        // or str_replace(array('[]', '][', '[', ']'), array('', '[', '[', ''), substr($name, strpos($name, '[') + 1));
+        $indexes = $indexes[1];
+
+        // iterating over the array
+        foreach ($indexes as $index) {
+            if (!isset($array[$index])) {
+                $result = null;
+                break;
+            }
+            $array = $array[$index];
+        }
+
+        return $array;
     }
 }
 ?>
