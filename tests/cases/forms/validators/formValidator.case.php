@@ -55,7 +55,7 @@ class formValidatorTest extends UnitTestCase
         $this->assertEqual($errors[$field], $errorMsg);
     }
 
-    public function testValidateFromRequest()
+    public function testValidateFromRequestAndExport()
     {
         $_POST = array();
         $_POST['data'] = 'foo';
@@ -63,9 +63,32 @@ class formValidatorTest extends UnitTestCase
         $_POST['submit'] = 'true';
         $this->request->refresh();
 
-        $this->validator->rule('required', 'data');
-        $this->validator->rule('required', 'array[nested]');
-        $this->assertTrue($this->validator->validate());
+        $validator = new formValidator();
+        $validator->rule('required', 'data');
+        $validator->rule('required', 'array[nested]');
+        $this->assertTrue($validator->validate());
+
+        $data = $validator->export();
+
+        $this->assertTrue(isset($data['data']));
+        $this->assertTrue(isset($data['array']['nested']));
+    }
+
+    public function testSimpleFilters()
+    {
+        $_POST = array();
+        $_POST['data'] = ' foo ';
+        $_POST['array']['nested'] = 'bar';
+        $_POST['submit'] = 'true';
+        $this->request->refresh();
+
+        $validator = new formValidator();
+
+        $validator->filter('trim', 'data');
+
+        $data = $validator->export();
+
+        $this->assertEqual($data['data'], 'foo');
     }
 
 /*

@@ -8,6 +8,16 @@ class formValidator extends validator
 
     protected $csrf = true;
 
+    public function __construct($data = null)
+    {
+        parent::__construct($data);
+
+        if (is_null($data)) {
+            $request = systemToolkit::getInstance()->getRequest();
+            $this->data = $request->exportPost() + $request->exportGet();
+        }
+    }
+
     public function submit($submit)
     {
         foreach ($this->rules as $key => $rule) {
@@ -24,6 +34,10 @@ class formValidator extends validator
     {
         if (!$this->getValue($this->submit, $submit)) {
             return;
+        }
+
+        if (!$this->filtered) {
+            $this->runFilters();
         }
 
         foreach ($this->rules() as $rule) {
@@ -67,11 +81,6 @@ class formValidator extends validator
 
     private function getValue($name, & $value)
     {
-        if (!$this->data) {
-            $request = systemToolkit::getInstance()->getRequest();
-            $this->data = $request->exportPost() + $request->exportGet();
-        }
-
         $indexName = $this->hasBrackets($name);
 
         if (!isset($this->data[$name])) {

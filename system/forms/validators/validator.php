@@ -1,6 +1,7 @@
 <?php
 
 fileLoader::load('forms/validators/formAbstractRule');
+fileLoader::load('forms/validators/formAbstractFilter');
 fileLoader::load('forms/formArrayDataspace');
 
 class validator
@@ -8,6 +9,10 @@ class validator
     protected $data;
 
     protected $rules = array();
+
+    protected $filters = array();
+
+    protected $filtered = false;
 
     protected $errors = array();
 
@@ -30,6 +35,14 @@ class validator
             'validator' => $validator);
     }
 
+    public function filter($type, $name, $options = null)
+    {
+        $filter = $this->loadFilter($type, $options);
+        $this->filters[] = array(
+            'name' => $name,
+            'filter' => $filter);
+    }
+
     protected function loadValidator($type, $message = null, $options = null)
     {
         $class = 'form' . ucfirst($type) . 'Rule';
@@ -40,8 +53,22 @@ class validator
         return new $class($message, $options);
     }
 
+    protected function loadFilter($type, $options = null)
+    {
+        $class = 'form' . ucfirst($type) . 'Filter';
+        if (!class_exists($class)) {
+            fileLoader::load('forms/validators/' . $class);
+        }
+
+        return new $class($options);
+    }
+
     public function validate()
     {
+        if (!$this->filtered) {
+            $this->runFilters();
+        }
+
         foreach ($this->rules as $rule) {
             if ($this->isFieldError($rule['name'])) {
                 continue;
@@ -107,6 +134,25 @@ class validator
     public function isValid()
     {
         return !sizeof($this->errors);
+    }
+
+    public function export()
+    {
+        if (!$this->filtered) {
+            $this->runFilters();
+        }
+
+        return $this->data;
+    }
+
+    protected function runFilters()
+    {
+        foreach ($this->filters as $filter) {
+            if (isset($this->data[$filter['name']])) {
+                $this->data[$filter['name']] = $filter['filter']->filter($this->data[$filter['name']]);
+            }
+        }
+        $this->filtered = true;
     }
 }
 
