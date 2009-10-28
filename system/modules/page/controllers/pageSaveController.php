@@ -82,6 +82,7 @@ class pageSaveController extends simpleController
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('page', $page);
+        $this->smarty->assign('validator', $validator);
         $this->smarty->assign('isEdit', $isEdit);
 
         return $this->smarty->fetch('page/save.tpl');

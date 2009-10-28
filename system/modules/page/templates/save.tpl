@@ -57,7 +57,7 @@ fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
 <table width="100%" border="0" cellpadding="5" cellspacing="0">
     <tr>
         <td style='width: 15%;'>{form->caption name="page[name]" value="Идентификатор"}</td>
-        <td style='width: 85%;'>{form->text name="page[name]" value=$page->getName() size="60"}{$errors->get('page[name]')}</td>
+        <td style='width: 85%;'>{form->text name="page[name]" value=$page->getName() size="60"}{$validator->getFieldError('page[name]')}</td>
     </tr>
     <tr>
         <td style='width: 15%;'>{form->caption name="page[title]" value="Название"}</td>
@@ -85,7 +85,7 @@ fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
     </tr>
     <tr>
         <td style='vertical-align: top;'>{form->caption name="page[content]" value="Содержимое"}</td>
-        <td>{form->textarea name="page[content]" value=$page->getContent() rows="20" style="width: 100%;" id="contentArea" cols="50"}{$errors->get('page[content]')}</td>
+        <td>{form->textarea name="page[content]" value=$page->getContent() rows="20" style="width: 100%;" id="contentArea" cols="50"}{$validator->getFieldError('page[content]')}</td>
     </tr>
     <tr>
         <td>&nbsp;</td>

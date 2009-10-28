@@ -152,12 +152,15 @@ class simpleAction
     public function getTitle()
     {
         if (is_null($this->title)) {
-            $title = '_ ' . $this->name;
+
             if (isset($this->data['title'])) {
                 $title = $this->data['title'];
-                if (i18n::isName($title)) {
-                    $title = i18n::getMessage(i18n::extractName($title));
-                }
+            } else {
+                $title = '_ ' . $this->name;
+            }
+
+            if (i18n::isName($title)) {
+                $title = i18n::getMessage(i18n::extractName($title), 'jip');
             }
 
             $this->title = $title;
