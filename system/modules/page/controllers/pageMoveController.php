@@ -40,7 +40,7 @@ class pageMoveController extends simpleController
         $folders = $pageFolderMapper->searchAll();
 
         if (sizeof($folders) <= 1) {
-            $controller = new messageController(i18n::getMessage('error_no_folder_to_move', 'page'));
+            $controller = new messageController($this->action, i18n::getMessage('error_no_folder_to_move', 'page'));
             return $controller->run();
         }
 
