@@ -66,22 +66,12 @@ class contentFilter implements iFilter
                 throw $e;
             }
 
-            $this->get404();
-            $output = $this->runActiveTemplate($request, $toolkit, $smarty);
+            fileLoader::load('simple/simple404Controller');
+            $controller = new simple404Controller();
+            $output = $controller->run();
         }
 
         $response->append($output);
-    }
-
-    /**
-     * Вывод страницы 404
-     *
-     */
-    private function get404()
-    {
-        fileLoader::load('simple/simple404Controller');
-        $controller = new simple404Controller(true);
-        return $controller->run();
     }
 
     public function runActiveTemplate($request, $toolkit, $smarty)
