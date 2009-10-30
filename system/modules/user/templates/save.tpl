@@ -9,11 +9,11 @@
         {/if}
         <tr>
             <td style="width: 30%;">{form->caption name="user[login]" value="Логин"}</td>
-            <td style="width: 70%;">{form->text name="user[login]" value=$user->getLogin() size="40"} {$errors->get('user[login]')}</td>
+            <td style="width: 70%;">{form->text name="user[login]" value=$user->getLogin() size="40"} {$validator->getFieldError('user[login]')}</td>
         </tr>
         <tr>
             <td style="width: 30%;">{form->caption name="user[password]" value="Пароль"}</td>
-            <td style="width: 70%;">{form->password name="user[password]" size="40"} {$errors->get('user[password]')}</td>
+            <td style="width: 70%;">{form->password name="user[password]" size="40"} {$validator->getFieldError('user[password]')}</td>
         </tr>
         <tr>
             <td>&nbsp;</td>
