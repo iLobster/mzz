@@ -34,7 +34,6 @@
                         <a href="{url route="withAnyParam" module="admin" name=$name action="editModule"}" class="mzz-jip-link" title="Редактировать модуль"><span class="mzz-icon mzz-icon-block"><span class="mzz-bullet mzz-bullet-edit"></span></span></a>
                         <a href="{url route="withAnyParam" module="admin" name=$name action="deleteModule"}" class="mzz-jip-link" title="Удалить модуль"><span class="mzz-icon mzz-icon-block"><span class="mzz-bullet mzz-bullet-del"></span></span></a>
                         <a href="{url route="withAnyParam" module="admin" name=$name action="addClass"}" class="mzz-jip-link" title="Добавить класс"><span class="mzz-icon mzz-icon-script"><span class="mzz-bullet mzz-bullet-add"></span></span></a>
-                        <a href="{url route="withId" module="config" id=$name action="list"}" class="mzz-jip-link" title="Редактировать опции модуля"><span class="mzz-icon mzz-icon-wrench"></span></a>
                     </th>
                 </tr>
             </thead>
