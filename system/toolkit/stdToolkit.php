@@ -168,22 +168,6 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает массив вида ключ => значение с конфигурацией для конкретного модуля
-     *
-     * @param $module имя модуля
-     * @return object ArrayDataspace
-     */
-    public function getConfig($module)
-    {
-        if (empty($this->config[$module])) {
-            $configOptionsMapper = $this->getMapper('config', 'configOption');
-            $this->config[$module] = $configOptionsMapper->getModuleOptions($module);
-        }
-
-        return $this->config[$module];
-    }
-
-    /**
      * Возвращает объект Timer
      *
      * @return object
