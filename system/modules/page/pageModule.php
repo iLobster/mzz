@@ -29,6 +29,8 @@ class pageModule extends simpleModule implements iACL
         'moderator',
         'user');
 
+    protected $icon = 'page.gif';
+
     public function getAcl($action)
     {
         return;

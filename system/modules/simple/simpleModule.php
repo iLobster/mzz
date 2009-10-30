@@ -56,6 +56,8 @@ abstract class simpleModule
      */
     protected $mappers = array();
 
+    protected $icon = null;
+
     /**
      * Array of the paths where we going to search module files
      *
@@ -139,6 +141,11 @@ abstract class simpleModule
     public function getRoles()
     {
         return $this->roles;
+    }
+
+    public function getIcon()
+    {
+        return $this->icon;
     }
 
     /**
