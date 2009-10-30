@@ -36,8 +36,6 @@ class commentsFolderListController extends simpleController
 
         $objectMapper = $this->toolkit->getMapper($objectModule, $objectType);
 
-        //@todo: куда это можно вынести?
-        // zerkms: в comments(Folder)Mapper?
         if ($objectMapper->isAttached('comments')) {
             //Если у комментируемого маппера приаттачен плагин comments, то берем поле из плагина
             $byField = $objectMapper->plugin('comments')->getByField();

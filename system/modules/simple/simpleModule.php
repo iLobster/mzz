@@ -244,7 +244,6 @@ abstract class simpleModule
     /**
      * Title of the module
      *
-     * @todo сделать вменяемо, с i18n и прочим
      * @return string
      */
     public function getTitle()

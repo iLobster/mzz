@@ -23,21 +23,7 @@ class simple403Controller extends simpleController
 {
     public function getView()
     {
-        //@todo почему это тут? этот же функционал есть в simpleController::forward403() ?
-        /*
-        try {
-            $module = $this->action->getModuleName();
-            $class = $this->action->getClassName();
-            $controller = $class . '403Controller';
-            fileLoader::load($module . '/controllers/' . $controller);
-            $controller = new $controller($this->action);
-            return $controller->run();
-        } catch (mzzIoException $e) {
-        }
-        */
-
         $this->response->setStatus(403);
-
         return $this->smarty->fetch('simple/403.tpl');
     }
 }

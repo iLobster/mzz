@@ -136,7 +136,6 @@ class adminGeneratorMapper extends mapper
      * @param simpleModule $module
      * @param string $class_name
      * @param string $path
-     * @todo будем вызывать удаление всех экшнов класса?
      */
     public function deleteClass(simpleModule $module, $class_name, $path)
     {

@@ -72,7 +72,6 @@ class userAddToGroupController extends simpleController
             $criteria->join($userGroupMapper->table(), $criterion, 'r');
             $criteria->where('login', '%' . $filter . '%', criteria::LIKE)->where('r.id', null, criteria::IS_NULL);
 
-            // @todo: вероятно этот лимит нужно перенести в конфиг?
             $limit = 25;
             $criteria->limit($limit + 1);
 
