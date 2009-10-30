@@ -81,7 +81,7 @@ function _showAllTrace() {
                     echo "[Code: " . $exception->getCode() . "] ";
                 }
                 ?>
-                <?php echo $this->exception->getMessage() ?>
+                <?php echo htmlspecialchars($this->exception->getMessage()); ?>
             </strong><br />
             Thrown in <?php echo $exception->getFile(); ?> (Line: <?php echo $exception->getLine(); ?>)
         </p>
