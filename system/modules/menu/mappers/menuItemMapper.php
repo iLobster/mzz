@@ -110,7 +110,7 @@ class menuItemMapper extends mapper
         $criteria = new criteria($this->table);
         $this->plugin('tree')->preSqlSelect($criteria);
 
-        $criteria->clearSelectFields();
+        $criteria->clearSelect();
         $criteria->select(new sqlFunction('MAX', $this->table(false) . '.order', true), 'maxorder')->where('tree.parent_id', (int)$parent_id)->where('menu_id', (int)$menu_id);
 
         $select = new simpleSelect($criteria);

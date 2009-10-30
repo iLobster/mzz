@@ -54,22 +54,22 @@
 <table border="0" cellpadding="3" cellspacing="1" width="100%" class="grayBorder">
     <tr>
         <td style="width: 20%">{form->caption name="title" value="Заголовок:"}</td>
-        <td style="width: 80%;">{form->text name="title" size=40 value=$item->getTitle()} {$errors->get('title')}</td>
+        <td style="width: 80%;">{form->text name="title" size=40 value=$item->getTitle()} {$validator->getFieldError('title')}</td>
     </tr>
     {if $typeId == 'menuItemMapper::ITEMTYPE_EXTERNAL'|constant}
     <tr>
         <td style="width: 20%">{form->caption name="url" value="URL:"}</td>
-        <td style="width: 80%;">{form->text name="url" size=40 value=$item->getUrl()} {$errors->get('url')}</td>
+        <td style="width: 80%;">{form->text name="url" size=40 value=$item->getUrl()} {$validator->getFieldError('url')}</td>
     </tr>
     {elseif $typeId == 'menuItemMapper::ITEMTYPE_SIMPLE'|constant}
     <tr>
         <td style="width: 20%">{form->caption name="url" value="URL:"}</td>
-        <td style="width: 80%;">{$request->getUrl()}/{if $i18nEnabled}&lt;{$request->getString(lang)}&gt;/{/if}{form->text name="url" size=40 value=$item->getUrl(false, false)} {$errors->get('url')}</td>
+        <td style="width: 80%;">{$request->getUrl()}/{if $i18nEnabled}&lt;{$request->getString(lang)}&gt;/{/if}{form->text name="url" size=40 value=$item->getUrl(false, false)} {$validator->getFieldError('url')}</td>
     </tr>
     {elseif $typeId == 'menuItemMapper::ITEMTYPE_ADVANCED'|constant}
     <tr>
         <td>{form->caption name="activeRegExp" value="Определение активности:"}</td>
-        <td>{form->text name="activeRegExp" size=40 value=$item->getActiveRegExp()} <span class="helpText">(pcre / регулярное выражение)</span> {$errors->get('activeRegExp')}</td>
+        <td>{form->text name="activeRegExp" size=40 value=$item->getActiveRegExp()} <span class="helpText">(pcre / регулярное выражение)</span> {$validator->getFieldError('activeRegExp')}</td>
     </tr>
     <tr>
         <td>{form->caption name="route" value="Роут:"}</td>

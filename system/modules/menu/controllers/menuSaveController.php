@@ -128,7 +128,7 @@ class menuSaveController extends simpleController
         $this->smarty->assign('action', $url->get());
         $this->smarty->assign('isEdit', $isEdit);
         $this->smarty->assign('isRoot', $isRoot);
-        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('validator', $validator);
 
         if ($item && $this->request->getBoolean('onlyProperties', SC_POST)) {
             $this->smarty->disableMain();
