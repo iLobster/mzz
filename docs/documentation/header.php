@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
-        <title><?php echo isset($title) ? $title : 'Документация'; ?> | MZZ.Framework</title>
+        <title><?php echo isset($title) ? $title : 'Документация'; ?> | Framy</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="stylesheet" type="text/css" href="basic.css" />
         <link rel="shortcut icon" href="favicon.ico" />
@@ -25,5 +25,5 @@
 <body>
 
 
-<div id="title"><a href="index.html">MZZ.Framework 0.3.x: Документация</a></div>
+<div id="title"><a href="index.html">Framy 1.0: Документация</a></div>
 <div id="content">

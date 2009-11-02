@@ -7,12 +7,11 @@
  *
  */
 
-$menu = array("intro.Предисловие" =>
+$menu = array("intro.Введение" =>
                         array(
-                        "about.Введение",
-                        "philosophy.Философия mzz",
+                            "about.Введение",
                         ),
-           "setup.Установка и настройка" =>
+/*           "setup.Установка и настройка" =>
                         array(
                         "system_requirements.Минимальные требования",
                         "server.Установка на сервер",
@@ -140,7 +139,7 @@ $menu = array("intro.Предисловие" =>
                                          ),
                         ),
             "glossary.Термины и определения" => array("common.Общие"
-                                         ),
+                                         ), */
             );
 
 
