@@ -1,1 +1,0 @@
-<p>О мапперах читайте в соответствующем разделе: <a href="structure.orm.html#structure.orm.mapper">орм.мапперы</a>.</p>
