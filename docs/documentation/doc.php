@@ -16,9 +16,13 @@ $menu = array("intro.Введение" =>
                         array(
                             "sources.Исходный код",
                             "system_requirements.Системные требования",
-  /*                      "server.Установка на сервер",
-                        "configuration.Конфигурация"
-                                => array("system.Системная конфигурация проекта",
+                            "setup_framy.Установка Framy на сервер",
+                            "setup_demo.Установка и конфигурирование demo-приложения" =>
+                                array(
+                                    "download.Скачивание",
+                                    "installation.Установка"
+                                )
+  /*                              => array("system.Системная конфигурация проекта",
                                          "apache.Настройки для http-сервера Apache"), */
                         ),
 /*           "structure.Структура mzz" =>
