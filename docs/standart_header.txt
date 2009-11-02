@@ -1,5 +1,5 @@
 /**
- * $URL: http://svn.web/repository/mzz/docs/standart_header.txt $
+ * $URL$
  *
  * Copyright (c) Framy
  * Website: http://www.framy.ru
@@ -8,5 +8,5 @@
  * the GNU Lesser General Public License (See /docs/LGPL.txt).
  *
  * @link http://www.framy.ru
- * @version $Id: standart_header.txt 811 2007-06-07 21:44:19Z zerkms $
+ * @version $Id$
  */
