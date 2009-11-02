@@ -10,16 +10,18 @@
 $menu = array("intro.Введение" =>
                         array(
                             "about.Введение",
+                            "community.Сообщество"
                         ),
-/*           "setup.Установка и настройка" =>
+           "setup.Установка и настройка" =>
                         array(
-                        "system_requirements.Минимальные требования",
-                        "server.Установка на сервер",
+                            "sources.Исходный код",
+                            "system_requirements.Системные требования",
+  /*                      "server.Установка на сервер",
                         "configuration.Конфигурация"
                                 => array("system.Системная конфигурация проекта",
-                                         "apache.Настройки для http-сервера Apache"),
+                                         "apache.Настройки для http-сервера Apache"), */
                         ),
-           "structure.Структура mzz" =>
+/*           "structure.Структура mzz" =>
                         array(
                         "templates.Шаблоны"
                                 => array("about.Общие сведения",
