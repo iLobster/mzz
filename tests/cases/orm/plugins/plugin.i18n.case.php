@@ -35,7 +35,7 @@ class pluginI18nTest extends unitTestCase
 
     public function __construct()
     {
-        $this->db = DB::factory();
+        $this->db = fDB::factory();
         $this->cleardb();
 
         $this->default_locale = systemConfig::$i18n;

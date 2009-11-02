@@ -1,5 +1,5 @@
 <?php
-    class mzzHtmlReporter extends HtmlReporter {
+    class framyHtmlReporter extends HtmlReporter {
         /**
          *    Paints the end of the test with a summary of
          *    the passes and failures.

@@ -44,7 +44,7 @@ class objectIdGenerator
      */
     public function __construct()
     {
-        $this->db = DB::factory();
+        $this->db = fDB::factory();
     }
 
     /**

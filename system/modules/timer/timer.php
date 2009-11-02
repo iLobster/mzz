@@ -44,7 +44,7 @@ class timer
     /**
      * Объект шаблонного движка
      *
-     * @var mzzSmarty
+     * @var fSmarty
      */
     protected $smarty;
 
@@ -56,7 +56,7 @@ class timer
     {
         $toolkit = systemToolkit::getInstance();
         $this->smarty = $toolkit->getSmarty();
-        $this->db = DB::factory();
+        $this->db = fDB::factory();
     }
 
     /**

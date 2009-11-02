@@ -14,7 +14,7 @@
  * @version $Id$
 */
 
-fileLoader::load('db/drivers/mzzPdoStatement');
+fileLoader::load('db/drivers/fPdoStatement');
 
 /**
  * mzzPdo: драйвер для работы с базой данных через PDO
@@ -23,7 +23,7 @@ fileLoader::load('db/drivers/mzzPdoStatement');
  * @subpackage db
  * @version 0.2.2
  */
-class mzzPdo extends PDO
+class fPdo extends PDO
 {
     /**
      * число запросов к БД
@@ -66,7 +66,7 @@ class mzzPdo extends PDO
     {
         parent::__construct($dsn, $username, $password, $pdoOptions);
 
-        $this->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('mzzPdoStatement'));
+        $this->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('fPdoStatement'));
         $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         try {
@@ -94,7 +94,7 @@ class mzzPdo extends PDO
 
         $result = parent::query($query);
 
-        if ($result instanceof mzzPdoStatement) {
+        if ($result instanceof fPdoStatement) {
             $result->setDbConnection($this);
         }
         $this->addQueriesTime(microtime(true) - $start_time);

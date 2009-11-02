@@ -2,7 +2,7 @@
 fileLoader::load('service/mailer/abstractMailer');
 fileLoader::load('libs/phpmailer/class.phpmailer');
 
-class mzzPHPMailerMailer extends abstractMailer
+class fPHPMailerMailer extends abstractMailer
 {
     protected $phpmailer;
 
@@ -35,7 +35,11 @@ class mzzPHPMailerMailer extends abstractMailer
 
         $this->phpmailer->AddAddress($this->getTo(), $this->getToName());
 
-        return $this->phpmailer->send();
+        $result = $this->phpmailer->send();
+
+        $this->phpmailer->ClearAddresses();
+
+        return $result;
     }
 }
 ?>

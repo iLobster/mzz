@@ -18,7 +18,7 @@ class mailer
 
         $config = $configs[$configName];
         if (!isset(self::$instances[$configName])) {
-            $className = 'mzz' . ucfirst($config['backend']) . 'Mailer';
+            $className = 'f' . ucfirst($config['backend']) . 'Mailer';
             $params = isset($config['params']) ? $config['params'] : array();
             try {
                 fileLoader::load('service/mailer/' . $className);

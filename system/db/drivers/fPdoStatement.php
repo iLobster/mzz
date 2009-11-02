@@ -15,13 +15,13 @@
 */
 
 /**
- * mzzPdoStatement: класс, заменяющий стандартный Statement в PDO
+ * fPdoStatement: класс, заменяющий стандартный Statement в PDO
  *
  * @package system
  * @subpackage db
  * @version 0.2.3
  */
-class mzzPdoStatement extends PDOStatement
+class fPdoStatement extends PDOStatement
 {
     /**
      * Метод для бинда массива значений
@@ -94,12 +94,12 @@ class mzzPdoStatement extends PDOStatement
     }
 
     /**
-     * Установка соответствия mzzPdo для конкретного mzzPdoStatement
+     * Установка соответствия fPdo для конкретного fPdoStatement
      *
-     * @param mzzPdo $db экземпляр драйвера соединения с базой
+     * @param fPdo $db экземпляр драйвера соединения с базой
      * @return void
      */
-    public function setDbConnection(mzzPdo $db)
+    public function setDbConnection(fPdo $db)
     {
         $this->db = $db;
     }

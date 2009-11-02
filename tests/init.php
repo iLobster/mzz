@@ -45,7 +45,7 @@ fileLoader::load('orm/init');
 fileLoader::load('forms/init');
 fileLoader::load('filters/init');
 fileLoader::load('request/init');
-fileLoader::load('template/mzzSmarty');
+fileLoader::load('template/fSmarty');
 
 fileLoader::load('toolkit/init');
 

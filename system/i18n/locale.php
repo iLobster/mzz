@@ -182,7 +182,7 @@ class locale
         if (empty($this->langId) && !isset($ids[$this->name])) {
             $cache_key = 'lang_' . $this->name;
             if (!$this->cache->get($cache_key, $this->langId)) {
-                $db = db::factory();
+                $db = fDB::factory();
                 $stmt = $db->query('SELECT `id` FROM `' . $db->getTablePrefix() . 'sys_lang` WHERE `name` = ' . $db->quote($this->name));
                 $this->langId = (int)$stmt->fetchColumn();
 
@@ -298,7 +298,7 @@ class locale
         $cache_key = 'lang_all';
         if (self::$langs === false) {
             if (!$cache->get($cache_key, $result)) {
-                $db = db::factory();
+                $db = fDB::factory();
                 $stmt = $db->query('SELECT `d`.`id`, `d`.`name`, `l`.`name` AS `title` FROM `' . $db->getTablePrefix() . 'sys_lang` `d` LEFT JOIN `' . $db->getTablePrefix() . 'sys_lang_lang` `l` ON `l`.`id` = `d`.`id` AND `l`.`lang_id` = ' . systemToolkit::getInstance()->getLang() . ' ORDER BY `id`');
 
                 $result = array();

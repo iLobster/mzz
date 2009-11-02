@@ -15,13 +15,13 @@
 */
 
 /**
- * DB: класс, обеспечивающий доступ к драйверам баз данных
+ * fDB: класс, обеспечивающий доступ к драйверам баз данных
  *
  * @package system
  * @subpackage db
  * @version 0.3
 */
-class DB
+class fDB
 {
     const DEFAULT_CONFIG_NAME = 'default';
 
@@ -45,13 +45,13 @@ class DB
         $configs = empty($configs) ? systemConfig::$db : $configs;
 
         if (!isset($configs[$alias])) {
-            throw new mzzUnknownDBConfigException($configName);
+            throw new mzzUnknownDBConfigException($alias);
         }
 
         $config = $configs[$alias];
         if (!isset(self::$instances[$alias])) {
             $driverName = systemConfig::$db[$alias]['driver'];
-            $driver = 'mzz' . ucfirst($driverName);
+            $driver = 'f' . ucfirst($driverName);
 
             fileLoader::load('db/drivers/' . $driver);
 

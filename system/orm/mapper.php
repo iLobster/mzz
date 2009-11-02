@@ -69,7 +69,7 @@ abstract class mapper
         $this->relations = new relation($this);
 
         if (is_null($this->db_alias)) {
-            $this->db_alias = DB::DEFAULT_CONFIG_NAME;
+            $this->db_alias = fDB::DEFAULT_CONFIG_NAME;
         }
 
         if (is_null($this->class)) {
@@ -359,12 +359,12 @@ abstract class mapper
     /**
      * lazy accessor to the database connection
      *
-     * @return mzzPdo
+     * @return fPdo
      */
     public function db()
     {
         if (is_null($this->db)) {
-            $this->db = DB::factory($this->db_alias);
+            $this->db = fDB::factory($this->db_alias);
         }
 
         return $this->db;
@@ -374,7 +374,7 @@ abstract class mapper
     {
         $oldAlias = $this->db_alias;
         $this->db_alias = $alias;
-        $this->db = DB::factory($alias);
+        $this->db = fDB::factory($alias);
         return $oldAlias;
     }
 
@@ -423,7 +423,7 @@ abstract class mapper
      * searching data with the criteria
      *
      * @param criteria $criteria
-     * @return mzzPdoStatement
+     * @return fPdoStatement
      */
     private function searchByCriteria(criteria $searchCriteria)
     {

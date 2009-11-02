@@ -28,6 +28,7 @@ fileLoader::load('exceptions/mzzUndefinedModuleClassException');
 fileLoader::load('exceptions/mzzUnknownModuleActionException');
 fileLoader::load('exceptions/mzzUnknownCacheBackendException');
 fileLoader::load('exceptions/mzzUnknownCacheConfigException');
+fileLoader::load('exceptions/mzzUnknownDBConfigException');
 fileLoader::load('exceptions/mzzUnknownMailBackendException');
 fileLoader::load('exceptions/mzzUnknownMailConfigException');
 fileLoader::load('exceptions/mzzNoRouteException');

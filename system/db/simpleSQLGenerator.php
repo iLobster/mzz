@@ -5,19 +5,19 @@ abstract class simpleSQLGenerator
     /**
      * Объект базы данных
      *
-     * @var mzzPdo
+     * @var fPdo
      */
     protected $db;
 
     /**
      * Получение объекта для работы с БД
      *
-     * @return mzzPdo
+     * @return fPdo
      */
     public function getDb()
     {
         if (!$this->db) {
-            $this->db = db::factory();
+            $this->db = fDB::factory();
         }
         return $this->db;
     }

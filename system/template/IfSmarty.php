@@ -15,20 +15,20 @@
 */
 
 /**
- * IMzzSmarty: модификация Smarty для работы с шаблонами
+ * IFramySmarty: модификация Smarty для работы с шаблонами
  *
  * @version 0.5
  * @package system
  * @subpackage template
  */
-interface IMzzSmarty
+interface IfSmarty
 {
     /**
      * конструктор
      *
      * @param object $smarty
      */
-    function __construct(mzzSmarty $smarty);
+    function __construct(fSmarty $smarty);
 
     /**
      * Выполняет шаблон и возвращает результат

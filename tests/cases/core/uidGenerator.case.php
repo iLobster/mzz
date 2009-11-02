@@ -8,7 +8,7 @@ class objectIDGeneratorTest extends unitTestCase
 
     public function setUp()
     {
-        $this->db = DB::factory();
+        $this->db = fDB::factory();
         $this->clearDB();
         $this->toolkit = systemToolkit::getInstance();
     }

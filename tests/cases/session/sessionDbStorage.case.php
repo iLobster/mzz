@@ -10,7 +10,7 @@ class sessionDbStorageTest extends unitTestCase
 
     public function setUp()
     {
-        $this->db = DB::factory();
+        $this->db = fDB::factory();
         $this->storage = new sessionDbStorage();
         $this->fixture = array('sid'  => 'jhd6dkj8wd9s',
                                'data' => serialize('bla-bla'));

@@ -15,17 +15,17 @@
 */
 
 fileLoader::load('libs/smarty/Smarty.class');
-fileLoader::load('template/IMzzSmarty');
+fileLoader::load('template/IfSmarty');
 fileLoader::load('template/plugins/function.add');
 
 /**
- * mzzSmarty: модификация Smarty для работы с активными и пассивными шаблонами
+ * fSmarty: модификация Smarty для работы с активными и пассивными шаблонами
  *
  * @package system
  * @subpackage template
  * @version 0.5.3
  */
-class mzzSmarty extends Smarty
+class fSmarty extends Smarty
 {
     /**
      * Язык шаблона
@@ -39,7 +39,7 @@ class mzzSmarty extends Smarty
      *
      * @var array
      */
-    protected $mzzResources = array();
+    protected $resources = array();
 
     /**
      * Обработанные шаблоны. Необходимо для предотвращении рекурсивного вложения шаблонов
@@ -98,22 +98,22 @@ class mzzSmarty extends Smarty
             $resource = array($this->default_resource_type, $resource_name);
         }
 
-        $mzzname = 'mzz' . ucfirst($resource[0]) . 'Smarty';
+        $className = 'f' . ucfirst($resource[0]) . 'Smarty';
 
-        if (!class_exists($mzzname)) {
-            fileLoader::load('template/' . $mzzname);
+        if (!class_exists($className)) {
+            fileLoader::load('template/' . $className);
         }
 
-        if (!class_exists($mzzname)) {
+        if (!class_exists($className)) {
             $error = sprintf("Can't find class '%s' for template engine", $mzzname);
             throw new mzzRuntimeException($error);
             return false;
         }
 
-        if (!isset($this->mzzResources[$mzzname])) {
-            $this->mzzResources[$mzzname] = new $mzzname($this);
+        if (!isset($this->resources[$className])) {
+            $this->resources[$className] = new $className($this);
         }
-        $result = $this->mzzResources[$mzzname]->fetch($resource, $cache_id, $compile_id, $display);
+        $result = $this->resources[$className]->fetch($resource, $cache_id, $compile_id, $display);
 
         return $result;
 

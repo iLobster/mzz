@@ -167,7 +167,7 @@ class mapperRelationsTest extends unitTestCase
 
     public function __construct()
     {
-        $this->db = DB::factory();
+        $this->db = fDB::factory();
         $this->cleardb();
 
         $this->fixture = array(

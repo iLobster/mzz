@@ -15,7 +15,7 @@ class skin
         if (!is_array($id)) {
             $this->id = $id;
 
-            $this->db = DB::factory();
+            $this->db = fDB::factory();
 
             $stmt = $this->db->query('SELECT * FROM `' . $this->db->getTablePrefix() . 'sys_skins` WHERE `id` = ' . (int)$id);
 
@@ -49,7 +49,7 @@ class skin
 
     public static function searchAll()
     {
-        $db= DB::factory();
+        $db= fDB::factory();
         $stmt = $db->query('SELECT * FROM `' . $db->getTablePrefix() . 'sys_skins`');
 
         $result = array();

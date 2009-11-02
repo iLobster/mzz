@@ -55,7 +55,7 @@ class testsHtmlRunner implements iFilter
         $_POST = array();
         $_REQUEST = array();
 
-        $test->run(new mzzHtmlReporter('utf-8'));
+        $test->run(new framyHtmlReporter('utf-8'));
 
         $toolkit = systemToolkit::getInstance();
         $smarty = $toolkit->getSmarty();

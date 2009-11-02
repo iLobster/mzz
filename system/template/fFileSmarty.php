@@ -15,13 +15,13 @@
 */
 
 /**
- * mzzFileSmarty: модификация Smarty для работы с файлами-шаблонами
+ * fFileSmarty: модификация Smarty для работы с файлами-шаблонами
  *
  * @version 0.6
  * @package system
  * @subpackage template
  */
-class mzzFileSmarty implements IMzzSmarty
+class fFileSmarty implements IfSmarty
 {
     /**
      * Smarty object
@@ -35,7 +35,7 @@ class mzzFileSmarty implements IMzzSmarty
      *
      * @param object $smarty
      */
-    function __construct(mzzSmarty $smarty)
+    function __construct(fSmarty $smarty)
     {
         $this->smarty = $smarty;
     }

@@ -117,8 +117,8 @@ class stdToolkit extends toolkit
     public function getSmarty()
     {
         if (empty($this->smarty)) {
-            fileLoader::load('template/mzzSmarty');
-            $this->smarty = new mzzSmarty();
+            fileLoader::load('template/fSmarty');
+            $this->smarty = new fSmarty();
             $this->smarty->template_dir = systemConfig::$pathToApplication . '/templates';
             $this->smarty->compile_dir = systemConfig::$pathToTemp . '/templates_c';
             $oldPluginsDirs = $this->smarty->plugins_dir;
