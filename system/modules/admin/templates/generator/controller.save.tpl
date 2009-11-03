@@ -71,7 +71,7 @@ ${{$name}}->{{$property.mutator}}($data['{{$field}}']);
         $url->setAction($action);
 
         $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('validator', $validator);
         $this->smarty->assign('{{$name}}', ${{$name}});
         $this->smarty->assign('isEdit', $isEdit);
 

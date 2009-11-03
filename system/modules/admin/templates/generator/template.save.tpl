@@ -10,6 +10,7 @@
 {{if !isset($property.options) || !in_array('pk', $property.options) || !in_array('once', $property.options)}}
             <td>
                 {form->text name="{{$name}}[{{$field}}]" size="30" value=${{$name}}->{{$property.accessor}}()}{$errors->get('{{$name}}[{{$field}}]')}
+                {if $validator->isFieldError('{{$name}}[{{$field}}]')}<div class="error">{$validator->getFieldError('{{$name}}[{{$field}}]')}</div>{/if}
             </td>
 {{else}}
             <td>{${{$name}}->{{$property.accessor}}()}</td>
