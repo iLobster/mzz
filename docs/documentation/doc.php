@@ -31,7 +31,8 @@ $menu = array("intro.Введение" =>
                             'application.Приложение',
                             'module.Модуль' =>
                                 array(
-                                    'overview.Обзор'
+                                    'overview.Обзор',
+                                    'actions.Actions'
                                 )
                         )
 /*                        array(
