@@ -25,8 +25,16 @@ $menu = array("intro.Введение" =>
   /*                              => array("system.Системная конфигурация проекта",
                                          "apache.Настройки для http-сервера Apache"), */
                         ),
-/*           "structure.Структура mzz" =>
+           "structure.Структура" =>
                         array(
+                            'framy.Framy',
+                            'application.Приложение',
+                            'module.Модуль' =>
+                                array(
+                                    'overview.Обзор'
+                                )
+                        )
+/*                        array(
                         "templates.Шаблоны"
                                 => array("about.Общие сведения",
                                          "load.Плагин {load}",
