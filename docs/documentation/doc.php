@@ -33,7 +33,8 @@ $menu = array("intro.Введение" =>
                                 array(
                                     'overview.Обзор',
                                     'actions.Actions',
-                                    'controllers.Controllers'
+                                    'controllers.Controllers',
+                                    'i18n.i18n'
                                 )
                         )
 /*                        array(
