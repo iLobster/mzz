@@ -32,7 +32,8 @@ $menu = array("intro.Введение" =>
                             'module.Модуль' =>
                                 array(
                                     'overview.Обзор',
-                                    'actions.Actions'
+                                    'actions.Actions',
+                                    'controllers.Controllers'
                                 )
                         )
 /*                        array(
