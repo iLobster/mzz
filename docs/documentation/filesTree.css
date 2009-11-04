@@ -8,8 +8,8 @@ ul.filesTree li
 {
 	list-style: none;
 	margin: 0;
-	padding: 0 0 5px 34px;
-	line-height: 14px;
+	padding: 0 0 0 34px;
+	line-height: 18px;
 }
 
 ul.filesTree ul
@@ -67,37 +67,37 @@ ul.filesTree .line-over-last
 ul.filesTree .folder-open
 {
 	margin-left: -16px;
-	background: url(images/filesTree/collapsable.gif) 0 -2px no-repeat #fff;
+	background: url(images/filesTree/collapsable.gif) 0 0 no-repeat #fff;
 }
 
 ul.filesTree .folder-open-last
 {
 	margin-left: -16px;
-	background: url(images/filesTree/collapsable-last.gif) 0 -2px no-repeat #fff;
+	background: url(images/filesTree/collapsable-last.gif) 0 0 no-repeat #fff;
 }
 
 ul.filesTree .folder-close
 {
 	margin-left: -16px;
-	background: url(images/filesTree/expandable.gif) 0 -2px no-repeat #fff;
+	background: url(images/filesTree/expandable.gif) 0 0 no-repeat #fff;
 }
 
 ul.filesTree .folder-close-last
 {
 	margin-left: -16px;
-	background: url(images/filesTree/expandable-last.gif) 0 -2px no-repeat #fff;
+	background: url(images/filesTree/expandable-last.gif) 0 0 no-repeat #fff;
 }
 
 ul.filesTree .doc
 {
 	margin-left:-16px;
-	background: url(images/filesTree/leaf.gif) 0 -1px no-repeat #fff;
+	background: url(images/filesTree/leaf.gif) 0 0 no-repeat #fff;
 }
 
 ul.filesTree .doc-last
 {
 	margin-left:-16px;
-	background: url(images/filesTree/leaf-last.gif) 0 -1px no-repeat #fff;
+	background: url(images/filesTree/leaf-last.gif) 0 0 no-repeat #fff;
 }
 
 ul.filesTree span.text

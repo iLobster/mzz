@@ -5,7 +5,7 @@
             <li class="line"> </li>
             <li class="folder-close"><span class="text">docs/ — <i>документация</i></span></li>
             <li class="folder-close"><span class="text">libs/ — <i>сторонние библиотеки</i></span></li>
-            <li class="folder-open-last"><span class="text">system/ — <i>непосредственно код фреймворка</i></span>
+            <li class="folder-open"><span class="text">system/ — <i>непосредственно код фреймворка</i></span>
                 <ul>
                     <li class="line"> </li>
                     <li class="folder-close"><span class="text">cache/ — <i>классы кеширования</i></span></li>
