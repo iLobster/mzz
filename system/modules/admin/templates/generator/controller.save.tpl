@@ -25,12 +25,12 @@ class {{$module->getName()}}{{$actionData.controller|ucfirst}}Controller extends
     {
         ${{$name}}Mapper = $this->toolkit->getMapper('{{$module->getName()}}', '{{$name}}');
 
-        $id = $this->request->getInteger('id');
         $action = $this->request->getAction();
 
         $isEdit = strpos($action, 'edit') !== false;
 
         if ($isEdit) {
+            $id = $this->request->getInteger('id');
             ${{$name}} = ${{$name}}Mapper->searchByKey($id);
             if (empty(${{$name}})) {
                 return $this->forward404(${{$name}}Mapper);
