@@ -1,7 +1,7 @@
 Минимальные системные требования к программному обеспечению веб-сервера:<br />
 <ul>
   <li>PHP >=5.1.4</li>
-  <li>PHP модули: PDO, PDO_MYSQL, PCRE</li>
+  <li>PHP модули: PDO, PDO_MYSQL, PCRE, GD2</li>
   <li>MySQL: >4.1, 5 (желательно)</li>
   <li>HTTP-сервер: Apache 1.x/2.x (с модулем mod_rewrite), IIS 6 и выше с наличием модуля rewrite (например, <a href="http://www.isapirewrite.com">isapirewrite</a>), nginx</li>
   <li>OS: Windows / UNIX</li>

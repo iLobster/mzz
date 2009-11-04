@@ -4,6 +4,7 @@
         <title><?php echo isset($title) ? $title : 'Документация'; ?> | Framy</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="stylesheet" type="text/css" href="basic.css" />
+        <link rel="stylesheet" type="text/css" href="filesTree.css" />
         <link rel="shortcut icon" href="favicon.ico" />
         <script type="text/javascript">
         var timer = 0;
