@@ -42,7 +42,12 @@ $menu = array("intro.Введение" =>
                         ),
             'mvc.MVC' =>
                         array(
-                            'model.Model'
+                            'model.Model',
+                            'view.View' =>
+                                array(
+                                    'smarty.Smarty'
+                                ),
+                            'controller.Controller'
                         ),
 /*                        array(
                         "templates.Шаблоны"
