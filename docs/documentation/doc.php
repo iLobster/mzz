@@ -36,8 +36,7 @@ $menu = array("intro.Введение" =>
                                     'actions.Actions',
                                     'controllers.Controllers',
                                     'i18n.i18n',
-                                    'mappers.Mappers',
-                                    'model.Model',
+                                    'mappers_and_model.Mappers и model',
                                     'templates.Templates'
                                 )
                         )
