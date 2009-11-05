@@ -39,7 +39,11 @@ $menu = array("intro.Введение" =>
                                     'mappers_and_model.Mappers и model',
                                     'templates.Templates'
                                 )
-                        )
+                        ),
+            'mvc.MVC' =>
+                        array(
+                            'model.Model'
+                        ),
 /*                        array(
                         "templates.Шаблоны"
                                 => array("about.Общие сведения",
