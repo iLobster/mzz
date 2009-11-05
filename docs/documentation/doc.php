@@ -45,7 +45,8 @@ $menu = array("intro.Введение" =>
                             'model.Model',
                             'view.View' =>
                                 array(
-                                    'smarty.Smarty'
+                                    'smarty.Smarty',
+                                    'functions.Функции'
                                 ),
                             'controller.Controller'
                         ),
