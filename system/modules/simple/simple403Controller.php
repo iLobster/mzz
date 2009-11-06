@@ -24,6 +24,17 @@ class simple403Controller extends simpleController
     public function getView()
     {
         $this->response->setStatus(403);
+
+        try {
+            $module = $this->action->getModuleName();
+            $class = $this->action->getClassName();
+            $controller = $class . '403Controller';
+            fileLoader::load($module . '/controllers/' . $controller);
+            $controller = new $controller($this->action);
+            return $controller->run();
+        } catch (mzzIoException $e) {
+        }
+
         return $this->smarty->fetch('simple/403.tpl');
     }
 }
