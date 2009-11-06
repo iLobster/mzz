@@ -53,6 +53,13 @@ $menu = array("intro.Введение" =>
                                     'creating.Создание',
                                 )
                         ),
+            'extending.Расширение framy' =>
+                        array(
+                            'system.Системные файлы',
+                            'modules.Расширение модулей' => array(
+                                'mappers.Mappers'
+                            )
+                        ),
 /*                        array(
                         "templates.Шаблоны"
                                 => array("about.Общие сведения",
