@@ -2,25 +2,24 @@
 <p>news.php:</p>
 <<code php>>
 <?php
-
 return array(
     'view' => array(
         'controller' => 'view'),
     'edit' => array(
         'controller' => 'save',
-        'jip' => true,
+        'jip' => 1,
         'role' => array('moderator'),
         'icon' => 'sprite:mzz-icon/page-text/edit',
         'lang' => true,
         'main' => 'active.blank.tpl'),
     'move' => array(
         'controller' => 'move',
-        'jip' => true,
+        'jip' => 1,
         'role' => array('moderator'),
         'icon' => 'sprite:mzz-icon/page-text/move'),
     'delete' => array(
         'controller' => 'delete',
-        'jip' => true,
+        'jip' => 1,
         'role' => array('moderator'),
         'icon' => 'sprite:mzz-icon/page-text/del',
         'confirm' => '_ news/confirm_delete',
@@ -33,5 +32,54 @@ return array(
 
 ?>
 <</code>>
+
 <p>В этом файле определены 5 действий: <code>view</code>, <code>edit</code>, <code>move</code>, <code>delete</code> и <code>admin</code>. Назначение этих действий легко определяется по их названию.</p>
-<p>todo: таблица со всеми возможными параметрами</p>
+
+<p>Рассмотрим пример простейшего actions-конфига:</p>
+<<code php>>
+<?php
+return array(
+    'view' => array(
+        'controller' => 'view'
+    )
+}
+?>
+<</code>>
+<p>Как видно из примера, обязательный параметр у действия только один — <i>controller</i>. Представляет собой имя контроллера, который будет обслуживать данное действие.</p>
+<p>Также, доступны следующие необязательные параметры для действий:</p>
+<table class="listTable" style="width: 85%;">
+    <thead>
+        <tr>
+            <th style="width: 120px;">Имя переменной</th>
+            <th>Описание</th>
+            <th style="width: 120px;">Принимаемые значения</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>jip</td>
+            <td>Является ли действие действием JIP (todo: ссылка на описание JIP)</td>
+            <td>int</td>
+        </tr>
+        <tr>
+            <td>icon</td>
+            <td>Иконка действия (используется для JIP) (todo: ссылка на описание)</td>
+            <td>string</td>
+        </tr>
+        <tr>
+            <td>confirm</td>
+            <td>Сообщение перед выполнением действия (используется для JIP)</td>
+            <td>string</td>
+        </tr>
+        <tr>
+            <td>title</td>
+            <td>Заголовок действия (используется для JIP). Если строка начинается со знака "_", то значение возмется из i18n</td>
+            <td>string</td>
+        </tr>
+        <tr>
+            <td>...</td>
+            <td>...</td>
+            <td>...</td>
+        </tr>
+    </tbody>
+</table>
