@@ -48,7 +48,10 @@ $menu = array("intro.Введение" =>
                                     'smarty.Smarty',
                                     'functions.Функции'
                                 ),
-                            'controller.Controller'
+                            'controller.Controller' =>
+                                array(
+                                    'creating.Создание',
+                                )
                         ),
 /*                        array(
                         "templates.Шаблоны"
