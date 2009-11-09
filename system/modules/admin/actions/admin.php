@@ -5,8 +5,7 @@
 return array(
     'admin' => array(
         'controller' => 'admin',
-        'main' => 'active.admin.tpl',
-        'admin' => '1',
+        'admin' => 1,
         'role' => array('moderator')),
     'access' => array(
         'controller' => 'access',
@@ -15,8 +14,7 @@ return array(
     'devToolbar' => array(
         'controller' => 'devToolbar',
         'role' => array('moderator'),
-        'main' => 'active.admin.tpl',
-        'admin' => '1',
+        'admin' => 1,
         'title' => 'devToolbar'),
     'addClass' => array(
         'controller' => 'saveClass',

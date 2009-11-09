@@ -4,8 +4,7 @@
 return array(
     'admin' => array(
         'controller' => 'admin',
-        'admin' => '1',
-        'main' => 'active.admin.tpl',
+        'admin' => 1,
         'role' => array('moderator'),
     ),
     'addmenu' => array(

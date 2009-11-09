@@ -22,6 +22,7 @@
 class simpleAction
 {
     const DEFAULT_ACTIVE_TPL = 'active.main.tpl';
+    const ADMIN_ACTIVE_TPL = 'active.admin.tpl';
 
     /**
      * Action name
@@ -139,7 +140,7 @@ class simpleAction
      */
     public function getActiveTemplate()
     {
-        return (isset($this->data['main'])) ? $this->data['main'] : self::DEFAULT_ACTIVE_TPL;
+        return (isset($this->data['main'])) ? $this->data['main'] : $this->isAdmin() ? self::ADMIN_ACTIVE_TPL : self::DEFAULT_ACTIVE_TPL;
     }
 
     /**
