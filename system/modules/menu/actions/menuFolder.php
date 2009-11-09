@@ -5,6 +5,7 @@ return array(
     'admin' => array(
         'controller' => 'admin',
         'admin' => '1',
+        'main' => 'active.admin.tpl',
         'role' => array('moderator'),
     ),
     'addmenu' => array(

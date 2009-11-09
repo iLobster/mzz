@@ -46,6 +46,9 @@ class adminAdminController extends simpleController
 
         try {
             $action = $module->getAction($actionName);
+            if (!$action->isAdmin()) {
+                return $this->forward404();
+            }
 
             if (!$action->canRun()) {
                 return $this->forward('admin', '403');

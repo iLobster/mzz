@@ -26,6 +26,7 @@ return array(
         'role' => array('moderator'),
         'controller' => 'admin',
         'title' => '_ admin',
-        'admin' => true));
+        'admin' => true,
+        'main' => 'active.admin.tpl'));
 
 ?>

@@ -8,6 +8,7 @@ return array(
         'role' => array('moderator'),
         'title' => 'Файловый менеджер',
         'admin' => '1',
+        'main' => 'active.admin.tpl'
     ),
     'get' => array(
         'controller' => 'get',

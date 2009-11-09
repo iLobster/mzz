@@ -57,6 +57,6 @@ return array(
         'admin' => '1',
         'role' => array(
             'moderator'),
-        'main' => 'active.admin.tpl'));
+        'main' => 'deny',));
 
 ?>
