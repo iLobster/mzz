@@ -96,15 +96,6 @@ class menuItemMapper extends mapper
         );
     }
 
-    public function getMenuChildrens($parent_id, menu $menu)
-    {
-        $criteria = new criteria;
-        $criteria->where('parent_id', (int)$parent_id)->where('menu_id', $menu->getId())->orderByDesc('order')->orderByDesc('id');
-
-        $data = $this->searchAllByCriteria($criteria);
-        return $data;
-    }
-
     public function getMaxOrder($parent_id, $menu_id)
     {
         $criteria = new criteria($this->table);
@@ -124,69 +115,6 @@ class menuItemMapper extends mapper
         $criteria->where('menu_id', $menuId)->where('id', $id);
 
         return $this->searchOneByCriteria($criteria);
-    }
-
-    public function searchByOrderAndParentInMenu($order, $parent, $menu_id)
-    {
-        $criteria = new criteria;
-        $criteria->where('order', (int)$order)->where('parent_id', (int)$parent)->where('menu_id', (int)$menu_id);
-        return $this->searchOneByCriteria($criteria);
-    }
-
-    public function move(menuItem $item, $target)
-    {
-        if ($target == 'up' || $target == 'down') {
-            $item = $this->changeOrder($item, $target);
-        } elseif ($item->getParent() != $target) {
-            $item = $this->changeParent($item, $target);
-        }
-
-        $this->save($item);
-    }
-
-    protected function changeOrder(menuItem $item, $target)
-    {
-        $order = ($target == 'up') ? $item->getOrder() - 1 : $item->getOrder() + 1;
-        $next = $this->searchByOrderAndParentInMenu($order, $item->getParent(), $item->getMenu()->getId());
-        if ($next) {
-            $item->setOrder($next->getOrder());
-            $next->setOrder($item->getOrder());
-            $this->save($next);
-        }
-        return $item;
-    }
-
-    protected function changeParent(menuItem $item, $target)
-    {
-        $new = $this->searchById($target);
-
-        if ($new || $target == 0) {
-            $this->shift($item->getParent(), $item->getOrder());
-
-            $item->setOrder($this->getMaxOrder($target, $item->getMenu()->getId()) + 1);
-            $item->setParent($target);
-        }
-
-        return $item;
-    }
-
-    public function delete(menuItem $item)
-    {
-        $childrens = $this->getMenuChildrens($item->getId(), $item->getMenu());
-        foreach ($childrens as $child) {
-            $this->delete($child);
-        }
-
-        $this->shift($item->getParent(), $item->getOrder());
-        parent::delete($item->getId());
-    }
-
-    protected function shift($parent_id, $order)
-    {
-        $stmt = $this->db()->prepare('UPDATE ' . $this->table . ' SET `order` = `order` - 1 WHERE `parent_id` = :parent_id AND `order` > :order');
-        $stmt->bindParam('parent_id', $parent_id, PDO::PARAM_INT);
-        $stmt->bindParam('order', $order, PDO::PARAM_INT);
-        $stmt->execute();
     }
 
     public function postCreate(entity $object)
