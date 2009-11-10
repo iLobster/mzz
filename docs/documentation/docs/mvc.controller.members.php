@@ -15,16 +15,16 @@
             <td>
                 <ul>
                     <li>
-                        <code>$mapper</code> (mapper) - маппер, к которому будет применена пагинация;
+                        <code>mapper $mapper</code> - маппер, к которому будет применена пагинация;
                     </li>
                     <li>
-                        <code>$per_page</code> (int, необязательный, значение по умолчанию: 20) - число элементов на странице;
+                        <code>[int $per_page = 20]</code> - число элементов на странице;
                     </li>
                     <li>
-                        <code>$reverse</code> (bool, необязательный, значение по умолчанию: false) - выводить записи в обратном порядке;
+                        <code>[bool $reverse = false]</code> - выводить записи в обратном порядке;
                     </li>
                     <li>
-                        <code>$round_items</code> (integer, необязательный, значение по умолчанию: 2) - число страниц, выводимых слева и справа от текущей.
+                        <code>[int $round_items = 2]</code> - число страниц, выводимых слева и справа от текущей.
                     </li>
                 </ul>
             </td>
@@ -39,6 +39,66 @@ $this->smarty->assign('news', $newsFolderMapper->getItems($newsFolder)); // ищ
                 <code>list.tpl:</code>
 <<code smarty>>
 <div class="pages">{$pager->toString()}</div>
+<</code>>
+            </td>
+        </tr>
+
+        <tr>
+            <td>fetch</td>
+            <td>
+                <ul>
+                    <li>
+                        <code>string $path</code> - имя файла шаблона.
+                    </li>
+                </ul>
+            </td>
+            <td>
+                Запуск на исполнение указанного шаблона.
+<<code php>>
+return $this->fetch('news/list.tpl');
+<</code>>
+            </td>
+        </tr>
+
+        <tr>
+            <td>redirect</td>
+            <td>
+                <ul>
+                    <li>
+                        <code>string $url</code> - адрес, на который будет перенаправлен пользователь;
+                    </li>
+                    <li>
+                        <code>[int $code = 302]</code> - код http-ответа.
+                    </li>
+                </ul>
+            </td>
+            <td>
+                Перенаправление пользователя по указанному урлу.<br />
+                Пример использования: Перенеправление на главную страницу приложения:
+<<code php>>
+$url = new url('default');
+return $this->redirect($url->get());
+<</code>>
+            </td>
+        </tr>
+
+        <tr>
+            <td>forward</td>
+            <td>
+                <ul>
+                    <li>
+                        <code>string $moduleName</code> - имя модуля;
+                    </li>
+                    <li>
+                        <code>string $actionName</code> - имя действия.
+                    </li>
+                </ul>
+            </td>
+            <td>
+                Передача управления другому контроллеру.<br />
+                Пример использования: Вызов из текущего контроллера действия <code>dashboard</code> модуля <code>admin</code>:
+<<code php>>
+return $this->forward('admin', 'dashboard');
 <</code>>
             </td>
         </tr>
