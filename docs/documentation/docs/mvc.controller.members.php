@@ -146,7 +146,7 @@ $this->response->setCookie('cookie_name', 'cookie_data');
         <tr>
             <td>$smarty</td>
             <td>mzzSmarty</td>
-            <td>Smarty (todo ссылка на описание)
+            <td>Smarty (<a href="mvc.view.html#mvc.view.smarty">подробнее</a>)
 <<code php>>
 $this->smarty->assign('news', $newsFolderMapper->getItems($newsFolder));
 $this->smarty->assign('folderPath', $newsFolder->getTreePath());

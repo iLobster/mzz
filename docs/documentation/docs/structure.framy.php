@@ -24,7 +24,7 @@
                     <li class="folder-close-last"><span class="text">service/ — <i>различные сервисные классы</i></span></li>
                     <li class="folder-close-last"><span class="text">session/ — <i>классы для работы с сессиями</i></span></li>
                     <li class="folder-close-last"><span class="text">template/ — <i>классы шаблонизатора</i></span></li>
-                    <li class="folder-close-last"><span class="text">toolkit/ — <i>toolkit</i></span></li>
+                    <li class="folder-close-last"><span class="text">toolkit/ — <i>toolkit (todo: ссылка на раздел описания тулкита)</i></span></li>
                 </ul>
             </li>
             <li class="folder-close-last"><span class="text">tests/ — <i>модульные тесты</i></span></li>
