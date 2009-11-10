@@ -30,10 +30,11 @@
             </td>
             <td>
                 Присоединяет класс пагинации к мапперу, который выбирает данные на страницу. Также в <code>smarty</code> автоматически передаётся инстанция объекта-пейджера с именем <code>$pager</code> (todo ссылка на описание класса), который можно отобразить в произвольном месте.<br />
-                Пример использования:<br />
+                Пример использования: Выберем список новостей, по 10 новостей на странице. И отобразим их в обратном порядке:<br />
                 <code>newsListController.php:</code>
 <<code php>>
-$this->setPager($newsFolderMapper, 10, true);
+$this->setPager($newsFolderMapper, 10, true); // устанавливаем pager
+$this->smarty->assign('news', $newsFolderMapper->getItems($newsFolder)); // ищем новости
 <</code>>
                 <code>list.tpl:</code>
 <<code smarty>>
