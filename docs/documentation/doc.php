@@ -62,6 +62,19 @@ $menu = array("intro.Введение" =>
                                 'mappers.Mappers'
                             )
                         ),
+            'getting_start.Создание проекта на framy' =>
+                        array(
+                            'intro.Введение',
+                            'mvc.Архитектура MVC' => array(
+                                'model.Model',
+                                'view.View',
+                                'controller.Controller'
+                            ),
+                            'blog.Создание блога' => array(
+                                'installing.Установка',
+                                'creating.Создание Блог приложения'
+                            )
+                        ),
 /*                        array(
                         "templates.Шаблоны"
                                 => array("about.Общие сведения",
@@ -228,6 +241,7 @@ function include_code($id, $type) {
     if ($type == 'html') { $type = 'html4strict'; }
     $geshi = new GeSHi(file_get_contents($path), $type);
     $geshi->set_encoding("utf-8");
+    $geshi->enable_keyword_links(false);
     return '<div class="code"><div class="code_border">' . $geshi->parse_code() . '</div></div>';
 }
 
@@ -239,8 +253,10 @@ function highlightInlineCode($type, $code) {
     if ($type == 'html') { $type = 'html4strict'; }
     $geshi = new GeSHi($code, $type);
     $geshi->set_encoding("utf-8");
+    $geshi->enable_keyword_links(false);
     return '<div class="code"><div class="code_border">' . $geshi->parse_code() . '</div></div>';
 }
+
 
 function checkFile($num) {
     if(!file_exists('docs/' . $num . '.php') || filesize('docs/' . $num . '.php') < 6) {

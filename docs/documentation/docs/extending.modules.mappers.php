@@ -20,7 +20,7 @@ class userMapper extends mapper
 
 <p>Для реализации этой идеи достаточно создать файл в каталоге <i>&lt;project&gt;/modules/user/mappers/appUserMapper.php</i>, где &lt;project&gt; это путь до
 вашего приложения (опция systemConfig::$pathToApplication), а <code>appUserMapper.php</code> — новое имя маппера, которое
-было образовано путем добавления приставки <i>app</i> к базовому имени маппера.</p>
+было образовано путем добавления приставки <i>app</i> к базовому имени маппера. Префикс <em>app</em> в данном случае является стандартным и одинаковым для всех переопределяемых мапперов. </p>
 <p><code>appUserMapper.php</code> будет выглядеть примерно так:</p>
 <<code php>>
 fileLoader::load('modules/user/mappers/userMapper');
@@ -37,5 +37,6 @@ class appUserMapper extends userMapper
 
 }
 <</code>>
+
 
 <p>Несложно догадаться, что теперь можно добавлять, переопределять любые методы и свойства базового маппера <code>userMapper</code></p>

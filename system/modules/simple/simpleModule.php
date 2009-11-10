@@ -26,7 +26,7 @@ abstract class simpleModule
     const OVERRIDE_PREFIX = 'app';
 
     /**
-     * Name of the module
+     * The name of the module
      *
      * @var string
      */
@@ -34,7 +34,7 @@ abstract class simpleModule
     protected $moduleTitle = null;
 
     /**
-     * Array of classes of the module
+     * Array of the classes of the module
      *
      * @var array
      */
@@ -59,7 +59,7 @@ abstract class simpleModule
     protected $icon = null;
 
     /**
-     * Array of the paths where we going to search module files
+     * Array of the paths where we will look for module files
      *
      * @var array
      */
@@ -74,7 +74,7 @@ abstract class simpleModule
     }
 
     /**
-     * Get name of the module
+     * Returns the name of the module
      *
      * @return string
      */
@@ -95,7 +95,7 @@ abstract class simpleModule
     }
 
     /**
-     * Get mapper for the specified class
+     * Returns the mapper for the specified class
      *
      * @param string $className
      * @return object
@@ -129,7 +129,7 @@ abstract class simpleModule
     }
 
     /**
-     * Return module classes
+     * Returns module classes
      *
      * @return array
      */
@@ -138,18 +138,28 @@ abstract class simpleModule
         return $this->classes;
     }
 
+    /**
+     * Returns module roles
+     *
+     * @return array
+     */
     public function getRoles()
     {
         return $this->roles;
     }
 
+    /**
+     * Returns module icon (an administration interface thing)
+     *
+     * @return string
+     */
     public function getIcon()
     {
         return $this->icon;
     }
 
     /**
-     * Return all actions of the module
+     * Returns all the actions of the module
      *
      * @return array
      */
@@ -192,7 +202,7 @@ abstract class simpleModule
     }
 
     /**
-     * Return actions of the specfied class
+     * Returns actions of the specfied class
      *
      * @param string $className
      * @return array
@@ -216,7 +226,7 @@ abstract class simpleModule
     }
 
     /**
-     * Return action by name
+     * Returns action by a name
      *
      * @param string $actionName
      * @throws mzzUnknownModuleActionException
@@ -242,7 +252,7 @@ abstract class simpleModule
     }
 
     /**
-     * Title of the module
+     * The title of the module
      *
      * @return string
      */

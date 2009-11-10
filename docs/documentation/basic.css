@@ -221,15 +221,17 @@ dd {
 }
 
 code, pre {
-  font-family: Courier New;
+  font-family: 'Courier New', monospace;
 }
 
 div.code {
-  background-color: #FAFAFA;
   /*overflow:auto;*/
   margin: 10px 0px;
-  padding: 10px 12px;
-  border: 1px solid #D6D6D6;
+  padding: 20px 12px;
+  border-left: 3px solid #E9E9E9;
+  font-size: 110%;
+  background: #F4F4F4 url('./images/code_background.gif') right top repeat-y;
+  font-family: 'Lucida Console', monospace;
 }
 
 div.code_border {
@@ -238,15 +240,15 @@ div.code_border {
   /*padding: 0px 12px;*/
   /*position: relative;*/
   /*border: 1px solid #D6D6D6;*/
-  background-color: #FAFAFA;
+  background-color: #F4F4F4;
   width: 100%;
 }
 
-p.note {
+.note {
   margin: 10px 0px;
-  background-color: #FBE6F3;
-  border: 1px solid #DB9CAB;
-  padding: 8px;
+  border-left: 3px solid #F1ECC5;
+  background: #FAF9E4 url('./images/note_background.gif') 8px 8px no-repeat;
+  padding: 10px 24px;
   width: auto;
 }
 
@@ -289,4 +291,32 @@ span.options_value {
   text-align: left;
   font-weight: bold;
   background-color: #F7F7F7;
+}
+
+table.beauty, table.beauty td, table.beauty th {
+  border: 1px solid #DADADA;
+  border-collapse: collapse;
+  text-align: left;
+  color: #555;
+}
+
+table.beauty {
+  border: 2px solid #DADADA;
+}
+
+table.beauty td {
+  padding: 0.3em 1em;
+}
+
+table.beauty th {
+  background-color: #F6F6F6;
+  padding: 0.3em 1em;
+  color: #7D7D7D;
+}
+
+.note div.code {
+  border-top: 1px solid #E9E9E9;
+  border-bottom: 1px solid #E9E9E9;
+  border-right: 1px solid #E9E9E9;
+  background-image: none !important;
 }
