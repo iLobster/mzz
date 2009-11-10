@@ -103,10 +103,5 @@ return array(
             </td>
             <td>array|string</td>
         </tr>
-        <tr>
-            <td>...</td>
-            <td>...</td>
-            <td>...</td>
-        </tr>
     </tbody>
 </table>

@@ -51,6 +51,7 @@ $menu = array("intro.Введение" =>
                             'controller.Controller' =>
                                 array(
                                     'creating.Создание',
+                                    'members.Базовые методы и свойства'
                                 )
                         ),
             'extending.Расширение framy' =>
