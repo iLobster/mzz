@@ -25,12 +25,6 @@ return array(
         'title' => 'Удалить',
         'confirm' => 'Вы хотите удалить этого пользователя?',
         'main' => 'active.blank.tpl',
-    ),
-    'loginForm' => array(
-        'controller' => 'loginForm',
-        'title' => 'loginForm',
-        'alias' => 'login',
-        'main' => 'active.blank.tpl',
-    ),
+    )
 );
 ?>

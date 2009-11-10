@@ -15,7 +15,7 @@
 fileLoader::load('user/model/userGroup');
 
 /**
- * userGroupMapper:
+ * userGroupMapper
  *
  * @package modules
  * @subpackage user
@@ -23,9 +23,25 @@ fileLoader::load('user/model/userGroup');
  */
 class userGroupMapper extends mapper
 {
-    protected $table = 'user_userGroup_rel';
+    /**
+     * DomainObject class name
+     *
+     * @var string
+     */
     protected $class = 'userGroup';
 
+    /**
+     * Table name
+     *
+     * @var string
+     */
+    protected $table = 'user_userGroup_rel';
+
+    /**
+     * Map
+     *
+     * @var array
+     */
     public $map = array(
         'id' => array(
             'accessor' => 'getId',

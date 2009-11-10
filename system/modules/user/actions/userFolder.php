@@ -12,7 +12,7 @@ return array(
     ),
     'register' => array(
         'controller' => 'register',
-        'title' => 'Регистрация',
+        'title' => 'Регистрация'
     ),
     'login' => array(
         'controller' => 'login'
@@ -25,8 +25,7 @@ return array(
         'controller' => 'admin',
         'title' => '_ user/admin',
         'role' => array('moderator'),
-        'admin' => '1',
-        'main' => 'active.admin.tpl',
-    ),
+        'admin' => true
+    )
 );
 ?>

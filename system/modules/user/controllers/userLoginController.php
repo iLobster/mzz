@@ -28,6 +28,9 @@ class userLoginController extends simpleController
 
         if (!$user->isLoggedIn()) {
             $validator = new formValidator();
+            $validator->rule('required', 'login', 'Login field is required');
+            $validator->rule('required', 'password', 'Password field is required');
+
             if (!$this->request->getBoolean('onlyForm') && $validator->validate()) {
                 $login = $this->request->getString('login', SC_POST);
                 $password = $this->request->getString('password', SC_POST);
@@ -48,23 +51,22 @@ class userLoginController extends simpleController
 
                     return $this->redirect($backURL);
                 } else {
+                    $validator->setError('login', 'Wrong login or password');
+                    $errors['login'] = 'Wrong login or password';
                     //userMapper::NOT_CONFIRMED || userMapper::WRONG_AUTH_DATA
                 }
+            } else {
+                $errors = $validator->getErrors();
             }
 
             $url = new url('default2');
             $url->setModule('user');
             $url->setAction('login');
             $this->smarty->assign('form_action', $url->get());
-            $this->smarty->assign('user', null);
-
-            if ($this->request->getBoolean('onlyForm')) {
-                $this->smarty->assign('backURL', $this->request->getRequestUrl());
-                return $this->fetch('user/loginForm.tpl');
-            }
-
+            $this->smarty->assign('validator', $validator);
             $this->smarty->assign('backURL', $backURL);
-            return $this->fetch('user/login.tpl');
+
+            return $this->fetch('user/loginForm.tpl');
         }
 
         $this->smarty->assign('user', $user);

@@ -16,11 +16,11 @@ fileLoader::load('user/model/user');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
- * userMapper: маппер для пользователей
+ * userMapper: mapper for users
  *
  * @package modules
  * @subpackage user
- * @version 0.2.3
+ * @version 0.3
  */
 class userMapper extends mapper
 {
@@ -37,19 +37,24 @@ class userMapper extends mapper
     const WRONG_AUTH_DATA = 0;
 
     /**
-     * Имя таблицы
+     * DomainObject class name
+     *
+     * @var string
+     */
+    protected $class = 'user';
+
+    /**
+     * Table name
      *
      * @var string
      */
     protected $table = 'user_user';
 
     /**
-     * Имя класса DataObject
+     * Map
      *
-     * @var string
+     * @var array
      */
-    protected $class = 'user';
-
     protected $map = array(
         'id' => array(
             'accessor' => 'getId',
@@ -108,16 +113,22 @@ class userMapper extends mapper
         $this->plugins('jip');
     }
 
+    /**
+     * Search user by id
+     *
+     * @param int $id
+     * @return object user
+     */
     public function searchById($id)
     {
         return $this->searchByKey($id);
     }
 
     /**
-     * Выполняет поиск объекта по логину
+     * Search user by login
      *
-     * @param string $login логин
-     * @return object
+     * @param string $login
+     * @return object user
      */
     public function searchByLogin($login)
     {
@@ -125,14 +136,14 @@ class userMapper extends mapper
     }
 
     /**
-     * Выполняет поиск объекта по email
+     * Search user by email
      *
      * @param string $email
-     * @return object
+     * @return object user
      */
     public function searchByEmail($email)
     {
-        return $user = $this->searchOneByField('email', $email);
+        return $this->searchOneByField('email', $email);
     }
 
     /**
@@ -143,6 +154,7 @@ class userMapper extends mapper
      * @param string $login логин
      * @param string $password пароль
      * @param string $loginField имя поля, которое используется в качестве логина
+     * @todo может тут вываливать лучше exceptions, а не возвращать константы в случае, если юзер не найден\не_подтвержден?
      * @return object
      */
     public function login($login, $password, $loginField = 'login')
@@ -166,7 +178,7 @@ class userMapper extends mapper
      */
     public function getGuest()
     {
-        return $this->searchByKey(MZZ_USER_GUEST_ID);
+        return $this->searchById(MZZ_USER_GUEST_ID);
     }
 
     protected function preInsert(& $data)
@@ -197,23 +209,6 @@ class userMapper extends mapper
     protected function cryptPassword($password)
     {
         return md5($password);
-    }
-
-    public function convertArgsToObj($args)
-    {
-        if (isset($args['id'])) {
-            if ($args['id'] == 0) {
-                $toolkit = systemToolkit::getInstance();
-                $user = $toolkit->getUser();
-            } else {
-                $user = $this->searchByKey($args['id']);
-            }
-            if ($user) {
-                return $user;
-            }
-        }
-
-        throw new mzzDONotFoundException();
     }
 }
 

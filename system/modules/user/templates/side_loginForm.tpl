@@ -1,25 +1,20 @@
-<h1>{_ login}</h1>
+<p class="sideBlockTitle">{_ login}</p>
+<div class="sideBlockContent">
 {form action=$form_action method="post"}
     <div>
         {form->hidden name="url" id="backUrlField" value=$backURL}
         <table border="0" cellpadding="1" cellspacing="0" width="140">
             <tr>
-                <td colspan="2">{form->caption name="login" value="_ username"}</td>
+                <td colspan="2"><label for="loginField">{_ username}</label></td>
             </tr>
             <tr>
-                <td colspan="2">
-                    {form->text name="login" size=30}
-                    {if $validator->isFieldError('login')}<div class="error">{$validator->getFieldError('login')}</div>{/if}
-                </td>
+                <td colspan="2">{form->text name="login" size=10 style="width: 135px;" id="loginField"}</td>
             </tr>
             <tr>
-                <td colspan="2">{form->caption name="password" value="_ password"}</td>
+                <td colspan="2"><label for="passwordField">{_ password}</label></td>
             </tr>
             <tr>
-                <td colspan="2">
-                    {form->password name="password" size=30}
-                    {if $validator->isFieldError('password')}<div class="error">{$validator->getFieldError('password')}</div>{/if}
-                </td>
+                <td colspan="2">{form->password name="password" size=10 style="width: 135px;" id="passwordField"}</td>
             </tr>
 
             <tr>
@@ -34,3 +29,4 @@
         </table>
     </div>
 </form>
+</div>

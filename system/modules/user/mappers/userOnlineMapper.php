@@ -15,27 +15,34 @@
 fileLoader::load('user/model/userOnline');
 
 /**
- * userOnlineMapper: маппер
+ * userOnlineMapper
  *
  * @package modules
  * @subpackage user
- * @version 0.1.1
+ * @version 0.2
  */
-
 class userOnlineMapper extends mapper
 {
-
     /**
-     * Имя класса DataObject
+     * DomainObject class name
      *
      * @var string
      */
     protected $class = 'userOnline';
+
+    /**
+     * Table name
+     *
+     * @var string
+     */
     protected $table = 'user_userOnline';
 
-    protected $obj_id_field = null;
-
-        protected $map = array(
+    /**
+     * Map
+     *
+     * @var array
+     */
+    protected $map = array(
         'id' => array(
             'accessor' => 'getId',
             'mutator' => 'setId',
@@ -65,24 +72,18 @@ class userOnlineMapper extends mapper
             'mutator' => 'setIp'),
     );
 
-    /**
-     * Выполнение операций с массивом $fields перед обновлением в БД
-     *
-     * @param array $fields
-     */
-    protected function updateDataModify(&$fields)
+    protected function preInsert(& $data)
     {
-        $fields['last_activity'] = new sqlFunction('unix_timestamp');
+        if (is_array($data)) {
+            $data['last_activity'] = new sqlFunction('unix_timestamp');
+        }
     }
 
-    /**
-     * Выполнение операций с массивом $fields перед вставкой в БД
-     *
-     * @param array $fields
-     */
-    protected function insertDataModify(&$fields)
+    protected function preUpdate(& $data)
     {
-        $this->updateDataModify($fields);
+        if (is_array($data)) {
+            $data['last_activity'] = new sqlFunction('unix_timestamp');
+        }
     }
 
     /**
@@ -159,18 +160,6 @@ class userOnlineMapper extends mapper
         }
 
         $session->set('last_user_id', $me->getId());
-    }
-
-    /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
-     *
-     * @return integer
-     */
-    public function convertArgsToObj($args)
-    {
-        $obj = $this->create();
-        $obj->import(array('obj_id' => 1));
-        return $obj;
     }
 }
 

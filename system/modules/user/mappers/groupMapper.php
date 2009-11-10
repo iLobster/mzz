@@ -16,7 +16,7 @@ fileLoader::load('user/model/group');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
- * groupMapper: маппер для групп пользователей
+ * groupMapper: mapper for user groups
  *
  * @package modules
  * @subpackage user
@@ -24,15 +24,25 @@ fileLoader::load('modules/jip/plugins/jipPlugin');
  */
 class groupMapper extends mapper
 {
-    protected $table = 'user_group';
+    /**
+     * DomainObject class name
+     *
+     * @var string
+     */
     protected $class = 'group';
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->plugins('jip');
-    }
+    /**
+     * Table name
+     *
+     * @var string
+     */
+    protected $table = 'user_group';
 
+    /**
+     * Map
+     *
+     * @var array
+     */
     public $map = array(
         'id' => array(
             'accessor' => 'getId',
@@ -56,13 +66,10 @@ class groupMapper extends mapper
             'accessor' => 'getIsDefault',
             'mutator' => 'setIsDefault'));
 
-    public function convertArgsToObj($args)
+    public function __construct()
     {
-        if (isset($args['id'])) {
-            return $this->searchByKey($args['id']);
-        }
-
-        throw new mzzDONotFoundException();
+        parent::__construct();
+        $this->plugins('jip');
     }
 }
 

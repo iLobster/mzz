@@ -1,12 +1,47 @@
 <?php
+/**
+ * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/trunk/system/modules/user/mappers/userOnlineMapper.php $
+ *
+ * MZZ Content Management System (c) 2007
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU Lesser General Public License (See /docs/LGPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @version $Id: userOnlineMapper.php 3857 2009-10-19 04:12:06Z zerkms $
+ */
 
 fileLoader::load('user/model/userRole');
 
+/**
+ * userRoleMapper: mapper for users roles
+ *
+ * @package modules
+ * @subpackage user
+ * @version 0.2
+ */
 class userRoleMapper extends mapper
 {
+    /**
+     * DomainObject class name
+     *
+     * @var string
+     */
     protected $class = 'userRole';
+
+    /**
+     * Table name
+     *
+     * @var string
+     */
     protected $table = 'user_roles';
 
+    /**
+     * Map
+     *
+     * @var array
+     */
     protected $map = array(
         'id' => array(
             'accessor' => 'getId',

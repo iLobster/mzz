@@ -15,25 +15,40 @@
 fileLoader::load('user/model/userAuth');
 
 /**
- * userAuthMapper: маппер
+ * userAuthMapper
  *
  * @package modules
  * @subpackage user
- * @version 0.1.2
+ * @version 0.2
  */
-
 class userAuthMapper extends mapper
 {
+    /**
+     * Name of cookie where auth key will be stored
+     *
+     * @todo: переведите кто-нибудь правильно! :)
+     */
     const AUTH_COOKIE_NAME = 'auth';
 
     /**
-     * Имя класса DataObject
+     * DomainObject class name
      *
      * @var string
      */
     protected $class = 'userAuth';
+
+    /**
+     * Table name
+     *
+     * @var string
+     */
     protected $table = 'user_userAuth';
 
+    /**
+     * Map
+     *
+     * @var array
+     */
     public $map = array(
         'id' => array(
             'accessor' => 'getId',
@@ -124,16 +139,6 @@ class userAuthMapper extends mapper
             $data['time'] = time();
             $data['hash'] = md5(microtime(true));
         }
-    }
-
-    /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
-     *
-     * @return object
-     */
-    public function convertArgsToObj($args)
-    {
-
     }
 }
 

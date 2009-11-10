@@ -16,13 +16,12 @@ fileLoader::load('user/model/userFolder');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**
- * userFolderMapper: маппер
+ * userFolderMapper: mapper for fake object
  *
  * @package modules
  * @subpackage user
  * @version 0.1
  */
-
 class userFolderMapper extends mapper
 {
     /**

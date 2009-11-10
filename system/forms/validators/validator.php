@@ -89,7 +89,7 @@ class validator
         return $this->isValid();
     }
 
-    protected function setError($name, $message)
+    public function setError($name, $message)
     {
         if (!$this->isFieldError($name)) {
             $this->errors[$name] = $message;
