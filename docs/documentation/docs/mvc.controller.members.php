@@ -104,3 +104,54 @@ return $this->forward('admin', 'dashboard');
         </tr>
     </tbody>
 </table>
+
+<p>Свойства:</p>
+<table class="listTable" style="width: 85%;">
+    <thead>
+        <tr>
+            <th>Свойство</th>
+            <th>Тип</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>$toolkit</td>
+            <td>stdToolkit</td>
+            <td>
+                Объект toolkit (todo ссылка на описание)
+<<code php>>
+$id = $this->toolkit->getMapper('news', 'news');
+<</code>>
+            </td>
+        </tr>
+        <tr>
+            <td>$request</td>
+            <td>httpRequest</td>
+            <td>Объект запроса (todo ссылка на описание)
+<<code php>>
+$path = $this->request->getString('path');
+<</code>>
+            </td>
+        </tr>
+        <tr>
+            <td>$response</td>
+            <td>httpResponse</td>
+            <td>Объект ответа (todo ссылка на описание)
+<<code php>>
+$this->response->setCookie('cookie_name', 'cookie_data');
+<</code>>
+            </td>
+        </tr>
+        <tr>
+            <td>$smarty</td>
+            <td>mzzSmarty</td>
+            <td>Smarty (todo ссылка на описание)
+<<code php>>
+$this->smarty->assign('news', $newsFolderMapper->getItems($newsFolder));
+$this->smarty->assign('folderPath', $newsFolder->getTreePath());
+<</code>>
+            </td>
+        </tr>
+    </tbody>
+</table>
