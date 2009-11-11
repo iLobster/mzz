@@ -76,8 +76,8 @@ class userAuthMapper extends mapper
         ),
         'time' => array(
             'accessor' => 'getTime',
-            'mutator' => 'setTime',
-        ),
+            'mutator' => 'setTime'
+        )
     );
 
     public function getAuth($hash, $ip)

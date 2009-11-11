@@ -36,9 +36,12 @@ class userLoginController extends simpleController
                 $password = $this->request->getString('password', SC_POST);
 
                 $userMapper = $this->toolkit->getMapper('user', 'user');
-                $user = $userMapper->login($login, $password);
 
-                if ($user instanceof user) {
+                $user = $userMapper->searchByLoginAndPassword($login, $password);
+
+                if (!$user || !$user->isConfirmed()) {
+                    $validator->setError('login', 'Wrong login or password');
+                } else {
                     $this->toolkit->setUser($user);
                     if ($this->request->getBoolean('save', SC_POST)) {
                         $this->rememberUser($user);
@@ -50,13 +53,7 @@ class userLoginController extends simpleController
                     }
 
                     return $this->redirect($backURL);
-                } else {
-                    $validator->setError('login', 'Wrong login or password');
-                    $errors['login'] = 'Wrong login or password';
-                    //userMapper::NOT_CONFIRMED || userMapper::WRONG_AUTH_DATA
                 }
-            } else {
-                $errors = $validator->getErrors();
             }
 
             $url = new url('default2');

@@ -25,18 +25,6 @@ fileLoader::load('modules/jip/plugins/jipPlugin');
 class userMapper extends mapper
 {
     /**
-     * Учётная запись не подтверждена
-     *
-     */
-    const NOT_CONFIRMED = -1;
-
-    /**
-     * Неверные аутентификационные данные
-     *
-     */
-    const WRONG_AUTH_DATA = 0;
-
-    /**
      * DomainObject class name
      *
      * @var string
@@ -147,28 +135,18 @@ class userMapper extends mapper
     }
 
     /**
-     * Идентифицирует пользователя по логину и паролю и
-     * в случае успеха устанавливает сессию
-     * идентифицированного пользователя
+     * Search user by its login and password
      *
-     * @param string $login логин
-     * @param string $password пароль
-     * @param string $loginField имя поля, которое используется в качестве логина
-     * @todo может тут вываливать лучше exceptions, а не возвращать константы в случае, если юзер не найден\не_подтвержден?
-     * @return object
+     * @param string $login
+     * @param string $password
+     * @return user
      */
-    public function login($login, $password, $loginField = 'login')
+    public function searchByLoginAndPassword($login, $password)
     {
-        $criteria = new criteria();
-        $criteria->where($loginField, $login)->where('password', $this->cryptPassword($password));
+        $criteria = new criteria;
+        $criteria->where('login', $login)->where('password', $this->cryptPassword($password));
 
-        $user = $this->searchOneByCriteria($criteria);
-
-        if ($user) {
-            return $user->isConfirmed() ? $user : self::NOT_CONFIRMED;
-        }
-
-        return self::WRONG_AUTH_DATA;
+        return $this->searchOneByCriteria($criteria);
     }
 
     /**
