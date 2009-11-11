@@ -55,6 +55,15 @@ $menu = array("intro.Введение" =>
                                     'service.Служебные'
                                 )
                         ),
+            'packages.Стандартные пакеты' =>
+                        array(
+                            'toolkit.Toolkit',
+                            'cache.Cache' =>
+                                array(
+                                    'overview.Обзор',
+                                    'configuring.Конфигурирование'
+                                ),
+                        ),
             'extending.Расширение framy' =>
                         array(
                             'system.Системные файлы',
