@@ -125,18 +125,6 @@ class newsMapper extends mapper
     {
         return $this->searchAllByField('folder_id', $folder_id);
     }
-
-    public function convertArgsToObj($args)
-    {
-        if (isset($args['id'])) {
-            $news = $this->searchByKey($args['id']);
-            if ($news) {
-                return $news;
-            }
-        }
-
-        throw new mzzDONotFoundException();
-    }
 }
 
 ?>
