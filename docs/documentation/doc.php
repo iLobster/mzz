@@ -66,7 +66,8 @@ $menu = array("intro.Введение" =>
                             'cache.Cache' =>
                                 array(
                                     'overview.Обзор',
-                                    'configuring.Конфигурирование'
+                                    'configuring.Конфигурирование',
+                                    'usage.Использование'
                                 ),
                         ),
             'extending.Расширение framy' =>
