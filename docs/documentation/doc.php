@@ -69,6 +69,11 @@ $menu = array("intro.Введение" =>
                                     'configuring.Конфигурирование',
                                     'usage.Использование'
                                 ),
+                            'db.Db' =>
+                                array(
+                                    'query_generator.Генератор запросов',
+                                    'criteria.Criteria'
+                                )
                         ),
             'extending.Расширение framy' =>
                         array(
