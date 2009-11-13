@@ -13,8 +13,8 @@
         <td>__construct</td>
         <td>
             <ul>
-                <li><code>[strng $table = null]</code> - имя таблицы;</li>
-                <li><code>[strng $alias = null]</code> - алиас.</li>
+                <li><code>[string $table = null]</code> - имя таблицы;</li>
+                <li><code>[string $alias = null]</code> - алиас.</li>
             </ul>
         </td>
         <td>
@@ -26,8 +26,8 @@
         <td>select</td>
         <td>
             <ul>
-                <li><code>strng $field</code> - имя поля;</li>
-                <li><code>[strng $alias = null]</code> - алиас.</li>
+                <li><code>string $field</code> - имя поля;</li>
+                <li><code>[string $alias = null]</code> - алиас.</li>
             </ul>
         </td>
         <td>
@@ -45,6 +45,53 @@ $criteria = new criteria('table');
 $criteria->select('field1')->select('field2', 'alias');
 $select = new simpleSelect($criteria);
 echo $select->toString(); // выведет "SELECT `field1`, `field2` AS `alias` FROM `table`"
+<</code>>
+        </td>
+    </tr>
+
+    <tr>
+        <td>where</td>
+        <td>
+            <ul>
+                <li><code>string|criterion $field</code> - имя поля либо объект <code>criterion</code> (todo ссылка на criterion);</li>
+                <li><code>[mixed $value = null]</code> - сравниваемое значение. В зависимости от условия тип может быть любым;</li>
+                <li><code>[int $comparison = criteria::EQUAL]</code> - тип сравнения.</li>
+            </ul>
+        </td>
+        <td>
+            Указывает условия выборки
+<<code php>>
+$criteria = new criteria('table');
+$criteria->where('field', 'value', criteria::GREATER)->where('field2', 'value2');
+$select = new simpleSelect($criteria);
+echo $select->toString(); // "SELECT * FROM `table` WHERE `table`.`field` > 'value' AND `table`.`field2` = 'value2'"
+<</code>>
+            Доступные для использования типы сравнений:
+            <ul>
+                <li><code>EQUAL</code> - =</li>
+                <li><code>NOT_EQUAL</code> - &lt;&gt;</li>
+                <li><code>GREATER</code> - &gt;</li>
+                <li><code>LESS</code> - &lt;</li>
+                <li><code>GREATER_EQUAL</code> - &gt;=</li>
+                <li><code>LESS_EQUAL</code> - &lt;=</li>
+                <li><code>IN</code> - IN</li>
+                <li><code>NOT_IN</code> - NOT IN</li>
+                <li><code>LIKE</code> - LIKE</li>
+                <li><code>NOT_LIKE</code> - NOT LIKE</li>
+                <li><code>BETWEEN</code> - BETWEEN</li>
+                <li><code>NOT_BETWEEN</code> - NOT BETWEEN</li>
+                <li><code>FULLTEXT</code> - MATCH (%s) AGAINST (%s)</li>
+                <li><code>FULLTEXT_BOOLEAN</code> - MATCH (%s) AGAINST (%s IN BOOLEAN MODE)</li>
+                <li><code>IS_NULL</code> - IS NULL</li>
+                <li><code>IS_NOT_NULL</code> - IS NOT NULL</li>
+            </ul>
+            Для сравнений, в которых операнд "значение" состоит фактически из нескольких значений (Например: IN (1, 2, 3)) необходимо передавать масств этих значений.<br />
+            Пример работы с такими сравнениями:
+<<code php>>
+$criteria->where('field', array(1, 2, 3), criteria::IN); // `field` IN (1, 2, 3)
+$criteria->where('field', array(1, 2), criteria::BETWEEN); // `field` BETWEEN 1 AND 2
+$criteria->where(array('field1', 'field2'), 'value', criteria::FULLTEXT); // MATCH(`field1`, `field2`) AGAINST ('value')
+$criteria->where('field', null, criteria::IS_NULL); // `field` IS NULL
 <</code>>
         </td>
     </tr>
