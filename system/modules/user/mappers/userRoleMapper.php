@@ -71,13 +71,13 @@ class userRoleMapper extends mapper
     /**
      * @var user
      */
-    private $user;
+    protected $user;
 
-    private $roles = array();
+    protected $roles = array();
 
-    private $roles_array = array();
+    protected $roles_array = array();
 
-    private $roles_group = array();
+    protected $roles_group = array();
 
     public function __construct($user = null)
     {
@@ -90,7 +90,7 @@ class userRoleMapper extends mapper
         $this->user = $user;
     }
 
-    private function getRoles($module)
+    protected function getRoles($module)
     {
         if (!isset($this->roles[$module])) {
             $relMapper = systemToolkit::getInstance()->getMapper('user', 'userGroup');
@@ -109,7 +109,7 @@ class userRoleMapper extends mapper
         return $this->roles[$module];
     }
 
-    private function getRolesArray($module)
+    protected function getRolesArray($module)
     {
         if (!isset($this->roles_array[$module])) {
             $this->roles_array[$module] = array();
