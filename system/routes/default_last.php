@@ -8,7 +8,7 @@ $router->addRoute('admin', new requestRoute('admin/:module_name/:params/:action_
 
 $router->addRoute('adminSimpleActions', new requestRoute('admin/:action', array('module' => 'admin')));
 $router->addRoute('adminModule', new requestRoute('admin/:name/:action', array('module' => 'admin'), array('action' => '(?:addClass|editModule|deleteModule)')));
-$router->addRoute('adminModuleEntity', new requestRoute('admin/:module_name/:class_name/:action', array('module' => 'admin'), array('action' => '(?:listActions|map|editClass|editClass|addAction|editAction|deleteAction)')));
+$router->addRoute('adminModuleEntity', new requestRoute('admin/:module_name/:class_name/:action', array('module' => 'admin'), array('action' => '(?:listActions|map|editClass|deleteClass|addAction|editAction|deleteAction)')));
 
 $router->addRoute('accessEditRoles', new requestRoute('access/:module_name/:action', array('module' => 'access', 'action' => 'list'), array('action' => '(?:list|add)')));
 $router->addRoute('accessEditModuleRoles', new requestRoute('access/:module_name/:group_id/:action', array('module' => 'access'), array('action' => '(?:edit|delete)')));

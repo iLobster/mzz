@@ -36,6 +36,7 @@ class adminDeleteClassController extends simpleController
 
         $classes = $module->getClasses();
         $class_name = $this->request->getString('class_name');
+
         if (!in_array($class_name, $classes)) {
             return $this->forward404($adminMapper);
         }
