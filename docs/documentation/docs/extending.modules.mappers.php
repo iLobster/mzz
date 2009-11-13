@@ -15,7 +15,7 @@ class userMapper extends mapper
 ?>
 <</code>>
 
-<p>И мы хотим переопределить этот маппер с целью добавить новый метод <code>searchAllLastLogined</code> — метод, возвращающий нам всех пользователей, которые
+<p>И мы хотим переопределить этот маппер с целью добавить новый метод <code>searchAllLastLoggedIn</code> — метод, возвращающий нам всех пользователей, которые
 приходили на сайт не ранее заданной даты</p>
 
 <p>Для реализации этой идеи достаточно создать файл в каталоге <i>&lt;project&gt;/modules/user/mappers/appUserMapper.php</i>, где &lt;project&gt; это путь до
@@ -27,7 +27,7 @@ fileLoader::load('modules/user/mappers/userMapper');
 
 class appUserMapper extends userMapper
 {
-    public function searchAllLastLogined($time)
+    public function searchAllLastLoggedIn($time)
     {
         $criteria = new criteria;
         $criteria->where('last_login', $time, criteria::GREATER);

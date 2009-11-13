@@ -28,7 +28,12 @@ $menu = array("intro.Введение" =>
            "structure.Структура" =>
                         array(
                             'framy.Framy',
-                            'application.Приложение',
+                            'application.Приложение' =>
+                                array(
+                                    'overview.Обзор',
+                                    'config.Конфигурационный файл',
+                                    'application.Класс приложения',
+                                ),
                             'module.Модуль' =>
                                 array(
                                     'overview.Обзор',
