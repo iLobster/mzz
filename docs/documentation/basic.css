@@ -119,19 +119,25 @@ a {
 }
 
 h2 {
-    padding-bottom: 20px;
+    padding-top: 40px;
+}
+
+h2:first-child {
+    padding-top: 0px;
 }
 
 h3 {
+    padding-top: 20px;
     padding-bottom: 10px;
+}
+
+h4 {
+    padding-top: 10px;
+    padding-bottom: 5px;
 }
 
 p {
     padding-bottom: 5px;
-}
-
-ul {
-    padding: 10px 0 10px 30px;
 }
 
 dl#fullContent a {
