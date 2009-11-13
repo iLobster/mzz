@@ -312,7 +312,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
     require_once('header.php');
     echo '<div id="onePageLink"><a href="one-page.html">Всё на одной странице</a></div>';
 
-    echo '<p class="title"><strong>Содержание</strong></p><div id="sectionList"><dl id="fullContent">';
+    echo '<h2><strong>Содержание</strong></h2><div id="sectionList"><dl id="fullContent">';
     $i = 1;
     // Все категории
     foreach ($menu as $meta => $items) {

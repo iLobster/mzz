@@ -118,6 +118,15 @@ a {
   color: #0081C6;
 }
 
+h2 {
+    padding-bottom: 10px;
+}
+
+h3 {
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
 dl#fullContent a {
   text-decoration: none;
 }
