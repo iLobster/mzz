@@ -410,7 +410,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
 
         if (is_array($path)) {
             $cat = explode('.', $cat, 2);
-            echo '<h2><a name="' . $cat[0] . '"></a><span class="titleNumber">Часть ' . $catNum .'.</span> ' . $cat[1] . '</h2>';
+            echo '<h2' . (($catNum == 1) ? ' style="padding-top: 0px;"' : '') . '><a name="' . $cat[0] . '"></a><span class="titleNumber">Часть ' . $catNum .'.</span> ' . $cat[1] . '</h2>';
 
             $cat = $cat[0];
             $subCatNum = 0;
@@ -623,7 +623,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
         $tmp = $paths[$cat[0]][0];
         $i = 1;
 
-        echo '<p class="title"><span class="titleNumber">' . $paths[$cat[0]][1] . '.</span> ' . $paths[$cat[0]][2] . '</p>';
+        echo '<h2><span class="titleNumber">' . $paths[$cat[0]][1] . '.</span> ' . $paths[$cat[0]][2] . '</h2>';
         echo "<dl>";
         foreach($menu[$tmp] as $title => $value) {
             $meta = (is_array($value)) ? $title : $value;

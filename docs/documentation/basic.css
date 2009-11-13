@@ -120,6 +120,7 @@ a {
 
 h2 {
     padding-top: 40px;
+    padding-bottom: 20px;
 }
 
 h3 {
@@ -127,8 +128,8 @@ h3 {
     padding-bottom: 10px;
 }
 
-ul {
-
+p {
+    padding: 5px 0;
 }
 
 dl#fullContent a {
