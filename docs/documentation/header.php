@@ -25,6 +25,5 @@
     </head>
 <body>
 
-
-<div id="title"><a href="index.html">Framy 1.0: Документация</a></div>
+<h1 id="title"><a href="index.html">Framy 1.0: Документация</a></h1>
 <div id="content">

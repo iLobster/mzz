@@ -1,6 +1,6 @@
+* {padding:0;margin:0;}
+
 html, body {
-  margin:0;
-  padding:0;
   background-color: #FFFFFF;
   color: #000000;
   font-family: Tahoma, Verdana, Arial;
@@ -306,6 +306,11 @@ table.beauty {
 
 table.beauty td {
   padding: 0.3em 1em;
+  vertical-align: top;
+}
+
+table.beauty ul {
+  padding-left: 10px;
 }
 
 table.beauty th {

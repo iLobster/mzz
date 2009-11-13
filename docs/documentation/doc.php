@@ -586,7 +586,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
         $category = $paths[$cat[0]][0];
         $tmp = $paths[$_REQUEST['cat']][0];
 
-        echo '<p class="title"><a name="' . $_REQUEST['cat'] . '"></a><span class="titleNumber">' . $paths[$_REQUEST['cat']][1] . '</span> ' . $paths[$_REQUEST['cat']][2] . '</p>';
+        echo '<h2><a name="' . $_REQUEST['cat'] . '"></a><span class="titleNumber">' . $paths[$_REQUEST['cat']][1] . '</span> ' . $paths[$_REQUEST['cat']][2] . '</h2>';
         if (isset($menu[$category][$tmp]) && is_array($menu[$category][$tmp])) {
             $i = '1';
             echo "<dl>";
@@ -612,7 +612,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
                 $link = trim($meta[0]);
                 $id = $_REQUEST['cat'] . '.' . $link;
                 $num = $i++;
-                echo '<div class="subtitle"><a name="' . $id . '"></a><span class="titleNumber">' . $num . '.</span> ' . $title . '</div>';
+                echo '<h3><a name="' . $id . '"></a><span class="titleNumber">' . $num . '.</span> ' . $title . '</h3>';
                 echo render($id);
             }
         } else {
