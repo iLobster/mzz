@@ -119,17 +119,19 @@ a {
 }
 
 h2 {
-    padding-top: 40px;
     padding-bottom: 20px;
 }
 
 h3 {
-    padding-top: 20px;
     padding-bottom: 10px;
 }
 
 p {
-    padding: 5px 0;
+    padding-bottom: 5px;
+}
+
+ul {
+    padding: 10px 0;
 }
 
 dl#fullContent a {
