@@ -410,7 +410,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
 
         if (is_array($path)) {
             $cat = explode('.', $cat, 2);
-            echo '<p class="partTitleOnePage"><a name="' . $cat[0] . '"></a><span class="titleNumber">Часть ' . $catNum .'.</span> ' . $cat[1] . '</p>';
+            echo '<h2><a name="' . $cat[0] . '"></a><span class="titleNumber">Часть ' . $catNum .'.</span> ' . $cat[1] . '</h2>';
 
             $cat = $cat[0];
             $subCatNum = 0;
@@ -418,7 +418,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
                 $subCatNum++;
 
                 $subcat = explode('.', (is_array($subpath) ? $subcat : $subpath), 2);
-                echo '<p class="title' . (is_array($subpath) ? 'Cat' : '') . 'OnePage"><a name="' . $cat . '.' . $subcat[0] . '"></a><span class="titleNumber">' . $catNum .'.' . $subCatNum .'.</span> ' . $subcat[1] . '</p>';
+                echo '<h3><a name="' . $cat . '.' . $subcat[0] . '"></a><span class="titleNumber">' . $catNum .'.' . $subCatNum .'.</span> ' . $subcat[1] . '</h3>';
 
                 if (is_array($subpath)) {
                     $subSubCatNum = 0;
@@ -427,7 +427,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
                         $subsubcat = explode('.', $subsubpath, 2);
                         $subsubcatTitle = $subsubcat[1];
                         $subsubcat = $cat . '.' . $subcat[0] . '.' . $subsubcat[0];
-                        echo '<p class="subtitleOnePage"><a name="' . $subsubcat . '"></a><span class="titleNumber">' . $catNum .'.' . $subCatNum .'.' . $subSubCatNum .'.</span> ' . $subsubcatTitle . '</p>';
+                        echo '<h4><a name="' . $subsubcat . '"></a><span class="titleNumber">' . $catNum .'.' . $subCatNum .'.' . $subSubCatNum .'.</span> ' . $subsubcatTitle . '</h4>';
                         echo render($subsubcat);
                     }
                 } else {
