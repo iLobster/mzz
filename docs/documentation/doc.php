@@ -317,7 +317,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
     require_once('header.php');
     echo '<div id="onePageLink"><a href="one-page.html">Всё на одной странице</a></div>';
 
-    echo '<h2><strong>Содержание</strong></h2><div id="sectionList"><dl id="fullContent">';
+    echo '<h2>Содержание</h2><div id="sectionList"><dl id="fullContent">';
     $i = 1;
     // Все категории
     foreach ($menu as $meta => $items) {
@@ -415,7 +415,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
 
         if (is_array($path)) {
             $cat = explode('.', $cat, 2);
-            echo '<h2' . (($catNum == 1) ? ' style="padding-top: 0px;"' : '') . '><a name="' . $cat[0] . '"></a><span class="titleNumber">Часть ' . $catNum .'.</span> ' . $cat[1] . '</h2>';
+            echo '<h2><a name="' . $cat[0] . '"></a><span class="titleNumber">Часть ' . $catNum .'.</span> ' . $cat[1] . '</h2>';
 
             $cat = $cat[0];
             $subCatNum = 0;
