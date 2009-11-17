@@ -5,220 +5,98 @@
  * Имеются следующие типы: apache, bash, css, html, ini, javascript, mysql, php, smarty, sql, xml
  * для отображения html-примеров: <<example>><strong>пример</strong><</example>>
  *
+ * новый подраздел:
+ * == name.Название
  */
 
-$menu = array("intro.Введение" =>
-                        array(
-                            "about.Введение",
-                            "community.Сообщество"
-                        ),
-           "setup.Установка и настройка" =>
-                        array(
-                            "sources.Исходный код",
-                            "system_requirements.Системные требования",
-                            "setup_framy.Установка Framy на сервер",
-                            "setup_demo.Установка и конфигурирование demo-приложения" =>
-                                array(
-                                    "download.Скачивание",
-                                    "installation.Установка"
-                                )
-  /*                              => array("system.Системная конфигурация проекта",
-                                         "apache.Настройки для http-сервера Apache"), */
-                        ),
-           "structure.Структура" =>
-                        array(
-                            'framy.Framy',
-                            'application.Приложение' =>
-                                array(
-                                    'overview.Обзор',
-                                    'config.Конфигурационный файл',
-                                    'application.Класс приложения',
-                                ),
-                            'module.Модуль' =>
-                                array(
-                                    'overview.Обзор',
-                                    'moduleClass.Класс модуля',
-                                    'actions.Actions',
-                                    'controllers.Controllers',
-                                    'i18n.i18n',
-                                    'mappers_and_model.Mappers и model',
-                                    'templates.Templates'
-                                )
-                        ),
-            'mvc.MVC' =>
-                        array(
-                            'model.Model',
-                            'view.View' =>
-                                array(
-                                    'smarty.Smarty',
-                                    'functions.Функции'
-                                ),
-                            'controller.Controller' =>
-                                array(
-                                    'creating.Создание',
-                                    'members.Базовые методы и свойства',
-                                    'service.Служебные'
-                                )
-                        ),
-            'packages.Стандартные пакеты' =>
-                        array(
-                            'toolkit.Toolkit',
-                            'cache.Cache' =>
-                                array(
-                                    'overview.Обзор',
-                                    'configuring.Конфигурирование',
-                                    'usage.Использование'
-                                ),
-                            'db.Db' =>
-                                array(
-                                    'query_generator.Генератор запросов',
-                                    'criteria.Criteria'
-                                )
-                        ),
-            'extending.Расширение framy' =>
-                        array(
-                            'system.Системные файлы',
-                            'modules.Расширение модулей' => array(
-                                'mappers.Mappers'
-                            )
-                        ),
-            'getting_start.Создание проекта на framy' =>
-                        array(
-                            'intro.Введение',
-                            'mvc.Архитектура MVC' => array(
-                                'model.Model',
-                                'view.View',
-                                'controller.Controller'
-                            ),
-                            'blog.Создание блога' => array(
-                                'installing.Установка',
-                                'creating.Создание Блог приложения'
-                            )
-                        ),
-/*                        array(
-                        "templates.Шаблоны"
-                                => array("about.Общие сведения",
-                                         "load.Плагин {load}",
-                                         "add.Плагин {add}",
-                                         "url.Плагин {url}",
-                                         "title.Плагин {title}",
-                                         "meta.Плагин {meta}",
-                                         "icon.Плагин {icon}",
-                                         ),
-                        "controllers.Контроллеры"
-                                => array("simpleController.simpleController",
-                                         "403controller.simple403Controller",
-                                         "404controller.simple404Controller",
-                                         "messageController.messageController",
-                                         "forwarding.Передача управления другому контроллеру",
-                                         "redirecting.Переадресация"
-                                         ),
-                        "classes.Основные системные классы"
-                                => array("toolkit.toolkit",
-                                         "request.httpRequest",
-                                         "response.httpResponse",
-                                         "routers.Routers",
-                                         "resolver.Resolver",
-                                         "dataspace.arrayDataspace"
-                                         ),
-                        "run.Процесс запуска приложения",
-                        "mvc.MVC",
-                        //"urls.Структура урлов, что какая часть значит",
-                        "orm.ORM"
-                                => array("overview.Общая информация",
-                                         "mapper.Мапперы",
-                                         "map.Схема объекта",
-                                         "hooks.Хуки",
-                                         "plugins.Плагины"
-                                         ),
-                        "acl.ACL"
-                                => array("overview.Обзор",
-                                         "tables.Хранение прав в БД",
-                                         "overlay.Наложение прав",
-                                         "owners.Владельцы объектов",
-                                         "coding.Работа с ACL",
-                                         "module_running.Запуск модулей из шаблонов",
-                                         "obj_id.obj_id",
-                                         "convertargstoobj.Метод convertArgsToObj()",
-                                         "getacl.Метод getAcl()"
-                                         ),
-                        "folders.Структура каталогов mzz",
-                        "jip.JIP и AJAX",
-                        "forms.Хелперы и формы"
-                                => array("elements.Основные хелперы",
-                                         "create.Создание собственных элементов форм",
-                                         "validation.Валидация форм",
-                                         "create_rule.Создание собственных валидаторов"
-                                         ),
-                        "timer.Описание timer",
-                        ),
-           "quick_start.Быстрый старт" =>
-                        array(
-                        "project.Структура проекта",
-                        "config.Создание конфигурации для проекта",
-                        ),
-           "modules.Модули системы" =>
-                        array(
-                        "description.Описание структуры модуля"
-                                => array("folders.Структура каталогов",
-                                         "actions.Actions",
-                                         "controllers.Controllers",
-                                         "mappers.Mappers",
-                                         ),
-                        'writing_module.Написание модуля "Комментарии"'
-                                => array("intro.Введение",
-                                         "planning.Планирование",
-                                         "db_structure.Структура БД",
-                                         "urls.Общий вид урлов",
-                                         "creating_folders.Создание структуры каталогов",
-                                         "creating_do.Создание сущностей",
-                                         "module_registration.Регистрация модуля в системе",
-                                         "programming.Программирование действий",
-                                         "round_up.Подведение итогов",
-                                         ),
-                        'writing_module_new.Написание модуля "Сообщения"'
-                                => array("intro.Введение",
-                                         "planning.Планирование",
-                                         "db_structure.Структура БД",
-                                         "programming.Программирование действий",
-                                         "round_up.Подведение итогов",
-                                         ),
-                        "404handling.Обработка ошибки 404 в модулях",
-                        "pager.Постраничный вывод списков",
-                        ),
-           "db.Работа с БД" =>
-                        array(
-                        "queries.Генератор SQL-запросов",
-                        "sqlFunction.Функции в генераторе",
-                        "sqlOperator.Операторы в генераторе",
-                        "tree.Работа с древовидными структурами",
-                        ),
-           "coding_standarts.Стандарты написания кода" =>
-                        array(
-                        "basic.Основы",
-                        "naming.Соглашения об именах" => array("filenames.Имена файлов",
-                                         "classes.Классы",
-                                         "interfaces.Интерфейсы",
-                                         "functions.Функции и методы",
-                                         "variables.Переменные",
-                                         "constants.Константы",
-                                         ),
-                        "style.Стиль написания кода" => array("code_demarcation.Обрамление PHP-кода",
-                                         "strings.Строки",
-                                         "keywords.Ключевые слова",
-                                         "arrays.Массивы",
-                                         "classes.Классы",
-                                         "functions.Функции и методы",
-                                         "control_structures.Управляющие структуры",
-                                         "comments.Комментарии",
-                                         ),
-                        ),
-            "glossary.Термины и определения" => array("common.Общие"
-                                         ), */
-            );
+class documentation
+{
+
+    protected $chapters = array();
+
+    public function __construct($chapters_file)
+    {
+        $previous = array();
+        $chapters_source = file($chapters_file);
+
+        foreach ($chapters_source as $chapter) {
+            $chapter = str_replace("\t", "    ", $chapter);
+            $level = substr_count($chapter, "    ");
+            $chapter = trim($chapter);
+
+            if ($level !== false && $level >= 0) {
+                $previous[$level] = $chapter;
+            }
+
+            if ($level === 0) {
+                $this->chapters[] = $chapter;
+            } elseif ($level === 1) {
+                $this->convertToArray($previous[0], $this->chapters);
+                $this->chapters[$previous[0]][] = $chapter;
+            } elseif ($level === 2) {
+                $this->convertToArray($previous[1], $this->chapters[$previous[0]]);
+                $this->chapters[$previous[0]][$previous[1]][] = $chapter;
+            }
+        }
+    }
+
+    public function getChapters()
+    {
+        return $this->chapters;
+    }
+
+    private function convertToArray($value, &$chapters)
+    {
+        if (array_key_exists($value, $chapters)) {
+            return;
+        }
+        $name = $chapters[$key = array_search($value, $chapters)];
+        unset($chapters[$key]);
+        $chapters[$name] = array();
+    }
+
+    public function generateHtmlChapters($chapters = null)
+    {
+        $html = '<ul>';
+
+        if ($chapters === null) {
+            $chapters = $this->chapters;
+        }
+
+        foreach ($chapters as $name => $chapter) {
+        $html .= '<li>';
+            if (is_array($chapter)) {
+            $chapter_name = $this->splitChapterString($name);
+            $html .= $this->generateHtmlChapters($chapter);
+            $html .= $chapter_name;
+            } else {
+
+            $chapter_name = $this->splitChapterString($chapter);
+            $html .=  $chapter_name ;
+            }
+            $html .= '</li>';
+        }
+
+        return $html . '</ul>';
+    }
+
+    private function splitChapterString($chapter_name)
+    {
+        $names = array();
+        $chapter_name =  explode('.', $chapter_name);
+        $names['name'] = $chapter_name[0];
+        $names['title'] = $chapter_name[1];
+        return $names;
+    }
+
+}
+
+$documentation = new documentation('ru.txt');
 
 
-function render($id) {
+$menu = $documentation->getChapters();
+
+function render($id, $num = null) {
     $path = 'docs/' . $id . '.php';
     if(!file_exists($path)) {
         exit;
@@ -244,7 +122,15 @@ function render($id) {
     $content = str_replace(array('<<c3>>', '<</c3>>'), array('<strong class="orange">', '</strong>'), $content);
     $content = str_replace(array('<<c4>>', '<</c4>>'), array('<strong class="green">', '</strong>'), $content);
 
+    $content = preg_replace_callback('/^== ([a-z0-9_-]+)\.(.*?)$/im', create_function('$matches', 'return replace_chapter($matches, "' . $id . '", "' . $num . '");'), $content);
     return $content;
+}
+
+function replace_chapter($matches, $id, $num)
+{
+    static $i = 0;
+    $i++;
+    return '<h3><a name="' . $id . '.' . $matches[1] . '"></a><span class="titleNumber">' . $num . '.' . $i . '.</span> ' . $matches[2] . '</h3>';
 }
 
 function include_code($id, $type) {
@@ -342,7 +228,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
 
                 $m = 'A';
                 echo '<dt><span class="sectionNumber">' . $num . '.</span> <a href="' . $sublink . '.html">' . $subtitle . "</a></dt>\n";
-                echo '<dd><dl>';
+                /*echo '<dd><dl>';
                 // Разделы в подкатегориях
                 foreach ($subitem as $subsubmeta) {
                     $num = $m;
@@ -357,7 +243,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
 
                     $m++;
                 }
-                echo '</dl></dd>';
+                echo '</dl></dd>';*/
 
             } else {
                 $subitem = explode('.', $subitem, 2);
@@ -603,7 +489,22 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
                 $linkname = $_REQUEST['cat'] . '.' . trim($meta[0]);
 
                 echo '<dt><span class="titleNumber">' . $i++ . '.</span> <a href="' . $name . '.html#' . $linkname . '">';
-                echo $title . "</a></dt>\n";
+                echo $title . "</a>\n";
+
+                if (file_exists($file_path = './docs/' . $linkname . '.php')) {
+                    $content = file_get_contents($file_path);
+                    preg_match_all('/^== ([a-z0-9_-]+)\.(.*)/im', $content, $matches);
+                    if (isset($matches[1])) {
+                        foreach ($matches[1] as $k => $subchapter) {
+
+                            echo '<dd><dl><dt><span class="titleNumber">' . ($k + 1) . '.</span> <a href="' . $name . '.html#' . $linkname . '.' . $subchapter .'">';
+                            echo $matches[2][$k] . "</a>\n";
+
+                            echo "</dt></dl></dd>\n";
+                        }
+                    }
+                }
+                echo "</dt>\n";
             }
             echo "</dl>";
         }
@@ -618,7 +519,7 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
                 $id = $_REQUEST['cat'] . '.' . $link;
                 $num = $i++;
                 echo '<h3><a name="' . $id . '"></a><span class="titleNumber">' . $num . '.</span> ' . $title . '</h3>';
-                echo render($id);
+                echo render($id, $i - 1);
             }
         } else {
             echo render($_REQUEST['cat']);
