@@ -29,7 +29,7 @@ class menuViewController extends simpleController
         $name = $this->request->getString('name');
         $menu = $menuMapper->searchByName($name);
         if (empty($menu)) {
-            return $menuMapper->get404()->run();
+            return $this->forward404($menuMapper);
         }
 
         $this->smarty->assign('menu', $menu);
