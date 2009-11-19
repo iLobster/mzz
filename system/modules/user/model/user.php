@@ -53,13 +53,7 @@ class user extends entity
 
     public function isRoot()
     {
-        foreach ($this->getGroups() as $group) {
-            if ($group->getId() == MZZ_ROOT_GID) {
-                return true;
-            }
-        }
-
-        return false;
+        return in_array(MZZ_ROOT_GID, $this->getGroups()->keys());
     }
 }
 
