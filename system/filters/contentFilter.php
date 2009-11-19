@@ -94,6 +94,7 @@ class contentFilter implements iFilter
         if ($activeTemplate == 'deny') {
             throw new mzzNoActionException('Direct access to this action is deny');
         }
+
         $smarty->assign('module', $module_name);
         $smarty->assign('action', $action_name);
 
