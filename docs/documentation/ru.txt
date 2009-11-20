@@ -40,6 +40,10 @@ packages.Стандартные пакеты
     db.Db
         query_generator.Генератор запросов
         criteria.Criteria
+modules.Готовые модули
+    comments.Комментарии
+        overview.Обзор
+        plugin.commentsPlugin
 extending.Расширение framy
     system.Системные файлы
     modules.Расширение модулей

@@ -7,6 +7,10 @@ html, body {
   font-size: 90%;
 }
 
+ul {
+    padding-left: 15px;
+}
+
 .red, .green, .blue, .orange {
   font-size: 14px;
   font-family: sans-serif;
@@ -119,8 +123,7 @@ a {
 }
 
 h2 {
-    padding-top: 40px;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
 }
 
 h3 {
