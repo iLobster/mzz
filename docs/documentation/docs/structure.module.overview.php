@@ -1,4 +1,4 @@
-<p>Типичный структура модуля в приложении Framy выглядит следующим образом:</p>
+<p>Типичная структура модуля в приложении Framy выглядит следующим образом:</p>
 <ul class="filesTree">
     <li class="folder-open-last"><span class="text">news/</span>
         <ul>
