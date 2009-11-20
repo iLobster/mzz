@@ -111,6 +111,14 @@ class adminSaveActionController extends simpleController
                 }
             }
 
+            if (empty($values['title'])) {
+                unset($values['title']);
+            }
+
+            if (empty($values['confirm'])) {
+                unset($values['confirm']);
+            }
+
             try {
                 $adminGeneratorMapper->saveAction($module, $class_name, $action_name, $values, $dests[$dest], $isEdit);
             } catch (Exception $e) {
