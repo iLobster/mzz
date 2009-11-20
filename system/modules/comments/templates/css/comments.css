@@ -72,6 +72,11 @@ div.entry-comments ul .hcomment p
     font-size: 0.9em;
 }
 
+div.entry-comments ul .hcomment span.entry-author
+{
+    font-weight: bold;
+}
+
 div.entry-comments ul .hcomment p .published
 {
     margin-left: 0.5em;

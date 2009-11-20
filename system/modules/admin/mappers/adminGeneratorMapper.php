@@ -345,10 +345,17 @@ class adminGeneratorMapper extends mapper
 
         $smarty->assign('module', $module);
         $smarty->assign('name', $class_name);
-        $smarty->assign('actionsArray', $actionsArray);
+        //$smarty->assign('actionsArray', $actionsArray);
 
         $smarty->left_delimiter = '{{';
         $smarty->right_delimiter = '}}';
+
+        $actions_string = var_export($actionsArray, true);
+
+        $actions_string = preg_replace('/^( +)/m', '$1$1', $actions_string);
+        $actions_string = trim($actions_string);
+
+        $smarty->assign('actions_string', $actions_string);
 
         $actionContents = $smarty->fetch('admin/generator/actions.tpl');
 
