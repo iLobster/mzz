@@ -26,11 +26,6 @@ class commentsPostController extends simpleController
     protected function getView()
     {
         $user = $this->toolkit->getUser();
-        $access = $this->request->getBoolean('access');
-
-        if (!is_null($access) && !$access) {
-            return $user->getId() == MZZ_USER_GUEST_ID ? $this->smarty->fetch('comments/onlyAuth.tpl') : $this->smarty->fetch('comments/deny.tpl');
-        }
 
         $commentsFolderMapper = $this->toolkit->getMapper('comments', 'commentsFolder');
         $commentsMapper = $this->toolkit->getMapper('comments', 'comments');

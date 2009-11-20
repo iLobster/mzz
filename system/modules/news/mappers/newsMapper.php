@@ -96,7 +96,6 @@ class newsMapper extends mapper
     {
         parent::__construct();
         $this->plugins('jip');
-        $this->plugins('obj_id');
         $this->plugins('i18n');
         $this->plugins('comments');
     }

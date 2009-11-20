@@ -17,12 +17,10 @@
  *
  * @package modules
  * @subpackage news
- * @version 0.1.2
+ * @version 0.1.3
  */
-
 class newsFolder extends entity
 {
-    protected $module = 'news';
 }
 
 ?>

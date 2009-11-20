@@ -19,7 +19,6 @@
  * @subpackage news
  * @version 0.1.2
  */
-
 class newsListController extends simpleController
 {
     protected function getView()
@@ -32,9 +31,10 @@ class newsListController extends simpleController
             return $this->forward404($newsFolderMapper);
         }
 
-        $this->setPager($newsFolderMapper, 10, true);
+        $newsMapper = $this->toolkit->getMapper('news', 'news');
+        $this->setPager($newsMapper, 10, true);
 
-        $this->smarty->assign('news', $newsFolderMapper->getItems($newsFolder));
+        $this->smarty->assign('news', $newsFolder->getItems());
         $this->smarty->assign('folderPath', $newsFolder->getTreePath());
         $this->smarty->assign('rootFolder', $newsFolderMapper->searchByPath('root'));
         $this->smarty->assign('newsFolder', $newsFolder);

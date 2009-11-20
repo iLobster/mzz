@@ -22,9 +22,8 @@ fileLoader::load('modules/i18n/plugins/i18nPlugin');
  *
  * @package modules
  * @subpackage news
- * @version 0.3
+ * @version 0.3.1
  */
-
 class newsFolderMapper extends mapper
 {
     /**
@@ -34,9 +33,6 @@ class newsFolderMapper extends mapper
      */
     protected $class = 'newsFolder';
     protected $table = 'news_newsFolder';
-
-    protected $classOfItem = 'news';
-
 
     protected $map = array(
         'id' => array(
@@ -52,7 +48,16 @@ class newsFolderMapper extends mapper
             'accessor' => 'getTitle',
             'mutator' => 'setTitle',
             'options' => array(
-                'i18n')));
+                'i18n')),
+        'items' => array(
+            'accessor' => 'getItems',
+            'mutator' => 'setItems',
+            'relation' => 'many',
+            'mapper' => 'news/news',
+            'foreign_key' => 'folder_id',
+            'local_key' => 'id'
+        )
+    );
 
     public function __construct()
     {
@@ -85,27 +90,6 @@ class newsFolderMapper extends mapper
     public function searchByPath($path)
     {
         return $this->plugin('tree')->searchByPath($path . '/');
-    }
-
-    public function getItems(newsFolder $folder)
-    {
-        $mapper = systemToolkit::getInstance()->getMapper('news', $this->classOfItem);
-
-        if ($this->plugin('pager')) {
-            $mapper->attach(new pagerPlugin($this->plugin('pager')->getPager()));
-            $this->detach('pager');
-        }
-
-        return $mapper->searchAllByField('folder_id', $folder->getId());
-    }
-
-    public function convertArgsToObj($args)
-    {
-        if (isset($args['name']) && $newsFolder = $this->searchByPath($args['name'])) {
-            return $newsFolder;
-        }
-
-        throw new mzzDONotFoundException();
     }
 }
 

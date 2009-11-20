@@ -29,6 +29,10 @@ class newsDeleteFolderController extends simpleController
 
         $folder = $newsFolderMapper->searchByPath($name);
 
+        if (!$folder) {
+            return $this->forward404($newsFolderMapper);
+        }
+
         $newsFolderMapper->delete($folder);
 
         return jipTools::redirect();

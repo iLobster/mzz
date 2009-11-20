@@ -117,11 +117,6 @@ class commentsFolderMapper extends mapper
 
         parent::delete($object);
     }
-
-    public function convertArgsToObj($args)
-    {
-        //throw new mzzDONotFoundException();
-    }
 }
 
 ?>

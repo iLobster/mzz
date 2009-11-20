@@ -34,12 +34,13 @@ class newsAdminController extends simpleController
 
         $newsFolder = $newsFolderMapper->searchByPath($path);
         if (empty($newsFolder)) {
-            return $newsFolderMapper->get404()->run();
+            return $this->forward404($newsFolderMapper);
         }
 
         $breadCrumbs = $newsFolder->getTreeParentBranch();
 
-        $this->setPager($newsFolderMapper);
+        $newsMapper = $this->toolkit->getMapper('news', 'news');
+        $this->setPager($newsMapper);
 
         $this->smarty->assign('news', $newsFolderMapper->getItems($newsFolder));
         $this->smarty->assign('newsFolder', $newsFolder);
