@@ -95,4 +95,24 @@ $criteria->where('field', null, criteria::IS_NULL); // `field` IS NULL
 <</code>>
         </td>
     </tr>
+
+	<tr>
+        <td>orderByAsc, orderByDesc</td>
+        <td>
+            <ul>
+                <li><code>string $field</code> - имя поля;</li>
+                <li><code>[boolean $alias = true]</code> - добавлять ли к сортируемому полю алиас на таблицу.</li>
+            </ul>
+        </td>
+        <td>
+            Добавляет сортировку в запрос
+<<code php>>
+$criteria = new criteria('table');
+$criteria->select('field1');
+$criteria->orderByAsc('field1');
+$select = new simpleSelect($criteria);
+$select->toString(); // "SELECT `field1` FROM `table` ORDER BY `table`.`field1` ASC"
+<</code>>
+        </td>
+    </tr>
 </table>
