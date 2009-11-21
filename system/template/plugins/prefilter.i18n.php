@@ -1,6 +1,6 @@
 <?php
 
-function smarty_prefilter_i18n($tpl_source, $smartyCompiler = null)
+function smarty_prefilter_i18n($tpl_source, $smarty = null)
 {
     static $callback = 'i18n::getMessage';
     static $generatorCallback = 'mzz_smarty_i18n_morph';
@@ -15,17 +15,12 @@ function smarty_prefilter_i18n($tpl_source, $smartyCompiler = null)
         return;
     }
 
-    if (is_null($smartyCompiler)) {
-        $smartyCompiler = systemToolkit::getInstance()->getSmarty();
+    if (is_null($smarty)) {
+        $smarty = systemToolkit::getInstance()->getSmarty();
     }
 
-    if ($smartyCompiler instanceof mzzSmarty) {
-        $tmp = end($smartyCompiler->_smarty_debug_info);
-        $file = $tmp['filename'];
-    } else {
-        // определяем какому модулю принадлежит шаблон
-        $file = $smartyCompiler->_current_file;
-    }
+    // определяем какому модулю принадлежит шаблон
+    $file = end($smarty->template_objects)->template_resource;
 
     if (strpos($file, 'act/') === 0) {
         $module = substr($file, 4, strpos($file, '/', 4) - 4);

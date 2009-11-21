@@ -1,4 +1,4 @@
-{block align="left:120" name="news_tree_view"}
+{fblock position="left" name="news_tree_view"}
 <div>
     <div id="newsFolders">
         <span class="title">{_ categories}</span>
@@ -32,4 +32,4 @@
         </ul>
     </div>
 </div>
-{/block}
+{/fblock}

@@ -137,8 +137,9 @@ class stdToolkit extends toolkit
 
             $this->smarty->register_object('form', new form());
 
-            fileLoader::load('service/sideHelper');
-            $this->smarty->register_object('side', sideHelper::getInstance());
+            fileLoader::load('service/blockHelper');
+            $this->smarty->register_object('fblock', $fblock = blockHelper::getInstance());
+            $this->smarty->assign('fblock', $fblock);
 
             fileLoader::load('template/plugins/prefilter.i18n');
             $this->smarty->register_prefilter('smarty_prefilter_i18n');

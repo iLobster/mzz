@@ -46,17 +46,16 @@ class fFileSmarty implements IfSmarty
      * @param string $resource
      * @param string $cache_id
      * @param string $compile_id
-     * @param boolean $display
+     * @param object $parent
      */
-    public function fetch($resource, $cache_id = null, $compile_id = null, $display = false)
+    public function fetch($resource, $cache_id = null, $compile_id = null, $parent = null)
     {
         // Для определения активного шаблоного достаточно прочитать первые 256 байтов из шаблона
         //$fileName = $this->getTemplateDir() . DIRECTORY_SEPARATOR . $resource[1];
         $resource['resource_name'] = $resource[1];
         $resource['resource_base_path'] = $this->smarty->template_dir;
-        $this->smarty->_parse_resource_name($resource);
 
-        $fileName = $resource['resource_name'];
+        $fileName = $this->getRealFileName($resource);
 
         if (!file_exists($fileName)) {
             throw new mzzRuntimeException("Шаблон <em>'" . $fileName . "'</em> отсутствует.");
@@ -64,16 +63,23 @@ class fFileSmarty implements IfSmarty
         $template = new SplFileObject($fileName, 'r');
         $template = $template->fgets(256);
 
-        $result = $this->smarty->fetchPassive($resource[1], $cache_id, $compile_id, $display);
+        $result = $this->smarty->fetchPassive($resource[1], $cache_id, $compile_id, $parent);
 
         // Если шаблон вложен, обработать получателя
         if ($this->smarty->isActive($template)) {
-            $result = $this->smarty->fetchActive($template, $cache_id, $compile_id, $display, $result);
+            $result = $this->smarty->fetchActive($template, $cache_id, $compile_id, $parent, $result);
         }
         return $result;
 
     }
 
+    public function getRealFileName($params)
+    {
+        if (file_exists($params['resource_base_path'] . DIRECTORY_SEPARATOR . $params['resource_name'])) {
+           return $params['resource_base_path'] . DIRECTORY_SEPARATOR . $params['resource_name'];
+        }
+        return fileLoader::resolve($params['resource_name']);
+    }
 
     /**
      * Возвращает директорию с исходниками шаблонов

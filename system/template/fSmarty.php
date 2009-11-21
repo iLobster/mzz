@@ -75,7 +75,7 @@ class fSmarty extends Smarty
      */
     public function __construct()
     {
-        parent::Smarty();
+        parent::__construct();
         // инициализация массива media, используемого в функции {add}
         smarty_function_add(array('init' => true), $this);
     }
@@ -90,7 +90,7 @@ class fSmarty extends Smarty
      * @param boolean $display
      * @return string
      */
-    public function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
+    public function fetch($resource_name, $cache_id = null, $compile_id = null, $parent = null)
     {
         $resource = explode(':', $resource_name, 2);
 
@@ -113,7 +113,7 @@ class fSmarty extends Smarty
         if (!isset($this->resources[$className])) {
             $this->resources[$className] = new $className($this);
         }
-        $result = $this->resources[$className]->fetch($resource, $cache_id, $compile_id, $display);
+        $result = $this->resources[$className]->fetch($resource, $cache_id, $compile_id, $parent);
 
         return $result;
 
@@ -125,12 +125,12 @@ class fSmarty extends Smarty
      * @param string $resource_name
      * @param string $cache_id
      * @param string $compile_id
-     * @param boolean $display
+     * @param object $parent
      * @return string
      */
-    public function fetchPassive($resource_name, $cache_id = null, $compile_id = null, $display = false)
+    public function fetchPassive($resource_name, $cache_id = null, $compile_id = null, $parent = null)
     {
-        $result = parent::fetch($resource_name, $cache_id, $compile_id, $display);
+        $result = parent::fetch($resource_name, $cache_id, $compile_id, $parent);
         return $result;
     }
 
@@ -140,11 +140,11 @@ class fSmarty extends Smarty
      * @param string $resource_name
      * @param string $cache_id
      * @param string $compile_id
-     * @param boolean $display
+     * @param object $parent
      * @param string $result начальный результат обработки активного шаблона как пассивного
      * @return string
      */
-    public function fetchActive($template, $cache_id = null, $compile_id = null, $display = false, $result = null)
+    public function fetchActive($template, $cache_id = null, $compile_id = null, $parent = null, $result = null)
     {
         $params = $this->parse($template);
 
@@ -164,20 +164,8 @@ class fSmarty extends Smarty
         }
 
         $this->assign($params['placeholder'], $result);
-        $result = $this->fetch($params['main'], $cache_id, $compile_id, $display);
+        $result = $this->fetch($params['main'], $cache_id, $compile_id, $parent);
         return $result;
-    }
-
-    /**
-     * Выполняет шаблон и отображает результат.
-     *
-     * @param string $resource_name
-     * @param string $cache_id
-     * @param string $compile_id
-     */
-    public function display($resource_name, $cache_id = null, $compile_id = null)
-    {
-        $this->fetch($resource_name, $cache_id, $compile_id, true);
     }
 
     /**
@@ -249,38 +237,6 @@ class fSmarty extends Smarty
     public function enableMain()
     {
         $this->withMain = true;
-    }
-
-    function _parse_resource_name(&$params)
-    {
-        if (empty($this->skin)) {
-            $this->skin = systemToolkit::getInstance()->getUserPreferences()->getSkin();
-        }
-
-        $params_skinned = $params;
-        $params_skinned['resource_name'] = $this->skin . '/' . $params_skinned['resource_name'];
-
-        if (parent::_parse_resource_name($params_skinned)) {
-            $params = $params_skinned;
-            return true;
-        }
-
-        if (parent::_parse_resource_name($params)) {
-            return true;
-        }
-
-        $name = fileLoader::resolve($params['resource_name']);
-        $params['resource_name'] = $name;
-        $params['resource_type'] = 'file';
-        return true;
-    }
-
-    function _get_auto_filename($auto_base, $auto_source = null, $auto_id = null)
-    {
-        if (empty($this->lang) && systemConfig::$i18n) {
-            $this->lang = systemToolkit::getInstance()->getLocale()->getName();
-        }
-        return parent::_get_auto_filename($auto_base, $auto_source, $auto_id) . ($this->lang ? '-' . $this->lang : '') . '-' . $this->skin;
     }
 }
 

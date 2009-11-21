@@ -1,4 +1,4 @@
-{if isset($media.css) }
+{if isset($media['css'])}
 {strip}
     {assign var="external" value=""}
     {foreach from=$media.css item="cssitem" key="file" name="cssFiles"}

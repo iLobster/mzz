@@ -15,7 +15,7 @@
 */
 
 fileLoader::load('core/loadDispatcher');
-fileLoader::load('service/sideHelper');
+fileLoader::load('service/blockHelper');
 
 /**
  * smarty_function_load: функция для смарти, загрузчик модулей
@@ -37,26 +37,26 @@ function smarty_function_load($params, $smarty)
 {
     $allParams = $params;
     $allParams['params'] = $params;
-    foreach (array('module', 'action', '_side') as $name) {
+    foreach (array('module', 'action', '_block') as $name) {
         unset($allParams['params'][$name]);
     }
     $allParams = new arrayDataspace($allParams);
 
     $module = $allParams['module'];
-    $side = $allParams['_side'];
+    $block = $allParams['_block'];
     $actionName = $allParams['action'];
 
-    $sideHelper = sideHelper::getInstance();
-    if ($side && $sideHelper->isHidden($module . '_' . $actionName)) {
-        // loading this action of this module has been disabled by sideHelper
+    $blockHelper = blockHelper::getInstance();
+    if ($block && $blockHelper->isHidden($module . '_' . $actionName)) {
+        // loading this action of this module has been disabled by blockHelper
         return null;
     }
 
     $view = loadDispatcher::dispatch($module, $actionName, $allParams['params']);
 
-    // отдаём контент в вызывающий шаблон, либо сохраняем его в sideHelper
-    if ($side) {
-        $sideHelper->set($side, $module . '_' . $actionName, $view);
+    // отдаём контент в вызывающий шаблон, либо сохраняем его в blockHelper
+    if ($block) {
+        $blockHelper->set($module . '_' . $actionName, $block, $view);
     } else {
         return $view;
     }

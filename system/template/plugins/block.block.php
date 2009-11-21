@@ -13,10 +13,10 @@
  * @subpackage template
  * @version $Id$
 */
-fileLoader::load('service/sideHelper');
+fileLoader::load('service/blockHelper');
 
 /**
- * smarty_block_sideBlock: записывает содержимое между тегами в переменную с именем, указанным аргументом name
+ * smarty_block_fblock: записывает содержимое между тегами в переменную с именем, указанным аргументом name
  *
  * Примеры использования:<br />
  * <code>
@@ -30,19 +30,22 @@ fileLoader::load('service/sideHelper');
  * @subpackage template
  * @version 0.1
  */
-function smarty_block_block($params, $content, $smarty)
+function smarty_block_fblock($params, $content, $smarty)
 {
-    if (empty($params['align']) || empty($params['name'])) {
-        throw new mzzRuntimeException('Align or name for side block is not defined');
+    if (empty($params['position']) || empty($params['name'])) {
+        throw new mzzRuntimeException('Block position for block helper is not defined');
     }
-    $side = sideHelper::getInstance();
+    if (empty($params['name'])) {
+        throw new mzzRuntimeException('Block name for block helper is not defined');
+    }
+    $side = blockHelper::getInstance();
     $weigth = null;
-    if (strpos($params['align'], ':')) {
-        $position = explode(':', $params['align']);
+    if (strpos($params['position'], ':')) {
+        $position = explode(':', $params['position']);
         $weigth = $position[1];
-        $params['align'] = $position[0];
+        $params['position'] = $position[0];
     }
-    $side->set($params['align'], $params['name'], $content, $weigth);
+    $side->set($params['name'], $params['position'], $content, $weigth);
 }
 
 
