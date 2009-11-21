@@ -93,6 +93,7 @@ define('DEBUG_MODE', true);
     Уточните у вашего системного администратора какие права необходимы чтобы разрешить веб-серверу запись в директорию.
 </div>
 
+== configuring_database.Конфигурация базы данных
 <p>Откроем <code>db/mzz_dummy.sql</code> и изменим имя базы данных.</p>
 <<code mysql>>
 /*!40000 DROP DATABASE IF EXISTS `framy_blog`*/;

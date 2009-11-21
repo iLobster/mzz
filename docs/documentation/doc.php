@@ -245,6 +245,13 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
                 }
                 echo '</dl></dd>';*/
 
+                // Разделы в подкатегориях
+                foreach ($subitem as $subsubmeta) {
+                    $subsubmeta = explode('.', $subsubmeta, 2);
+                    $subsublink = $sublink . '.' .trim($subsubmeta[0]);
+                    checkFile($subsublink);
+                }
+
             } else {
                 $subitem = explode('.', $subitem, 2);
                 $subtitle = trim($subitem[1]);

@@ -324,6 +324,7 @@ table.beauty, table.beauty td, table.beauty th {
 
 table.beauty {
   border: 2px solid #DADADA;
+  margin: 1em 0;
 }
 
 table.beauty td {
