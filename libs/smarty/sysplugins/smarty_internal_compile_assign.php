@@ -2,12 +2,12 @@
 
 /**
 * Smarty Internal Plugin Compile Assign
-*
+* 
 * Compiles the {assign} tag
-*
+* 
 * @package Smarty
 * @subpackage Compiler
-* @author Uwe Tews
+* @author Uwe Tews 
 */
 /**
 * Smarty Internal Plugin Compile Assign Class
@@ -15,7 +15,7 @@
 class Smarty_Internal_Compile_Assign extends Smarty_Internal_CompileBase {
     /**
     * Compiles code for the {assign} tag
-    *
+    * 
     * @param array $args array with attributes from parser
     * @param object $compiler compiler object
     * @return string compiled code
@@ -24,29 +24,28 @@ class Smarty_Internal_Compile_Assign extends Smarty_Internal_CompileBase {
     {
         $this->compiler = $compiler;
         $this->required_attributes = array();
-        //$this->optional_attributes = array('scope', 'nocache', 'index', '_any');
         $this->optional_attributes = array('_any');
 
         $_nocache = 'null';
-        $_scope = 'null';
+        $_scope = 'null'; 
         // check for nocache attribute before _get_attributes because
         // it shall not controll caching of the compiled code, but is a parameter
         if (isset($args['nocache'])) {
             if ($args['nocache'] == 'true') {
                 $_nocache = 'true';
                 $_nocache_boolean = true;
-            }
+            } 
             unset($args['nocache']);
-        }
+        } 
         // check and get attributes
         $_attr = $this->_get_attributes($args);
-
+        
         if (!isset($_attr['var'])) {
             $_attr['var'] = '"' . key($_attr) . '"';
             $_attr['value'] = current($_attr);
             unset($_attr[key($_attr)]);
         }
-
+        
         if (isset($_attr['scope'])) {
             if ($_attr['scope'] == '\'parent\'') {
                 $_scope = SMARTY_PARENT_SCOPE;
@@ -54,23 +53,23 @@ class Smarty_Internal_Compile_Assign extends Smarty_Internal_CompileBase {
                 $_scope = SMARTY_ROOT_SCOPE;
            } elseif ($_attr['scope'] == '\'global\'') {
                 $_scope = SMARTY_GLOBAL_SCOPE;
-            }
-        }
+            } 
+        } 
 
         if (isset($_attr['index'])) {
             $_index = $_attr['index'];
-        }
+        } 
         // compiled output
         if (isset($_attr['index'])) {
             if ($_attr['index'] == '') {
                 return "<?php \$_smarty_tpl->append($_attr[var],$_attr[value],false,$_nocache,$_scope);?>";
             } else {
                 return "<?php \$_tmp$_attr[index] = $_attr[value]; \$_smarty_tpl->append($_attr[var],\$_tmp,true,$_nocache,$_scope); unset (\$_tmp);?>";
-            }
+            } 
         } else {
             return "<?php \$_smarty_tpl->assign($_attr[var],$_attr[value],$_nocache,$_scope);?>";
-        }
-    }
-}
+        } 
+    } 
+} 
 
 ?>
