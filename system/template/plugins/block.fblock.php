@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL$
+ * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/trunk/system/template/plugins/block.block.php $
  *
  * MZZ Content Management System (c) 2006
  * Website : http://www.mzz.ru
@@ -11,7 +11,7 @@
  * @link http://www.mzz.ru
  * @package system
  * @subpackage template
- * @version $Id$
+ * @version $Id: block.block.php 3991 2009-11-21 19:19:27Z mz $
 */
 fileLoader::load('service/blockHelper');
 
