@@ -20,7 +20,7 @@ function smarty_prefilter_i18n($tpl_source, $smarty = null)
     }
 
     // определяем какому модулю принадлежит шаблон
-    $file = end($smarty->template_objects)->template_resource;
+    $file = $smarty->getCurrentFile();
 
     if (strpos($file, 'act/') === 0) {
         $module = substr($file, 4, strpos($file, '/', 4) - 4);

@@ -12,7 +12,7 @@ class mzzSmartyI18nFunctionTest extends unitTestCase
     public function setUp()
     {
         $this->smarty = new mockstubSmarty();
-        $this->smarty->_current_file = 'somemodule/sometemplate.tpl';
+        $this->smarty->setReturnValue('getCurrentFile', 'somemodule/sometemplate.tpl');
         smarty_prefilter_i18n(array('callback' => __CLASS__ . '::stub_callback', 'smarty' => $this->smarty), $this->smarty);
     }
 

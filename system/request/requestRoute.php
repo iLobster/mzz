@@ -283,7 +283,9 @@ class requestRoute implements iRoute
     {
         array_unshift($this->parts, ':lang', '/');
         $this->requirements['lang'] = '^[a-z]{2}(?=/)|^[a-z]{2}(?=/?)$';
-        $this->defaults['lang'] = systemToolkit::getInstance()->getLocale()->getName();
+        // if we set the default language as the value here, framy will think the user has changed his language
+        // so we set it to empty string
+        $this->defaults['lang'] = '';
     }
 
     /**

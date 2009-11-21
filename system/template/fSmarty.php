@@ -238,6 +238,11 @@ class fSmarty extends Smarty
     {
         $this->withMain = true;
     }
+    
+    public function getCurrentFile()
+    {
+    	return end($this->template_objects)->template_resource;
+    }
 }
 
 ?>
