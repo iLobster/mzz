@@ -91,8 +91,9 @@ class adminSaveClassController extends simpleController
                 try {
                     $adminGeneratorMapper->createClass($module, $name, $table, $dests[$dest]);
                 } catch (Exception $e) {
-                    $controller = new messageController($this->getAction(), $e->getMessage(), messageController::WARNING);
-                    return $controller->run();
+                    return $e->getMessage();
+                    //$controller = new messageController($this->getAction(), $e->getMessage(), messageController::WARNING);
+                    //return $controller->run();
                 }
 
                 $this->smarty->assign('name', $name);

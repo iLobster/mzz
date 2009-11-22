@@ -114,7 +114,12 @@ class adminGeneratorMapper extends mapper
         $mapperContents = $smarty->fetch('admin/generator/mapper.tpl');
         $fileGenerator->create($mapperFileName, $mapperContents);
 
-        $smarty->assign('actionsArray', array());
+        $actions_string = var_export(array(), true);
+
+        $actions_string = preg_replace('/^( +)/m', '$1$1', $actions_string);
+        $actions_string = trim($actions_string);
+
+        $smarty->assign('actions_string', $actions_string);
         $actionFileName = $this->generateActionFileName($name);
         $actionContents = $smarty->fetch('admin/generator/actions.tpl');
         $fileGenerator->create($actionFileName, $actionContents);
