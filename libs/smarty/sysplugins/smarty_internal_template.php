@@ -543,13 +543,17 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
     {
         if (empty($template_resource))
             return false;
-        try {
-            $template_resource_orig = $template_resource;
-            $template_resource = fileLoader::resolve($template_resource);
-        } catch (mzzIoException $e) {
-            $template_resource = $template_resource_orig;
-        }
         $this->getResourceTypeName($template_resource, $resource_type, $resource_name);
+        if ($resource_type == 'file' && !file_exists($this->smarty->template_dir . '/' . $resource_name)) {
+            try {
+                $resource_name_orig = $resource_name;
+                $resource_name = fileLoader::resolve($resource_name);
+            } catch (mzzIoException $e) { 
+                $resource_name = $resource_name_orig;
+            }
+        } else {
+            $template_resource = $this->smarty->template_dir . '/' . $resource_name;
+        }
         $resource_handler = $this->loadTemplateResourceHandler($resource_type); 
         // cache template object under a unique ID
         // do not cache string resources
