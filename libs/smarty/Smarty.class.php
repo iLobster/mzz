@@ -59,7 +59,10 @@ if (!defined('SMARTY_PLUGINS_DIR')) {
 if (!defined('SMARTY_RESOURCE_CHAR_SET')) {
     define('SMARTY_RESOURCE_CHAR_SET', 'UTF-8');
 } 
-
+if (!defined('SMARTY_RESOURCE_DATE_FORMAT')) {
+    define('SMARTY_RESOURCE_DATE_FORMAT', '%b %e, %Y');
+} 
+ 
 /**
 * define variable scopes
 */
@@ -105,7 +108,7 @@ if (SMARTY_SPL_AUTOLOAD && set_include_path(get_include_path() . PATH_SEPARATOR 
 */
 class Smarty extends Smarty_Internal_TemplateBase {
     // smarty version
-    public static $_version = 'Smarty3-b3'; 
+    public static $_version = 'Smarty3-b5'; 
     // auto literal on delimiters with whitspace
     public $auto_literal = true; 
     // display error on not assigned variables
@@ -133,7 +136,7 @@ class Smarty extends Smarty_Internal_TemplateBase {
     // caching enabled
     public $caching = false; 
     // merge compiled includea
-    public $merge_compiled_includes = true; 
+    public $merge_compiled_includes = false; 
     // cache lifetime
     public $cache_lifetime = 0; 
     // force cache file creation

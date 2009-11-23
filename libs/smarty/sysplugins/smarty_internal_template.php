@@ -3,7 +3,7 @@
 /**
 * Smarty Internal Plugin Template
 * 
-* This files contains the Smarty template engine
+* This file contains the Smarty template engine
 * 
 * @package Smarty
 * @subpackage Templates
@@ -64,8 +64,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
     public $properties = array(); 
     // storage for block data
     public $block_data = array();
-	protected $lang = null;
-	
+
     /**
     * Create template data object
     * 
@@ -209,7 +208,8 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
         $this->isExisting(true);
         if ($this->mustCompile === null) {
             $this->mustCompile = ($this->usesCompiler() && ($this->force_compile || $this->isEvaluated() || $this->getCompiledTimestamp () === false ||
-                    ($this->smarty->compile_check && $this->getCompiledTimestamp () !== $this->getTemplateTimestamp ())));
+//                    ($this->smarty->compile_check && $this->getCompiledTimestamp () !== $this->getTemplateTimestamp ())));
+                    ($this->smarty->compile_check && $this->getCompiledTimestamp () < $this->getTemplateTimestamp ())));
         } 
         return $this->mustCompile;
     } 
@@ -221,19 +221,10 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
     */
     public function getCompiledFilepath ()
     {
-        return $this->addLangToFilepath($this->compiled_filepath === null ?
+        return $this->compiled_filepath === null ?
         ($this->compiled_filepath = !$this->isEvaluated() ? $this->resource_object->getCompiledFilepath($this) : false) :
-        $this->compiled_filepath);
+        $this->compiled_filepath;
     } 
-
-    protected function addLangToFilepath($file)
-    {
-        if (empty($this->lang) && systemConfig::$i18n) {
-            $this->lang = systemToolkit::getInstance()->getLocale()->getName();
-        }
-
-        return $file . '-' . $this->lang . '.php';
-    }
 
     /**
     * Returns the timpestamp of the compiled template
@@ -298,14 +289,16 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
             // compiling succeded
             if (!$this->isEvaluated()) {
                 // write compiled template
-                Smarty_Internal_Write_File::writeFile($this->getCompiledFilepath(), $this->compiled_template); 
+                Smarty_Internal_Write_File::writeFile($this->getCompiledFilepath(), $this->compiled_template, $this->smarty); 
                 // make template and compiled file timestamp match
+/**
                 $this->compiled_timestamp = null;
                 touch($this->getCompiledFilepath(), $this->getTemplateTimestamp()); 
                 // daylight saving time problem on windows
                 if ($this->template_timestamp != $this->getCompiledTimestamp()) {
                     touch($this->getCompiledFilepath(), 2 * $this->template_timestamp - $this->compiled_timestamp);
-                } 
+                }
+**/ 
             } 
         } else {
             // error compiling template
@@ -382,7 +375,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
                 if ($this->getCachedTimestamp() === false) {
                     return $this->isCached;
                 } 
-                if ($this->caching === SMARTY_CACHING_LIFETIME_SAVED || ($this->caching && (time() <= ($this->getCachedTimestamp() + $this->cache_lifetime) || $this->cache_lifetime < 0))) {
+                if ($this->caching === SMARTY_CACHING_LIFETIME_SAVED || ($this->caching == SMARTY_CACHING_LIFETIME_CURRENT && (time() <= ($this->getCachedTimestamp() + $this->cache_lifetime) || $this->cache_lifetime < 0))) {
                     if ($this->smarty->debugging) {
                         Smarty_Internal_Debug::start_cache($this);
                     } 
@@ -452,7 +445,8 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
                                 $resource_handler = $this->loadTemplateResourceHandler($resource_type);
                                 $mtime = $resource_handler->getTemplateTimestampTypeName($resource_type, $resource_name);
                             } 
-                            If ($mtime != $_file_to_check[1]) {
+//                            If ($mtime != $_file_to_check[1]) {
+                            If ($mtime > $_file_to_check[1]) {
                                 $this->properties['file_dependency'] = array();
                                 $this->mustCompile = true;
                                 break;
@@ -491,7 +485,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
             Smarty_Internal_Debug::end_render($this);
         } 
         // write to cache when nessecary
-        if (!$this->isEvaluated() && $this->caching) {
+        if (!$this->isEvaluated() && ($this->caching == SMARTY_CACHING_LIFETIME_SAVED || $this->caching == SMARTY_CACHING_LIFETIME_CURRENT)) {
             if ($this->smarty->debugging) {
                 Smarty_Internal_Debug::start_cache($this);
             } 
@@ -577,11 +571,13 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
             if (!is_callable($this->smarty->default_template_handler_func)) {
                 throw new Exception("Default template handler not callable");
             } else {
-                $_filepath = call_user_func_array($this->smarty->default_template_handler_func,
-                    array($this->resource_type, $this->resource_name, &$this->template_source, &$this->template_timestamp, &$this));
-                if ($_filepath !== false) {
-                    return $_filepath;
-                } 
+                $_return = call_user_func_array($this->smarty->default_template_handler_func,
+                    array($this->resource_type, $this->resource_name, &$this->template_source, &$this->template_timestamp, $this));
+                if ($_return == true) {
+                    return $file;
+                } elseif (is_string($_return)) {
+                    return $_return;
+                }
             } 
         } 
         // throw new Exception("Unable to load template \"{$file}\"");
