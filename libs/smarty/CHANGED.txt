@@ -23,17 +23,11 @@ add after line 227 (}):
 
         return $file . '-' . $this->lang . '.php';
     }
-add after line 546 ($this->getResourceTypeName($template_resource, $resource_type, $resource_name);):
-        if ($resource_type == 'file' && !file_exists($this->smarty->template_dir . '/' . $resource_name)) {
-            try {
-                $resource_name_orig = $resource_name;
-                $resource_name = fileLoader::resolve($resource_name);
-            } catch (mzzIoException $e) { 
-                $resource_name = $resource_name_orig;
-            }
-        } else {
-            $template_resource = $this->smarty->template_dir . '/' . $resource_name;
-        }
+replace line 580 ($_return = call_user_func_array($this->smarty->default_template_handler_func,):
+                $_filepath = call_user_func_array($this->smarty->default_template_handler_func,
+replace line 582 (if ($_return == true) {):
+                if ($_filepath !== false) {
+
 smarty_internal_compile_assign.php:
 replace line 26 with ($this->required_attributes = array('var', 'value');):
         $this->required_attributes = array();

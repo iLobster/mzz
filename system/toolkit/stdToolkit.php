@@ -118,32 +118,34 @@ class stdToolkit extends toolkit
     {
         if (empty($this->smarty)) {
             fileLoader::load('template/fSmarty');
-            $this->smarty = new fSmarty();
-            $this->smarty->template_dir = systemConfig::$pathToApplication . '/templates';
-            $this->smarty->compile_dir = systemConfig::$pathToTemp . '/templates_c';
-            $oldPluginsDirs = $this->smarty->plugins_dir;
-            $this->smarty->plugins_dir = array();
-            $this->smarty->allow_php_tag = true;
+            $smarty = new fSmarty();
+            $smarty->template_dir = systemConfig::$pathToApplication . '/templates';
+            $smarty->compile_dir = systemConfig::$pathToTemp . '/templates_c';
+            $oldPluginsDirs = $smarty->plugins_dir;
+            $smarty->plugins_dir = array();
+            $smarty->allow_php_tag = true;
+            $smarty->default_template_handler_func = array($smarty, 'resolveFilePath');
             if (is_dir($appdir = systemConfig::$pathToApplication . '/template/plugins')) {
-                $this->smarty->plugins_dir[] = $appdir;
+                $smarty->plugins_dir[] = $appdir;
             }
-            $this->smarty->plugins_dir[] = systemConfig::$pathToSystem . '/template/plugins';
-            $this->smarty->plugins_dir = array_merge($this->smarty->plugins_dir, $oldPluginsDirs);
+            $smarty->plugins_dir[] = systemConfig::$pathToSystem . '/template/plugins';
+            $smarty->plugins_dir = array_merge($smarty->plugins_dir, $oldPluginsDirs);
 
-            $this->smarty->debugging = DEBUG_MODE;
-            $this->smarty->assign('SITE_PATH', rtrim(SITE_PATH, '/'));
+            $smarty->debugging = DEBUG_MODE;
+            $smarty->assign('SITE_PATH', rtrim(SITE_PATH, '/'));
 
             fileLoader::load('template/plugins/modifier.filesize');
-            $this->smarty->register_modifier('filesize', 'smarty_modifier_filesize');
+            $smarty->register_modifier('filesize', 'smarty_modifier_filesize');
 
-            $this->smarty->register_object('form', new form());
+            $smarty->register_object('form', new form());
 
             fileLoader::load('service/blockHelper');
-            $this->smarty->register_object('fblock', $fblock = blockHelper::getInstance());
-            $this->smarty->assign('fblock', $fblock);
+            $smarty->register_object('fblock', $fblock = blockHelper::getInstance());
+            $smarty->assign('fblock', $fblock);
 
             fileLoader::load('template/plugins/prefilter.i18n');
-            $this->smarty->register_prefilter('smarty_prefilter_i18n');
+            $smarty->register_prefilter('smarty_prefilter_i18n');
+            $this->smarty = $smarty;
         }
 
         return $this->smarty;

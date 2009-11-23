@@ -238,10 +238,15 @@ class fSmarty extends Smarty
     {
         $this->withMain = true;
     }
-    
+
     public function getCurrentFile()
     {
-    	return end($this->template_objects)->template_resource;
+        return end($this->template_objects)->template_resource;
+    }
+
+    public function resolveFilePath($resource_type, $resource_name, &$template_source, &$template_timestamp, $template)
+    {
+        return fileLoader::resolve($resource_name);
     }
 }
 

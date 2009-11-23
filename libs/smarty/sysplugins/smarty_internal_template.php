@@ -544,16 +544,6 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
         if (empty($template_resource))
             return false;
         $this->getResourceTypeName($template_resource, $resource_type, $resource_name);
-        if ($resource_type == 'file' && !file_exists($this->smarty->template_dir . '/' . $resource_name)) {
-            try {
-                $resource_name_orig = $resource_name;
-                $resource_name = fileLoader::resolve($resource_name);
-            } catch (mzzIoException $e) { 
-                $resource_name = $resource_name_orig;
-            }
-        } else {
-            $template_resource = $this->smarty->template_dir . '/' . $resource_name;
-        }
         $resource_handler = $this->loadTemplateResourceHandler($resource_type); 
         // cache template object under a unique ID
         // do not cache string resources
@@ -587,9 +577,9 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
             if (!is_callable($this->smarty->default_template_handler_func)) {
                 throw new Exception("Default template handler not callable");
             } else {
-                $_return = call_user_func_array($this->smarty->default_template_handler_func,
+                $_filepath = call_user_func_array($this->smarty->default_template_handler_func,
                     array($this->resource_type, $this->resource_name, &$this->template_source, &$this->template_timestamp, &$this));
-                if ($_return == true) {
+                if ($_filepath !== false) {
                     return $_filepath;
                 } 
             } 
