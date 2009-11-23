@@ -26,13 +26,24 @@ fileLoader::load('modules/jip/plugins/jipPlugin');
 class menuMapper extends mapper
 {
     /**
-     * Имя класса DataObject
+     * DomainObject class name
      *
      * @var string
      */
     protected $class = 'menu';
+
+    /**
+     * Table name
+     *
+     * @var string
+     */
     protected $table = 'menu_menu';
 
+    /**
+     * Map
+     *
+     * @var array
+     */
     protected $map = array(
         'id' => array(
             'accessor' => 'getId',
@@ -103,21 +114,6 @@ class menuMapper extends mapper
         }
 
         parent::delete($menu);
-    }
-
-    public function convertArgsToObj($args)
-    {
-        if (isset($args['name'])) {
-            $menu = $this->searchByName($args['name']);
-        } elseif (isset($args['id'])) {
-            $menu = $this->searchById($args['id']);
-        }
-
-        if (isset($menu) && $menu) {
-            return $menu;
-        }
-
-        throw new mzzDONotFoundException();
     }
 }
 

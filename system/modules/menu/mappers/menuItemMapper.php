@@ -18,13 +18,12 @@ fileLoader::load('modules/jip/plugins/jipPlugin');
 fileLoader::load('orm/plugins/tree_alPlugin');
 
 /**
- * itemMapper: маппер
+ * menuItemMapper
  *
  * @package modules
  * @subpackage menu
  * @version 0.1
  */
-
 class menuItemMapper extends mapper
 {
     const ITEMTYPE_SIMPLE = 1;
@@ -32,14 +31,24 @@ class menuItemMapper extends mapper
     const ITEMTYPE_EXTERNAL = 3;
 
     /**
-     * Имя класса DataObject
+     * DomainObject class name
      *
      * @var string
      */
     protected $class = 'menuItem';
 
+    /**
+     * Table name
+     *
+     * @var string
+     */
     protected $table = 'menu_menuItem';
 
+    /**
+     * Map
+     *
+     * @var array
+     */
     protected $map = array(
         'id' => array(
             'accessor' => 'getId',
@@ -189,20 +198,6 @@ class menuItemMapper extends mapper
         }
 
         return array($typeId, $className);
-    }
-
-    public function convertArgsToObj($args)
-    {
-        if ($args['id'] == 0) {
-            return $this->create();
-        }
-        $item = $this->searchById($args['id']);
-
-        if ($item) {
-            return $item;
-        }
-
-        throw new mzzDONotFoundException();
     }
 }
 

@@ -23,7 +23,7 @@
             </tr>
 
             <tr>
-                <td colspan="2">{form->submit name="submit" value="_ login_process"}</td>
+                <td colspan="2">{form->hidden name="url" value={url}}{form->submit name="submit" value="_ login_process"}</td>
             </tr>
 
         </table>

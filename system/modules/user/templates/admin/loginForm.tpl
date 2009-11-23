@@ -1,5 +1,4 @@
 {form action=$form_action method="post" id="userLogin"}
-{form->hidden name="url" id="backUrlField" value=$backURL}
     <table border="0" cellpadding="1" cellspacing="0">
         <tr>
             <td align="right">{_ username}</td>
@@ -9,7 +8,7 @@
         <tr>
             <td align="right">{_ password}</td>
             <td align="center">{form->password name="password" size=10 id="passwordField" tabindex="2"}</td>
-            <td align="center" colspan="2">{form->submit name="submit" value="_ user/login_process"}</td>
+            <td align="center" colspan="2">{form->hidden name="url" value={url}}{form->submit name="submit" value="_ user/login_process"}</td>
         </tr>
     </table>
 </form>
