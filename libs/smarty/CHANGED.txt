@@ -10,11 +10,11 @@ add after line 115 ($this->has_output = false; ):
 smarty_internal_template.php:
 add after line 66 (public $block_data = array();):
     protected $lang = null;
-replace lines 224-226 with (return $this->compiled_filepath === null ?):
-        return $this->addLangToFilepath($this->compiled_filepath === null ?
-        ($this->compiled_filepath = !$this->isEvaluated() ? $this->resource_object->getCompiledFilepath($this) : false) :
-        $this->compiled_filepath);
-add after line 227 (}):
+replace lines 225-227 with (return $this->compiled_filepath === null ?):
+        return $this->compiled_filepath === null ?
+        ($this->compiled_filepath = !$this->isEvaluated() ? $this->addLangToFilepath($this->resource_object->getCompiledFilepath($this)) : false) :
+        $this->compiled_filepath;
+add after line 228 (}):
     protected function addLangToFilepath($file)
     {
         if (empty($this->lang) && systemConfig::$i18n) {

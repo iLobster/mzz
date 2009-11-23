@@ -64,6 +64,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
     public $properties = array(); 
     // storage for block data
     public $block_data = array();
+    protected $lang = null;
 
     /**
     * Create template data object
@@ -222,9 +223,18 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
     public function getCompiledFilepath ()
     {
         return $this->compiled_filepath === null ?
-        ($this->compiled_filepath = !$this->isEvaluated() ? $this->resource_object->getCompiledFilepath($this) : false) :
+        ($this->compiled_filepath = !$this->isEvaluated() ? $this->addLangToFilepath($this->resource_object->getCompiledFilepath($this)) : false) :
         $this->compiled_filepath;
     } 
+
+    protected function addLangToFilepath($file)
+    {
+        if (empty($this->lang) && systemConfig::$i18n) {
+            $this->lang = systemToolkit::getInstance()->getLocale()->getName();
+        }
+
+        return $file . '-' . $this->lang . '.php';
+    }
 
     /**
     * Returns the timpestamp of the compiled template
@@ -573,7 +583,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
             } else {
                 $_return = call_user_func_array($this->smarty->default_template_handler_func,
                     array($this->resource_type, $this->resource_name, &$this->template_source, &$this->template_timestamp, $this));
-                if ($_return == true) {
+                if ($_return === true) {
                     return $file;
                 } elseif (is_string($_return)) {
                     return $_return;
