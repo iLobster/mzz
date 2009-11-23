@@ -123,6 +123,7 @@ class stdToolkit extends toolkit
             $this->smarty->compile_dir = systemConfig::$pathToTemp . '/templates_c';
             $oldPluginsDirs = $this->smarty->plugins_dir;
             $this->smarty->plugins_dir = array();
+            $this->smarty->allow_php_tag = true;
             if (is_dir($appdir = systemConfig::$pathToApplication . '/template/plugins')) {
                 $this->smarty->plugins_dir[] = $appdir;
             }

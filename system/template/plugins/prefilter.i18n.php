@@ -47,7 +47,7 @@ function mzz_smarty_i18n_morph($phrase, $variables, $lang)
             $val = substr($val, 1);
         }
 
-        $replacement[$key] = "\$this->_tpl_vars[\"" . $val . "\"]" . $method;
+        $replacement[$key] = "\$smarty->tpl_vars[\"" . $val . "\"]->value" . $method;
     }
 
     if (!is_array($phrase)) {
