@@ -1,4 +1,4 @@
-<?php
+{{*<?*}}{{chr(60)}}?php
 /**
  * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/trunk/system/codegenerator/templates/controller.tpl $
  *

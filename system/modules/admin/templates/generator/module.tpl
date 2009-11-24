@@ -1,8 +1,8 @@
-<?php
+{{*<?*}}{{chr(60)}}?php
 /**
  * $URL$
  *
- * MZZ Content Management System (c) {"Y"|date}
+ * MZZ Content Management System (c) {{"Y"|date}}
  * Website : http://www.mzz.ru
  *
  * This program is free software and released under
@@ -13,14 +13,13 @@
  */
 
 /**
- * {$name}Module
- * generated with mzz scaffolding
+ * {{$name}}Module
  *
  * @package modules
- * @subpackage {$name}
+ * @subpackage {{$name}}
  * @version 0.0.1
  */
-class {$name}Module extends simpleModule
+class {{$name}}Module extends simpleModule
 {
     protected $classes = array();
 }

@@ -33,12 +33,21 @@ class adminGeneratorMapper extends mapper
         $toolkit = systemToolkit::getInstance();
         $smarty = $toolkit->getSmarty();
 
+        $leftDelimeter = $smarty->left_delimiter;
+        $rightDelimeter = $smarty->right_delimiter;
+
+        $smarty->left_delimiter = '{{';
+        $smarty->right_delimiter = '}}';
+
         $smarty->assign('name', $name);
         $moduleContents = $smarty->fetch('admin/generator/module.tpl');
 
         $fileGenerator = new fileGenerator($path . '/' . $name);
         $fileGenerator->create($moduleFileName, $moduleContents);
         $fileGenerator->run();
+
+        $smarty->left_delimiter = $leftDelimeter;
+        $smarty->right_delimiter = $rightDelimeter;
 
         return $toolkit->getModule($name);
     }
