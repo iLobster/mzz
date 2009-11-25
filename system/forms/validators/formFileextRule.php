@@ -31,7 +31,9 @@ class formFileextRule extends formAbstractRule
             throw new mzzRuntimeException('Argument with array of valid extensions expected');
         }
 
-        $ext = substr(strrchr($_FILES[$name]['name'], '.'), 1);
+        $validExts = array_map('strtolower', $this->params);
+
+        $ext = strtolower(substr(strrchr($_FILES[$name]['name'], '.'), 1));
 
         return empty($this->params) ? true : in_array($ext, $this->params);
     }
