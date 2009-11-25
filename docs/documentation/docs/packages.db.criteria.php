@@ -31,7 +31,7 @@ echo $select->toString(); // выведет "SELECT `field1`, `field2` AS `alias
 <</code>>
 </p>
 
-== where.criteria where(string|criterion $field [, mixed $value = null [, int $comparison = criteria::EQUAL]]
+== where.criteria where(string|criterion $field [, mixed $value = null [, int $comparison = criteria::EQUAL]])
 <ul>
     <li><code>$field</code> - имя поля либо объект <code>criterion</code> (todo ссылка на criterion);</li>
     <li><code>$value</code> - сравниваемое значение. В зависимости от условия тип может быть любым;</li>
