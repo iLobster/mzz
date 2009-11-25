@@ -55,5 +55,7 @@ getting_start.Создание проекта на framy
         view.View
         controller.Controller
     blog.Создание блога
+        preparing.Введение
         installing.Установка
         creating.Создание Блог приложения
+        creating_models.Создание моделей

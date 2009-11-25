@@ -3,8 +3,8 @@
 html, body {
   background-color: #FFFFFF;
   color: #000000;
-  font-family: Tahoma, Verdana, Arial;
-  font-size: 90%;
+  font-family:  Helvetica, Verdana, Tahoma, Arial, "sans-serif";
+  font-size: 95%;
 }
 
 ul {
@@ -36,20 +36,23 @@ ul {
   /*background-color: white;
   border: 1px solid #D6D6D6;*/
   padding: 20px 40px;
-  line-height: 150%;
+  line-height: 1.5em;
   font-size: 100%;
 }
 
 #title {
-  font-size: 130%;
-  background-color: #000000;
+  font-size: 120%;
+  background: #000 url('./images/header_background.jpg');
   color: #FFFFFF;
-  padding: 10px;
+  padding: 14px;
+  font-weight: bold;
 }
 
 #title a {
   color: #FFFFFF;
   text-decoration: none;
+  background: transparent url('./images/logo.gif') no-repeat;
+  padding: 2px 0 0 28px;
 }
 
 #title a:hover {
@@ -63,8 +66,9 @@ ul {
   right: 25px;
   width: 160px;
   text-align: center;
-  top: 13px;
+  top: 18px;
   cursor: default;
+  font-size: 85%;
 }
 
 #onePageLink a {
@@ -85,8 +89,9 @@ ul {
   color: #ffffff;
   width: 80px;
   text-align: center;
-  top: 13px;
+  top: 18px;
   cursor: default;
+  font-size: 85%;
 }
 
 #sidebar {
@@ -127,13 +132,14 @@ h2 {
 }
 
 h3 {
-    padding-top: 10px;
+    padding-top: 15px;
     padding-bottom: 10px;
 }
 
 h4 {
-    padding-top: 10px;
+    padding-top: 15px;
     padding-bottom: 5px;
+	font-size: 1em;
 }
 
 p {
@@ -242,8 +248,9 @@ dd {
  padding: 3px;
 }
 
-code, pre {
-  font-family: 'Courier New', monospace;
+code, pre, tt{
+  font-size: 0.9em;
+  font-family: Monaco, "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
 }
 
 div.code {

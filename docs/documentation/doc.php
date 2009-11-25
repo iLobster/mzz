@@ -130,7 +130,7 @@ function replace_chapter($matches, $id, $num)
 {
     static $i = 0;
     $i++;
-    return '<h3><a name="' . $id . '.' . $matches[1] . '"></a><span class="titleNumber">' . $num . '.' . $i . '.</span> ' . $matches[2] . '</h3>';
+    return '<h4><a name="' . $id . '.' . $matches[1] . '"></a><span class="titleNumber">' . $num . '.' . $i . '.</span> ' . $matches[2] . '</h4>';
 }
 
 function include_code($id, $type) {
