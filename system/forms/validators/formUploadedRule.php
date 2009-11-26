@@ -35,15 +35,21 @@ class formUploadedRule extends formAbstractRule
             }
 
             $error = $_FILES[$name]['error'];
+            if (is_array($this->params) && isset($this->params[$error])) {
+                $this->message = $this->params[$error];
+            }
+
+            /*
             switch ($error) {
                 case UPLOAD_ERR_INI_SIZE:
-                    $this->errorMsg = 'Размер принятого файла превысил максимально допустимый размер, который задан директивой upload_max_filesize конфигурационного файла php.ini';
+                    $this->message = 'Размер принятого файла превысил максимально допустимый размер, который задан директивой upload_max_filesize конфигурационного файла php.ini';
                     break;
 
                 case UPLOAD_ERR_PARTIAL:
-                    $this->errorMsg = 'Загружаемый файл был получен только частично';
+                    $this->message = 'Загружаемый файл был получен только частично';
                     break;
             }
+            */
         }
 
         return false;
