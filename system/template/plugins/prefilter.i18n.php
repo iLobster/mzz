@@ -45,9 +45,12 @@ function mzz_smarty_i18n_morph($phrase, $variables, $lang)
 
         if (strpos($val, '$') === 0) {
             $val = substr($val, 1);
+            $replacement[$key] = '(isset($template->tpl_vars["' . $val . '"]) ? ';
+            $replacement[$key] .= '$template->tpl_vars["' . $val . '"]->value' . $method . ' : ';
+            $replacement[$key] .= '$smarty->tpl_vars["' . $val . '"]->value' . $method . ')';
+        } else {
+            $replacement[$key] = $val;
         }
-
-        $replacement[$key] = "\$smarty->tpl_vars[\"" . $val . "\"]->value" . $method;
     }
 
     if (!is_array($phrase)) {
