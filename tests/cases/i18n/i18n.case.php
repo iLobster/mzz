@@ -14,6 +14,7 @@ class i18nTest extends UnitTestCase
     public function setUp()
     {
         $this->i18n = new i18n();
+        systemToolkit::getInstance()->setI18n($this->i18n);
 
         $this->tz = systemToolkit::getInstance()->getUserPreferences()->getTimezone();
 
@@ -39,6 +40,7 @@ class i18nTest extends UnitTestCase
         } elseif ($this->old_tz) {
             putenv('TZ=' . $this->old_tz);
         }
+        systemToolkit::getInstance()->setI18n(null);
     }
 
     private function injectPhrases($phrases)
@@ -133,6 +135,17 @@ class i18nTest extends UnitTestCase
         $this->assertEqual(i18n::date($time), '03/12/2008 03:24:05 AM');
         $this->assertEqual(i18n::date($time, 'short_time'), '03:24 AM');
         $this->assertEqual(i18n::date($time, 'short_time', 'ru'), '03:24');
+    }
+
+    public function testGetMessage()
+    {
+        $this->injectPhrases(array(
+        'module' => array('en' => array('t1' => 'translate1', 't2' => 'translate2'))
+        ));
+
+        $this->assertEqual(i18n::getMessage('t1', 'module', 'en'), 'translate1');
+        $this->assertEqual(i18n::getMessage('foo/t1', null, 'en'), 'foo/t1');
+        $this->assertEqual(i18n::getMessage('module/t1', null, 'en'), 'translate1');
     }
 }
 

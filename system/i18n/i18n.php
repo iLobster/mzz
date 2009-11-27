@@ -61,11 +61,11 @@ class i18n
      * @param callback $generatorCallback callback на функцию-генератор кода, в случае когда в числе аргументов есть переменные
      * @return string результирующий перевод
      */
-    public function translate($name, $module, $lang, $args = '', $generatorCallback = '')
+    public function translate($name, $module, $lang, $args = '', $generatorCallback = '', $default = null)
     {
         if (is_bool($phrase = $this->search($name, $module, $lang))) {
             if ($lang == $this->getDefaultLang()) {
-                return $name;
+                return is_null($default) ? $name : $default;
             }
 
             return $this->translate($name, $module, $this->getDefaultLang(), $args);
@@ -281,8 +281,10 @@ class i18n
     {
         static $i18n;
         if (empty($i18n)) {
-            $i18n = new i18n();
+            $i18n = systemToolkit::getInstance()->getI18n();
         }
+
+        $default = $name;
 
         if (empty($lang)) {
             $lang = systemToolkit::getInstance()->getLocale()->getName();
@@ -299,7 +301,7 @@ class i18n
             throw new mzzInvalidParameterException('Аргумент $module не указан', $module);
         }
 
-        return $i18n->translate($name, $module, $lang, $args, $generatorCalback);
+        return $i18n->translate($name, $module, $lang, $args, $generatorCalback, $default);
     }
 
     /**

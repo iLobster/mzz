@@ -39,6 +39,7 @@ class stdToolkit extends toolkit
     private $validator;
     private $userPreferences;
     private $charsetDriver;
+    private $i18n;
     /**#@-*/
 
     /**#@+
@@ -316,6 +317,27 @@ class stdToolkit extends toolkit
         $tmp = $this->request;
         $this->request = $request;
         return $tmp;
+    }
+
+    /**
+     * Устанавливает объект i18n
+     *
+     * @param i18n $i18n
+     * @return i18n
+     */
+    public function setI18n($i18n)
+    {
+        $tmp = $this->i18n;
+        $this->i18n = $i18n;
+        return $tmp;
+    }
+
+    public function getI18n()
+    {
+        if ($this->i18n) {
+            return $this->i18n;
+        }
+        return new i18n();
     }
 
     public function getLang()

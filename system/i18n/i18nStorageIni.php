@@ -62,7 +62,7 @@ class i18nStorageIni implements i18nStorage
     public function read($name)
     {
         if (!isset($this->data[$name])) {
-            return $name;
+            return false;
         }
 
         if (isset($this->data[$name]['comment'])) {
