@@ -86,7 +86,7 @@ class userRegisterController extends simpleController
                 $userMapper->save($user);
 
                 $groupMapper = $this->toolkit->getMapper('user', 'group');
-                $groups = $groupMapper->searchAllByField('is_default', 1);
+                $groups = $groupMapper->searchDefaultGroups();
 
                 $userGroupMapper = $this->toolkit->getMapper('user', 'userGroup');
 

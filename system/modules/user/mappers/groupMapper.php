@@ -71,6 +71,11 @@ class groupMapper extends mapper
         parent::__construct();
         $this->plugins('jip');
     }
+
+    public function searchDefaultGroups()
+    {
+        return $this->searchAllByField('is_default', 1);
+    }
 }
 
 ?>
