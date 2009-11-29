@@ -74,36 +74,12 @@ class menuMapper extends mapper
 
     public function searchById($id)
     {
-        return $this->searchOneByField('id', $id);
+        return $this->searchByKey($id);
     }
 
     public function searchByName($name)
     {
         return $this->searchOneByField('name', $name);
-    }
-
-    public function searchItemsById($menuId)
-    {
-        $criteria = new criteria;
-        $criteria->where('menu_id', $menuId)->orderByAsc('order')->orderByDesc('id');
-
-        $itemMapper = systemToolkit::getInstance()->getMapper('menu', 'menuItem');
-        $data = $itemMapper->searchAllByCriteria($criteria);
-        $tree = $this->buildTree($data);
-        return $tree;
-    }
-
-    private function buildTree($tree, $id = 0)
-    {
-        $result = array();
-        foreach ($tree->toArray() as $key => $val) {
-            if ($id == $val->getParent()) {
-                unset($tree[$key]);
-                $result[$key] = $val;
-                $result[$key]->setChildrens($this->buildTree($tree, $key), $val);
-            }
-        }
-        return $result;
     }
 
     public function delete(menu $menu)

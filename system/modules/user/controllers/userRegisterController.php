@@ -45,11 +45,7 @@ class userRegisterController extends simpleController
             $url = new url('default2');
             $url->setAction('register');
 
-            if (!$validator->validate()) {
-                $this->smarty->assign('form_action', $url->get());
-                $this->smarty->assign('errors', $validator->getErrors());
-                return $this->smarty->fetch('user/register/form.tpl');
-            } else {
+            if ($validator->validate()) {
                 $login = $this->request->getString('login', SC_POST);
                 $password = $this->request->getString('password', SC_POST);
                 $email = $this->request->getString('email', SC_POST);
@@ -75,6 +71,11 @@ class userRegisterController extends simpleController
 
                 return $this->smarty->fetch('user/register/success.tpl');
             }
+
+            $this->smarty->assign('form_action', $url->get());
+            $this->smarty->assign('validator', $validator);
+            return $this->smarty->fetch('user/register/form.tpl');
+
         } else {
             $criteria = new criteria;
             $criteria->where('id', $userId)->where('confirmed', $confirm);

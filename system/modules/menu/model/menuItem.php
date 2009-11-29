@@ -69,27 +69,6 @@ abstract class menuItem extends entity
         $this->setArgs(serialize($args));
     }
 
-    public function getChildrens()
-    {
-        return $this->childrens;
-    }
-
-    public function setChildrens(Array $childrens, $parent)
-    {
-        foreach ($childrens as $child) {
-            if ($child->isActive()) {
-                $this->isActive = true;
-            }
-        }
-
-        $this->childrens = $childrens;
-    }
-
-    public function move($target)
-    {
-        $this->mapper->move($this, $target);
-    }
-
     protected function stripLangFromUrl($url)
     {
         if ($this->urlLangSpecified) {
