@@ -108,6 +108,11 @@ class pager
         $this->reverse = $reverse;
     }
 
+    public function getBaseUrl()
+    {
+        return $this->baseurl;
+    }
+
     /**
      * метод установки числа объектов на 1 страницу
      *
