@@ -31,7 +31,7 @@ class blockHelper
     public function set($name, $position, $content, $weight = null)
     {
         if (strpos($position, ':')) {
-            list($position, $weigth) = explode(':', $position);
+            list($position, $weight) = explode(':', $position);
         }
         if ($weight === null) {
             $weight = 100;
