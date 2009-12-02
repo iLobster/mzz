@@ -112,6 +112,9 @@ class i18n
     public function replacePlaceholders($phrase, $args, $generatorCallback = false)
     {
         if (!is_array($args)) {
+            if (is_array($phrase) && !strlen($args)) {
+                return reset($phrase);
+            }
             if (!strlen($args)) {
                 return $phrase;
             }

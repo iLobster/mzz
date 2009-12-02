@@ -21,3 +21,19 @@ CREATE TABLE `framy_blog`.`blog_post` (
 <</code>>
 <!-- В редактировании map ответим &quot;да&quot; на предложение обновить $map класса. -->
 <p>В devToolbar, в секции модуля <tt>blog</tt>, создадим класс <tt>post</tt>. Имя таблицы <tt>blog_post</tt>.</p>
+
+<p>Во Framy, действие (action) должно принадлежать какому-либо определенному объекту. Но что делать с действиями <tt>list</tt> и <tt>create</tt>? Для этого мы создаем фейковый объект и называем его, как правило, Folder. Создавать таблицу в базе данных необходимости нет, поэтому просто создадим класс <tt>postFolder</tt> для <tt>blog</tt> и укажем несуществующую таблицу <tt>blog_postFolder</tt>.</p>
+
+<p>Для комментариев создадим только один объект <tt>postComment</tt>. Они тоже имеют действия, не связанные с конкретным комментарием, это <tt>comments</tt> и <tt>comment</tt>, но мы можем вместо фейкового использовать объект <tt>post</tt>. Начем с создания таблицы в базе данных:</p>
+<<code mysql>>
+CREATE TABLE `framy_blog`.`postComment` (
+    `id` INT NOT NULL ,
+    `post_id` INT NOT NULL ,
+    `author_name` VARCHAR( 255 ) NOT NULL ,
+    `content` TEXT NOT NULL ,
+    `created_at` INT NOT NULL ,
+    PRIMARY KEY ( `id` ) ,
+    INDEX ( `post_id` )
+) ENGINE = MYISAM ;
+<</code>>
+<p>Создаем класс <tt>postComment</tt> для модуля blog в devToolbar указав имя таблицы <tt>blog_postComment</tt>.</p>

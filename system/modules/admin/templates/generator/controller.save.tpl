@@ -66,8 +66,12 @@ ${{$name}}->{{$property.mutator}}($data['{{$field}}']);
             return jipTools::redirect();
         }
 
-        $url = new url('withId');
-        $url->add('id', $id);
+        if ($isEdit) {
+            $url = new url('withId');
+            $url->add('id', $id);
+        } else {
+            $url = new url('default2');
+        }
         $url->setAction($action);
 
         $this->smarty->assign('form_action', $url->get());
