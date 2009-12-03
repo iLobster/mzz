@@ -137,8 +137,8 @@ function include_code($id, $type) {
     $path = 'codes/' . $id . '.php';
     $type = trim($type);
     if(!file_exists($path)) {
-        echo "<font color=red>[code for '$id' doesn't exists]</font>";
-        exit;
+        //echo "<font color=red>[code for '$id' doesn't exists]</font>";
+        file_put_contents($path, "[code for '$id']");
     }
     if (empty($type)) {
         // return '<div class="code"><div class="code_border">' . highlight_file($path, 1) . '</div></div>';

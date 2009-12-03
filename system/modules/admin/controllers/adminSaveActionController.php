@@ -93,6 +93,7 @@ class adminSaveActionController extends simpleController
             $validator->rule('required', 'action[name]', i18n::getMessage('action.error.name_required', 'admin'));
             $validator->rule('regex', 'action[name]', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')), '#^[a-z0-9_-]+$#i');
             $validator->rule('callback', 'action[name]', i18n::getMessage('action.error.unique', 'admin'), array(array($this, 'unique'), $module));
+            $validator->rule('callback', 'action[crud_class]', i18n::getMessage('action.error.crud_class', 'admin'), array('in_array', $classes));
         }
 
         $validator->rule('regex', 'action[main]', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-.')), '#^[a-z0-9_\-.]+$#i');
@@ -101,6 +102,10 @@ class adminSaveActionController extends simpleController
         if ($validator->validate()) {
             $values = $this->request->getArray('action', SC_POST);
             $dest = $this->request->getString('dest', SC_POST);
+            $crud_class_name = null;
+            if (!empty($values['crud']) && $values['crud'] == 'save' && !empty($values['crud_class'])) {
+                $crud_class_name = $values['crud_class'];
+            }
 
             if (!$isEdit) {
                 $action_name = $values['name'];
@@ -120,7 +125,7 @@ class adminSaveActionController extends simpleController
             }
 
             try {
-                $adminGeneratorMapper->saveAction($module, $class_name, $action_name, $values, $dests[$dest], $isEdit);
+                $adminGeneratorMapper->saveAction($module, $class_name, $action_name, $values, $dests[$dest], $isEdit, $crud_class_name);
             } catch (Exception $e) {
                 return $e->getMessage();
                 //$controller = new messageController($this->getAction(), $e->getMessage(), messageController::WARNING);
@@ -161,6 +166,10 @@ class adminSaveActionController extends simpleController
         $this->smarty->assign('module', $module);
         $this->smarty->assign('moduleClassMapper', $moduleClassMapper);
         $this->smarty->assign('actionData', $actionData);
+        if (!$isEdit) {
+            $this->smarty->assign('classes', array_combine($classes, $classes));
+            $this->smarty->assign('class_name', $class_name);
+        }
 
         return $this->smarty->fetch('admin/saveAction.tpl');
     }

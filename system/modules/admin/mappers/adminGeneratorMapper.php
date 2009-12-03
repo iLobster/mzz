@@ -178,7 +178,7 @@ class adminGeneratorMapper extends mapper
      * @param string $path
      * @param bool $isEdit
      */
-    public function saveAction(simpleModule $module, $class_name, $action_name, Array $actionData, $path, $isEdit)
+    public function saveAction(simpleModule $module, $class_name, $action_name, Array $actionData, $path, $isEdit, $crud_class_name = null)
     {
         fileLoader::load('codegenerator/fileGenerator');
 
@@ -275,7 +275,9 @@ class adminGeneratorMapper extends mapper
                     break;
 
                 case 'save':
-                    $mapper = $toolkit->getMapper($module->getName(), $class_name);
+                    $crud_class_name = $crud_class_name ? $crud_class_name : $class_name;
+                    $mapper = $toolkit->getMapper($module->getName(), $crud_class_name);
+                    $smarty->assign('name', $crud_class_name);
                     $map = $this->getMapForCRUD($mapper);
                     $smarty->assign('map', $map);
 

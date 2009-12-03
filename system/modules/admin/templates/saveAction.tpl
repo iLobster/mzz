@@ -64,10 +64,18 @@
         {if !$isEdit}
         <li class="{$validator->isFieldRequired('action[crud]', 'required')} {$validator->isFieldError('action[crud]', 'error')}">
             {form->caption name="action[crud]" value="CRUD"}
-            <span class="input">{form->select name="action[crud]" options=$crudList emptyFirst="none"}</span>
+            <span class="input">{form->select name="action[crud]" onchange="if(jQuery(this).val() == 'save') { jQuery('#crud_class_box').show(); } else { jQuery('#crud_class_box').hide(); }" options=$crudList emptyFirst="none"}
             {if $validator->isFieldError('action[crud]')}<div class="error">{$validator->getFieldError('action[crud]')}</div>{/if}
+        </li>
+        <li style="display: none;" id="crud_class_box" class="{$validator->isFieldRequired('action[crud_class]', 'required')} {$validator->isFieldError('action[crud_class]', 'error')}">
+            {form->caption name="action[crud_class]" value="CRUD class"}
+            <span class="input">{form->select name="action[crud_class]" value=$class_name options=$classes}</span>
+            {if $validator->isFieldError('action[crud_class]')}<span class="error">{$validator->getFieldError('action[crud_class]')}</span>{/if}
         </li>
         {/if}
     </ul
     <span class="buttons">{form->submit name="submit" value="_ simple/save"} {form->reset jip=true name="reset" value="_ simple/cancel"}</span>
 </form>
+<script type="text/javascript">
+if(jQuery('#formElm_action_crud').val() == 'save') jQuery('#crud_class_box').show();
+</script>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * $URL$
  *
@@ -21,6 +22,13 @@
  */
 class formDateRule extends formAbstractRule
 {
+    protected $regexps = array(
+        'time' => '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5])\d$#',
+        'date' => '#^(([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#',
+        'time_date' => '#^(([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d\s([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2})$#',
+        'date_time' => '#^(([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[2][0]\d{2}\s([0-1]\d|[2][0-3])\:[0-5]\d\:[0-5]\d)$#'
+    );
+
     /**
      * Проверяет дату на правильность. Работает с timestamp, со строками, формат которых
      * поддерживается функцией strtotime или массивом, где каждый элемент даты представлен
@@ -33,6 +41,9 @@ class formDateRule extends formAbstractRule
         if (is_array($value)) {
             $date = $this->convertDateArrayToTimestamp($value);
         } elseif (isset($this->params['regex'])) {
+            if (isset($this->regexps[strtolower($this->params['regex'])])) {
+                $this->params['regex'] = $this->regexps[strtolower($this->params['regex'])];
+            }
             if (!preg_match($this->params['regex'], $value, $match)) {
                 return false;
             }
@@ -66,9 +77,16 @@ class formDateRule extends formAbstractRule
      */
     protected function convertDateArrayToTimestamp($date)
     {
-        foreach (array('year', 'month', 'day', 'hour', 'minute', 'second') as $key) {
+        foreach (array(
+            'year',
+            'month',
+            'day',
+            'hour',
+            'minute',
+            'second'
+        ) as $key) {
             $date[$key] = isset($date[$key]) ? (int)$date[$key] : 0;
-            if(isset($date[$key]) && !empty($date[$key]) && !preg_match('#^\d+$#', $date[$key]) ) {
+            if (isset($date[$key]) && !empty($date[$key]) && !preg_match('#^\d+$#', $date[$key])) {
                 return false;
             }
         }

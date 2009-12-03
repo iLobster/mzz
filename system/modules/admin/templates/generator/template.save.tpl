@@ -9,7 +9,7 @@
             <td>{form->caption name="{{$name}}[{{$field}}]" value="{{$field}}"}</td>
 {{if !isset($property.options) || !in_array('pk', $property.options) || !in_array('once', $property.options)}}
             <td>
-                {form->text name="{{$name}}[{{$field}}]" size="30" value=${{$name}}->{{$property.accessor}}()}{$errors->get('{{$name}}[{{$field}}]')}
+                {form->text name="{{$name}}[{{$field}}]" size="30" value=${{$name}}->{{$property.accessor}}()}
                 {if $validator->isFieldError('{{$name}}[{{$field}}]')}<div class="error">{$validator->getFieldError('{{$name}}[{{$field}}]')}</div>{/if}
             </td>
 {{else}}

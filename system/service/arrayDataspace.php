@@ -275,7 +275,7 @@ class arrayDataspace implements ArrayAccess, Iterator, Countable
         // iterating over the array
         foreach ($indexes as $index) {
             if (!isset($array[$index])) {
-                $result = null;
+                $array = null;
                 break;
             }
             $array = $array[$index];
