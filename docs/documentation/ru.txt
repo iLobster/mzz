@@ -59,4 +59,5 @@ getting_start.Создание проекта на framy
         installing.Установка
         creating.Создание Блог приложения
         creating_models.Создание моделей
-        creating_entry.Создание записи в блоге
+        creating_entry.Создание записи в блогемоделей
+        view_entry.Просмотр записи в блоге

@@ -27,6 +27,49 @@ $validator->rule('regex', 'post[name]', 'Field name has illegal characters', '#^
 $validator->rule('length', 'post[name]', 'Field name is out of length', array(0, 255));
 $validator->rule('length', 'post[title]', 'Field title is out of length', array(0, 255));
 $validator->rule('date', 'post[created_at]', 'Invalid creation date', array('regex' => 'time_date'));
+$validator->rule('callback', 'post[name]', 'Post name is not unique', array(array($this, 'checkUniquePostName'), $post));
 <</code>>
 
-<p>Перечисляя по порядку, валидаторы определяют следующее: поля <tt>title</tt>, <tt>name</tt>, <tt>content</tt> и <tt>created_at</tt> обязательны для заполнения, <tt>name</tt> может содержать только символы a-z, A-Z, 0-9, - и _ (так как это идентификатор), <tt>name</tt> и <tt>title</tt> имеют длину не более чем 255 символов, <tt>created_at</tt> имеет формат вида 14:43:32 20/12/2009 (вместо значения <tt>time_date</tt> может быть любое указано регулярное выражение для валидации формата даты, мы будем использовать стандарный вид даты для русской локали).</p>
+<p>Перечисляя по порядку, валидаторы определяют следующее: поля <tt>title</tt>, <tt>name</tt>, <tt>content</tt> и <tt>created_at</tt> обязательны для заполнения, <tt>name</tt> может содержать только символы a-z, A-Z, 0-9, - и _ (так как это идентификатор), <tt>name</tt> и <tt>title</tt> имеют длину не более чем 255 символов, <tt>created_at</tt> имеет формат вида 14:43:32 20/12/2009 (вместо значения <tt>time_date</tt> может быть любое указано регулярное выражение для валидации формата даты, мы будем использовать стандарный вид даты для русской локали). Последний валидатор  является callback функцией, для валидации значения будет вызван метод <tt>checkUniquePostName</tt> у текущего контроллера. Используется он для проверки того, что запись с таким же именем уже не существует. Добавим этот метод в <tt>blogCreateController</tt>.</p>
+
+
+<<code php>>
+public function checkUniquePostName($name, $post)
+{
+    if ($name == $post->getName()) {
+        return true;
+    }
+    $postMapper = $this->toolkit->getMapper('blog', 'post');
+
+    return is_null($postMapper->searchByKey($name));
+}
+<</code>>
+
+
+<p>Добавим установку имени для записи:</p>
+
+<<code php>>
+$post->setName($data['name']);
+$post->setTitle($data['title']);
+$post->setContent($data['content']);
+$post->setCreatedAt($data['created_at']);
+<</code>>
+
+<p>Также изменим способ редиректа после сохранения записи. </p>
+
+<<code php>>
+return jipTools::redirect();
+<</code>>
+
+<p>Наше действие не будет выполняться как JIP-действие (об этом мы расскажем позже) поэтому заменим на:</p>
+
+<<code php>>
+ $url = new url('withAnyParam');
+$url->add('name', $post->getName());
+$url->add('action', 'view');
+return $this->redirect($url->get());
+<</code>>
+
+<p>Класс <tt>url</tt> генерирует готовые ссылки используя роутер <tt>withAnyParam</tt> и переданные в него значения. Метод <tt>$this->redirect()</tt> выполняет HTTP-редирект пользователя на указанную страницу (просмотр созданной записи).</p>
+
+<p><img src="./images/blog_create.png" class="screenshot" alt="Creating Post Form" width="700" height="446"/></p>

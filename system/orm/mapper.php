@@ -219,7 +219,9 @@ abstract class mapper
 
         $this->db()->query($insert->toString($data));
         $last_id = $this->db()->lastInsertId();
-
+        if ($last_id == 0) {
+            $last_id = $data[$this->pk];
+        }
         $this->notify('postSqlInsert', $object);
 
         $object->import($this->searchByKey($last_id)->export());

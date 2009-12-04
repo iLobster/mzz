@@ -1,8 +1,6 @@
-<div class="jipTitle">
-    <h3>{if $isEdit}Edit{else}Create{/if} a post</h3>
-</div>
+<h3>{if $isEdit}Edit{else}Create{/if} a post</h3>
 
-{form action=$form_action method="post" jip=true}
+{form action=$form_action method="post"}
     <table width="100%" border="0" cellpadding="5" cellspacing="0" align="center">
         <tr>
             <td>{form->caption name="post[name]" value="Name"}</td>
@@ -36,7 +34,7 @@
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td>{form->submit name="submit" value="_ simple/save"} {form->reset jip=true name="reset" value="_ simple/cancel"}</td>
+            <td>{form->submit name="submit" value="_ simple/save"}</td>
         </tr>
     </table>
 </form>

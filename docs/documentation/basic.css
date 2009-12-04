@@ -355,3 +355,8 @@ table.beauty th {
   border-right: 1px solid #E9E9E9;
   background-image: none !important;
 }
+
+img.screenshot {
+  border: 2px solid #C8C8C8;
+  padding: 2px;
+}
