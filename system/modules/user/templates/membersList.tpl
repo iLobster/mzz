@@ -1,7 +1,5 @@
-{set name="title"}{_ users_in_group $group->getName()}{/set}
-{include file='jipTitle.tpl' title=$title}
-{set name="form_action"}{url}{/set}
-{form action=$form_action method="post" jip=true}
+<div class="jipTitle">{_ users_in_group $group->getName()}</div>
+{form action={url} method="post" jip=true}
     <table border="0" width="50%" cellpadding="4" cellspacing="1" class="systemTable">
         <tr>
             <td align="center"><strong>ID</strong></td>
