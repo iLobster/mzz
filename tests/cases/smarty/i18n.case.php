@@ -36,7 +36,7 @@ class mzzSmartyI18nFunctionTest extends unitTestCase
 
     public function testVariablePlaceholders()
     {
-        $this->assertEqual(mzz_smarty_i18n_morph('foo ? bar ?', array('a', 'b'), 'en'), "{php}\$i18n = new i18n(); \$arg = \$smarty->tpl_vars[\"a\"]->value; \$morphs = array (\n  0 => 'foo ? bar ?',\n); \$morph = \$i18n->morph(\$arg, \$morphs, 'en'); echo \$i18n->replacePlaceholders(\$morph, array(\$smarty->tpl_vars[\"a\"]->value, \$smarty->tpl_vars[\"b\"]->value));{/php}");
+        $this->assertEqual(mzz_smarty_i18n_morph('foo ? bar ?', array('a', 'b'), 'en'), '{php}$i18n = new i18n(); $arg = (isset($template->tpl_vars["a"]) ? $template->tpl_vars["a"]->value : $smarty->tpl_vars["a"]->value); $morphs = array (' . "\n" . '  0 => \'foo ? bar ?\',' . "\n" . '); $morph = $i18n->morph($arg, $morphs, \'en\'); echo $i18n->replacePlaceholders($morph, array((isset($template->tpl_vars["a"]) ? $template->tpl_vars["a"]->value : $smarty->tpl_vars["a"]->value), (isset($template->tpl_vars["b"]) ? $template->tpl_vars["b"]->value : $smarty->tpl_vars["b"]->value)));{/php}');
     }
 
     public function stub_callback($name, $module, $lang, $args, $generatorCallback)
