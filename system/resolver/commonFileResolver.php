@@ -34,7 +34,11 @@ class commonFileResolver extends partialFileResolver
 
             list ($module, $template) = explode('/', $request, 2);
 
-            return '/modules/' . $module . '/templates/' . $template;
+            if (strpos($request, 'templates/') === false) {
+                return '/modules/' . $module . '/templates/' . $template;
+            } else {
+                return $request;
+            }
         }
 
         if (substr($request, 0, 5) === 'libs/') {

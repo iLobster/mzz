@@ -226,9 +226,15 @@ class requestRoute implements iRoute
         if (preg_match_all($this->regex, $path, $matches, PREG_SET_ORDER)) {
             $this->setMatchedPath($matches[0][0]);
             unset($matches[0][0]);
+            $diff = 0;
             foreach ($matches[0] as $i => $match) {
                 if($this->parts[$i - 1]['isVar'] && $match !== '') {
-                    $this->values[$this->parts[$i - 1]['name']] = $match;
+                    if (empty($matches[0][$i - 1]) && !empty($matches[0][$i - 2])) {
+                        $this->values[$this->parts[$i - 3 - $diff]['name']] .= $match;
+                        $diff += 2;
+                    } else {
+                        $this->values[$this->parts[$i - 1]['name']] = $match;
+                    }
                 }
             }
 

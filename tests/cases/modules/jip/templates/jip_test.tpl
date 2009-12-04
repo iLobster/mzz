@@ -1,0 +1,1 @@
+{$jipId}{foreach $jip as $jipItem}|title: {$jipItem["title"]} icon: {$jipItem["icon"]} lang_name: {$jipItem["lang"]}{/foreach}|{foreach $langs as $langId => $langName}lang: {$langId}{/foreach}

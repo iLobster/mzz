@@ -12,15 +12,16 @@
  * @version $Id$
  */
 
+fileLoader::load('modules/jip/iJip');
+
 /**
  * jip: класс для работы с jip
  *
  * @package modules
  * @subpackage jip
- * @version 0.1.5
+ * @version 0.2
  */
-
-class jip
+class jip implements iJip
 {
     /**
      * Default template for jip
@@ -34,149 +35,90 @@ class jip
      *
      * @var int
      */
-    private $id;
+    private $objId;
 
     /**
-     * JIP object type
+     * Langs
      *
-     * @var string
+     * @var array
      */
-    private $type;
+    private $langs = null;
 
     /**
      * JIP Object
      *
      * @var simple
      */
-    private $obj;
-
-    /**
-     * Действия для JIP
-     *
-     * @var array
-     */
-    private $actions;
+    private $jipId;
 
     /**
      * Результат сборки массива элементов JIP-меню
      *
      * @var array
      */
-    private $result = array();
+    private $jipItems = array();
 
     /**
      * Шаблон JIP-меню
      *
      * @var string
      */
-    private $tpl = null;
+    private $template = null;
 
     /**
      * Конструктор
      *
-     * @param integer $id идентификатор
-     * @param array $actions действия для JIP
-     * @param simple $obj объект
-     * @param string $tpl шаблон JIP-меню
-     * @param string $type тип доменного объекта
+     * @param integer $jip_id идентификатор jip
+     * @param string $template шаблон JIP-меню
      */
-    public function __construct($id, Array $actions, entity $obj, $tpl = self::DEFAULT_TEMPLATE, $type)
+    public function __construct($jip_id, $template = self::DEFAULT_TEMPLATE)
     {
-        $this->id = $id;
-        $this->actions = $actions;
-        $this->obj = $obj;
-        $this->tpl = $tpl;
-        $this->type = $type;
+        $this->jipId = $jip_id;
+        $this->template = $template;
     }
 
-    /**
-     * Генерирует ссылку для JIP
-     *
-     * @param string $action action's params
-     * @param string $action_name действие модуля
-     * @return string
-     */
-    private function buildUrl(simpleAction $action, $action_name)
+    public function addItem($action_name, $options)
     {
-        $url = new url();
-        $url->setModule($this->obj->module());
-        $url->setAction($action_name);
-
-        $routeName = $action->getData('route_name');
-        if (!$routeName) {
-            $url->setRoute('withId');
-            $url->add('id', $this->id);
-        } else {
-            $url->setRoute($routeName);
-            foreach ($action->getAllData() as $name => $value) {
-                if (strpos($name, 'route.') === 0) {
-                    $url->add(substr($name, 6), strpos($value, '->') === 0 ? $this->callObjectMethodFromString($value) : $value);
-                }
-            }
-        }
-
-        return $url->get();
-    }
-
-    protected function callObjectMethodFromString($str)
-    {
-        $methods = explode('->', substr($str, 2));
-        $result = $this->obj;
-        foreach ($methods as $method) {
-            $result = $result->$method();
-        }
-        return $result;
-    }
-
-    /**
-     * Генерирует массив JIP из названия и ссылки для действия модуля
-     *
-     * @return array
-     */
-    private function generate()
-    {
-        $this->result = array();
-        foreach ($this->actions as $key => $action) {
-            $action->setObject($this->obj);
-            if ($action->canRun()) {
-                $item = array();
-                $item['title'] = $action->getTitle();
-                $item['url'] = $this->buildUrl($action, $key);
-                $item['id'] = $this->getJipMenuId() . '_' . $action->getControllerName();
-                $item['lang'] = $action->isLang();
-                $item['icon'] = $action->getIcon();
-
-                $target = $action->getData('jip_target');
-                $item['target'] = ($target === 'new');
-
-                $this->result[$key] = new arrayDataspace($item);
-            }
-        }
+        $this->jipItems[$action_name] = $options;
     }
 
     /**
      * Проверяет присутствие элемента в JIP-меню
      *
-     * @param string $name имя элемента
+     * @param string $action_name имя действия
      * @return boolean
      */
-    public function hasItem($name)
+    public function hasItem($action_name)
     {
-        return isset($this->result[$name]);
+        return isset($this->jipItems[$action_name]);
     }
 
     /**
-     * Возвращает ссылку на массив данных элемента JIP-меню
+     * Возвращает ссылку на массив параметров элемента JIP-меню
      *
+     * @param string $action_name имя действия
      * @return array
      */
-    public function &getItem($name)
+    public function &getItem($action_name)
     {
-        if (isset($this->result[$name])) {
-            return $this->result[$name];
+        if ($this->hasItem($action_name)) {
+            return $this->jipItems[$action_name];
         } else {
-            throw new mzzRuntimeException('Не найден элемент "' . $name . '" в jip-меню для dataobject "' . $this->type . '"');
+            throw new mzzRuntimeException('"' . $action_name . '" is not found in "' . $this->jipId . '" JIP menu.');
         }
+    }
+
+    public function setLangs($langs)
+    {
+        $this->langs = $langs;
+    }
+
+    public function getLangs()
+    {
+        if ($this->langs === null) {
+            $this->langs = locale::searchAll();
+        }
+        return $this->langs;
     }
 
     /**
@@ -184,9 +126,9 @@ class jip
      *
      * @return string
      */
-    private function getJipMenuId()
+    protected function getJipId()
     {
-        return $this->obj->module() . '_' . $this->type . '_' . $this->id;
+        return $this->jipId;
     }
 
     /**
@@ -194,33 +136,15 @@ class jip
      *
      * @return string
      */
-    public function draw()
+    public function getJip()
     {
-        static $langs = array();
+        $smarty = systemToolkit::getInstance()->getSmarty();
 
-        if (empty($langs)) {
-            $langs = locale::searchAll();
-        }
+        $smarty->assign('langs', $this->getLangs());
+        $smarty->assign('jip', $this->jipItems);
+        $smarty->assign('jipId', $this->getJipId());
 
-        if (empty($this->result)) {
-            $this->generate();
-        }
-
-        if (sizeof($this->result)) {
-            $toolkit = systemToolkit::getInstance();
-            $smarty = $toolkit->getSmarty();
-
-            $smarty->assign('langs', $langs);
-
-            $smarty->assign('jip', $this->result);
-            //@todo: wtf str_replace?
-            $smarty->assign('jipMenuId', str_replace('/', '_', $this->getJipMenuId()));
-            $this->result = array();
-
-            return $smarty->fetch($this->tpl);
-        }
-
-        return '';
+        return $smarty->fetch($this->template);
     }
 }
 

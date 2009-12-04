@@ -80,6 +80,57 @@ class requestRouteTest extends unitTestCase
         );
     }
 
+    public function testRequirementsAsPartsOfAnotherToken()
+    {
+        $route = new requestRoute('somepath/:cat/:action/:foo', array('action' => 'list', 'foo' => 'bar'), array('cat' => '.+?', 'action' => '(?:list|view)', 'foo' => '(?:bar)'));
+        $this->assertEqual(
+            $route->match('somepath/world/europelist'),
+            array('action' => 'list', 'cat' => 'world/europelist', 'foo' => 'bar')
+        );
+
+        $this->assertEqual(
+            $route->match('somepath/world/europelist/list'),
+            array('action' => 'list', 'cat' => 'world/europelist', 'foo' => 'bar')
+        );
+
+        $this->assertEqual(
+            $route->match('somepath/world/europelistbar'),
+            array('action' => 'list', 'cat' => 'world/europelistbar', 'foo' => 'bar')
+        );
+
+        $this->assertEqual(
+            $route->match('somepath/world/europelist/view'),
+            array('action' => 'view', 'cat' => 'world/europelist', 'foo' => 'bar')
+        );
+
+        $this->assertEqual(
+            $route->match('somepath/world/europelistbarlistlistbar'),
+            array('action' => 'list', 'cat' => 'world/europelistbarlistlistbar', 'foo' => 'bar')
+        );
+
+        $route = new requestRoute('somepath/:cat/:action/:foo', array('action' => 'list'), array('cat' => '.+?', 'action' => '(?:list)', 'foo' => '(?:bar)'));
+
+        $this->assertFalse(
+            $route->match('somepath/world/europelistbarlistlistbar')
+        );
+        $this->assertEqual(
+            $route->match('somepath/world/europelistbarlistlist/bar'),
+            array('action' => 'list', 'cat' => 'world/europelistbarlistlist', 'foo' => 'bar')
+        );
+        $this->assertEqual(
+            $route->match('somepath/world/europelistbarlist/list/bar'),
+            array('action' => 'list', 'cat' => 'world/europelistbarlist', 'foo' => 'bar')
+        );
+
+        $route = new requestRoute('somepath/:cat:action', array('action' => 'list'), array('cat' => '.+?', 'action' => '(?:list)'));
+
+
+        $this->assertEqual(
+            $route->match('somepath/world/europelist'),
+            array('action' => 'list', 'cat' => 'world/europe')
+        );
+    }
+
     public function testRouteWithPathAndRequirement()
     {
         $route = new requestRoute('somepath/:cat/:action', array('action' => 'list'), array('cat' => '.+?', 'action' => '(?:list)'));
