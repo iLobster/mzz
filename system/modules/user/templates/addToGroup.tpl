@@ -23,8 +23,7 @@
     {else}
         <span style="font-size: 110%;">{_ search_result} ({$users->count()} {_ found})</span>
         <div style="border-top: 2px solid #BABABA; padding: 10px;">
-            {set name="form_action"}{url}{/set}
-            {form action=$form_action method="post" jip=true}
+            {form action={url} method="post" jip=true}
                 <table border="0" width="100%" cellpadding="2" cellspacing="0" class="systemTable">
                     {foreach from=$users item=user key=user_id}
                         <tr>
