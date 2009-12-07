@@ -105,6 +105,7 @@ class adminSaveActionController extends simpleController
             $crud_class_name = null;
             if (!empty($values['crud']) && $values['crud'] == 'save' && !empty($values['crud_class'])) {
                 $crud_class_name = $values['crud_class'];
+                unset($values['crud_class']);
             }
 
             if (!$isEdit) {
