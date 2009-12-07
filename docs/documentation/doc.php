@@ -308,6 +308,9 @@ if (!isset($_REQUEST['cat']) && !$isOnePage) {
 
         if (is_array($path)) {
             $cat = explode('.', $cat, 2);
+            if ($catNum > 1) {
+                echo '<p style="padding-bottom: 30px;">&nbsp;</p>';
+            }
             echo '<h2><a name="' . $cat[0] . '"></a><span class="titleNumber">Часть ' . $catNum .'.</span> ' . $cat[1] . '</h2>';
 
             $cat = $cat[0];
