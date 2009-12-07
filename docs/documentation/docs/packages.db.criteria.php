@@ -33,7 +33,6 @@
     </tr>
 </table>
 
-<p>
 <<code php>>
 $criteria = new criteria('table');
 $criteria->select('field1');
@@ -41,14 +40,13 @@ $criteria->select('field2', 'alias');
 $select = new simpleSelect($criteria);
 echo $select->toString(); // выведет "SELECT `field1`, `field2` AS `alias` FROM `table`"
 <</code>>
-Потому как метод <code>select</code> возвращает ссылку на объект критерии - можно сократить данный код:
+<p>Потому как метод <code>select</code> возвращает ссылку на объект критерии - можно сократить данный код:</p>
 <<code php>>
 $criteria = new criteria('table');
 $criteria->select('field1')->select('field2', 'alias');
 $select = new simpleSelect($criteria);
 echo $select->toString(); // выведет "SELECT `field1`, `field2` AS `alias` FROM `table`"
 <</code>>
-</p>
 
 == where.where
 <p>Указывает условия выборки</p>
