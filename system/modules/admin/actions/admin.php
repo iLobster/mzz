@@ -13,7 +13,7 @@ return array(
         'main' => 'active.admin.tpl'),
     'devToolbar' => array(
         'controller' => 'devToolbar',
-        'role' => array('moderator'),
+        'role' => array('root'),
         'admin' => 1,
         'title' => 'devToolbar'),
     'addClass' => array(
