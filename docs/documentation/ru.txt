@@ -60,4 +60,5 @@ getting_start.Создание проекта на framy
         creating.Создание Блог приложения
         creating_models.Создание моделей
         creating_entry.Создание записи в блоге
+        routers.Routers
         view_entry.Просмотр записи в блоге

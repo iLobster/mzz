@@ -72,4 +72,18 @@ return $this->redirect($url->get());
 
 <p>Класс <tt>url</tt> генерирует готовые ссылки используя роутер <tt>withAnyParam</tt> и переданные в него значения. Метод <tt>$this->redirect()</tt> выполняет HTTP-редирект пользователя на указанную страницу (просмотр созданной записи).</p>
 
+<p>Чтобы сохранить дату создания в правильном формате, добавим метод в <tt>modules/blog/models/post.php</tt></p>
+
+
+<<code php>>
+public function setCreatedAt($value)
+{
+    $datetime = explode(' ', $value);
+    $date = explode('/', $datetime[1]);
+    $datetime = implode('-', array_reverse($date)) . ' ' . $datetime[0];
+    parent::__call('setCreatedAt', array($datetime));
+}
+<</code>>
+
+
 <p><img src="./images/blog_create.png" class="screenshot" alt="Creating Post Form" width="700" height="446"/></p>
