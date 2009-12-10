@@ -96,6 +96,19 @@ class menuItemMapper extends mapper
         return $this->searchByKey($id);
     }
 
+    public function searchAllByMenuName($name)
+    {
+        $menuMapper = systemToolkit::getInstance()->getMapper('menu', 'menu');
+
+        $menuTableAlias = $menuMapper->table(false);
+
+        $criteria = new criteria;
+        $criteria->join($menuMapper->table(), new criterion($menuTableAlias . '.id', 'menu_id', criteria::EQUAL, true), $menuTableAlias, criteria::JOIN_INNER);
+        $criteria->where($menuTableAlias . '.name', $name);
+
+        return $this->searchAllByCriteria($criteria);
+    }
+
     public static function getMenuItemsTypes()
     {
         return array(
