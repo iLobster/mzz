@@ -25,5 +25,10 @@ class commentsModule extends simpleModule
         'comments',
         'commentsFolder',
     );
+
+    protected $roles = array(
+        'moderator',
+        'user'
+    );
 }
 ?>

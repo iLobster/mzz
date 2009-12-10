@@ -13,14 +13,12 @@
 */
 
 /**
- * access: класс для работы с ...
+ * access: класс для работы с данными
  *
  * @package modules
  * @subpackage access
  * @version 0.1
  */
-
-
 class access extends entity
 {
 }

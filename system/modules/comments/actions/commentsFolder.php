@@ -9,9 +9,6 @@ return array(
     'post' => array(
         'controller' => 'post',
         'title' => 'Comment post'
-    ),
-    'deleteFolder' => array(
-        'controller' => 'folderDeleteFolder'
     )
 );
 ?>

@@ -8,6 +8,7 @@ return array(
         'icon' => 'sprite:mzz-icon/comment/edit',
         'title' => 'Редактировать',
         'main' => 'active.blank.tpl',
+        'role' => array('moderator')
     ),
     'delete' => array(
         'controller' => 'delete',
@@ -15,6 +16,7 @@ return array(
         'icon' => 'sprite:mzz-icon/comment/del',
         'confirm' => 'Вы хотите удалить этот комментарий?',
         'main' => 'active.blank.tpl',
+        'role' => array('moderator')
     ),
 );
 ?>

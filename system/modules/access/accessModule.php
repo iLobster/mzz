@@ -22,5 +22,7 @@
 class accessModule extends simpleModule
 {
     protected $classes = array('access');
+
+    protected $roles = array('admin');
 }
 ?>

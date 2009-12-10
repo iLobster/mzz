@@ -7,8 +7,7 @@ return array(
         'icon' => 'fm.gif',
         'role' => array('moderator'),
         'title' => 'Файловый менеджер',
-        'admin' => '1',
-        'main' => 'active.admin.tpl'
+        'admin' => true
     ),
     'get' => array(
         'controller' => 'get',
