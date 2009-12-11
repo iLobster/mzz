@@ -3,7 +3,8 @@
 
 return array(
     'view' => array(
-        'controller' => 'view'
+        'controller' => 'view',
+        'main' => 'deny'
     ),
     'createRoot' => array(
         'controller' => 'save',
