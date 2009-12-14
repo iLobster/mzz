@@ -201,7 +201,7 @@ class adminGeneratorMapper extends mapper
         $actionFile = $path . '/' . $actionFileName;
 
         $actionsArray = include $actionFile;
-        if (isset($actionsArray[$action_name])) {
+        if (isset($actionsArray[$action_name]) && is_array($actionsArray[$action_name])) {
             $actionData = array_merge($actionsArray[$action_name], $actionData);
         }
         $actionsArray[$action_name] = $actionData;
