@@ -175,9 +175,9 @@ class entity implements serializable
         return $this->state;
     }
 
-    public function canRun($action)
+    public function canRun($actionName)
     {
-        $action = systemToolkit::getInstance()->getModule($this->module())->getAction($action);
+        $action = systemToolkit::getInstance()->getModule($this->module())->getAction($actionName);
 
         if (is_a($this, 'iACL')) {
             $action->setObject($this);
