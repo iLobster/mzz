@@ -20,7 +20,7 @@
  * @version 0.1
  */
 
-fileLoader::load('access/model/access');
+fileLoader::load('access/models/access');
 
 class accessMapper extends mapper
 {

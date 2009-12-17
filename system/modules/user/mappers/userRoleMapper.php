@@ -12,7 +12,7 @@
  * @version $Id: userOnlineMapper.php 3857 2009-10-19 04:12:06Z zerkms $
  */
 
-fileLoader::load('user/model/userRole');
+fileLoader::load('user/models/userRole');
 
 /**
  * userRoleMapper: mapper for users roles

@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('user/model/groupFolder');
+fileLoader::load('user/models/groupFolder');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**

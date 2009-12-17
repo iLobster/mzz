@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('news/model/newsFolder');
+fileLoader::load('news/models/newsFolder');
 fileLoader::load('orm/plugins/tree_mpPlugin');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 fileLoader::load('modules/i18n/plugins/i18nPlugin');

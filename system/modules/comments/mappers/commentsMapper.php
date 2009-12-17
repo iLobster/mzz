@@ -12,7 +12,7 @@
  * @version $Id$
 */
 
-fileLoader::load('comments/model/comments');
+fileLoader::load('comments/models/comments');
 fileLoader::load('orm/plugins/tree_alPlugin');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 

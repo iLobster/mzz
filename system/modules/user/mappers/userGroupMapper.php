@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('user/model/userGroup');
+fileLoader::load('user/models/userGroup');
 
 /**
  * userGroupMapper

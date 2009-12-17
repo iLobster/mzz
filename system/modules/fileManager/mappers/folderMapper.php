@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('fileManager/model/folder');
+fileLoader::load('fileManager/models/folder');
 fileLoader::load('orm/plugins/tree_mpPlugin');
 
 /**

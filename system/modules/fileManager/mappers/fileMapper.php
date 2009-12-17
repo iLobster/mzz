@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('fileManager/model/file');
+fileLoader::load('fileManager/models/file');
 fileLoader::load('fileManager/plugins/fileExtraPlugin');
 
 /**

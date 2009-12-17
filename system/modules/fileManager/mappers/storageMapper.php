@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('fileManager/model/storage');
+fileLoader::load('fileManager/models/storage');
 
 /**
  * storageMapper: маппер

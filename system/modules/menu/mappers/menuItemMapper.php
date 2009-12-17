@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('menu/model/menuItem');
+fileLoader::load('menu/models/menuItem');
 fileLoader::load('modules/i18n/plugins/i18nPlugin');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 fileLoader::load('orm/plugins/tree_alPlugin');

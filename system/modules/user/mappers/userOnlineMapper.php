@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('user/model/userOnline');
+fileLoader::load('user/models/userOnline');
 
 /**
  * userOnlineMapper

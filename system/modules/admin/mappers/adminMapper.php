@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('admin/model/admin');
+fileLoader::load('admin/models/admin');
 
 /**
  * adminMapper: маппер

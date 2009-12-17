@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('user/model/userAuth');
+fileLoader::load('user/models/userAuth');
 
 /**
  * userAuthMapper

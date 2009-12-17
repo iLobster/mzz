@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('user/model/user');
+fileLoader::load('user/models/user');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 
 /**

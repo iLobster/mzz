@@ -12,7 +12,7 @@
  * @version $Id$
 */
 
-fileLoader::load('comments/model/commentsFolder');
+fileLoader::load('comments/models/commentsFolder');
 
 /**
  * commentsFolderMapper: маппер

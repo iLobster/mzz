@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('page/model/pageFolder');
+fileLoader::load('page/models/pageFolder');
 fileLoader::load('orm/plugins/tree_mpPlugin');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 

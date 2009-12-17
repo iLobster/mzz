@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('page/model/page');
+fileLoader::load('page/models/page');
 fileLoader::load('modules/jip/plugins/jipPlugin');
 fileLoader::load('modules/i18n/plugins/i18nPlugin');
 
