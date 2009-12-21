@@ -8,7 +8,8 @@ return array(
         'role' => array('moderator'),
         'icon' => 'sprite:mzz-icon/user/add',
         'title' => 'Добавить пользователя',
-        'main' => 'active.blank.tpl'
+        'main' => 'active.blank.tpl',
+        'route_name' => 'default2'
     ),
     'register' => array(
         'controller' => 'register',
