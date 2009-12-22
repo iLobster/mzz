@@ -57,6 +57,7 @@ class commentsPostController extends simpleController
 
         $validator = new formValidator();
         $validator->submit('commentSubmit');
+        $validator->filter('trim', 'text');
         $validator->rule('required', 'text', 'Введите комментарий');
         $validator->rule('length', 'text', 'Слишком длинный комментарий! Максимум 2000 символов!', array(0, 2000));
 
