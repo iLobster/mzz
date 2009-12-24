@@ -183,7 +183,7 @@ class i18n
             $morphs = array($morphs);
         }
 
-        $locale = new locale($lang);
+        $locale = new fLocale($lang);
         $plural = $this->calculatePlural($number, $locale);
         // нужно чтобы можно было добавлять числовые переменные для строк,
         // которым морфология не нужна
@@ -208,7 +208,7 @@ class i18n
         }
 
         if (is_string($locale)) {
-            $locale = new locale($locale);
+            $locale = new fLocale($locale);
         }
 
         $algo = $locale->getPluralAlgo();
@@ -339,7 +339,7 @@ class i18n
             $lang = systemToolkit::getInstance()->getLocale()->getName();
         }
 
-        $locale = new locale($lang);
+        $locale = new fLocale($lang);
 
         if ($format == 'relative_hour') {
             $hours = ceil((time() - $date) / 3600);

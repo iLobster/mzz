@@ -356,12 +356,12 @@ class stdToolkit extends toolkit
         }
 
         try {
-            $this->locale = new locale($name);
+            $this->locale = new fLocale($name);
         } catch (mzzLocaleNotFoundException $e) {
-            if (locale::isExists($name)) {
+            if (fLocale::isExists($name)) {
                 throw $e;
             }
-            $this->locale = new locale(systemConfig::$i18n);
+            $this->locale = new fLocale(systemConfig::$i18n);
         }
         // из-за проблем с преобразованием float-значений с запятой в sql
         // оставляем локаль для чисел прежней.

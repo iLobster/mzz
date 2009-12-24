@@ -38,19 +38,19 @@ class adminTranslateController extends simpleController
             }
         }
 
-        $langs = locale::searchAll();
+        $langs = fLocale::searchAll();
 
         try {
             if (!is_null($module_name) && !is_null($language) && in_array($module_name, $modules)) {
                 $storage = new i18nStorageIni($module_name, $language);
-                $locale = new locale($language);
+                $locale = new fLocale($language);
 
                 if ($language != systemConfig::$i18n) {
                     $storage_default = new i18nStorageIni($module_name, systemConfig::$i18n);
                     $this->smarty->assign('not_default', true);
                     $this->smarty->assign('variables_default', $storage_default->export());
 
-                    $locale_default = new locale(systemConfig::$i18n);
+                    $locale_default = new fLocale(systemConfig::$i18n);
                     $this->smarty->assign('locale_default', $locale_default);
                 } else {
                     $storage_default = $storage;

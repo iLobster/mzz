@@ -1,8 +1,8 @@
 <?php
 
-fileLoader::load('i18n/locale');
+fileLoader::load('i18n/fLocale');
 
-class localeTest extends UnitTestCase
+class fLocaleTest extends UnitTestCase
 {
     private $db;
 
@@ -24,7 +24,7 @@ class localeTest extends UnitTestCase
 
     public function testGetLocale()
     {
-        $locale = new locale('ru');
+        $locale = new fLocale('ru');
         $this->assertEqual($locale->getCountry(), 'Russian Federation');
         $this->assertEqual($locale->getLanguageName(), 'Russian');
         $this->assertEqual($locale->getName(), 'ru');
@@ -32,7 +32,7 @@ class localeTest extends UnitTestCase
 
     public function testGetAllLocales()
     {
-        $locales = locale::searchAll();
+        $locales = fLocale::searchAll();
         $this->assertEqual(sizeof($locales), 2);
 
         $this->assertEqual($locales[1]->getCountry(), 'Russian Federation');
@@ -41,7 +41,7 @@ class localeTest extends UnitTestCase
 
     public function testMorphs()
     {
-        $locale = new locale('ru');
+        $locale = new fLocale('ru');
         $this->assertEqual($locale->getPluralsCount(), 3);
         $this->assertEqual($locale->getPluralAlgo(), '($i % 10 == 1 && $i % 100 != 11 ? 0 : ($i % 10 >= 2 && $i % 10 <= 4 && ($i % 100 < 10 || $i % 100 >= 20) ? 1 : 2))');
     }

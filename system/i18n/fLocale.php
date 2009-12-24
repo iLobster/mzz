@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL$
+ * $URL: svn://svn.subversion.ru/usr/local/svn/mzz/trunk/system/i18n/locale.php $
  *
  * MZZ Content Management System (c) 2005-2007
  * Website : http://www.mzz.ru
@@ -9,19 +9,19 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id$
+ * @version $Id: locale.php 3918 2009-11-02 05:58:39Z striker $
  */
 
 fileLoader::load('service/iniFile');
 
 /**
- * locale: класс для работы с локалями
+ * fLocale: класс для работы с локалями
  *
  * @package system
  * @subpackage i18n
  * @version 0.1.6
  */
-class locale
+class fLocale
 {
     /**
      * Путь до файла локали
@@ -304,7 +304,7 @@ class locale
                 $result = array();
 
                 while ($row = $stmt->fetch()) {
-                    $tmp = new locale($row['name']);
+                    $tmp = new fLocale($row['name']);
                     $tmp->setId($row['id']);
                     $tmp->setTranslatedName($row['title'] ? $row['title'] : $tmp->getLanguageName());
                     $result[$row['id']] = $tmp;

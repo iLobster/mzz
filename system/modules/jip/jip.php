@@ -116,7 +116,7 @@ class jip implements iJip
     public function getLangs()
     {
         if ($this->langs === null) {
-            $this->langs = locale::searchAll();
+            $this->langs = fLocale::searchAll();
         }
         return $this->langs;
     }

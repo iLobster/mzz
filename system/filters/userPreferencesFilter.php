@@ -53,7 +53,7 @@ class userPreferencesFilter implements iFilter
                 if (!($language = $preferences->getLang())) {
                     // смотрим, есть ли в профиле пользователя
                     if ($language_id = $me->getLanguageId()) {
-                        $locale = locale::searchAll($language_id);
+                        $locale = fLocale::searchAll($language_id);
                         $language = $locale ? $locale->getName() : null;
                     } else {
                         // смотрим в заголовках
@@ -112,7 +112,7 @@ class userPreferencesFilter implements iFilter
     protected function chooseFirstLangMatch(array $accept)
     {
         $locales_names = array();
-        foreach (locale::searchAll() as $locale) {
+        foreach (fLocale::searchAll() as $locale) {
             $locales_names[] = $locale->getName();
         }
 
