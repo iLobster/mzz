@@ -42,7 +42,7 @@ class newsAdminController extends simpleController
         $newsMapper = $this->toolkit->getMapper('news', 'news');
         $this->setPager($newsMapper);
 
-        $this->smarty->assign('news', $newsFolderMapper->getItems($newsFolder));
+        $this->smarty->assign('news', $newsMapper->searchByFolder($newsFolder->getId()));
         $this->smarty->assign('newsFolder', $newsFolder);
         $this->smarty->assign('breadCrumbs', $breadCrumbs);
 
