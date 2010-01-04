@@ -17,24 +17,18 @@
  *
  * @package modules
  * @subpackage simple
- * @version 0.2
+ * @version 0.3
  */
 class simple404Controller extends simpleController
 {
-    /**
-     * Конструктор
-     *
-     * @param boolean $onlyHeaders
-     */
-    public function __construct()
-    {
-        parent::__construct(null);
-    }
-
     protected function getView()
     {
         $this->response->setStatus(404);
-        return $this->smarty->fetch('simple/404.tpl');
+
+        $template = 'simple/404.tpl';
+        $response = (!is_null($this->action)) ? $this->smarty->fetchPassive($template) : $this->smarty->fetch($template);
+
+        return $response;
     }
 
     public function run()
