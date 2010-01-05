@@ -29,6 +29,8 @@ abstract class formAbstractRule
 
     protected $data = array();
 
+    protected $field_name;
+
     protected $message = '';
 
     public function __construct($message = '', $params = null)
@@ -45,6 +47,11 @@ abstract class formAbstractRule
     public function setData($data)
     {
         $this->data = $data;
+    }
+
+     public function setFieldName($field_name)
+    {
+        $this->field_name = $field_name;
     }
 
     public function notExists()

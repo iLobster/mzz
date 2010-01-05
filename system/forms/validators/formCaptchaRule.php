@@ -21,21 +21,25 @@
  */
 class formCaptchaRule extends formAbstractRule
 {
-    public function validate()
+    protected function _validate($value)
     {
-        $toolkit = systemToolkit::getInstance();
-        $session = $toolkit->getSession();
-        $request = $toolkit->getRequest();
+        $captcha_id = (isset($this->data[$this->field_name . '_id'])) ? $this->data[$this->field_name . '_id'] : null;
 
-        $captcha_id = $request->getString($this->name . '_id', SC_POST | SC_GET);
+        if (!is_null($captcha_id)) {
+            $toolkit = systemToolkit::getInstance();
+            $session = $toolkit->getSession();
 
-        $captchas = $session->get('mzz_captcha', array());
+            $captchas = $session->get('mzz_captcha', array());
 
-        if (isset($captchas[$captcha_id])) {
-            $captchaValue = $captchas[$captcha_id];
-            unset($captchas[$captcha_id]);
-            $session->set('mzz_captcha', $captchas);
-            return (md5($this->value) == $captchaValue);
+            if (isset($captchas[$captcha_id])) {
+                $captchaValue = $captchas[$captcha_id];
+                unset($captchas[$captcha_id]);
+                $session->set('mzz_captcha', $captchas);
+
+                echo $value;
+
+                return (md5($value) == $captchaValue);
+            }
         }
 
         return false;

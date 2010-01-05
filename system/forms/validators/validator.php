@@ -30,6 +30,7 @@ class validator
     {
         $validator = $this->loadValidator($type, $message, $options);
         $validator->setData($this->data);
+        $validator->setFieldName($name);
         $this->rules[] = array(
             'name' => $name,
             'validator' => $validator);

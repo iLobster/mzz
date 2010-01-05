@@ -30,6 +30,7 @@ class formCaptchaField extends formElement
         $smarty = systemToolkit::getInstance()->getSmarty();
         $smarty->assign('captcha_id', $captcha_id);
         $smarty->assign('attributes', $attributes);
+
         return $smarty->fetch('captcha/' . $tplPrefix . 'captcha.tpl');
     }
 }
