@@ -69,6 +69,14 @@ var Cookie = {
     };
 
     MZZ = { /* MZZ top-level namespace */ };
+
+    MZZ.tools = {
+        AUTO_ID: 1000,
+
+        getId: function() {
+            return ++MZZ.tools.AUTO_ID;
+        }
+    }
     
     MZZ.browser = DUI.Class.create({
 
@@ -114,30 +122,38 @@ var Cookie = {
     MZZ.eventManager = DUI.Class.create({
         _events: [],
         _binds: {},
+        _gbind: [],
+        _allowAnyEvent: false,
         
         init: function(events) {
-            this._events = $.isArray(events) ? events : Array.prototype.slice.call(arguments, 0);
-            this._binds = {};
+            var events = $.isArray(events) ? events : Array.prototype.slice.call(arguments, 0);
+            this._events = this._events.concat(events);
+            this._bind = {};
+            this._gbind = [];
         },
 
-        bind: function(event, cb, once) {
-            if ($.isString(event) && $.isFunction(cb)) {
+        bind: function(event, cb, once, context) {
+            if ($.isFunction(event)) {
+                context = once || undefined;
+                once = cb || false;
+                this._gbind.push({'cb': event, 'once': once, 'context': context});
+            } else if ($.isString(event) && $.isFunction(cb)) {
                 var t = this;
                 once = once || false;
                 $.each(event.split(/\s+/), function(i, type) {
-                    if ($.inArray(type, t._events) != -1) {
-
+                    if ($.inArray(type, t._events) != -1 || this._allowAnyEvent == true) {
                         if (!t._binds[type]) {
                             t._binds[type] = [];
                         }
                         t._binds[type].push({
                             'cb': cb,
-                            'once': once
+                            'once': once,
+                            'context': context
                         });
                     }
                 });
             }
-            
+
             return this;
         },
 
@@ -167,24 +183,35 @@ var Cookie = {
             return this;
         },
 
-        fire: function(event, context) {
+        fire: function(event, context, originaltarget) {
+            var t = this;
+            context = context || this;
+            originaltarget = originaltarget || this;
+            var args = Array.prototype.slice.call(arguments, 0);
+            var push = [{'type': event, 'once': false, 'target': this, 'originaltarget': originaltarget, 'result': undefined, 'originalcontext': context}].concat(args.slice(2));
+            
             if(this._binds[event]) {
-                var t = this;
-                var args = Array.prototype.slice.call(arguments, 0);
                 $.each(this._binds[event], function(i) {
-                    if (args.length < 2) {
-                        this.cb.call(context);
-                    } else {
-                        this.cb.apply(context, args.slice(2));
-                    }
-
+                    var ccontext = this.context || context;
+                    push[0].once = this.once;
+                    push[0].result = this.cb.apply(ccontext, push);
                     if (this.cb.once) {
                         t._binds[event].remove(i);
                     }
                 });
+             
             }
 
-            return this;
+            $.each(this._gbind, function(i) {
+                    var cccontext = this.context || context;
+                    push[0].once = this.once;
+                    push[0].result = this.cb.apply(cccontext, push);
+                    if (this.cb.once) {
+                        t._gbind.remove(i);
+                    }
+            });
+
+            return push[0].result;
         }
     });
 })(jQuery);
