@@ -32,12 +32,14 @@ class fPHPMailerMailer extends abstractMailer
 
         $this->phpmailer->Subject  = $this->getSubject();
         $this->phpmailer->Body     = $this->getBody();
+        $this->phpmailer->AltBody     = $this->getAltBody();
 
         $this->phpmailer->AddAddress($this->getTo(), $this->getToName());
 
         $result = $this->phpmailer->send();
 
         $this->phpmailer->ClearAddresses();
+        $this->phpmailer->ClearAttachments();
 
         return $result;
     }

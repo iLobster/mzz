@@ -7,8 +7,9 @@ abstract class abstractMailer
     protected $fromName;
     protected $subject;
     protected $body;
+    protected $alt_body;
 
-    public function set($to, $toName, $from, $fromName, $subject, $body)
+    public function set($to, $toName, $from, $fromName, $subject, $body, $alt_body = '')
     {
         $this->setTo($to);
         $this->setToName($toName);
@@ -16,6 +17,7 @@ abstract class abstractMailer
         $this->setFromName($fromName);
         $this->setSubject($subject);
         $this->setBody($body);
+        $this->setAltBody($alt_body);
     }
 
     public function setTo($to)
@@ -76,6 +78,16 @@ abstract class abstractMailer
     public function getBody()
     {
         return $this->body;
+    }
+
+    public function setAltBody($alt_body)
+    {
+        $this->alt_body = $alt_body;
+    }
+
+    public function getAltBody()
+    {
+        return $this->alt_body;
     }
 
     abstract public function send();
