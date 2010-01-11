@@ -1,456 +1,202 @@
-/**
- * Порт jipWindow на jQuery
- *
- * Возможна работа в режиме noConflict с другими фреймворками
- *
- * проверено в 7 / 8, firefox 3.0.10 / 3.5 beta4, opera 9.64 / 10 alpha, safari 3.2 / 4 beta
- *
- * @todo: - autoSize()
- *        - setIcon()
- *
- *
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
-
 (function ($){
-    MZZ.jipWindow = DUI.Class.create({
-        init: function() {
-            this.options = {
-                layout: '<div class="mzz-window-title" /><div class="mzz-window-content mzz-window-alsoResize" /><div class="mzz-window-footer"><div class="mzz-window-reload"><a onclick="jipWindow.reload();" title="refresh jipWindow"></a></div><div class="mzz-window-status" /></div><div class="mzz-window-icon" /><div class="mzz-window-drag" /><div class="mzz-window-buttons" />',
-                baseClass: 'mzz-jip-window',
-                drag: true,
-                resize: true,
-                resizeOpts: {'alsoResize': '.mzz-window-alsoResize'},
-                visible: true,
-                onKill: {'animation': 'fadeOut', 'speed': 'normal'}
-            };
+    MZZ.jipWindow = DUI.Class.create(MZZ.eventManager.prototype, {
+        _defaults: {'shadow':    true,
+                    'draggable': true,
+                    'draginit':  false,
+                    'draghand':  false,
+                    'dragopts':  {'handle':      '.mzz-window-drag',
+                                  'containment': 'document',
+                                  'delay':       250,
+                                  'opacity':     null},
+                    'resizeable': true,
+                    'resizeinit': false,
+                    'resizeopts': {'alsoResize': false,
+                                   'handles':    'se',
+                                   'minHeight':   150,
+                                   'minWidth':    650}},
+        config: {},
 
-            this.em = new MZZ.eventManager(['close', 'open', 'success', 'error', 'complete']);
+        dom: null,
+        _header: null,
+        _title: null,
+        _bwrap: null,
+        _body: null,
+        _footer: null,
 
-            this.window = false;    //текущее окно
-            this.windows = []; //стэк окошков
-            this.windowCount = 0;   //всего окон
-            this.currentWindow = 0; //текущий ид
-            this.redirectAfterClose = false;
-            this.stack = []; //стэк урлов
-            this.selects = {
-                'bodyWindow': [],
-                'jipWindow': [],
-                'jip': []
-            }; //стэк захайденных селектов для могучего IE
+        _hidden: true,
 
-            this.tinyMCEIds = {}; //стэк tinyMCE
-            this.locker = false;    //локер
-
-            this.lockerResize = function() {
-                jipWindow.lockContent();
-            };
+        init: function(jipCore, options) {
+            this._events.push('show', 'beforeshow', 'onshow', 'hide', 'beforehide', 'onhide', 'kill');
+            this.parent = jipCore;
+            this._prepareDom();
+            this.sup();
         },
 
-        open: function(url, isNew, method, params, options) {
-            isNew = (this.windowCount == 0) ? true : (isNew || false);
-            params = params || {};
-            options = options || {};
-            params.jip = 1;
-            method = (method && method.toUpperCase() == 'POST') ? 'POST' : 'GET';
-
-            if (isNew) {
-                this.currentWindow = this.windowCount++;
-
-                if (this.currentWindow > 0) {
-                    this.hideSelects(this.currentWindow - 1);
-                    this.window.zIndex(900);
-                    this.windows[this.currentWindow - 1] = this.window;
-                }
-                this.stack[this.currentWindow] = [];
-                this.tinyMCEIds[this.currentWindow] = [];
-                this.window = new MZZ.window($.extend({id: 'jip_window_' + this.currentWindow}, options, this.options));
-
-                this.window.addButton('close', SITE_PATH + '/images/jip/btn-close.png', '', function(){jipWindow.close()});
-                this.window.top(this.window.top() + $(window).scrollTop());
-                this.setStatus('<strong>Window url:</strong> ' + url);
-                $(document).keypress(this.eventKey);
-            } else {
-                //????
+        kill: function() {
+            console.log('Oh my God!!!, someone brutally killed the window [' + this.dom.attr('id') + ']... Rest in bits');
+            this.fire('kill');
+            if (this.config.resizeable) {
+                this.dom.resizable('destroy');
             }
 
-            if (this.window) {
-                this.lockContent();
-                this.clean();
-                this.request(url, method, params);
-
-                if(url.match(/[&\?]_confirm=/) == null) {
-                    this.stack[this.currentWindow].push(url);
-                }
+            if (this.config.draggable) {
+                this.dom.draggable('destroy');
             }
 
-            this.em.fire('open', {'id': this.currentWindow, 'fullId': 'jip_window_' + this.currentWindow, 'count': this.windowCount, 'isNew': isNew, 'url': url, 'method': method, 'params': params});
-            return false;
+            this.dom.remove();
         },
 
-        reload: function() {
-            //console.log(this.stack[this.currentWindow]);
-            var stack = this.stack[this.currentWindow];
-            var prevUrl = stack.pop();
-            if (prevUrl != undefined) {
-                this.open(prevUrl);
+        title: function(title, append) {
+            if (this._title.length > 0) {
+                if($.isUndefined(title)) {
+                    return this._title;
+                }
+
+                append = append || false;
+                if (append) {
+                    title = this._title.html() + title;
+                }
+
+                this._title.html(title);
+                return this;
             }
 
             return false;
         },
 
-        close: function(windows) {
-            if (this.window) {
-                if (MZZ.browser.msie) {
-                    this.window.content().find('select').addClass('mzz-ie-visibility');
+        content: function(content, append) {
+            if (this._body.length > 0) {
+                if($.isUndefined(content)) {
+                    return this._body;
                 }
 
-                if (tinyMCE) {
-                    for (var i = 0, l = this.tinyMCEIds[this.currentWindow].length; i < l; i++) {
-                        tinyMCE.execCommand('mceRemoveControl', false, this.tinyMCEIds[this.currentWindow][i]);
-                    }
+                append = append || false;
+                if (append) {
+                    content = this._body.html() + content;
                 }
 
-                this.tinyMCEIds[this.currentWindow] = [];
-
-                windows = (windows >= 0) ? windows : 1;
-
-                var stack = this.stack[this.currentWindow];
-
-                if (stack.length > 0) {
-                    for (var i = 0; i < windows; i++) {
-                        stack.pop();
-                    }
-                    var prevUrl = stack.pop();
-                    if (prevUrl != undefined) {
-                        return this.open(prevUrl);
-                    }
-                }
-
-                if (this.redirectAfterClose) {
-                    if (this.redirectAfterClose === true) {
-                        window.location.reload();
-                    } else {
-                        window.location = this.redirectAfterClose;
-                    }
-                    this.setRefreshMsg();
-                    this.redirectAfterClose = false;
-                    return true;
-                }
-
-                if(--this.windowCount == 0) {
-                    this.window.kill();
-                    this.window = null;
-                    $(document).unbind('keypress', this.eventKey);
-                    this.unlockContent();
-                } else {
-                    this.window.kill();
-                    this.window = this.windows[--this.currentWindow];
-                    this.window.zIndex(902);
-                    this.showSelects(this.currentWindow);
-                }
+                this._body.html(content);
+                return this;
             }
-        },
-
-        sendForm: function(form) {
-            var frm = $(form);
-            var url = frm.attr('action') || window.location.href;
-            var method = frm.attr('method') || 'GET';
-            var params = frm.serializeArray();
-
-            params.push({name: 'jip', value: '1'});
-
-            this.clean();
-            this.request(url, method, params);
 
             return false;
         },
 
-        request: function(url, type, data) {
-            $.ajax({
-                url: url,
-                type: type,
-                data: data,
-                cache: false,
-                complete: function(transport, status) {
-                    if(status == 'success') {
-                        jipWindow.successRequest(transport);
-                    } else {
-                        jipWindow.setErrorMsg(transport, status);
-                    }
+        status: function(status, append) {
+            if (this._footer.length > 0) {
+                if($.isUndefined(status)) {
+                    return this._footer;
                 }
-            });
-        },
 
-        autoSize: function() {
-            console.log('MZZ.jipWindow::autoSize() To be implimented soon.');
-        },
+                append = append || false;
+                if (append) {
+                    status = this._footer.html() + status;
+                }
 
-        lockContent: function() {
-
-            if (!this.windowCount) {
-                return false;
+                this._footer.html(status);
+                return this;
             }
 
-            if (!this.locker) {
-                this.locker = $('<div id="mzz-content-locker" class="mzz-content-locker" />');
-                this.locker.css('opacity', '0.5');
-                this.locker.prependTo($('body'));
-            }
-
-            var win = $(window);
-            this.locker.css({'height': win.height()});
-            if (this.locker.css('display') != 'block') {
-                win.bind('resize', this.lockerResize);
-                this.hideSelects();
-                this.locker.fadeIn('slow');
-            }
+            return false;
         },
 
-        unlockContent: function() {
-            if (!this.locker) {
-                return false;
+        zIndex: function(zIndex) {
+            if (!$.isNumber(zIndex)) {
+                return this.dom.css('z-index');
             }
 
-            this.locker.fadeOut('slow', function() {
-                $(this).css('display', 'none');
-                jipWindow.showSelects();
-            });
+            var oldIndex = this.dom.css('z-index');
+            this.dom.css('z-index', zIndex);
+
+            return oldIndex;
         },
 
-        hideSelects: function(id) {
-            if (MZZ.browser.msie) {
-                if ($.isUndefined(id)) {
-                    id = false;
-                }
-
-                var source = (id !== false) ? (id == 'jips' ? '.mzz-jip-window ' : '#jip_window_' + id + ' ') : '';
-                var selects = $(source + 'select:not(:hidden)');
-
-                for (var i = 0, l = selects.length; i < l; i++) {
-                    selects[i] = $(selects[i]).addClass('mzz-ie-visibility');
-                }
-
-                if (id === false) {
-                    this.selects.bodyWindow = selects;
-                } else if (id == 'jips') {
-                    this.selects.jipWindow = selects;
-                } else {
-                    this.selects.jip[id] = selects;
-                }
-            }
-        },
-
-        showSelects: function(id) {
-            if (MZZ.browser.msie) {
-                if ($.isUndefined(id)) {
-                    id = false;
-                }
-
-                var selects = [];
-
-                if (id === false ) {
-                    selects = this.selects.bodyWindow;
-                    this.selects.bodyWindow = [];
-                } else if(id == 'jips') {
-                    selects = this.selects.jipWindow;
-                    this.selects.jipWindow = [];
-                } else if(!$.isUndefined(this.selects.jip[id])) {
-                    selects = this.selects.jip[id];
-                    delete this.selects.jip[id];
-                }
-
-                for (var i = 0, l = selects.length; i < l; i++) {
-                    selects[i].removeClass('mzz-ie-visibility');
-                }
-            }
-        },
-
-        addTinyMCEId: function(id) {
-            this.tinyMCEIds[this.currentWindow].push(id);
-        },
-
-        deleteTinyMCEId: function(id) {
-            var tinyMCEIds = [];
-            for (var i = 0, l = this.tinyMCEIds[this.currentWindow].length; i < l; i++) {
-                if (!(id == this.tinyMCEIds[this.currentWindow][i])) {
-                    tinyMCEIds.push(this.tinyMCEIds[this.currentWindow][i]);
-                }
-            }
-            this.tinyMCEIds[this.currentWindow] = tinyMCEIds;
-        },
-
-        successRequest: function(transport) {
-
-            if (this.window){
-                if ($.isUndefined(transport.responseXML) && $.isUndefined(transport.responseText)) {
-                    console.log('MZZ.jipWindow::successRequest() undefined responseXML && responseText, transport = ', transport);
-                    return false;
-                }
-
-                var ctype = transport.getResponseHeader("content-type");
-                var tmp = '';
-                if (!$.isUndefined(transport.responseXML) && ctype.indexOf("xml") >= 0) {
-                    responseXML = transport.responseXML.documentElement;
-                    var item = responseXML.getElementsByTagName('html')[0];
-                    if (!$.isUndefined(item)) {
-                        for (var i = 0, l = item.childNodes.length; i < l; i++) {
-                            if (item.childNodes[i].data != '') {
-                                tmp += item.childNodes[i].data;
-                            }
-                        }
-                    }
-                } else {
-                    tmp = transport.responseText;
-                }
-                if (tmp == '') {
-                    console.log('MZZ.jipWindow::successRequest() "tmp" is empty, server ignored us? transport = ', transport);
-                }
-
-                this.window.content().html(tmp);
-                var title = this.window.content().find('div.jipTitle:first');
-
-                if (title.length > 0) {
-                    this.window.title(title.html());
-                    title.remove();
-                }
-
-                this.window.show();
+        top: function(top) {
+            if ($.isNumber(top)) {
+                this.dom.css('top', top);
             } else {
-                console.log('MZZ.jipWindow::successRequest() window closed before data recived');
-                return false;
+                return this.dom.position().top;
             }
         },
 
-        setErrorMsg: function (transport, status)
-        {
-            if (this.window) {
-                this.setStyle('error').setTitle('error');
-                var reason = 'Причина: ' + ((transport.status == 404) ? '404 Not found' : '') + ((transport.status == 403) ? '403 Forbidden' : '') + ((transport.status == 500) ? '500 серверу плохо' : '') + '';
-                this.window.content('<p align="center">' + MZZ.jipI18n[JIP_LANG].error + ' ' + reason + '</p>');
-            }
-        },
-
-        clean: function()
-        {
-            if (this.window) {
-                this.setStyle('default').setTitle('loading...');
-                this.window.content('<div id="jipLoad"><img src="' + SITE_PATH + '/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[JIP_LANG].loading + '<br /><a href="javascript: void(jipWindow.close());">' + MZZ.jipI18n[JIP_LANG].cancel + '</a></div>');
-            }
-        },
-
-        setRefreshMsg: function()
-        {
-            if (this.window) {
-                this.setStyle('default').setTitle('Refresh');
-                this.window.content('<div id="jipLoad"><img src="' + SITE_PATH + '/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[JIP_LANG].refresh + '</div>');
-            }
-        },
-
-        refreshAfterClose: function(url)
-        {
-            url = url || true;
-            if (url === true) {
-                this.redirectAfterClose = true;
+        left: function(left) {
+            if ($.isNumber(left)) {
+                this.dom.css('left', left);
             } else {
-                this.redirectAfterClose = url;
+                return this.dom.position().left;
             }
         },
 
-        setStyle: function(style)
-        {
-            if (this.window) {
-                this.window.style(style);
+        show: function() {
+            if (this.hidden !== false && this.fire('beforeshow', this) !== false) {
+                this.hidden = false;
+                this.dom.show('fast');
+                this.fire('onshow');
             }
-
+            this.fire('show');
             return this;
         },
 
-        setTitle: function(title)
-        {
-            if (this.window) {
-                this.window.title(title);
+        hide: function() {
+            if (this.hidden !== true && this.fire('beforehide') !== false) {
+                this.hidden = true;
+                this.dom.hide('fast');
+                this.fire('onhide');
             }
-
+            this.fire('hide');
             return this;
         },
 
-        setStatus: function(status)
-        {
-            if (this.window) {
-                this.window.status(status);
+        toggle: function() {
+            if (this.hidden === true) {
+                this.show();
+            } else {
+                this.hide();
             }
-
             return this;
         },
 
-        eventKey: function(e)
-        {
-            if (e.keyCode == 27) {
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                jipWindow.close();
+        _prepareDom: function() {
+            if (!this.dom) {
+                var t = this;
+                this.dom = $('<div id="' + this.parent.id + '_window_' + this.parent.currentWindow + '" class="mzz-jip-window" />');
+                var tl = $('<div class="mzz-jip-window-tl" />').appendTo(this.dom);
+                var tr = $('<div class="mzz-jip-window-tr" />').appendTo(tl);
+                var tc = $('<div class="mzz-jip-window-tc" />').appendTo(tr);
+
+                this._header = $('<div class="mzz-jip-window-header" />').appendTo(tc);
+                $('<div class="mzz-jip-window-button mzz-jip-window-button-close" />').bind('click', function(e){t.fire('close');}).appendTo(this._header);
+                this._title = $('<span class="mzz-jip-window-title" />').appendTo(this._header);
+
+                this._bwrap = $('<div class="mzz-jip-window-bwrap" />').appendTo(this.dom);
+                var ml = $('<div class="mzz-jip-window-ml" />').appendTo(this._bwrap);
+                var mr = $('<div class="mzz-jip-window-mr" />').appendTo(ml);
+                var mc = $('<div class="mzz-jip-window-mc" />').appendTo(mr);
+
+                this._body = $('<div class="mzz-jip-window-body" />').appendTo(mc);
+                var bl = $('<div class="mzz-jip-window-bl" />').appendTo(this._bwrap);
+                var br = $('<div class="mzz-jip-window-br" />').appendTo(bl);
+                var bc = $('<div class="mzz-jip-window-bc" />').appendTo(br);
+                var fwrap = $('<div class="mzz-jip-window-fwrap" />').appendTo(bc);
+
+                this._footer = $('<div class="mzz-jip-window-footer" />').appendTo(fwrap);
+
+                this.dom.hide('fast');
+                this.dom.appendTo($('body'));
+                if ($.isFunction($.fn.draggable)) {
+                    this.dom.draggable({'handle': this._header, 'delay': 250, 'containment': 'document', 'opacity': null});
+                }
+
+                if ($.isFunction($.fn.resizable)) {
+                    this.dom.resizable({'alsoResize': this._body, 'handles': 'se', 'minHeight': 150, 'minWidth': 650});
+
+                }
             }
-        },
-
-        getId: function()
-        {
-            return 'jip_window_' + this.currentWindow;
-        },
-
-        bind: function(event, cb) {
-            this.em.bind(event, cb);
         }
 
     });
-
-    /**
-     * Serving jip-links for openning jipWindows
-     */
-    MZZ.jipLinkObserver = function(e) {
-        if (e.button === 0 && (!e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey)) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            var link = $(this);
-            if ($.isUndefined(link.attr('href'))) {
-                console.log('MZZ.jipLinkObserver() Halt, no href defined on ', this);
-                return false;
-            }
-
-            jipWindow.open(link.attr('href'), link.hasClass('mzz-jip-link-new'));
-            return false;
-        }
-    };
-
-    /**
-     * Binds to jip-links
-     */
-    $('a.mzz-jip-link').live('click', MZZ.jipLinkObserver);
-    $('a.jipLink').live('click', MZZ.jipLinkObserver); //old links
-
-    MZZ.jipI18n = {
-        en: {
-            loading: 'The page is loading...',
-            refresh: 'The window is refreshing...',
-            cancel: 'cancel',
-            close: 'Close',
-            move: 'Move',
-            error: 'Unable to complete request. Please try again.',
-            noWindow: 'No window to open the page.'
-
-        },
-        ru: {
-            loading: 'Страница открывается...',
-            refresh: 'Перезагрузка окна...',
-            cancel: 'отменить',
-            close: 'Закрыть',
-            move: 'Переместить',
-            error: 'Невозможно выполнить запрос. Попробуйте еще раз.',
-            noWindow: 'Нет ни одно окна для открытия страницы.'
-        }
-    };
-
-    var JIP_LANG = (!$.isUndefined(SITE_LANG) && !$.isUndefined(MZZ.jipI18n[SITE_LANG])) ? SITE_LANG : 'en';
 })(jQuery);
-
-var jipWindow = new MZZ.jipWindow;
-var tinyMCE = false;

@@ -1,0 +1,152 @@
+/* 
+    Document   : jipCore.css
+    Created on : Dec 21, 2009, 5:14:16 PM
+    Author     : d3z
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+        .mzz-jip-window {
+            min-width: 200px;
+            font-family: Helvetica,  Lucida, arial, tahoma, verdana, sans-serif !important;
+            font-weight: normal !important;
+            font-size: 16px !important;
+            color: #000 !important;
+            position: absolute;
+            z-index: 902;
+            width: 80%;
+            left: 10%;
+            top: 100px;
+            /* for the true css3 family %) тень окна
+            -webkit-border-radius: 6px 6px;
+            -webkit-box-shadow: 0px 0px 20px #000;
+            -moz-border-radius: 6px 6px;
+            -moz-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5); */
+        }
+        
+        .mzz-jip-window .mzz-jip-window-tl, .mzz-jip-window .mzz-jip-window-tc, .mzz-jip-window .mzz-jip-window-tr,
+        .mzz-jip-window .mzz-jip-window-ml, .mzz-jip-window .mzz-jip-window-mc, .mzz-jip-window .mzz-jip-window-mr,
+        .mzz-jip-window .mzz-jip-window-bl, .mzz-jip-window .mzz-jip-window-bc, .mzz-jip-window .mzz-jip-window-br
+        {
+            margin: 0;
+            padding: 0;
+        }
+
+        .mzz-jip-window .mzz-jip-window-tl, .mzz-jip-window .mzz-jip-window-ml, .mzz-jip-window .mzz-jip-window-bl {
+            padding-left: 7px;
+        }
+
+        .mzz-jip-window .mzz-jip-window-tl, .mzz-jip-window .mzz-jip-window-bl {
+            background: transparent url('../../images/jip/blue/corners.png') no-repeat scroll top left;
+        }
+
+        .mzz-jip-window .mzz-jip-window-tl {
+            position: relative;
+        }
+
+        .mzz-jip-window .mzz-jip-window-tc, .mzz-jip-window .mzz-jip-window-bc {
+            background: transparent url('../../images/jip/blue/center.png') repeat-x scroll top center;
+        }
+
+        .mzz-jip-window .mzz-jip-window-tc {
+
+        }
+
+        .mzz-jip-window .mzz-jip-window-bc {
+            background-position: bottom center;
+        }
+
+        .mzz-jip-window .mzz-jip-window-bl {
+            background-position: bottom left;
+        }
+
+        .mzz-jip-window .mzz-jip-window-tr, .mzz-jip-window .mzz-jip-window-mr, .mzz-jip-window .mzz-jip-window-br {
+            padding-right: 7px;
+        }
+
+        .mzz-jip-window .mzz-jip-window-tr, .mzz-jip-window .mzz-jip-window-br {
+            background: transparent url('../../images/jip/blue/corners.png') no-repeat scroll top right;
+        }
+
+        .mzz-jip-window .mzz-jip-window-tr {}
+
+        .mzz-jip-window .mzz-jip-window-br {
+            background-position: bottom right;
+        }
+
+        .mzz-jip-window .mzz-jip-window-ml, .mzz-jip-window .mzz-jip-window-mr {
+            background: transparent url('../../images/jip/blue/middle.png') repeat-y scroll center left;
+        }
+
+        .mzz-jip-window .mzz-jip-window-mc {
+            background-color: #DFE8F6;
+            border: 1px solid #728EAD;
+        }
+
+        .mzz-jip-window .mzz-jip-window-mr {
+            background-position: center right;
+        }
+
+        .mzz-jip-window-body {
+            overflow: auto;
+            margin: 0px 5px;
+        }
+
+        .mzz-jip-window-header {
+            line-height:17px;
+            text-align: center;
+        }
+
+        .mzz-jip-window-header, span.mzz-jip-window-title {
+            padding: 5px 0 4px 0;
+            color: #15428B;
+            font-family: tahoma,arial,verdana,sans-serif;
+            font-size:12px;
+            font-size-adjust:none;
+            font-stretch:normal;
+            font-style:normal;
+            font-variant:normal;
+            font-weight:bold;
+        }
+
+        .mzz-jip-window-fwrap {
+            padding: 0 0 7px 0;
+        }
+
+        .mzz-jip-window-footer {
+            border: 1px solid #728EAD;
+            color: #15428B;
+            border-top: 0px;
+            background: url('../../images/jip/blue/footer.png') repeat-x scroll center center;
+            line-height: 17px;
+            font-size: 11px;
+            padding: 2px 2px;
+
+        }
+
+        .mzz-jip-window-button {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+            float: right;
+            margin-left: 4px;
+            overflow: hidden;
+            background: url('../../images/jip/blue/buttons.png') no-repeat 100px 100px;
+        }
+
+        .mzz-jip-window-button-close {
+            background-position: 0px 0px;
+        }
+
+        .mzz-jip-window-button-close:hover {
+            background-position: -15px 0px;
+        }
+
+        .mzz-jip-window .ui-resizable-se {
+            position: absolute;
+            bottom: 1px;
+            right: 1px;
+            width: 19px;
+            height: 19px;
+            background: url('../../images/jip/blue/resize.png') no-repeat top left;
+        }

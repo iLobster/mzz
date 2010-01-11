@@ -141,7 +141,7 @@ img.mzz-window-button {
 .mzz-jip-window span,
 .mzz-jip-window table,
 .mzz-jip-window div {
-    /*font-size: 12px;*/
+    font-size: 12px;
     font-weight: normal;
     color: #000;
     text-transform: none;

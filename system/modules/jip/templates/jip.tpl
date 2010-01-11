@@ -10,12 +10,13 @@
 {add file="jquery.ex.js"}
 
 {add file="jip.css"}
+{add file="jip/jipCore.css"}
 {add file="icons.css"}
 {add file="bullets.css"}
 {add file="flags.css"}
 
 {add file="fileLoader.js"}
-{add file="window.js"}
+{add file="jip/jipCore.js"}
 {add file="jip/jipMenu.js"}
 {add file="jip/jipWindow.js"}
 {/strip}
