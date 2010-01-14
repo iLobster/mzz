@@ -14,7 +14,7 @@ fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
                 script_url: SITE_PATH + '/js/tiny_mce/tiny_mce_jquery.js',
                 theme : "advanced",
                 skin : 'o2k7',
-                skin_variant : "silver",
+                skin_variant : "",
                 mode : "none",
                 plugins : "inlinepopups,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras",
                 language : "ru",
