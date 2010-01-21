@@ -83,6 +83,9 @@ class entity implements serializable
 
         $map = $this->mapper->map();
         if (!empty($map[$field]['relation'])) {
+            if ($map[$field]['relation'] == 'one' && (!isset($map[$field]['join_type']) || ($map[$field]['join_type'] == 'left')) && is_null($this->data[$field])) {
+                return false;
+            }
             return true;
         }
     }
