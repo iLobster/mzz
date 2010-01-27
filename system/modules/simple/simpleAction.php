@@ -303,6 +303,11 @@ class simpleAction
             }
         }
 
+        return $this->hasRole();
+    }
+
+    public function hasRole()
+    {
         $roleMapper = $toolkit->getModule('user')->getMapper('userRole');
         return $roleMapper->hasRole($this->moduleName, $this->getRoles());
     }
