@@ -285,7 +285,7 @@ class simpleAction
         if ($toolkit->getUser()->isRoot()) {
             return true;
         }
-
+        
         if ($this->object) {
             $can = $this->object->getAcl($this->name);
 
@@ -308,6 +308,7 @@ class simpleAction
 
     public function hasRole()
     {
+        $toolkit = systemToolkit::getInstance();
         $roleMapper = $toolkit->getModule('user')->getMapper('userRole');
         return $roleMapper->hasRole($this->moduleName, $this->getRoles());
     }
