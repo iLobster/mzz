@@ -103,6 +103,10 @@ class simpleAction
         return $this->name;
     }
 
+    public function  __toString()
+    {
+        return $this->getName();
+    }
     /**
      * Return the module name
      *
@@ -287,7 +291,7 @@ class simpleAction
         }
         
         if ($this->object) {
-            $can = $this->object->getAcl($this->name);
+            $can = $this->object->getAcl($this);
 
             if (is_bool($can)) {
                 return $can;
@@ -296,7 +300,7 @@ class simpleAction
 
         $module = $toolkit->getModule($this->moduleName);
         if ($module instanceof iACL) {
-            $can = $module->getAcl($this->name);
+            $can = $module->getAcl($this);
 
             if (is_bool($can)) {
                 return $can;

@@ -274,5 +274,25 @@ abstract class simpleModule
     public function getRoutes()
     {
     }
+
+    /**
+     * Whether module is system
+     *
+     * @return boolean
+     */
+    public function isSystem()
+    {
+        return false;
+    }
+
+    /**
+     * Finds whether module is enabled
+     * 
+     * @return boolean
+     */
+    public function isEnabled()
+    {
+        return ($this->isSystem() || in_array($this->getName(), systemConfig::$enabledModules)) ? true : false;
+    }
 }
 ?>

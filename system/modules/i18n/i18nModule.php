@@ -21,5 +21,9 @@
  */
 class i18nModule extends simpleModule
 {
+    public function isSystem()
+    {
+        return true;
+    }
 }
 ?>

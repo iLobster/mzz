@@ -66,30 +66,30 @@ class systemConfig
      * @var string
      */
     public static $appVersion;
-
+    public static $enabledModules;
     /**
-     * Путь до приложения
+     * Path to the app
      *
      * @var string
      */
     public static $pathToApplication;
 
     /**
-     * Путь до www-папки
+     * Path to the web-root
      *
      * @var string
      */
     public static $pathToWebRoot;
 
     /**
-     * Путь до ядра
+     * Path to the system files
      *
      * @var string
      */
     public static $pathToSystem;
 
     /**
-     * Путь до временной папки
+     * Path to the temp
      *
      * @var string
      */
@@ -103,28 +103,28 @@ class systemConfig
     public static $pathToConf;
 
     /**
-     * Путь до каталога с тестами
+     * Path to the tests
      *
      * @var string
      */
     public static $pathToTests;
 
     /**
-     * Дефолтный язык приложения
+     * Default site language
      *
      * @var string
      */
     public static $i18n = 'en';
 
     /**
-     * Мультиязычное приложение или нет
+     * Enable multilingual app
      *
      * @var boolean
      */
     public static $i18nEnable = false;
 
     /**
-     * id скина по умолчанию
+     * id of default skin
      *
      * @var integer
      */
@@ -138,7 +138,7 @@ class systemConfig
     public static $uri404 = 'page/404';
 
     /**
-     * Имя драйвера хранилища сессий
+     * Name of session storage driver
      *
      * @var string
      */
@@ -152,7 +152,7 @@ class systemConfig
     public static $application = array();
 
     /**
-     * При вызове определяет и устанавливает путь до ядра
+     * Detects and sets path to the core
      *
      */
     public static function init()

@@ -28,6 +28,11 @@ class adminModule extends simpleModule
     protected $roles = array(
         'moderator',
         'user');
+
+    public function isSystem()
+    {
+        return true;
+    }
 }
 
 ?>

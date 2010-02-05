@@ -21,5 +21,9 @@
  */
 class timerModule extends simpleModule
 {
+    public function isSystem()
+    {
+        return true;
+    }
 }
 ?>

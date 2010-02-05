@@ -29,13 +29,15 @@ class adminMenuController extends simpleController
         $menu = array();
 
         foreach ($adminMapper->getModules() as $moduleName => $module) {
-            foreach ($module->getActions() as $action) {
-                if ($action->isAdmin() && $action->canRun()) {
-                    if (!isset($menu[$action->getModuleName()])) {
-                        $menu[$action->getModuleName()]['info'] = $module;
-                    }
+            if ($module->isEnabled()) {
+                foreach ($module->getActions() as $action) {
+                    if ($action && $action->isAdmin() && $action->canRun()) {
+                        if (!isset($menu[$action->getModuleName()])) {
+                            $menu[$action->getModuleName()]['info'] = $module;
+                        }
 
-                    $menu[$action->getModuleName()]['actions'][$action->getName()] = $action;
+                        $menu[$action->getModuleName()]['actions'][$action->getName()] = $action;
+                    }
                 }
             }
         }

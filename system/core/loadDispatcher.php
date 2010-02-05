@@ -47,47 +47,52 @@ class loadDispatcher
         $toolkit = systemToolkit::getInstance();
 
         $module = $toolkit->getModule($moduleName);
-        $action = $module->getAction($actionName);
+        if ($module->isEnabled()) {
+            $action = $module->getAction($actionName);
+            // prepare request
+            $request = $toolkit->getRequest();
+            $request->save();
+            $request->setModule($moduleName);
+            $request->setAction($actionName);
 
-        // prepare request
-        $request = $toolkit->getRequest();
-        $request->save();
-        $request->setModule($moduleName);
-        $request->setAction($actionName);
-
-        foreach ($params as $name => $value) {
-            $request->setParam($name, $value);
-        }
-        if (empty(self::$request)) {
-            self::$request = $request;
-        }
-
-        try {
-            $mapper = $module->getMapper($action->getClassName());
-        } catch (mzzIoException $ex) {
-            $mapper = null;
-        }
-
-        if ($mapper) {
-            if ($mapper instanceof iACLMapper) {
-                $object = $mapper->convertArgsToObj(self::$request->getParams());
-                $action->setObject($object);
+            foreach ($params as $name => $value) {
+                $request->setParam($name, $value);
             }
-        }
+            if (empty(self::$request)) {
+                self::$request = $request;
+            }
 
-        // run action if we have access
-        if ($action->canRun()) {
-            $view = $action->run();
+            try {
+                $mapper = $module->getMapper($action->getClassName());
+            } catch (mzzIoException $ex) {
+                $mapper = null;
+            }
+
+            if ($mapper) {
+                if ($mapper instanceof iACLMapper) {
+                    $object = $mapper->convertArgsToObj(self::$request->getParams());
+                    $action->setObject($object);
+                }
+            }
+
+            // run action if we have access
+            if ($action->canRun()) {
+                $view = $action->run();
+            } else {
+                fileLoader::load('simple/simple403Controller');
+                $controller = new simple403Controller($action);
+                $view = $controller->run();
+            }
+
+            $request->restore();
+
+            // отдаём контент
+            return $view;
         } else {
-            fileLoader::load('simple/simple403Controller');
-            $controller = new simple403Controller($action);
-            $view = $controller->run();
+            fileLoader::load('simple/simple404Controller');
+            $controller = new simple404Controller();
+            return $controller->run();
         }
-
-        $request->restore();
-
-        // отдаём контент
-        return $view;
     }
 }
 
