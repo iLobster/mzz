@@ -1,15 +1,11 @@
 /**
- * Порт jipMenu на jQuery
- * 
- * Возможна работа в режиме noConflict с другими фреймворками
+ * jipMenu
  *
- * проверено в 7 / 8, firefox 3.0.10 / 3.5 beta4, opera 9.64 / 10 alpha, safari 3.2 / 4 beta
- *
- * @bug: не работает ESC в chrome (или это гомно chrome?)
+ *  @version: 1.1
  */
 
 (function ($){
-    
+
     MZZ.jipMenu = DUI.Class.create({
         init: function() {
             this.cMenu = false;
@@ -125,17 +121,35 @@
         },
 
         draw: function(button, id, items, langs) {
+/*
+
+'<div id="' + id + '" class="mzz-jip-menu">
+  <div class="mzz-jip-topLeft"></div><div class="mzz-jip-top" <div class="mzz-jip-topRight"></div>
+  <div class="mzz-jip-left"></div><div class="mzz-jip-right"></div>
+  <div class="mzz-jip-bottomLeft"></div><div class="mzz-jip-bottom"></div><div class="mzz-jip-bottomRight"></div>
+</div>'
+
+  <ul>
+    <li><a href="">title</a></li>
+  </ul>
+ */
             if (!$('#' + id).length) {
-                var jipMenuDiv = $('<div />').attr({'id': id}).css({
+               /* var jipMenuDiv = $('<div />').attr({'id': id}).css({
                     'display': 'none'
                 }).appendTo($('body')).addClass('mzz-jip-menu').hover(function() {
                     jipMenu.mouseIn();
                 },
                 function() {
                     jipMenu.mouseOut();
-                });
+                });*/
 
-                var jipMenuUl = $('<ul />').appendTo(jipMenuDiv).addClass('mzz-jip-menu');
+                var jipMenuDiv = $('<div id="' + id + '" class="mzz-jip-menu">' +
+                                   '<div class="mzz-jip-topLeft"></div><div class="mzz-jip-top"></div><div class="mzz-jip-topRight"></div>' +
+                                   '<div class="mzz-jip-left"></div><div class="mzz-jip-right"></div>' +
+                                   '<div class="mzz-jip-bottomLeft"></div><div class="mzz-jip-bottom"></div><div class="mzz-jip-bottomRight"></div></div>')
+                               .appendTo($('body')).hover(function() {jipMenu.mouseIn();},function() {jipMenu.mouseOut();});
+
+                var jipMenuUl = $('<ul />').appendTo(jipMenuDiv);
 
                 for (var i = 0, l = items.length; i < l; i++) {
                     var elm = items[i];
@@ -183,7 +197,7 @@
                     'display': 'block'
                 });
             }
-                
+
             this.cMenu = jipMenuDiv;
             this.cButton = $(button);
             this.prepareDiv(jipMenuDiv);
@@ -200,7 +214,7 @@
                 }, function() {
                     jipMenu.mouseOutLang();
                 });
-                
+
                 var jipMenuUl = $('<ul />').appendTo(jipMenuDiv).addClass('mzz-jip-menu mzz-jip-menu-lang');
                 for (var i in langs) {
                     var elm = langs[i];
@@ -312,7 +326,7 @@
             return false;
         }
     });
-    
+
 })(jQuery);
 
 var jipMenu = new MZZ.jipMenu;

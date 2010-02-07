@@ -1,0 +1,97 @@
+div.mzz-jip-menu {
+    background: transparent url('../../images/jip/bg.png') repeat top left scroll;
+    display: none;
+    left: 658px;
+    margin-left: 1px;
+    margin-top: -20px;
+    position: absolute;
+    top: 163px;
+    width: auto;
+    z-index: 9999;
+}
+
+div.mzz-jip-menu .mzz-jip-topLeft,    div.mzz-jip-menu .mzz-jip-topRight,
+div.mzz-jip-menu .mzz-jip-bottomLeft, div.mzz-jip-menu .mzz-jip-bottomRight {
+    background: transparent url('../../images/jip/shadows-corners.png') no-repeat top left scroll;
+    position: absolute;
+    width: 30px;
+}
+
+div.mzz-jip-menu .mzz-jip-topLeft, div.mzz-jip-menu .mzz-jip-topRight {
+    height: 27px;
+    top: -16px;
+}
+
+div.mzz-jip-menu .mzz-jip-topLeft {
+    background-position: -10px 1px;
+    left: -20px;
+}
+
+div.mzz-jip-menu .mzz-jip-topRight {
+    background-position: 0px -49px;
+    right: -20px;
+}
+
+div.mzz-jip-menu .mzz-jip-bottomLeft, div.mzz-jip-menu .mzz-jip-bottomRight {
+    height: 35px;
+    bottom: -28px;
+}
+
+div.mzz-jip-menu .mzz-jip-bottomLeft {
+    background-position: -10px -21px;
+    left: -20px;
+}
+
+div.mzz-jip-menu .mzz-jip-bottomRight {
+    background-position: 0px -71px;
+    right: -20px;
+}
+
+div.mzz-jip-menu .mzz-jip-top, div.mzz-jip-menu .mzz-jip-bottom {
+    background: transparent url('../../images/jip/shadows-x.png') repeat-x top left scroll;
+    left: 10px;
+    position: absolute;
+    right: 10px;
+}
+
+div.mzz-jip-menu .mzz-jip-top {
+    height: 20px;
+    top: -20px;
+}
+
+div.mzz-jip-menu .mzz-jip-bottom {
+    background-position: 0px -26px;
+    height: 25px;
+    bottom: -21px;
+}
+
+div.mzz-jip-menu .mzz-jip-left, div.mzz-jip-menu .mzz-jip-right {
+    background: transparent url('../../images/jip/shadows-y.png') repeat-y top left scroll;
+    bottom:7px;
+    position:absolute;
+    top:11px;
+    width:20px;
+}
+
+div.mzz-jip-menu .mzz-jip-left {
+    left: -20px;
+}
+
+div.mzz-jip-menu .mzz-jip-right {
+    background-position: -30px 0px;
+    right: -20px;
+}
+
+div.mzz-jip-menu ul, div.mzz-jip-menu li {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+div.mzz-jip-menu li {
+    padding: 0px 20px;
+}
+
+div.mzz-jip-menu a {
+    text-decoration: none;
+}
