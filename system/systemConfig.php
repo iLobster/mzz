@@ -66,7 +66,7 @@ class systemConfig
      * @var string
      */
     public static $appVersion;
-    public static $enabledModules;
+    public static $enabledModules = array();
     /**
      * Path to the app
      *
