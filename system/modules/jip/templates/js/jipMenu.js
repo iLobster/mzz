@@ -106,10 +106,10 @@
                 if ((size_p.width + pos_p.left + size_l.width) > (size_d.width + pos_d.left)) {
                     var x = pos_p.left - 8 - size_l.width;
                 } else {
-                    var x = pos_p.left + size_p.width + 4;
+                    var x = pos_p.left + size_p.width + 43;
                 }
 
-                var y = pos_p.top - 3;
+                var y = pos_p.top - 7 + 27;
 
                 lang.css({
                     'position': 'absolute',
@@ -207,13 +207,19 @@
 
         drawLang: function(id, lnk, langs) {
             if (!$('#' + id).length) {
-                var jipMenuDiv = $('<div />').attr({'id': id}).css({
-                    'display': 'none'
-                }).appendTo($('body')).addClass('mzz-jip-menu').hover(function() {
-                    jipMenu.mouseInLang();
-                }, function() {
-                    jipMenu.mouseOutLang();
-                });
+                //var jipMenuDiv = $('<div />').attr({'id': id}).css({
+                //    'display': 'none'
+                //}).appendTo($('body')).addClass('mzz-jip-menu').hover(function() {
+                //    jipMenu.mouseInLang();
+                //}, function() {
+                //    jipMenu.mouseOutLang();
+                //});
+
+                var jipMenuDiv = $('<div id="' + id + '" class="mzz-jip-menu">' +
+                                   '<div class="mzz-jip-topLeft"></div><div class="mzz-jip-top"></div><div class="mzz-jip-topRight"></div>' +
+                                   '<div class="mzz-jip-left"></div><div class="mzz-jip-right"></div>' +
+                                   '<div class="mzz-jip-bottomLeft"></div><div class="mzz-jip-bottom"></div><div class="mzz-jip-bottomRight"></div></div>')
+                               .appendTo($('body')).hover(function() {jipMenu.mouseInLang();},function() {jipMenu.mouseOutLang();});
 
                 var jipMenuUl = $('<ul />').appendTo(jipMenuDiv).addClass('mzz-jip-menu mzz-jip-menu-lang');
                 for (var i in langs) {
@@ -288,14 +294,14 @@
                 };
 
             var x = pos_b.left;
-            var y = pos_b.top + size_b.height;
+            var y = pos_b.top + size_b.height + 27;
 
             if ((x + size_m.width) > (size_d.width + pos_d.left)) {
                 x = pos_b.left + size_b.width - size_m.width;
             }
 
             if ((y + size_m.height) > (size_d.height + pos_d.top)) {
-                y = pos_b.top - size_m.height;
+                y = pos_b.top - size_m.height + 15;
             }
 
             x = (x < 0) ? 0 : x;

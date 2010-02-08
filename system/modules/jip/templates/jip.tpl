@@ -9,7 +9,7 @@
 {add file="dui.js"}
 {add file="jquery.ex.js"}
 
-{*add file="jip.css"*}
+{add file="jip.css"}
 {add file="jip/jipCore.css"}
 {add file="jip/jipMenu.css"}
 {add file="icons.css"}
