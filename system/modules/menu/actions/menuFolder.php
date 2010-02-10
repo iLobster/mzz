@@ -11,7 +11,7 @@ return array(
         'controller' => 'savemenu',
         'jip' => '1',
         'role' => array('moderator'),
-        'icon' => 'sprite:mzz-icon/folder/add',
+        'icon' => 'sprite:sys/folder-add',
         'title' => 'Добавить меню',
         'route_name' => 'default2',
     ),

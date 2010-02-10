@@ -1,0 +1,181 @@
+/* 
+    Document   : system
+    Created on : Feb 9, 2010, 4:00:54 PM
+    Author     : d3z
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+img.mzz-icon {
+    width: 16px;
+    height: 16px;
+    border: none;
+}
+
+.mzz-icon-sys
+{
+    background-image: url(../images/icons.sysInactive.png);
+}
+
+.disabled span.mzz-icon-sys, span.mzz-icon-sys.disabled
+{
+    background-image: url(../images/icons.sysInactive.png) !important;
+}
+
+.mzz-jip-menu li:hover .mzz-icon-sys, a:hover .mzz-icon-sys
+{
+    background-image: url(../images/icons.sysActive.png);
+}
+
+.active .mzz-icon-sys, .mzz-icon-sys.active {
+    background-image: url(../images/icons.sysActive.png) !important;
+}
+
+.mzz-icon-sys-blank {
+    background-position: 0 0;
+}
+
+.mzz-icon-sys-blank-add {
+    background-position: 0 -16px;
+}
+
+.mzz-icon-sys-blank-del {
+    background-position: 0 -32px;
+}
+
+.mzz-icon-sys-blank-edit {
+    background-position: 0 -48px;
+}
+
+.mzz-icon-sys-blank-key {
+    background-position: 0 -64px;
+}
+
+.mzz-icon-sys-blank-move {
+    background-position: 0 -80px;
+}
+
+.mzz-icon-sys-page {
+    background-position: 0 -96px;
+}
+
+.mzz-icon-sys-page-add {
+    background-position: 0 -112px;
+}
+
+.mzz-icon-sys-page-del {
+    background-position: 0 -128px;
+}
+
+.mzz-icon-sys-page-edit {
+    background-position: 0 -144px;
+}
+
+.mzz-icon-sys-page-key {
+    background-position: 0 -160px;
+}
+
+.mzz-icon-sys-page-move {
+    background-position: 0 -176px;
+}
+
+.mzz-icon-sys-news {
+    background-position: 0 -192px;
+}
+
+.mzz-icon-sys-news-add {
+    background-position: 0 -208px;
+}
+
+.mzz-icon-sys-news-del {
+    background-position: 0 -224px;
+}
+
+.mzz-icon-sys-news-edit {
+    background-position: 0 -240px;
+}
+
+.mzz-icon-sys-news-key {
+    background-position: 0 -256px;
+}
+
+.mzz-icon-sys-news-move {
+    background-position: 0 -272px;
+}
+
+.mzz-icon-sys-folder {
+    background-position: 0 -288px;
+}
+
+.mzz-icon-sys-folder-add {
+    background-position: 0 -304px;
+}
+
+.mzz-icon-sys-folder-del {
+    background-position: 0 -320px;
+}
+
+.mzz-icon-sys-folder-edit {
+    background-position: 0 -336px;
+}
+
+.mzz-icon-sys-folder-key {
+    background-position: 0 -352px;
+}
+
+.mzz-icon-sys-folder-move {
+    background-position: 0 -368px;
+}
+
+.mzz-icon-sys-user {
+    background-position: 0 -384px;
+}
+
+.mzz-icon-sys-user-add {
+    background-position: 0 -400px;
+}
+
+.mzz-icon-sys-user-del {
+    background-position: 0 -416px;
+}
+
+.mzz-icon-sys-user-edit {
+    background-position: 0 -432px;
+}
+
+.mzz-icon-sys-user-key {
+    background-position: 0 -448px;
+}
+
+.mzz-icon-sys-user-move {
+    background-position: 0 -464px;
+}
+
+.mzz-icon-sys-group {
+    background-position: 0 -480px;
+}
+
+.mzz-icon-sys-group-add {
+    background-position: 0 -496px;
+}
+
+.mzz-icon-sys-group-del {
+    background-position: 0 -512px;
+}
+
+.mzz-icon-sys-group-edit {
+    background-position: 0 -528px;
+}
+
+.mzz-icon-sys-group-key {
+    background-position: 0 -544px;
+}
+
+.mzz-icon-sys-group-move {
+    background-position: 0 -560px;
+}

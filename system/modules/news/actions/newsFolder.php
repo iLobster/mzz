@@ -8,7 +8,7 @@ return array(
         'jip' => true,
         'role' => array(
             'moderator'),
-        'icon' => 'sprite:mzz-icon/page/add',
+        'icon' => 'sprite:sys/news-add',
         'lang' => true,
         'main' => 'active.blank.tpl',
         'route_name' => 'withAnyParam',
@@ -18,7 +18,7 @@ return array(
         'jip' => true,
         'role' => array(
             'moderator'),
-        'icon' => 'sprite:mzz-icon/folder/add',
+        'icon' => 'sprite:sys/folder-add',
         'lang' => true,
         'route_name' => 'withAnyParam',
         'route.name' => '->getTreePath'),
@@ -27,7 +27,7 @@ return array(
         'jip' => true,
         'role' => array(
             'moderator'),
-        'icon' => 'sprite:mzz-icon/folder/add',
+        'icon' => 'sprite:sys/folder-edit',
         'lang' => true,
         'route_name' => 'withAnyParam',
         'route.name' => '->getTreePath'),
@@ -36,7 +36,7 @@ return array(
         'jip' => true,
         'role' => array(
             'moderator'),
-        'icon' => 'sprite:mzz-icon/folder/move',
+        'icon' => 'sprite:sys/folder-move',
         'route_name' => 'withAnyParam',
         'route.name' => '->getTreePath'),
     'deleteFolder' => array(
@@ -44,7 +44,7 @@ return array(
         'jip' => true,
         'role' => array(
             'moderator'),
-        'icon' => 'sprite:mzz-icon/folder/del',
+        'icon' => 'sprite:sys/folder-del',
         'confirm' => '_ news/confirm_delete_folder',
         'main' => 'active.blank.tpl',
         'route_name' => 'withAnyParam',

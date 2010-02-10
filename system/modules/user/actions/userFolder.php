@@ -6,7 +6,7 @@ return array(
         'controller' => 'save',
         'jip' => '1',
         'role' => array('moderator'),
-        'icon' => 'sprite:mzz-icon/user/add',
+        'icon' => 'sprite:sys/user-add',
         'title' => 'Добавить пользователя',
         'main' => 'active.blank.tpl',
         'route_name' => 'default2'

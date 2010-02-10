@@ -5,7 +5,7 @@ return array(
     'edit' => array(
         'controller' => 'edit',
         'jip' => '1',
-        'icon' => 'sprite:mzz-icon/comment/edit',
+        'icon' => 'sprite:sys/comment-edit',
         'title' => 'Редактировать',
         'main' => 'active.blank.tpl',
         'role' => array('moderator')
@@ -13,7 +13,7 @@ return array(
     'delete' => array(
         'controller' => 'delete',
         'jip' => '1',
-        'icon' => 'sprite:mzz-icon/comment/del',
+        'icon' => 'sprite:sys/comment-del',
         'confirm' => 'Вы хотите удалить этот комментарий?',
         'main' => 'active.blank.tpl',
         'role' => array('moderator')

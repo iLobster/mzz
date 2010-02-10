@@ -5,7 +5,7 @@
             {foreach name="langs" from=$toolkit->getLocale()->searchAll() item="lang"}
                 [
                 {assign var="langName" value=$lang->getName()}
-                '{$lang->getLanguageName()}', '{$jipItem.url}?lang_id={$lang->getId()}', {icon sprite="sprite:mzz-flag/$langName" jip=true}, ''
+                '{$lang->getLanguageName()}', '{$jipItem.url}?lang_id={$lang->getId()}', '{icon sprite="sprite:flags/$langName" jip=true}', ''
                 ]
                 {if !$smarty.foreach.langs.last}, {/if}
             {/foreach}

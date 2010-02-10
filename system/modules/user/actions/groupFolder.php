@@ -6,7 +6,7 @@ return array(
         'controller' => 'groupSave',
         'jip' => '1',
         'role' => array('moderator'),
-        'icon' => 'sprite:mzz-icon/group/add',
+        'icon' => 'sprite:sys/group-add',
         'title' => 'Создать группу',
         'main' => 'active.blank.tpl',
         'route_name' => 'default2'
