@@ -327,7 +327,17 @@ class adminGeneratorMapper extends mapper
 
         $this->addSaveActionsInGenerator($module, $action->getClassName(), $actionsArray, $fileGenerator);
 
-        $fileGenerator->delete($this->generateControllerFileName($module, $action->getControllerName()), array('ignore'));
+        $inuse = false;
+        foreach ($actionsArray as $a) {
+            if ($a['controller'] == $action->getControllerName()) {
+                $inuse = true;
+            }
+        }
+
+        if ($inuse === false) {
+            $fileGenerator->delete($this->generateControllerFileName($module, $action->getControllerName()), array('ignore'));
+        }
+
         $fileGenerator->delete($this->generateTemplateFileName($action->getName()), array('ignore'));
 
         $fileGenerator->run();
