@@ -297,10 +297,9 @@ class adminGeneratorMapper extends mapper
             if (!$controllerExists) $fileGenerator->create($controllerFileName, $controllerContents);
             if (!$templateExists) $fileGenerator->create($templateFileName, $templateContents);
 
+            $smarty->left_delimiter = $leftDelimeter;
+            $smarty->right_delimiter = $rightDelimeter;
         }
-
-        $smarty->left_delimiter = $leftDelimeter;
-        $smarty->right_delimiter = $rightDelimeter;
 
         $this->addSaveActionsInGenerator($module, $class_name, $actionsArray, $fileGenerator);
 
