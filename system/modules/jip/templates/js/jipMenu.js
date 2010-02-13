@@ -34,9 +34,9 @@
                 this.cMenu.stop(true, true);
                 this.cMenu.hide();
                 this.cMenu = false;
-                this.cButton.attr({
-                    src: SITE_PATH + '/images/jip/jip.gif'
-                });
+                this.cButton.removeClass('active'); //attr({
+                    //src: SITE_PATH + '/images/jip/jip.gif'
+                //});
                 this.cButton = false;
                 $(document).unbind('keypress', this.eventKey);
             }
@@ -62,9 +62,9 @@
                 }
 
                 this.draw(button, id, items, langs);
-                this.cButton.attr({
-                    src: SITE_PATH + '/images/jip/jip_active.gif'
-                });
+                this.cButton.addClass('active'); //.attr({
+                    //src: SITE_PATH + '/images/jip/jip_active.gif'
+                //});
             } else {
                 this.close();
             }

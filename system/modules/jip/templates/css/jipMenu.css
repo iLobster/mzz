@@ -1,5 +1,15 @@
+.jip-button {
+    background: transparent url('../../images/jip/common.png') no-repeat 0px -68px scroll;
+    width: 18px;
+    height: 10px;
+}
+
+.jip-button.active {
+    background-position: 0px -80px;
+}
+
 div.mzz-jip-menu {
-    background: transparent url('../../images/jip/bg.png') repeat top left scroll;
+    background: transparent url('../../images/jip/menu-bg.png') repeat top left scroll;
     display: none;
     left: 658px;
     margin-left: 1px;
@@ -99,7 +109,7 @@ div.mzz-jip-menu li {
 }
 
 div.mzz-jip-menu li:hover, div.mzz-jip-menu li.active {
-    background: transparent url('../../images/jip/row.png') repeat-x 0 0 scroll;
+    background: transparent url('../../images/jip/common.png') repeat-x 0 0 scroll;
     color: #ffffff;
 }
 
