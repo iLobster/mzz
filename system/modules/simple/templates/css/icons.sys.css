@@ -1,17 +1,4 @@
-/* 
-    Document   : system
-    Created on : Feb 9, 2010, 4:00:54 PM
-    Author     : d3z
-    Description:
-        Purpose of the stylesheet follows.
-*/
-
-/* 
-   TODO customize this sample style
-   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
-*/
-
-img.mzz-icon {
+.mzz-icon {
     width: 16px;
     height: 16px;
     border: none;

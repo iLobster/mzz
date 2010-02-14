@@ -1,24 +1,12 @@
-/* 
-    Document   : icons.flags
-    Created on : Feb 10, 2010, 4:40:02 PM
-    Author     : d3z
-    Description:
-        Purpose of the stylesheet follows.
-*/
-
-/* 
-   TODO customize this sample style
-   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
-*/
-
 .mzz-icon-flags
 {
-    background-image: url(../images/icons.flagsActive.png);
+    background-image: url(../images/icons.flagsInactive.png);
+    height: 11px;
 }
 
 .disabled span.mzz-icon-flags, span.mzz-icon-flags.disabled
 {
-    background-image: url(../images/icons.flagsActive.png) !important;
+    background-image: url(../images/icons.flagsInactive.png) !important;
 }
 
 .mzz-jip-menu li:hover .mzz-icon-flags, a:hover .mzz-icon-flags
@@ -30,990 +18,994 @@
     background-image: url(../images/icons.flagsActive.png) !important;
 }
 
-.mzz-icon-flags-ae {
-	background-position: 0 0px;
+/*0*/ .mzz-icon-flags-ad {
+	background-position: 0 -0px;
 }
 
-.mzz-icon-flags-af {
-	background-position: 0 -16px;
+/*1*/ .mzz-icon-flags-ae {
+	background-position: 0 -11px;
 }
 
-.mzz-icon-flags-ag {
-	background-position: 0 -32px;
+/*2*/ .mzz-icon-flags-af {
+	background-position: 0 -22px;
 }
 
-.mzz-icon-flags-ai {
-	background-position: 0 -48px;
+/*3*/ .mzz-icon-flags-ag {
+	background-position: 0 -33px;
 }
 
-.mzz-icon-flags-al {
-	background-position: 0 -64px;
+/*4*/ .mzz-icon-flags-ai {
+	background-position: 0 -44px;
 }
 
-.mzz-icon-flags-am {
-	background-position: 0 -80px;
+/*5*/ .mzz-icon-flags-al {
+	background-position: 0 -55px;
 }
 
-.mzz-icon-flags-an {
-	background-position: 0 -96px;
+/*6*/ .mzz-icon-flags-am {
+	background-position: 0 -66px;
 }
 
-.mzz-icon-flags-ao {
-	background-position: 0 -112px;
+/*7*/ .mzz-icon-flags-an {
+	background-position: 0 -77px;
 }
 
-.mzz-icon-flags-ar {
-	background-position: 0 -128px;
+/*8*/ .mzz-icon-flags-ao {
+	background-position: 0 -88px;
 }
 
-.mzz-icon-flags-as {
-	background-position: 0 -144px;
+/*9*/ .mzz-icon-flags-ar {
+	background-position: 0 -99px;
 }
 
-.mzz-icon-flags-at {
-	background-position: 0 -160px;
+/*10*/ .mzz-icon-flags-as {
+	background-position: 0 -110px;
 }
 
-.mzz-icon-flags-au {
+/*11*/ .mzz-icon-flags-at {
+	background-position: 0 -121px;
+}
+
+/*12*/ .mzz-icon-flags-au {
+	background-position: 0 -132px;
+}
+
+/*13*/ .mzz-icon-flags-aw {
+	background-position: 0 -143px;
+}
+
+/*14*/ .mzz-icon-flags-ax {
+	background-position: 0 -154px;
+}
+
+/*15*/ .mzz-icon-flags-az {
+	background-position: 0 -165px;
+}
+
+/*16*/ .mzz-icon-flags-ba {
 	background-position: 0 -176px;
 }
 
-.mzz-icon-flags-aw {
-	background-position: 0 -192px;
+/*17*/ .mzz-icon-flags-bb {
+	background-position: 0 -187px;
 }
 
-.mzz-icon-flags-ax {
-	background-position: 0 -208px;
+/*18*/ .mzz-icon-flags-bd {
+	background-position: 0 -198px;
 }
 
-.mzz-icon-flags-az {
-	background-position: 0 -224px;
+/*19*/ .mzz-icon-flags-be {
+	background-position: 0 -209px;
 }
 
-.mzz-icon-flags-ba {
-	background-position: 0 -240px;
+/*20*/ .mzz-icon-flags-bf {
+	background-position: 0 -220px;
 }
 
-.mzz-icon-flags-bb {
-	background-position: 0 -256px;
+/*21*/ .mzz-icon-flags-bg {
+	background-position: 0 -231px;
 }
 
-.mzz-icon-flags-bd {
-	background-position: 0 -272px;
+/*22*/ .mzz-icon-flags-bh {
+	background-position: 0 -242px;
 }
 
-.mzz-icon-flags-be {
-	background-position: 0 -288px;
+/*23*/ .mzz-icon-flags-bi {
+	background-position: 0 -253px;
 }
 
-.mzz-icon-flags-bf {
-	background-position: 0 -304px;
+/*24*/ .mzz-icon-flags-bj {
+	background-position: 0 -264px;
 }
 
-.mzz-icon-flags-bg {
-	background-position: 0 -320px;
+/*25*/ .mzz-icon-flags-bm {
+	background-position: 0 -275px;
 }
 
-.mzz-icon-flags-bh {
-	background-position: 0 -336px;
+/*26*/ .mzz-icon-flags-bn {
+	background-position: 0 -286px;
 }
 
-.mzz-icon-flags-bi {
+/*27*/ .mzz-icon-flags-bo {
+	background-position: 0 -297px;
+}
+
+/*28*/ .mzz-icon-flags-br {
+	background-position: 0 -308px;
+}
+
+/*29*/ .mzz-icon-flags-bs {
+	background-position: 0 -319px;
+}
+
+/*30*/ .mzz-icon-flags-bt {
+	background-position: 0 -330px;
+}
+
+/*31*/ .mzz-icon-flags-bv {
+	background-position: 0 -341px;
+}
+
+/*32*/ .mzz-icon-flags-bw {
 	background-position: 0 -352px;
 }
 
-.mzz-icon-flags-bj {
-	background-position: 0 -368px;
+/*33*/ .mzz-icon-flags-by {
+	background-position: 0 -363px;
 }
 
-.mzz-icon-flags-bm {
-	background-position: 0 -384px;
+/*34*/ .mzz-icon-flags-bz {
+	background-position: 0 -374px;
 }
 
-.mzz-icon-flags-bn {
-	background-position: 0 -400px;
+/*35*/ .mzz-icon-flags-ca {
+	background-position: 0 -385px;
 }
 
-.mzz-icon-flags-bo {
-	background-position: 0 -416px;
+/*36*/ .mzz-icon-flags-cc {
+	background-position: 0 -396px;
 }
 
-.mzz-icon-flags-br {
-	background-position: 0 -432px;
+/*37*/ .mzz-icon-flags-cd {
+	background-position: 0 -407px;
 }
 
-.mzz-icon-flags-bs {
-	background-position: 0 -448px;
+/*38*/ .mzz-icon-flags-cf {
+	background-position: 0 -418px;
 }
 
-.mzz-icon-flags-bt {
-	background-position: 0 -464px;
+/*39*/ .mzz-icon-flags-cg {
+	background-position: 0 -429px;
 }
 
-.mzz-icon-flags-bv {
-	background-position: 0 -480px;
+/*40*/ .mzz-icon-flags-ch {
+	background-position: 0 -440px;
 }
 
-.mzz-icon-flags-bw {
-	background-position: 0 -496px;
+/*41*/ .mzz-icon-flags-ci {
+	background-position: 0 -451px;
 }
 
-.mzz-icon-flags-by {
-	background-position: 0 -512px;
+/*42*/ .mzz-icon-flags-ck {
+	background-position: 0 -462px;
 }
 
-.mzz-icon-flags-bz {
+/*43*/ .mzz-icon-flags-cl {
+	background-position: 0 -473px;
+}
+
+/*44*/ .mzz-icon-flags-cm {
+	background-position: 0 -484px;
+}
+
+/*45*/ .mzz-icon-flags-cn {
+	background-position: 0 -495px;
+}
+
+/*46*/ .mzz-icon-flags-co {
+	background-position: 0 -506px;
+}
+
+/*47*/ .mzz-icon-flags-cr {
+	background-position: 0 -517px;
+}
+
+/*48*/ .mzz-icon-flags-cs {
 	background-position: 0 -528px;
 }
 
-.mzz-icon-flags-ca {
-	background-position: 0 -544px;
+/*49*/ .mzz-icon-flags-cu {
+	background-position: 0 -539px;
 }
 
-.mzz-icon-flags-cc {
-	background-position: 0 -560px;
+/*50*/ .mzz-icon-flags-cv {
+	background-position: 0 -550px;
 }
 
-.mzz-icon-flags-cd {
-	background-position: 0 -576px;
+/*51*/ .mzz-icon-flags-cx {
+	background-position: 0 -561px;
 }
 
-.mzz-icon-flags-cf {
-	background-position: 0 -592px;
+/*52*/ .mzz-icon-flags-cy {
+	background-position: 0 -572px;
 }
 
-.mzz-icon-flags-cg {
-	background-position: 0 -608px;
+/*53*/ .mzz-icon-flags-cz {
+	background-position: 0 -583px;
 }
 
-.mzz-icon-flags-ch {
-	background-position: 0 -624px;
+/*54*/ .mzz-icon-flags-de {
+	background-position: 0 -594px;
 }
 
-.mzz-icon-flags-ci {
-	background-position: 0 -640px;
+/*55*/ .mzz-icon-flags-dj {
+	background-position: 0 -605px;
 }
 
-.mzz-icon-flags-ck {
-	background-position: 0 -656px;
+/*56*/ .mzz-icon-flags-dk {
+	background-position: 0 -616px;
 }
 
-.mzz-icon-flags-cl {
-	background-position: 0 -672px;
+/*57*/ .mzz-icon-flags-dm {
+	background-position: 0 -627px;
 }
 
-.mzz-icon-flags-cm {
-	background-position: 0 -688px;
+/*58*/ .mzz-icon-flags-do {
+	background-position: 0 -638px;
 }
 
-.mzz-icon-flags-cn {
+/*59*/ .mzz-icon-flags-dz {
+	background-position: 0 -649px;
+}
+
+/*60*/ .mzz-icon-flags-ec {
+	background-position: 0 -660px;
+}
+
+/*61*/ .mzz-icon-flags-ee {
+	background-position: 0 -671px;
+}
+
+/*62*/ .mzz-icon-flags-eg {
+	background-position: 0 -682px;
+}
+
+/*63*/ .mzz-icon-flags-eh {
+	background-position: 0 -693px;
+}
+
+/*64*/ .mzz-icon-flags-er {
 	background-position: 0 -704px;
 }
 
-.mzz-icon-flags-co {
-	background-position: 0 -720px;
+/*65*/ .mzz-icon-flags-es {
+	background-position: 0 -715px;
 }
 
-.mzz-icon-flags-cr {
-	background-position: 0 -736px;
+/*66*/ .mzz-icon-flags-et {
+	background-position: 0 -726px;
 }
 
-.mzz-icon-flags-cs {
-	background-position: 0 -752px;
+/*67*/ .mzz-icon-flags-fi {
+	background-position: 0 -737px;
 }
 
-.mzz-icon-flags-cu {
-	background-position: 0 -768px;
+/*68*/ .mzz-icon-flags-fj {
+	background-position: 0 -748px;
 }
 
-.mzz-icon-flags-cv {
-	background-position: 0 -784px;
+/*69*/ .mzz-icon-flags-fk {
+	background-position: 0 -759px;
 }
 
-.mzz-icon-flags-cx {
-	background-position: 0 -800px;
+/*70*/ .mzz-icon-flags-fm {
+	background-position: 0 -770px;
 }
 
-.mzz-icon-flags-cy {
-	background-position: 0 -816px;
+/*71*/ .mzz-icon-flags-fo {
+	background-position: 0 -781px;
 }
 
-.mzz-icon-flags-cz {
-	background-position: 0 -832px;
+/*72*/ .mzz-icon-flags-fr {
+	background-position: 0 -792px;
 }
 
-.mzz-icon-flags-de {
-	background-position: 0 -848px;
+/*73*/ .mzz-icon-flags-ga {
+	background-position: 0 -803px;
 }
 
-.mzz-icon-flags-dj {
-	background-position: 0 -864px;
+/*74*/ .mzz-icon-flags-gb {
+	background-position: 0 -814px;
 }
 
-.mzz-icon-flags-dk {
+/*75*/ .mzz-icon-flags-gd {
+	background-position: 0 -825px;
+}
+
+/*76*/ .mzz-icon-flags-ge {
+	background-position: 0 -836px;
+}
+
+/*77*/ .mzz-icon-flags-gf {
+	background-position: 0 -847px;
+}
+
+/*78*/ .mzz-icon-flags-gh {
+	background-position: 0 -858px;
+}
+
+/*79*/ .mzz-icon-flags-gi {
+	background-position: 0 -869px;
+}
+
+/*80*/ .mzz-icon-flags-gl {
 	background-position: 0 -880px;
 }
 
-.mzz-icon-flags-dm {
-	background-position: 0 -896px;
+/*81*/ .mzz-icon-flags-gm {
+	background-position: 0 -891px;
 }
 
-.mzz-icon-flags-do {
-	background-position: 0 -912px;
+/*82*/ .mzz-icon-flags-gn {
+	background-position: 0 -902px;
 }
 
-.mzz-icon-flags-dz {
-	background-position: 0 -928px;
+/*83*/ .mzz-icon-flags-gp {
+	background-position: 0 -913px;
 }
 
-.mzz-icon-flags-ec {
-	background-position: 0 -944px;
+/*84*/ .mzz-icon-flags-gq {
+	background-position: 0 -924px;
 }
 
-.mzz-icon-flags-ee {
-	background-position: 0 -960px;
+/*85*/ .mzz-icon-flags-gr {
+	background-position: 0 -935px;
 }
 
-.mzz-icon-flags-eg {
-	background-position: 0 -976px;
+/*86*/ .mzz-icon-flags-gs {
+	background-position: 0 -946px;
 }
 
-.mzz-icon-flags-eh {
-	background-position: 0 -992px;
+/*87*/ .mzz-icon-flags-gt {
+	background-position: 0 -957px;
 }
 
-.mzz-icon-flags-er {
-	background-position: 0 -1008px;
+/*88*/ .mzz-icon-flags-gu {
+	background-position: 0 -968px;
 }
 
-.mzz-icon-flags-es {
-	background-position: 0 -1024px;
+/*89*/ .mzz-icon-flags-gw {
+	background-position: 0 -979px;
 }
 
-.mzz-icon-flags-et {
-	background-position: 0 -1040px;
+/*90*/ .mzz-icon-flags-gy {
+	background-position: 0 -990px;
 }
 
-.mzz-icon-flags-fi {
+/*91*/ .mzz-icon-flags-hk {
+	background-position: 0 -1001px;
+}
+
+/*92*/ .mzz-icon-flags-hm {
+	background-position: 0 -1012px;
+}
+
+/*93*/ .mzz-icon-flags-hn {
+	background-position: 0 -1023px;
+}
+
+/*94*/ .mzz-icon-flags-hr {
+	background-position: 0 -1034px;
+}
+
+/*95*/ .mzz-icon-flags-ht {
+	background-position: 0 -1045px;
+}
+
+/*96*/ .mzz-icon-flags-hu {
 	background-position: 0 -1056px;
 }
 
-.mzz-icon-flags-fj {
-	background-position: 0 -1072px;
+/*97*/ .mzz-icon-flags-id {
+	background-position: 0 -1067px;
 }
 
-.mzz-icon-flags-fk {
-	background-position: 0 -1088px;
+/*98*/ .mzz-icon-flags-ie {
+	background-position: 0 -1078px;
 }
 
-.mzz-icon-flags-fm {
-	background-position: 0 -1104px;
+/*99*/ .mzz-icon-flags-il {
+	background-position: 0 -1089px;
 }
 
-.mzz-icon-flags-fo {
-	background-position: 0 -1120px;
+/*100*/ .mzz-icon-flags-in {
+	background-position: 0 -1100px;
 }
 
-.mzz-icon-flags-fr {
-	background-position: 0 -1136px;
+/*101*/ .mzz-icon-flags-io {
+	background-position: 0 -1111px;
 }
 
-.mzz-icon-flags-ga {
-	background-position: 0 -1152px;
+/*102*/ .mzz-icon-flags-iq {
+	background-position: 0 -1122px;
 }
 
-.mzz-icon-flags-gb {
-	background-position: 0 -1168px;
+/*103*/ .mzz-icon-flags-ir {
+	background-position: 0 -1133px;
 }
 
-.mzz-icon-flags-gd {
-	background-position: 0 -1184px;
+/*104*/ .mzz-icon-flags-is {
+	background-position: 0 -1144px;
 }
 
-.mzz-icon-flags-ge {
-	background-position: 0 -1200px;
+/*105*/ .mzz-icon-flags-it {
+	background-position: 0 -1155px;
 }
 
-.mzz-icon-flags-gf {
-	background-position: 0 -1216px;
+/*106*/ .mzz-icon-flags-jm {
+	background-position: 0 -1166px;
 }
 
-.mzz-icon-flags-gh {
+/*107*/ .mzz-icon-flags-jo {
+	background-position: 0 -1177px;
+}
+
+/*108*/ .mzz-icon-flags-jp {
+	background-position: 0 -1188px;
+}
+
+/*109*/ .mzz-icon-flags-ke {
+	background-position: 0 -1199px;
+}
+
+/*110*/ .mzz-icon-flags-kg {
+	background-position: 0 -1210px;
+}
+
+/*111*/ .mzz-icon-flags-kh {
+	background-position: 0 -1221px;
+}
+
+/*112*/ .mzz-icon-flags-ki {
 	background-position: 0 -1232px;
 }
 
-.mzz-icon-flags-gi {
-	background-position: 0 -1248px;
+/*113*/ .mzz-icon-flags-km {
+	background-position: 0 -1243px;
 }
 
-.mzz-icon-flags-gl {
-	background-position: 0 -1264px;
+/*114*/ .mzz-icon-flags-kn {
+	background-position: 0 -1254px;
 }
 
-.mzz-icon-flags-gm {
-	background-position: 0 -1280px;
+/*115*/ .mzz-icon-flags-kp {
+	background-position: 0 -1265px;
 }
 
-.mzz-icon-flags-gn {
-	background-position: 0 -1296px;
+/*116*/ .mzz-icon-flags-kr {
+	background-position: 0 -1276px;
 }
 
-.mzz-icon-flags-gp {
-	background-position: 0 -1312px;
+/*117*/ .mzz-icon-flags-kw {
+	background-position: 0 -1287px;
 }
 
-.mzz-icon-flags-gq {
-	background-position: 0 -1328px;
+/*118*/ .mzz-icon-flags-ky {
+	background-position: 0 -1298px;
 }
 
-.mzz-icon-flags-gr {
-	background-position: 0 -1344px;
+/*119*/ .mzz-icon-flags-kz {
+	background-position: 0 -1309px;
 }
 
-.mzz-icon-flags-gs {
-	background-position: 0 -1360px;
+/*120*/ .mzz-icon-flags-la {
+	background-position: 0 -1320px;
 }
 
-.mzz-icon-flags-gt {
-	background-position: 0 -1376px;
+/*121*/ .mzz-icon-flags-lb {
+	background-position: 0 -1331px;
 }
 
-.mzz-icon-flags-gu {
-	background-position: 0 -1392px;
+/*122*/ .mzz-icon-flags-lc {
+	background-position: 0 -1342px;
 }
 
-.mzz-icon-flags-gw {
+/*123*/ .mzz-icon-flags-li {
+	background-position: 0 -1353px;
+}
+
+/*124*/ .mzz-icon-flags-lk {
+	background-position: 0 -1364px;
+}
+
+/*125*/ .mzz-icon-flags-lr {
+	background-position: 0 -1375px;
+}
+
+/*126*/ .mzz-icon-flags-ls {
+	background-position: 0 -1386px;
+}
+
+/*127*/ .mzz-icon-flags-lt {
+	background-position: 0 -1397px;
+}
+
+/*128*/ .mzz-icon-flags-lu {
 	background-position: 0 -1408px;
 }
 
-.mzz-icon-flags-gy {
-	background-position: 0 -1424px;
+/*129*/ .mzz-icon-flags-lv {
+	background-position: 0 -1419px;
 }
 
-.mzz-icon-flags-hk {
-	background-position: 0 -1440px;
+/*130*/ .mzz-icon-flags-ly {
+	background-position: 0 -1430px;
 }
 
-.mzz-icon-flags-hm {
-	background-position: 0 -1456px;
+/*131*/ .mzz-icon-flags-ma {
+	background-position: 0 -1441px;
 }
 
-.mzz-icon-flags-hn {
-	background-position: 0 -1472px;
+/*132*/ .mzz-icon-flags-mc {
+	background-position: 0 -1452px;
 }
 
-.mzz-icon-flags-hr {
-	background-position: 0 -1488px;
+/*133*/ .mzz-icon-flags-md {
+	background-position: 0 -1463px;
 }
 
-.mzz-icon-flags-ht {
-	background-position: 0 -1504px;
+/*134*/ .mzz-icon-flags-me {
+	background-position: 0 -1474px;
 }
 
-.mzz-icon-flags-hu {
-	background-position: 0 -1520px;
+/*135*/ .mzz-icon-flags-mg {
+	background-position: 0 -1485px;
 }
 
-.mzz-icon-flags-id {
-	background-position: 0 -1536px;
+/*136*/ .mzz-icon-flags-mh {
+	background-position: 0 -1496px;
 }
 
-.mzz-icon-flags-ie {
-	background-position: 0 -1552px;
+/*137*/ .mzz-icon-flags-mk {
+	background-position: 0 -1507px;
 }
 
-.mzz-icon-flags-il {
-	background-position: 0 -1568px;
+/*138*/ .mzz-icon-flags-ml {
+	background-position: 0 -1518px;
 }
 
-.mzz-icon-flags-in {
+/*139*/ .mzz-icon-flags-mm {
+	background-position: 0 -1529px;
+}
+
+/*140*/ .mzz-icon-flags-mn {
+	background-position: 0 -1540px;
+}
+
+/*141*/ .mzz-icon-flags-mo {
+	background-position: 0 -1551px;
+}
+
+/*142*/ .mzz-icon-flags-mp {
+	background-position: 0 -1562px;
+}
+
+/*143*/ .mzz-icon-flags-mq {
+	background-position: 0 -1573px;
+}
+
+/*144*/ .mzz-icon-flags-mr {
 	background-position: 0 -1584px;
 }
 
-.mzz-icon-flags-io {
-	background-position: 0 -1600px;
+/*145*/ .mzz-icon-flags-ms {
+	background-position: 0 -1595px;
 }
 
-.mzz-icon-flags-iq {
-	background-position: 0 -1616px;
+/*146*/ .mzz-icon-flags-mt {
+	background-position: 0 -1606px;
 }
 
-.mzz-icon-flags-ir {
-	background-position: 0 -1632px;
+/*147*/ .mzz-icon-flags-mu {
+	background-position: 0 -1617px;
 }
 
-.mzz-icon-flags-is {
-	background-position: 0 -1648px;
+/*148*/ .mzz-icon-flags-mv {
+	background-position: 0 -1628px;
 }
 
-.mzz-icon-flags-it {
-	background-position: 0 -1664px;
+/*149*/ .mzz-icon-flags-mw {
+	background-position: 0 -1639px;
 }
 
-.mzz-icon-flags-jm {
-	background-position: 0 -1680px;
+/*150*/ .mzz-icon-flags-mx {
+	background-position: 0 -1650px;
 }
 
-.mzz-icon-flags-jo {
-	background-position: 0 -1696px;
+/*151*/ .mzz-icon-flags-my {
+	background-position: 0 -1661px;
 }
 
-.mzz-icon-flags-jp {
-	background-position: 0 -1712px;
+/*152*/ .mzz-icon-flags-mz {
+	background-position: 0 -1672px;
 }
 
-.mzz-icon-flags-ke {
-	background-position: 0 -1728px;
+/*153*/ .mzz-icon-flags-na {
+	background-position: 0 -1683px;
 }
 
-.mzz-icon-flags-kg {
-	background-position: 0 -1744px;
+/*154*/ .mzz-icon-flags-nc {
+	background-position: 0 -1694px;
 }
 
-.mzz-icon-flags-kh {
+/*155*/ .mzz-icon-flags-ne {
+	background-position: 0 -1705px;
+}
+
+/*156*/ .mzz-icon-flags-nf {
+	background-position: 0 -1716px;
+}
+
+/*157*/ .mzz-icon-flags-ng {
+	background-position: 0 -1727px;
+}
+
+/*158*/ .mzz-icon-flags-ni {
+	background-position: 0 -1738px;
+}
+
+/*159*/ .mzz-icon-flags-nl {
+	background-position: 0 -1749px;
+}
+
+/*160*/ .mzz-icon-flags-no {
 	background-position: 0 -1760px;
 }
 
-.mzz-icon-flags-ki {
-	background-position: 0 -1776px;
+/*161*/ .mzz-icon-flags-np {
+	background-position: 0 -1771px;
 }
 
-.mzz-icon-flags-km {
-	background-position: 0 -1792px;
+/*162*/ .mzz-icon-flags-nr {
+	background-position: 0 -1782px;
 }
 
-.mzz-icon-flags-kn {
-	background-position: 0 -1808px;
+/*163*/ .mzz-icon-flags-nu {
+	background-position: 0 -1793px;
 }
 
-.mzz-icon-flags-kp {
-	background-position: 0 -1824px;
+/*164*/ .mzz-icon-flags-nz {
+	background-position: 0 -1804px;
 }
 
-.mzz-icon-flags-kr {
-	background-position: 0 -1840px;
+/*165*/ .mzz-icon-flags-om {
+	background-position: 0 -1815px;
 }
 
-.mzz-icon-flags-kw {
-	background-position: 0 -1856px;
+/*166*/ .mzz-icon-flags-pa {
+	background-position: 0 -1826px;
 }
 
-.mzz-icon-flags-ky {
-	background-position: 0 -1872px;
+/*167*/ .mzz-icon-flags-pe {
+	background-position: 0 -1837px;
 }
 
-.mzz-icon-flags-kz {
-	background-position: 0 -1888px;
+/*168*/ .mzz-icon-flags-pf {
+	background-position: 0 -1848px;
 }
 
-.mzz-icon-flags-la {
-	background-position: 0 -1904px;
+/*169*/ .mzz-icon-flags-pg {
+	background-position: 0 -1859px;
 }
 
-.mzz-icon-flags-lb {
-	background-position: 0 -1920px;
+/*170*/ .mzz-icon-flags-ph {
+	background-position: 0 -1870px;
 }
 
-.mzz-icon-flags-lc {
+/*171*/ .mzz-icon-flags-pk {
+	background-position: 0 -1881px;
+}
+
+/*172*/ .mzz-icon-flags-pl {
+	background-position: 0 -1892px;
+}
+
+/*173*/ .mzz-icon-flags-pm {
+	background-position: 0 -1903px;
+}
+
+/*174*/ .mzz-icon-flags-pn {
+	background-position: 0 -1914px;
+}
+
+/*175*/ .mzz-icon-flags-pr {
+	background-position: 0 -1925px;
+}
+
+/*176*/ .mzz-icon-flags-ps {
 	background-position: 0 -1936px;
 }
 
-.mzz-icon-flags-li {
-	background-position: 0 -1952px;
+/*177*/ .mzz-icon-flags-pt {
+	background-position: 0 -1947px;
 }
 
-.mzz-icon-flags-lk {
-	background-position: 0 -1968px;
+/*178*/ .mzz-icon-flags-pw {
+	background-position: 0 -1958px;
 }
 
-.mzz-icon-flags-lr {
-	background-position: 0 -1984px;
+/*179*/ .mzz-icon-flags-py {
+	background-position: 0 -1969px;
 }
 
-.mzz-icon-flags-ls {
-	background-position: 0 -2000px;
+/*180*/ .mzz-icon-flags-qa {
+	background-position: 0 -1980px;
 }
 
-.mzz-icon-flags-lt {
-	background-position: 0 -2016px;
+/*181*/ .mzz-icon-flags-re {
+	background-position: 0 -1991px;
 }
 
-.mzz-icon-flags-lu {
-	background-position: 0 -2032px;
+/*182*/ .mzz-icon-flags-ro {
+	background-position: 0 -2002px;
 }
 
-.mzz-icon-flags-lv {
-	background-position: 0 -2048px;
+/*183*/ .mzz-icon-flags-rs {
+	background-position: 0 -2013px;
 }
 
-.mzz-icon-flags-ly {
-	background-position: 0 -2064px;
+/*184*/ .mzz-icon-flags-ru {
+	background-position: 0 -2024px;
 }
 
-.mzz-icon-flags-ma {
-	background-position: 0 -2080px;
+/*185*/ .mzz-icon-flags-rw {
+	background-position: 0 -2035px;
 }
 
-.mzz-icon-flags-mc {
-	background-position: 0 -2096px;
+/*186*/ .mzz-icon-flags-sa {
+	background-position: 0 -2046px;
 }
 
-.mzz-icon-flags-md {
+/*187*/ .mzz-icon-flags-sb {
+	background-position: 0 -2057px;
+}
+
+/*188*/ .mzz-icon-flags-sc {
+	background-position: 0 -2068px;
+}
+
+/*189*/ .mzz-icon-flags-sd {
+	background-position: 0 -2079px;
+}
+
+/*190*/ .mzz-icon-flags-se {
+	background-position: 0 -2090px;
+}
+
+/*191*/ .mzz-icon-flags-sg {
+	background-position: 0 -2101px;
+}
+
+/*192*/ .mzz-icon-flags-sh {
 	background-position: 0 -2112px;
 }
 
-.mzz-icon-flags-me {
-	background-position: 0 -2128px;
+/*193*/ .mzz-icon-flags-si {
+	background-position: 0 -2123px;
 }
 
-.mzz-icon-flags-mg {
-	background-position: 0 -2144px;
+/*194*/ .mzz-icon-flags-sj {
+	background-position: 0 -2134px;
 }
 
-.mzz-icon-flags-mh {
-	background-position: 0 -2160px;
+/*195*/ .mzz-icon-flags-sk {
+	background-position: 0 -2145px;
 }
 
-.mzz-icon-flags-mk {
-	background-position: 0 -2176px;
+/*196*/ .mzz-icon-flags-sl {
+	background-position: 0 -2156px;
 }
 
-.mzz-icon-flags-ml {
-	background-position: 0 -2192px;
+/*197*/ .mzz-icon-flags-sm {
+	background-position: 0 -2167px;
 }
 
-.mzz-icon-flags-mm {
-	background-position: 0 -2208px;
+/*198*/ .mzz-icon-flags-sn {
+	background-position: 0 -2178px;
 }
 
-.mzz-icon-flags-mn {
-	background-position: 0 -2224px;
+/*199*/ .mzz-icon-flags-so {
+	background-position: 0 -2189px;
 }
 
-.mzz-icon-flags-mo {
-	background-position: 0 -2240px;
+/*200*/ .mzz-icon-flags-sr {
+	background-position: 0 -2200px;
 }
 
-.mzz-icon-flags-mp {
-	background-position: 0 -2256px;
+/*201*/ .mzz-icon-flags-st {
+	background-position: 0 -2211px;
 }
 
-.mzz-icon-flags-mq {
-	background-position: 0 -2272px;
+/*202*/ .mzz-icon-flags-sv {
+	background-position: 0 -2222px;
 }
 
-.mzz-icon-flags-mr {
+/*203*/ .mzz-icon-flags-sy {
+	background-position: 0 -2233px;
+}
+
+/*204*/ .mzz-icon-flags-sz {
+	background-position: 0 -2244px;
+}
+
+/*205*/ .mzz-icon-flags-tc {
+	background-position: 0 -2255px;
+}
+
+/*206*/ .mzz-icon-flags-td {
+	background-position: 0 -2266px;
+}
+
+/*207*/ .mzz-icon-flags-tf {
+	background-position: 0 -2277px;
+}
+
+/*208*/ .mzz-icon-flags-tg {
 	background-position: 0 -2288px;
 }
 
-.mzz-icon-flags-ms {
-	background-position: 0 -2304px;
+/*209*/ .mzz-icon-flags-th {
+	background-position: 0 -2299px;
 }
 
-.mzz-icon-flags-mt {
-	background-position: 0 -2320px;
+/*210*/ .mzz-icon-flags-tj {
+	background-position: 0 -2310px;
 }
 
-.mzz-icon-flags-mu {
-	background-position: 0 -2336px;
+/*211*/ .mzz-icon-flags-tk {
+	background-position: 0 -2321px;
 }
 
-.mzz-icon-flags-mv {
-	background-position: 0 -2352px;
+/*212*/ .mzz-icon-flags-tl {
+	background-position: 0 -2332px;
 }
 
-.mzz-icon-flags-mw {
-	background-position: 0 -2368px;
+/*213*/ .mzz-icon-flags-tm {
+	background-position: 0 -2343px;
 }
 
-.mzz-icon-flags-mx {
-	background-position: 0 -2384px;
+/*214*/ .mzz-icon-flags-tn {
+	background-position: 0 -2354px;
 }
 
-.mzz-icon-flags-my {
-	background-position: 0 -2400px;
+/*215*/ .mzz-icon-flags-to {
+	background-position: 0 -2365px;
 }
 
-.mzz-icon-flags-mz {
-	background-position: 0 -2416px;
+/*216*/ .mzz-icon-flags-tr {
+	background-position: 0 -2376px;
 }
 
-.mzz-icon-flags-na {
-	background-position: 0 -2432px;
+/*217*/ .mzz-icon-flags-tt {
+	background-position: 0 -2387px;
 }
 
-.mzz-icon-flags-nc {
-	background-position: 0 -2448px;
+/*218*/ .mzz-icon-flags-tv {
+	background-position: 0 -2398px;
 }
 
-.mzz-icon-flags-ne {
+/*219*/ .mzz-icon-flags-tw {
+	background-position: 0 -2409px;
+}
+
+/*220*/ .mzz-icon-flags-tz {
+	background-position: 0 -2420px;
+}
+
+/*221*/ .mzz-icon-flags-ua {
+	background-position: 0 -2431px;
+}
+
+/*222*/ .mzz-icon-flags-ug {
+	background-position: 0 -2442px;
+}
+
+/*223*/ .mzz-icon-flags-um {
+	background-position: 0 -2453px;
+}
+
+/*224*/ .mzz-icon-flags-us {
 	background-position: 0 -2464px;
 }
 
-.mzz-icon-flags-nf {
-	background-position: 0 -2480px;
+/*225*/ .mzz-icon-flags-uy {
+	background-position: 0 -2475px;
 }
 
-.mzz-icon-flags-ng {
-	background-position: 0 -2496px;
+/*226*/ .mzz-icon-flags-uz {
+	background-position: 0 -2486px;
 }
 
-.mzz-icon-flags-ni {
-	background-position: 0 -2512px;
+/*227*/ .mzz-icon-flags-va {
+	background-position: 0 -2497px;
 }
 
-.mzz-icon-flags-nl {
-	background-position: 0 -2528px;
+/*228*/ .mzz-icon-flags-vc {
+	background-position: 0 -2508px;
 }
 
-.mzz-icon-flags-no {
-	background-position: 0 -2544px;
+/*229*/ .mzz-icon-flags-ve {
+	background-position: 0 -2519px;
 }
 
-.mzz-icon-flags-np {
-	background-position: 0 -2560px;
+/*230*/ .mzz-icon-flags-vg {
+	background-position: 0 -2530px;
 }
 
-.mzz-icon-flags-nr {
-	background-position: 0 -2576px;
+/*231*/ .mzz-icon-flags-vi {
+	background-position: 0 -2541px;
 }
 
-.mzz-icon-flags-nu {
-	background-position: 0 -2592px;
+/*232*/ .mzz-icon-flags-vn {
+	background-position: 0 -2552px;
 }
 
-.mzz-icon-flags-nz {
-	background-position: 0 -2608px;
+/*233*/ .mzz-icon-flags-vu {
+	background-position: 0 -2563px;
 }
 
-.mzz-icon-flags-om {
-	background-position: 0 -2624px;
+/*234*/ .mzz-icon-flags-wf {
+	background-position: 0 -2574px;
 }
 
-.mzz-icon-flags-pa {
+/*235*/ .mzz-icon-flags-ws {
+	background-position: 0 -2585px;
+}
+
+/*236*/ .mzz-icon-flags-ye {
+	background-position: 0 -2596px;
+}
+
+/*237*/ .mzz-icon-flags-yt {
+	background-position: 0 -2607px;
+}
+
+/*238*/ .mzz-icon-flags-za {
+	background-position: 0 -2618px;
+}
+
+/*239*/ .mzz-icon-flags-zm {
+	background-position: 0 -2629px;
+}
+
+/*240*/ .mzz-icon-flags-zw {
 	background-position: 0 -2640px;
 }
 
-.mzz-icon-flags-pe {
-	background-position: 0 -2656px;
+/*241*/ .mzz-icon-flags-en {
+	background-position: 0 -2651px;
 }
 
-.mzz-icon-flags-pf {
-	background-position: 0 -2672px;
+/*242*/ .mzz-icon-flags-catalonia {
+	background-position: 0 -2662px;
 }
 
-.mzz-icon-flags-pg {
-	background-position: 0 -2688px;
+/*243*/ .mzz-icon-flags-england {
+	background-position: 0 -2673px;
 }
 
-.mzz-icon-flags-ph {
-	background-position: 0 -2704px;
+/*244*/ .mzz-icon-flags-europeanunion {
+	background-position: 0 -2684px;
 }
 
-.mzz-icon-flags-pk {
-	background-position: 0 -2720px;
+/*245*/ .mzz-icon-flags-fam {
+	background-position: 0 -2695px;
 }
 
-.mzz-icon-flags-pl {
-	background-position: 0 -2736px;
+/*246*/ .mzz-icon-flags-scotland {
+	background-position: 0 -2706px;
 }
 
-.mzz-icon-flags-pm {
-	background-position: 0 -2752px;
-}
-
-.mzz-icon-flags-pn {
-	background-position: 0 -2768px;
-}
-
-.mzz-icon-flags-pr {
-	background-position: 0 -2784px;
-}
-
-.mzz-icon-flags-ps {
-	background-position: 0 -2800px;
-}
-
-.mzz-icon-flags-pt {
-	background-position: 0 -2816px;
-}
-
-.mzz-icon-flags-pw {
-	background-position: 0 -2832px;
-}
-
-.mzz-icon-flags-py {
-	background-position: 0 -2848px;
-}
-
-.mzz-icon-flags-qa {
-	background-position: 0 -2864px;
-}
-
-.mzz-icon-flags-re {
-	background-position: 0 -2880px;
-}
-
-.mzz-icon-flags-ro {
-	background-position: 0 -2896px;
-}
-
-.mzz-icon-flags-rs {
-	background-position: 0 -2912px;
-}
-
-.mzz-icon-flags-ru {
-	background-position: 0 -2928px;
-}
-
-.mzz-icon-flags-rw {
-	background-position: 0 -2944px;
-}
-
-.mzz-icon-flags-sa {
-	background-position: 0 -2960px;
-}
-
-.mzz-icon-flags-sb {
-	background-position: 0 -2976px;
-}
-
-.mzz-icon-flags-sc {
-	background-position: 0 -2992px;
-}
-
-.mzz-icon-flags-sd {
-	background-position: 0 -3008px;
-}
-
-.mzz-icon-flags-se {
-	background-position: 0 -3024px;
-}
-
-.mzz-icon-flags-sg {
-	background-position: 0 -3040px;
-}
-
-.mzz-icon-flags-sh {
-	background-position: 0 -3056px;
-}
-
-.mzz-icon-flags-si {
-	background-position: 0 -3072px;
-}
-
-.mzz-icon-flags-sj {
-	background-position: 0 -3088px;
-}
-
-.mzz-icon-flags-sk {
-	background-position: 0 -3104px;
-}
-
-.mzz-icon-flags-sl {
-	background-position: 0 -3120px;
-}
-
-.mzz-icon-flags-sm {
-	background-position: 0 -3136px;
-}
-
-.mzz-icon-flags-sn {
-	background-position: 0 -3152px;
-}
-
-.mzz-icon-flags-so {
-	background-position: 0 -3168px;
-}
-
-.mzz-icon-flags-sr {
-	background-position: 0 -3184px;
-}
-
-.mzz-icon-flags-st {
-	background-position: 0 -3200px;
-}
-
-.mzz-icon-flags-sv {
-	background-position: 0 -3216px;
-}
-
-.mzz-icon-flags-sy {
-	background-position: 0 -3232px;
-}
-
-.mzz-icon-flags-sz {
-	background-position: 0 -3248px;
-}
-
-.mzz-icon-flags-tc {
-	background-position: 0 -3264px;
-}
-
-.mzz-icon-flags-td {
-	background-position: 0 -3280px;
-}
-
-.mzz-icon-flags-tf {
-	background-position: 0 -3296px;
-}
-
-.mzz-icon-flags-tg {
-	background-position: 0 -3312px;
-}
-
-.mzz-icon-flags-th {
-	background-position: 0 -3328px;
-}
-
-.mzz-icon-flags-tj {
-	background-position: 0 -3344px;
-}
-
-.mzz-icon-flags-tk {
-	background-position: 0 -3360px;
-}
-
-.mzz-icon-flags-tl {
-	background-position: 0 -3376px;
-}
-
-.mzz-icon-flags-tm {
-	background-position: 0 -3392px;
-}
-
-.mzz-icon-flags-tn {
-	background-position: 0 -3408px;
-}
-
-.mzz-icon-flags-to {
-	background-position: 0 -3424px;
-}
-
-.mzz-icon-flags-tr {
-	background-position: 0 -3440px;
-}
-
-.mzz-icon-flags-tt {
-	background-position: 0 -3456px;
-}
-
-.mzz-icon-flags-tv {
-	background-position: 0 -3472px;
-}
-
-.mzz-icon-flags-tw {
-	background-position: 0 -3488px;
-}
-
-.mzz-icon-flags-tz {
-	background-position: 0 -3504px;
-}
-
-.mzz-icon-flags-ua {
-	background-position: 0 -3520px;
-}
-
-.mzz-icon-flags-ug {
-	background-position: 0 -3536px;
-}
-
-.mzz-icon-flags-um {
-	background-position: 0 -3552px;
-}
-
-.mzz-icon-flags-us {
-	background-position: 0 -3568px;
-}
-
-.mzz-icon-flags-uy {
-	background-position: 0 -3584px;
-}
-
-.mzz-icon-flags-uz {
-	background-position: 0 -3600px;
-}
-
-.mzz-icon-flags-va {
-	background-position: 0 -3616px;
-}
-
-.mzz-icon-flags-vc {
-	background-position: 0 -3632px;
-}
-
-.mzz-icon-flags-ve {
-	background-position: 0 -3648px;
-}
-
-.mzz-icon-flags-vg {
-	background-position: 0 -3664px;
-}
-
-.mzz-icon-flags-vi {
-	background-position: 0 -3680px;
-}
-
-.mzz-icon-flags-vn {
-	background-position: 0 -3696px;
-}
-
-.mzz-icon-flags-vu {
-	background-position: 0 -3712px;
-}
-
-.mzz-icon-flags-wf {
-	background-position: 0 -3728px;
-}
-
-.mzz-icon-flags-ws {
-	background-position: 0 -3744px;
-}
-
-.mzz-icon-flags-ye {
-	background-position: 0 -3760px;
-}
-
-.mzz-icon-flags-yt {
-	background-position: 0 -3776px;
-}
-
-.mzz-icon-flags-za {
-	background-position: 0 -3792px;
-}
-
-.mzz-icon-flags-zm {
-	background-position: 0 -3808px;
-}
-
-.mzz-icon-flags-zw {
-	background-position: 0 -3824px;
-}
-
-.mzz-icon-flags-en {
-	background-position: 0 -3840px;
-}
-
-.mzz-icon-flags-catalonia {
-	background-position: 0 -3856px;
-}
-
-.mzz-icon-flags-england {
-	background-position: 0 -3872px;
-}
-
-.mzz-icon-flags-europeanunion {
-	background-position: 0 -3888px;
-}
-
-.mzz-icon-flags-fam {
-	background-position: 0 -3904px;
-}
-
-.mzz-icon-flags-scotland {
-	background-position: 0 -3920px;
-}
-
-.mzz-icon-flags-wales {
-	background-position: 0 -3936px;
+/*247*/ .mzz-icon-flags-wales {
+	background-position: 0 -2717px;
 }
