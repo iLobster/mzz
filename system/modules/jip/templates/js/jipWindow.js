@@ -23,9 +23,9 @@
         dom: null,
         _header: null,
         _title: null,
-        _bwrap: null,
-        _body: null,
-        _footer: null,
+        _wrapper: null,
+        _content: null,
+        //_footer: null,
 
         _hidden: true,
 
@@ -69,17 +69,17 @@
         },
 
         content: function(content, append) {
-            if (this._body.length > 0) {
+            if (this._content.length > 0) {
                 if($.isUndefined(content)) {
-                    return this._body;
+                    return this._content;
                 }
 
                 append = append || false;
                 if (append) {
-                    content = this._body.html() + content;
+                    content = this._content.html() + content;
                 }
 
-                this._body.html(content);
+                this._content.html(content);
                 return this;
             }
 
@@ -87,6 +87,7 @@
         },
 
         status: function(status, append) {
+            return '';
             if (this._footer.length > 0) {
                 if($.isUndefined(status)) {
                     return this._footer;
@@ -162,39 +163,17 @@
 
         _prepareDom: function() {
             if (!this.dom) {
-                var t = this;
                 this.dom = $('<div id="' + this.parent.id + '_window_' + this.parent.currentWindow + '" class="mzz-jip-window" />');
-                var tl = $('<div class="mzz-jip-window-tl" />').appendTo(this.dom);
-                var tr = $('<div class="mzz-jip-window-tr" />').appendTo(tl);
-                var tc = $('<div class="mzz-jip-window-tc" />').appendTo(tr);
-
-                this._header = $('<div class="mzz-jip-window-header" />').appendTo(tc);
-                $('<div class="mzz-jip-window-button mzz-jip-window-button-close" />').bind('click', function(e){t.fire('close');}).appendTo(this._header);
-                this._title = $('<span class="mzz-jip-window-title" />').appendTo(this._header);
-
-                this._bwrap = $('<div class="mzz-jip-window-bwrap" />').appendTo(this.dom);
-                var ml = $('<div class="mzz-jip-window-ml" />').appendTo(this._bwrap);
-                var mr = $('<div class="mzz-jip-window-mr" />').appendTo(ml);
-                var mc = $('<div class="mzz-jip-window-mc" />').appendTo(mr);
-
-                this._body = $('<div class="mzz-jip-window-body" />').appendTo(mc);
-                var bl = $('<div class="mzz-jip-window-bl" />').appendTo(this._bwrap);
-                var br = $('<div class="mzz-jip-window-br" />').appendTo(bl);
-                var bc = $('<div class="mzz-jip-window-bc" />').appendTo(br);
-                var fwrap = $('<div class="mzz-jip-window-fwrap" />').appendTo(bc);
-
-                this._footer = $('<div class="mzz-jip-window-footer" />').appendTo(fwrap);
+                this._wrapper = $('<div class="mzz-jip-wrapper"><div class="mzz-jip-topLeft"></div><div class="mzz-jip-top"></div>' +
+                    '<div class="mzz-jip-topRight"></div><div class="mzz-jip-left"></div><div class="mzz-jip-right"></div>' +
+                    '<div class="mzz-jip-bottomLeft"></div><div class="mzz-jip-bottom"></div><div class="mzz-jip-bottomRight"></div>' +
+                    '<img class="mzz-jip-gradient" src="/images/jip/window-bg.png" alt="window gradient" /></div>').appendTo(this.dom);
+                this._body = $('<div class="mzz-jip-body">').appendTo(this._wrapper);
+                this._title = $('<span />').appendTo($('<div class="mzz-jip-title" />').appendTo(this._body));
+                this._content = $('<div class="mzz-jip-content" />').appendTo(this._body);
 
                 this.dom.hide('fast');
                 this.dom.appendTo($('body'));
-                if ($.isFunction($.fn.draggable)) {
-                    this.dom.draggable({'handle': this._header, 'delay': 250, 'containment': 'document', 'opacity': null});
-                }
-
-                if ($.isFunction($.fn.resizable)) {
-                    this.dom.resizable({'alsoResize': this._body, 'handles': 'se', 'minHeight': 150, 'minWidth': 650});
-
-                }
             }
         }
 

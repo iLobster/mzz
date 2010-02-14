@@ -1,3 +1,7 @@
+img.jip {
+    cursor: pointer;
+}
+
 .jip-button {
     background: transparent url('../../images/jip/common.png') no-repeat 0px -68px scroll;
     width: 18px;
@@ -22,8 +26,6 @@ div.mzz-jip-menu {
 
 div.mzz-jip-menu .mzz-jip-topLeft,    div.mzz-jip-menu .mzz-jip-topRight,
 div.mzz-jip-menu .mzz-jip-bottomLeft, div.mzz-jip-menu .mzz-jip-bottomRight {
-    background: transparent url('../../images/jip/shadows-corners.png') no-repeat top left scroll;
-    position: absolute;
     width: 30px;
 }
 
@@ -58,9 +60,7 @@ div.mzz-jip-menu .mzz-jip-bottomRight {
 }
 
 div.mzz-jip-menu .mzz-jip-top, div.mzz-jip-menu .mzz-jip-bottom {
-    background: transparent url('../../images/jip/shadows-x.png') repeat-x top left scroll;
     left: 10px;
-    position: absolute;
     right: 10px;
 }
 
@@ -76,9 +76,7 @@ div.mzz-jip-menu .mzz-jip-bottom {
 }
 
 div.mzz-jip-menu .mzz-jip-left, div.mzz-jip-menu .mzz-jip-right {
-    background: transparent url('../../images/jip/shadows-y.png') repeat-y top left scroll;
     bottom:7px;
-    position:absolute;
     top:11px;
     width:20px;
 }

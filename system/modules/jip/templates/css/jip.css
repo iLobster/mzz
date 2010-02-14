@@ -1,14 +1,20 @@
-img.jip {
-    cursor: pointer;
+.mzz-jip-topLeft,    .mzz-jip-topRight,
+.mzz-jip-bottomLeft, .mzz-jip-bottomRight {
+    background: transparent url('../../images/jip/shadows-corners.png') no-repeat top left scroll;
+    position: absolute;
 }
 
-div.jipClose {
-    float: right;
-    margin-top: 6px;
-    margin-right: 4px;
-    height: 13px;
+.mzz-jip-top, .mzz-jip-bottom {
+    background: transparent url('../../images/jip/shadows-x.png') repeat-x top left scroll;
+    position: absolute;
 }
 
+.mzz-jip-left, .mzz-jip-right {
+    background: transparent url('../../images/jip/shadows-y.png') repeat-y top left scroll;
+    position: absolute;
+}
+
+/* @todo: clean-up this shit */
 div.jipSuccess {
     background-color: #EEF8E7;
     padding: 2px;
@@ -178,12 +184,6 @@ form.mzz-jip-form li.required {
 form.mzz-jip-form li.error {
     border: 1px solid #c80000;
     background-color: #f6cece;
-}
-
-.mzz-jip-menu li a.withlang span.mzz-jip-title {
-    background-image: url("../images/jip/arrow.gif");
-    background-repeat: no-repeat;
-    background-position: 96% center;
 }
 
 .mzz-jip-window table.systemTable td {

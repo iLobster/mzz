@@ -10,8 +10,9 @@
 {add file="jquery.ex.js"}
 
 {add file="jip.css"}
-{add file="jip/jipCore.css"}
+{*add file="jip/jipCore.css"*}
 {add file="jip/jipMenu.css"}
+{add file="jip/jipWindow.css"}
 
 {add file="fileLoader.js"}
 {add file="jip/jipCore.js"}
