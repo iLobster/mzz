@@ -74,9 +74,10 @@ div.mzz-jip-window .mzz-jip-right {
    .mzz-jip-window {
         position: fixed;
         left: 50%;
-        margin-left: -400px;
-        width: 800px;
-        top: 50px;
+        margin-left: -375px;
+        width: 750px;
+        z-index: 902;
+        display: none;
     }
 
     .mzz-jip-wrapper {
@@ -113,6 +114,5 @@ div.mzz-jip-window .mzz-jip-right {
         min-height: 70px;
         font-size: 13px;
         color: #000000;
-        max-height: 450px;
         overflow: auto;
     }

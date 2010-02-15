@@ -50,7 +50,7 @@
                 this.tinyMCEIds[this.currentWindow] = [];
                 this.window = new MZZ.jipWindow(this, options);
                 this.window.bind(this.windowEvents, false, this);
-                this.window.top(this.window.top() + $(window).scrollTop());
+                //this.window.top(this.window.top() + $(window).scrollTop());
                 this.setStatus('<strong>Window url:</strong> ' + url);
                 $(document).keypress(this.eventKey);
             } else {
@@ -286,7 +286,7 @@
                     console.log('MZZ.jipWindow::successRequest() "tmp" is empty, server ignored us? transport = ', transport);
                 }
 
-                this.window.content().html(tmp);
+                this.window.content(tmp);
                 var title = this.window.content().find('div.jipTitle:first');
 
                 if (title.length > 0) {
@@ -306,7 +306,7 @@
             if (this.window) {
                 this.setStyle('error').setTitle('error');
                 var reason = 'Reason: ' + ((transport.status == 404) ? '404 Not found' : '') + ((transport.status == 403) ? '403 Forbidden' : '') + ((transport.status == 500) ? '500 серверу плохо' : '') + '';
-                this.window.content('<p align="center">' + MZZ.jipI18n[JIP_LANG].error + ' ' + reason + '</p>');
+                this.window.show().content('<p align="center">' + MZZ.jipI18n[JIP_LANG].error + ' ' + reason + '</p>');
             }
         },
 
@@ -314,7 +314,7 @@
         {
             if (this.window) {
                 this.setStyle('default').setTitle('loading...');
-                this.window.content('<div id="jipLoad"><img src="' + SITE_PATH + '/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[JIP_LANG].loading + '<br /><a href="javascript: void(jipWindow.close());">' + MZZ.jipI18n[JIP_LANG].cancel + '</a></div>');
+                this.window.show().content('<div id="jipLoad"><img src="' + SITE_PATH + '/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[JIP_LANG].loading + '<br /><a href="javascript: void(jipWindow.close());">' + MZZ.jipI18n[JIP_LANG].cancel + '</a></div>');
             }
         },
 
@@ -322,7 +322,7 @@
         {
             if (this.window) {
                 this.setStyle('default').setTitle('Refresh');
-                this.window.content('<div id="jipLoad"><img src="' + SITE_PATH + '/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[JIP_LANG].refresh + '</div>');
+                this.window.show().content('<div id="jipLoad"><img src="' + SITE_PATH + '/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[JIP_LANG].refresh + '</div>');
             }
         },
 

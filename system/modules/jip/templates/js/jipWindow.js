@@ -25,13 +25,19 @@
         _title: null,
         _wrapper: null,
         _content: null,
+        _render: null,
         //_footer: null,
 
         _hidden: true,
 
+        __body: null,
+        __window: null,
+
         init: function(jipCore, options) {
             this._events.push('show', 'beforeshow', 'onshow', 'hide', 'beforehide', 'onhide', 'kill');
             this.parent = jipCore;
+            this.__body = $('body');
+            this.__window = $(window);
             this._prepareDom();
             this.sup();
         },
@@ -47,6 +53,7 @@
                 this.dom.draggable('destroy');
             }
 
+            this._render.remove();
             this.dom.remove();
         },
 
@@ -68,6 +75,24 @@
             return false;
         },
 
+        _resize: function(data) {
+            this._render.empty();
+            this._render.html(data);
+            var wh = this.__window.height();
+            var ch = this._render.outerHeight();
+            var whs = 34 /*title*/ + 30 /*content padding*/;
+            if ((wh-whs-ch) < 80) {
+                ch = wh - whs - 80;
+            }
+            this._content.height(ch);
+            var domTop = (wh - (ch + 80))/2 - 30;
+            console.log(wh, ch, whs, domTop);
+            this.dom.css({'top': domTop});
+            this._content.html(data);
+            this._render.empty();
+            
+        },
+
         content: function(content, append) {
             if (this._content.length > 0) {
                 if($.isUndefined(content)) {
@@ -79,7 +104,8 @@
                     content = this._content.html() + content;
                 }
 
-                this._content.html(content);
+                //this._content.html(content);
+                this._resize(content);
                 return this;
             }
 
@@ -135,7 +161,7 @@
         show: function() {
             if (this.hidden !== false && this.fire('beforeshow', this) !== false) {
                 this.hidden = false;
-                this.dom.show('fast');
+                this.dom.show();
                 this.fire('onshow');
             }
             this.fire('show');
@@ -145,7 +171,7 @@
         hide: function() {
             if (this.hidden !== true && this.fire('beforehide') !== false) {
                 this.hidden = true;
-                this.dom.hide('fast');
+                this.dom.hide();
                 this.fire('onhide');
             }
             this.fire('hide');
@@ -172,8 +198,10 @@
                 this._title = $('<span />').appendTo($('<div class="mzz-jip-title" />').appendTo(this._body));
                 this._content = $('<div class="mzz-jip-content" />').appendTo(this._body);
 
-                this.dom.hide('fast');
-                this.dom.appendTo($('body'));
+                this.dom.hide();
+                this.dom.appendTo(this.__body);
+
+                this._render = $('<div style="max-width: 600px; overflow: auto" />').hide().appendTo(this.__body);
             }
         }
 
