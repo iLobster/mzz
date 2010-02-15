@@ -32,12 +32,15 @@
 
         __body: null,
         __window: null,
+        _onWindowResize: null,
 
         init: function(jipCore, options) {
             this._events.push('show', 'beforeshow', 'onshow', 'hide', 'beforehide', 'onhide', 'kill');
             this.parent = jipCore;
             this.__body = $('body');
             this.__window = $(window);
+            var t = this;
+            this._onWindowResize = function(){t._onResize()};
             this._prepareDom();
             this.sup();
         },
@@ -45,14 +48,7 @@
         kill: function() {
             console.log('Oh my God!!!, someone brutally killed the window [' + this.dom.attr('id') + ']... Rest in bits');
             this.fire('kill');
-            if (this.config.resizeable) {
-                this.dom.resizable('destroy');
-            }
-
-            if (this.config.draggable) {
-                this.dom.draggable('destroy');
-            }
-
+            this.__window.unbind('resize', this._onWindowResize);
             this._render.remove();
             this.dom.remove();
         },
@@ -75,24 +71,25 @@
             return false;
         },
 
-        _resize: function(data) {
-            this._render.empty();
-            this._render.html(data);
+        _resize: function(ch) {
             var wh = this.__window.height();
-            var ch = this._render.outerHeight();
-            var whs = 34 /*title*/ + 30 /*content padding*/;
-            if ((wh-whs-ch) < 80) {
-                ch = wh - whs - 80;
+            var whs = 40 /* shadow */ + 34 /*title*/ + 30 /*content padding*/;
+            if ((wh-whs-ch) < 40) {
+                ch = wh - whs;
             }
             this._content.height(ch);
-            var domTop = (wh - (ch + 80))/2 - 30;
+            var domTop = (wh - (ch + whs - 40))/2;
             console.log(wh, ch, whs, domTop);
             this.dom.css({'top': domTop});
-            this._content.html(data);
-            this._render.empty();
-            
+
         },
 
+        _onResize: function() {
+            var ch = this._content[0].scrollHeight;
+            this._resize(ch);
+            //console.log();
+        },
+        
         content: function(content, append) {
             if (this._content.length > 0) {
                 if($.isUndefined(content)) {
@@ -104,8 +101,12 @@
                     content = this._content.html() + content;
                 }
 
-                //this._content.html(content);
-                this._resize(content);
+                this._render.empty();
+                this._render.html(content);
+                var ch = this._render.outerHeight();
+                this._content.html(content);
+                this._render.empty();
+                this._resize(ch);
                 return this;
             }
 
@@ -162,6 +163,7 @@
             if (this.hidden !== false && this.fire('beforeshow', this) !== false) {
                 this.hidden = false;
                 this.dom.show();
+                this.__window.bind('resize', this._onWindowResize);
                 this.fire('onshow');
             }
             this.fire('show');
@@ -172,6 +174,7 @@
             if (this.hidden !== true && this.fire('beforehide') !== false) {
                 this.hidden = true;
                 this.dom.hide();
+                this.__window.unbind('resize', this._onWindowResize);
                 this.fire('onhide');
             }
             this.fire('hide');
@@ -198,7 +201,7 @@
                 this._title = $('<span />').appendTo($('<div class="mzz-jip-title" />').appendTo(this._body));
                 this._content = $('<div class="mzz-jip-content" />').appendTo(this._body);
 
-                this.dom.hide();
+                this.hide();
                 this.dom.appendTo(this.__body);
 
                 this._render = $('<div style="max-width: 600px; overflow: auto" />').hide().appendTo(this.__body);
