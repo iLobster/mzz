@@ -7,6 +7,8 @@
 {add file="jip.css"}
 {add file="jip/jipMenu.css"}
 {add file="jip/jipWindow.css"}
+{add file="icons.sys.css"}
+{add file="icons.flags.css"}
 
 {add file="fileLoader.js"}
 {add file="jip/jipCore.js"}

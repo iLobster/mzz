@@ -26,10 +26,11 @@
         _wrapper: null,
         _content: null,
         _render: null,
+        _height: 0,
         //_footer: null,
 
         _hidden: true,
-
+        
         __body: null,
         __window: null,
         _onWindowResize: null,
@@ -40,7 +41,7 @@
             this.__body = $('body');
             this.__window = $(window);
             var t = this;
-            this._onWindowResize = function(){t._onResize()};
+            this._onWindowResize = function(){t._resize();t._setPosition();};
             this._prepareDom();
             this.sup();
         },
@@ -75,22 +76,15 @@
             this.dom.css({'top': (this.__window.height() - this.dom.height())/2});
         },
 
-        _resize: function(ch) {
+        _resize: function() {
             var wh = this.__window.height();
             var whs = 104; //40 /* shadow */ + 34 /*title*/ + 30 /*content padding*/;
-            if ((wh-whs-ch) < 40) {
+            var ch = this._height;
+            if ((wh - whs - ch) < 0) {
                 ch = wh - whs;
             }
-            this._content.height(ch);
-        },
 
-        _onResize: function() {
-            var ch = this._content[0].scrollHeight;
-            if (ch != this._content.innerHeight() || (ch + 104) > this.__window.height()) {
-                this._resize(ch);
-            }
-            this._setPosition();
-            console.log(ch, this._content.height(), this._content.innerHeight(), this._content.outerHeight());
+            this._content.height(ch);
         },
         
         content: function(content, append) {
@@ -106,10 +100,11 @@
 
                 this._render.empty();
                 this._render.html(content);
-                var ch = this._render.outerHeight();
+                this._render.find('div.jipTitle').remove();
+                this._height = this._render.outerHeight();
                 this._content.html(content);
                 this._render.empty();
-                this._resize(ch);
+                this._resize();
                 this._setPosition();
                 return this;
             }
@@ -208,7 +203,7 @@
                 this.hide();
                 this.dom.appendTo(this.__body);
 
-                this._render = $('<div style="max-width: 600px; overflow: auto" />').hide().appendTo(this.__body);
+                this._render = $('<div style="width: 600px; overflow: auto" />').hide().appendTo(this.dom);
             }
         }
 
