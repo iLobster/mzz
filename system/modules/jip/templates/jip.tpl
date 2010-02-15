@@ -1,16 +1,10 @@
 {if $jip}
 {strip}
 {add file="jquery.js"}
-{add file="jquery-ui/ui.core.js"}
-{add file="jquery-ui/effects.core.js"}
-{add file="jquery-ui.css"}
-{add file="jquery-ui/ui.draggable.js"}
-{add file="jquery-ui/ui.resizable.js"}
 {add file="dui.js"}
 {add file="jquery.ex.js"}
 
 {add file="jip.css"}
-{*add file="jip/jipCore.css"*}
 {add file="jip/jipMenu.css"}
 {add file="jip/jipWindow.css"}
 

@@ -8,7 +8,6 @@
     <link rel="stylesheet" type="text/css" href="{$SITE_PATH}/css/admin/system.css" />
     <link rel="stylesheet" type="text/css" href="{$SITE_PATH}/css/icons.css" />
     <link rel="stylesheet" type="text/css" href="{$SITE_PATH}/css/bullets.css" />
-    <link rel="stylesheet" type="text/css" href="{$SITE_PATH}/css/flags.css" />
     {include file='include.css.tpl'}
     <script type="text/javascript">
     //<!--
