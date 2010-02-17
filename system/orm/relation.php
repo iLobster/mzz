@@ -174,19 +174,26 @@ class relation
             $infoRel = $this->oneToMany();
             $infoRel = $infoRel[$field];
 
-            $key = $infoRel['foreign_key'];
-            $value = $data[$infoRel['local_key']];
+            if (!isset($info['local_key'])) {
+                throw new mzzRuntimeException('local_key not specified');
+            }
+            $local_value = isset($data[$info['local_key']]) ? $data[$info['local_key']] : null;
 
-            $collection = $infoRel['mapper']->searchAllByField($key, $value);
-            $collection->setParams($key, $value);
+            $collection = $infoRel['mapper']->searchAllByField($infoRel['foreign_key'], $local_value);
+            $collection->setParams($infoRel['foreign_key'], $local_value);
 
             return $collection;
         } elseif ($info['relation'] == 'many-to-many') {
             $infoRel = $this->manyToMany();
             $infoRel = $infoRel[$field];
+            
+            if (!isset($info['local_key'])) {
+                throw new mzzRuntimeException('local_key not specified');
+            }
+            $local_value = isset($data[$info['local_key']]) ? $data[$info['local_key']] : null;
 
             $criterion = new criterion('reference.' . $info['ref_foreign_key'], $infoRel['mapper']->table(false) . '.' . $info['foreign_key'], criteria::EQUAL, true);
-            $criterion->addAnd(new criterion('reference.' . $info['ref_local_key'], $data[$info['local_key']]));
+            $criterion->addAnd(new criterion('reference.' . $info['ref_local_key'], $local_value));
 
             $criteria = new criteria();
             $criteria->join($mapper->db()->getTablePrefix() . $info['reference'], $criterion, 'reference', criteria::JOIN_INNER);
@@ -194,7 +201,7 @@ class relation
             $collection = $infoRel['mapper']->searchAllByCriteria($criteria);
 
             $modifyCriteria = new criteria($mapper->db()->getTablePrefix() . $info['reference']);
-            $collection->setMtoMParams($data[$info['local_key']], $info['ref_local_key'], $info['ref_foreign_key'], $modifyCriteria);
+            $collection->setMtoMParams($local_value, $info['ref_local_key'], $info['ref_foreign_key'], $modifyCriteria);
 
             return $collection;
         }
