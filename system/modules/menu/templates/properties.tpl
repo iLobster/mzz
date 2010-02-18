@@ -26,6 +26,8 @@
                 routeParamsHolder.append(input);
             }
         }
+
+        jipWindow.window.resize(true);
     }
 
     addActiveRoute = function() {
@@ -42,10 +44,12 @@
 
         $('.activeRoute:last').after(newTr);
         lastActiveRouteNumber++;
+        jipWindow.window.resize(true);
     }
 
     removeActiveRoute = function(trigger) {
         $(trigger).closest('tr.activeRoute').remove();
+        jipWindow.window.resize(true);
     }
 })(jQuery);{/literal}
 </script>

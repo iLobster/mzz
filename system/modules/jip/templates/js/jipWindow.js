@@ -4,20 +4,7 @@
  */
 (function ($){
     MZZ.jipWindow = DUI.Class.create(MZZ.eventManager.prototype, {
-        _defaults: {'shadow':    true,
-                    'draggable': true,
-                    'draginit':  false,
-                    'draghand':  false,
-                    'dragopts':  {'handle':      '.mzz-window-drag',
-                                  'containment': 'document',
-                                  'delay':       250,
-                                  'opacity':     null},
-                    'resizeable': true,
-                    'resizeinit': false,
-                    'resizeopts': {'alsoResize': false,
-                                   'handles':    'se',
-                                   'minHeight':   150,
-                                   'minWidth':    650}},
+        _defaults: {},
         config: {},
 
         dom: null,
@@ -26,7 +13,8 @@
         _wrapper: null,
         _content: null,
         _render: null,
-        _height: 0,
+        _cRealHeight: 0,
+        _cHeight: 0,
         //_footer: null,
 
         _hidden: true,
@@ -41,7 +29,7 @@
             this.__body = $('body');
             this.__window = $(window);
             var t = this;
-            this._onWindowResize = function(){t._resize();t._setPosition();};
+            this._onWindowResize = function(){t.resize();};
             this._prepareDom();
             this.sup();
         },
@@ -72,21 +60,33 @@
             return false;
         },
 
-        _setPosition: function() {
-            this.dom.css({'top': (this.__window.height() - this.dom.height())/2});
-        },
-
-        _resize: function() {
-            var wh = this.__window.height();
-            var whs = 104; //40 /* shadow */ + 34 /*title*/ + 30 /*content padding*/;
-            var ch = this._height;
-            if ((wh - whs - ch) < 0) {
-                ch = wh - whs;
+        resize: function(force) {
+           if (force === true) {
+                this._getContentSize();
             }
 
-            this._content.height(ch);
+            var wHeight = this.__window.height();
+                var cHeight = this._cRealHeight;
+                if ((wHeight - 104 - cHeight) < 0) {
+                    cHeight = wHeight - 104;
+                }
+
+                if (cHeight != this._cHeight) {
+                    this._content.height(cHeight);
+                    this._cHeight = cHeight;
+                }
+
+                this.dom.css({'top': (wHeight - cHeight - 64)/2});
         },
-        
+
+        _getContentSize: function() {
+            this._render.empty();
+            this._render.html(this._content.html() /* + "<br />"*/);
+            this._render.find('div.jipTitle').remove();
+            this._cRealHeight = this._render.outerHeight();
+            this._render.empty();
+        },
+
         content: function(content, append) {
             if (this._content.length > 0) {
                 if($.isUndefined(content)) {
@@ -98,14 +98,8 @@
                     content = this._content.html() + content;
                 }
 
-                this._render.empty();
-                this._render.html(content);
-                this._render.find('div.jipTitle').remove();
-                this._height = this._render.outerHeight();
                 this._content.html(content);
-                this._render.empty();
-                this._resize();
-                this._setPosition();
+                this.resize(true);
                 return this;
             }
 
@@ -140,22 +134,6 @@
             this.dom.css('z-index', zIndex);
 
             return oldIndex;
-        },
-
-        top: function(top) {
-            if ($.isNumber(top)) {
-                this.dom.css('top', top);
-            } else {
-                return this.dom.position().top;
-            }
-        },
-
-        left: function(left) {
-            if ($.isNumber(left)) {
-                this.dom.css('left', left);
-            } else {
-                return this.dom.position().left;
-            }
         },
 
         show: function() {
@@ -198,7 +176,7 @@
                     '<img class="mzz-jip-gradient" src="/images/jip/window-bg.png" alt="window gradient" /></div>').appendTo(this.dom);
                 this._body = $('<div class="mzz-jip-body">').appendTo(this._wrapper);
                 this._title = $('<span />').appendTo($('<div class="mzz-jip-title" />').appendTo(this._body));
-                this._content = $('<div class="mzz-jip-content" />').appendTo(this._body);
+                this._content = $('<div class="mzz-jip-content" />').appendTo($('<div class="mzz-jip-contentwrap" />').appendTo(this._body));
 
                 this.hide();
                 this.dom.appendTo(this.__body);

@@ -1,3 +1,53 @@
+div.mzz-jip-window * {
+    font-family: Arial,sans-serif;
+    color: #000000;
+    font-size: 13px;
+    font-weight: normal;
+    text-transform: none;
+}
+
+div.mzz-jip-window table {
+    border-collapse: separate;
+    border-spacing: 2px;
+}
+
+div.mzz-jip-window td {
+    padding: 1px;
+}
+
+.mzz-jip-window {
+    position: fixed;
+    left: 50%;
+    margin-left: -375px;
+    width: 750px;
+    z-index: 902;
+    display: none;
+}
+
+.mzz-jip-window label, .mzz-jip-window .label {
+    color: #666666;
+    font-size: 13px;
+    font-weight: bold;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.mzz-jip-window input[type=text] {
+    height: 15px;
+}
+.mzz-jip-window a {
+    color: #1C4FAD;
+    text-decoration:none;
+}
+
+.mzz-jip-window a:hover, .mzz-jip-window a:active {
+    text-decoration:underline;
+}
+
+.mzz-jip-window .caption {
+    color: #888888;
+    font-size: 11px;
+}
+
 div.mzz-jip-window img.mzz-jip-gradient {
     height: 100%;
     position: absolute;
@@ -71,46 +121,41 @@ div.mzz-jip-window .mzz-jip-right {
     right: -20px;
 }
 
-   .mzz-jip-window {
-        position: fixed;
-        left: 50%;
-        margin-left: -375px;
-        width: 750px;
-        z-index: 902;
-        display: none;
-    }
+.mzz-jip-wrapper {
+    background-color:#FFFFFF;
+    border:medium none;
+    margin-left:auto;
+    margin-right:auto;
+    padding:0;
+    position:relative;
+}
 
-    .mzz-jip-wrapper {
-        background-color:#FFFFFF;
-        border:medium none;
-        margin-left:auto;
-        margin-right:auto;
-        padding:0;
-        position:relative;
-    }
+.mzz-jip-body {
+    position: relative;
+}
 
-    .mzz-jip-body {
-        position: relative;
-    }
+.mzz-jip-title {
+    background: transparent url('../../images/jip/common.png') repeat-x 0px -32px scroll;
+    height: 34px;
+}
 
-    .mzz-jip-title {
-        background: transparent url('../../images/jip/common.png') repeat-x 0px -32px scroll;
-        height: 34px;
-    }
+.mzz-jip-title span {
+    line-height: 34px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #2C4865;
+    margin-left: 20px;
+    text-shadow: 0 1px 0 rgba(250, 250, 250, 0.5);
+}
 
-    .mzz-jip-title span {
-        line-height: 34px;
-        font-size: 14px;
-        font-weight: bold;
-        color: #2C4865;
-        margin-left: 20px;
-        text-shadow: 0 1px 0 rgba(250, 250, 250, 0.5);
-    }
+.mzz-jip-contentwrap {
+    padding: 16px 0px 14px;
+}
 
-    .mzz-jip-content {
-        padding: 16px 20px 14px;
-        min-height: 70px;
-        font-size: 13px;
-        color: #000000;
-        overflow: auto;
-    }
+.mzz-jip-content {
+    padding: 0px 20px;
+    min-height: 70px;
+    font-size: 13px;
+    color: #000000;
+    overflow: auto;
+}
