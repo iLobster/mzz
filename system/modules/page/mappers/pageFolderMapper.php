@@ -60,14 +60,9 @@ class pageFolderMapper extends mapper
         $this->plugins('jip');
     }
 
-    public function searchByParentId($id)
-    {
-        return $this->searchOneByField('parent', $id);
-    }
-
     public function searchById($id)
     {
-        return $this->searchOneByField('id', $id);
+        return $this->searchByKey($id);
     }
 
     public function searchByPath($path)
@@ -111,25 +106,6 @@ class pageFolderMapper extends mapper
 
         $page = $pageMapper->searchByNameInFolder($pagename, $pageFolder->getId());
         return $page;
-    }
-
-    /**
-     * Возвращает уникальный для ДО идентификатор исходя из аргументов запроса
-     *
-     * @return integer
-     */
-    public function convertArgsToObj($args)
-    {
-        if (!isset($args['name'])) {
-            $args['name'] = 'root';
-        }
-
-        $pageFolder = $this->searchByPath($args['name']);
-        if ($pageFolder) {
-            return $pageFolder;
-        }
-
-        throw new mzzDONotFoundException();
     }
 }
 

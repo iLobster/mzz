@@ -41,7 +41,7 @@ class {{$module->getName()}}{{$actionData.controller|ucfirst}}Controller extends
 
         $validator = new formValidator();
 
-{{foreach from=$map item=property key=field}}{{assign var="propertyType" value=$property.type|default:false}}
+{{foreach from=$map item=property key=field}}{{if isset($property.type)}}{{assign var="propertyType" value=$property.type}}{{else}}{{assign var="propertyType" value=false}}{{/if}}
 {{if !isset($property.options) || !in_array('pk', $property.options) || !in_array('once', $property.options)}}
         $validator->rule('required', '{{$name}}[{{$field}}]', 'Field {{$field}} is required');
 {{if $propertyType === 'char' || $propertyType === 'varchar'}}

@@ -68,7 +68,7 @@ class pageMoveController extends simpleController
 
         $this->smarty->assign('form_action', $url->get());
         $this->smarty->assign('dests', $dests);
-        $this->smarty->assign('errors', $validator->getErrors());
+        $this->smarty->assign('validator', $validator);
         $this->smarty->assign('page', $page);
         return $this->smarty->fetch('page/move.tpl');
     }

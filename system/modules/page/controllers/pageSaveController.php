@@ -12,8 +12,6 @@
  * @version $Id$
  */
 
-fileLoader::load('forms/validators/formValidator');
-
 /**
  * pageSaveController: контроллер для метода save модуля page
  *
@@ -21,7 +19,6 @@ fileLoader::load('forms/validators/formValidator');
  * @subpackage page
  * @version 0.1
  */
-
 class pageSaveController extends simpleController
 {
     protected function getView()
@@ -80,7 +77,6 @@ class pageSaveController extends simpleController
         $url->setAction($action);
 
         $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('page', $page);
         $this->smarty->assign('validator', $validator);
         $this->smarty->assign('isEdit', $isEdit);

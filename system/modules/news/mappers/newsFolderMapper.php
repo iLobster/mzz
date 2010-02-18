@@ -68,11 +68,6 @@ class newsFolderMapper extends mapper
         $this->plugins('i18n');
     }
 
-    public function searchByParentId($id)
-    {
-        return $this->searchOneByField('parent', $id);
-    }
-
     /**
      * Выполняет поиск объекта по имени
      *

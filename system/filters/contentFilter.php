@@ -72,6 +72,8 @@ class contentFilter implements iFilter
         }
 
         $response->append($output);
+
+        $filter_chain->next();
     }
 
     public function runActiveTemplate($request, $toolkit, $smarty)
