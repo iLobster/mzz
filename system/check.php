@@ -41,11 +41,27 @@ if (extension_loaded('gd') && !function_exists('imagecreatetruecolor')) {
 }
 
 if (!is_readable(systemConfig::$pathToTemp)) {
-    $errors[] = 'Directory "' . systemConfig::$pathToTemp . '" <font color="red"><b>is not readable</b></font>';
+    if (!mkdir(systemConfig::$pathToTemp, 0664, true)) {
+        $errors[] = 'Directory "' . systemConfig::$pathToTemp . '" <font color="red"><b>is not readable</b></font>';
+    }
 }
 
 if (!is_readable(systemConfig::$pathToTemp . '/templates_c')) {
-    $errors[] = 'Directory "' . systemConfig::$pathToTemp . '/templates_c" <font color="red"><b>is not readable</b></font>';
+    if (!mkdir(systemConfig::$pathToTemp . '/templates_c', 0664, true)) {
+        $errors[] = 'Directory "' . systemConfig::$pathToTemp . '/templates_c" <font color="red"><b>is not readable</b></font>';
+    }
+}
+
+if (!is_readable(systemConfig::$pathToTemp . '/cache')) {
+    if (!mkdir(systemConfig::$pathToTemp . '/cache', 0664, true)) {
+        $errors[] = 'Directory "' . systemConfig::$pathToTemp . '/cache" <font color="red"><b>is not readable</b></font>';
+    }
+}
+
+if (!is_readable(systemConfig::$pathToTemp . '/sessions')) {
+    if (!mkdir(systemConfig::$pathToTemp . '/sessions', 0664, true)) {
+        $errors[] = 'Directory "' . systemConfig::$pathToTemp . '/sessions" <font color="red"><b>is not readable</b></font>';
+    }
 }
 
 if (!is_writable(systemConfig::$pathToTemp)) {
@@ -56,6 +72,13 @@ if (!is_writable(systemConfig::$pathToTemp . '/templates_c')) {
     $errors[] = 'Directory "' . systemConfig::$pathToTemp . '/templates_c" <font color="red"><b>is not writable</b></font>';
 }
 
+if (!is_writable(systemConfig::$pathToTemp . '/cache')) {
+    $errors[] = 'Directory "' . systemConfig::$pathToTemp . '/cache" <font color="red"><b>is not writable</b></font>';
+}
+
+if (!is_writable(systemConfig::$pathToTemp . '/sessions')) {
+    $errors[] = 'Directory "' . systemConfig::$pathToTemp . '/sessions" <font color="red"><b>is not writable</b></font>';
+}
 
 if (empty($errors)) {
     file_put_contents(systemConfig::$pathToTemp . '/checked', 'превед!');
