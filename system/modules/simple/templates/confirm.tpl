@@ -1,6 +1,3 @@
-<script type="text/javascript">
-jipWindow.setStyle('alert');
-</script>
 <div class="confirm">
 <div class="confirmImg">
 <img src="{$SITE_PATH}/images/confirm.gif" hspace="20" vspace="5" /></div>

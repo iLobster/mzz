@@ -25,7 +25,7 @@
 
         init: function(jipCore, options) {
             this._events.push('show', 'beforeshow', 'onshow', 'hide', 'beforehide', 'onhide', 'kill');
-            this.parent = jipCore;
+            this._parent = jipCore;
             this.__body = $('body');
             this.__window = $(window);
             var t = this;
@@ -169,7 +169,7 @@
 
         _prepareDom: function() {
             if (!this.dom) {
-                this.dom = $('<div id="' + this.parent.id + '_window_' + this.parent.currentWindow + '" class="mzz-jip-window" />');
+                this.dom = $('<div id="' + this._parent.id + '_window_' + this._parent.currentWindow + '" class="mzz-jip-window" />');
                 this._wrapper = $('<div class="mzz-jip-wrapper"><div class="mzz-jip-topLeft"></div><div class="mzz-jip-top"></div>' +
                     '<div class="mzz-jip-topRight"></div><div class="mzz-jip-left"></div><div class="mzz-jip-right"></div>' +
                     '<div class="mzz-jip-bottomLeft"></div><div class="mzz-jip-bottom"></div><div class="mzz-jip-bottomRight"></div>' +

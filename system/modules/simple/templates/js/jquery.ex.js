@@ -188,7 +188,7 @@ var Cookie = {
             context = context || this;
             originaltarget = originaltarget || this;
             var args = Array.prototype.slice.call(arguments, 0);
-            var push = [{'type': event, 'once': false, 'target': this, 'originaltarget': originaltarget, 'result': undefined, 'originalcontext': context}].concat(args.slice(2));
+            var push = [{'type': event, 'once': false, 'target': this, 'originaltarget': originaltarget, 'result': undefined}].concat(args.slice(3));
             
             if(this._binds[event]) {
                 $.each(this._binds[event], function(i) {

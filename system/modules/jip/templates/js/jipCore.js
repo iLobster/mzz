@@ -26,17 +26,18 @@
             
             this.lockerResize = function() {__t.lockContent();};
             this.eventKey = function(e) {if (e.keyCode == 27) {e.preventDefault();e.stopImmediatePropagation();__t.close();}};
-            this._events.push('beforeclose', 'close', 'open', 'success', 'error', 'complete');
+            this._events.push('beforeclose', 'close', 'beforeopen', 'open', 'success', 'error', 'complete');
             this._allowAnyEvent = true;
             this.sup();
         },
 
-        open: function(url, isNew, method, params, options) {
+        open: function(url, isNew, method, params) {
             isNew = (this.windowCount == 0) ? true : (isNew || false);
             params = params || {};
-            options = options || {};
             params.jip = 1;
             method = (method && method.toUpperCase() == 'POST') ? 'POST' : 'GET';
+
+            this.fire('beforeopen', this, this, url, isNew, method, params);
 
             if (isNew) {
                 this.currentWindow = this.windowCount++;
@@ -48,9 +49,8 @@
                 }
                 this.stack[this.currentWindow] = [];
                 this.tinyMCEIds[this.currentWindow] = [];
-                this.window = new MZZ.jipWindow(this, options);
-                this.window.bind(this.windowEvents, false, this);
-                //this.window.top(this.window.top() + $(window).scrollTop());
+                this.window = new MZZ.jipWindow(this);
+                this.window.bind(this.windowEvents);
                 this.setStatus('<strong>Window url:</strong> ' + url);
                 $(document).keypress(this.eventKey);
             } else {
@@ -67,7 +67,7 @@
                 }
             }
 
-            this.fire('open');
+            this.fire('open', this, this, url, isNew, method, params, options);
 
             return false;
         },
@@ -144,27 +144,31 @@
         },
 
         request: function(url, type, data) {
+            var t = this;
             $.ajax({
                 url: url,
                 type: type,
                 data: data,
                 cache: false,
-                complete: function(transport, status) {
+                complete: function(data, status, request) {
                     if(status == 'success') {
-                        jipWindow.successRequest(transport);
+                        t.successRequest(data, status, request);
+                        t.fire('success', t, t, data, status, request);
                     } else {
-                        jipWindow.setErrorMsg(transport, status);
+                        t.setErrorMsg(data, status, request);
+                        t.fire('error', t, t, data, status, request);
                     }
+                    t.fire('complete', t, t, data, status, request);
                 }
             });
         },
         
         windowEvents: function(e) {
             if (e.type == 'close') {
-                this.fire('beforeclose', e.originalcontext, e.target);
-                this.close();
+                this._parent.fire('beforeclose', undefined, e.target);
+                this._parent.close();
             } else {
-                //this.fire(e.type);
+                this._parent.fire(e.type, undefined, e.target);
             }
         },
         
@@ -304,7 +308,7 @@
         setErrorMsg: function (transport, status)
         {
             if (this.window) {
-                this.setStyle('error').setTitle('error');
+                this.setTitle('error');
                 var reason = 'Reason: ' + ((transport.status == 404) ? '404 Not found' : '') + ((transport.status == 403) ? '403 Forbidden' : '') + ((transport.status == 500) ? '500 серверу плохо' : '') + '';
                 this.window.show().content('<p align="center">' + MZZ.jipI18n[JIP_LANG].error + ' ' + reason + '</p>');
             }
@@ -313,7 +317,7 @@
         clean: function()
         {
             if (this.window) {
-                this.setStyle('default').setTitle('loading...');
+                this.setTitle('loading...');
                 this.window.show().content('<div id="jipLoad"><img src="' + SITE_PATH + '/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[JIP_LANG].loading + '<br /><a href="javascript: void(jipWindow.close());">' + MZZ.jipI18n[JIP_LANG].cancel + '</a></div>');
             }
         },
@@ -321,7 +325,7 @@
         setRefreshMsg: function()
         {
             if (this.window) {
-                this.setStyle('default').setTitle('Refresh');
+                this.setTitle('Refresh');
                 this.window.show().content('<div id="jipLoad"><img src="' + SITE_PATH + '/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[JIP_LANG].refresh + '</div>');
             }
         },
@@ -336,8 +340,6 @@
             }
         },
 
-        setStyle: function(style) {return this},
-
         setTitle: function(title)
         {
             if (this.window) {
@@ -351,6 +353,15 @@
         {
             if (this.window) {
                 this.window.status(status);
+            }
+
+            return this;
+        },
+
+        resize: function(force)
+        {
+            if (this.window) {
+                this.window.resize(force);
             }
 
             return this;
@@ -412,4 +423,5 @@
 })(jQuery);
 
 var jipWindow = new MZZ.jipCore;
+jipWindow.bind(function(a,b,c,d,e){console.log(this, a,b,c,d,e); if (e) {e.ggg = 'haha';}});
 var tinyMCE = false;

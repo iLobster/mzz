@@ -8,7 +8,6 @@ fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
 
 (function($) {
     toggleEditor = function(id) {
-        //console.log($.isUndefined(tinyMCE));
         if (!(tinyMCE) || tinyMCE.getInstanceById(id) == null) {
             $('#' + id).tinymce({
                 script_url: SITE_PATH + '/js/tiny_mce/tiny_mce_jquery.js',
@@ -44,10 +43,12 @@ fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
 
             jipWindow.addTinyMCEId(id);
             $('#' + id + '_editorStatus').text('Выключить WYSIWYG-редактор');
+            jipWindow.resize(true);
         } else {
             tinyMCE.execCommand('mceRemoveControl', false, id);
             jipWindow.deleteTinyMCEId(id);
             $('#' + id + '_editorStatus').text('Включить WYSIWYG-редактор');
+            jipWindow.resize(true);
         }
     }
 })(jQuery);

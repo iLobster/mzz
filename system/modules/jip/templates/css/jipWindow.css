@@ -6,11 +6,6 @@ div.mzz-jip-window * {
     text-transform: none;
 }
 
-div.mzz-jip-window table {
-    border-collapse: separate;
-    border-spacing: 2px;
-}
-
 div.mzz-jip-window td {
     padding: 1px;
 }
