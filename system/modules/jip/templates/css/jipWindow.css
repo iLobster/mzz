@@ -38,6 +38,22 @@ div.mzz-jip-window td {
     text-decoration:underline;
 }
 
+.mzz-jip-window a.mzz-jip-close {
+    display: block;
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-weight: bold;
+    color: #777777;
+    text-decoration: none;
+    text-shadow:0 1px 0 rgba(250, 250, 250, 0.5);
+}
+
+.mzz-jip-window a.mzz-jip-close:hover {
+    color: #2C4865;
+    text-decoration: none;
+}
+
 .mzz-jip-window .caption {
     color: #888888;
     font-size: 11px;

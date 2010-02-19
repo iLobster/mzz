@@ -20,12 +20,12 @@
         locker: false,             //локер
 
         init: function() {
-            var __t = this;
+            var t = this;
             this.__id = MZZ.tools.getId();
             this.id = this.id + '' + this.__id;
             
-            this.lockerResize = function() {__t.lockContent();};
-            this.eventKey = function(e) {if (e.keyCode == 27) {e.preventDefault();e.stopImmediatePropagation();__t.close();}};
+            this.lockerResize = function() {t.lockContent();};
+            this.eventKey = function(e) {if (e.keyCode == 27) {e.preventDefault();e.stopImmediatePropagation();t.close();}};
             this._events.push('beforeclose', 'close', 'beforeopen', 'open', 'success', 'error', 'complete');
             this._allowAnyEvent = true;
             this.sup();
@@ -423,5 +423,4 @@
 })(jQuery);
 
 var jipWindow = new MZZ.jipCore;
-jipWindow.bind(function(a,b,c,d,e){console.log(this, a,b,c,d,e); if (e) {e.ggg = 'haha';}});
 var tinyMCE = false;

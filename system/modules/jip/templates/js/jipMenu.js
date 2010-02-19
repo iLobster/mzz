@@ -34,9 +34,7 @@
                 this.cMenu.stop(true, true);
                 this.cMenu.hide();
                 this.cMenu = false;
-                this.cButton.removeClass('active'); //attr({
-                    //src: SITE_PATH + '/images/jip/jip.gif'
-                //});
+                this.cButton.removeClass('active');
                 this.cButton = false;
                 $(document).unbind('keypress', this.eventKey);
             }
@@ -62,9 +60,7 @@
                 }
 
                 this.draw(button, id, items, langs);
-                this.cButton.addClass('active'); //.attr({
-                    //src: SITE_PATH + '/images/jip/jip_active.gif'
-                //});
+                this.cButton.addClass('active');
             } else {
                 this.close();
             }
@@ -180,7 +176,7 @@
         drawLang: function(id, lnk, langs) {
             if (!$('#' + id).length) {
 
-                var jipMenuDiv = $('<div id="' + id + '" class="mzz-jip-menu">' +
+                var jipMenuDiv = $('<div id="' + id + '" class="mzz-jip-menu mzz-jip-menu-lang">' +
                                    '<div class="mzz-jip-topLeft"></div><div class="mzz-jip-top"></div><div class="mzz-jip-topRight"></div>' +
                                    '<div class="mzz-jip-left"></div><div class="mzz-jip-right"></div>' +
                                    '<div class="mzz-jip-bottomLeft"></div><div class="mzz-jip-bottom"></div><div class="mzz-jip-bottomRight"></div></div>')

@@ -120,6 +120,11 @@ div.mzz-jip-menu a {
 }
 
 div.mzz-jip-menu a img.mzz-icon {
-    vertical-align: baseline;
+    vertical-align: top;
+    margin-right: 10px;
+}
+
+div.mzz-jip-menu-lang a img.mzz-icon {
+    vertical-align: middle;
     margin-right: 10px;
 }

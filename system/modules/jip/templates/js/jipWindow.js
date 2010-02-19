@@ -169,6 +169,7 @@
 
         _prepareDom: function() {
             if (!this.dom) {
+                var t = this;
                 this.dom = $('<div id="' + this._parent.id + '_window_' + this._parent.currentWindow + '" class="mzz-jip-window" />');
                 this._wrapper = $('<div class="mzz-jip-wrapper"><div class="mzz-jip-topLeft"></div><div class="mzz-jip-top"></div>' +
                     '<div class="mzz-jip-topRight"></div><div class="mzz-jip-left"></div><div class="mzz-jip-right"></div>' +
@@ -177,7 +178,7 @@
                 this._body = $('<div class="mzz-jip-body">').appendTo(this._wrapper);
                 this._title = $('<span />').appendTo($('<div class="mzz-jip-title" />').appendTo(this._body));
                 this._content = $('<div class="mzz-jip-content" />').appendTo($('<div class="mzz-jip-contentwrap" />').appendTo(this._body));
-
+                this._body.append($('<a href="" class="mzz-jip-close">x</a>').bind('click', function(e){e.preventDefault();e.stopImmediatePropagation();t._parent.close();}));
                 this.hide();
                 this.dom.appendTo(this.__body);
 
