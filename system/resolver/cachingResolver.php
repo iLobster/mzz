@@ -13,7 +13,6 @@
  */
 
 require_once systemConfig::$pathToSystem . '/cache/cache.php';
-require_once systemConfig::$pathToSystem . '/cache/cacheFile.php';
 
 /**
  * cachingResolver: кэширующий резолвер
@@ -56,6 +55,10 @@ final class cachingResolver extends decoratingResolver
     {
         $this->cacheName = $cacheName;
 
+        $class_name = cache::getBackendClassName(systemConfig::$cache['long']['backend']);
+        if (!class_exists($class_name)) {
+            require_once systemConfig::$pathToSystem . '/cache/' . $class_name . '.php';
+        }
         $this->cacheBackend = cache::factory('long');
 
         $this->cacheBackend->get($cacheName, $this->cache);

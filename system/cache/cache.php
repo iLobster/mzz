@@ -14,6 +14,7 @@
  * @version $Id$
  */
 
+require_once systemConfig::$pathToSystem . '/exceptions/mzzException.php';
 require_once systemConfig::$pathToSystem . '/cache/cacheBackend.php';
 
 /**
@@ -62,7 +63,7 @@ class cache
 
         $config = $configs[$configName];
         if (!isset(self::$instances[$configName])) {
-            $className = 'cache' . ucfirst($config['backend']);
+            $className = self::getBackendClassName($config['backend']);
             $params = isset($config['params']) ? $config['params'] : array();
             try {
                 $notFound = false;
@@ -172,6 +173,11 @@ class cache
     private function key($key)
     {
         return systemConfig::$appName . '_' . systemConfig::$appVersion . '_' . MZZ_VERSION . '_' . $this->type . '_' . $key;
+    }
+
+    public static function getBackendClassName($backend)
+    {
+        return 'cache' . ucfirst($backend);
     }
 }
 
