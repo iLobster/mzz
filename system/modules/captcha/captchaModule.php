@@ -33,5 +33,10 @@ class captchaModule extends simpleModule
                     'module' => 'captcha',
                     'action' => 'view'))));
     }
+
+    public function isSystem()
+    {
+        return true;
+    }
 }
 ?>

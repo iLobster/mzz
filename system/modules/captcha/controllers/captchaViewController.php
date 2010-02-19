@@ -12,7 +12,7 @@
  * @version $Id$
  */
 
-fileLoader::load('captcha');
+fileLoader::load('captcha/models/captcha');
 
 /**
  * captchaViewController: контроллер для метода view модуля captcha
