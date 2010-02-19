@@ -72,9 +72,10 @@ class url
     /**
      * Возвращает сгенерированный полный URL
      *
+     * @param bool $encodeUrl - выполнять urlencode или нет
      * @return string
      */
-    public function get()
+    public function get($encodeUrl = false)
     {
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
@@ -97,7 +98,10 @@ class url
             $params['module'] = $request->getModule();
         }
 
-        $path = $this->route->assemble($params);
+        $path = $this->route->assemble($params, $encodeUrl);
+        if ($encodeUrl) {
+            $path = str_replace('%2F', '/', urlencode($path)); 
+        }
 
         if (sizeof($this->getParams)) {
             $path .= '?' . http_build_query($this->getParams);
