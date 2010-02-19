@@ -37,7 +37,6 @@ class pageViewController extends simpleController
         }
 
         $this->smarty->assign('page', $page);
-        $this->smarty->disableMain();
         return $this->smarty->fetch('page/view.tpl');
     }
 }
