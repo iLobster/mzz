@@ -164,6 +164,10 @@
         },
         
         windowEvents: function(e) {
+            if (window.opera) {
+               //@bug: see http://trac.mzz.ru/ticket/322
+               return undefined;
+            }
             if (e.type == 'close') {
                 this._parent.fire('beforeclose', undefined, e.target);
                 this._parent.close();
