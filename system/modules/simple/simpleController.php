@@ -46,7 +46,7 @@ abstract class simpleController
     /**
      * Объект шаблонного движка
      *
-     * @var mzzSmarty
+     * @var fSmarty
      */
     protected $smarty;
 
