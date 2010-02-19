@@ -2008,7 +2008,7 @@ static public $yy_action = array(
 #line 2013 "smarty_internal_templateparser.php"
 #line 105 "smarty_internal_templateparser.y"
     function yy_r5(){if ($this->sec_obj->php_handling == SMARTY_PHP_PASSTHRU) {
-                                       $this->_retvalue = $this->cacher->processNocacheCode("<?php echo htmlspecialchars('<?php".str_replace("'","\'",$this->yystack[$this->yyidx + -1]->minor)."?>', ENT_QUOTES);?>\n", $this->compiler, false);
+                                       $this->_retvalue = $this->cacher->processNocacheCode("<?php echo htmlspecialchars('<?php".str_replace("'","\'",$this->yystack[$this->yyidx + -1]->minor)."?>', ENT_QUOTES);?>", $this->compiler, false);
                                       } elseif ($this->sec_obj->php_handling == SMARTY_PHP_QUOTE) {
                                        $this->_retvalue = $this->cacher->processNocacheCode(htmlspecialchars('<?php'.$this->yystack[$this->yyidx + -1]->minor.'?>', ENT_QUOTES), $this->compiler, false);
                                       }elseif ($this->sec_obj->php_handling == SMARTY_PHP_ALLOW) {
@@ -2021,7 +2021,7 @@ static public $yy_action = array(
 #line 116 "smarty_internal_templateparser.y"
     function yy_r6(){ 
                                       if ($this->sec_obj->php_handling == SMARTY_PHP_PASSTHRU || $this->sec_obj->php_handling == SMARTY_PHP_ALLOW) {
-                                       $this->_retvalue = $this->cacher->processNocacheCode("<?php echo '<?=".$this->yystack[$this->yyidx + -1]->minor."?>'?>\n", $this->compiler, false);
+                                       $this->_retvalue = $this->cacher->processNocacheCode("<?php echo '<?=".$this->yystack[$this->yyidx + -1]->minor."?>'?>", $this->compiler, false);
                                       } elseif ($this->sec_obj->php_handling == SMARTY_PHP_QUOTE) {
                                        $this->_retvalue = $this->cacher->processNocacheCode(htmlspecialchars('<?='.$this->yystack[$this->yyidx + -1]->minor.'?>', ENT_QUOTES), $this->compiler, false);
                                       }elseif ($this->sec_obj == SMARTY_PHP_REMOVE) {
@@ -2033,7 +2033,7 @@ static public $yy_action = array(
     function yy_r7(){ $this->compiler->tag_nocache = true; $this->_retvalue = $this->cacher->processNocacheCode("<?php echo '<?xml';?>", $this->compiler, true);    }
 #line 2039 "smarty_internal_templateparser.php"
 #line 128 "smarty_internal_templateparser.y"
-    function yy_r8(){$this->compiler->tag_nocache = true; $this->_retvalue = $this->cacher->processNocacheCode("<?php echo '?>';?>\n", $this->compiler, true);    }
+    function yy_r8(){$this->compiler->tag_nocache = true; $this->_retvalue = $this->cacher->processNocacheCode("<?php echo '?>';?>", $this->compiler, true);    }
 #line 2042 "smarty_internal_templateparser.php"
 #line 130 "smarty_internal_templateparser.y"
     function yy_r9(){$this->_retvalue = $this->cacher->processNocacheCode($this->yystack[$this->yyidx + 0]->minor, $this->compiler,false);    }

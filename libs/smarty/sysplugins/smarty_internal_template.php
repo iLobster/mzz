@@ -743,8 +743,8 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
     */
     public function createPropertyHeader ()
     {
-        $directory_security = $this->smarty->direct_access_security ? "<?php if(!defined('SMARTY_DIR')) exit('no direct access allowed'); ?>\n" : '';
-        $properties_string = "<?php \$_smarty_tpl->decodeProperties('" . str_replace("'", '"', (serialize($this->properties))) . "'); ?>\n";
+        $directory_security = $this->smarty->direct_access_security ? "<?php if(!defined('SMARTY_DIR')) exit('no direct access allowed'); ?>" : '';
+        $properties_string = "<?php \$_smarty_tpl->decodeProperties('" . str_replace("'", '"', (serialize($this->properties))) . "'); ?>";
         return $directory_security . $properties_string;
     } 
 

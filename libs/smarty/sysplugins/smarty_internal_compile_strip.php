@@ -52,7 +52,7 @@ class Smarty_Internal_Compile_Stripclose extends Smarty_Internal_CompileBase {
 
         $saved_attr = $this->_close_tag(array('strip'));
 
-        $_output = "<?php echo preg_replace('![\t ]*[\r\n]+[\t ]*!', '', ob_get_clean()); ?>\n";
+        $_output = "<?php echo preg_replace('![\t ]*[\r\n]+[\t ]*!', '', ob_get_clean()); ?>";
         return $_output;
     } 
 } 

@@ -156,7 +156,7 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase {
             $_output .= "\$_smarty_tpl->assign($_assign,\$_template->getRenderedTemplate()); ?>";
         } else {
             if ($has_compiled_template && !($compiler->template->caching && ($this->compiler->tag_nocache || $this->compiler->nocache))) {
-                $_output .= " \$_tpl_stack[] = \$_smarty_tpl; \$_smarty_tpl = \$_template;?>\n";
+                $_output .= " \$_tpl_stack[] = \$_smarty_tpl; \$_smarty_tpl = \$_template;?>";
                 $_output .= $compiled_tpl . "<?php /*  End of included template \"" . $tpl->getTemplateFilepath() . "\" */ ?>";
                 $_output .= "<?php  \$_smarty_tpl = array_pop(\$_tpl_stack);?>";
             } else {

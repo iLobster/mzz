@@ -53,7 +53,7 @@ class Smarty_Internal_TemplateCompilerBase {
         $template_header = '';
         if (!$template->suppressHeader) {
             $template_header .= "<?php /* Smarty version " . Smarty::$_version . ", created on " . strftime("%Y-%m-%d %H:%M:%S") . "\n";
-            $template_header .= "         compiled from \"" . $this->template->getTemplateFilepath() . "\" */ ?>\n";
+            $template_header .= "         compiled from \"" . $this->template->getTemplateFilepath() . "\" */ ?>";
         } 
 
         do {
