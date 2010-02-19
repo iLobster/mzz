@@ -67,7 +67,7 @@
                 }
             }
 
-            this.fire('open', this, this, url, isNew, method, params, options);
+            this.fire('open', this, this, url, isNew, method, params);
 
             return false;
         },
