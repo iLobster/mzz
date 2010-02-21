@@ -68,6 +68,10 @@ class commentsFolderListController extends simpleController
 
         $comments = $commentsFolder->getComments();
 
+        if ($comments->count() != $commentsFolder->getCommentsCount()) {
+            $commentsFolder->setCommentsCount($comments->count());
+        }
+
         $this->smarty->assign('commentsFolder', $commentsFolder);
         $this->smarty->assign('comments', $comments);
         return $this->smarty->fetch('comments/list.tpl');

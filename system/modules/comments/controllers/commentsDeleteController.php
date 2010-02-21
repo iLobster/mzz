@@ -24,8 +24,15 @@ class commentsDeleteController extends simpleController
 {
     protected function getView()
     {
-        $commentsMapper = $this->toolkit->getMapper('comments', 'comments', 'comments');
-        $commentsMapper->delete($this->request->getInteger('id'));
+        $commentsMapper = $this->toolkit->getMapper('comments', 'comments');
+
+        $comment = $commentsMapper->searchByKey($this->request->getInteger('id'));
+
+        if (!$comment) {
+            return $this->forward404($commentsMapper);
+        }
+
+        $commentsMapper->delete($comment);
 
         return jipTools::redirect();
     }

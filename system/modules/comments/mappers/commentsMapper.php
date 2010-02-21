@@ -21,7 +21,7 @@ fileLoader::load('modules/jip/plugins/jipPlugin');
  *
  * @package modules
  * @subpackage comments
- * @version 0.1
+ * @version 0.1.1
  */
 class commentsMapper extends mapper
 {
@@ -91,6 +91,7 @@ class commentsMapper extends mapper
         $data['created'] = time();
     }
 
+    /*
     public function postInsert(entity $object)
     {
         $folder = $object->getFolder();
@@ -108,14 +109,15 @@ class commentsMapper extends mapper
 
         $objectMapper->notify('commentAdded', $data);
     }
+    */
 
-    public function convertArgsToObj($args)
+    public function postDelete(entity $object)
     {
-        if (isset($args['id']) && $comment = $this->searchById($args['id'])) {
-            return $comment;
-        }
+        $commentsFolder = $object->getFolder();
+        $commentsFolder->setCommentsCount($commentsFolder->getCommentsCount() - 1);
 
-        throw new mzzDONotFoundException();
+        $commentsFolderMapper = systemToolkit::getInstance()->getMapper('comments', 'commentsFolder');
+        $commentsFolderMapper->save($commentsFolder);
     }
 }
 

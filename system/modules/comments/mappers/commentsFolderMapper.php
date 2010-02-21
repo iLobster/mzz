@@ -90,6 +90,7 @@ class commentsFolderMapper extends mapper
         return $this->searchOneByCriteria($criteria);
     }
 
+    /*
     public function commentAdded(Array $data)
     {
         $commentsMapper = systemToolkit::getInstance()->getMapper('comments', 'comments');
@@ -106,6 +107,7 @@ class commentsFolderMapper extends mapper
         $commentsFolder->setCommentsCount($commentsCount);
         $this->save($commentsFolder);
     }
+    */
 
     public function delete(commentsFolder $object)
     {
