@@ -70,6 +70,8 @@ class commentsFolderListController extends simpleController
 
         if ($comments->count() != $commentsFolder->getCommentsCount()) {
             $commentsFolder->setCommentsCount($comments->count());
+            $commentsFolderMapper->save($commentsFolder);
+            
         }
 
         $this->smarty->assign('commentsFolder', $commentsFolder);
