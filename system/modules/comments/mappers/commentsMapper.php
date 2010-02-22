@@ -109,7 +109,6 @@ class commentsMapper extends mapper
 
         $objectMapper->notify('commentAdded', $data);
     }
-    */
 
     public function postDelete(entity $object)
     {
@@ -119,6 +118,7 @@ class commentsMapper extends mapper
         $commentsFolderMapper = systemToolkit::getInstance()->getMapper('comments', 'commentsFolder');
         $commentsFolderMapper->save($commentsFolder);
     }
+    */
 }
 
 ?>

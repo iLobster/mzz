@@ -69,9 +69,13 @@ class commentsFolderListController extends simpleController
         $comments = $commentsFolder->getComments();
 
         if ($comments->count() != $commentsFolder->getCommentsCount()) {
+            //recursive update workaround
+            $commentsFolder->merge(array('comments' => null));
+
             $commentsFolder->setCommentsCount($comments->count());
             $commentsFolderMapper->save($commentsFolder);
-            
+
+            $commentsFolder->merge(array('comments' => $comments));
         }
 
         $this->smarty->assign('commentsFolder', $commentsFolder);
