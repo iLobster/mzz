@@ -20,6 +20,18 @@ class fPHPMailerMailer extends abstractMailer
             if (isset($params['smtp_host'])) {
                 $phpmailer->Host = (string)$params['smtp_host'];
             }
+            
+            if (isset($params['smtp_port'])) {
+                $phpmailer->Port = $params['smtp_port'];
+            }
+            
+            if (isset($params['smtp_user']) && isset($params['smtp_pass'])) {
+                $phpmailer->SMTPAuth = true;
+                $phpmailer->Username = $params['smtp_user'];
+                $phpmailer->Password = $params['smtp_pass'];
+            }
+            
+            $phpmailer->SMTPDebug = (isset($params['smtp_debug']) && $params['smtp_debug']);
         }
 
         $this->phpmailer = $phpmailer;

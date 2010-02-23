@@ -204,7 +204,7 @@ class entity implements serializable
         $serializable = $this->serializableProperties();
         $vars = array_intersect_key(get_object_vars($this), array_flip($serializable));
         $vars['module'] = $this->mapper->getModule();
-
+        
         foreach ($this->data as $k => $v) {
             if ($v instanceof lazy) {
                 $vars['data'][$k] = $v->load();
@@ -232,11 +232,23 @@ class entity implements serializable
         $module = $array['module'];
         unset($array['module']);
 
-        foreach ($array as $k => $v) {
-            $this->$k = $v;
-        }
-
         $mapper = systemToolkit::getInstance()->getMapper($module, get_class($this));
+        $map = $mapper->map();
+        
+        foreach ($array as $k => $v) {
+            if ($k == 'data' || $k == 'dataChanged') {
+                foreach ($v as $field => $value) {
+                    if (isset($map[$field]['relation']) && !$mapper->hasOption($field, 'lazy')) {
+                        $this->{$k}[$field] = unserialize($value);
+                    } else {
+                        $this->{$k}[$field] = $value;
+                    }
+                }
+            } else {
+                $this->{$k} = $v;
+            }
+        }
+        
         $this->__construct($mapper);
 
         $mapper->notify('preUnserialize', $this);
