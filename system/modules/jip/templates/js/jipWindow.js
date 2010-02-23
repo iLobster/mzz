@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 (function ($){
-    MZZ.jipWindow = DUI.Class.create(MZZ.eventManager.prototype, {
+    MZZ.jipWindow = DUI.Class.create($('<div />'), {
         _defaults: {},
         config: {},
 
@@ -24,19 +24,17 @@
         _onWindowResize: null,
 
         init: function(jipCore, options) {
-            this._events.push('show', 'beforeshow', 'onshow', 'hide', 'beforehide', 'onhide', 'kill');
             this._parent = jipCore;
             this.__body = $('body');
             this.__window = $(window);
             var t = this;
             this._onWindowResize = function(){t.resize();};
             this._prepareDom();
-            this.sup();
         },
 
         kill: function() {
             console.log('Oh my God!!!, someone brutally killed the window [' + this.dom.attr('id') + ']... Rest in bits');
-            this.fire('kill');
+            this.triggerHandler('kill');
             this.__window.unbind('resize', this._onWindowResize);
             this._render.remove();
             this.dom.remove();
@@ -137,24 +135,24 @@
         },
 
         show: function() {
-            if (this.hidden !== false && this.fire('beforeshow', this) !== false) {
+            if (this.hidden !== false && this.triggerHandler('beforeshow', this) !== false) {
                 this.hidden = false;
                 this.dom.show();
                 this.__window.bind('resize', this._onWindowResize);
-                this.fire('onshow');
+                this.triggerHandler('onshow');
             }
-            this.fire('show');
+            this.triggerHandler('show');
             return this;
         },
 
         hide: function() {
-            if (this.hidden !== true && this.fire('beforehide') !== false) {
+            if (this.hidden !== true && this.triggerHandler('beforehide') !== false) {
                 this.hidden = true;
                 this.dom.hide();
                 this.__window.unbind('resize', this._onWindowResize);
-                this.fire('onhide');
+                this.triggerHandler('onhide');
             }
-            this.fire('hide');
+            this.triggerHandler('hide');
             return this;
         },
 

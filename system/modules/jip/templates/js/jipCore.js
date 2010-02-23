@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 (function ($){
-    MZZ.jipCore = DUI.Class.create(MZZ.eventManager.prototype, {
+    MZZ.jipCore = DUI.Class.create($('<div />'), {
         __id: 0,
         id: 'jip_',
         window: false,              //текущее окно
@@ -26,9 +26,6 @@
             
             this.lockerResize = function() {t.lockContent();};
             this.eventKey = function(e) {if (e.keyCode == 27) {e.preventDefault();e.stopImmediatePropagation();t.close();}};
-            this._events.push('beforeclose', 'close', 'beforeopen', 'open', 'success', 'error', 'complete');
-            this._allowAnyEvent = true;
-            this.sup();
         },
 
         open: function(url, isNew, method, params) {
@@ -37,7 +34,7 @@
             params.jip = 1;
             method = (method && method.toUpperCase() == 'POST') ? 'POST' : 'GET';
 
-            this.fire('beforeopen', this, this, url, isNew, method, params);
+            this.triggerHandler('beforeopen', this, this, url, isNew, method, params);
 
             if (isNew) {
                 this.currentWindow = this.windowCount++;
@@ -50,7 +47,7 @@
                 this.stack[this.currentWindow] = [];
                 this.tinyMCEIds[this.currentWindow] = [];
                 this.window = new MZZ.jipWindow(this);
-                this.window.bind(this.windowEvents);
+                this.window.bind('beforeshow onshore show beforehide onhide hide kill', this.windowEvents);
                 this.setStatus('<strong>Window url:</strong> ' + url);
                 $(document).keypress(this.eventKey);
             } else {
@@ -67,7 +64,7 @@
                 }
             }
 
-            this.fire('open', this, this, url, isNew, method, params);
+            this.triggerHandler('open', this, this, url, isNew, method, params);
 
             return false;
         },
@@ -153,12 +150,12 @@
                 complete: function(data, status, request) {
                     if(status == 'success') {
                         t.successRequest(data, status, request);
-                        t.fire('success', t, t, data, status, request);
+                        t.triggerHandler('success', t, t, data, status, request);
                     } else {
                         t.setErrorMsg(data, status, request);
-                        t.fire('error', t, t, data, status, request);
+                        t.triggerHandler('error', t, t, data, status, request);
                     }
-                    t.fire('complete', t, t, data, status, request);
+                    t.triggerHandler('complete', t, t, data, status, request);
                 }
             });
         },
@@ -167,10 +164,10 @@
             //@bug: see http://trac.mzz.ru/ticket/322
             return undefined;
             if (e.type == 'close') {
-                this._parent.fire('beforeclose', undefined, e.target);
+                this._parent.triggerHandler('beforeclose');
                 this._parent.close();
             } else {
-                this._parent.fire(e.type, undefined, e.target);
+                this._parent.triggerHandler(e.type);
             }
         },
         
@@ -187,7 +184,7 @@
                 if (this.locker.css('display') != 'block') {
                     win.bind('resize', this.lockerResize);
                     this.hideSelects();
-                    this.fire('lock');
+                    this.triggerHandler('lock');
                     this.locker.fadeIn('slow');
                 }
             }
@@ -198,7 +195,7 @@
                 var t = this;
                 this.locker.fadeOut('slow', function() {
                     $(this).css('display', 'none');
-                    t.fire('unlock');
+                    t.triggerHandler('unlock');
                     t.showSelects();
                 });
             }
