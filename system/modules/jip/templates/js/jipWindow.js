@@ -41,9 +41,10 @@
 
         kill: function() {
             console.log('Oh my God!!!, someone brutally killed the window [' + this.attr('id') + ']... Rest in bits');
-            this.triggerHandler('kill');
+            this.triggerHandler('kill', [this]);
             this.__window.unbind('resize', this._onWindowResize);
             this._render.remove();
+            this.empty();
             this.remove();
         },
 
@@ -142,24 +143,24 @@
         },
 
         show: function() {
-            if (this.hidden !== false && this.triggerHandler('beforeshow', this) !== false) {
+            if (this.hidden !== false && this.triggerHandler('beforeshow', [this]) !== false) {
                 this.hidden = false;
                 this.css('display', 'block');
                 this.__window.bind('resize', this._onWindowResize);
-                this.triggerHandler('onshow');
+                this.triggerHandler('onshow', [this]);
             }
-            this.triggerHandler('show');
+            this.triggerHandler('show', [this]);
             return this;
         },
 
         hide: function() {
-            if (this.hidden !== true && this.triggerHandler('beforehide') !== false) {
+            if (this.hidden !== true && this.triggerHandler('beforehide', [this]) !== false) {
                 this.hidden = true;
                 this.css('display', 'none');
                 this.__window.unbind('resize', this._onWindowResize);
-                this.triggerHandler('onhide');
+                this.triggerHandler('onhide', [this]);
             }
-            this.triggerHandler('hide');
+            this.triggerHandler('hide', [this]);
             return this;
         },
 

@@ -34,7 +34,7 @@
             params.jip = 1;
             method = (method && method.toUpperCase() == 'POST') ? 'POST' : 'GET';
 
-            this.triggerHandler('beforeopen', this, this, url, isNew, method, params);
+            this.triggerHandler('beforeopen', [this, url, isNew, method, params]);
 
             if (isNew) {
                 this.currentWindow = this.windowCount++;
@@ -64,7 +64,7 @@
                 }
             }
 
-            this.triggerHandler('open', this, this, url, isNew, method, params);
+            this.triggerHandler('open', [this, url, isNew, method, params]);
 
             return false;
         },
@@ -150,24 +150,22 @@
                 complete: function(data, status, request) {
                     if(status == 'success') {
                         t.successRequest(data, status, request);
-                        t.triggerHandler('success', t, t, data, status, request);
+                        t.triggerHandler('success', [t, data, status, request]);
                     } else {
                         t.setErrorMsg(data, status, request);
-                        t.triggerHandler('error', t, t, data, status, request);
+                        t.triggerHandler('error', [t, data, status, request]);
                     }
-                    t.triggerHandler('complete', t, t, data, status, request);
+                    t.triggerHandler('complete', [t, data, status, request]);
                 }
             });
         },
         
-        windowEvents: function(e) {
-            //@bug: see http://trac.mzz.ru/ticket/322
-            return undefined;
+        windowEvents: function(e, object) {
             if (e.type == 'close') {
-                this._parent.triggerHandler('beforeclose');
-                this._parent.close();
+                object._parent.triggerHandler('beforeclose', [this]);
+                object._parent.close();
             } else {
-                this._parent.triggerHandler(e.type);
+                object._parent.triggerHandler(e.type, [this]);
             }
         },
         
@@ -184,7 +182,7 @@
                 if (this.locker.css('display') != 'block') {
                     win.bind('resize', this.lockerResize);
                     this.hideSelects();
-                    this.triggerHandler('lock');
+                    this.triggerHandler('lock', [this]);
                     this.locker.fadeIn('slow');
                 }
             }
@@ -195,7 +193,7 @@
                 var t = this;
                 this.locker.fadeOut('slow', function() {
                     $(this).css('display', 'none');
-                    t.triggerHandler('unlock');
+                    t.triggerHandler('unlock', [this]);
                     t.showSelects();
                 });
             }
@@ -422,4 +420,5 @@
 })(jQuery);
 
 var jipWindow = new MZZ.jipCore;
+jipWindow.bind('show', function(){console.log(this, this.window)});
 var tinyMCE = false;
