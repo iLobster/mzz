@@ -37,7 +37,7 @@ class user extends entity
 
     public function isConfirmed()
     {
-        return is_null($this->getConfirmed());
+        return !strlen($this->getConfirmed());
     }
 
     public function isActive()

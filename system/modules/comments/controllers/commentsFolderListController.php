@@ -66,6 +66,9 @@ class commentsFolderListController extends simpleController
             $commentsFolderMapper->save($commentsFolder);
         }
 
+        //засунем комметируемый объект в commentsFolder, чтобы предотвратить повторное выгребание объекта из базы
+        $commentsFolder->setObject($object);
+
         $comments = $commentsFolder->getComments();
 
         if ($comments->count() != $commentsFolder->getCommentsCount()) {

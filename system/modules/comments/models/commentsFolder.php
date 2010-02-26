@@ -43,5 +43,10 @@ class commentsFolder extends entity
 
         return $this->object;
     }
+
+    public function setObject(entity $object)
+    {
+        $this->object = $object;
+    }
 }
 ?>
