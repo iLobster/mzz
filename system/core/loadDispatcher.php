@@ -89,9 +89,13 @@ class loadDispatcher
             // отдаём контент
             return $view;
         } else {
-            fileLoader::load('simple/simple404Controller');
-            $controller = new simple404Controller();
-            return $controller->run();
+            if (!DEBUG_MODE) {
+                fileLoader::load('simple/simple404Controller');
+                $controller = new simple404Controller();
+                return $controller->run();
+            } else {
+                throw new mzzRuntimeException('Module "' . $module->getName() . '" is not enabled. Check systemConfig::$enabledModules in config.php');
+            }
         }
     }
 }
