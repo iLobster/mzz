@@ -4,21 +4,21 @@ fileLoader::load('forms/validators/validator');
 
 class formValidator extends validator
 {
-    /*
+    /**
      * Имя поля по которому проверяется отправлена форма или нет
      *
      * @var string
      */
     protected $submit = 'submit';
 
-    /*
+    /**
      * Проверять csrf или нет
      *
      * @var boolean
      */
     protected $csrf = true;
 
-    /*
+    /**
      * Конструктор
      *
      * @param array|null $data - массив данных для проверки, если не задан,
@@ -37,7 +37,7 @@ class formValidator extends validator
         $this->csrf = ($csrf === false) ? false : true;
     }
 
-    /*
+    /**
      * Выключает проверку от CSRF-атак
      *
      */
@@ -46,7 +46,7 @@ class formValidator extends validator
         $this->csrf = false;
     }
 
-    /*
+    /**
      * Включает проверку от CSRF-атак
      *
      */
@@ -56,7 +56,7 @@ class formValidator extends validator
     }
 
 
-    /*
+    /**
      * Задает имя поля, по которому проверяется отправлена форма или нет
      *
      * @param string $submit

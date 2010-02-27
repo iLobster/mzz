@@ -97,6 +97,11 @@ class validator
         }
     }
 
+    /**
+     * Возвращает массив ошибок при валидации, где ключи это поля, а значения - сообщения об ошибках
+     *
+     * @return array
+     */
     public function getErrors()
     {
         return $this->errors;
