@@ -56,13 +56,6 @@ class fSmarty extends Smarty
     protected $actTemplate = false;
 
     /**
-     * Используемый скин
-     *
-     * @var string
-     */
-    protected $skin;
-
-    /**
      * Включена вставка в main шаблон?
      *
      * @var unknown_type
