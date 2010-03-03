@@ -28,7 +28,7 @@
             this.eventKey = function(e) {if (e.keyCode == 27) {e.preventDefault();e.stopImmediatePropagation();t.close();}};
         },
 
-        open: function(url, isNew, method, params) {
+        open: function(url, isNew, method, params, redirect) {
             isNew = (this.windowCount == 0) ? true : (isNew || false);
             params = params || {};
             params.jip = 1;
@@ -59,7 +59,7 @@
                 this.clean();
                 this.request(url, method, params);
 
-                if(url.match(/[&\?]_confirm=/) == null) {
+                if(url.match(/[&\?]_confirm=/) == null && redirect !== true) {
                     this.stack[this.currentWindow].push(url);
                 }
             }
@@ -383,7 +383,12 @@
                 return false;
             }
 
-            jipWindow.open(link.attr('href'), link.hasClass('mzz-jip-link-new'));
+            if (link.hasClass('mzz-jip-link-redirect')) {
+                jipWindow.open(link.attr('href'), false, null, null, true);
+            } else {
+                jipWindow.open(link.attr('href'), link.hasClass('mzz-jip-link-new'));
+            }
+            
             return false;
         }
     };
