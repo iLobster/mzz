@@ -91,6 +91,7 @@
             this._render.html(this._content.html());
             this._render.find('div.jipTitle').remove();
             this._cRealHeight = this._render.outerHeight();
+            if (window.opera) {this._cRealHeight += 15;}
             this._render.empty();
         },
 

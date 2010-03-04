@@ -18,14 +18,12 @@
  * Style for content-locker
  */
 .mzz-content-locker {
-    background: #000 url('../images/jip/locker.gif');
+    background: #000; /* url('../images/jip/locker.gif');*/
     position: fixed;
     top: 0;
     left: 0;
     display: none;
     z-index: 901;
-    font-size:100%;
-    text-align: center;
     width: 100%;
 }
 
@@ -460,8 +458,8 @@ div.mzz-jip-window .mzz-jip-right {
 .mzz-jip-window form input[type="reset"],
 .mzz-jip-window form input[type="button"] {
     background: url("../images/jip/bg-button.png") repeat-x scroll 0 0 transparent;
-    border:1px solid #DADADA;
-    color:#8D8B8B;
+    border:1px solid #c8c7c7;
+    color:#727070;
     cursor:default;
     font-size:13px;
     padding:3px 12px;
@@ -478,15 +476,15 @@ div.mzz-jip-window .mzz-jip-right {
 .mzz-jip-window form input[type="button"]:active {
     background-position: 0px -48px;
     border-color: #000000;
-    color: #4C4545;
+    color: #4c4545;
 }
 
 .mzz-jip-window form input[type="submit"]:hover,
 .mzz-jip-window form input[type="reset"]:hover,
 .mzz-jip-window form input[type="button"]:hover {
     background-position: 0px -24px;
-    border-color: #c8c7c7;
-    color: #727070;
+    border-color: #000000;
+    color: #4c4545;
 }
 
 .mzz-jip-window form div.buttons {
