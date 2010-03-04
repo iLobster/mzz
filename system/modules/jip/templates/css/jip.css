@@ -434,13 +434,14 @@ div.mzz-jip-window .mzz-jip-right {
 
 .mzz-jip-window form .required textarea,
 .mzz-jip-window form .required input[type=text] {
-    background-color: #fff8ef;
+    border-color: #f5dc63 #f6e9e9 #f6e9e9 #f5dc63;
+    background-color: #ffffcf;
 }
 
 .mzz-jip-window form .error textarea,
 .mzz-jip-window form .error input[type=text] {
-    border-color: #d08686 #f6e9e9 #f6e9e9 #d08686;
-    background-color: #fff8f8;
+    border-color: #FF9F9F #f6e9e9 #f6e9e9 #FF9F9F;
+    background-color: #fcecec;
 }
 
 .mzz-jip-window form textarea:focus,
