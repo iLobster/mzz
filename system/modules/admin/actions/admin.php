@@ -6,7 +6,8 @@ return array(
     'admin' => array(
         'controller' => 'admin',
         'admin' => 1,
-        'role' => array('moderator')),
+        'role' => array('moderator'),
+        'icon' => 'sprite:admin/admin/admin'),
     'access' => array(
         'controller' => 'access',
         'role' => array('moderator'),
@@ -15,7 +16,8 @@ return array(
         'controller' => 'devToolbar',
         'role' => array('root'),
         'admin' => 1,
-        'title' => 'devToolbar'),
+        'title' => 'devToolbar',
+        'icon' => 'sprite:admin/tools/admin'),
     'addClass' => array(
         'controller' => 'saveClass',
         'role' => array('moderator'),

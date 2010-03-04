@@ -1,8 +1,4 @@
-{*<div style='width: 99%;'>
-<div style="padding: 4px 10px; text-align: right; float: right; margin-top: -2px; background-image: url('{$SITE_PATH}/images/submenu_background.png');"><img src="{$SITE_PATH}/images/filter.gif" align=absmiddle /> Поиск</div>
-
-</div>*}
-<div class="title">{_ news_list}</div>
+{include file="admin/title.tpl" title="_ news_list"}
 
 {include file="admin/breadcrumbs.tpl" breadCrumbs=$breadCrumbs action="admin" module="news"}
 
@@ -39,8 +35,8 @@
         {/if}
     {/foreach}
 
-    {foreach from=$news item=current_news}
-        <tr class="center">
+    {foreach from=$news name=news item=current_news}
+        <tr class="center{if $smarty.foreach.news.index % 2 == 0} alt{/if}">
             <td class="first" style="width: 30px;"><img src="{$SITE_PATH}/images/news/news.gif" alt="" title="{_ author}: {$current_news->getEditor()->getLogin()}" /></td>
             <td class="left"><a href="{url route='withId' module=news id=$current_news->getId()}">{$current_news->getTitle()|htmlspecialchars}</a></td>
             <td>{$current_news->getCreated()|date_format:"%d/%m/%Y %H:%M"}</td>

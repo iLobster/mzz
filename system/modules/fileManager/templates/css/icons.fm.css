@@ -1,0 +1,190 @@
+.mzz-icon-fm
+{
+    background-image: url(../../images/fileManager/icons.fm.png);
+}
+
+/*.disabled span.mzz-icon-sys, span.mzz-icon-sys.disabled
+{
+    background-image: url(../../images/icons.fm.png) !important;
+}
+
+.mzz-jip-menu li:hover .mzz-icon-sys, a:hover .mzz-icon-sys
+{
+    background-image: url(../../images/icons.fm.png);
+}
+
+.active .mzz-icon-sys, .mzz-icon-sys.active {
+    background-image: url(../../images/icons.fm.png) !important;
+}*/
+
+
+.mzz-icon-fm-file {
+	background-position: 0px -0px;
+}
+
+.mzz-icon-fm-folder {
+	background-position: 0px -16px;
+}
+
+.mzz-icon-fm-folder-open {
+	background-position: 0px -32px;
+}
+
+.mzz-icon-fm-txt {
+	background-position: 0px -48px;
+}
+
+.mzz-icon-fm-jpg,
+.mzz-icon-fm-jpeg,
+.mzz-icon-fm-png,
+.mzz-icon-fm-gif,
+.mzz-icon-fm-bmp,
+.mzz-icon-fm-tiff {
+	background-position: 0px -64px;
+}
+
+.mzz-icon-fm-psd {
+	background-position: 0px -80px;
+}
+
+.mzz-icon-fm-ai {
+	background-position: 0px -96px;
+}
+
+.mzz-icon-fm-swf {
+	background-position: 0px -112px;
+}
+
+.mzz-icon-fm-flv {
+	background-position: 0px -128px;
+}
+
+.mzz-icon-fm-pdf {
+	background-position: 0px -144px;
+}
+
+.mzz-icon-fm-avi,
+.mzz-icon-fm-mpeg,
+.mzz-icon-fm-mkv,
+.mzz-icon-fm-divx,
+.mzz-icon-fm-m4v {
+	background-position: 0px -160px;
+}
+
+.mzz-icon-fm-php,
+.mzz-icon-fm-phtml,
+.mzz-icon-fm-php3 {
+	background-position: 0px -176px;
+}
+
+.mzz-icon-fm-zip,
+.mzz-icon-fm-tar,
+.mzz-icon-fm-gz,
+.mzz-icon-fm-rar,
+.mzz-icon-fm-bz2,
+.mzz-icon-fm-7zip,
+.mzz-icon-fm-tar-gz,
+.mzz-icon-fm-tar-bz2 {
+	background-position: 0px -192px;
+}
+
+.mzz-icon-fm-doc,
+.mzz-icon-fm-docx,
+.mzz-icon-fm-docm {
+	background-position: 0px -208px;
+}
+
+.mzz-icon-fm-xls,
+.mzz-icon-fm-xla,
+.mzz-icon-fm-xlb,
+.mzz-icon-fm-xlc,
+.mzz-icon-fm-xld,
+.mzz-icon-fm-xlk,
+.mzz-icon-fm-xll,
+.mzz-icon-fm-xlm,
+.mzz-icon-fm-xlt,
+.mzz-icon-fm-xlv,
+.mzz-icon-fm-xlw,
+.mzz-icon-fm-xlsx,
+.mzz-icon-fm-xlsm,
+.mzz-icon-fm-xlsb,
+.mzz-icon-fm-xltm,
+.mzz-icon-fm-xlam {
+	background-position: 0px -224px;
+}
+
+.mzz-icon-fm-cvs {
+	background-position: 0px -240px;
+}
+
+.mzz-icon-fm-adp,
+.mzz-icon-fm-adn,
+.mzz-icon-fm-accdb,
+.mzz-icon-fm-accdr,
+.mzz-icon-fm-accdt,
+.mzz-icon-fm-mdb,
+.mzz-icon-fm-mda,
+.mzz-icon-fm-mdt,
+.mzz-icon-fm-mdw,
+.mzz-icon-fm-mdf,
+.mzz-icon-fm-mde,
+.mzz-icon-fm-accde,
+.mzz-icon-fm-mam,
+.mzz-icon-fm-maq,
+.mzz-icon-fm-mar,
+.mzz-icon-fm-mat,
+.mzz-icon-fm-maf {
+	background-position: 0px -256px;
+}
+
+.mzz-icon-fm-ppt,
+.mzz-icon-fm-pptx,
+.mzz-icon-fm-pps,
+.mzz-icon-fm-ppsx {
+	background-position: 0px -272px;
+}
+
+.mzz-icon-fm-psd {
+	background-position: 0px -288px;
+}
+
+.mzz-icon-fm-ics {
+	background-position: 0px -304px;
+}
+
+.mzz-icon-fm-exe,
+.mzz-icon-fm-sh,
+.mzz-icon-fm-pif {
+	background-position: 0px -320px;
+}
+
+.mzz-icon-fm-vcf,
+.mzz-icon-fm-vcard {
+	background-position: 0px -336px;
+}
+
+.mzz-icon-fm-mp3,
+.mzz-icon-fm-wav,
+.mzz-icon-fm-wma,
+.mzz-icon-fm-flac,
+.mzz-icon-fm-ogg,
+.mzz-icon-fm-trac,
+.mzz-icon-fm-m4a {
+	background-position: 0px -352px;
+}
+
+.mzz-icon-fm-m3u {
+	background-position: 0px -368px;
+}
+
+.mzz-icon-fm-iso,
+.mzz-icon-fm-bin,
+.mzz-icon-fm-cue,
+.mzz-icon-fm-img,
+.mzz-icon-fm-nrg {
+	background-position: 0px -384px;
+}
+
+.mzz-icon-fm-rss {
+	background-position: 0px -400px;
+}

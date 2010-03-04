@@ -5,8 +5,6 @@
 {add file="jquery.ex.js"}
 
 {add file="jip.css"}
-{add file="jip/jipMenu.css"}
-{add file="jip/jipWindow.css"}
 {add file="icons.sys.css"}
 {add file="icons.flags.css"}
 

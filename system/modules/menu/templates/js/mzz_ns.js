@@ -76,8 +76,8 @@
                         self._place = null;
                     }
 
-                    var t = $this.position().top;
-                    var l = $this.position().left;
+                    var t = $this.offset().top;
+                    var l = $this.offset().left;
                     var eh = $this.height();
                     var h = (self._options.droppableHeight == false) ? eh : self._options.droppableHeight;
 
@@ -164,13 +164,14 @@
                         self._current.addClass('mzz-ns-current');
 
                         self._clone.attr('id', 'mzz-ns-clone').addClass('mzz-ns-clone').css({
-                            position: "absolute",
-                            top: e.pageY + 1,
-                            left: e.pageX + 1,
-                            opacity: self._options.clone_opacity,
-                            width: self._current.width()
-                        });
-
+                            'position': "absolute",
+                            'top': e.pageY + 1,
+                            'left': e.pageX + 1,
+                            'list-style-type': 'none',
+                            'opacity': self._options.clone_opacity,
+                            'width': self._current.width() / 2
+                        })
+                        
                         self._current.hide();
 
                         self._document.bind('selectstart.mzz-ns-item', doNothing)
@@ -180,7 +181,7 @@
                         self._sortable.bind('dblclick.mzz-ns-item', doNothing)
                                       .find(self._options.droppables + ':visible:not(.mzz-ns-current)')
                                       .bind('mousemove.mzz-ns-item', overItem);
-                        self._clone.appendTo(self._sortable);
+                        self._clone.appendTo(self._body);
 
                     }
                     return false;
@@ -212,6 +213,7 @@
             this._sortable.find('.mzz-ns-clone').remove();
             this._sortable.find('.mzz-ns-placeholder').remove();
 
+            this._clone.remove();
             this._clone = null;
             this._after = null;
             this._child = null;

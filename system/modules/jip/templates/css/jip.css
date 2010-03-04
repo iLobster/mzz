@@ -1,17 +1,498 @@
 .mzz-jip-topLeft,    .mzz-jip-topRight,
 .mzz-jip-bottomLeft, .mzz-jip-bottomRight {
-    background: transparent url('../../images/jip/shadows-corners.png') no-repeat top left scroll;
+    background: transparent url('../images/jip/shadows-corners.png') no-repeat top left scroll;
     position: absolute;
 }
 
 .mzz-jip-top, .mzz-jip-bottom {
-    background: transparent url('../../images/jip/shadows-x.png') repeat-x top left scroll;
+    background: transparent url('../images/jip/shadows-x.png') repeat-x top left scroll;
     position: absolute;
 }
 
 .mzz-jip-left, .mzz-jip-right {
-    background: transparent url('../../images/jip/shadows-y.png') repeat-y top left scroll;
+    background: transparent url('../images/jip/shadows-y.png') repeat-y top left scroll;
     position: absolute;
+}
+
+/**
+ * Style for content-locker
+ */
+.mzz-content-locker {
+    background: #000 url('../images/jip/locker.gif');
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    z-index: 901;
+    font-size:100%;
+    text-align: center;
+    width: 100%;
+}
+
+/**
+ * Styles for jip-menu
+ */
+
+img.jip {
+    cursor: pointer;
+}
+
+.jip-button {
+    background: transparent url('../images/jip/common.png') no-repeat 0px -68px scroll;
+    width: 18px;
+    height: 10px;
+}
+
+.jip-button.active {
+    background-position: 0px -80px;
+}
+
+div.mzz-jip-menu {
+    background: transparent url('../images/jip/menu-bg.png') repeat top left scroll;
+    display: none;
+    left: 658px;
+    margin-left: 1px;
+    margin-top: -20px;
+    position: absolute;
+    top: 163px;
+    width: auto;
+    z-index: 9999;
+}
+
+div.mzz-jip-menu .mzz-jip-topLeft,    div.mzz-jip-menu .mzz-jip-topRight,
+div.mzz-jip-menu .mzz-jip-bottomLeft, div.mzz-jip-menu .mzz-jip-bottomRight {
+    width: 30px;
+}
+
+div.mzz-jip-menu .mzz-jip-topLeft, div.mzz-jip-menu .mzz-jip-topRight {
+    height: 27px;
+    top: -16px;
+}
+
+div.mzz-jip-menu .mzz-jip-topLeft {
+    background-position: -10px 1px;
+    left: -20px;
+}
+
+div.mzz-jip-menu .mzz-jip-topRight {
+    background-position: 0px -49px;
+    right: -20px;
+}
+
+div.mzz-jip-menu .mzz-jip-bottomLeft, div.mzz-jip-menu .mzz-jip-bottomRight {
+    height: 35px;
+    bottom: -28px;
+}
+
+div.mzz-jip-menu .mzz-jip-bottomLeft {
+    background-position: -10px -21px;
+    left: -20px;
+}
+
+div.mzz-jip-menu .mzz-jip-bottomRight {
+    background-position: 0px -71px;
+    right: -20px;
+}
+
+div.mzz-jip-menu .mzz-jip-top, div.mzz-jip-menu .mzz-jip-bottom {
+    left: 10px;
+    right: 10px;
+}
+
+div.mzz-jip-menu .mzz-jip-top {
+    height: 20px;
+    top: -20px;
+}
+
+div.mzz-jip-menu .mzz-jip-bottom {
+    background-position: 0px -26px;
+    height: 25px;
+    bottom: -21px;
+}
+
+div.mzz-jip-menu .mzz-jip-left, div.mzz-jip-menu .mzz-jip-right {
+    bottom:7px;
+    top:11px;
+    width:20px;
+}
+
+div.mzz-jip-menu .mzz-jip-left {
+    left: -20px;
+}
+
+div.mzz-jip-menu .mzz-jip-right {
+    background-position: -30px 0px;
+    right: -20px;
+}
+
+div.mzz-jip-menu ul, div.mzz-jip-menu li {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+div.mzz-jip-menu li {
+    color: #000000;
+    margin-bottom: 1px;
+    margin-top: 2px;
+    height: 19px;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 2px 0 0 0;
+}
+
+div.mzz-jip-menu li:hover, div.mzz-jip-menu li.active {
+    background: transparent url('../images/jip/common.png') repeat-x 0 0 scroll;
+    color: #ffffff;
+}
+
+div.mzz-jip-menu a {
+    text-decoration: none;
+    color: inherit;
+    font: inherit;
+    display:block;
+    padding: 0 10px;
+}
+
+div.mzz-jip-menu a img.mzz-icon {
+    vertical-align: top;
+    margin-right: 10px;
+}
+
+div.mzz-jip-menu-lang a img.mzz-icon {
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+/**
+ * Style for mzz-window holder (not only jipWindow) @see window.js
+ */
+.mzz-window-holder {
+    display: none;
+}
+
+img.mzz-window-button {
+    cursor: pointer;
+}
+
+/**
+ * Jip-window styles
+ */
+.mzz-ie-visibility { /* pseudo-class for ie 'hidden' selects */
+    visibility: hidden;
+}
+
+.mzz-jip-window * {
+    font-family: Arial,sans-serif;
+    color: #000000;
+    font-size: 13px;
+    font-weight: normal;
+    text-transform: none;
+}
+
+.mzz-jip-window {
+    position: fixed;
+    left: 50%;
+    margin-left: -375px;
+    width: 750px;
+    z-index: 902;
+    display: none;
+}
+
+.mzz-jip-window a {
+    color: #1C4FAD;
+    text-decoration:none;
+}
+
+.mzz-jip-window a:hover, .mzz-jip-window a:active {
+    text-decoration:underline;
+}
+
+.mzz-jip-window a.mzz-jip-close {
+    display: block;
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-weight: bold;
+    color: #777777;
+    text-decoration: none;
+    text-shadow:0 1px 0 rgba(250, 250, 250, 0.5);
+}
+
+.mzz-jip-window a.mzz-jip-close:hover {
+    color: #2C4865;
+    text-decoration: none;
+}
+
+div.mzz-jip-window img.mzz-jip-gradient {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    z-index: 0;
+}
+
+div.mzz-jip-window .mzz-jip-topLeft,    div.mzz-jip-window .mzz-jip-topRight,
+div.mzz-jip-window .mzz-jip-bottomLeft, div.mzz-jip-window .mzz-jip-bottomRight {
+    width: 40px;
+    height: 40px;
+}
+
+div.mzz-jip-window .mzz-jip-topLeft, div.mzz-jip-window .mzz-jip-topRight {
+    top: -20px;
+}
+
+div.mzz-jip-window .mzz-jip-topLeft {
+    background-position: 0px -100px;
+    left: -20px;
+}
+
+div.mzz-jip-window .mzz-jip-topRight {
+    background-position: 0px -180px;
+    right: -20px;
+}
+
+div.mzz-jip-window .mzz-jip-bottomLeft, div.mzz-jip-window .mzz-jip-bottomRight {
+    bottom: -20px;
+}
+
+div.mzz-jip-window .mzz-jip-bottomLeft {
+    background-position: -0px -140px;
+    left: -20px;
+}
+
+div.mzz-jip-window .mzz-jip-bottomRight {
+    background-position: 0px -220px;
+    right: -20px;
+}
+
+div.mzz-jip-window .mzz-jip-top, div.mzz-jip-window .mzz-jip-bottom {
+    height: 20px;
+    left: 20px;
+    right: 20px;
+}
+
+div.mzz-jip-window .mzz-jip-top {
+    background-position: 0px -55px;
+    top: -20px;
+}
+
+div.mzz-jip-window .mzz-jip-bottom {
+    background-position: 0px -85px;
+    bottom: -20px;
+}
+
+div.mzz-jip-window .mzz-jip-left, div.mzz-jip-window .mzz-jip-right {
+    bottom: 20px;
+    top: 20px;
+    width: 20px;
+}
+
+div.mzz-jip-window .mzz-jip-left {
+    background-position: -50px 0px;
+    left: -20px;
+}
+
+div.mzz-jip-window .mzz-jip-right {
+    background-position: -80px 0px;
+    right: -20px;
+}
+
+.mzz-jip-wrapper {
+    background-color:#FFFFFF;
+    border:medium none;
+    margin-left:auto;
+    margin-right:auto;
+    padding:0;
+    position:relative;
+}
+
+.mzz-jip-body {
+    position: relative;
+}
+
+.mzz-jip-title {
+    background: transparent url('../images/jip/common.png') repeat-x 0px -32px scroll;
+    height: 34px;
+}
+
+.mzz-jip-title span {
+    line-height: 34px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #2C4865;
+    margin-left: 20px;
+    text-shadow: 0 1px 0 rgba(250, 250, 250, 0.5);
+}
+
+.mzz-jip-contentwrap {
+    padding: 5px 0 15px 0;
+}
+
+.mzz-jip-content {
+    padding: 0px 20px;
+    min-height: 70px;
+    font-size: 13px;
+    color: #000000;
+    overflow: auto;
+    padding-bottom: 15px;
+    margin-bottom: -10px;
+}
+
+/**
+ * Style for jipWindow forms
+ */
+
+.mzz-jip-window form {
+    margin: 0px;
+    padding: 0px;
+}
+
+.mzz-jip-window .label, .mzz-jip-window .label label {
+    color: #666666;
+    font-size: 13px;
+    font-weight: bold;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.mzz-jip-window form .field:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.mzz-jip-window form .field {
+    display: inline-block;
+}
+
+* html .mzz-jip-window form .field {
+    height: 1%;
+}
+
+.mzz-jip-window form .field {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.mzz-jip-window form div.label {
+    float: left;
+    width: 125px;
+}
+
+.mzz-jip-window form div.text {
+    margin-left: 130px;
+    padding: 5px 0 0 0;
+}
+
+.mzz-jip-window form .caption,
+.mzz-jip-window form .caption * {
+    font-size: 11px;
+}
+
+.mzz-jip-window form .caption {
+    display: block;
+    color:#888888;
+
+}
+
+.mzz-jip-window form .label .caption {
+    padding-left: 5px;
+}
+
+.mzz-jip-window form label {
+    display: inline-block;
+    font-size: 13px;
+    padding: 5px 0 0 0;
+}
+
+.mzz-jip-window form span.error {
+    display: none;
+}
+
+.mzz-jip-window form .error span.error {
+    display: block;
+}
+
+.mzz-jip-window form .error label,
+.mzz-jip-window form span.error {
+    color: #de4444;
+}
+
+.mzz-jip-window form textarea,
+.mzz-jip-window form input[type=text] {
+    border-color: #8d8e8d #e0e1e0 #e0e1e0 #8d8e8d;
+    border-style:solid;
+    border-width: 1px;
+    color: #817c7c;
+    padding: 3px;
+    width: 100%;
+    margin-top: -5px;
+
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -khtml-border-radius: 2px;
+}
+
+.mzz-jip-window form .required textarea,
+.mzz-jip-window form .required input[type=text] {
+    background-color: #fff8ef;
+}
+
+.mzz-jip-window form .error textarea,
+.mzz-jip-window form .error input[type=text] {
+    border-color: #d08686 #f6e9e9 #f6e9e9 #d08686;
+    background-color: #fff8f8;
+}
+
+.mzz-jip-window form textarea:focus,
+.mzz-jip-window form input[type=text]:focus {
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+    color: #000000;
+}
+
+.mzz-jip-window form input[type=text] {
+    height: 15px;
+}
+
+.mzz-jip-window form input[type="submit"],
+.mzz-jip-window form input[type="reset"],
+.mzz-jip-window form input[type="button"] {
+    background: url("../images/jip/bg-button.png") repeat-x scroll 0 0 transparent;
+    border:1px solid #DADADA;
+    color:#8D8B8B;
+    cursor:default;
+    font-size:13px;
+    padding:3px 12px;
+    text-align:center;
+    width: auto;
+
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -khtml-border-radius: 3px;
+}
+
+.mzz-jip-window form input[type="submit"]:active,
+.mzz-jip-window form input[type="reset"]:active,
+.mzz-jip-window form input[type="button"]:active {
+    background-position: 0px -48px;
+    border-color: #000000;
+    color: #4C4545;
+}
+
+.mzz-jip-window form input[type="submit"]:hover,
+.mzz-jip-window form input[type="reset"]:hover,
+.mzz-jip-window form input[type="button"]:hover {
+    background-position: 0px -24px;
+    border-color: #c8c7c7;
+    color: #727070;
+}
+
+.mzz-jip-window form div.buttons {
+    padding-top: 5px;
+    border-top: 1px solid #d3d3d3;
+    text-align: right;
 }
 
 /* @todo: clean-up this shit */
@@ -90,173 +571,4 @@ div.confirm img {
     color: #800000;
     width: 130px;
     font-size: 90%;
-}
-
-/**
- * Style for content-locker
- */
-.mzz-content-locker {
-    background: #000 url('../images/jip/locker.gif');
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: none;
-    z-index: 901;
-    font-size:100%;
-    text-align: center;
-    width: 100%;
-}
-
-/**
- * Style for mzz-window holder (not only jipWindow) @see window.js
- */
-.mzz-window-holder {
-    display: none;
-}
-
-img.mzz-window-button {
-    cursor: pointer;
-}
-
-/**
- * Jip-window style reset
- */
-.mzz-ie-visibility { /* pseudo-class for ie 'hidden' selects */
-    visibility: hidden;
-}
-
-
-
-form.mzz-jip-form ul {
-    list-style-image:none;
-    list-style-position:outside;
-    list-style-type:none;
-    margin: 5px 0;
-    padding: 0;
-    display: block;
-}
-
-form.mzz-jip-form li  {
-    list-style-image:none;
-    list-style-position:outside;
-    list-style-type:none;
-    margin-bottom: 1px;
-    overflow:auto;
-}
-
-form.mzz-jip-form label {
-    padding: 0 10px 0 0;
-    width: 15%;
-    clear: left;
-    float: left;
-    display: block;
-    text-align: right;
-    color: #575757;
-    font-weight: bold;
-    line-height: 2.5em;
-}
-
-form.mzz-jip-form span.input {
-    float: left;
-    display: block;
-    width: 55%;
-    line-height: 2.5em;
-}
-
-form.mzz-jip-form span.error {
-    float: left;
-    display: block;
-    margin-left: 10px;
-    margin-top: 0.75em;
-    width: 20%;
-}
-
-form.mzz-jip-form span.buttons {
-    margin-left: 15%;
-    padding-left: 10px;
-}
-
-form.mzz-jip-form li.required {
-    border: 1px solid #f9b973;
-    background-color: #fcfce0;
-}
-
-form.mzz-jip-form li.error {
-    border: 1px solid #c80000;
-    background-color: #f6cece;
-}
-
-.mzz-jip-window table.systemTable td {
-    border-bottom: 1px #D4D4D4 dashed;
-    line-height: 1.2em;
-}
-
-.mzz-jip-window table.systemTable td span.mzz-icon {
-    margin: 2px 2px -2px 0;
-
-}
-
-.mzz-jip-window table.systemTable tr:hover {
-    background-color: #ffffff;
-}
-
-.mzz-jip-window form.mzz-form div.input {
-    margin: 2px 0px;
-    clear: left;
-    overflow: hidden;
-    border: 1px solid transparent;
-    line-height: 19px;
-}
-
-.mzz-jip-window form.mzz-form div.input label {
-    padding: 2px 15px 2px 2px;
-    width: 200px;
-    display: block;
-    float: left;
-    text-align: right;
-    line-height: 15px;
-}
-
-.mzz-jip-window form.mzz-form div.input span.field {
-    width: 400px;
-    display: block;
-    float: left;
-}
-
-.mzz-jip-window form.mzz-form div.input span.empty {
-
-}
-
-.mzz-jip-window form.mzz-form div.input span.single {
-    margin-left: 217px;
-}
-
-.mzz-jip-window form.mzz-form div.input span.field input[type=text],
-.mzz-jip-window form.mzz-form div.input span.field input[type=file],
-.mzz-jip-window form.mzz-form div.input span.field textarea
-{
-    width: 100%;
-}
-
-.mzz-jip-window form.mzz-form div.input span.single label {
-    display: inline;
-    float: none;
-}
-
-.mzz-jip-window form.mzz-form div.input span.field span {
-    display: block;
-    color: #999;
-    font-size: 90%;
-}
-
-.mzz-jip-window form.mzz-form div.input span.message {
-    padding: 2px;
-    display: block;
-    float: left;
-    margin-left: 20px
-}
-
-.mzz-jip-window form.mzz-form div.buttons {
-    clear: left;
-    margin-left: 217px;
 }

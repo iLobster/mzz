@@ -21,7 +21,7 @@
  * Примеры использования:
  * <code>
  * sprite - ссылка на файл (вначало будет добавлен путь SITE_PATH)
- *          или спрайт в формате sprite:<set-name>/<icon-name>
+ *          или спрайт в формате sprite:<set-name>/<icon-name>[/<module-name>]
  * [jip - false|true] - сгенерить строку для jipMenu
  * [active - false|true] - активное состояние иконки (имеет приоритет)
  * [disabled - false|true] - задизабленное состояние
@@ -51,7 +51,7 @@ function smarty_function_icon($params, $smarty)
 
         if (strpos($params['sprite'], 'sprite:') === 0) {
             $sprite = explode('/', substr($params['sprite'], 7));
-            smarty_function_add(array('file' => 'icons.' . $sprite[0] . '.css'), $smarty);
+            smarty_function_add(array('file' => (isset($sprite[2]) ? $sprite[2] . '/' : '' ) . 'icons.' . $sprite[0] . '.css'), $smarty);
             if (count($sprite) >= 2) {
                 if ($jip) {
                     return "sprite:mzz-icon mzz-icon-" . $sprite[0] . " mzz-icon-" . $sprite[0] . "-" . $sprite[1];

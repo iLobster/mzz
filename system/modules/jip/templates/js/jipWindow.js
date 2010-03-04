@@ -32,9 +32,10 @@
                     '<img class="mzz-jip-gradient" src="/images/jip/window-bg.png" alt="window gradient" /></div>').appendTo(this);
             this._body = $('<div class="mzz-jip-body">').appendTo(this._wrapper);
             this._title = $('<span />').appendTo($('<div class="mzz-jip-title" />').appendTo(this._body));
-            this._content = $('<div class="mzz-jip-content" />').appendTo($('<div class="mzz-jip-contentwrap" />').appendTo(this._body));
+            var cWrap = $('<div class="mzz-jip-contentwrap" />').appendTo(this._body);
+            this._content = $('<div class="mzz-jip-content" />').appendTo(cWrap);
             this._body.append($('<a href="" class="mzz-jip-close">x</a>').bind('click', function(e){e.preventDefault();e.stopImmediatePropagation();t._parent.close();}));
-            this._render = $('<div style="width: 600px; overflow: auto" />').hide().appendTo(this);
+            this._render = $('<div style="width: 100%; overflow: auto; min-height:70px; padding:0 20px;" />').hide().appendTo(cWrap);
             this.hide();
             this.appendTo(this.__body);
         },
@@ -87,7 +88,7 @@
 
         _getContentSize: function() {
             this._render.empty();
-            this._render.html(this._content.html() /* + "<br />"*/);
+            this._render.html(this._content.html());
             this._render.find('div.jipTitle').remove();
             this._cRealHeight = this._render.outerHeight();
             this._render.empty();

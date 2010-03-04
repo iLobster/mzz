@@ -6,6 +6,7 @@ return array(
         'controller' => 'admin',
         'admin' => 1,
         'role' => array('moderator'),
+        'icon' => 'sprite:sys/page',
     ),
     'addmenu' => array(
         'controller' => 'savemenu',

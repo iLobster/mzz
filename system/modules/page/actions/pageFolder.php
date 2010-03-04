@@ -53,7 +53,7 @@ return array(
     'admin' => array(
         'controller' => 'admin',
         'title' => '_ admin',
-        'icon' => 'page.gif',
+        'icon' => 'sprite:sys/page',
         'admin' => '1',
         'role' => array(
             'moderator'),

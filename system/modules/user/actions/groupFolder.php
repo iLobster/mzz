@@ -15,6 +15,7 @@ return array(
         'controller' => 'groupsList',
         'admin' => true,
         'role' => array('moderator'),
+        'icon' => 'sprite:sys/group',
         'title' => '_ user/groups',
     ),
 );

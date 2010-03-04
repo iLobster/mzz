@@ -1,0 +1,91 @@
+.mzz-icon-admin
+{
+    background-image: url(../../images/admin/icons.adminInactive.png);
+}
+
+.disabled span.mzz-icon-admin, span.mzz-icon-admin.disabled
+{
+    background-image: url(../../images/admin/icons.adminInactive.png) !important;
+}
+
+.mzz-jip-menu li:hover .mzz-icon-admin, a:hover .mzz-icon-admin
+{
+    background-image: url(../../images/admin/icons.adminActive.png);
+}
+
+.active .mzz-icon-admin, .mzz-icon-admin.active {
+    background-image: url(../../images/admin/icons.adminActive.png) !important;
+}
+
+
+.mzz-icon-admin-admin {
+	background-position: 0px -0px;
+}
+
+.mzz-icon-admin-tools {
+	background-position: 0px -16px;
+}
+
+.mzz-icon-admin-module {
+	background-position: 0px -32px;
+}
+
+.mzz-icon-admin-module-add {
+	background-position: 0px -48px;
+}
+
+.mzz-icon-admin-module-del {
+	background-position: 0px -64px;
+}
+
+.mzz-icon-admin-module-edit {
+	background-position: 0px -80px;
+}
+
+.mzz-icon-admin-module-acl {
+	background-position: 0px -96px;
+}
+
+.mzz-icon-admin-class {
+	background-position: 0px -112px;
+}
+
+.mzz-icon-admin-class-add {
+	background-position: 0px -128px;
+}
+
+.mzz-icon-admin-class-del {
+	background-position: 0px -144px;
+}
+
+.mzz-icon-admin-class-edit {
+	background-position: 0px -160px;
+}
+
+.mzz-icon-admin-class-acl {
+	background-position: 0px -176px;
+}
+
+.mzz-icon-admin-db-table {
+	background-position: 0px -192px;
+}
+
+.mzz-icon-admin-action {
+	background-position: 0px -208px;
+}
+
+.mzz-icon-admin-action-add {
+	background-position: 0px -224px;
+}
+
+.mzz-icon-admin-action-del {
+	background-position: 0px -240px;
+}
+
+.mzz-icon-admin-action-edit {
+	background-position: 0px -256px;
+}
+
+.mzz-icon-admin-action-acl {
+	background-position: 0px -272px;
+}

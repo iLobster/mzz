@@ -1,4 +1,4 @@
-<div class="title">Пользователи {$userFolder->getJip()}</div>
+{include file="admin/title.tpl" title="Пользователи `$userFolder->getJip()`"}
 <table class="admin">
         <thead>
             <tr class="first center">

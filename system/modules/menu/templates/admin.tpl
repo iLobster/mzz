@@ -5,9 +5,7 @@
 {add file="jquery.ex.js"}
 {add file="menu/mzz_ns.js"}
 {add file="menu/jmenu.js"}
-<div class="title">Список меню {$folder->getJip()}</div>
-<div class="pageContent">
-
+{include file="admin/title.tpl" title="Список меню {$folder->getJip()}"}
 <div class="menuHelp">
     Для перемещения элемента нажмите на него и перенесите в нужное место. Измененные элементы будут окрашены в желтый цвет.
     После изменений необходимо сохранить их, нажав на кнопку, которая появится под названием меню. Если не получится перемещать
@@ -68,5 +66,4 @@
 <div style="visibility: hidden;">
 <img alt="preload" src="{$SITE_PATH}/images/menu/left_side_yellow.gif" width="1" height="1"/>
 <img alt="preload" src="{$SITE_PATH}/images/menu/bg_yellow.gif" width="1" height="1"/>
-</div>
 </div>

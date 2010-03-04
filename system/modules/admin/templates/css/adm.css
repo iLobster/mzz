@@ -1,0 +1,420 @@
+/* Global Reset */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote{
+    margin:0;
+    padding:0;
+}
+table {
+    /*border-collapse:collapse;*/
+    /*border-spacing:0;*/
+}
+fieldset,img {
+    border:0;
+}
+address,caption,cite,code,dfn,em,strong,th,var {
+    font-style:normal;
+    font-weight:normal;
+}
+strong{
+    font-weight:bold;
+}
+ol,ul {
+    list-style:none;
+}
+caption,th {
+    text-align:left;
+}
+h1,h2,h3,h4,h5,h6 {
+    font-size:100%;
+    font-weight:normal;
+}
+q:before,q:after {
+    content:'';
+}
+abbr,acronym { border:0;}
+/* End Global Reset*/
+
+.hide {
+    display: none;
+    visibility: hidden;
+}
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.clearfix {
+    display: inline-block;
+}
+
+* html .clearfix {
+    height: 1%;
+}
+
+.clearfix {
+    display: block;
+}
+
+body {
+    background: #565758 url("../../images/admin/bkbody.png");
+    font: 0.75em/1.125em "Helvetica Neue", "Trebuchet MS", Arial, Helvetica, sans-serif;
+    margin: 0px;
+    padding: 0px;
+}
+
+#adminBody {
+    width: 962px;
+    margin: auto;
+    padding: 0px;
+}
+
+#adminHeader {
+
+}
+
+#adminHeader h1 {
+    float: left;
+    display: block;
+    font-size: 1.8em;
+    line-height: 32px;
+    font-weight: bold;
+    margin: 10px;
+    padding: 0px 0px 0px 40px;
+    background: transparent url('../../images/admin/symbol.png') no-repeat left center;
+}
+
+#adminHeader h1 a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+#adminHeader h1 a:hover {
+    text-decoration: underline;
+}
+
+#adminHeader .userInfo {
+    float: right;
+    line-height: 32px;
+    color: #999999;
+    margin: 10px;
+}
+
+#adminFooter  a,
+#adminHeader .userInfo a {
+    text-decoration: none;
+    color: #cccccc;
+}
+
+#adminFooter  a:hover,
+#adminHeader .userInfo a:hover {
+    text-decoration: underline;
+    color: #ffffff;
+}
+
+#adminWrap {
+    position: relative;
+    background-color: #323332;
+}
+
+#adminWrap .c-topLeft,
+#adminWrap .c-topRight,
+#adminWrap .c-bottomLeft,
+#adminWrap .c-bottomRight {
+    background: url("../../images/admin/corners.png") no-repeat scroll left top transparent;
+    height: 4px;
+    width: 4px;
+    position: absolute;
+}
+
+#adminWrap .c-topLeft,
+#adminWrap .c-topRight {
+    top: -4px;
+}
+
+#adminWrap .c-topLeft {
+    background-position: -27px 0px;
+    left: -4px;
+}
+
+#adminWrap .c-topRight {
+    background-position: -9px -20px;
+    right: -4px;
+}
+
+#adminWrap .c-bottomLeft,
+#adminWrap .c-bottomRight {
+    bottom: -4px;
+}
+
+#adminWrap .c-bottomLeft {
+    background-position: -27px -16px;
+    left: -4px;
+}
+
+#adminWrap .c-bottomRight {
+    background-position: -9px -36px;
+    right: -4px;
+}
+
+#adminWrap .c-top,
+#adminWrap .c-bottom,
+#adminWrap .c-left,
+#adminWrap .c-right {
+    background-color: #323332;
+    position: absolute;
+}
+
+#adminWrap .c-top,
+#adminWrap .c-bottom {
+    height: 4px;
+    left: 0px;
+    right: 0px;
+}
+
+#adminWrap .c-top {
+    top: -4px;
+}
+
+#adminWrap .c-bottom {
+    bottom: -4px;
+}
+
+#adminWrap .c-left,
+#adminWrap .c-right {
+    bottom: 0px;
+    top: 0px;
+    width: 4px;
+}
+
+#adminWrap .c-left {
+    left: -4px;
+}
+
+#adminWrap .c-right {
+    right: -4px;
+}
+
+#adminSidebar {
+    float: left;
+    width: 240px;
+}
+
+.adminMenu li {
+    margin-bottom: 4px;
+}
+
+.adminMenu ol li {
+    margin-bottom: 0px;
+    border-top: 1px solid #353F48;
+}
+.adminMenu a,
+.adminMenu ol,
+.adminMenu ol li a
+{
+    background: transparent url("../../images/admin/menu.png") no-repeat scroll -1000px -1000px;
+}
+
+.adminMenu a {
+    color: #b3b7bc;
+    display: block;
+    font-size: 1.2em;
+    height: 29px;
+    line-height: 29px;
+    overflow: hidden;
+    padding-left: 10px;
+    position: relative;
+    text-decoration: none;
+}
+
+.adminMenu a:hover {
+    color: #ffffff;
+}
+
+.adminMenu li a {
+    background-position: -0px -32px;
+}
+
+.adminMenu li.expanded a {
+    background-position: -240px -32px;
+}
+
+.adminMenu li:hover a {
+    background-position: -240px -64px;
+}
+
+.adminMenu li:hover.expanded a {
+    background-position: -240px -96px;
+}
+
+.adminMenu li:hover.expanded ol {
+    background-position: -240px -128px;
+}
+
+.adminMenu li:hover.active ol,
+.adminMenu li.active ol {
+    background-position: -0px -128px;
+}
+
+.adminMenu li.active a,
+.adminMenu li:hover.active a {
+    background-position: -0px -64px;
+}
+
+.adminMenu li:hover.active.expanded a,
+.adminMenu li.active.expanded a {
+    background-position: -0px -96px;
+}
+
+.adminMenu li ol a,
+.adminMenu li.expanded ol a,
+.adminMenu li.active.expanded ol a,
+.adminMenu li:hover ol a,
+.adminMenu li:hover.expanded ol a,
+.adminMenu li:hover.active.expanded ol a {
+    background-position: -1000px -1000px;
+}
+
+.adminMenu li ol a:hover {
+    background-position: -0px 0px !important;
+}
+
+.adminMenu li ol a.active,
+.adminMenu li ol a:hover.active {
+    background-position: 0px 0px !important;
+}
+
+.adminMenu li .mzz-icon {
+    float: left;
+    margin:7px 5px 7px 0;
+}
+
+#adminPageWrap {
+    margin: 4px 4px 4px 248px;
+    padding-top: 30px;
+}
+
+#adminPage {
+    position: relative;
+    background-color: #ffffff;
+}
+
+#adminPage .c-top,
+#adminPage .c-bottom,
+#adminPage .c-left,
+#adminPage .c-right {
+    background-color: #ffffff;
+}
+
+#adminPage .c-left {
+    top: -26px;
+}
+
+#adminPage .c-topLeft {
+    background-position: -67px -0px;
+    top: -30px;
+}
+
+#adminPage .c-topRight {
+    background-position: -49px -20px;
+}
+
+#adminPage .c-bottomLeft {
+    background-position: -67px -16px;
+}
+
+#adminPage .c-bottomRight {
+    background-position: -49px -36px;
+}
+
+#adminPage div.title {
+    position: absolute;
+    top: -30px;
+    background: #ffffff url("/images/admin/corners.png") no-repeat scroll 244px -42px;
+    padding-right: 74px;
+}
+
+#adminPage div.title h1 {
+    background: #ffffff url("/images/admin/corners.png") repeat-x scroll 0px -70px;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+    width: 250px;
+    font-size:1.2em;
+}
+
+#adminPage table {
+    border-collapse:collapse;
+    border-spacing:0;
+    width: 100%;
+}
+
+#adminPage table thead .center th,
+#adminPage table tbody .center td {
+    text-align: center;
+}
+
+#adminPage table thead th.left,
+#adminPage table tbody td.left {
+    text-align: left;
+}
+
+#adminPage table thead th.right,
+#adminPage table tbody td.right {
+    text-align: right;
+}
+
+#adminPage table tbody td,
+#adminPage table thead th {
+    padding:4px 4px 3px 4px;
+}
+
+#adminPage table td img {
+    vertical-align: middle;
+}
+
+#adminPage table thead th {
+    text-align: left;
+    white-space: nowrap;
+    background-color: #3d99cc;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid #2b5686;
+    color: #ffffff;
+}
+
+#adminPage table thead th.first {
+    background-image: url("../../images/admin/bg-th-left.png");
+    background-position: top left;
+}
+
+#adminPage table thead th.last {
+    background-image: url("../../images/admin/bg-th-right.png");
+    background-position: top right;
+}
+
+#adminPage table tbody tr.alt td {
+    background-color: #f2f2f2;
+}
+
+div.breadcrumbs {
+    padding: 10px 5px;
+    font-size: 0.9em;
+}
+
+span.breadcrumbsTitle {
+    font-weight: bold;
+}
+
+span.breadcrumbsItems {
+    border: 1px solid #d4d4d4;
+    padding: 4px;
+    background-image: url('../../images/breadcrumb_background.png');
+}
+
+#adminFooter {
+    line-height: 32px;
+    color: #999999;
+    text-align: right;
+    margin: 0px 10px;
+}

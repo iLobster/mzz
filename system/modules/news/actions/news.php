@@ -25,6 +25,7 @@ return array(
     'admin' => array(
         'role' => array('moderator'),
         'controller' => 'admin',
+        'icon' => 'sprite:sys/news',
         'title' => '_ admin',
         'admin' => true,
         'main' => 'active.admin.tpl'));

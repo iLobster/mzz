@@ -23,8 +23,8 @@ class formCaptionField extends formElement
 {
     public function __construct()
     {
-        $this->setAttribute('onRequired', '%s <span style="color: red;">*</span>');
-        $this->setAttribute('onError', '<span style="color: red;">%s</span>');
+        //$this->setAttribute('onRequired', '%s <span style="color: red;">*</span>');
+        //$this->setAttribute('onError', '<span style="color: red;">%s</span>');
         $this->setAttribute('value', '');
         $this->setAttribute('name', '');
         $this->addOptions(array('onRequired', 'value', 'label'));

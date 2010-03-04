@@ -1,4 +1,4 @@
-<div class="title">Группы {$groupFolder->getJip()}</div>
+{include file="admin/title.tpl" title="Группы `$groupFolder->getJip()`"}
 <table class="admin">
         <thead>
             <tr class="first center">

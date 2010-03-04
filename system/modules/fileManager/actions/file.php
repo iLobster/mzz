@@ -7,6 +7,7 @@ return array(
         'icon' => 'fm.gif',
         'role' => array('moderator'),
         'title' => 'Файловый менеджер',
+        'icon' => 'sprite:sys/folder',
         'admin' => true
     ),
     'get' => array(

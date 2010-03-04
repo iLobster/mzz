@@ -26,11 +26,6 @@ table.toolbar .actions {
     line-height: 0px;
 }
 
-table.toolbar .actions span.mzz-icon {
-    margin: 0px 1px;
-}
-
-
 table.toolbar .empty {
     text-align: center;
     font-size: 0.9em;
