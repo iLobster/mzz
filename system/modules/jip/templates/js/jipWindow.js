@@ -8,9 +8,6 @@
         _title: null,
         _wrapper: null,
         _content: null,
-        _render: null,
-        _cRealHeight: 0,
-        _cHeight: 0,
 
         _hidden: true,
         
@@ -26,17 +23,13 @@
             this._onWindowResize = function(){t.resize();};
 
             this.attr({'id': this._parent.id + '_window_' + this._parent.currentWindow, 'class': 'mzz-jip-window'});
-            this._wrapper = $('<div class="mzz-jip-wrapper"><div class="mzz-jip-topLeft"></div><div class="mzz-jip-top"></div>' +
-                    '<div class="mzz-jip-topRight"></div><div class="mzz-jip-left"></div><div class="mzz-jip-right"></div>' +
-                    '<div class="mzz-jip-bottomLeft"></div><div class="mzz-jip-bottom"></div><div class="mzz-jip-bottomRight"></div>' +
-                    '<img class="mzz-jip-gradient" src="/images/jip/window-bg.png" alt="window gradient" /></div>').appendTo(this);
-            this._body = $('<div class="mzz-jip-body">').appendTo(this._wrapper);
-            this._title = $('<span />').appendTo($('<div class="mzz-jip-title" />').appendTo(this._body));
-            var cWrap = $('<div class="mzz-jip-contentwrap" />').appendTo(this._body);
-            this._content = $('<div class="mzz-jip-content" />').appendTo(cWrap);
-            this._body.append($('<a href="" class="mzz-jip-close">x</a>').bind('click', function(e){e.preventDefault();e.stopImmediatePropagation();t._parent.close();}));
-            this._render = $('<div style="width: 100%; overflow: auto; min-height:70px; padding:0 20px;" />').hide().appendTo(cWrap);
-            this.hide();
+
+            this.append($('<div class="mzz-jip-topLeft"></div><div class="mzz-jip-top"></div><div class="mzz-jip-topRight"></div><div class="mzz-jip-left"></div><div class="mzz-jip-right"></div><div class="mzz-jip-bottomLeft"></div><div class="mzz-jip-bottom"></div><div class="mzz-jip-bottomRight"></div><img alt="window gradient" src="/images/jip/window-bg.png" class="mzz-jip-gradient" />'));
+            this._title = $('<span />').appendTo($('<div class="mzz-jip-title" style="" />').appendTo(this));
+            $('<a href="" class="mzz-jip-close">x</a>').bind('click', function(e){e.preventDefault();e.stopImmediatePropagation();t._parent.close();}).appendTo(this);
+            this._wrapper = $('<div class="mzz-jip-wrapper" />').appendTo(this);
+            this._content = $('<div class="mzz-jip-content" style="" />').appendTo(this._wrapper);
+
             this.appendTo(this.__body);
         },
 
@@ -44,7 +37,6 @@
             console.log('Oh my God!!!, someone brutally killed the window [' + this.attr('id') + ']... Rest in bits');
             this.triggerHandler('kill', [this]);
             this.__window.unbind('resize', this._onWindowResize);
-            this._render.remove();
             this.empty();
             this.remove();
         },
@@ -67,32 +59,25 @@
             return false;
         },
 
-        resize: function(force) {
-           if (force === true) {
-                this._getContentSize();
-            }
+        resize: function() {
+            var t = this;
+            setTimeout(function(){
+            var wHeight = t.__window.height();
+                var cHeight = t._content.outerHeight() + 15;
+                var nHeight = cHeight;
 
-            var wHeight = this.__window.height();
-                var cHeight = this._cRealHeight;
-                if ((wHeight - 104 - cHeight) < 0) {
-                    cHeight = wHeight - 104;
+                if ((wHeight - 85 - cHeight) < 0) {
+                    nHeight = wHeight - 85;
                 }
 
-                if (cHeight != this._cHeight) {
-                    this._content.height(cHeight);
-                    this._cHeight = cHeight;
-                }
+                t._wrapper.height(nHeight);
 
-                this.css({'top': (wHeight - cHeight - 64)/2});
-        },
+                t._wrapper.css('overflow', (nHeight != cHeight) ? 'auto' : 'hidden');
 
-        _getContentSize: function() {
-            this._render.empty();
-            this._render.html(this._content.html());
-            this._render.find('div.jipTitle').remove();
-            this._cRealHeight = this._render.outerHeight();
-            if (window.opera) {this._cRealHeight += 15;}
-            this._render.empty();
+                t.css({'top': (wHeight - nHeight - 40)/2});
+
+            }, 1);
+
         },
 
         content: function(content, append) {
@@ -107,7 +92,7 @@
                 }
 
                 this._content.html(content);
-                this.resize(true);
+                this.resize();
                 return this;
             }
 

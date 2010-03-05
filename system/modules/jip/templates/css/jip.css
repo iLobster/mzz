@@ -296,21 +296,20 @@ div.mzz-jip-window .mzz-jip-right {
 }
 
 .mzz-jip-wrapper {
-    background-color:#FFFFFF;
-    border:medium none;
-    margin-left:auto;
-    margin-right:auto;
-    padding:0;
-    position:relative;
-}
-
-.mzz-jip-body {
+    margin: 40px 5px 5px 5px;
+    min-height: 70px;
+    padding: 1px;
     position: relative;
+    overflow: hidden
 }
 
 .mzz-jip-title {
     background: transparent url('../images/jip/common.png') repeat-x 0px -32px scroll;
     height: 34px;
+    left:0;
+    position:absolute;
+    right:0;
+    top:0;
 }
 
 .mzz-jip-title span {
@@ -318,22 +317,15 @@ div.mzz-jip-window .mzz-jip-right {
     font-size: 14px;
     font-weight: bold;
     color: #2C4865;
-    margin-left: 20px;
+    margin-left: 10px;
     text-shadow: 0 1px 0 rgba(250, 250, 250, 0.5);
 }
 
-.mzz-jip-contentwrap {
-    padding: 5px 0 15px 0;
-}
-
 .mzz-jip-content {
-    padding: 0px 20px;
-    min-height: 70px;
+    margin-right: 5px;
+    padding-right: 5px;
     font-size: 13px;
     color: #000000;
-    overflow: auto;
-    padding-bottom: 15px;
-    margin-bottom: -10px;
 }
 
 /**
