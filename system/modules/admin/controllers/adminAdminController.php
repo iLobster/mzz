@@ -42,9 +42,8 @@ class adminAdminController extends simpleController
             return $this->mainAdminPage();
         }
 
-        $module = $this->toolkit->getModule($moduleName);
-
         try {
+            $module = $this->toolkit->getModule($moduleName);
             $action = $module->getAction($actionName);
             if (!$action->isAdmin()) {
                 return $this->forward404();
@@ -55,9 +54,13 @@ class adminAdminController extends simpleController
             }
 
             return $this->forward($moduleName, $actionName);
-        } catch (mzzUnknownModuleActionException $e) {
-            $this->smarty->assign('module', $moduleName);
-            return $this->smarty->fetch('admin/404.tpl');
+        } catch (Exception $e) {
+            if($e instanceof mzzModuleNotFoundException || $e instanceof mzzUnknownModuleActionException) {
+                $this->smarty->assign('module', $moduleName);
+                return $this->smarty->fetch('admin/404.tpl');
+            } else {
+                throw $e;
+            }
         }
     }
 
