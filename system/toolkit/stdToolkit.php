@@ -45,7 +45,7 @@ class stdToolkit extends toolkit
     /**#@+
      * @var array
      */
-    private $mappers = array();
+    private $mapperStack = array();
     private $modules = array();
     /**#@-*/
 
@@ -267,8 +267,13 @@ class stdToolkit extends toolkit
      */
     public function getMapper($module, $do)
     {
-        $module = $this->getModule($module);
-        return $module->getMapper($do);
+        $mapper = $this->getMapperFromStack($do);
+        if (!$mapper) {
+            $module = $this->getModule($module);
+            return $module->getMapper($do);
+        }
+        $this->createMapperStack();
+        return $mapper;
     }
 
     /**
@@ -415,6 +420,22 @@ class stdToolkit extends toolkit
         }
 
         return $this->charsetDriver;
+    }
+
+
+    public function createMapperStack()
+    {
+        $this->mapperStack = array();
+    }
+
+    public function addMapperToStack($class, $mapper)
+    {
+        $this->mapperStack[$class] = $mapper;
+    }
+
+    public function getMapperFromStack($class)
+    {
+        return isset($this->mapperStack[$class]) ? $this->mapperStack[$class] : null;
     }
 }
 ?>

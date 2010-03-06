@@ -66,8 +66,6 @@ abstract class mapper
             }
         }
 
-        $this->relations = new relation($this);
-
         if (is_null($this->db_alias)) {
             $this->db_alias = fDB::DEFAULT_CONFIG_NAME;
         }
@@ -75,6 +73,10 @@ abstract class mapper
         if (is_null($this->class)) {
             $this->class = $this->table;
         }
+
+
+        systemToolkit::getInstance()->addMapperToStack($this->class, $this);
+        $this->relations = new relation($this);
 
         if (is_null($this->table_prefix)) {
             $this->table_prefix = $this->db()->getTablePrefix();
