@@ -4,7 +4,7 @@
               <h1>
                   <a href="{$SITE_PATH}/" title="Visit Site">{$toolkit->getRequest()->getUrl()}/</a>
               </h1>
-              <div class="userInfo">{load module="user" action="login" onlyForm=true tplPrefix="admin/"}</div>
+              <div class="userInfo">{load module="user" action="login" onlyForm=true tplPath="admin/"}</div>
           </div>
           <div id="adminWrap" class="clearfix">
               <div class="c-topLeft"></div>

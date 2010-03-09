@@ -25,7 +25,7 @@ class userLoginController extends simpleController
     {
         $user = $this->toolkit->getUser();
         $backURL = $this->request->getString('url', SC_POST);
-
+        $tplPath = $this->request->getString('tplPath');
         if (!$user->isLoggedIn()) {
             $validator = new formValidator();
             $validator->rule('required', 'login', 'Login field is required');
@@ -63,11 +63,11 @@ class userLoginController extends simpleController
             $this->smarty->assign('validator', $validator);
             $this->smarty->assign('backURL', $backURL);
 
-            return $this->fetch('user/loginForm.tpl');
+            return ($tplPath) ? $this->smarty->fetch($tplPath . 'loginForm.tpl') : $this->fetch('user/loginForm.tpl');
         }
 
         $this->smarty->assign('user', $user);
-        return $this->fetch('user/alreadyLogin.tpl');
+        return  ($tplPath) ? $this->smarty->fetch($tplPath . 'alreadyLogin.tpl') : $this->fetch('user/alreadyLogin.tpl');
     }
 
     protected function rememberUser($user)
