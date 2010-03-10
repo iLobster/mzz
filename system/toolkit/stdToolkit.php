@@ -437,5 +437,14 @@ class stdToolkit extends toolkit
     {
         return isset($this->mapperStack[$class]) ? $this->mapperStack[$class] : null;
     }
+
+    public function getConfig($config) {
+        if (!isset($this->config[$config])) {
+            fileLoader::load('simple/simpleConfig');
+            $this->config[$config] = new simpleConfig($config);
+        }
+
+        return $this->config[$config];
+    }
 }
 ?>
