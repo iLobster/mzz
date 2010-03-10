@@ -2,7 +2,7 @@
     <ul id="adminMenu" class="adminMenu">
         {foreach from=$menu item="module" key="moduleName"}
             <li id="mzz-adm-menu-{$moduleName}" class="{if count($module.actions) > 1 || (count($module.actions) === 1 && !isset($module.actions.admin))}expanded{/if} {if $moduleName eq $current_module}active{/if}">
-                <a href="{if $moduleName == 'admin'}{url route=adminSimpleActions action='admin'}{else}{url route=withAnyParam module='admin' name=$moduleName action='admin'}{/if}">{icon sprite=$module.actions.admin->getIcon()}{$module.info->getTitle()}</a>
+                <a href="{if $moduleName == 'admin'}{url route=adminSimpleActions action='admin'}{else}{url route=withAnyParam module='admin' name=$moduleName action='admin'}{/if}">{if isset($module.actions.admin)}{icon sprite=$module.actions.admin->getIcon()}{/if}{$module.info->getTitle()}</a>
                 {if count($module.actions) > 1 || (count($module.actions) === 1 && !isset($module.actions.admin))}
                     <ol>
                     {foreach from=$module.actions item="action"}

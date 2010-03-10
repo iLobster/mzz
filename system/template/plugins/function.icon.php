@@ -44,7 +44,7 @@ function smarty_function_icon($params, $smarty)
 {
     $smarty->loadPlugin('smarty_function_add');
     if (isset($params['sprite'])) {
-        
+
         $jip = (isset($params['jip']) && $params['jip'] === true) ? true : false;
         $active = (isset($params['active']) && $params['active'] === true) ? true : false;
         $disabled = (!$active && (isset($params['disabled']) && $params['disabled'] === true)) ? true : false;
@@ -56,7 +56,7 @@ function smarty_function_icon($params, $smarty)
                 if ($jip) {
                     return "sprite:mzz-icon mzz-icon-" . $sprite[0] . " mzz-icon-" . $sprite[0] . "-" . $sprite[1];
                 } else {
-                    return '<img src="' . SITE_PATH . '/images/spacer.gif" width="16" height="16" class="mzz-icon mzz-icon-' . $sprite[0] . ' mzz-icon-' . $sprite[0] . '-' . $sprite[1] . (($active) ? ' active' : (($disabled) ? ' disabled' : '')) . '" />';
+                    return '<img src="' . SITE_PATH . '/images/spacer.gif" width="16" height="16" class="mzz-icon mzz-icon-' . $sprite[0] . ' mzz-icon-' . $sprite[0] . '-' . $sprite[1] . (($active) ? ' active' : (($disabled) ? ' disabled' : '')) . '" alt="" />';
                 }
             }
         } else {
