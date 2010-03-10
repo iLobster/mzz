@@ -438,6 +438,11 @@ class stdToolkit extends toolkit
         return isset($this->mapperStack[$class]) ? $this->mapperStack[$class] : null;
     }
 
+    /**
+     * Returns object to work with config file
+     *
+     * @return simpleConfig
+     */
     public function getConfig($config) {
         if (!isset($this->config[$config])) {
             fileLoader::load('simple/simpleConfig');

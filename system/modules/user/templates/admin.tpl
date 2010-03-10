@@ -11,6 +11,7 @@
                 <th class="last" style="width: 30px;">JIP</th>
             </tr>
         </thead>
+        <tbody>
     {foreach from=$users item="user"}
         <tr class="center">
             <td class="first">{$user->getId()}</td>
@@ -21,10 +22,13 @@
             <td>{$user->getLastLogin()|date_i18n:relative_hour}</td>
             <td class="last">{$user->getJip()}</td>
         </tr>
+        </tbody>
     {/foreach}
+    <tfoot>
     <tr class="last">
         <td class="first"></td>
         <td colspan="4">{$pager->toString('admin/main/adminPager.tpl')}</td>
         <td class="last" colspan="2" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
     </tr>
+    </tfoot>
 </table>

@@ -11,7 +11,7 @@
             <th class="last" style="width: 30px;">JIP</th>
         </tr>
     </thead>
-
+    <tbody>
     {if $pageFolder->getTreeLevel() != 1}
         <tr>
             <td class="first center"><img src="{$SITE_PATH}/images/page/folder.gif" alt="" /></td>
@@ -27,7 +27,7 @@
             <td><img src="{$SITE_PATH}/images/page/folder.gif" alt="" /></td>
             <td class="left"><a href="{url route='admin' params=$current_folder->getTreePath() action_name=admin module_name=page}">{$current_folder->getTitle()|htmlspecialchars}</a></td>
             <td class="left"><a href="{url route='admin' params=$current_folder->getTreePath() action_name=admin module_name=page}">{$current_folder->getName()|htmlspecialchars}</a></td>
-            <td>{$current_folder->getJip()}</td>
+            <td class="last">{$current_folder->getJip()}</td>
         </tr>
         {/if}
     {/foreach}
@@ -37,13 +37,15 @@
             <td><img src="{$SITE_PATH}/images/page/page.gif" alt="" /></td>
             <td class="left">{if $current_page->getTitle()}<a href="{url route="pageActions" name=$current_page->getFullPath()}">{$current_page->getTitle()|htmlspecialchars}</a>{else}<span style="color: #848484;">&lt;Не указано&gt;</span>{/if}</td>
             <td class="left"><a href="{url route="pageActions" name=$current_page->getFullPath()}">{$current_page->getName()|htmlspecialchars}</a></td>
-            <td>{$current_page->getJip()}</td>
+            <td class="last">{$current_page->getJip()}</td>
         </tr>
     {/foreach}
-
+    </tbody>
+    <tfoot>
     <tr class="last">
         <td class="first"></td>
         <td>{$pager->toString('admin/main/adminPager.tpl')}</td>
         <td class="last center" colspan="2" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
     </tr>
+    </tfoot>
 </table>

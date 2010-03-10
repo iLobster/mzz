@@ -22,15 +22,30 @@ class simpleConfig
 
     protected $loaded = false;
     protected $changed = false;
-    
+
+    /**
+     * Constructor of class
+     * 
+     * @param string $config file name
+     */
     public function  __construct($config)
     {
         $this->config = $config;
         $this->fileName = systemConfig::$pathToConf . DIRECTORY_SEPARATOR . $this->config . '.php';
     }
 
-    public function __set($key, $val)
+    /**
+     *  Sets value for key
+     *
+     * @param string|integer $key
+     * @param mixed $val
+     */
+    public function set($key, $val)
     {
+        if (!is_scalar($key)) {
+            throw new mzzInvalidParameterException("Key is not scalar", $key);
+        }
+
         if(!$this->loaded) {
             $this->reload();
         }
@@ -39,17 +54,38 @@ class simpleConfig
         $this->changed = true;
     }
 
-    public function __get($key)
+    /**
+     * Return value for a key or default value
+     *
+     * @param string|integer $key
+     * @param mixed $default value if key does not exists
+     * @return mixed
+     */
+    public function get($key, $default = null)
     {
+        if (!is_scalar($key)) {
+            throw new mzzInvalidParameterException("Key is not scalar", $key);
+        }
+
         if(!$this->loaded) {
             $this->reload();
         }
 
-        return isset($this->data[$key]) ? $this->data[$key] : null;
+        return isset($this->data[$key]) ? $this->data[$key] : $default;
     }
 
-    public function __isset($key)
+    /**
+     * Checks whether key exists
+     *
+     * @param string|integer $key
+     * @return boolean
+     */
+    public function exists($key)
     {
+        if (!is_scalar($key)) {
+            throw new mzzInvalidParameterException("Key is not scalar", $key);
+        }
+
         if(!$this->loaded) {
             $this->reload();
         }
@@ -57,8 +93,17 @@ class simpleConfig
         return isset($this->data[$key]);
     }
 
-    public function __unset($key)
+    /**
+     * Unset the key
+     *
+     * @param string|integer $key
+     */
+    public function delete($key)
     {
+        if (!is_scalar($key)) {
+            throw new mzzInvalidParameterException("Key is not scalar", $key);
+        }
+
         if(!$this->loaded) {
             $this->reload();
         }
@@ -67,6 +112,26 @@ class simpleConfig
         $this->changed = true;
     }
 
+    /**
+     * Import array of values
+     *
+     * @param array $data to import
+     * @param boolean $merge to merge exists data with new one
+     */
+    public function import(array $data, $merge = false)
+    {
+        if(!$this->loaded) {
+            $this->reload();
+        }
+        
+        $this->data = ($merge) ? array_merge($this->data, $data) : $data;
+    }
+
+    /**
+     * Returns config data
+     *
+     * @return array
+     */
     public function export()
     {
         if(!$this->loaded) {
@@ -76,6 +141,9 @@ class simpleConfig
         return $this->data;
     }
 
+    /**
+     * Saves config file
+     */
     public function save()
     {
         if ($this->changed) {
@@ -83,12 +151,16 @@ class simpleConfig
                     (!file_exists($this->fileName) && is_writable(systemConfig::$pathToTemp))) {
                     file_put_contents($this->fileName, "<?php \n return " . var_export($this->data, true) . ";\n ?>");
                     $this->changed = false;
+                    return true;
             } else {
                 throw new mzzIoException($this->fileName);
             }
         }
     }
 
+    /**
+     * Reloads config file
+     */
     public function reload()
     {
         if (file_exists($this->fileName)) {
@@ -97,10 +169,24 @@ class simpleConfig
                 if (!is_array($this->data)) {
                     $this->data = array();
                 }
-            } else {
-                throw new mzzIoException($this->fileName);
+
+                $this->loaded = true;
+                $this->changed = false;
+                return true;
             }
+
+            throw new mzzIoException($this->fileName);
         }
+    }
+
+    /**
+     * Whether config changed
+     *
+     * @return boolean
+     */
+    public function isChanged()
+    {
+        return (bool) $this->changed;
     }
 }
 ?>

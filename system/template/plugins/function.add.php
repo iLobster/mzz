@@ -79,6 +79,12 @@ function smarty_function_add($params, $smarty)
         $join = false;
     }
 
+    if (isset($params['require'])) {
+        $require = explode(',', $params['require']);
+        foreach($require as $requireFile) {
+            smarty_function_add(array('file' => $requireFile, 'join' => $join), $smarty);
+        }
+    }
     $medias[$res][$filename] = array('tpl' => $tpl, 'join' => $join);
 }
 

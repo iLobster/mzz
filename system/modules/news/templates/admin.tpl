@@ -13,6 +13,7 @@
         </tr>
     </thead>
 
+    <tbody>
     {if $newsFolder->getTreeLevel() ne 1}
         <tr class="center">
             <td class="first"><img src="{$SITE_PATH}/images/news/folder.gif" alt="folder" /></td>
@@ -44,10 +45,12 @@
             <td class="last">{$current_news->getJip()}</td>
         </tr>
     {/foreach}
-
+    </tbody>
+    <tfoot>
     <tr class="last">
         <td class="first"></td>
         <td>{$pager->toString('admin/main/adminPager.tpl')}</td>
         <td class="last" colspan="3" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
     </tr>
+    </tfoot>
 </table>

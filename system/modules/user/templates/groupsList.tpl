@@ -9,6 +9,7 @@
                 <th class="last" style="width: 30px;">JIP</th>
             </tr>
         </thead>
+        <tbody>
     {foreach from=$groups item="group"}
         <tr class="center">
             <td class="first">{$group->getId()}</td>
@@ -18,9 +19,12 @@
             <td class="last">{$group->getJip()}</td>
         </tr>
     {/foreach}
+        </tbody>
+        <tfoot>
     <tr class="last">
         <td class="first"></td>
         <td colspan="2">{$pager->toString('admin/main/adminPager.tpl')}</td>
         <td class="last" colspan="2" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
     </tr>
+    </tfoot>
 </table>

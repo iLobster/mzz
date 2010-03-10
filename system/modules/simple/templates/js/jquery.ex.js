@@ -75,6 +75,15 @@ var Cookie = {
 
         getId: function() {
             return ++MZZ.tools.AUTO_ID;
+        },
+
+        /* simple helper to mark table rows as even or odd in tbody section */
+        zebra: function(tableId) {
+            $().ready(function(){
+                $.each($(tableId).find('tbody tr'), function(index){
+                    $(this).addClass(((index % 2 == 0) ? 'even' : 'odd'));
+                });
+            });
         }
     }
     

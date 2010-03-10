@@ -2,7 +2,6 @@
 {*<div class="moduleActions"><img src="{$SITE_PATH}/images/fileManager/upload.gif" width="15" height="15" alt="" /> <a href="{url route=withAnyParam action=upload name=$current_folder->getTreePath() section="fileManager"}" class="mzz-jip-link">Загрузить файл</a></div>*}
 
 {include file="admin/breadcrumbs.tpl" breadCrumbs=$breadCrumbs action=admin module=fileManager}
-
 <table class="admin">
     <thead>
         <tr class="first center">
@@ -14,7 +13,7 @@
             <th class="last" style="width: 30px;">JIP</th>
         </tr>
     </thead>
-
+    <tbody>
     {if $current_folder->getTreeLevel() != 1}
         <tr class="center">
             <td class="first">{icon sprite="sprite:fm/folder-open/fileManager"}</td>
@@ -39,8 +38,8 @@
         {/if}
     {/foreach}
 
-    {foreach from=$files name=file item=file}
-        <tr class="center{if $smarty.foreach.file.index % 2 == 0} alt{/if}">
+    {foreach from=$files item=file}
+        <tr class="center">
             <td class="first">{icon sprite="sprite:fm/`$file->getExt()`/fileManager"|replace:'.':'-'}</td>
             <td class="left"><a href="{$file->getDownloadLink()}">{$file->getName()}</a></td>
             <td>{$file->getSize()|filesize}</td>
@@ -49,9 +48,11 @@
             <td class="last">{$file->getJip()}</td>
         </tr>
     {/foreach}
-
+    </tbody>
+    <tfoot>
     <tr class="last">
         <td class="first" colspan="4">{$pager->toString('admin/main/adminPager.tpl')}</td>
         <td class="last" colspan="2" style="text-align: right; color: #7A7A7A;">Всего: {$pager->getItemsCount()}</td>
     </tr>
+    </tfoot>
 </table>

@@ -7,6 +7,7 @@
 {add file="jip/jipCore.js"}
 {add file="jip/jipMenu.js"}
 {add file="jip/jipWindow.js"}
+
       <div id="adminBody">
           <div id="adminHeader" class="clearfix">
               <h1>

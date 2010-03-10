@@ -395,6 +395,7 @@ body {
     background-repeat: no-repeat;
     border-bottom: 1px solid #2b5686;
     color: #ffffff;
+    font-weight: bold;
 }
 
 #adminPage table thead th.first {
@@ -407,8 +408,21 @@ body {
     background-position: top right;
 }
 
-#adminPage table tbody tr.alt td {
-    background-color: #f2f2f2;
+#adminPage table tbody tr.even td {
+    background-color: #eeeeee;
+}
+
+
+#adminPage table tbody tr td {
+    border-right: 1px solid #d9d9d9;
+}
+#adminPage table tbody tr td.last {
+    border-right: none;
+}
+
+#adminPage table tbody tr:hover td {
+    border-color: #3292fc;
+    background-color: #c6e3ff;
 }
 
 div.breadcrumbs {

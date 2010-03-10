@@ -12,7 +12,14 @@
         var SITE_LANG = '{$toolkit->getLocale()->getName()}';
     //-->
     </script>
+
     {include file='include.external.js.tpl'}
+
+    <script type="text/javascript">
+    //<!--
+        MZZ.tools.zebra('table.admin');
+    //-->
+    </script>
 </head>
 <body>
 {$content}
