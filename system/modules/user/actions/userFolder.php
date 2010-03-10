@@ -22,15 +22,6 @@ return array(
         'controller' => 'exit',
         'main' => 'active.blank.tpl',
     ),
-
-    'admin' => array(
-        'controller' => 'admin',
-        'title' => '_ user/admin',
-        'role' => array('moderator'),
-        'icon' => 'sprite:sys/user',
-        'admin' => true
-    ),
-
     'list' => array(
         'controller' => 'admin',
         'title' => '_ user/admin',

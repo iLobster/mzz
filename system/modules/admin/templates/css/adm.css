@@ -209,42 +209,56 @@ body {
     margin-bottom: 0px;
     border-top: 1px solid #353F48;
 }
-.adminMenu a,
+.adminMenu span,
 .adminMenu ol,
-.adminMenu ol li a
+.adminMenu ol li span
 {
     background: transparent url("../../images/admin/menu.png") no-repeat scroll -1000px -1000px;
 }
 
-.adminMenu a {
+.adminMenu span  {
     color: #b3b7bc;
     display: block;
     font-size: 1.2em;
     height: 29px;
     line-height: 29px;
     overflow: hidden;
-    padding-left: 10px;
-    position: relative;
-    text-decoration: none;
 }
 
-.adminMenu a:hover {
+.adminMenu span.noa {
+    padding-left: 10px;
+}
+
+.adminMenu a {
+    color: #b3b7bc;
+    display: block;
+    position: relative;
+    text-decoration: none;
+    padding-left: 10px;
+}
+
+.adminMenu ol a {
+    padding-left: 20px;
+}
+
+.adminMenu span:hover,
+.adminMenu a:hover{
     color: #ffffff;
 }
 
-.adminMenu li a {
+.adminMenu li span {
     background-position: -0px -32px;
 }
 
-.adminMenu li.expanded a {
+.adminMenu li.expanded span {
     background-position: -240px -32px;
 }
 
-.adminMenu li:hover a {
+.adminMenu li:hover span {
     background-position: -240px -64px;
 }
 
-.adminMenu li:hover.expanded a {
+.adminMenu li:hover.expanded span {
     background-position: -240px -96px;
 }
 
@@ -257,31 +271,31 @@ body {
     background-position: -0px -128px;
 }
 
-.adminMenu li.active a,
-.adminMenu li:hover.active a {
+.adminMenu li.active span,
+.adminMenu li:hover.active span {
     background-position: -0px -64px;
 }
 
-.adminMenu li:hover.active.expanded a,
-.adminMenu li.active.expanded a {
+.adminMenu li:hover.active.expanded span,
+.adminMenu li.active.expanded span {
     background-position: -0px -96px;
 }
 
-.adminMenu li ol a,
-.adminMenu li.expanded ol a,
-.adminMenu li.active.expanded ol a,
-.adminMenu li:hover ol a,
-.adminMenu li:hover.expanded ol a,
-.adminMenu li:hover.active.expanded ol a {
+.adminMenu li ol span,
+.adminMenu li.expanded ol span,
+.adminMenu li.active.expanded ol span,
+.adminMenu li:hover ol span,
+.adminMenu li:hover.expanded ol span,
+.adminMenu li:hover.active.expanded ol span {
     background-position: -1000px -1000px;
 }
 
-.adminMenu li ol a:hover {
+.adminMenu li ol span:hover {
     background-position: -0px 0px !important;
 }
 
-.adminMenu li ol a.active,
-.adminMenu li ol a:hover.active {
+.adminMenu li ol span.active,
+.adminMenu li ol span:hover.active {
     background-position: 0px 0px !important;
 }
 

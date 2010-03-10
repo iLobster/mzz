@@ -1,4 +1,12 @@
 {* main="admin/main/adminHeader.tpl" placeholder="content" *}
+{add file="jquery.js"}
+{add file="dui.js"}
+{add file="jquery.ex.js"}
+{add file="jip.css"}
+{add file="fileLoader.js"}
+{add file="jip/jipCore.js"}
+{add file="jip/jipMenu.js"}
+{add file="jip/jipWindow.js"}
       <div id="adminBody">
           <div id="adminHeader" class="clearfix">
               <h1>
@@ -28,6 +36,18 @@
                   <div class="c-bottomLeft"></div>
                   <div class="c-bottom"></div>
                   <div class="c-bottomRight"></div>
+{*                  <div style="position: absolute; top: -26px; right: 5px">{$current_module}
+        {strip}
+        <a href="#" title="Переводы" onclick="if (jipMenu) jipMenu.show(this, 'admin_translate_{$current_module}', [
+            {foreach name="langs" from=$toolkit->getLocale()->searchAll() item="lang"}
+                [
+                '{$lang->getLanguageName()}', '{url route='adminTranslate' module_name=$current_module language=$lang->getName() action='translate'}', '{icon sprite="sprite:flags/`$lang->getName()`" jip=true}', ''
+                ]
+                {if !$smarty.foreach.langs.last}, {/if}
+            {/foreach}
+            ], {ldelim}{rdelim}); return false;">
+        {/strip}<img class="mzz-icon mzz-icon-admin mzz-icon-admin-action" src="http://framy.local/images/spacer.gif" width=16 height=16 /></a>
+ <img class="mzz-icon mzz-icon-admin mzz-icon-admin-action" src="http://framy.local/images/spacer.gif" width=16 height=16 /> <img class="mzz-icon mzz-icon-admin mzz-icon-admin-action" src="http://framy.local/images/spacer.gif" width=16 height=16 /></div>*}
                   {$content}
                 </div>
               </div>

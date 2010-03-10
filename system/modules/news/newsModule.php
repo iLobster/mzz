@@ -21,6 +21,8 @@
  */
 class newsModule extends simpleModule
 {
+    protected $icon = "sprite:sys/news";
+    
     protected $classes = array(
         'news',
         'newsFolder');

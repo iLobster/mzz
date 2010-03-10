@@ -21,6 +21,8 @@
  */
 class adminModule extends simpleModule
 {
+    protected $icon = 'sprite:admin/admin/admin';
+
     protected $classes = array(
         'admin',
         'adminGenerator');

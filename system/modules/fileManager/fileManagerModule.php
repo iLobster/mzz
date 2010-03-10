@@ -21,6 +21,7 @@
  */
 class fileManagerModule extends simpleModule
 {
+    protected $icon = "sprite:sys/folder";
     protected $classes = array(
         'file',
         'folder',

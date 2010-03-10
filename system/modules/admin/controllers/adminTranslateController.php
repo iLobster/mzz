@@ -24,16 +24,30 @@ class adminTranslateController extends simpleController
 {
     protected function getView()
     {
-        $module_name = $this->request->getString('module_name');
-        $language = $this->request->getString('language');
+        try {
+            $module = $this->toolkit->getModule($this->request->getString('module_name'));
+        } catch (mzzModuleNotFoundException $e) {
+            return 'ERROR: module not found';
+        }
 
-        $adminMapper = $this->toolkit->getMapper('admin', 'admin');
+        $locale = $this->toolkit->getLocale()->searchAll($this->request->getString('language'));
+
+        if (!$locale) {
+            return 'ERROR: language not found';
+        }
+
+        $storage_default = new i18nStorageIni($module->getName(), $locale->getName());
+        $this->smarty->assign('plurals', range(0, $locale->getPluralsCount() - 1));
+        $this->smarty->assign('translates', $storage_default->export());
+        return $this->smarty->fetch('admin/translateFrm.tpl');
+        return $module->getName() . '@' . $locale->getName();
+        
 
         $modules = array();
-        foreach ($adminMapper->getModulesList() as $module) {
+        foreach ($adminMapper->getModules() as $module) {
             try {
-                fileLoader::resolve($module['name'] . '/i18n/' . systemConfig::$i18n . '.ini');
-                $modules[] = $module['name'];
+                fileLoader::resolve($module->getName() . '/i18n/' . systemConfig::$i18n . '.ini');
+                $modules[] = $module->getName();
             } catch (mzzIoException $e) {
             }
         }
@@ -79,7 +93,7 @@ class adminTranslateController extends simpleController
                     $storage->save();
 
                     if (!is_null($apply)) {
-                        $url = new url('adminTranslate');
+                        $url = new url();
                         $url->add('module_name', $module_name);
                         $url->add('language', $language);
                     } else {
@@ -90,7 +104,7 @@ class adminTranslateController extends simpleController
                     return $this->response->redirect($url->get());
                 }
 
-                $url = new url('adminTranslate');
+                $url = new url();
                 $url->add('module_name', $module_name);
                 $url->add('language', $language);
 

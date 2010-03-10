@@ -36,6 +36,7 @@ class adminMenuController extends simpleController
                             $menu[$action->getModuleName()]['info'] = $module;
                         }
 
+                        $menu[$action->getModuleName()]['icon'] = $module->getIcon();
                         $menu[$action->getModuleName()]['actions'][$action->getName()] = $action;
                     }
                 }

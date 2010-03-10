@@ -21,6 +21,8 @@
  */
 class pageModule extends simpleModule implements iACL
 {
+    protected $icon = "sprite:sys/page";
+    
     protected $classes = array(
         'page',
         'pageFolder');
@@ -28,8 +30,6 @@ class pageModule extends simpleModule implements iACL
     protected $roles = array(
         'moderator',
         'user');
-
-    protected $icon = 'page.gif';
 
     public function getAcl($action)
     {

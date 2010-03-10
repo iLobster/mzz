@@ -21,6 +21,7 @@
  */
 class userModule extends simpleModule
 {
+    protected $icon = "sprite:sys/user";
     protected $classes = array(
         'user',
         'userFolder',

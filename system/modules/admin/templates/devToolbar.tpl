@@ -1,11 +1,3 @@
-{add file="jquery.js"}
-{add file="dui.js"}
-{add file="jquery.ex.js"}
-{add file="jip.css"}
-{add file="fileLoader.js"}
-{add file="jip/jipCore.js"}
-{add file="jip/jipMenu.js"}
-{add file="jip/jipWindow.js"}
 {add file="admin/toolbar.css"}
 {add file="admin/devToolbar.js"}
 

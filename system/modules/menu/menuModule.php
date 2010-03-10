@@ -21,6 +21,8 @@
  */
 class menuModule extends simpleModule
 {
+    protected $icon = "sprite:sys/page";
+    
     protected $classes = array(
         'menu',
         'menuFolder',
