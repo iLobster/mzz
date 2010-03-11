@@ -71,7 +71,7 @@ class tree_mpPlugin extends observer
         $map['tree_branch'] = array(
             'accessor' => 'getTreeBranch',
             'options' => array(
-                'fake'));
+                'fake', 'nocache'));
     }
 
     public function preSqlSelect(criteria $criteria)

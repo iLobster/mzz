@@ -91,12 +91,22 @@ class commentsMapper extends mapper
         $data['created'] = time();
     }
 
-    /*
     public function postInsert(entity $object)
     {
         $folder = $object->getFolder();
         $objectMapper = $folder->getObjectMapper();
         $commentedObject = $folder->getObject();
+
+        $criteria = new criteria($this->table());
+        $criteria->select(new sqlFunction('COUNT', '*'), 'comments_count');
+        $criteria->where('folder_id', $folder->getId());
+
+        $select = new simpleSelect($criteria);
+        $commentsCount = $this->db()->getOne($select->toString());
+        $folder->setCommentsCount($commentsCount);
+
+        $commentsFolderMapper = systemToolkit::getInstance()->getMapper('comments', 'commentsFolder');
+        $commentsFolderMapper->save($folder);
 
         $data = array(
             'commentedObject' => $commentedObject,
@@ -104,12 +114,15 @@ class commentsMapper extends mapper
             'commentFolderObject' => $folder
         );
 
+        /*
         $commentsFolderMapper = systemToolkit::getInstance()->getMapper('comments', 'commentsFolder');
         $commentsFolderMapper->notify('commentAdded', $data);
+        */
 
         $objectMapper->notify('commentAdded', $data);
     }
 
+    /*
     public function postDelete(entity $object)
     {
         $commentsFolder = $object->getFolder();
