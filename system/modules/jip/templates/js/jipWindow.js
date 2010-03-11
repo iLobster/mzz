@@ -24,7 +24,7 @@
 
             this.attr({'id': this._parent.id + '_window_' + this._parent.currentWindow, 'class': 'mzz-jip-window'});
 
-            this.append($('<div class="mzz-jip-topLeft"></div><div class="mzz-jip-top"></div><div class="mzz-jip-topRight"></div><div class="mzz-jip-left"></div><div class="mzz-jip-right"></div><div class="mzz-jip-bottomLeft"></div><div class="mzz-jip-bottom"></div><div class="mzz-jip-bottomRight"></div><img alt="window gradient" src="/images/jip/window-bg.png" class="mzz-jip-gradient" />'));
+            this.append($('<div class="mzz-jip-topLeft"></div><div class="mzz-jip-top"></div><div class="mzz-jip-topRight"></div><div class="mzz-jip-left"></div><div class="mzz-jip-right"></div><div class="mzz-jip-bottomLeft"></div><div class="mzz-jip-bottom"></div><div class="mzz-jip-bottomRight"></div><img alt="window gradient" src="' + SITE_PATH + '/images/jip/window-bg.png" class="mzz-jip-gradient" />'));
             this._title = $('<span />').appendTo($('<div class="mzz-jip-title" style="" />').appendTo(this));
             $('<a href="" class="mzz-jip-close">x</a>').bind('click', function(e){e.preventDefault();e.stopImmediatePropagation();t._parent.close();}).appendTo(this);
             this._wrapper = $('<div class="mzz-jip-wrapper" />').appendTo(this);
