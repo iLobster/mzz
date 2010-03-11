@@ -83,6 +83,7 @@ class fileManagerSaveFolderController extends simpleController
         $this->smarty->assign('errors', $validator->getErrors());
         $this->smarty->assign('isEdit', $isEdit);
         $targetFolder = $isEdit ? $targetFolder : $folderMapper->create();
+        $this->smarty->assign('validator', $validator);
         $this->smarty->assign('folder', $targetFolder);
         return $this->smarty->fetch('fileManager/saveFolder.tpl');
     }
