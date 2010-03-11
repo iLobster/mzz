@@ -21,7 +21,7 @@
         </tr>
     {/if}
 
-    {foreach from=$pageFolder->getTreeBranch(1) item=current_folder name=folders}
+    {foreach from=$pageFolder->getTreeBranch(1) item=current_folder}
         {if $current_folder->getId() != $pageFolder->getId()}
         <tr class="center">
             <td><img src="{$SITE_PATH}/images/page/folder.gif" alt="" /></td>
@@ -32,8 +32,8 @@
         {/if}
     {/foreach}
 
-    {foreach from=$pages item=current_page name=pages}
-        <tr class="center{if $smarty.foreach.pages.index % 2 == 0} alt{/if}">
+    {foreach from=$pages item=current_page}
+        <tr class="center">
             <td><img src="{$SITE_PATH}/images/page/page.gif" alt="" /></td>
             <td class="left">{if $current_page->getTitle()}<a href="{url route="pageActions" name=$current_page->getFullPath()}">{$current_page->getTitle()|htmlspecialchars}</a>{else}<span style="color: #848484;">&lt;Не указано&gt;</span>{/if}</td>
             <td class="left"><a href="{url route="pageActions" name=$current_page->getFullPath()}">{$current_page->getName()|htmlspecialchars}</a></td>

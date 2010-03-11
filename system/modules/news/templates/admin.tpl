@@ -24,7 +24,7 @@
         </tr>
     {/if}
 
-    {foreach from=$newsFolder->getTreeBranch(1) item=current_folder name=folders}
+    {foreach from=$newsFolder->getTreeBranch(1) item=current_folder}
         {if $current_folder->getId() != $newsFolder->getId()}
             <tr class="center">
                 <td class="first"><img src="{$SITE_PATH}/images/news/folder.gif" alt="folder" /></td>
@@ -36,8 +36,8 @@
         {/if}
     {/foreach}
 
-    {foreach from=$news name=news item=current_news}
-        <tr class="center{if $smarty.foreach.news.index % 2 == 0} alt{/if}">
+    {foreach from=$news item=current_news}
+        <tr class="center">
             <td class="first" style="width: 30px;"><img src="{$SITE_PATH}/images/news/news.gif" alt="" title="{_ author}: {$current_news->getEditor()->getLogin()}" /></td>
             <td class="left"><a href="{url route='withId' module=news id=$current_news->getId()}">{$current_news->getTitle()|htmlspecialchars}</a></td>
             <td>{$current_news->getCreated()|date_format:"%d/%m/%Y %H:%M"}</td>

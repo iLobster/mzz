@@ -116,6 +116,11 @@ return array(
         'main' => 'deny'),
     '403' => array(
         'controller' => '403'
-    )
+    ),
+    'config' => array(
+        'controller' => 'config',
+        'role' => array('moderator'),
+        'main' => 'active.blank.tpl',
+    ),
 );
 ?>
