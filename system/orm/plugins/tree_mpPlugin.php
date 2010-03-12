@@ -92,7 +92,7 @@ class tree_mpPlugin extends observer
         $criteria = $data[0];
         $alias = $data[1];
 
-        $table_name = $alias . '_tree';
+        $table_name = $alias . '_' . $this->options['postfix'];
 
         $criterion = new criterion($table_name . '.foreign_key', $alias . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
         $criteria->join($this->table(), $criterion, $table_name);
@@ -395,7 +395,7 @@ class tree_mpPlugin extends observer
             $alias = $this->mapper->table(false);
             $self = 'tree';
         } else {
-            $self = $alias . '_tree';
+            $self = $alias . '_' . $this->options['postfix'];
         }
 
         foreach (array(
