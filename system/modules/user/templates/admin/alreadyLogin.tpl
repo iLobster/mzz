@@ -1,0 +1,1 @@
+Haba-haba, {$user->getLogin()|h} (ID: {$user->getId()}) | <a href="{url route=default2 module=user action=exit}/?url={url}">{_ logout}</a>

@@ -13,7 +13,7 @@
               <h1>
                   <a href="{$SITE_PATH}/" title="Visit Site">{$toolkit->getRequest()->getUrl()}/</a>
               </h1>
-              <div class="userInfo">{load module="user" action="login" onlyForm=true tplPath="admin/"}</div>
+              <div class="userInfo">{load module="user" action="login" onlyForm=true tplPrefix="admin/"}</div>
           </div>
           <div id="adminWrap" class="clearfix">
               <div class="c-topLeft"></div>
@@ -38,7 +38,7 @@
                   <div class="c-bottom"></div>
                   <div class="c-bottomRight"></div>
                   <div style="position: absolute; top: -26px; right: 5px">{$current_module}
-<a href="{url route='adminModule' name=$current_module action='config'}" class="mzz-jip-link"><img class="mzz-icon mzz-icon-admin mzz-icon-admin-action" src="http://framy.local/images/spacer.gif" width=16 height=16 /></a>
+<a href="{url route='adminModule' name=$current_module action='config'}" class="mzz-jip-link"><img class="mzz-icon mzz-icon-admin mzz-icon-admin-action" src="{$SITE_PATH}/images/spacer.gif" width="16" height="16" alt="" /></a>
 {*
         {strip}
         <a href="#" title="Переводы" onclick="if (jipMenu) jipMenu.show(this, 'admin_translate_{$current_module}', [
@@ -74,7 +74,7 @@
         {load module="admin" action="menu"}
     </div>
     <div id="mainbar">
-        
+
     </div>
     <div  style="clear: both"></div>
 </div>
