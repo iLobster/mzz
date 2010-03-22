@@ -21,6 +21,11 @@
  */
 class formFileextRule extends formAbstractRule
 {
+    public function notExists()
+    {
+        $this->validation = false;
+    }
+    
     protected function _validate($value, $name = null)
     {
         if (!isset($_FILES[$name])) {
