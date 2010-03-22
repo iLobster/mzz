@@ -32,9 +32,9 @@ class formRangeRule extends formAbstractRule
         }
 
         if (is_null($this->params[0]) || is_null($this->params[1])) {
-            return is_null($this->params[1]) ? $value >= $this->params[0] : $value <= $this->params[1];
+            return is_null($this->params[1]) ? (int)$value >= $this->params[0] : (int)$value <= $this->params[1];
         } else {
-            return $value >= $this->params[0] && $value <= $this->params[1];
+            return (int)$value >= $this->params[0] && (int)$value <= $this->params[1];
         }
     }
 }
