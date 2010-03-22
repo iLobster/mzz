@@ -38,7 +38,7 @@
     </div>
     <div class="text">
         {form->file name="file"}
-        <span class="caption>{if $folder->getFilesize() > 0}<br />Ограничение на размер загружаемого файла: <b>{$folder->getFilesize()}</b> Мб{/if}{assign var=exts value=$folder->getExts()}{if not empty($exts)}<br />Ограничение на расширения файлов: <b>{$folder->getExts()}</b>{/if}</span>
+        <span class="caption">{if $folder->getFilesize() > 0}<br />Ограничение на размер загружаемого файла: <b>{$folder->getFilesize()}</b> Мб{/if}{assign var=exts value=$folder->getExts()}{if not empty($exts)}<br />Ограничение на расширения файлов: <b>{$folder->getExts()}</b>{/if}</span>
         <span class="caption error">{$validator->getFieldError('file')}</span>
     </div>
 </div>
