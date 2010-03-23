@@ -4,7 +4,7 @@
     {foreach from=$media.css item="cssitem" key="file" name="cssFiles"}
     {if $cssitem.join}
         {assign var="currentFile" value=$file}
-        {assign var="external" value=$external$currentFile,}
+        {assign var="external" value="$external$currentFile,"}
     {else}
         {include file=$cssitem.tpl filename=$file}
     {/if}
