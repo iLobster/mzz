@@ -101,6 +101,8 @@ class fLocale
         if ($filePath === false) {
             throw new mzzIoException($filePath);
         }
+
+        return $filePath;
     }
 
     /**
