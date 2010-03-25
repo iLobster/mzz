@@ -51,19 +51,37 @@ class routingFilter implements iFilter
             $cache->set('routes', $routes);
         }
 
-        require_once fileLoader::resolve('routes/default_last');
+        $filePath = fileLoader::resolve('routes/default_last');
+
+        if ($filePath === false) {
+            throw new mzzIoException('routes/default_last');
+        } else {
+            require_once $filePath;
+        }
 
         foreach ($routes['last'] as $name => $route) {
             $router->addRoute($name, $route);
         }
 
-        require_once fileLoader::resolve('routes/default_first');
+        $filePath = fileLoader::resolve('routes/default_first');
+
+        if ($filePath === false) {
+            throw new mzzIoException('routes/default_first');
+        } else {
+            require_once $filePath;
+        }
 
         foreach ($routes['first'] as $name => $route) {
             $router->addRoute($name, $route);
         }
 
-        require_once fileLoader::resolve('routes/default');
+        $filePath = fileLoader::resolve('routes/default');
+
+        if ($filePath === false) {
+            throw new mzzIoException('routes/default');
+        } else {
+            require_once $filePath;
+        }
 
         try {
             $router->route($request->getPath());
