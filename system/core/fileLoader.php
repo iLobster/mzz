@@ -69,12 +69,12 @@ class fileLoader
      * резолвинг запроса
      *
      * @param string $request строка запроса (файл/имя класса)
-     * @return string|null путь до запрашиваемого файла/класса, либо null если не найден
+     * @return string|false путь до запрашиваемого файла/класса, либо false если не найден
      */
     public static function resolve($request)
     {
         if (!($filename = self::$resolver->resolve($request))) {
-            throw new mzzIoException($request);
+            return false;
         }
         return $filename;
     }
@@ -89,6 +89,9 @@ class fileLoader
     {
         if (!isset(self::$files[$file])) {
             $filename = self::resolve($file);
+            if ($filename === false) {
+                throw new mzzIoException($file);
+            }
             self::$files[$file] = 1;
             // mb require?
             require_once $filename;
