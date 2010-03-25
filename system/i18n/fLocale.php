@@ -97,7 +97,10 @@ class fLocale
      */
     private function resolve($name)
     {
-        return fileLoader::resolve('i18n/' . $name . '.ini');
+        $filePath = fileLoader::resolve('i18n/' . $name . '.ini');
+        if ($filePath === false) {
+            throw new mzzIoException($filePath);
+        }
     }
 
     /**

@@ -49,6 +49,11 @@ class i18nStorageIni implements i18nStorage
         $this->module = $module;
 
         $file = fileLoader::resolve($module . '/i18n/' . $lang . '.ini');
+
+        if ($file === false) {
+            throw new mzzIoException($module . '/i18n/' . $lang . '.ini');
+        }
+
         $this->file = new iniFile($file);
         $this->data = $this->file->read();
         ksort($this->data);
