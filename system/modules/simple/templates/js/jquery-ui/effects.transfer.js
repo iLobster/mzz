@@ -1,14 +1,14 @@
 /*
- * jQuery UI Effects Transfer 1.7.2
+ * jQuery UI Effects Transfer 1.8
  *
- * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright (c) 2010 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
  * and GPL (GPL-LICENSE.txt) licenses.
  *
  * http://docs.jquery.com/UI/Effects/Transfer
  *
  * Depends:
- *	effects.core.js
+ *	jquery.effects.core.js
  */
 (function($) {
 

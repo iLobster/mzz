@@ -1,26 +1,25 @@
 /*
- * jQuery UI Progressbar 1.7.2
+ * jQuery UI Progressbar 1.8
  *
- * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright (c) 2010 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
  * and GPL (GPL-LICENSE.txt) licenses.
  *
  * http://docs.jquery.com/UI/Progressbar
  *
  * Depends:
- *   ui.core.js
+ *   jquery.ui.core.js
+ *   jquery.ui.widget.js
  */
-(function($) {
+(function( $ ) {
 
-$.widget("ui.progressbar", {
-
-	_init: function() {
-
+$.widget( "ui.progressbar", {
+	options: {
+		value: 0
+	},
+	_create: function() {
 		this.element
-			.addClass("ui-progressbar"
-				+ " ui-widget"
-				+ " ui-widget-content"
-				+ " ui-corner-all")
+			.addClass( "ui-progressbar ui-widget ui-widget-content ui-corner-all" )
 			.attr({
 				role: "progressbar",
 				"aria-valuemin": this._valueMin(),
@@ -28,89 +27,81 @@ $.widget("ui.progressbar", {
 				"aria-valuenow": this._value()
 			});
 
-		this.valueDiv = $('<div class="ui-progressbar-value ui-widget-header ui-corner-left"></div>').appendTo(this.element);
+		this.valueDiv = $( "<div class='ui-progressbar-value ui-widget-header ui-corner-left'></div>" )
+			.appendTo( this.element );
 
 		this._refreshValue();
-
 	},
 
 	destroy: function() {
-
 		this.element
-			.removeClass("ui-progressbar"
-				+ " ui-widget"
-				+ " ui-widget-content"
-				+ " ui-corner-all")
-			.removeAttr("role")
-			.removeAttr("aria-valuemin")
-			.removeAttr("aria-valuemax")
-			.removeAttr("aria-valuenow")
-			.removeData("progressbar")
-			.unbind(".progressbar");
+			.removeClass( "ui-progressbar ui-widget ui-widget-content ui-corner-all" )
+			.removeAttr( "role" )
+			.removeAttr( "aria-valuemin" )
+			.removeAttr( "aria-valuemax" )
+			.removeAttr( "aria-valuenow" );
 
 		this.valueDiv.remove();
 
-		$.widget.prototype.destroy.apply(this, arguments);
-
+		$.Widget.prototype.destroy.apply( this, arguments );
 	},
 
-	value: function(newValue) {
-		if (newValue === undefined) {
+	value: function( newValue ) {
+		if ( newValue === undefined ) {
 			return this._value();
 		}
-		
-		this._setData('value', newValue);
+
+		this._setOption( "value", newValue );
 		return this;
 	},
 
-	_setData: function(key, value) {
-
-		switch (key) {
-			case 'value':
+	_setOption: function( key, value ) {
+		switch ( key ) {
+			case "value":
 				this.options.value = value;
 				this._refreshValue();
-				this._trigger('change', null, {});
+				this._trigger( "change" );
 				break;
 		}
 
-		$.widget.prototype._setData.apply(this, arguments);
-
+		$.Widget.prototype._setOption.apply( this, arguments );
 	},
 
 	_value: function() {
-
 		var val = this.options.value;
-		if (val < this._valueMin()) val = this._valueMin();
-		if (val > this._valueMax()) val = this._valueMax();
+		// normalize invalid value
+		if ( typeof val !== "number" ) {
+			val = 0;
+		}
+		if ( val < this._valueMin() ) {
+			val = this._valueMin();
+		}
+		if ( val > this._valueMax() ) {
+			val = this._valueMax();
+		}
 
 		return val;
-
 	},
 
 	_valueMin: function() {
-		var valueMin = 0;
-		return valueMin;
+		return 0;
 	},
 
 	_valueMax: function() {
-		var valueMax = 100;
-		return valueMax;
+		return 100;
 	},
 
 	_refreshValue: function() {
 		var value = this.value();
-		this.valueDiv[value == this._valueMax() ? 'addClass' : 'removeClass']("ui-corner-right");
-		this.valueDiv.width(value + '%');
-		this.element.attr("aria-valuenow", value);
-	}
-
-});
-
-$.extend($.ui.progressbar, {
-	version: "1.7.2",
-	defaults: {
-		value: 0
+		this.valueDiv
+			[ value === this._valueMax() ? "addClass" : "removeClass"]( "ui-corner-right" )
+			.width( value + "%" );
+		this.element.attr( "aria-valuenow", value );
 	}
 });
 
-})(jQuery);
+$.extend( $.ui.progressbar, {
+	version: "1.8"
+});
+
+})( jQuery );

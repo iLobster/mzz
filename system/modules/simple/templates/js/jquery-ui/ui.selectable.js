@@ -1,20 +1,28 @@
 /*
- * jQuery UI Selectable 1.7.2
+ * jQuery UI Selectable 1.8
  *
- * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright (c) 2010 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
  * and GPL (GPL-LICENSE.txt) licenses.
  *
  * http://docs.jquery.com/UI/Selectables
  *
  * Depends:
- *	ui.core.js
+ *	jquery.ui.core.js
+ *	jquery.ui.mouse.js
+ *	jquery.ui.widget.js
  */
 (function($) {
 
-$.widget("ui.selectable", $.extend({}, $.ui.mouse, {
-
-	_init: function() {
+$.widget("ui.selectable", $.ui.mouse, {
+	options: {
+		appendTo: 'body',
+		autoRefresh: true,
+		distance: 0,
+		filter: '*',
+		tolerance: 'touch'
+	},
+	_create: function() {
 		var self = this;
 
 		this.element.addClass("ui-selectable");
@@ -54,11 +62,16 @@ $.widget("ui.selectable", $.extend({}, $.ui.mouse, {
 	},
 
 	destroy: function() {
+		this.selectees
+			.removeClass("ui-selectee")
+			.removeData("selectable-item");
 		this.element
 			.removeClass("ui-selectable ui-selectable-disabled")
 			.removeData("selectable")
 			.unbind(".selectable");
 		this._mouseDestroy();
+
+		return this;
 	},
 
 	_mouseStart: function(event) {
@@ -239,19 +252,10 @@ $.widget("ui.selectable", $.extend({}, $.ui.mouse, {
 		return false;
 	}
 
-}));
+});
 
 $.extend($.ui.selectable, {
-	version: "1.7.2",
-	defaults: {
-		appendTo: 'body',
-		autoRefresh: true,
-		cancel: ":input,option",
-		delay: 0,
-		distance: 0,
-		filter: '*',
-		tolerance: 'touch'
-	}
+	version: "1.8"
 });
 
 })(jQuery);
