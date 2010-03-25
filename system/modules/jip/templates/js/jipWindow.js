@@ -3,7 +3,8 @@
  * and open the template in the editor.
  */
 (function ($){
-    MZZ.jipWindow = DUI.Class.create($('<div />'), {
+    MZZ.jipWindow = DUI.Class.create({
+        _dom: null,
         _header: null,
         _title: null,
         _wrapper: null,
@@ -21,26 +22,33 @@
             this.__window = $(window);
             var t = this;
             this._onWindowResize = function(){t.resize();};
-
-            this.attr({'id': this._parent.id + '_window_' + this._parent.currentWindow, 'class': 'mzz-jip-window'});
-
-            this.append($('<div class="mzz-jip-topLeft"></div><div class="mzz-jip-top"></div><div class="mzz-jip-topRight"></div><div class="mzz-jip-left"></div><div class="mzz-jip-right"></div><div class="mzz-jip-bottomLeft"></div><div class="mzz-jip-bottom"></div><div class="mzz-jip-bottomRight"></div><img alt="window gradient" src="' + SITE_PATH + '/images/jip/window-bg.png" class="mzz-jip-gradient" />'));
-            this._title = $('<span />').appendTo($('<div class="mzz-jip-title" style="" />').appendTo(this));
-            $('<a href="" class="mzz-jip-close">x</a>').bind('click', function(e){e.preventDefault();e.stopImmediatePropagation();t._parent.close();}).appendTo(this);
-            this._wrapper = $('<div class="mzz-jip-wrapper" />').appendTo(this);
+            this._dom = $('<div />');
+            this._dom.attr({'id': this._parent.id + '_window_' + this._parent.currentWindow, 'class': 'mzz-jip-window'});
+            this._dom.append($('<div class="mzz-jip-topLeft"></div><div class="mzz-jip-top"></div><div class="mzz-jip-topRight"></div><div class="mzz-jip-left"></div><div class="mzz-jip-right"></div><div class="mzz-jip-bottomLeft"></div><div class="mzz-jip-bottom"></div><div class="mzz-jip-bottomRight"></div><img alt="window gradient" src="' + SITE_PATH + '/images/jip/window-bg.png" class="mzz-jip-gradient" />'));
+            this._title = $('<span />').appendTo($('<div class="mzz-jip-title" style="" />').appendTo(this._dom));
+            $('<a href="" class="mzz-jip-close">x</a>').bind('click', function(e){e.preventDefault();e.stopImmediatePropagation();t._parent.close();}).appendTo(this._dom);
+            this._wrapper = $('<div class="mzz-jip-wrapper" />').appendTo(this._dom);
             this._content = $('<div class="mzz-jip-content" style="" />').appendTo(this._wrapper);
 
-            this.appendTo(this.__body);
+            this._dom.appendTo(this.__body);
         },
 
         kill: function() {
-            console.log('Oh my God!!!, someone brutally killed the window [' + this.attr('id') + ']... Rest in bits');
+            console.log('Oh my God!!!, someone brutally killed the window [' + this._dom.attr('id') + ']... Rest in bits');
             this.triggerHandler('kill', [this]);
             this.__window.unbind('resize', this._onWindowResize);
-            this.empty();
-            this.remove();
+            this._dom.empty();
+            this._dom.remove();
         },
 
+        bind: function(eType, eData, eObject) {
+            return this._dom.bind(eType, eData, eObject);
+        },
+
+        triggerHandler: function(eType, eParams) {
+            return this._dom.triggerHandler(eType, eParams);
+        },
+        
         title: function(title, append) {
             if (this._title.length > 0) {
                 if($.isUndefined(title)) {
@@ -74,7 +82,7 @@
 
                 t._wrapper.css('overflow', (nHeight != cHeight) ? 'auto' : 'hidden');
 
-                t.css({'top': (wHeight - nHeight - 40)/2});
+                t._dom.css({'top': (wHeight - nHeight - 40)/2});
 
             }, 1);
 
@@ -120,11 +128,11 @@
 
         zIndex: function(zIndex) {
             if (!$.isNumber(zIndex)) {
-                return this.css('z-index');
+                return this._dom.css('z-index');
             }
 
-            var oldIndex = this.css('z-index');
-            this.css('z-index', zIndex);
+            var oldIndex = this._dom.css('z-index');
+            this._dom.css('z-index', zIndex);
 
             return oldIndex;
         },
@@ -132,7 +140,7 @@
         show: function() {
             if (this.hidden !== false && this.triggerHandler('beforeshow', [this]) !== false) {
                 this.hidden = false;
-                this.css('display', 'block');
+                this._dom.css('display', 'block');
                 this.__window.bind('resize', this._onWindowResize);
                 this.triggerHandler('onshow', [this]);
             }
@@ -143,7 +151,7 @@
         hide: function() {
             if (this.hidden !== true && this.triggerHandler('beforehide', [this]) !== false) {
                 this.hidden = true;
-                this.css('display', 'none');
+                this._dom.css('display', 'none');
                 this.__window.unbind('resize', this._onWindowResize);
                 this.triggerHandler('onhide', [this]);
             }

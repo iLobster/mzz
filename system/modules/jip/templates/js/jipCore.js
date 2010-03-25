@@ -3,8 +3,9 @@
  * and open the template in the editor.
  */
 (function ($){
-    MZZ.jipCore = DUI.Class.create($('<div />'), {
+    MZZ.jipCore = DUI.Class.create({
         __id: 0,
+        eh: null,
         id: 'jip_',
         window: false,              //текущее окно
         windows: [],                //стэк окошков
@@ -21,11 +22,20 @@
 
         init: function() {
             var t = this;
+            this.eh = $('<div />');
             this.__id = MZZ.tools.getId();
             this.id = this.id + '' + this.__id;
             
             this.lockerResize = function() {t.lockContent();};
             this.eventKey = function(e) {if (e.keyCode == 27) {e.preventDefault();e.stopImmediatePropagation();t.close();}};
+        },
+
+        bind: function(eType, eData, eObject) {
+            return this.eh.bind(eType, eData, eObject);
+        },
+
+        triggerHandler: function(eType, eParams) {
+            return this.eh.triggerHandler(eType, eParams);
         },
 
         open: function(url, isNew, method, params, redirect) {
@@ -425,5 +435,4 @@
 })(jQuery);
 
 var jipWindow = new MZZ.jipCore;
-jipWindow.bind('show', function(){console.log(this, this.window)});
 var tinyMCE = false;
