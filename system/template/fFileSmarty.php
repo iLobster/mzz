@@ -78,10 +78,14 @@ class fFileSmarty implements IfSmarty
         if (file_exists($params['resource_base_path'] . DIRECTORY_SEPARATOR . $params['resource_name'])) {
            return $params['resource_base_path'] . DIRECTORY_SEPARATOR . $params['resource_name'];
         }
+
         $filePath = fileLoader::resolve($params['resource_name']);
+        
         if ($filePath === false) {
             throw new mzzIoException($params['resource_name']);
         }
+
+        return $filePath;
     }
 
     /**

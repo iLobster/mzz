@@ -243,6 +243,8 @@ class fSmarty extends Smarty
         if ($filePath === false) {
             throw new mzzIoException($resource_name);
         }
+
+        return $filePath;
     }
 }
 
