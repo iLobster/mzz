@@ -106,15 +106,9 @@ class externalApplication extends core
 
             $filePath = null;
 
-            try {
-                $filePath = fileLoader::resolve($file);
-            } catch (mzzIoException $e) {
-                // если в обычных директориях не найден - ищем в simple
-                try {
-                    $filePath = fileLoader::resolve('simple/' . $file);
-                } catch (mzzIoException $e) {
-                    continue;
-                }
+            $filePath = fileLoader::resolve($file);
+            if ($filePath === false) {
+                $filePath = fileLoader::resolve('simple/' . $file);
             }
 
             if (is_readable($filePath)) {

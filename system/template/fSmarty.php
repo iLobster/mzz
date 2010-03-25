@@ -239,7 +239,10 @@ class fSmarty extends Smarty
 
     public function resolveFilePath($resource_type, $resource_name, &$template_source, &$template_timestamp, $template)
     {
-        return fileLoader::resolve($resource_name);
+        $filePath = fileLoader::resolve($resource_name);
+        if ($filePath === false) {
+            throw new mzzIoException($resource_name);
+        }
     }
 }
 
