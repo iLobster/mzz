@@ -13,6 +13,7 @@
  */
 
 fileLoader::load('simple/simpleAction');
+fileLoader::load('simple/simpleConfig');
 
 /**
  * simpleModule: abstract class for modules
@@ -58,6 +59,19 @@ abstract class simpleModule
 
     protected $icon = null;
 
+    /**
+     * Module's PHP-standardized version
+     *
+     * @var string
+     */
+    protected $version = '0.0.1';
+
+    /**
+     * Module config
+     * 
+     * @var simpleConfig
+     */
+    protected $config = null;
     /**
      * Array of the paths where we will look for module files
      *
@@ -294,5 +308,41 @@ abstract class simpleModule
     {
         return ($this->isSystem() || in_array($this->getName(), systemConfig::$enabledModules)) ? true : false;
     }
+
+    /**
+     * Returns module's PHP-standardized version string
+     *
+     * @return string
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * Returns array of requirements or empty array if all ok
+     *
+     * @return array
+     */
+    public function checkRequirements()
+    {
+        return array();
+    }
+
+    /**
+     * Returns module's config object
+     *
+     *
+     * @return simpleConfig
+     */
+    public function getConfig()
+    {
+        if (!$this->config) {
+            $this->config = new simpleConfig($this->getName(), $this->getVersion());
+        }
+
+        return $this->config;
+    }
+
 }
 ?>

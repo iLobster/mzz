@@ -96,11 +96,11 @@ class systemConfig
     public static $pathToTemp;
 
     /**
-     * Путь до файлов с конфигурацией
+     * Путь до файлов с конфигурацией модулей
      *
      * @var string
      */
-    public static $pathToConf;
+    public static $pathToConfigs;
 
     /**
      * Path to the tests

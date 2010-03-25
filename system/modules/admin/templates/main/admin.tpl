@@ -37,20 +37,9 @@
                   <div class="c-bottomLeft"></div>
                   <div class="c-bottom"></div>
                   <div class="c-bottomRight"></div>
-                  <div style="position: absolute; top: -26px; right: 5px">{$current_module}
-<a href="{url route='adminModule' name=$current_module action='config'}" class="mzz-jip-link"><img class="mzz-icon mzz-icon-admin mzz-icon-admin-action" src="{$SITE_PATH}/images/spacer.gif" width="16" height="16" alt="" /></a>
-{*
-        {strip}
-        <a href="#" title="Переводы" onclick="if (jipMenu) jipMenu.show(this, 'admin_translate_{$current_module}', [
-            {foreach name="langs" from=$toolkit->getLocale()->searchAll() item="lang"}
-                [
-                '{$lang->getLanguageName()}', '{url route='adminTranslate' module_name=$current_module language=$lang->getName() action='translate'}', '{icon sprite="sprite:flags/`$lang->getName()`" jip=true}', ''
-                ]
-                {if !$smarty.foreach.langs.last}, {/if}
-            {/foreach}
-            ], {ldelim}{rdelim}); return false;">
-        {/strip}<img class="mzz-icon mzz-icon-admin mzz-icon-admin-action" src="http://framy.local/images/spacer.gif" width=16 height=16 /></a>
-  <img class="mzz-icon mzz-icon-admin mzz-icon-admin-action" src="http://framy.local/images/spacer.gif" width=16 height=16 />*}</div>
+                  <div style="position: absolute; top: -26px; right: 5px">
+                    <a href="{url route='adminModule' name=$current_module action='config'}" class="mzz-jip-link"><img class="mzz-icon mzz-icon-admin mzz-icon-admin-action" src="{$SITE_PATH}/images/spacer.gif" width="16" height="16" alt="" /></a>
+                  </div>
                   {$content}
                 </div>
               </div>

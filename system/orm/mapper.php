@@ -522,7 +522,7 @@ abstract class mapper
             return $row;
         }
 
-        if (is_null($row[$this->pk])) {
+        if (!isset($row[$this->pk]) || is_null($row[$this->pk])) {
             return null;
         }
 

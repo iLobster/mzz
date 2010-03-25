@@ -234,6 +234,12 @@ class stdToolkit extends toolkit
         return $this->objectIdGenerator->generate($name, $generateNew);
     }
 
+    /**
+     * Return requested module
+     * 
+     * @param string $moduleName
+     * @return simpleModule
+     */
     public function getModule($moduleName)
     {
         if (!isset($this->modules[$moduleName])) {
@@ -439,17 +445,13 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Returns object to work with config file
+     * Returns object to work with config file for requested module
      *
+     * @param string $moduleName
      * @return simpleConfig
      */
-    public function getConfig($config) {
-        if (!isset($this->config[$config])) {
-            fileLoader::load('simple/simpleConfig');
-            $this->config[$config] = new simpleConfig($config);
-        }
-
-        return $this->config[$config];
+    public function getConfig($moduleName) {
+        return $this->getModule($moduleName)->getConfig();
     }
 }
 ?>

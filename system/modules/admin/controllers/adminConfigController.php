@@ -24,7 +24,19 @@ class adminConfigController extends simpleController
 {
     protected function getView()
     {
-        return $this->request->getString('name');
+        $module_name = $this->request->getString('name');
+        $module = $this->toolkit->getModule($module_name);
+
+        if ($module->isEnabled()) {
+            $config = $this->toolkit->getConfig($module_name);
+            $data = $config->export();
+            
+            $this->smarty->assign('config_data', $data);
+            $this->smarty->assign('module_name', $module_name);
+            return $this->smarty->fetch('admin/config.tpl');
+        }
+
+        return 'disabled';
     }
 }
 ?>

@@ -15,23 +15,29 @@
 class simpleConfig
 {
 
-    protected $config = null;
-    protected $fileName = null;
+    protected $moduleName = null;
+    protected $moduleVersion = null;
+    protected $configFile = false;
+    protected $defaultFile = false;
 
     protected $data = array();
-
-    protected $loaded = false;
-    protected $changed = false;
+    protected $defaults = null;
+    
+    protected $isLoaded = false;
+    protected $isChanged = false;
+    protected $isDefault = false;
 
     /**
      * Constructor of class
      * 
      * @param string $config file name
      */
-    public function  __construct($config)
+    public function  __construct($moduleName, $moduleVersion)
     {
-        $this->config = $config;
-        $this->fileName = systemConfig::$pathToConf . DIRECTORY_SEPARATOR . $this->config . '.php';
+        $this->moduleName = $moduleName;
+        $this->moduleVersion = $moduleVersion;
+        $this->configFile = systemConfig::$pathToConfigs . DIRECTORY_SEPARATOR . $this->moduleName . '.php';
+        $this->defaultFile = fileLoader::resolve($this->moduleName . DIRECTORY_SEPARATOR . 'defaultConfig');
     }
 
     /**
@@ -46,12 +52,12 @@ class simpleConfig
             throw new mzzInvalidParameterException("Key is not scalar", $key);
         }
 
-        if(!$this->loaded) {
+        if(!$this->isLoaded) {
             $this->reload();
         }
         
         $this->data[$key] = $val;
-        $this->changed = true;
+        $this->isChanged = true;
     }
 
     /**
@@ -67,7 +73,7 @@ class simpleConfig
             throw new mzzInvalidParameterException("Key is not scalar", $key);
         }
 
-        if(!$this->loaded) {
+        if(!$this->isLoaded) {
             $this->reload();
         }
 
@@ -86,7 +92,7 @@ class simpleConfig
             throw new mzzInvalidParameterException("Key is not scalar", $key);
         }
 
-        if(!$this->loaded) {
+        if(!$this->isLoaded) {
             $this->reload();
         }
         
@@ -104,12 +110,12 @@ class simpleConfig
             throw new mzzInvalidParameterException("Key is not scalar", $key);
         }
 
-        if(!$this->loaded) {
+        if(!$this->isLoaded) {
             $this->reload();
         }
         
         unset($this->data[$key]);
-        $this->changed = true;
+        $this->isChanged = true;
     }
 
     /**
@@ -120,7 +126,7 @@ class simpleConfig
      */
     public function import(array $data, $merge = false)
     {
-        if(!$this->loaded) {
+        if(!$this->isLoaded) {
             $this->reload();
         }
         
@@ -134,7 +140,7 @@ class simpleConfig
      */
     public function export()
     {
-        if(!$this->loaded) {
+        if(!$this->isLoaded) {
             $this->reload();
         }
         
@@ -146,14 +152,15 @@ class simpleConfig
      */
     public function save()
     {
-        if ($this->changed) {
-            if ((is_file($this->fileName) && is_writable($this->fileName)) ||
-                    (!file_exists($this->fileName) && is_writable(systemConfig::$pathToTemp))) {
-                    file_put_contents($this->fileName, "<?php \n return " . var_export($this->data, true) . ";\n ?>");
-                    $this->changed = false;
+        if ($this->isChanged) {
+            if ((is_file($this->configFile) && is_writable($this->configFile)) ||
+                    (!file_exists($this->configFile) && is_writable(systemConfig::$pathToTemp))) {
+                    $data = array('version' => $this->moduleVersion, 'data'=> $this->data);
+                    file_put_contents($this->configFile, "<?php \n return " . var_export($data, true) . ";\n ?>");
+                    $this->isChanged = false;
                     return true;
             } else {
-                throw new mzzIoException($this->fileName);
+                throw new mzzIoException($this->configFile);
             }
         }
     }
@@ -163,21 +170,75 @@ class simpleConfig
      */
     public function reload()
     {
-        if (file_exists($this->fileName)) {
-            if (is_file($this->fileName) && is_readable($this->fileName)) {
-                $this->data = include $this->fileName;
-                if (!is_array($this->data)) {
-                    $this->data = array();
+        if (file_exists($this->configFile)) {
+            if (is_file($this->configFile) && is_readable($this->configFile)) {
+                $data = include $this->configFile;
+
+                if (is_array($data) && isset($data['version']) && isset($data['data'])) {
+                    $this->data = $data['data'];
+                    if (!version_compare($data['version'], $this->moduleVersion, '==')) {
+                        $this->merge();
+                    }
+
+                    $this->isLoaded = true;
+                    $this->isChanged = false;
+
+                    return true;
+                }
+            } else {
+                throw new mzzIoException($this->configFile);
+            }
+        }
+
+        $this->data = $this->getDefaults();
+        
+        $this->isLoaded = true;
+        $this->isDefault = true;
+        $this->isChanged = false;
+    }
+
+    /**
+     *
+     */
+    protected function merge()
+    {
+        $defaults = $this->getDefaults();
+        $keys = $this->data;
+        foreach ($keys as $key) {
+            if (!isset($defaults[$key])) {
+                unset($this->data[$key]);
+            }
+        }
+
+        $this->data = array_merge($defaults, $this->data);
+        $this->save();
+    }
+
+    /**
+     * Loads defaultConfig file and returns array;
+     *
+     * @throws mzzInvalidParameterException|mzzIoException
+     * @return array
+     */
+    public function getDefaults()
+    {
+        if ($this->defaults === null) {
+            if (is_file($this->defaultFile) && is_readable($this->defaultFile)) {
+                $data = include $this->defaultFile;
+
+                if (!is_array($data)) {
+                    throw new mzzInvalidParameterException('no array found in "' . $this->moduleName . '/defaultConfig" file');
                 }
 
-                $this->loaded = true;
-                $this->changed = false;
-                return true;
+                $this->defaults = $data;
+            } else {
+                throw new mzzIoException($this->moduleName . DIRECTORY_SEPARATOR . 'defaultConfig.php');
             }
-
-            throw new mzzIoException($this->fileName);
         }
+
+        return $this->defaults;
     }
+
 
     /**
      * Whether config changed
@@ -186,7 +247,17 @@ class simpleConfig
      */
     public function isChanged()
     {
-        return (bool) $this->changed;
+        return (bool) $this->isChanged;
+    }
+
+    /**
+     * Whether default config used
+     *
+     * @return boolean
+     */
+    public function isDefault()
+    {
+        return (bool) $this->isDefault;
     }
 }
 ?>
