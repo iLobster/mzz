@@ -52,10 +52,8 @@ class adminDeleteActionController extends simpleController
             return $controller->run();
         }
 
-        $dest = current($dests);
-
         try {
-            $adminGeneratorMapper->deleteAction($module, $actionObject, $dest);
+            $adminGeneratorMapper->deleteAction($module, $actionObject, $dests);
         } catch (Exception $e) {
             return $e->getMessage();
             //$controller = new messageController($this->getAction(), $e->getMessage(), messageController::WARNING);

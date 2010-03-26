@@ -207,7 +207,7 @@ class adminGeneratorMapper extends mapper
         $actionsArray[$action_name] = $actionData;
 
         $fileGenerator = new fileGenerator($path);
-        
+
         if (!$isEdit) {
             $toolkit = systemToolkit::getInstance();
             $smarty = $toolkit->getSmarty();
@@ -313,13 +313,19 @@ class adminGeneratorMapper extends mapper
      * @param simpleAction $action
      * @param string $path
      */
-    public function deleteAction(simpleModule $module, simpleAction $action, $path)
+    public function deleteAction(simpleModule $module, simpleAction $action, $paths)
     {
         fileLoader::load('codegenerator/fileGenerator');
-        $fileGenerator = new fileGenerator($path);
 
         $actionFileName = $this->generateActionFileName($action->getClassName());
-        $actionFile = $path . '/' . $actionFileName;
+
+        foreach(array_reverse($paths) as $path) {
+            if (file_exists($actionFile = $path . '/' . $actionFileName)) {
+                break;
+            }
+        }
+
+        $fileGenerator = new fileGenerator($path);
 
         $actionsArray = include $actionFile;
         unset($actionsArray[$action->getName()]);

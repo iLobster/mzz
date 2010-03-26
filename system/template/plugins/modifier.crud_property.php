@@ -23,7 +23,7 @@
 function smarty_modifier_crud_property($name, $property)
 {
     $modifier = '';
-    if ($property['type'] == 'char') {
+    if (isset($property['type']) && $property['type'] == 'char') {
         $modifier = 'h';
     }
 
