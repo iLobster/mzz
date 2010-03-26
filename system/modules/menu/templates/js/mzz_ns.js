@@ -6,9 +6,22 @@
 (function($){
    $.widget("ui.mzz_ns",{
 
-        _init: function() {
+        options: {
+            placeHolder: '<li />',
+            sortables: 'li',
+            handler: '.mzz-ns-handler',
+            droppables: 'li',
+            droppableHeight: false,
+            dropInside: true,
+            childPlace: 'ul',
+            childWrap: '<ul class="mzz-ns-data" />',
+            childOffset: 50, 
+            cloneOpacity: 1
+        },
 
-            this._options    = $.extend({},this.defaults,this.options);
+        _create: function() {
+
+            this._options    = $.extend({},this.options);
             this._document   = $(document);
             this._body       = $('body');
             this._sortable   = $(this.element);
@@ -286,19 +299,4 @@
         }
     });
 
-    $.extend($.ui.mzz_ns, {
-        getter: "hash serialize",
-        defaults: {
-            placeHolder: '<li />',
-            sortables: 'li',
-            handler: '.mzz-ns-handler',
-            droppables: 'li',
-            droppableHeight: false,
-            dropInside: true,
-            childPlace: 'ul',
-            childWrap: '<ul class="mzz-ns-data" />',
-            childOffset: 50, 
-            cloneOpacity: 1
-        }
-    });
 })(jQuery);
