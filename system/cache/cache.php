@@ -38,9 +38,9 @@ class cache
     /**
      * @var cacheBackend
      */
-    private $backend;
+    protected $backend;
 
-    private $type;
+    protected $type;
 
     /**
      * Фабрика для получения объекта кэширования
