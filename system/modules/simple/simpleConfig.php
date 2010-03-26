@@ -48,6 +48,10 @@ class simpleConfig
      */
     public function set($key, $val)
     {
+        if ($key == '__version__') {
+            throw new mzzInvalidParameterException("restricted key name '__version__'");
+        }
+        
         if (!is_scalar($key)) {
             throw new mzzInvalidParameterException("Key is not scalar", $key);
         }
@@ -157,7 +161,8 @@ class simpleConfig
         if ($this->isChanged) {
             if ((is_file($this->configFile) && is_writable($this->configFile)) ||
                     (!file_exists($this->configFile) && is_writable(systemConfig::$pathToTemp))) {
-                    $data = array('version' => $this->moduleVersion, 'data'=> $this->data);
+                    $data = $this->data;
+                    $data['__version__'] = $this->moduleVersion;
                     file_put_contents($this->configFile, "<?php \n return " . var_export($data, true) . ";\n ?>");
                     $this->isChanged = false;
                     return true;
@@ -176,12 +181,16 @@ class simpleConfig
             if (is_file($this->configFile) && is_readable($this->configFile)) {
                 $data = include $this->configFile;
 
-                if (is_array($data) && isset($data['version']) && isset($data['data'])) {
-                    $this->data = $data['data'];
-                    if (!version_compare($data['version'], $this->moduleVersion, '==')) {
+                if (is_array($data)) {
+                    
+                    $this->data = $data;
+
+                    if (!isset($data['__version__']) || !version_compare($data['__version__'], $this->moduleVersion, '==')) {
                         $this->merge();
                     }
 
+                    unset($this->data['__version__']);
+                    
                     $this->isLoaded = true;
                     $this->isChanged = false;
 
@@ -213,6 +222,7 @@ class simpleConfig
         }
 
         $this->data = array_merge($defaults, $this->data);
+        $this->isChanged = true;
         $this->save();
     }
 

@@ -13,6 +13,7 @@
                 <tr class="first">
                     <th class="first name"><img src="{$SITE_PATH}/images/exp_{if isset($hiddenClasses.$name)}plus{else}minus{/if}.png" onclick="devToolbar.toggleModule('{$name}', this);" width="16" height="16" alt="expand/close classes list" title="expand/collapse classes" style="cursor: pointer" />{$name}</th>
                     <th class="last right">
+                        <a href="{url route="withAnyParam" module="admin" name=$name action="config"}" class="mzz-jip-link" title="Редактировать конфигурацию">{icon sprite="sprite:admin/action/admin"}</a>
                         <a href="{url route="accessEditRoles" module_name=$name action="list"}" class="mzz-jip-link" title="Редактировать права доступа">{icon sprite="sprite:admin/module-acl/admin"}</a>
                         <a href="{url route="withAnyParam" module="admin" name=$name action="editModule"}" class="mzz-jip-link" title="Редактировать модуль">{icon sprite="sprite:admin/module-edit/admin"}</a>
                         <a href="{url route="withAnyParam" module="admin" name=$name action="deleteModule"}" class="mzz-jip-link" title="Удалить модуль">{icon sprite="sprite:admin/module-del/admin"}</a>
