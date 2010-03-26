@@ -38,17 +38,17 @@ fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
                 nonbreaking_force_tab : true,
                 apply_source_formatting : true,
                 add_unload_trigger : false,
-                add_form_submit_trigger: false
+                add_form_submit_trigger: false,
+                oninit : function(){jipWindow.resize()}
             });
 
             jipWindow.addTinyMCEId(id);
             $('#' + id + '_editorStatus').text('Выключить WYSIWYG-редактор');
-            jipWindow.resize(true);
         } else {
             tinyMCE.execCommand('mceRemoveControl', false, id);
             jipWindow.deleteTinyMCEId(id);
             $('#' + id + '_editorStatus').text('Включить WYSIWYG-редактор');
-            jipWindow.resize(true);
+            jipWindow.resize();
         }
     }
 })(jQuery);
