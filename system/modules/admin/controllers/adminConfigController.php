@@ -25,12 +25,25 @@ class adminConfigController extends simpleController
     protected function getView()
     {
         $module_name = $this->request->getString('name');
-        $module = $this->toolkit->getModule($module_name);
+        //$module = $this->toolkit->getModule($module_name);
+        $config = $this->toolkit->getConfig($module_name);
 
-        if ($module->isEnabled()) {
-            $config = $this->toolkit->getConfig($module_name);
+        if ($config) {
+            $validator = new formValidator();
+
+            if ($validator->validate()) {
+                $config->import($this->request->getArray('config', SC_POST), true);
+                $config->save();
+                return jipTools::refresh();
+            }
+
             $data = $config->export();
             
+            $url = new url('adminModule');
+            $url->add('name', $module_name);
+            $url->setAction('config');
+
+            $this->smarty->assign('form_action', $url->get());
             $this->smarty->assign('config_data', $data);
             $this->smarty->assign('module_name', $module_name);
             return $this->smarty->fetch('admin/config.tpl');

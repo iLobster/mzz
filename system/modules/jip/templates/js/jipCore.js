@@ -365,10 +365,10 @@
             return this;
         },
 
-        resize: function(force)
+        resize: function()
         {
             if (this.window) {
-                this.window.resize(force);
+                this.window.resize();
             }
 
             return this;

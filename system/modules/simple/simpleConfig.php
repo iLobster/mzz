@@ -55,7 +55,8 @@ class simpleConfig
         if(!$this->isLoaded) {
             $this->reload();
         }
-        
+
+
         $this->data[$key] = $val;
         $this->isChanged = true;
     }
@@ -131,6 +132,7 @@ class simpleConfig
         }
         
         $this->data = ($merge) ? array_merge($this->data, $data) : $data;
+        $this->isChanged = true;
     }
 
     /**
