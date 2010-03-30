@@ -28,7 +28,7 @@ interface IfSmarty
      *
      * @param object $smarty
      */
-    function __construct(fSmarty $smarty);
+    function __construct(smartyTemplate $smarty);
 
     /**
      * Выполняет шаблон и возвращает результат

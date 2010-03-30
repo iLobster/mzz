@@ -15,18 +15,21 @@
 */
 
 fileLoader::load('libs/smarty/Smarty.class');
-fileLoader::load('template/IfSmarty');
-fileLoader::load('template/plugins/function.add');
+fileLoader::load('template/drivers/smarty/IfSmarty');
+fileLoader::load('template/drivers/smarty/plugins/function.add');
+fileLoader::load('template/drivers/smarty/plugins/modifier.filesize');
+fileLoader::load('service/blockHelper');
+fileLoader::load('template/drivers/smarty/plugins/prefilter.i18n');
 
-/**
- * fSmarty: модификация Smarty для работы с активными и пассивными шаблонами
- *
- * @package system
- * @subpackage template
- * @version 0.5.3
- */
-class fSmarty extends Smarty
+class smartyTemplate extends Smarty implements iTemplate
 {
+
+    /**
+     * @var view
+     */
+    protected $view = null;
+
+
     /**
      * Язык шаблона
      *
@@ -61,16 +64,47 @@ class fSmarty extends Smarty
      * @var unknown_type
      */
     protected $withMain = true;
-
-    /**
-     * Конструктор
-     *
-     */
-    public function __construct()
+    public function __construct(view $view)
     {
+
         parent::__construct();
-        // инициализация массива media, используемого в функции {add}
+
+        $this->view = $view;
+
+        $this->template_dir = systemConfig::$pathToApplication . '/templates';
+        $this->compile_dir = systemConfig::$pathToTemp . '/templates_c';
+        $oldPluginsDirs = $this->plugins_dir;
+        $this->plugins_dir = array();
+        $this->allow_php_tag = true;
+        $this->default_template_handler_func = array($this, 'resolveFilePath');
+
+        if (is_dir($appdir = systemConfig::$pathToApplication . '/template/plugins')) {
+            $this->plugins_dir[] = $appdir;
+        }
+        
+        $this->plugins_dir[] = systemConfig::$pathToSystem . '/template/drivers/smarty/plugins';
+        $this->plugins_dir = array_merge($this->plugins_dir, $oldPluginsDirs);
+
+        $this->debugging = DEBUG_MODE;
+        $this->assign('SITE_PATH', rtrim(SITE_PATH, '/'));
+
+
+        $this->register_modifier('filesize', 'smarty_modifier_filesize');
+
+        $this->register_object('form', new form());
+
+
+        $this->register_object('fblock', $fblock = blockHelper::getInstance());
+        $this->assign('fblock', $fblock);
+
+
+        $this->register_prefilter('smarty_prefilter_i18n');
         smarty_function_add(array('init' => true), $this);
+    }
+
+    public function render($template)
+    {
+        return $this->fetch($template);
     }
 
     /**
@@ -94,7 +128,7 @@ class fSmarty extends Smarty
         $className = 'f' . ucfirst($resource[0]) . 'Smarty';
 
         if (!class_exists($className)) {
-            fileLoader::load('template/' . $className);
+            fileLoader::load('template/drivers/smarty/' . $className);
         }
 
         if (!class_exists($className)) {
@@ -245,6 +279,16 @@ class fSmarty extends Smarty
         }
 
         return $filePath;
+    }
+
+    public function getVariable($name)
+    {
+        return $this->view->getVariable($name);
+    }
+
+    public function assign($var, $val = null)
+    {
+        return $this->view->assign($var, $val);
     }
 }
 

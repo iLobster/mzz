@@ -35,7 +35,7 @@ class fFileSmarty implements IfSmarty
      *
      * @param object $smarty
      */
-    function __construct(fSmarty $smarty)
+    function __construct(smartyTemplate $smarty)
     {
         $this->smarty = $smarty;
     }
@@ -98,6 +98,15 @@ class fFileSmarty implements IfSmarty
         return $this->smarty->template_dir;
     }
 
+    public function getVariable($name)
+    {
+        return new Smarty_Variable($this->view->getVariable($name));
+    }
+
+    public function assign($var, $val = null)
+    {
+        return $this->view->assign($var, $val);
+    }
 }
 
 ?>

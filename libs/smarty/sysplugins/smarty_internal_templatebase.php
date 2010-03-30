@@ -27,6 +27,9 @@ class Smarty_Internal_TemplateBase {
     */
     public function assign($tpl_var, $value = null, $nocache = false, $scope = SMARTY_LOCAL_SCOPE)
     {
+        
+        $this->smarty->assign($tpl_var, $value);
+        return;
         if (is_array($tpl_var)) {
             foreach ($tpl_var as $_key => $_val) {
                 if ($_key != '') {
@@ -223,7 +226,14 @@ class Smarty_Internal_TemplateBase {
         if (isset($this->smarty->global_tpl_vars[$variable])) {
             // found it, return it
             return $this->smarty->global_tpl_vars[$variable];
-        } 
+        }
+
+        $val = $this->smarty->getVariable($variable);
+
+        if ($val) {
+            return new Smarty_Variable($val);
+        }
+        
         if ($this->smarty->error_unassigned && $error_enable) {
             throw new Exception('Undefined Smarty variable "' . $variable . '"');
         } else {

@@ -44,7 +44,9 @@
             params.jip = 1;
             method = (method && method.toUpperCase() == 'POST') ? 'POST' : 'GET';
 
-            this.triggerHandler('beforeopen', [this, url, isNew, method, params]);
+            if (this.triggerHandler('beforeopen', [this, url, isNew, method, params]) === false) {
+                return false;
+            }
 
             if (isNew) {
                 this.currentWindow = this.windowCount++;
@@ -57,7 +59,7 @@
                 this.stack[this.currentWindow] = [];
                 this.tinyMCEIds[this.currentWindow] = [];
                 this.window = new MZZ.jipWindow(this);
-                this.window.bind('beforeshow onshore show beforehide onhide hide kill', this.windowEvents);
+                this.window.bind('beforeshow onshowe show beforehide onhide hide kill', this.windowEvents);
                 this.setStatus('<strong>Window url:</strong> ' + url);
                 $(document).keypress(this.eventKey);
             } else {
@@ -70,6 +72,11 @@
                 this.request(url, method, params);
 
                 if(url.match(/[&\?]_confirm=/) == null && redirect !== true) {
+                    this.stack[this.currentWindow].push(url);
+                }
+
+                if (redirect === true) {
+                    this.stack[this.currentWindow] = [];
                     this.stack[this.currentWindow].push(url);
                 }
             }
@@ -85,6 +92,10 @@
 
         close: function(windows) {
             if (this.window) {
+                if (this.triggerHandler('beforeclose', [this]) === false){
+                    return false;
+                }
+
                 if (MZZ.browser.msie) {
                     this.window.content().find('select').addClass('mzz-ie-visibility');
                 }
@@ -172,10 +183,11 @@
         
         windowEvents: function(e, object) {
             if (e.type == 'close') {
-                object._parent.triggerHandler('beforeclose', [this]);
-                object._parent.close();
+                return object._parent.close();
+            } else if (e.type == 'kill') {
+                return object._parent.triggerHandler(e.type, [this]);
             } else {
-                object._parent.triggerHandler(e.type, [this]);
+                return object._parent.triggerHandler(e.type, [object._parent]);
             }
         },
         
@@ -360,6 +372,15 @@
         {
             if (this.window) {
                 this.window.status(status);
+            }
+
+            return this;
+        },
+
+        setContent: function(content, append)
+        {
+            if (this.window) {
+                this.window.content(content, append);
             }
 
             return this;

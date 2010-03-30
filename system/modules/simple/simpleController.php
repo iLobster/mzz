@@ -79,6 +79,8 @@ abstract class simpleController
      */
     protected $tpl_prefix = null;
 
+
+    protected $view = null;
     /**
      * Конструктор
      *
@@ -87,6 +89,7 @@ abstract class simpleController
     {
         $this->toolkit = systemToolkit::getInstance();
         $this->request = $this->toolkit->getRequest();
+        $this->view = $this->toolkit->getView('smarty');
         $this->smarty = $this->toolkit->getSmarty();
         $this->response = $this->toolkit->getResponse();
         $this->action = $action;
