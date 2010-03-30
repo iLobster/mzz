@@ -37,7 +37,7 @@ class simpleConfig
         $this->moduleName = $moduleName;
         $this->moduleVersion = $moduleVersion;
         $this->configFile = systemConfig::$pathToConfigs . DIRECTORY_SEPARATOR . $this->moduleName . '.php';
-        $this->defaultFile = fileLoader::resolve($this->moduleName . DIRECTORY_SEPARATOR . 'defaultConfig');
+        $this->defaultFile = fileLoader::resolve($this->moduleName . '/defaultConfig');
     }
 
     /**
