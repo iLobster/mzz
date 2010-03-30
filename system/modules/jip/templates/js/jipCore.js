@@ -34,6 +34,10 @@
             return this.eh.bind(eType, eData, eObject);
         },
 
+        one: function(eType, eData, eObject) {
+            return this.eh.one(eType, eData, eObject);
+        },
+
         triggerHandler: function(eType, eParams) {
             return this.eh.triggerHandler(eType, eParams);
         },
