@@ -72,18 +72,18 @@ class newsMoveFolderController extends simpleController
         $url->setAction('moveFolder');
         $url->add('name', $folder->getTreePath());
 
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('validator', $validator);
+        $this->view->assign('form_action', $url->get());
+        $this->view->assign('validator', $validator);
 
         $dests = array();
         foreach ($folders as $val) {
             $dests[$val->getId()] = str_repeat('&nbsp;', ($val->getTreeLevel() - 1) * 5) . $val->getTitle();
         }
 
-        $this->smarty->assign('folder', $folder);
-        $this->smarty->assign('dests', $dests);
+        $this->view->assign('folder', $folder);
+        $this->view->assign('dests', $dests);
 
-        return $this->smarty->fetch('news/moveFolder.tpl');
+        return $this->view->render('news/moveFolder.tpl');
     }
 
     public function checkUniqueNewsFolderName($id, $folderMapper, $folder)

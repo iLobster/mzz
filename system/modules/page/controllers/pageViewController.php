@@ -36,8 +36,8 @@ class pageViewController extends simpleController
             return $this->forward404($pageFolderMapper);
         }
 
-        $this->smarty->assign('page', $page);
-        return $this->smarty->fetch('page/view.tpl');
+        $this->view->assign('page', $page);
+        return $this->view->render('page/view.tpl');
     }
 }
 

@@ -57,10 +57,10 @@ class fileManagerEditController extends simpleController
         $url->add('name', $name);
         $url->setAction('edit');
 
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('validator', $validator);
-        $this->smarty->assign('file', $file);
-        return $this->smarty->fetch('fileManager/edit.tpl');
+        $this->view->assign('form_action', $url->get());
+        $this->view->assign('validator', $validator);
+        $this->view->assign('file', $file);
+        return $this->view->render('fileManager/edit.tpl');
     }
 
     public function checkFilename($name, $file)

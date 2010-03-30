@@ -78,11 +78,11 @@ class pageMoveFolderController extends simpleController
             $dests[$val->getId()] = str_repeat('&nbsp;', ($val->getTreeLevel() - 1) * 5) . $val->getTitle();
         }
 
-        $this->smarty->assign('folder', $folder);
-        $this->smarty->assign('dests', $dests);
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('errors', $validator->getErrors());
-        return $this->smarty->fetch('page/moveFolder.tpl');
+        $this->view->assign('folder', $folder);
+        $this->view->assign('dests', $dests);
+        $this->view->assign('form_action', $url->get());
+        $this->view->assign('errors', $validator->getErrors());
+        return $this->view->render('page/moveFolder.tpl');
     }
 
     public function checkUniquPageFolderName($id, $folderMapper, $folder)

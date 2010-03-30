@@ -23,7 +23,7 @@ class adminDashboardController extends simpleController
 {
     protected function getView()
     {
-        return $this->smarty->fetch('admin/dashboard.tpl');
+        return $this->view->render('admin/dashboard.tpl');
     }
 }
 

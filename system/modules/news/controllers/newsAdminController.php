@@ -42,11 +42,11 @@ class newsAdminController extends simpleController
         $newsMapper = $this->toolkit->getMapper('news', 'news');
         $this->setPager($newsMapper);
 
-        $this->smarty->assign('news', $newsMapper->searchByFolder($newsFolder->getId()));
-        $this->smarty->assign('newsFolder', $newsFolder);
-        $this->smarty->assign('breadCrumbs', $breadCrumbs);
+        $this->view->assign('news', $newsMapper->searchByFolder($newsFolder->getId()));
+        $this->view->assign('newsFolder', $newsFolder);
+        $this->view->assign('breadCrumbs', $breadCrumbs);
 
-        return $this->smarty->fetch('news/admin.tpl');
+        return $this->view->render('news/admin.tpl');
     }
 }
 

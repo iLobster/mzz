@@ -16,7 +16,7 @@ function smarty_prefilter_i18n($tpl_source, $smarty = null)
     }
 
     if (is_null($smarty)) {
-        $smarty = systemToolkit::getInstance()->getSmarty();
+        $smarty = systemToolkit::getInstance()->getView('smarty');
     }
 
     // определяем какому модулю принадлежит шаблон

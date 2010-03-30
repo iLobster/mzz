@@ -64,11 +64,11 @@ class userGroupSaveController extends simpleController
         }
 
         $group = ($isEdit) ? $group : $groupMapper->create();
-        $this->smarty->assign('group', $group);
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('isEdit', $isEdit);
-        $this->smarty->assign('validator', $validator);
-        return $this->smarty->fetch('user/groupEdit.tpl');
+        $this->view->assign('group', $group);
+        $this->view->assign('form_action', $url->get());
+        $this->view->assign('isEdit', $isEdit);
+        $this->view->assign('validator', $validator);
+        return $this->view->render('user/groupEdit.tpl');
     }
 
     function checkUniqueGroupName($name, $group, $groupMapper)

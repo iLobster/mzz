@@ -57,9 +57,9 @@ class userMembersListController extends simpleController
 
         $users = $group->getUsers();
 
-        $this->smarty->assign('users', $users);
-        $this->smarty->assign('group', $group);
-        return $this->smarty->fetch('user/membersList.tpl');
+        $this->view->assign('users', $users);
+        $this->view->assign('group', $group);
+        return $this->view->render('user/membersList.tpl');
     }
 }
 

@@ -33,8 +33,8 @@ class newsViewController extends simpleController
             return $this->forward404($newsMapper);
         }
 
-        $this->smarty->assign('news', $news);
-        return $this->smarty->fetch('news/view.tpl');
+        $this->view->assign('news', $news);
+        return $this->view->render('news/view.tpl');
     }
 }
 

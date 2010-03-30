@@ -35,8 +35,8 @@ class timingFilter implements iFilter
     {
         $toolkit = systemToolkit::getInstance();
         $timer = $toolkit->getTimer();
-        $smarty = $toolkit->getSmarty();
-        $smarty->assign('timer', $timer);
+        $view = $toolkit->getView('smarty');
+        $view->assign('timer', $timer);
 
         $filter_chain->next();
     }

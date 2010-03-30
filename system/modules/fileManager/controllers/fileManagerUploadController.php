@@ -41,7 +41,7 @@ class fileManagerUploadController extends simpleController
         } else {
             $exts = array();
         }
-
+        
         $validator->rule('fileext', 'file', 'Неверное расширение!', $exts);
         $validator->rule('regex', 'name', 'Недопустимые символы в имени', '/^[a-zа-я0-9_\.\-! ]+$/ui');
 
@@ -62,7 +62,7 @@ class fileManagerUploadController extends simpleController
                 $fileMapper = $this->toolkit->getMapper('fileManager', 'file');
                 $fileMapper->save($file);
 
-                $this->smarty->assign('file_name', $file->getName());
+                $this->view->assign('file_name', $file->getName());
                 $success = true;
                 $messages = array();
             } catch (mzzRuntimeException $e) {
@@ -74,15 +74,15 @@ class fileManagerUploadController extends simpleController
         $url->setAction('upload');
         $url->add('name', $folder->getTreePath());
 
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('validator', $validator);
+        $this->view->assign('form_action', $url->get());
+        $this->view->assign('validator', $validator);
 
-        $this->smarty->assign('success', $success);
-        $this->smarty->assign('messages', isset($messages) ? $messages : $validator->getErrors());
+        $this->view->assign('success', $success);
+        $this->view->assign('messages', isset($messages) ? $messages : $validator->getErrors());
 
-        $this->smarty->assign('folder', $folder);
+        $this->view->assign('folder', $folder);
 
-        return $this->smarty->fetch('fileManager/upload.tpl');
+        return $this->view->render('fileManager/upload.tpl');
     }
 }
 

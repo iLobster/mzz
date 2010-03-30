@@ -35,20 +35,20 @@ class jipTools
      */
     static public function closeWindow($howMany = 1, $url = false, $timeout = 1500)
     {
-        $smarty = systemToolkit::getInstance()->getSmarty();
-        $smarty->assign('url', $url);
-        $smarty->assign('howMany', (int)$howMany);
-        $smarty->assign('timeout', (int)$timeout);
-        $smarty->assign('do', 'close');
-        return $smarty->fetch('simple/jipTools.tpl');
+        $view = systemToolkit::getInstance()->getView('smarty');
+        $view->assign('url', $url);
+        $view->assign('howMany', (int)$howMany);
+        $view->assign('timeout', (int)$timeout);
+        $view->assign('do', 'close');
+        return $view->render('simple/jipTools.tpl');
     }
 
     static public function setRefreshAfterClose($url = true)
     {
-        $smarty = systemToolkit::getInstance()->getSmarty();
-        $smarty->assign('url', $url);
-        $smarty->assign('do', 'refresh');
-        return $smarty->fetch('simple/jipTools.tpl');
+        $view = systemToolkit::getInstance()->getView('smarty');
+        $view->assign('url', $url);
+        $view->assign('do', 'refresh');
+        return $view->render('simple/jipTools.tpl');
     }
 
     /**
@@ -59,10 +59,10 @@ class jipTools
      */
     static public function redirect($url = null)
     {
-        $smarty = systemToolkit::getInstance()->getSmarty();
-        $smarty->assign('url', $url);
-        $smarty->assign('do', 'redirect');
-        return $smarty->fetch('simple/jipTools.tpl');
+        $view = systemToolkit::getInstance()->getView('smarty');
+        $view->assign('url', $url);
+        $view->assign('do', 'redirect');
+        return $view->render('simple/jipTools.tpl');
     }
 
     /**
@@ -72,10 +72,10 @@ class jipTools
      */
     static public function refresh()
     {
-        $smarty = systemToolkit::getInstance()->getSmarty();
-        $smarty->assign('url', null);
-        $smarty->assign('do', 'redirect');
-        return $smarty->fetch('simple/jipTools.tpl');
+        $view = systemToolkit::getInstance()->getView('smarty');
+        $view->assign('url', null);
+        $view->assign('do', 'redirect');
+        return $view->render('simple/jipTools.tpl');
     }
 
 }

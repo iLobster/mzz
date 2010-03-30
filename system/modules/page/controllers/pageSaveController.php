@@ -76,12 +76,12 @@ class pageSaveController extends simpleController
         $url->add('name', $pageFolder->getTreePath() . ($isEdit ? '/' . $page->getName() : ''));
         $url->setAction($action);
 
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('page', $page);
-        $this->smarty->assign('validator', $validator);
-        $this->smarty->assign('isEdit', $isEdit);
+        $this->view->assign('form_action', $url->get());
+        $this->view->assign('page', $page);
+        $this->view->assign('validator', $validator);
+        $this->view->assign('isEdit', $isEdit);
 
-        return $this->smarty->fetch('page/save.tpl');
+        return $this->view->render('page/save.tpl');
     }
 
     public function checkUniquePageName($name, $page, $pageFolder)

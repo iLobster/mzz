@@ -22,7 +22,7 @@
 interface iMenuItemHelper
 {
     public function setArguments($item, array $args);
-    public function injectItem($validator, $item = null, $smarty = null, array $args = null);
+    public function injectItem($validator, $item = null, $view = null, array $args = null);
 }
 
 ?>

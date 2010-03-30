@@ -49,7 +49,7 @@ class menuSaveController extends simpleController
         }
 
         $types = $itemMapper->getMenuItemsTypes();
-        $this->smarty->assign('types', $types);
+        $this->view->assign('types', $types);
 
         $typeId = $this->request->getInteger('type', SC_POST);
         if ($isEdit) {
@@ -72,7 +72,7 @@ class menuSaveController extends simpleController
             $item = (isset($types[$typeId])) ? $itemMapper->create($typeId) : null;
         }
 
-        $this->smarty->assign('typeId', $typeId);
+        $this->view->assign('typeId', $typeId);
 
         $validator = new formValidator();
         if ($item) {
@@ -88,7 +88,7 @@ class menuSaveController extends simpleController
             );
 
             $helper = $this->createMenuItemHelper($item);
-            $helper->injectItem($validator, $item, $this->smarty, $args);
+            $helper->injectItem($validator, $item, $this->view, $args);
             if ($validator->validate()) {
                 $helper->setArguments($item, $args);
 
@@ -122,20 +122,20 @@ class menuSaveController extends simpleController
             $url->add('id', $menu->getId());
         }
 
-        $this->smarty->assign('item', $item);
-        $this->smarty->assign('request', $this->request);
-        $this->smarty->assign('i18nEnabled', systemConfig::$i18nEnable);
-        $this->smarty->assign('action', $url->get());
-        $this->smarty->assign('isEdit', $isEdit);
-        $this->smarty->assign('isRoot', $isRoot);
-        $this->smarty->assign('validator', $validator);
+        $this->view->assign('item', $item);
+        $this->view->assign('request', $this->request);
+        $this->view->assign('i18nEnabled', systemConfig::$i18nEnable);
+        $this->view->assign('action', $url->get());
+        $this->view->assign('isEdit', $isEdit);
+        $this->view->assign('isRoot', $isRoot);
+        $this->view->assign('validator', $validator);
 
         if ($item && $this->request->getBoolean('onlyProperties', SC_POST)) {
-            $this->smarty->disableMain();
-            return $this->smarty->fetch('menu/properties.tpl');
+            $this->view->disableMain();
+            return $this->view->render('menu/properties.tpl');
         }
 
-        return $this->smarty->fetch('menu/save.tpl');
+        return $this->view->render('menu/save.tpl');
     }
 
     protected function createMenuItemHelper($item)

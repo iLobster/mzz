@@ -32,13 +32,13 @@ class fileManagerListController extends simpleController
 
         if ($folder) {
             $breadCrumbs = $folder->getTreeParentBranch();
-            $this->smarty->assign('breadCrumbs', $breadCrumbs);
+            $this->view->assign('breadCrumbs', $breadCrumbs);
 
             $config = $this->toolkit->getConfig('fileManager');
             $pager = $this->setPager($fileMapper, $config->get('items_per_page'));
-            $this->smarty->assign('current_folder', $folder);
-            $this->smarty->assign('files', $fileMapper->searchByFolder($folder->getId()));
-            return $this->smarty->fetch('fileManager/list.tpl');
+            $this->view->assign('current_folder', $folder);
+            $this->view->assign('files', $fileMapper->searchByFolder($folder->getId()));
+            return $this->view->render('fileManager/list.tpl');
         }
 
         return $this->forward404($folderMapper);

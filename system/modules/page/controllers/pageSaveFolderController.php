@@ -64,13 +64,13 @@ class pageSaveFolderController extends simpleController
         $url->add('name', $path);
         $url->setAction($action);
 
-        $this->smarty->assign('action', $url->get());
-        $this->smarty->assign('validator', $validator);
-        $this->smarty->assign('isEdit', $isEdit);
+        $this->view->assign('action', $url->get());
+        $this->view->assign('validator', $validator);
+        $this->view->assign('isEdit', $isEdit);
 
         $targetFolder = $isEdit ? $targetFolder : $folderMapper->create();
-        $this->smarty->assign('folder', $targetFolder);
-        return $this->smarty->fetch('page/saveFolder.tpl');
+        $this->view->assign('folder', $targetFolder);
+        return $this->view->render('page/saveFolder.tpl');
     }
 
     public function checkUniqueFolderName($name, $path, $isEdit)

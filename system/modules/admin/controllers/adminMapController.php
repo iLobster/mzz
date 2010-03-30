@@ -86,10 +86,10 @@ class adminMapController extends simpleController
             }
         }
 
-        $this->smarty->assign('added', $add);
-        $this->smarty->assign('deleted', array_keys($delete));
+        $this->view->assign('added', $add);
+        $this->view->assign('deleted', array_keys($delete));
 
-        return $this->smarty->fetch('admin/map.tpl');
+        return $this->view->render('admin/map.tpl');
     }
 
     private function filterFakeFields(&$array)

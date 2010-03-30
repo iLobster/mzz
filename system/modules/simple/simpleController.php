@@ -44,13 +44,6 @@ abstract class simpleController
     protected $response;
 
     /**
-     * Объект шаблонного движка
-     *
-     * @var fSmarty
-     */
-    protected $smarty;
-
-    /**
      * Action object
      *
      * @var simpleAction
@@ -80,6 +73,10 @@ abstract class simpleController
     protected $tpl_prefix = null;
 
 
+    /**
+     *
+     * @var simpleView
+     */
     protected $view = null;
     /**
      * Конструктор
@@ -90,7 +87,7 @@ abstract class simpleController
         $this->toolkit = systemToolkit::getInstance();
         $this->request = $this->toolkit->getRequest();
         $this->view = $this->toolkit->getView('smarty');
-        $this->smarty = $this->toolkit->getSmarty();
+//        $this->view = $this->toolkit->getView('smarty');
         $this->response = $this->toolkit->getResponse();
         $this->action = $action;
 
@@ -117,7 +114,7 @@ abstract class simpleController
      */
     public function redirect($url, $code = 302)
     {
-        $this->smarty->disableMain();
+        $this->view->disableMain();
         $this->response->redirect($url, $code);
     }
 
@@ -207,7 +204,7 @@ abstract class simpleController
         }
 
         if ($this->getAction()->isJip() && $this->request->isJip()) {
-            $this->smarty->setActiveTemplate('main.xml.tpl');
+            $this->view->setActiveTemplate('main.xml.tpl');
             $this->response->setHeader('Content-Type', 'text/xml');
         }
 
@@ -229,7 +226,7 @@ abstract class simpleController
         $pager = new pager($this->request->getRequestUrl(), $this->request->getInteger('page', SC_REQUEST), $per_page, $round_items, $reverse);
         $mapper->attach(new pagerPlugin($pager));
 
-        $this->smarty->assign('pager', $pager);
+        $this->view->assign('pager', $pager);
 
         return $pager;
     }
@@ -267,7 +264,7 @@ abstract class simpleController
      */
     public function fetch($path)
     {
-        return $this->smarty->fetch($this->addTemplatePrefix($path));
+        return $this->view->render($this->addTemplatePrefix($path));
     }
 
     /**
@@ -283,7 +280,7 @@ abstract class simpleController
 
         $url = $this->request->getRequestUrl();
         $url = $url . (strpos($url, '?') ? '&' : '?') . '_confirm=' . $code;
-        $this->smarty->assign('url', $url);
+        $this->view->assign('url', $url);
 
         $confirm = empty($this->confirm) ? $confirm : $this->confirm;
 
@@ -291,14 +288,14 @@ abstract class simpleController
             $confirm = i18n::getMessage($confirm);
         }
 
-        $this->smarty->assign('message', $confirm);
-        $this->smarty->assign('method', $this->request->getMethod());
+        $this->view->assign('message', $confirm);
+        $this->view->assign('method', $this->request->getMethod());
         // если подтверждается POST-действие, помещаем данные в форму
         if ($this->request->isMethod('POST')) {
             $postData = $this->getPostData();
-            $this->smarty->assign('postData', $postData);
+            $this->view->assign('postData', $postData);
         }
-        return $this->smarty->fetch('simple/confirm.tpl');
+        return $this->view->render('simple/confirm.tpl');
     }
 
     public function getAction()

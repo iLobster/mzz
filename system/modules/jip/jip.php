@@ -138,13 +138,13 @@ class jip implements iJip
      */
     public function getJip()
     {
-        $smarty = systemToolkit::getInstance()->getSmarty();
+        $view = systemToolkit::getInstance()->getView('smarty');
 
-        $smarty->assign('langs', $this->getLangs());
-        $smarty->assign('jip', $this->jipItems);
-        $smarty->assign('jipId', $this->getJipId());
+        $view->assign('langs', $this->getLangs());
+        $view->assign('jip', $this->jipItems);
+        $view->assign('jipId', $this->getJipId());
 
-        return $smarty->fetch($this->template);
+        return $view->render($this->template);
     }
 }
 

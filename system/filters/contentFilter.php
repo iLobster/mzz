@@ -46,21 +46,21 @@ class contentFilter implements iFilter
     public function run(filterChain $filter_chain, $response, iRequest $request)
     {
         $toolkit = systemToolkit::getInstance();
-        $smarty = $toolkit->getSmarty();
+        $view = $toolkit->getView('smarty');
 
-        $smarty->assign('toolkit', $toolkit);
+        $view->assign('toolkit', $toolkit);
         /*
-        $smarty->assign('current_module', $request->getRequestedModule());
-        $smarty->assign('current_action', $request->getRequestedAction());
-        $smarty->assign('current_path', $request->getPath());
-        $smarty->assign('current_lang', $toolkit->getLocale()->getName());
-        $smarty->assign('current_user', $toolkit->getUser());
-        $smarty->assign('available_langs', $toolkit->getLocale()->searchAll());
+        $view->assign('current_module', $request->getRequestedModule());
+        $view->assign('current_action', $request->getRequestedAction());
+        $view->assign('current_path', $request->getPath());
+        $view->assign('current_lang', $toolkit->getLocale()->getName());
+        $view->assign('current_user', $toolkit->getUser());
+        $view->assign('available_langs', $toolkit->getLocale()->searchAll());
         */
         $request->setRequestedParams($request->getParams());
 
         try {
-            $output = $this->runActiveTemplate($request, $toolkit, $smarty);
+            $output = $this->runActiveTemplate($request, $toolkit, $view);
         } catch (mzzException $e) {
             if (DEBUG_MODE) {
                 throw $e;
@@ -76,7 +76,7 @@ class contentFilter implements iFilter
         $filter_chain->next();
     }
 
-    public function runActiveTemplate($request, $toolkit, $smarty)
+    public function runActiveTemplate($request, $toolkit, $view)
     {
         $module_name = $request->getModule();
         $action_name = $request->getAction();
@@ -85,7 +85,7 @@ class contentFilter implements iFilter
 
         $tpl_name = self::TPL_PRE . $module_name . '/' . $action_name . self::TPL_EXT;
         if (file_exists($tplPath . '/' . $tpl_name)) {
-            return $smarty->fetch($tpl_name);
+            return $view->render($tpl_name);
         }
 
         $module = $toolkit->getModule($module_name);
@@ -97,10 +97,10 @@ class contentFilter implements iFilter
             throw new mzzNoActionException('Direct access to this action is deny');
         }
 
-        $smarty->assign('module', $module_name);
-        $smarty->assign('action', $action_name);
+        $view->assign('module', $module_name);
+        $view->assign('action', $action_name);
 
-        return $smarty->fetch($activeTemplate);
+        return $view->render($activeTemplate);
     }
 }
 

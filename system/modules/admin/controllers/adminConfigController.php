@@ -43,10 +43,10 @@ class adminConfigController extends simpleController
             $url->add('name', $module_name);
             $url->setAction('config');
 
-            $this->smarty->assign('form_action', $url->get());
-            $this->smarty->assign('config_data', $data);
-            $this->smarty->assign('module_name', $module_name);
-            return $this->smarty->fetch('admin/config.tpl');
+            $this->view->assign('form_action', $url->get());
+            $this->view->assign('config_data', $data);
+            $this->view->assign('module_name', $module_name);
+            return $this->view->render('admin/config.tpl');
         }
 
         return 'disabled';

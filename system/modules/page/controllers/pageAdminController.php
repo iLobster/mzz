@@ -38,11 +38,11 @@ class pageAdminController extends simpleController
             $breadCrumbs = $pageFolder->getTreeParentBranch();
 
             $pager = $this->setPager($pageMapper);
-            $this->smarty->assign('section_name', $this->request->getString('section_name'));
-            $this->smarty->assign('pages', $pageMapper->searchByFolder($pageFolder->getId()));
-            $this->smarty->assign('breadCrumbs', $breadCrumbs);
-            $this->smarty->assign('pageFolder', $pageFolder);
-            return $this->smarty->fetch('page/admin.tpl');
+            $this->view->assign('section_name', $this->request->getString('section_name'));
+            $this->view->assign('pages', $pageMapper->searchByFolder($pageFolder->getId()));
+            $this->view->assign('breadCrumbs', $breadCrumbs);
+            $this->view->assign('pageFolder', $pageFolder);
+            return $this->view->render('page/admin.tpl');
         }
 
         return $this->forward404($pageFolderMapper);

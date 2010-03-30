@@ -78,14 +78,14 @@ class fileManagerSaveFolderController extends simpleController
         $url->setAction($action);
         $url->add('name', $targetFolder->getTreePath());
 
-        $this->smarty->assign('storages', $storages);
-        $this->smarty->assign('action', $url->get());
-        $this->smarty->assign('errors', $validator->getErrors());
-        $this->smarty->assign('isEdit', $isEdit);
+        $this->view->assign('storages', $storages);
+        $this->view->assign('action', $url->get());
+        $this->view->assign('errors', $validator->getErrors());
+        $this->view->assign('isEdit', $isEdit);
         $targetFolder = $isEdit ? $targetFolder : $folderMapper->create();
-        $this->smarty->assign('validator', $validator);
-        $this->smarty->assign('folder', $targetFolder);
-        return $this->smarty->fetch('fileManager/saveFolder.tpl');
+        $this->view->assign('validator', $validator);
+        $this->view->assign('folder', $targetFolder);
+        return $this->view->render('fileManager/saveFolder.tpl');
     }
 
 

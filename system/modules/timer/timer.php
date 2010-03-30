@@ -46,7 +46,7 @@ class timer
      *
      * @var fSmarty
      */
-    protected $smarty;
+    protected $view;
 
     /**
      * Конструктор
@@ -55,7 +55,7 @@ class timer
     public function __construct()
     {
         $toolkit = systemToolkit::getInstance();
-        $this->smarty = $toolkit->getSmarty();
+        $this->view = $toolkit->getView('smarty');
         $this->db = fDB::factory();
     }
 
@@ -135,7 +135,7 @@ class timer
     public function toString($tpl = 'timer/timer.tpl')
     {
         $this->finish();
-        return $this->smarty->fetch($tpl);
+        return $this->view->render($tpl);
     }
 
 }

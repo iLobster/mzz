@@ -20,7 +20,7 @@ class accessSaveController extends simpleController
 
         if (!$isEdit) {
             $groups = $roleMapper->getGroupsNotAddedYet($module_name)->toArray();
-            $this->smarty->assign('groups', $groups);
+            $this->view->assign('groups', $groups);
 
             $validator->rule('required', 'group_id');
             $validator->rule('in', 'group_id', 'группа не найдена', array_keys($groups));
@@ -68,11 +68,11 @@ class accessSaveController extends simpleController
         $form_action->add('module_name', $module_name);
         $form_action->setAction($action);
 
-        $this->smarty->assign('form_action', $form_action->get());
-        $this->smarty->assign('roles', $module->getRoles());
-        $this->smarty->assign('current_roles', $currentRoles);
+        $this->view->assign('form_action', $form_action->get());
+        $this->view->assign('roles', $module->getRoles());
+        $this->view->assign('current_roles', $currentRoles);
 
-        return $this->smarty->fetch('access/save.tpl');
+        return $this->view->render('access/save.tpl');
     }
 }
 

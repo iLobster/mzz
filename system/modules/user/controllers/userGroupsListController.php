@@ -33,11 +33,11 @@ class userGroupsListController extends simpleController
 
         $this->setPager($groupMapper, 10, true);
 
-        $this->smarty->assign('groups', $groupMapper->searchAll());
-        $this->smarty->assign('userFolder', $userFolder);
-        $this->smarty->assign('groupFolder', $groupFolder);
+        $this->view->assign('groups', $groupMapper->searchAll());
+        $this->view->assign('userFolder', $userFolder);
+        $this->view->assign('groupFolder', $groupFolder);
 
-        return $this->smarty->fetch('user/groupsList.tpl');
+        return $this->view->render('user/groupsList.tpl');
     }
 }
 

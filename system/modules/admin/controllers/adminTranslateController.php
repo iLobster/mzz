@@ -37,9 +37,9 @@ class adminTranslateController extends simpleController
         }
 
         $storage_default = new i18nStorageIni($module->getName(), $locale->getName());
-        $this->smarty->assign('plurals', range(0, $locale->getPluralsCount() - 1));
-        $this->smarty->assign('translates', $storage_default->export());
-        return $this->smarty->fetch('admin/translateFrm.tpl');
+        $this->view->assign('plurals', range(0, $locale->getPluralsCount() - 1));
+        $this->view->assign('translates', $storage_default->export());
+        return $this->view->render('admin/translateFrm.tpl');
         return $module->getName() . '@' . $locale->getName();
         
 
@@ -61,11 +61,11 @@ class adminTranslateController extends simpleController
 
                 if ($language != systemConfig::$i18n) {
                     $storage_default = new i18nStorageIni($module_name, systemConfig::$i18n);
-                    $this->smarty->assign('not_default', true);
-                    $this->smarty->assign('variables_default', $storage_default->export());
+                    $this->view->assign('not_default', true);
+                    $this->view->assign('variables_default', $storage_default->export());
 
                     $locale_default = new fLocale(systemConfig::$i18n);
-                    $this->smarty->assign('locale_default', $locale_default);
+                    $this->view->assign('locale_default', $locale_default);
                 } else {
                     $storage_default = $storage;
                 }
@@ -108,21 +108,21 @@ class adminTranslateController extends simpleController
                 $url->add('module_name', $module_name);
                 $url->add('language', $language);
 
-                $this->smarty->assign('storage_default', $storage_default);
-                $this->smarty->assign('form_action', $url->get());
-                $this->smarty->assign('locale', $locale);
-                $this->smarty->assign('plurals', range(0, $locale->getPluralsCount() - 1));
-                $this->smarty->assign('variables', $storage->export());
+                $this->view->assign('storage_default', $storage_default);
+                $this->view->assign('form_action', $url->get());
+                $this->view->assign('locale', $locale);
+                $this->view->assign('plurals', range(0, $locale->getPluralsCount() - 1));
+                $this->view->assign('variables', $storage->export());
 
-                return $this->smarty->fetch('admin/translateForm.tpl');
+                return $this->view->render('admin/translateForm.tpl');
             }
         } catch (mzzIoException $e) {
         }
 
-        $this->smarty->assign('langs', $langs);
-        $this->smarty->assign('modules', $modules);
+        $this->view->assign('langs', $langs);
+        $this->view->assign('modules', $modules);
 
-        return $this->smarty->fetch('admin/translateList.tpl');
+        return $this->view->render('admin/translateList.tpl');
     }
 
     public function notEmpty($value)

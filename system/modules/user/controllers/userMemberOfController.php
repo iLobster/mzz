@@ -72,11 +72,11 @@ class userMemberOfController extends simpleController
         $url->setAction('memberOf');
         $url->add('id', $id);
 
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('groups', $groups);
-        $this->smarty->assign('user', $user);
+        $this->view->assign('form_action', $url->get());
+        $this->view->assign('groups', $groups);
+        $this->view->assign('user', $user);
 
-        return $this->smarty->fetch('user/memberOf.tpl');
+        return $this->view->render('user/memberOf.tpl');
     }
 }
 

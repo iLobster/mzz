@@ -55,8 +55,8 @@ class fileManagerMoveController extends simpleController
         $url->setAction('move');
         $url->add('name', $file->getFullPath());
 
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('validator', $validator);
+        $this->view->assign('form_action', $url->get());
+        $this->view->assign('validator', $validator);
 
         $dests = array();
         $styles = array();
@@ -65,12 +65,12 @@ class fileManagerMoveController extends simpleController
             $styles[$val->getId()] = 'padding-left: ' . ($val->getTreeLevel() * 15) . 'px;';
         }
 
-        $this->smarty->assign('dests', $dests);
-        $this->smarty->assign('styles', $styles);
+        $this->view->assign('dests', $dests);
+        $this->view->assign('styles', $styles);
 
-        $this->smarty->assign('file', $file);
-        $this->smarty->assign('folders', $folders);
-        return $this->smarty->fetch('fileManager/move.tpl');
+        $this->view->assign('file', $file);
+        $this->view->assign('folders', $folders);
+        return $this->view->render('fileManager/move.tpl');
     }
 
     public function checkFilename($dest, $file)

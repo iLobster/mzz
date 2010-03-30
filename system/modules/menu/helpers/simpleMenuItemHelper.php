@@ -30,7 +30,7 @@ class simpleMenuItemHelper implements iMenuItemHelper
         return $item;
     }
 
-    public function injectItem($validator, $item = null, $smarty = null, array $args = null)
+    public function injectItem($validator, $item = null, $view = null, array $args = null)
     {
         //$validator->rule('required', 'url', 'Укажите URL');
     }

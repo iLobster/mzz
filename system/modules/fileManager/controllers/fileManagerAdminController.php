@@ -40,11 +40,11 @@ class fileManagerAdminController extends simpleController
         $breadCrumbs = $folder->getTreeParentBranch();
         $this->setPager($folderMapper);
 
-        $this->smarty->assign('breadCrumbs', $breadCrumbs);
-        $this->smarty->assign('current_folder', $folder);
-        $this->smarty->assign('files', $folderMapper->getItems($folder));
+        $this->view->assign('breadCrumbs', $breadCrumbs);
+        $this->view->assign('current_folder', $folder);
+        $this->view->assign('files', $folderMapper->getItems($folder));
 
-        return $this->smarty->fetch('fileManager/admin.tpl');
+        return $this->view->render('fileManager/admin.tpl');
     }
 }
 

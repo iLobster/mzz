@@ -4,7 +4,7 @@ class admin403Controller extends simpleController
 {
     protected function getView()
     {
-        return $this->smarty->fetch('admin/403.tpl');
+        return $this->view->render('admin/403.tpl');
     }
 }
 

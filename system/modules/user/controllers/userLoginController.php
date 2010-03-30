@@ -59,15 +59,15 @@ class userLoginController extends simpleController
             $url = new url('default2');
             $url->setModule('user');
             $url->setAction('login');
-            $this->smarty->assign('form_action', $url->get());
-            $this->smarty->assign('validator', $validator);
-            $this->smarty->assign('backURL', $backURL);
+            $this->view->assign('form_action', $url->get());
+            $this->view->assign('validator', $validator);
+            $this->view->assign('backURL', $backURL);
 
-            return ($tplPath) ? $this->smarty->fetch($tplPath . 'loginForm.tpl') : $this->fetch('user/loginForm.tpl');
+            return ($tplPath) ? $this->view->render($tplPath . 'loginForm.tpl') : $this->fetch('user/loginForm.tpl');
         }
 
-        $this->smarty->assign('user', $user);
-        return  ($tplPath) ? $this->smarty->fetch($tplPath . 'alreadyLogin.tpl') : $this->fetch('user/alreadyLogin.tpl');
+        $this->view->assign('user', $user);
+        return  ($tplPath) ? $this->view->render($tplPath . 'alreadyLogin.tpl') : $this->fetch('user/alreadyLogin.tpl');
     }
 
     protected function rememberUser($user)

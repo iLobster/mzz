@@ -34,12 +34,12 @@ class newsListController extends simpleController
         $newsMapper = $this->toolkit->getMapper('news', 'news');
         $this->setPager($newsMapper, 10, true);
 
-        $this->smarty->assign('news', $newsFolder->getItems());
-        $this->smarty->assign('folderPath', $newsFolder->getTreePath());
-        $this->smarty->assign('rootFolder', $newsFolderMapper->searchByPath('root'));
-        $this->smarty->assign('newsFolder', $newsFolder);
+        $this->view->assign('news', $newsFolder->getItems());
+        $this->view->assign('folderPath', $newsFolder->getTreePath());
+        $this->view->assign('rootFolder', $newsFolderMapper->searchByPath('root'));
+        $this->view->assign('newsFolder', $newsFolder);
 
-        return $this->smarty->fetch('news/list.tpl');
+        return $this->view->render('news/list.tpl');
     }
 }
 

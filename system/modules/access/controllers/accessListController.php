@@ -16,11 +16,11 @@ class accessListController extends simpleController
         $groups_left = $roleMapper->getGroupsNotAddedYet($module_name);
         $roles = $roleMapper->getGroups($module_name);
 
-        $this->smarty->assign('roles', $roles);
-        $this->smarty->assign('groups_left', $groups_left);
-        $this->smarty->assign('module_name', $module_name);
+        $this->view->assign('roles', $roles);
+        $this->view->assign('groups_left', $groups_left);
+        $this->view->assign('module_name', $module_name);
 
-        return $this->smarty->fetch('access/list.tpl');
+        return $this->view->render('access/list.tpl');
     }
 }
 

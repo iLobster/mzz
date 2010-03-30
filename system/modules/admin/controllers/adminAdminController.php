@@ -56,8 +56,8 @@ class adminAdminController extends simpleController
             return $this->forward($moduleName, $actionName);
         } catch (Exception $e) {
             if($e instanceof mzzModuleNotFoundException || $e instanceof mzzUnknownModuleActionException) {
-                $this->smarty->assign('module', $moduleName);
-                return $this->smarty->fetch('admin/404.tpl');
+                $this->view->assign('module', $moduleName);
+                return $this->view->render('admin/404.tpl');
             } else {
                 throw $e;
             }
@@ -76,8 +76,8 @@ class adminAdminController extends simpleController
             }
         }
 
-        $this->smarty->assign('dashboard', $dashboard);
-        return $this->smarty->fetch('admin/main.tpl');
+        $this->view->assign('dashboard', $dashboard);
+        return $this->view->render('admin/main.tpl');
     }
 }
 

@@ -79,20 +79,20 @@ class userAddToGroupController extends simpleController
             $users = $userMapper->searchAllByCriteria($criteria);
 
             if (sizeof($users) > $limit) {
-                $this->smarty->assign('too_much', true);
+                $this->view->assign('too_much', true);
             }
 
-            $this->smarty->assign('filter', $filter);
+            $this->view->assign('filter', $filter);
         }
 
         $url = new url('withId');
         $url->add('id', $this->request->getInteger('id'));
         $url->setAction('addToGroupList');
 
-        $this->smarty->assign('users', $users);
-        $this->smarty->assign('group', $group);
+        $this->view->assign('users', $users);
+        $this->view->assign('group', $group);
 
-        return $this->smarty->fetch('user/addToGroup.tpl');
+        return $this->view->render('user/addToGroup.tpl');
     }
 }
 

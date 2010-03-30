@@ -51,10 +51,10 @@ class adminMenuController extends simpleController
             $action = $this->request->getRequestedAction();
         }
 
-        $this->smarty->assign('current_module', $module);
-        $this->smarty->assign('current_action', $action);
-        $this->smarty->assign('menu', $menu);
-        return $this->smarty->fetch('admin/menu.tpl');
+        $this->view->assign('current_module', $module);
+        $this->view->assign('current_action', $action);
+        $this->view->assign('menu', $menu);
+        return $this->view->render('admin/menu.tpl');
     }
 }
 

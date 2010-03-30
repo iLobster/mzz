@@ -147,7 +147,7 @@ class adminSaveActionController extends simpleController
             $crud['delete'] = 'delete';
         }
 
-        $this->smarty->assign('crudList', $crud);
+        $this->view->assign('crudList', $crud);
 
         $url = new url('adminModuleEntity');
         $url->add('module_name', $module_name);
@@ -159,20 +159,20 @@ class adminSaveActionController extends simpleController
             $url->add('class_name', $class_name);
         }
 
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('validator', $validator);
+        $this->view->assign('form_action', $url->get());
+        $this->view->assign('validator', $validator);
 
-        $this->smarty->assign('dests', $dests);
-        $this->smarty->assign('isEdit', $isEdit);
-        $this->smarty->assign('module', $module);
-        $this->smarty->assign('moduleClassMapper', $moduleClassMapper);
-        $this->smarty->assign('actionData', $actionData);
+        $this->view->assign('dests', $dests);
+        $this->view->assign('isEdit', $isEdit);
+        $this->view->assign('module', $module);
+        $this->view->assign('moduleClassMapper', $moduleClassMapper);
+        $this->view->assign('actionData', $actionData);
         if (!$isEdit) {
-            $this->smarty->assign('classes', array_combine($classes, $classes));
-            $this->smarty->assign('class_name', $class_name);
+            $this->view->assign('classes', array_combine($classes, $classes));
+            $this->view->assign('class_name', $class_name);
         }
 
-        return $this->smarty->fetch('admin/saveAction.tpl');
+        return $this->view->render('admin/saveAction.tpl');
     }
 
     public function unique($name, simpleModule $module, $action_name = null)

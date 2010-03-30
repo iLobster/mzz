@@ -31,8 +31,8 @@ class fileManager404Controller extends simpleController
 
     public function getView()
     {
-        $this->smarty->assign('type', $this->type);
-        return $this->smarty->fetch('fileManager/notfound.tpl');
+        $this->view->assign('type', $this->type);
+        return $this->view->render('fileManager/notfound.tpl');
     }
 }
 

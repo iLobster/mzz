@@ -96,10 +96,10 @@ class adminSaveClassController extends simpleController
                     //return $controller->run();
                 }
 
-                $this->smarty->assign('name', $name);
-                $this->smarty->assign('module', $module);
+                $this->view->assign('name', $name);
+                $this->view->assign('module', $module);
 
-                return $this->smarty->fetch('admin/addClassResult.tpl');
+                return $this->view->render('admin/addClassResult.tpl');
             } else {
                 return jipTools::redirect();
             }
@@ -115,13 +115,13 @@ class adminSaveClassController extends simpleController
         }
         $url->setAction($action);
 
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('data', $data);
-        $this->smarty->assign('isEdit', $isEdit);
-        $this->smarty->assign('dests', $dests);
-        $this->smarty->assign('validator', $validator);
+        $this->view->assign('form_action', $url->get());
+        $this->view->assign('data', $data);
+        $this->view->assign('isEdit', $isEdit);
+        $this->view->assign('dests', $dests);
+        $this->view->assign('validator', $validator);
 
-        return $this->smarty->fetch('admin/saveClass.tpl');
+        return $this->view->render('admin/saveClass.tpl');
     }
 
     public function checkUniqueClassName($name, $adminMapper, $class_name)

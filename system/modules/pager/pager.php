@@ -343,9 +343,9 @@ class pager
     public function toString($tpl = 'pager/pager.tpl')
     {
         $toolkit = systemToolkit::getInstance();
-        $smarty = $toolkit->getSmarty();
-        $smarty->assign('pages', $this->toArray());
-        return $smarty->fetch($tpl);
+        $view = $toolkit->getView('smarty');
+        $view->assign('pages', $this->toArray());
+        return $view->render($tpl);
     }
 
     protected function appendPageToUrl($page)

@@ -55,12 +55,12 @@ class adminAddObjToRegistryController extends simpleController
         $url = new url('default2');
         $url->setAction($action);
 
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('errors', $validator->getErrors());
-        $this->smarty->assign('action', $action);
-        $this->smarty->assign('classes', $classes);
+        $this->view->assign('form_action', $url->get());
+        $this->view->assign('errors', $validator->getErrors());
+        $this->view->assign('action', $action);
+        $this->view->assign('classes', $classes);
 
-        return $this->smarty->fetch('admin/addObjToRegistry.tpl');
+        return $this->view->render('admin/addObjToRegistry.tpl');
     }
 
     function checkClassExists($id, $classes)

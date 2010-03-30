@@ -81,12 +81,12 @@ class newsSaveController extends simpleController
         }
         $url->setAction($action);
 
-        $this->smarty->assign('action', $url->get());
-        $this->smarty->assign('validator', $validator);
-        $this->smarty->assign('news', $news);
-        $this->smarty->assign('isEdit', $isEdit);
+        $this->view->assign('action', $url->get());
+        $this->view->assign('validator', $validator);
+        $this->view->assign('news', $news);
+        $this->view->assign('isEdit', $isEdit);
 
-        return $this->smarty->fetch('news/save.tpl');
+        return $this->view->render('news/save.tpl');
     }
 }
 

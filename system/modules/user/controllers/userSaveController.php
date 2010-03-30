@@ -83,11 +83,11 @@ class userSaveController extends simpleController
         $url->setAction($action);
 
         $editedUser = ($isEdit) ? $editedUser : $userMapper->create();
-        $this->smarty->assign('user', $editedUser);
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('isEdit', $isEdit);
-        $this->smarty->assign('validator', $validator);
-        return $this->smarty->fetch('user/save.tpl');
+        $this->view->assign('user', $editedUser);
+        $this->view->assign('form_action', $url->get());
+        $this->view->assign('isEdit', $isEdit);
+        $this->view->assign('validator', $validator);
+        return $this->view->render('user/save.tpl');
     }
 
     function checkUniqueUserLogin($login, $user, $userMapper)

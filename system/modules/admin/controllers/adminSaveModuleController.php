@@ -70,9 +70,9 @@ class adminSaveModuleController extends simpleController
                     return $controller->run();
                 }
 
-                $this->smarty->assign('dest', $dests[$dest]);
-                $this->smarty->assign('module', $module);
-                return $this->smarty->fetch('admin/addModuleResult.tpl');
+                $this->view->assign('dest', $dests[$dest]);
+                $this->view->assign('module', $module);
+                return $this->view->render('admin/addModuleResult.tpl');
             }
 
             return jipTools::redirect();
@@ -82,19 +82,19 @@ class adminSaveModuleController extends simpleController
             $url = new url('adminModule');
             $url->add('name', $name);
 
-            $this->smarty->assign('module', $module);
+            $this->view->assign('module', $module);
         } else {
             $url = new url('default2');
         }
         $url->setAction($action);
 
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('isEdit', $isEdit);
-        $this->smarty->assign('validator', $validator);
-        $this->smarty->assign('dests', $dests);
-        $this->smarty->assign('currentDestination', $currentDestination);
+        $this->view->assign('form_action', $url->get());
+        $this->view->assign('isEdit', $isEdit);
+        $this->view->assign('validator', $validator);
+        $this->view->assign('dests', $dests);
+        $this->view->assign('currentDestination', $currentDestination);
 
-        return $this->smarty->fetch('admin/saveModule.tpl');
+        return $this->view->render('admin/saveModule.tpl');
     }
 
     public function checkUniqueModuleName($name, $adminMapper, $module_name = '')

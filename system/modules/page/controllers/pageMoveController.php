@@ -66,11 +66,11 @@ class pageMoveController extends simpleController
             $dests[$val->getId()] = str_repeat('&nbsp;', ($val->getTreeLevel() - 1) * 5) . $val->getTitle();
         }
 
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('dests', $dests);
-        $this->smarty->assign('validator', $validator);
-        $this->smarty->assign('page', $page);
-        return $this->smarty->fetch('page/move.tpl');
+        $this->view->assign('form_action', $url->get());
+        $this->view->assign('dests', $dests);
+        $this->view->assign('validator', $validator);
+        $this->view->assign('page', $page);
+        return $this->view->render('page/move.tpl');
     }
 
     public function checkDestPageFolderExists($dest, $folderMapper)

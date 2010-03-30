@@ -38,14 +38,14 @@ class form
         return $this->createField($name, $args[0]);
     }
 
-    public function open($params, $smarty)
+    public function open($params, $view)
     {
         fileLoader::load('forms/formTag');
         $element = new formTag();
         return $element->toString($params);
     }
 
-    public function password($params, $smarty)
+    public function password($params, $view)
     {
         $params['type'] = 'password';
         return $this->createField('text', $params);
@@ -58,7 +58,7 @@ class form
         return $element->toString($params);
     }
 
-    public function image($params, $smarty)
+    public function image($params, $view)
     {
         $name = $params['name'];
         $params['type'] = 'image';
@@ -68,10 +68,10 @@ class form
         $hiddenParams = array();
         $hiddenParams['value'] = array_key_exists('value', $params) ? $params['value'] : 1;
         $hiddenParams['name'] = $name;
-        return $this->hidden($hiddenParams, $smarty) . $image;
+        return $this->hidden($hiddenParams, $view) . $image;
     }
 
-    public function file($params, $smarty)
+    public function file($params, $view)
     {
         $params['type'] = 'file';
         return $this->createField('text', $params);

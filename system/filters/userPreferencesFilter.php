@@ -34,7 +34,7 @@ class userPreferencesFilter implements iFilter
     {
         $toolkit = systemToolkit::getInstance();
         $session = $toolkit->getSession();
-        $smarty = $toolkit->getSmarty();
+        $view = $toolkit->getView('smarty');
         $me = $toolkit->getUser();
         $preferences = $toolkit->getUserPreferences();
 
@@ -97,14 +97,14 @@ class userPreferencesFilter implements iFilter
         }
 
         if ($preferences->getDefaultTimezone()) {
-            $smarty->assign('detect_users_timezone', true);
+            $view->assign('detect_users_timezone', true);
         }
 
-        $smarty->assign('locale_rtl', $locale->isRtl());
+        $view->assign('locale_rtl', $locale->isRtl());
 
         //systemConfig::$i18n = $language;
 
-        $smarty->assign('CURRENT_LANG', $language);
+        $view->assign('CURRENT_LANG', $language);
 
         $filter_chain->next();
     }

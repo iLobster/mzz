@@ -49,8 +49,8 @@ class messageController extends simpleController
 
     protected function getView()
     {
-        $this->smarty->assign('message', $this->message);
-        return $this->smarty->fetch('simple/' . $this->templates[$this->type] . '.tpl');
+        $this->view->assign('message', $this->message);
+        return $this->view->render('simple/' . $this->templates[$this->type] . '.tpl');
     }
 }
 

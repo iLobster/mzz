@@ -38,8 +38,8 @@ class menuViewController extends simpleController
         $menuItemMapper = $this->toolkit->getMapper('menu', 'menuItem');
         $items = $menuItemMapper->searchAllByMenuName($name);
 
-        $this->smarty->assign('items', $items);
-        //$this->smarty->assign('menu', $menu);
+        $this->view->assign('items', $items);
+        //$this->view->assign('menu', $menu);
         return $this->fetch('menu/view.tpl');
     }
 }

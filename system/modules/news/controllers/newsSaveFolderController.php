@@ -66,13 +66,13 @@ class newsSaveFolderController extends simpleController
         $url->add('name', $path);
         $url->setAction($action);
 
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('validator', $validator);
-        $this->smarty->assign('isEdit', $isEdit);
+        $this->view->assign('form_action', $url->get());
+        $this->view->assign('validator', $validator);
+        $this->view->assign('isEdit', $isEdit);
 
         $targetFolder = $isEdit ? $targetFolder : $folderMapper->create();
-        $this->smarty->assign('folder', $targetFolder);
-        return $this->smarty->fetch('news/saveFolder.tpl');
+        $this->view->assign('folder', $targetFolder);
+        return $this->view->render('news/saveFolder.tpl');
     }
 
     public function checkUniqueFolderName($name, $path, $isEdit)

@@ -78,10 +78,10 @@ class commentsPostController extends simpleController
             $commentsMapper->save($comment);
 
             if ($isAjax) {
-                $this->smarty->disableMain();
-                $this->smarty->assign('comment', $comment);
-                $this->smarty->assign('commentsFolder', $commentsFolder);
-                return $this->smarty->fetch('comments/post_added_ajax.tpl');
+                $this->view->disableMain();
+                $this->view->assign('comment', $comment);
+                $this->view->assign('commentsFolder', $commentsFolder);
+                return $this->view->render('comments/post_added_ajax.tpl');
             } else {
                 $this->redirect($backUrl . '#comment' . $comment->getId());
                 return;
@@ -96,25 +96,25 @@ class commentsPostController extends simpleController
             $url->add('replyTo', $commentReply->getId(), true);
         }
 
-        $this->smarty->assign('validator', $validator);
-        $this->smarty->assign('comment', $comment);
-        $this->smarty->assign('commentReply', $commentReply);
-        $this->smarty->assign('commentsFolder', $commentsFolder);
-        $this->smarty->assign('action', $url->get());
-        $this->smarty->assign('hideForm', $this->request->getBoolean('hideForm'));
-        $this->smarty->assign('onlyForm', $onlyForm);
-        $this->smarty->assign('user', $user);
+        $this->view->assign('validator', $validator);
+        $this->view->assign('comment', $comment);
+        $this->view->assign('commentReply', $commentReply);
+        $this->view->assign('commentsFolder', $commentsFolder);
+        $this->view->assign('action', $url->get());
+        $this->view->assign('hideForm', $this->request->getBoolean('hideForm'));
+        $this->view->assign('onlyForm', $onlyForm);
+        $this->view->assign('user', $user);
 
         if (!$backUrl) {
             $backUrl = $this->request->getServer('REQUEST_URI');
         }
 
         if ($isAjax) {
-            $this->smarty->disableMain();
+            $this->view->disableMain();
             $this->setTemplatePrefix('ajax_');
         }
 
-        $this->smarty->assign('backUrl', $backUrl);
+        $this->view->assign('backUrl', $backUrl);
         return $this->fetch('comments/post.tpl');
     }
 

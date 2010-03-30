@@ -41,11 +41,11 @@ class userOnlineController extends simpleController
             $total++;
         }
 
-        $this->smarty->assign('total', $total);
-        $this->smarty->assign('guests', $guests);
-        $this->smarty->assign('users', $users);
+        $this->view->assign('total', $total);
+        $this->view->assign('guests', $guests);
+        $this->view->assign('users', $users);
 
-        return $this->smarty->fetch('user/online.tpl');
+        return $this->view->render('user/online.tpl');
     }
 }
 

@@ -33,11 +33,11 @@ class userAdminController extends simpleController
         $userMapper = $this->toolkit->getMapper('user', 'user');
         $this->setPager($userMapper);
 
-        $this->smarty->assign('userFolder', $userFolder);
-        $this->smarty->assign('groupFolder', $groupFolder);
-        $this->smarty->assign('section_name', $this->request->getString('section_name'));
-        $this->smarty->assign('users', $userMapper->searchAll());
-        return $this->smarty->fetch('user/admin.tpl');
+        $this->view->assign('userFolder', $userFolder);
+        $this->view->assign('groupFolder', $groupFolder);
+        $this->view->assign('section_name', $this->request->getString('section_name'));
+        $this->view->assign('users', $userMapper->searchAll());
+        return $this->view->render('user/admin.tpl');
     }
 }
 

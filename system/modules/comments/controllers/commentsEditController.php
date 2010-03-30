@@ -50,11 +50,11 @@ class commentsEditController extends simpleController
         $url->setAction('edit');
         $url->add('id', $comment->getId());
 
-        $this->smarty->assign('comment', $comment);
-        $this->smarty->assign('validator', $validator);
-        $this->smarty->assign('form_action', $url->get());
+        $this->view->assign('comment', $comment);
+        $this->view->assign('validator', $validator);
+        $this->view->assign('form_action', $url->get());
 
-        return $this->smarty->fetch('comments/edit.tpl');
+        return $this->view->render('comments/edit.tpl');
     }
 }
 ?>

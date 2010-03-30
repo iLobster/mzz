@@ -35,9 +35,10 @@ abstract class formAbstractRule
 
     public function __construct($message = '', $params = null)
     {
-        if ($params) {
+        //because empty array() = false and some rules may be broken
+        //if ($params) {
             $this->params = $params;
-        }
+        //}
 
         if ($message) {
             $this->message = $message;

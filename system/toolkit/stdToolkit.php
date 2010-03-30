@@ -128,6 +128,7 @@ class stdToolkit extends toolkit
      */
     public function getSmarty()
     {
+        throw new mzzException("deprecated, use toolkit::getView('smarty') instead");
         return $this->getView('smarty');
     }
 

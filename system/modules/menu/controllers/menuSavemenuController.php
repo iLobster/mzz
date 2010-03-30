@@ -50,11 +50,11 @@ class menuSavemenuController extends simpleController
                 $url->add('id', $menu->getId());
             }
 
-            $this->smarty->assign('menu', $menu);
-            $this->smarty->assign('action', $url->get());
-            $this->smarty->assign('validator', $validator);
-            $this->smarty->assign('isEdit', $isEdit);
-            return $this->smarty->fetch('menu/savemenu.tpl');
+            $this->view->assign('menu', $menu);
+            $this->view->assign('action', $url->get());
+            $this->view->assign('validator', $validator);
+            $this->view->assign('isEdit', $isEdit);
+            return $this->view->render('menu/savemenu.tpl');
         } else {
             $name = $this->request->getString('name', SC_POST);
 

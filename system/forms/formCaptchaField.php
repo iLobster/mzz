@@ -27,11 +27,11 @@ class formCaptchaField extends formElement
 
         $tplPrefix = isset($attributes['tplPrefix']) ? $attributes['tplPrefix'] : '';
 
-        $smarty = systemToolkit::getInstance()->getSmarty();
-        $smarty->assign('captcha_id', $captcha_id);
-        $smarty->assign('attributes', $attributes);
+        $view = systemToolkit::getInstance()->getView('smarty');
+        $view->assign('captcha_id', $captcha_id);
+        $view->assign('attributes', $attributes);
 
-        return $smarty->fetch('captcha/' . $tplPrefix . 'captcha.tpl');
+        return $view->render('captcha/' . $tplPrefix . 'captcha.tpl');
     }
 }
 

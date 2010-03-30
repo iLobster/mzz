@@ -26,7 +26,7 @@ class simple404Controller extends simpleController
         $this->response->setStatus(404);
 
         $template = 'simple/404.tpl';
-        $response = (!is_null($this->action)) ? $this->smarty->fetchPassive($template) : $this->smarty->fetch($template);
+        $response = (!is_null($this->action)) ? $this->view->fetchPassive($template) : $this->view->render($template);
 
         return $response;
     }

@@ -47,10 +47,10 @@ class adminListActionsController extends simpleController
         }
 
         $actions = $module->getClassActions($class_name);
-        $this->smarty->assign('module', $module);
-        $this->smarty->assign('class_name', $class_name);
-        $this->smarty->assign('actions', $actions);
-        return $this->smarty->fetch('admin/listActions.tpl');
+        $this->view->assign('module', $module);
+        $this->view->assign('class_name', $class_name);
+        $this->view->assign('actions', $actions);
+        return $this->view->render('admin/listActions.tpl');
     }
 }
 

@@ -73,7 +73,7 @@ class formTag extends formElement
 
     protected function addAjaxUpload(&$attributes)
     {
-        $smarty = systemToolkit::getInstance()->getSmarty();
+        $view = systemToolkit::getInstance()->getView('smarty');
 
         if (empty($attributes['ajaxUpload'])) {
             $attributes['ajaxUpload'] = 'mzz';
@@ -88,8 +88,8 @@ class formTag extends formElement
         }
         $attributes['multipart'] = true;
         $attributes['target'] = $attributes['ajaxUpload'] . "UploadFile";
-        $smarty->assign('name', $attributes['ajaxUpload']);
-        return $smarty->fetch('forms/upload.tpl');
+        $view->assign('name', $attributes['ajaxUpload']);
+        return $view->render('forms/upload.tpl');
     }
 
     protected function addJipSend($attributes)

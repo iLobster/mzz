@@ -58,8 +58,8 @@ class fileManagerMoveFolderController extends simpleController
         $url->setAction('moveFolder');
         $url->add('name', $folder->getTreePath());
 
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('validator', $validator);
+        $this->view->assign('form_action', $url->get());
+        $this->view->assign('validator', $validator);
 
         $dests = array();
         $styles = array();
@@ -68,10 +68,10 @@ class fileManagerMoveFolderController extends simpleController
             $styles[$val->getId()] = 'padding-left: ' . ($val->getTreeLevel() * 15) . 'px;';
         }
 
-        $this->smarty->assign('dests', $dests);
-        $this->smarty->assign('styles', $styles);
-        $this->smarty->assign('folder', $folder);
-        return $this->smarty->fetch('fileManager/moveFolder.tpl');
+        $this->view->assign('dests', $dests);
+        $this->view->assign('styles', $styles);
+        $this->view->assign('folder', $folder);
+        return $this->view->render('fileManager/moveFolder.tpl');
     }
 
     public function checkUniqueFolderName($id, $folderMapper, $folder)
