@@ -1,7 +1,7 @@
-{if isset($media['js'])}
+{if isset($__media['js'])}
 {strip}
     {assign var="external" value=""}
-    {foreach from=$media.js item="jsitem" key="file" name="jsFiles"}
+    {foreach from=$__media.js item="jsitem" key="file" name="jsFiles"}
     {if $jsitem.join}
         {assign var="currentFile" value=$file}
         {assign var="external" value="$external$currentFile,"}

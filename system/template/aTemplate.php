@@ -36,5 +36,12 @@ abstract class aTemplate implements iTemplate
     {
         $this->withMain = true;
     }
+
+    public function addMedia($files, $join = true, $tpl = null)
+    {
+        $this->view->addMedia($files, $join, $tpl);
+    }
+    
+    public function setActiveTemplate($template_name, $placeholder = 'content'){}
 }
 ?>

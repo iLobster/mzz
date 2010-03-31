@@ -32,60 +32,21 @@
  */
 function smarty_function_add($params, $smarty)
 {
-    static $medias = array('js' => array(), 'css' => array());
 
-    $vars = $smarty->get_template_vars('media');
-
-    // инициализация массива media, выполняется один раз при инстанциации Smarty
-    if (isset($params['init']) && $vars === null) {
-        $smarty->assign_by_ref('media', $medias);
-        return;
-    }
-
-    if (empty($params['file'])) {
+    if (!isset($params['file']) || empty($params['file'])) {
+        //var_dump($params);
         throw new mzzInvalidParameterException('Пустой атрибут file');
     }
 
-    // определяем тип ресурса
-    if (strpos($params['file'], ':')) {
-        // Ресурс указан
-        $tmp = explode(':', $params['file'], 2);
-        $res = trim($tmp[0]);
-        $filename = trim($tmp[1]);
-    } else {
-        // Ресурс не указан, пытаемся определить ресурс по расширению
-        $res = substr(strrchr($params['file'], '.'), 1);
-        $filename = $params['file'];
-    }
-
-    // Если шаблон не указан, то используем шаблон соответствующий расширению
-    $tpl = (!empty($params['tpl'])) ? $params['tpl'] : $res . '.tpl';
-
-    if (!isset($medias[$res])) {
-        throw new mzzInvalidParameterException('Неверный тип ресурса: ' . $res);
-    }
-
-    if (!preg_match('/^[a-z0-9_\.?&=\/\-]+$/i', $filename)) {
-        throw new mzzInvalidParameterException('Неверное имя файла: ' . $filename);
-    }
-
-    // ищем - подключали ли мы уже данный файл
-    if (isset($vars[$res][$filename]) && $vars[$res][$filename]['tpl'] == $tpl) {
-        return null;
-    }
-
-    $join = true;
-    if (isset($params['join']) && $params['join'] == false) {
-        $join = false;
-    }
+    $files = array($params['file']);
+    $join = (isset($params['join']) && $params['join'] == false) ? false : true;
+    $tpl = (isset($params['tpl']) && !empty($params['tpl'])) ? $params['tpl'] : null;
 
     if (isset($params['require'])) {
-        $require = explode(',', $params['require']);
-        foreach($require as $requireFile) {
-            smarty_function_add(array('file' => $requireFile, 'join' => $join), $smarty);
-        }
+        $files = array_merge(explode(',', $params['require']), $files);
     }
-    $medias[$res][$filename] = array('tpl' => $tpl, 'join' => $join);
+    
+    $smarty->addMedia($files, $join, $tpl);
 }
 
 ?>

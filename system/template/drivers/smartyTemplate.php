@@ -16,7 +16,7 @@
 
 fileLoader::load('libs/smarty/Smarty.class');
 fileLoader::load('template/drivers/smarty/IfSmarty');
-fileLoader::load('template/drivers/smarty/plugins/function.add');
+//fileLoader::load('template/drivers/smarty/plugins/function.add');
 fileLoader::load('template/drivers/smarty/plugins/modifier.filesize');
 fileLoader::load('service/blockHelper');
 fileLoader::load('template/drivers/smarty/plugins/prefilter.i18n');
@@ -99,7 +99,6 @@ class smartyTemplate extends Smarty implements iTemplate
 
 
         $this->register_prefilter('smarty_prefilter_i18n');
-        smarty_function_add(array('init' => true), $this);
     }
 
     public function render($template)
@@ -289,6 +288,11 @@ class smartyTemplate extends Smarty implements iTemplate
     public function assign($var, $val = null)
     {
         return $this->view->assign($var, $val);
+    }
+
+    public function addMedia($files, $join = true, $tpl = null)
+    {
+        $this->view->addMedia($files, $join, $tpl);
     }
 }
 

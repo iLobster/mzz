@@ -18,6 +18,6 @@ interface iTemplate
     public function setActiveTemplate($template_name, $placeholder = 'content');
     public function disableMain();
     public function enableMain();
-
+    public function addMedia($files, $join = true, $tpl = null);
 }
 ?>

@@ -70,6 +70,11 @@ class simpleView
         $this->view->assign($var, $val);
     }
 
+    public function assign_by_ref($var, &$val)
+    {
+        $this->view->assign_by_ref($var, $val);
+    }
+
     /**
      * Render template
      *
