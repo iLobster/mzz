@@ -69,6 +69,7 @@ class view
 
         foreach ($files as $file) {
             // определяем тип ресурса
+            $tmp = $res = $tpl = null;
             if (strpos($file, ':')) {
                 // Ресурс указан
                 $tmp = explode(':', $file, 2);
@@ -79,7 +80,7 @@ class view
                 $res = substr(strrchr($file, '.'), 1);
                 $filename = $file;
             }
-
+var_dump('file:'. $file, 'tpl:'.$tpl, 'res:'.$res); echo "<br />";
             // Если шаблон не указан, то используем шаблон соответствующий расширению
             $tpl = (!empty($tpl)) ? $tpl : $res . '.tpl';
 
