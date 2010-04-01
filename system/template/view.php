@@ -1,11 +1,28 @@
 <?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+/**
+ * $URL: $
+ *
+ * MZZ Content Management System (c) 2010
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @package system
+ * @subpackage template
+ * @version $Id: $
+*/
 
 fileLoader::load('template/aTemplate');
 
+/**
+ * View class
+ *
+ * @package system
+ * @subpackage template
+ * @version 0.1.0
+ */
 class view
 {
 
@@ -80,7 +97,7 @@ class view
                 $res = substr(strrchr($file, '.'), 1);
                 $filename = $file;
             }
-var_dump('file:'. $file, 'tpl:'.$tpl, 'res:'.$res); echo "<br />";
+            
             // Если шаблон не указан, то используем шаблон соответствующий расширению
             $tpl = (!empty($tpl)) ? $tpl : $res . '.tpl';
 
