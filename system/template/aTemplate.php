@@ -1,6 +1,6 @@
 <?php
 /**
- * $URL: $
+ * $URL$
  *
  * MZZ Content Management System (c) 2010
  * Website : http://www.mzz.ru
@@ -11,7 +11,7 @@
  * @link http://www.mzz.ru
  * @package system
  * @subpackage template
- * @version $Id: $
+ * @version $Id$
 */
 
 fileLoader::load('template/iTemplate');
