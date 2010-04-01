@@ -81,7 +81,7 @@ class smartyTemplate extends Smarty implements iTemplate
         if (is_dir($appdir = systemConfig::$pathToApplication . '/template/plugins')) {
             $this->plugins_dir[] = $appdir;
         }
-        
+
         $this->plugins_dir[] = systemConfig::$pathToSystem . '/template/drivers/smarty/plugins';
         $this->plugins_dir = array_merge($this->plugins_dir, $oldPluginsDirs);
 

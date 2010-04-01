@@ -98,7 +98,7 @@ class userAuthMapper extends mapper
     {
         $userAuth = $this->getAuth($hash, $ip);
 
-        if (!is_null($userAuth) && $user->getId() != $userAuth->getUser()->getId()) {
+        if (!is_null($userAuth) && $userAuth->getUser() && $user->getId() != $userAuth->getUser()->getId()) {
             $userAuth = null;
         }
 
