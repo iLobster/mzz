@@ -1,10 +1,28 @@
 <?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+/**
+ * $URL$
+ *
+ * MZZ Content Management System (c) 2010
+ * Website : http://www.mzz.ru
+ *
+ * This program is free software and released under
+ * the GNU/GPL License (See /docs/GPL.txt).
+ *
+ * @link http://www.mzz.ru
+ * @package system
+ * @subpackage template
+ * @version $Id$
+*/
 
 fileLoader::load('template/view');
+
+/**
+ * simpleView:
+ *
+ * @package modules
+ * @subpackage simple
+ * @version 0.1.0
+ */
 
 class simpleView
 {
@@ -70,9 +88,14 @@ class simpleView
         $this->view->assign($var, $val);
     }
 
-    public function assign_by_ref($var, &$val)
+    /**
+     * is it needed ???
+     * @param <type> $var
+     * @param <type> $val
+     */
+    public function assign_by_ref($var, $val)
     {
-        $this->view->assign_by_ref($var, $val);
+        $this->view->assign($var, $val);
     }
 
     /**
@@ -98,7 +121,7 @@ class simpleView
     }
 
     /**
-     * Export assigned vars, for compatible with smarty
+     * Export assigned vars
      *
      * @return mixed
      */
@@ -106,6 +129,7 @@ class simpleView
     {
         return $this->view->export();
     }
+
     /**
      * Alias for simpleView::export(), for compatible with smarty
      *
@@ -119,6 +143,16 @@ class simpleView
         }
 
         return $this->view->export();
+    }
+
+    /**
+     * Returns backend engine
+     * 
+     * @return iTemplate
+     */
+    public function backend()
+    {
+        return $this->backend;
     }
 
     public function setActiveTemplate($template_name, $placeholder = 'content')
