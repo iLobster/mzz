@@ -33,11 +33,11 @@ class adminGeneratorMapper extends mapper
         $toolkit = systemToolkit::getInstance();
         $view = $toolkit->getView('smarty');
 
-        $leftDelimeter = $view->left_delimiter;
-        $rightDelimeter = $view->right_delimiter;
+        $leftDelimeter = $view->backend()->left_delimiter;
+        $rightDelimeter = $view->backend()->right_delimiter;
 
-        $view->left_delimiter = '{{';
-        $view->right_delimiter = '}}';
+        $view->backend()->left_delimiter = '{{';
+        $view->backend()->right_delimiter = '}}';
 
         $view->assign('name', $name);
         $moduleContents = $view->render('admin/generator/module.tpl');
@@ -46,8 +46,8 @@ class adminGeneratorMapper extends mapper
         $fileGenerator->create($moduleFileName, $moduleContents);
         $fileGenerator->run();
 
-        $view->left_delimiter = $leftDelimeter;
-        $view->right_delimiter = $rightDelimeter;
+        $view->backend()->left_delimiter = $leftDelimeter;
+        $view->backend()->right_delimiter = $rightDelimeter;
 
         return $toolkit->getModule($name);
     }
@@ -86,11 +86,11 @@ class adminGeneratorMapper extends mapper
         $toolkit = systemToolkit::getInstance();
         $view = $toolkit->getView('smarty');
 
-        $leftDelimeter = $view->left_delimiter;
-        $rightDelimeter = $view->right_delimiter;
+        $leftDelimeter = $view->backend()->left_delimiter;
+        $rightDelimeter = $view->backend()->right_delimiter;
 
-        $view->left_delimiter = '{{';
-        $view->right_delimiter = '}}';
+        $view->backend()->left_delimiter = '{{';
+        $view->backend()->right_delimiter = '}}';
 
         $view->assign('module', $module);
         $view->assign('name', $name);
@@ -124,8 +124,8 @@ class adminGeneratorMapper extends mapper
         $actionContents = $view->render('admin/generator/actions.tpl');
         $fileGenerator->create($actionFileName, $actionContents);
 
-        $view->left_delimiter = $leftDelimeter;
-        $view->right_delimiter = $rightDelimeter;
+        $view->backend()->left_delimiter = $leftDelimeter;
+        $view->backend()->right_delimiter = $rightDelimeter;
 
         $classes = $module->getClasses();
         $classes[] = $name;
@@ -212,11 +212,11 @@ class adminGeneratorMapper extends mapper
             $toolkit = systemToolkit::getInstance();
             $view = $toolkit->getView('smarty');
 
-            $leftDelimeter = $view->left_delimiter;
-            $rightDelimeter = $view->right_delimiter;
+            $leftDelimeter = $view->backend()->left_delimiter;
+            $rightDelimeter = $view->backend()->right_delimiter;
 
-            $view->left_delimiter = '{{';
-            $view->right_delimiter = '}}';
+            $view->backend()->left_delimiter = '{{';
+            $view->backend()->right_delimiter = '}}';
 
             $view->assign('module', $module);
             $view->assign('name', $class_name);
@@ -297,8 +297,8 @@ class adminGeneratorMapper extends mapper
             if (!$controllerExists) $fileGenerator->create($controllerFileName, $controllerContents);
             if (!$templateExists) $fileGenerator->create($templateFileName, $templateContents);
 
-            $view->left_delimiter = $leftDelimeter;
-            $view->right_delimiter = $rightDelimeter;
+            $view->backend()->left_delimiter = $leftDelimeter;
+            $view->backend()->right_delimiter = $rightDelimeter;
         }
 
         $this->addSaveActionsInGenerator($module, $class_name, $actionsArray, $fileGenerator);
@@ -363,15 +363,15 @@ class adminGeneratorMapper extends mapper
         $toolkit = systemToolkit::getInstance();
         $view = $toolkit->getView('smarty');
 
-        $leftDelimeter = $view->left_delimiter;
-        $rightDelimeter = $view->right_delimiter;
+        $leftDelimeter = $view->backend()->left_delimiter;
+        $rightDelimeter = $view->backend()->right_delimiter;
 
         $view->assign('module', $module);
         $view->assign('name', $class_name);
         //$view->assign('actionsArray', $actionsArray);
 
-        $view->left_delimiter = '{{';
-        $view->right_delimiter = '}}';
+        $view->backend()->left_delimiter = '{{';
+        $view->backend()->right_delimiter = '}}';
 
         $actions_string = var_export($actionsArray, true);
 
@@ -382,8 +382,8 @@ class adminGeneratorMapper extends mapper
 
         $actionContents = $view->render('admin/generator/actions.tpl');
 
-        $view->left_delimiter = $leftDelimeter;
-        $view->right_delimiter = $rightDelimeter;
+        $view->backend()->left_delimiter = $leftDelimeter;
+        $view->backend()->right_delimiter = $rightDelimeter;
 
         $actionFileName = $this->generateActionFileName($class_name);
         $fileGenerator->edit($actionFileName, new fileFullReplaceTransformer($actionContents));
