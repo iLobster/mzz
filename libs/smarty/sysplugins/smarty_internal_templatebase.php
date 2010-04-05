@@ -27,10 +27,24 @@ class Smarty_Internal_TemplateBase {
     */
     public function assign($tpl_var, $value = null, $nocache = false, $scope = SMARTY_LOCAL_SCOPE)
     {
-        
+
+        if (is_array($tpl_var)) {
+            $keys = array_keys($tpl_var);
+            foreach ($keys as $key) {
+                if (isset($this->tpl_vars[$key])) {
+                    unset($this->tpl_vars[$key]);
+                }
+            }
+        } else {
+            if (isset($this->tpl_vars[$tpl_var])) {
+                unset($this->tpl_vars[$tpl_var]);
+            }
+        }
+
         $this->smarty->assign($tpl_var, $value);
 
         return;
+        /* old smartyes assign */
         if (is_array($tpl_var)) {
             foreach ($tpl_var as $_key => $_val) {
                 if ($_key != '') {
@@ -66,7 +80,8 @@ class Smarty_Internal_TemplateBase {
     */
     public function assign_by_ref($tpl_var, &$value, $nocache = false, $scope = SMARTY_LOCAL_SCOPE)
     {
-        $this->smarty->assign($tpl_var, $value);
+        $this->assign($tpl_var, $value);
+        
         return;
         if ($tpl_var != '') {
             $this->tpl_vars[$tpl_var] = new Smarty_variable(null, $nocache, $scope);
