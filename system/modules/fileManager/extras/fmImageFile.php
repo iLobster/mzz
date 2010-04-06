@@ -31,7 +31,7 @@ class fmImageFile extends fmSimpleFile
             }
         }
 
-        return $this->thumbnails_relative_path . $thumb_filename;
+        return $this->thumbnails_relative_path . '/' . $thumb_filename;
     }
 
     public function delete()
