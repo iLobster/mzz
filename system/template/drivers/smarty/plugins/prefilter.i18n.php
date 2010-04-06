@@ -50,9 +50,10 @@ function mzz_smarty_i18n_morph($phrase, $variables, $lang)
         if (strpos($val, '"') === 0) {
             $replacement[$key] = $val;
         } else {
-            $replacement[$key] = '(isset($template->tpl_vars["' . $val . '"]) ? ';
-            $replacement[$key] .= '$template->tpl_vars["' . $val . '"]->value' . $method . ' : ';
-            $replacement[$key] .= '$smarty->tpl_vars["' . $val . '"]->value' . $method . ')';
+            //$replacement[$key] = '($template->getVariable("' . $val . '") ? ';
+            //$replacement[$key] .= '$template->getVariable("' . $val . '")->value' . $method . ' : ';
+            //$replacement[$key] .= '$smarty->getVariable("' . $val . '")->value' . $method . ')';
+            $replacement[$key] = '$template->getVariable("' . $val . '")->value' . $method;
         }
     }
 
