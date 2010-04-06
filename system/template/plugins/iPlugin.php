@@ -12,17 +12,18 @@
  * @package system
  * @subpackage template
  * @version $Id$
- */
+*/
 
 /**
- * Native plugin interface
+ * Plugin interface
  *
  * @package system
  * @subpackage template
  * @version 0.1.0
  */
-interface iNativePlugin
+interface iPlugin
 {
-    public function __construct(nativeTemplate $native, view $view);
+    public function __construct(view $view);
+    public function run(array $params);
 }
 ?>

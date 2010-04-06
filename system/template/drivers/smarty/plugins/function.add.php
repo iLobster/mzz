@@ -32,21 +32,7 @@
  */
 function smarty_function_add($params, $smarty)
 {
-
-    if (!isset($params['file']) || empty($params['file'])) {
-        //var_dump($params);
-        throw new mzzInvalidParameterException('Пустой атрибут file');
-    }
-
-    $files = array($params['file']);
-    $join = (isset($params['join']) && $params['join'] == false) ? false : true;
-    $tpl = (isset($params['tpl']) && !empty($params['tpl'])) ? $params['tpl'] : null;
-
-    if (isset($params['require'])) {
-        $files = array_merge(explode(',', $params['require']), $files);
-    }
-    
-    $smarty->addMedia($files, $join, $tpl);
+    $smarty->view()->plugin('add', $params);
 }
 
 ?>

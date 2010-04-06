@@ -14,41 +14,27 @@
  * @version $Id$
  */
 
-fileLoader::load('template/drivers/native/iNativePlugin');
+fileLoader::load('template/plugins/iPlugin');
 
 /**
- * Native abstract plugin
+ * Abstract plugin
  *
  * @package system
  * @subpackage template
  * @version 0.1.0
  */
-abstract class aNativePlugin implements iNativePlugin
+abstract class aPlugin implements iPlugin
 {
-    /**
-     * @var nativeTemplate
-     */
-    protected $native;
-
-    /**
-     * @var view
-     */
     protected $view;
 
     /**
      * Constructor
-     * @param nativeTemplate $native
+     * 
      * @param view $view
      */
-    public function __construct(nativeTemplate $native, view $view)
+    public function __construct(view $view)
     {
-        $this->native = $native;
         $this->view = $view;
     }
-
-    /**
-     * Plugins magic goes here
-     */
-    public function run(){}
 }
 ?>

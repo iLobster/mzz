@@ -12,7 +12,7 @@
  * @package system
  * @subpackage template
  * @version $Id$
-*/
+ */
 
 fileLoader::load('template/aTemplate');
 
@@ -33,7 +33,7 @@ class view
 
     protected $vars    = array();
     protected $backends = array();
-
+    protected $plugins = array();
     /**
      * @return view
      */
@@ -46,79 +46,46 @@ class view
         return self::$instance;
     }
 
-    public function __construct() {
-        $this->vars['__media'] = array('js' => array(), 'css' => array());
+    public function __construct()
+    {
+        //$this->vars['__media'] = array('js' => array(), 'css' => array());
     }
 
     /**
-     * Assign template variable
+     * Assign template variable or array of variables
      *
      * @param string|array $variable variable name or array of variables
-     * @param string $value to assign
+     * @param mixed $value to assign
      */
     public function assign($variable, $value = null)
     {
 
         if (is_array($variable)) {
             foreach ($variable as $key => $val) {
-                if (substr($key, 0, 2) == '__') {
-                    throw new mzzInvalidParameterException('invalid variable name', $key);
+                if (!empty($key)) {
+                    $this->vars[$key] = $val;
                 }
-                $this->vars[$key] = $val;
             }
         } else {
-            if (substr($variable, 0, 2) == '__') {
-                throw new mzzInvalidParameterException('invalid variable name', $variable);
+            if (!empty($variable)) {
+                $this->vars[$variable] = $value;
             }
-            $this->vars[$variable] = $value;
         }
     }
 
-    public function addMedia($files, $join = true, $tpl = null)
+    /**
+     * Assign template variable by reference
+     *
+     * @param string $variable variable name
+     * @param mixed $value to assign
+     */
+    public function assign_by_ref($variable, &$value)
     {
-        if (empty($files)) {
-                throw new mzzInvalidParameterException('Пустой атрибут file');
-        }
-
-        if (!is_array($files)) {
-            $files = array($files);
-        }
-
-        foreach ($files as $file) {
-            // определяем тип ресурса
-            $tmp = $res = $tpl = null;
-            if (strpos($file, ':')) {
-                // Ресурс указан
-                $tmp = explode(':', $file, 2);
-                $res = trim($tmp[0]);
-                $filename = trim($tmp[1]);
-            } else {
-                // Ресурс не указан, пытаемся определить ресурс по расширению
-                $res = substr(strrchr($file, '.'), 1);
-                $filename = $file;
-            }
-            
-            // Если шаблон не указан, то используем шаблон соответствующий расширению
-            $tpl = (!empty($tpl)) ? $tpl : $res . '.tpl';
-
-            if (!isset($this->vars['__media'][$res])) {
-                throw new mzzInvalidParameterException('Неверный тип ресурса: ' . $res);
-            }
-
-            if (!preg_match('/^[a-z0-9_\.?&=\/\-]+$/i', $filename)) {
-                throw new mzzInvalidParameterException('Неверное имя файла: ' . $filename);
-            }
-
-            // ищем - подключали ли мы уже данный файл
-            if (isset($this->vars['__media'][$res][$filename]) && $this->vars['__media'][$res][$filename]['tpl'] == $tpl) {
-                return null;
-            }
-
-            $join = (bool)$join;
-
-            $this->vars['__media'][$res][$filename] = array('tpl' => $tpl, 'join' => $join);
+        if (!empty($variable)) {
+            $this->vars[$variable] = &$value;
         }
     }
+
     /**
      * Render template
      *
@@ -142,7 +109,7 @@ class view
     {
         $name = strtolower($name) . 'Template';
 
-        if (!isset($this->backends[$name])){
+        if (!isset($this->backends[$name])) {
             if (!class_exists($name)) {
                 fileLoader::load('template/drivers/' . $name);
             }
@@ -156,12 +123,35 @@ class view
         return $this->backends[$name];
     }
 
+    /**
+     * Runs plugin
+     * 
+     * @param string $name plugin name
+     * @param array $params to pass
+     * @return mixed whatever plugin returns
+     */
+    public function plugin($name, array $params = array())
+    {
+        $name = strtolower($name);
+        if (!isset($this->plugins[$name])) {
+            $class = $name . 'Plugin';
+            fileLoader::load('template/plugins/' . $class);
+            if (class_exists($class)) {
+                $this->plugins[$name] = new $class($this);
+            } else {
+                throw new mzzRuntimeException("plugin " . $name . " not found");
+            }
+        }
+
+        return $this->plugins[$name]->run($params);
+    }
+
     public function getVariable($variable)
     {
         return (isset($this->vars[$variable])) ? $this->vars[$variable] : null;
     }
 
-    public function export()
+    public function &export()
     {
         return $this->vars;
     }

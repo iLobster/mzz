@@ -12,7 +12,7 @@
  * @package system
  * @subpackage template
  * @version $Id$
-*/
+ */
 
 /**
  * Templates interface
@@ -23,7 +23,7 @@
  */
 interface iTemplate
 {
-    
+
     /**
      * Constructor
      *
@@ -38,18 +38,10 @@ interface iTemplate
      * @return mixed
      */
     public function render($resource);
-    
+
     public function setActiveTemplate($template_name, $placeholder = 'content');
     public function disableMain();
     public function enableMain();
 
-    /**
-     * AddMedia function to load css/js files
-     *
-     * @param string|array $files of files to load
-     * @param bool $join use external to join files or not
-     * @param string $template to use when loading file
-     */
-    public function addMedia($files, $join = true, $tpl = null);
 }
 ?>

@@ -37,7 +37,8 @@ abstract class aTemplate implements iTemplate
      */
     protected $withMain = true;
 
-    public function __construct(view $view) {
+    public function __construct(view $view)
+    {
         $this->view = $view;
     }
 
@@ -61,16 +62,9 @@ abstract class aTemplate implements iTemplate
 
     public function setActiveTemplate($template_name, $placeholder = 'content'){}
 
-    /**
-     * AddMedia function to load css/js files
-     *
-     * @param string|array $files of files to load
-     * @param bool $join use external to join files or not
-     * @param string $template to use when loading file
-     */
-    public function addMedia($files, $join = true, $tpl = null)
+    public function view()
     {
-        $this->view->addMedia($files, $join, $tpl);
+        return $this->view;
     }
 }
 ?>

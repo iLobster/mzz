@@ -294,6 +294,11 @@ class smartyTemplate extends Smarty implements iTemplate
     {
         $this->view->addMedia($files, $join, $tpl);
     }
+
+    public function view()
+    {
+        return $this->view;
+    }
 }
 
 ?>

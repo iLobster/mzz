@@ -12,7 +12,7 @@
  * @package system
  * @subpackage template
  * @version $Id$
-*/
+ */
 
 /**
  * Native templates icon plugin for sprites,
@@ -40,7 +40,7 @@ class iconNativePlugin extends aNativePlugin
     {
         if (strpos($sprite, 'sprite:') === 0) {
             $sprite = explode('/', substr($sprite, 7));
-            $this->native->add((isset($sprite[2]) ? $sprite[2] . '/' : '' ) . 'icons.' . $sprite[0] . '.css');
+            $this->view->plugin('add', array('file' => (isset($sprite[2]) ? $sprite[2] . '/' : '' ) . 'icons.' . $sprite[0] . '.css'));
 
             if (count($sprite) >= 2) {
                 if ($jip) {

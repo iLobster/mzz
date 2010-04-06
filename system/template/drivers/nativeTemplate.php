@@ -12,7 +12,7 @@
  * @package system
  * @subpackage template
  * @version $Id$
-*/
+ */
 
 fileLoader::load('template/drivers/native/aNativePlugin');
 
@@ -23,8 +23,7 @@ fileLoader::load('template/drivers/native/aNativePlugin');
  * @subpackage template
  * @version 0.1.0
  */
-class nativeTemplate extends aTemplate
-{
+class nativeTemplate extends aTemplate {
     /**
      * @var array
      */
@@ -36,15 +35,14 @@ class nativeTemplate extends aTemplate
      * @param string $resource template file name
      * @return mixed
      */
-    public function render($__resource)
-    {
+    public function render($__resource) {
         $__filePath = fileLoader::resolve($__resource);
 
         extract($this->view->export(), EXTR_REFS);
 
         ob_start();
         require $__filePath;
-	return ob_get_clean();
+        return ob_get_clean();
     }
 
     /**
@@ -54,8 +52,7 @@ class nativeTemplate extends aTemplate
      * @param array $arguments to pass
      * @return mixed
      */
-    public function __call($plugin, array $arguments)
-    {
+    public function __call($plugin, array $arguments) {
         //var_dump($arguments); die();
         $plugin = strtolower($plugin);
         if (!isset($this->plugins[$plugin])) {
@@ -78,9 +75,8 @@ class nativeTemplate extends aTemplate
      * @param bool $join use external to join files or not
      * @param string $template to use when loading file
      */
-    public function add($files, $join = true, $template = null)
-    {
-        $this->addMedia($files, $join, $template);
+    public function add($files, $join = true, $template = null) {
+        $this->view->plugin('add', array('file' => $files, 'join' => $join, 'tpl' => $template));
     }
 }
 ?>
