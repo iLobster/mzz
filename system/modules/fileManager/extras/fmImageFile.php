@@ -1,51 +1,43 @@
 <?php
 class fmImageFile extends fmSimpleFile
 {
-    protected $publicPath;
+    protected $thumbnails_full_path;
+    protected $thumbnails_relative_path;
 
     public function __construct(file $file)
     {
         parent::__construct($file);
 
         $config = systemToolkit::getInstance()->getConfig('fileManager');
-        $this->publicPath = $config->get('public_path');
+        $this->thumbnails_full_path = $config->get('thumbnails_full_path');
+        $this->thumbnails_relative_path = $config->get('thumbnails_relative_path');
     }
 
     public function getThumbnail($width = 80, $height = 60)
     {
-        $thumbName = $this->getHash();
-        $thumbNameFile = $thumbName . '_' . $width . 'x' . $height . '.' . $this->file->getExt();
-        $path = $this->getThumbPath();
-        $file = $path . DIRECTORY_SEPARATOR . $thumbNameFile;
-
-        if (!is_file($file)) {
-            if (in_array($ext = $this->file->getExt(), array('jpg', 'jpeg', 'png', 'gif'))) {
-                if ($ext == 'jpg') {
-                    $ext = 'jpeg';
-                }
-                $filename = $this->file->getRealFullPath();
+        $ext = $this->file->getExt();
+        if (in_array($ext, array('jpg', 'jpeg', 'png', 'gif'))) {
+            $thumb_basename = $this->getHash();
+            $thumb_filename = $thumb_basename . '_' . $width . 'x' . $height . '.' . $this->file->getExt();
+            $thumb_filepath = $this->thumbnails_full_path . DIRECTORY_SEPARATOR . $thumb_filename;
+            
+            if (!is_file($thumb_filepath)) {
+                $filepath = $this->file->getRealFullPath();
 
                 fileLoader::load('service/image');
-                $image = new image($filename);
+                $image = new image($thumb_filepath);
                 $image->resize($width, $height);
                 $image->save($file);
             }
         }
 
-        return $this->publicPath . '/thumbnails/' . $thumbNameFile;
-    }
-
-    private function getThumbPath()
-    {
-        return systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . $this->publicPath . DIRECTORY_SEPARATOR . 'thumbnails';
+        return $this->thumbnails_relative_path . $thumb_filename;
     }
 
     public function delete()
     {
-        $thumbName = $this->getHash();
-        $path = $this->getThumbPath();
-
-        $thumbnails = glob($path . DIRECTORY_SEPARATOR . $thumbName . '*');
+        $thumb_basename = $this->getHash();
+        $thumbnails = glob($this->thumbnails_full_path . DIRECTORY_SEPARATOR . $thumb_basename . '*');
 
         foreach ($thumbnails as $thumbnail) {
             if (is_file($thumbnail)) {
