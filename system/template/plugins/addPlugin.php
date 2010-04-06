@@ -56,12 +56,12 @@ class addPlugin extends aPlugin
         $join = (isset($params['join']) && $params['join'] == false) ? false : true;
         $tpl = (isset($params['tpl']) && !empty($params['tpl'])) ? $params['tpl'] : null;
 
-        if (isset($params['require'])) {
-            $files = array_merge(explode(',', $params['require']), $files);
-        }
-
         if (!is_array($files)) {
             $files = array($files);
+        }
+
+        if (isset($params['require'])) {
+            $files = array_merge(explode(',', $params['require']), $files);
         }
 
         foreach ($files as $file) {
