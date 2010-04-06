@@ -25,7 +25,7 @@ class fmImageFile extends fmSimpleFile
                 $filepath = $this->file->getRealFullPath();
 
                 fileLoader::load('service/image');
-                $image = new image($thumb_filepath);
+                $image = new image($filepath);
                 $image->resize($width, $height);
                 $image->save($file);
             }
