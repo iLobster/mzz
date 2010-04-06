@@ -20,14 +20,14 @@ class fmImageFile extends fmSimpleFile
             $thumb_basename = $this->getHash();
             $thumb_filename = $thumb_basename . '_' . $width . 'x' . $height . '.' . $this->file->getExt();
             $thumb_filepath = $this->thumbnails_full_path . DIRECTORY_SEPARATOR . $thumb_filename;
-            
+
             if (!is_file($thumb_filepath)) {
                 $filepath = $this->file->getRealFullPath();
 
                 fileLoader::load('service/image');
                 $image = new image($filepath);
                 $image->resize($width, $height);
-                $image->save($file);
+                $image->save($thumb_filepath);
             }
         }
 
