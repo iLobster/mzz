@@ -28,20 +28,25 @@ class nativeTemplate extends aTemplate {
      * @var array
      */
     protected $plugins = array();
-
+    protected $wrapStack = array();
+    
     /**
      * Render template
      *
      * @param string $resource template file name
      * @return mixed
      */
-    public function render($__resource) {
-        $__filePath = fileLoader::resolve($__resource);
+    public function render($__resource__, array $__data__ = array()) {
+        $__filePath__ = fileLoader::resolve($__resource__);
 
         extract($this->view->export(), EXTR_REFS);
 
+        extract($__data__, EXTR_OVERWRITE);
+        unset($__data__);
+
         ob_start();
-        require $__filePath;
+        
+        require $__filePath__;
         return ob_get_clean();
     }
 
@@ -77,6 +82,25 @@ class nativeTemplate extends aTemplate {
      */
     public function add($files, $join = true, $template = null) {
         $this->view->plugin('add', array('file' => $files, 'join' => $join, 'tpl' => $template));
+    }
+
+    /**
+     * 
+     * @param string|null $tpl
+     * @param string $placeholder
+     */
+    public function wrap($tpl = null, $placeholder = 'content')
+    {
+        if (empty($tpl)) {
+            $wrap = array_pop($this->wrapStack);
+            if ($wrap) {
+                $content = ob_get_clean();
+                echo $this->render($wrap['tpl'], array($wrap['placeholder'] => $content));
+            }
+        } else {
+            array_push($this->wrapStack, array('tpl' => $tpl, 'placeholder' => $placeholder));
+            ob_start();
+        }
     }
 }
 ?>
