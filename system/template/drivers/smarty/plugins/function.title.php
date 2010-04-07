@@ -40,32 +40,7 @@
  */
 function smarty_function_title($params, $smarty)
 {
-    static $titles = array();
-    if (isset($params['append'])) {
-        /*if (i18n::isName($params['append'])) {
-            $params['append'] = smarty_prefilter_i18n('{' . $params['append'] . '}', $smarty);
-        }*/
-
-        $titles[] = array($params['append'], isset($params['separator']) ? $params['separator'] : false);
-    } else {
-        $title = '';
-        $separator = '';
-        foreach ($titles as $t) {
-            if (!is_null($t[0]) && $t[0] != '') {
-                $separator = ($t[1] === false) ? (isset($params['separator']) ? $params['separator'] : '') : $t[1];
-                $title .= $t[0] . $separator;
-            }
-        }
-        $title = substr($title, 0, -(strlen($separator)));
-
-        if (isset($params['end']) && !empty($title)) {
-            $title .= $params['end'];
-        }
-        if (isset($params['start']) && !empty($title)) {
-            $title = $params['start'] . $title;
-        }
-        return $title;
-    }
+    return $smarty->view()->plugin('title', $params);
 }
 
 ?>

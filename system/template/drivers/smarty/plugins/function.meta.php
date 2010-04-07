@@ -34,26 +34,7 @@
  */
 function smarty_function_meta($params, $smarty)
 {
-    static $meta = array(
-        'keywords' => array(),
-        'description' => array()
-    );
-
-    if (isset($params['keywords']) || isset($params['description'])) {
-        $type = isset($params['keywords']) ? 'keywords' : 'description';
-        if (!empty($params['reset'])) {
-            $meta[$type] = array();
-        }
-        $meta[$type][] = htmlspecialchars($params[$type]);
-    } elseif (isset($params['show']) && in_array($params['show'], array_keys($meta))) {
-        $default = (isset($params['default'])) ? htmlspecialchars($params['default']) : null;
-        $result = join(', ', $meta[$params['show']]);
-        if (empty($result)) {
-            return $default;
-        }
-
-        return $result;
-    }
+    return $smarty->view()->plugin('meta', $params);
 }
 
 ?>
