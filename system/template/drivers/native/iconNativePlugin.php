@@ -38,25 +38,7 @@ class iconNativePlugin extends aNativePlugin
 {
     public function run($sprite, $jip = false, $active = null)
     {
-        if (strpos($sprite, 'sprite:') === 0) {
-            $sprite = explode('/', substr($sprite, 7));
-            $this->view->plugin('add', array('file' => (isset($sprite[2]) ? $sprite[2] . '/' : '' ) . 'icons.' . $sprite[0] . '.css'));
-
-            if (count($sprite) >= 2) {
-                if ($jip) {
-                    return "sprite:mzz-icon mzz-icon-" . $sprite[0] . " mzz-icon-" . $sprite[0] . "-" . $sprite[1];
-                } else {
-                    return '<img src="' . SITE_PATH . '/images/spacer.gif" width="16" height="16" class="mzz-icon mzz-icon-' . $sprite[0] . ' mzz-icon-' . $sprite[0] . '-' . $sprite[1] . (($active === true) ? ' active' : (($active === false) ? ' disabled' : '')) . '" alt="" />';
-                }
-            }
-        } else {
-            if ($jip) {
-                return "'" . SITE_PATH . $sprite . "'";
-            } else {
-                '<img src="' . SITE_PATH . $sprite . '" width="16" height="16" alt="." />';
-            }
-        }
-        return '';
+        return $this->view->plugin('icon', array('sprite' => $sprite, 'jip' => $jip, 'active' => $active));
     }
 }
 ?>

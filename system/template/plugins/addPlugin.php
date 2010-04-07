@@ -17,7 +17,7 @@
 fileLoader::load('template/plugins/aPlugin');
 
 /**
- * Plugin interface
+ * Plugin for loading css / js files
  *
  * @package system
  * @subpackage template
