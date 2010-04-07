@@ -40,26 +40,8 @@ function smarty_function_load($params, $smarty)
     foreach (array('module', 'action', '_block') as $name) {
         unset($allParams['params'][$name]);
     }
-    $allParams = new arrayDataspace($allParams);
 
-    $module = $allParams['module'];
-    $block = $allParams['_block'];
-    $actionName = $allParams['action'];
-
-    $blockHelper = blockHelper::getInstance();
-    if ($block && $blockHelper->isHidden($module . '_' . $actionName)) {
-        // loading this action of this module has been disabled by blockHelper
-        return null;
-    }
-
-    $view = loadDispatcher::dispatch($module, $actionName, $allParams['params']);
-
-    // отдаём контент в вызывающий шаблон, либо сохраняем его в blockHelper
-    if ($block) {
-        $blockHelper->set($module . '_' . $actionName, $block, $view);
-    } else {
-        return $view;
-    }
+    return $smarty->view()->plugin('load', $allParams);
 }
 
 ?>

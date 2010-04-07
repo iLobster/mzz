@@ -14,27 +14,24 @@
  * @version $Id$
  */
 
-fileLoader::load('template/plugins/iPlugin');
-
 /**
- * Abstract plugin
- *
+ * Native load plugin
+ * 
  * @package system
  * @subpackage template
  * @version 0.1.0
  */
-abstract class aPlugin implements iPlugin
+class loadNativePlugin extends aNativePlugin
 {
-    protected $view;
-
-    /**
-     * Constructor
-     * 
-     * @param view $view
-     */
-    public function __construct(view $view)
+    public function run($module, $action, array $params = array(), $block = null)
     {
-        $this->view = $view;
+        $params = array('module' => $module, 'action' => $action, 'params' => $params);
+
+        if (!empty($block)) {
+            $params['_block'] = $block;
+        }
+
+        return $this->view->plugin('url', $params);
     }
 }
 ?>
