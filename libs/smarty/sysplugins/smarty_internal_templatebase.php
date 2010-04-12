@@ -80,7 +80,7 @@ class Smarty_Internal_TemplateBase {
     */
     public function assign_by_ref($tpl_var, &$value, $nocache = false, $scope = SMARTY_LOCAL_SCOPE)
     {
-        $this->assign($tpl_var, $value);
+        $this->assign_by_ref($tpl_var, $value);
         
         return;
         if ($tpl_var != '') {
