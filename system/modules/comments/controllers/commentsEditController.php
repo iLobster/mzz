@@ -54,7 +54,7 @@ class commentsEditController extends simpleController
         $this->view->assign('validator', $validator);
         $this->view->assign('form_action', $url->get());
 
-        return $this->view->render('comments/edit.tpl');
+        return $this->render('comments/edit.tpl');
     }
 }
 ?>

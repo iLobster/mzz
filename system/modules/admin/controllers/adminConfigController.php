@@ -46,7 +46,7 @@ class adminConfigController extends simpleController
             $this->view->assign('form_action', $url->get());
             $this->view->assign('config_data', $data);
             $this->view->assign('module_name', $module_name);
-            return $this->view->render('admin/config.tpl');
+            return $this->render('admin/config.tpl');
         }
 
         return 'disabled';

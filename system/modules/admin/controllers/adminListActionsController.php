@@ -50,7 +50,7 @@ class adminListActionsController extends simpleController
         $this->view->assign('module', $module);
         $this->view->assign('class_name', $class_name);
         $this->view->assign('actions', $actions);
-        return $this->view->render('admin/listActions.tpl');
+        return $this->render('admin/listActions.tpl');
     }
 }
 

@@ -71,7 +71,7 @@ class fileManagerMoveFolderController extends simpleController
         $this->view->assign('dests', $dests);
         $this->view->assign('styles', $styles);
         $this->view->assign('folder', $folder);
-        return $this->view->render('fileManager/moveFolder.tpl');
+        return $this->render('fileManager/moveFolder.tpl');
     }
 
     public function checkUniqueFolderName($id, $folderMapper, $folder)

@@ -39,7 +39,7 @@ class newsListController extends simpleController
         $this->view->assign('rootFolder', $newsFolderMapper->searchByPath('root'));
         $this->view->assign('newsFolder', $newsFolder);
 
-        return $this->view->render('news/list.tpl');
+        return $this->render('news/list.tpl');
     }
 }
 

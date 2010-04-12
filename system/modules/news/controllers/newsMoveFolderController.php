@@ -83,7 +83,7 @@ class newsMoveFolderController extends simpleController
         $this->view->assign('folder', $folder);
         $this->view->assign('dests', $dests);
 
-        return $this->view->render('news/moveFolder.tpl');
+        return $this->render('news/moveFolder.tpl');
     }
 
     public function checkUniqueNewsFolderName($id, $folderMapper, $folder)

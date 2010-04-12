@@ -81,7 +81,7 @@ class pageSaveController extends simpleController
         $this->view->assign('validator', $validator);
         $this->view->assign('isEdit', $isEdit);
 
-        return $this->view->render('page/save.tpl');
+        return $this->render('page/save.tpl');
     }
 
     public function checkUniquePageName($name, $page, $pageFolder)

@@ -35,7 +35,7 @@ class simple403Controller extends simpleController
         } catch (mzzIoException $e) {
         }
 
-        return $this->view->render('simple/403.tpl');
+        return $this->render('simple/403.tpl');
     }
 }
 ?>

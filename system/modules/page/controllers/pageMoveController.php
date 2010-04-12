@@ -70,7 +70,7 @@ class pageMoveController extends simpleController
         $this->view->assign('dests', $dests);
         $this->view->assign('validator', $validator);
         $this->view->assign('page', $page);
-        return $this->view->render('page/move.tpl');
+        return $this->render('page/move.tpl');
     }
 
     public function checkDestPageFolderExists($dest, $folderMapper)

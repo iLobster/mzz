@@ -39,7 +39,7 @@ class adminTranslateController extends simpleController
         $storage_default = new i18nStorageIni($module->getName(), $locale->getName());
         $this->view->assign('plurals', range(0, $locale->getPluralsCount() - 1));
         $this->view->assign('translates', $storage_default->export());
-        return $this->view->render('admin/translateFrm.tpl');
+        return $this->render('admin/translateFrm.tpl');
         return $module->getName() . '@' . $locale->getName();
         
 
@@ -114,7 +114,7 @@ class adminTranslateController extends simpleController
                 $this->view->assign('plurals', range(0, $locale->getPluralsCount() - 1));
                 $this->view->assign('variables', $storage->export());
 
-                return $this->view->render('admin/translateForm.tpl');
+                return $this->render('admin/translateForm.tpl');
             }
         } catch (mzzIoException $e) {
         }
@@ -122,7 +122,7 @@ class adminTranslateController extends simpleController
         $this->view->assign('langs', $langs);
         $this->view->assign('modules', $modules);
 
-        return $this->view->render('admin/translateList.tpl');
+        return $this->render('admin/translateList.tpl');
     }
 
     public function notEmpty($value)

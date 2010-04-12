@@ -72,7 +72,7 @@ class newsSaveFolderController extends simpleController
 
         $targetFolder = $isEdit ? $targetFolder : $folderMapper->create();
         $this->view->assign('folder', $targetFolder);
-        return $this->view->render('news/saveFolder.tpl');
+        return $this->render('news/saveFolder.tpl');
     }
 
     public function checkUniqueFolderName($name, $path, $isEdit)

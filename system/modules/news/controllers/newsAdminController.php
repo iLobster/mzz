@@ -46,7 +46,7 @@ class newsAdminController extends simpleController
         $this->view->assign('newsFolder', $newsFolder);
         $this->view->assign('breadCrumbs', $breadCrumbs);
 
-        return $this->view->render('news/admin.tpl');
+        return $this->render('news/admin.tpl');
     }
 }
 

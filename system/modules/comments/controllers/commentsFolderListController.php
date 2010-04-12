@@ -83,7 +83,7 @@ class commentsFolderListController extends simpleController
 
         $this->view->assign('commentsFolder', $commentsFolder);
         $this->view->assign('comments', $comments);
-        return $this->view->render('comments/list.tpl');
+        return $this->render('comments/list.tpl');
     }
 }
 

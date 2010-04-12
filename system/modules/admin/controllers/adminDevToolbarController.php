@@ -31,7 +31,7 @@ class adminDevToolbarController extends simpleController
 
         $this->view->assign('modules', $modules);
         $this->view->assign('hiddenClasses', $hiddenClasses);
-        return $this->view->render('admin/devToolbar.tpl');
+        return $this->render('admin/devToolbar.tpl');
     }
 }
 

@@ -86,7 +86,7 @@ class newsSaveController extends simpleController
         $this->view->assign('news', $news);
         $this->view->assign('isEdit', $isEdit);
 
-        return $this->view->render('news/save.tpl');
+        return $this->render('news/save.tpl');
     }
 }
 

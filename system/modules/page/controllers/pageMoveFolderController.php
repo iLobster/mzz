@@ -82,7 +82,7 @@ class pageMoveFolderController extends simpleController
         $this->view->assign('dests', $dests);
         $this->view->assign('form_action', $url->get());
         $this->view->assign('errors', $validator->getErrors());
-        return $this->view->render('page/moveFolder.tpl');
+        return $this->render('page/moveFolder.tpl');
     }
 
     public function checkUniquPageFolderName($id, $folderMapper, $folder)

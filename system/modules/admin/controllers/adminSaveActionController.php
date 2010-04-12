@@ -172,7 +172,7 @@ class adminSaveActionController extends simpleController
             $this->view->assign('class_name', $class_name);
         }
 
-        return $this->view->render('admin/saveAction.tpl');
+        return $this->render('admin/saveAction.tpl');
     }
 
     public function unique($name, simpleModule $module, $action_name = null)

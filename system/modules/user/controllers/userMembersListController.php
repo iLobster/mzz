@@ -59,7 +59,7 @@ class userMembersListController extends simpleController
 
         $this->view->assign('users', $users);
         $this->view->assign('group', $group);
-        return $this->view->render('user/membersList.tpl');
+        return $this->render('user/membersList.tpl');
     }
 }
 

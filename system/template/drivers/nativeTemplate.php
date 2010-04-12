@@ -102,5 +102,27 @@ class nativeTemplate extends aTemplate {
             ob_start();
         }
     }
+
+    /**
+     * shortcut for view::assign()
+     *
+     * @param string|array $variable variable name or array of variables
+     * @param mixed $value to assign
+     */
+    public function assign($variable, $value = null)
+    {
+        $this->view->assign($variable, $value);
+    }
+
+    /**
+     * shortcut for view::assign_by_ref()
+     *
+     * @param string $variable variable name
+     * @param mixed $value to assign
+     */
+    public function assign_by_ref($variable, &$value)
+    {
+        $this->view->assign_by_ref($variable, $value);
+    }
 }
 ?>

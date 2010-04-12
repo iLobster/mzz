@@ -74,10 +74,14 @@ abstract class simpleController
 
 
     /**
-     *
-     * @var simpleView
+     * @var view
      */
     protected $view = null;
+    /**
+     *
+     * @var string
+     */
+    protected $backend  = 'smarty';
     /**
      * Конструктор
      *
@@ -86,8 +90,7 @@ abstract class simpleController
     {
         $this->toolkit = systemToolkit::getInstance();
         $this->request = $this->toolkit->getRequest();
-        $this->view = $this->toolkit->getView('smarty');
-//        $this->view = $this->toolkit->getView('smarty');
+        $this->view = $this->toolkit->getView();
         $this->response = $this->toolkit->getResponse();
         $this->action = $action;
 
@@ -264,7 +267,7 @@ abstract class simpleController
      */
     public function fetch($path)
     {
-        return $this->view->render($this->addTemplatePrefix($path));
+        return $this->view->render($this->addTemplatePrefix($path), $this->backend);
     }
 
     /**
@@ -295,7 +298,7 @@ abstract class simpleController
             $postData = $this->getPostData();
             $this->view->assign('postData', $postData);
         }
-        return $this->view->render('simple/confirm.tpl');
+        return $this->render('simple/confirm.tpl');
     }
 
     public function getAction()
@@ -321,6 +324,11 @@ abstract class simpleController
         }
 
         return $postData;
+    }
+
+    protected function render($template)
+    {
+        return $this->view->render($template, $this->backend);
     }
 }
 

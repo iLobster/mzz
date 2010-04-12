@@ -82,7 +82,7 @@ class fileManagerUploadController extends simpleController
 
         $this->view->assign('folder', $folder);
 
-        return $this->view->render('fileManager/upload.tpl');
+        return $this->render('fileManager/upload.tpl');
     }
 }
 

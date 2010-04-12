@@ -85,7 +85,7 @@ class fileManagerSaveFolderController extends simpleController
         $targetFolder = $isEdit ? $targetFolder : $folderMapper->create();
         $this->view->assign('validator', $validator);
         $this->view->assign('folder', $targetFolder);
-        return $this->view->render('fileManager/saveFolder.tpl');
+        return $this->render('fileManager/saveFolder.tpl');
     }
 
 

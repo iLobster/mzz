@@ -70,7 +70,7 @@ class newsMoveController extends simpleController
 
         $this->view->assign('news', $news);
         $this->view->assign('dests', $dests);
-        return $this->view->render('news/move.tpl');
+        return $this->render('news/move.tpl');
     }
 }
 ?>

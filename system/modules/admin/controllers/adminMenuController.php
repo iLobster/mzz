@@ -54,7 +54,7 @@ class adminMenuController extends simpleController
         $this->view->assign('current_module', $module);
         $this->view->assign('current_action', $action);
         $this->view->assign('menu', $menu);
-        return $this->view->render('admin/menu.tpl');
+        return $this->render('admin/menu.tpl');
     }
 }
 

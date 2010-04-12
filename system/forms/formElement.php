@@ -202,7 +202,7 @@ abstract class formElement
     protected function getValidator()
     {
         $view = systemToolkit::getInstance()->getView('smarty');
-        return $view->get_template_vars('validator');
+        return $view->getVariable('validator');
     }
 
     /**

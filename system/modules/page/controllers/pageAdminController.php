@@ -42,7 +42,7 @@ class pageAdminController extends simpleController
             $this->view->assign('pages', $pageMapper->searchByFolder($pageFolder->getId()));
             $this->view->assign('breadCrumbs', $breadCrumbs);
             $this->view->assign('pageFolder', $pageFolder);
-            return $this->view->render('page/admin.tpl');
+            return $this->render('page/admin.tpl');
         }
 
         return $this->forward404($pageFolderMapper);

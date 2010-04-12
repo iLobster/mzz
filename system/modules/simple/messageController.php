@@ -50,7 +50,7 @@ class messageController extends simpleController
     protected function getView()
     {
         $this->view->assign('message', $this->message);
-        return $this->view->render('simple/' . $this->templates[$this->type] . '.tpl');
+        return $this->render('simple/' . $this->templates[$this->type] . '.tpl');
     }
 }
 

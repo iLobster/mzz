@@ -37,7 +37,7 @@ class userGroupsListController extends simpleController
         $this->view->assign('userFolder', $userFolder);
         $this->view->assign('groupFolder', $groupFolder);
 
-        return $this->view->render('user/groupsList.tpl');
+        return $this->render('user/groupsList.tpl');
     }
 }
 

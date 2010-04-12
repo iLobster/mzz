@@ -89,7 +89,7 @@ class adminMapController extends simpleController
         $this->view->assign('added', $add);
         $this->view->assign('deleted', array_keys($delete));
 
-        return $this->view->render('admin/map.tpl');
+        return $this->render('admin/map.tpl');
     }
 
     private function filterFakeFields(&$array)

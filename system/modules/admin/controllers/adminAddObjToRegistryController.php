@@ -60,7 +60,7 @@ class adminAddObjToRegistryController extends simpleController
         $this->view->assign('action', $action);
         $this->view->assign('classes', $classes);
 
-        return $this->view->render('admin/addObjToRegistry.tpl');
+        return $this->render('admin/addObjToRegistry.tpl');
     }
 
     function checkClassExists($id, $classes)

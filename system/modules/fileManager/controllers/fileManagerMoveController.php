@@ -70,7 +70,7 @@ class fileManagerMoveController extends simpleController
 
         $this->view->assign('file', $file);
         $this->view->assign('folders', $folders);
-        return $this->view->render('fileManager/move.tpl');
+        return $this->render('fileManager/move.tpl');
     }
 
     public function checkFilename($dest, $file)

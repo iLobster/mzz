@@ -34,6 +34,7 @@ class view
     protected $vars    = array();
     protected $backends = array();
     protected $plugins = array();
+
     /**
      * @return view
      */
@@ -154,6 +155,58 @@ class view
     public function &export()
     {
         return $this->vars;
+    }
+
+    /**
+     * @todo: think about this shit
+     */
+
+    /**
+     * Включена вставка в main шаблон?
+     *
+     * @var boolean
+     */
+    protected $withMain = true;
+    protected $actTemplate = false;
+    /**
+     * Отключает вставку шаблона в main шаблон
+     *
+     */
+    public function disableMain()
+    {
+        $this->withMain = false;
+    }
+
+    /**
+     * Включает вставку шаблона в main шаблон
+     *
+     */
+    public function enableMain()
+    {
+        $this->withMain = true;
+    }
+
+    public function setActiveTemplate($template_name, $placeholder = 'content')
+    {
+        if (!$this->actTemplate) {
+            $this->actTemplate = array('main' => $template_name, 'placeholder' => $placeholder);
+            $this->enableMain();
+        }
+    }
+
+    public function getActTemplate()
+    {
+        return $this->actTemplate;
+    }
+
+    public function withMain()
+    {
+        return $this->withMain;
+    }
+
+    public function passActTemplate()
+    {
+        return $this->actTemplate = true;
     }
 }
 ?>

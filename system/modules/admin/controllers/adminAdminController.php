@@ -57,7 +57,7 @@ class adminAdminController extends simpleController
         } catch (Exception $e) {
             if($e instanceof mzzModuleNotFoundException || $e instanceof mzzUnknownModuleActionException) {
                 $this->view->assign('module', $moduleName);
-                return $this->view->render('admin/404.tpl');
+                return $this->render('admin/404.tpl');
             } else {
                 throw $e;
             }
@@ -77,7 +77,7 @@ class adminAdminController extends simpleController
         }
 
         $this->view->assign('dashboard', $dashboard);
-        return $this->view->render('admin/main.tpl');
+        return $this->render('admin/main.tpl');
     }
 }
 

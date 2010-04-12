@@ -39,6 +39,7 @@ class stdToolkit extends toolkit
     private $userPreferences;
     private $charsetDriver;
     private $i18n;
+    private $view;
     /**#@-*/
 
     /**#@+
@@ -110,15 +111,19 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Returns simpleView for selected backend engine
+     * Returns view object
      *
      * @param string $backend template engine name
-     * @return simpleView
+     * @return view
      */
     public function getView($backend = 'smarty')
     {
-        fileLoader::load('simple/simpleView');
-        return simpleView::factory($backend);
+        if (empty($this->view)) {
+            fileLoader::load('template/view');
+            $this->view = view::getInstance();
+        }
+
+        return $this->view;
     }
     /**
      * Returns simpleView with Smarty backend

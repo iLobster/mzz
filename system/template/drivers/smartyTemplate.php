@@ -52,13 +52,6 @@ class smartyTemplate extends Smarty implements iTemplate
     protected $fetchedTemplates = array();
 
     /**
-     * Массив из имени активного шаблона и имени placeholder-а в нем
-     *
-     * @var array
-     */
-    protected $actTemplate = false;
-
-    /**
      * Включена вставка в main шаблон?
      *
      * @var unknown_type
@@ -202,10 +195,10 @@ class smartyTemplate extends Smarty implements iTemplate
      */
     public function parse($str)
     {
-        if ($this->withMain && $this->actTemplate !== false) {
-            $actTemplate = $this->actTemplate;
+        if ($this->view->withMain() && $this->view->getActTemplate() !== false) {
             // для предотвращения рекурсии
-            $this->actTemplate = true;
+            $actTemplate = $this->view->getActTemplate();
+            $this->view->passActTemplate();
             return $actTemplate;
         }
         $params = array();
@@ -229,40 +222,8 @@ class smartyTemplate extends Smarty implements iTemplate
     public function isActive($template)
     {
         $isActive = (strpos($template, "{* main=") === false);
-        return ($this->actTemplate !== true && !$isActive)
-        || (is_array($this->actTemplate));
-    }
-
-    /**
-     * Устанавливает активный шаблон и имя placeholder-а
-     *
-     * @param string $template_name имя активного шаблона
-     * @param string $placeholder имя placeholder-а. По умолчанию <i>content</i>
-     */
-    public function setActiveTemplate($template_name, $placeholder = 'content')
-    {
-        if (!$this->actTemplate) {
-            $this->actTemplate = array('main' => $template_name, 'placeholder' => $placeholder);
-            $this->enableMain();
-        }
-    }
-
-    /**
-     * Отключает вставку шаблона в main шаблон
-     *
-     */
-    public function disableMain()
-    {
-        $this->withMain = false;
-    }
-
-    /**
-     * Включает вставку шаблона в main шаблон
-     *
-     */
-    public function enableMain()
-    {
-        $this->withMain = true;
+        return ($this->view->getActTemplate() !== true && !$isActive)
+        || (is_array($this->view->getActTemplate()));
     }
 
     public function getCurrentFile()

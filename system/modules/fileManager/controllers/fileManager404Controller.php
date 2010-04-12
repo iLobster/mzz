@@ -32,7 +32,7 @@ class fileManager404Controller extends simpleController
     public function getView()
     {
         $this->view->assign('type', $this->type);
-        return $this->view->render('fileManager/notfound.tpl');
+        return $this->render('fileManager/notfound.tpl');
     }
 }
 

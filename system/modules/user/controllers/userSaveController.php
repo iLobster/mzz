@@ -87,7 +87,7 @@ class userSaveController extends simpleController
         $this->view->assign('form_action', $url->get());
         $this->view->assign('isEdit', $isEdit);
         $this->view->assign('validator', $validator);
-        return $this->view->render('user/save.tpl');
+        return $this->render('user/save.tpl');
     }
 
     function checkUniqueUserLogin($login, $user, $userMapper)

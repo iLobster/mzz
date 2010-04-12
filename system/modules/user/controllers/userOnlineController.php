@@ -45,7 +45,7 @@ class userOnlineController extends simpleController
         $this->view->assign('guests', $guests);
         $this->view->assign('users', $users);
 
-        return $this->view->render('user/online.tpl');
+        return $this->render('user/online.tpl');
     }
 }
 

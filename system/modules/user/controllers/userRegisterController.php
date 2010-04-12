@@ -61,7 +61,7 @@ class userRegisterController extends simpleController
 
                 $this->view->assign('confirm', $confirm);
                 $this->view->assign('user', $user);
-                $body = $this->view->render('user/register/mailbody.tpl');
+                $body = $this->render('user/register/mailbody.tpl');
 
                 fileLoader::load('service/mailer/mailer');
                 $mailer = mailer::factory();
@@ -69,12 +69,12 @@ class userRegisterController extends simpleController
                 $mailer->set($user->getEmail(), $user->getLogin(), 'noreply@mzz.ru', 'mzz', 'Подтверждение регистрации', $body);
                 $mailer->send();
 
-                return $this->view->render('user/register/success.tpl');
+                return $this->render('user/register/success.tpl');
             }
 
             $this->view->assign('form_action', $url->get());
             $this->view->assign('validator', $validator);
-            return $this->view->render('user/register/form.tpl');
+            return $this->render('user/register/form.tpl');
 
         } else {
             $criteria = new criteria;
@@ -97,9 +97,9 @@ class userRegisterController extends simpleController
                     $userGroupMapper->save($userGroup);
                 }
 
-                return $this->view->render('user/register/confirmed.tpl');
+                return $this->render('user/register/confirmed.tpl');
             } else {
-                return $this->view->render('user/register/confirmNoNeed.tpl');
+                return $this->render('user/register/confirmNoNeed.tpl');
             }
         }
     }

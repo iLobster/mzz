@@ -132,10 +132,10 @@ class menuSaveController extends simpleController
 
         if ($item && $this->request->getBoolean('onlyProperties', SC_POST)) {
             $this->view->disableMain();
-            return $this->view->render('menu/properties.tpl');
+            return $this->render('menu/properties.tpl');
         }
 
-        return $this->view->render('menu/save.tpl');
+        return $this->render('menu/save.tpl');
     }
 
     protected function createMenuItemHelper($item)

@@ -92,7 +92,7 @@ class userAddToGroupController extends simpleController
         $this->view->assign('users', $users);
         $this->view->assign('group', $group);
 
-        return $this->view->render('user/addToGroup.tpl');
+        return $this->render('user/addToGroup.tpl');
     }
 }
 

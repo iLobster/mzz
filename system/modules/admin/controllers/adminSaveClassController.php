@@ -99,7 +99,7 @@ class adminSaveClassController extends simpleController
                 $this->view->assign('name', $name);
                 $this->view->assign('module', $module);
 
-                return $this->view->render('admin/addClassResult.tpl');
+                return $this->render('admin/addClassResult.tpl');
             } else {
                 return jipTools::redirect();
             }
@@ -121,7 +121,7 @@ class adminSaveClassController extends simpleController
         $this->view->assign('dests', $dests);
         $this->view->assign('validator', $validator);
 
-        return $this->view->render('admin/saveClass.tpl');
+        return $this->render('admin/saveClass.tpl');
     }
 
     public function checkUniqueClassName($name, $adminMapper, $class_name)

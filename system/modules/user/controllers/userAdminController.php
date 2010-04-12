@@ -37,7 +37,7 @@ class userAdminController extends simpleController
         $this->view->assign('groupFolder', $groupFolder);
         $this->view->assign('section_name', $this->request->getString('section_name'));
         $this->view->assign('users', $userMapper->searchAll());
-        return $this->view->render('user/admin.tpl');
+        return $this->render('user/admin.tpl');
     }
 }
 

@@ -76,7 +76,7 @@ class userMemberOfController extends simpleController
         $this->view->assign('groups', $groups);
         $this->view->assign('user', $user);
 
-        return $this->view->render('user/memberOf.tpl');
+        return $this->render('user/memberOf.tpl');
     }
 }
 

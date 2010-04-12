@@ -44,7 +44,7 @@ class fileManagerAdminController extends simpleController
         $this->view->assign('current_folder', $folder);
         $this->view->assign('files', $folderMapper->getItems($folder));
 
-        return $this->view->render('fileManager/admin.tpl');
+        return $this->render('fileManager/admin.tpl');
     }
 }
 

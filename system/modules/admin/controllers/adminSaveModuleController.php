@@ -72,7 +72,7 @@ class adminSaveModuleController extends simpleController
 
                 $this->view->assign('dest', $dests[$dest]);
                 $this->view->assign('module', $module);
-                return $this->view->render('admin/addModuleResult.tpl');
+                return $this->render('admin/addModuleResult.tpl');
             }
 
             return jipTools::redirect();
@@ -94,7 +94,7 @@ class adminSaveModuleController extends simpleController
         $this->view->assign('dests', $dests);
         $this->view->assign('currentDestination', $currentDestination);
 
-        return $this->view->render('admin/saveModule.tpl');
+        return $this->render('admin/saveModule.tpl');
     }
 
     public function checkUniqueModuleName($name, $adminMapper, $module_name = '')

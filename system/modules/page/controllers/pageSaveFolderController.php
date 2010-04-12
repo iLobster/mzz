@@ -70,7 +70,7 @@ class pageSaveFolderController extends simpleController
 
         $targetFolder = $isEdit ? $targetFolder : $folderMapper->create();
         $this->view->assign('folder', $targetFolder);
-        return $this->view->render('page/saveFolder.tpl');
+        return $this->render('page/saveFolder.tpl');
     }
 
     public function checkUniqueFolderName($name, $path, $isEdit)

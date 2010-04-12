@@ -23,7 +23,7 @@ class adminDashboardController extends simpleController
 {
     protected function getView()
     {
-        return $this->view->render('admin/dashboard.tpl');
+        return $this->render('admin/dashboard.tpl');
     }
 }
 

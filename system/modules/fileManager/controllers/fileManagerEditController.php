@@ -60,7 +60,7 @@ class fileManagerEditController extends simpleController
         $this->view->assign('form_action', $url->get());
         $this->view->assign('validator', $validator);
         $this->view->assign('file', $file);
-        return $this->view->render('fileManager/edit.tpl');
+        return $this->render('fileManager/edit.tpl');
     }
 
     public function checkFilename($name, $file)

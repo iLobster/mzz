@@ -20,7 +20,7 @@ class accessListController extends simpleController
         $this->view->assign('groups_left', $groups_left);
         $this->view->assign('module_name', $module_name);
 
-        return $this->view->render('access/list.tpl');
+        return $this->render('access/list.tpl');
     }
 }
 

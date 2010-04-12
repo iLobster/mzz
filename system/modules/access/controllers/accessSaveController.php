@@ -72,7 +72,7 @@ class accessSaveController extends simpleController
         $this->view->assign('roles', $module->getRoles());
         $this->view->assign('current_roles', $currentRoles);
 
-        return $this->view->render('access/save.tpl');
+        return $this->render('access/save.tpl');
     }
 }
 

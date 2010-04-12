@@ -81,7 +81,7 @@ class commentsPostController extends simpleController
                 $this->view->disableMain();
                 $this->view->assign('comment', $comment);
                 $this->view->assign('commentsFolder', $commentsFolder);
-                return $this->view->render('comments/post_added_ajax.tpl');
+                return $this->render('comments/post_added_ajax.tpl');
             } else {
                 $this->redirect($backUrl . '#comment' . $comment->getId());
                 return;

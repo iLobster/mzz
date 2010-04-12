@@ -54,7 +54,7 @@ class menuSavemenuController extends simpleController
             $this->view->assign('action', $url->get());
             $this->view->assign('validator', $validator);
             $this->view->assign('isEdit', $isEdit);
-            return $this->view->render('menu/savemenu.tpl');
+            return $this->render('menu/savemenu.tpl');
         } else {
             $name = $this->request->getString('name', SC_POST);
 

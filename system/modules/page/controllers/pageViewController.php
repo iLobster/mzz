@@ -37,7 +37,7 @@ class pageViewController extends simpleController
         }
 
         $this->view->assign('page', $page);
-        return $this->view->render('page/view.tpl');
+        return $this->render('page/view.tpl');
     }
 }
 

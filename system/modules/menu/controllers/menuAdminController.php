@@ -31,7 +31,7 @@ class menuAdminController extends simpleController
 
         $this->view->assign('menus', $menus);
         $this->view->assign('folder', $folder);
-        return $this->view->render('menu/admin.tpl');
+        return $this->render('menu/admin.tpl');
     }
 }
 

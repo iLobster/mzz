@@ -24,7 +24,7 @@ class menu404Controller extends simpleController
 {
     protected function getView()
     {
-        return $this->view->render('menu/notfound.tpl');
+        return $this->render('menu/notfound.tpl');
     }
 }
 

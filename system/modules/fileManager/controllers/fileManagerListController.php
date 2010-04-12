@@ -38,7 +38,7 @@ class fileManagerListController extends simpleController
             $pager = $this->setPager($fileMapper, $config->get('items_per_page'));
             $this->view->assign('current_folder', $folder);
             $this->view->assign('files', $fileMapper->searchByFolder($folder->getId()));
-            return $this->view->render('fileManager/list.tpl');
+            return $this->render('fileManager/list.tpl');
         }
 
         return $this->forward404($folderMapper);

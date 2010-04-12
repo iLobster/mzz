@@ -34,7 +34,7 @@ class newsViewController extends simpleController
         }
 
         $this->view->assign('news', $news);
-        return $this->view->render('news/view.tpl');
+        return $this->render('news/view.tpl');
     }
 }
 
