@@ -115,7 +115,7 @@ class commentsPostController extends simpleController
         }
 
         $this->view->assign('backUrl', $backUrl);
-        return $this->fetch('comments/post.tpl');
+        return $this->render('comments/post.tpl');
     }
 
     protected function isAjaxRequest()

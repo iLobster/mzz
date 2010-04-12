@@ -63,11 +63,11 @@ class userLoginController extends simpleController
             $this->view->assign('validator', $validator);
             $this->view->assign('backURL', $backURL);
 
-            return ($tplPath) ? $this->view->render($tplPath . 'loginForm.tpl') : $this->fetch('user/loginForm.tpl');
+            return ($tplPath) ? $this->view->render($tplPath . 'loginForm.tpl') : $this->render('user/loginForm.tpl');
         }
 
         $this->view->assign('user', $user);
-        return  ($tplPath) ? $this->view->render($tplPath . 'alreadyLogin.tpl') : $this->fetch('user/alreadyLogin.tpl');
+        return  ($tplPath) ? $this->view->render($tplPath . 'alreadyLogin.tpl') : $this->render('user/alreadyLogin.tpl');
     }
 
     protected function rememberUser($user)

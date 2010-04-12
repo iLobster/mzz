@@ -40,7 +40,7 @@ class menuViewController extends simpleController
 
         $this->view->assign('items', $items);
         //$this->view->assign('menu', $menu);
-        return $this->fetch('menu/view.tpl');
+        return $this->render('menu/view.tpl');
     }
 }
 ?>

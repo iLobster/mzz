@@ -95,8 +95,6 @@ abstract class simpleController
         $this->action = $action;
 
         $this->lang_id = $this->request->getInteger('lang_id', SC_GET);
-
-        $this->setTemplatePrefix($this->request->getString('tplPrefix'));
     }
 
     /**
@@ -245,31 +243,59 @@ abstract class simpleController
     }
 
     /**
-     * Adds a prefix to the templates
+     * Executes and returns the template results
      *
-     * @param string $path
-     * @return string
+     * @param string $template the path to a template
+     * @return mixed
      */
-    public function addTemplatePrefix($path)
+    protected function render($template)
     {
-        if (empty($this->tpl_prefix)) {
-            return $path;
-        }
-
-        return substr_replace($path, '/' . $this->tpl_prefix, strpos($path, '/'), 1);
+        return $this->view->render($this->rewritePath($template), $this->backend);
     }
 
     /**
      * Executes and returns the template results
+     * alias for simpleController::render()
      *
-     * @param string $path the path to a template
-     * @return string
+     * @param string $template the path to a template
+     * @return mixed
      */
-    public function fetch($path)
+    public function fetch($template)
     {
-        return $this->view->render($this->addTemplatePrefix($path), $this->backend);
+        return $this->render($template);
     }
 
+    /**
+     * Rewrites path for template with tplFile, tplPrefix and tplPath
+     * 
+     * @param string $template
+     * @return string
+     */
+    public function rewritePath($template)
+    {
+        $tpl_file = $this->request->getString('tplFile');
+
+        if (!empty($tpl_file)) {
+            $template = $tpl_file;
+        } else {
+
+            $prefix = (!empty($this->tpl_prefix)) ? $this->tpl_prefix : $this->request->getString('tplPrefix');
+
+
+            if (!empty($prefix)) {
+                $template = substr_replace($template, '/' . $prefix, strpos($template, '/'), 1);
+            }
+
+            $tpl_path = $this->request->getString('tplPath');
+
+            if (!empty($tpl_path)) {
+                $tpl_path = (substr($tpl_path,-1) !== '/') ? $tpl_path . '/' : $tpl_path;
+                $template = $tpl_path . substr($template, strrpos($template, '/') + 1);
+            }
+        }
+
+        return $template;
+    }
     /**
      * Возвращает HTML-форму для подтверждения выполнения действия
      *
@@ -326,10 +352,7 @@ abstract class simpleController
         return $postData;
     }
 
-    protected function render($template)
-    {
-        return $this->view->render($template, $this->backend);
-    }
+
 }
 
 ?>
