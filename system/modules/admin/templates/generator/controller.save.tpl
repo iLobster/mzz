@@ -74,12 +74,12 @@ ${{$name}}->{{$property.mutator}}($data['{{$field}}']);
         }
         $url->setAction($action);
 
-        $this->smarty->assign('form_action', $url->get());
-        $this->smarty->assign('validator', $validator);
-        $this->smarty->assign('{{$name}}', ${{$name}});
-        $this->smarty->assign('isEdit', $isEdit);
+        $this->view->assign('form_action', $url->get());
+        $this->view->assign('validator', $validator);
+        $this->view->assign('{{$name}}', ${{$name}});
+        $this->view->assign('isEdit', $isEdit);
 
-        return $this->smarty->fetch('{{$module->getName()}}/{{$action_name}}.tpl');
+        return $this->render('{{$module->getName()}}/{{$action_name}}.tpl');
     }
 }
 

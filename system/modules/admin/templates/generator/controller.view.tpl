@@ -32,9 +32,9 @@ class {{$module->getName()}}{{$actionData.controller|ucfirst}}Controller extends
             return $this->forward404(${{$name}}Mapper);
         }
 
-        $this->smarty->assign('{{$name}}', ${{$name}});
+        $this->view->assign('{{$name}}', ${{$name}});
 
-        return $this->smarty->fetch('{{$module->getName()}}/{{$action_name}}.tpl');
+        return $this->render('{{$module->getName()}}/{{$action_name}}.tpl');
     }
 }
 

@@ -29,8 +29,8 @@ class {{$module->getName()}}{{$actionData.controller|ucfirst}}Controller extends
 
         $all = ${{$name}}Mapper->searchAll();
 
-        $this->smarty->assign('all', $all);
-        return $this->smarty->fetch('{{$module->getName()}}/{{$action_name}}.tpl');
+        $this->view->assign('all', $all);
+        return $this->render('{{$module->getName()}}/{{$action_name}}.tpl');
     }
 }
 
