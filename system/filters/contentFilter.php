@@ -46,7 +46,7 @@ class contentFilter implements iFilter
     public function run(filterChain $filter_chain, $response, iRequest $request)
     {
         $toolkit = systemToolkit::getInstance();
-        $view = $toolkit->getView('smarty');
+        $view = $toolkit->getView();
 
         $view->assign('toolkit', $toolkit);
         /*
@@ -100,7 +100,7 @@ class contentFilter implements iFilter
         $view->assign('module', $module_name);
         $view->assign('action', $action_name);
 
-        return $view->render($activeTemplate);
+        return $view->render($activeTemplate, 'smarty');
     }
 }
 
