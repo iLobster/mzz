@@ -28,7 +28,7 @@ class iconPlugin extends aPlugin
     public function run(array $params)
     {
         if (!isset($params['sprite']) || empty($params['sprite'])) {
-            throw new mzzInvalidParameterException('Empty sprite param');
+            return ''; //throw new mzzInvalidParameterException('Empty sprite param');
         }
 
         $sprite = $params['sprite'];
