@@ -178,7 +178,7 @@ class smartyTemplate extends Smarty implements iTemplate
         }
         $this->fetchedTemplates[$params['main']] = true;
 
-        if (!$this->withMain) {
+        if (!$this->view->withMain()) {
             return $result;
         }
 
