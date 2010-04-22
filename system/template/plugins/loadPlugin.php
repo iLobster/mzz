@@ -15,6 +15,7 @@
  */
 
 fileLoader::load('template/plugins/aPlugin');
+fileLoader::load('service/blockHelper');
 
 /**
  * Unified load plugin

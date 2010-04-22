@@ -31,7 +31,7 @@ class loadNativePlugin extends aNativePlugin
             $params['_block'] = $block;
         }
 
-        return $this->view->plugin('url', $params);
+        return $this->view->plugin('load', $params);
     }
 }
 ?>
