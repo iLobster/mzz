@@ -43,7 +43,17 @@ class nativeTemplate extends aTemplate {
      * @return mixed
      */
     public function render($__resource__, array $__data__ = array()) {
-        $__filePath__ = fileLoader::resolve($__resource__);
+        if (file_exists(systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $__resource__)) {
+           $__filePath__ = systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $__resource__;
+        }
+
+        if (empty($__filePath__)) {
+            $__filePath__ = fileLoader::resolve($__resource__);
+        }
+
+        if (empty($__filePath__)) {
+            throw new mzzIoException($__resource__);
+        }
 
         extract($this->view->export(), EXTR_REFS);
 

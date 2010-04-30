@@ -42,20 +42,11 @@ class timer
     /**#@-*/
 
     /**
-     * Объект шаблонного движка
-     *
-     * @var fSmarty
-     */
-    protected $view;
-
-    /**
      * Конструктор
      *
      */
     public function __construct()
     {
-        $toolkit = systemToolkit::getInstance();
-        $this->view = $toolkit->getView('smarty');
         $this->db = fDB::factory();
     }
 
@@ -132,12 +123,19 @@ class timer
      * @param string $tpl шаблон вывода данных
      * @return string
      */
-    public function toString($tpl = 'timer/timer.tpl')
+    public function toString($tpl = 'timer/timer.tpl', $backend = null)
     {
         $this->finish();
-        return $this->view->render($tpl);
-    }
 
+        if (is_null($backend)) {
+            $backend = systemConfig::$mainTemplateDriver;
+        }
+
+        $toolkit = systemToolkit::getInstance();
+        $view = $toolkit->getView();
+        $view->assign('timer', $this);
+        return $view->render($tpl, $backend);
+    }
 }
 
 ?>

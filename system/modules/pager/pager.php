@@ -340,12 +340,16 @@ class pager
      * @param string $tpl имя шаблона отображения страниц
      * @return string
      */
-    public function toString($tpl = 'pager/pager.tpl')
+    public function toString($tpl = 'pager/pager.tpl', $backend = null)
     {
+        if (is_null($backend)) {
+            $backend = systemConfig::$mainTemplateDriver;
+        }
+
         $toolkit = systemToolkit::getInstance();
-        $view = $toolkit->getView('smarty');
+        $view = $toolkit->getView();
         $view->assign('pages', $this->toArray());
-        return $view->render($tpl);
+        return $view->render($tpl, $backend);
     }
 
     protected function appendPageToUrl($page)
