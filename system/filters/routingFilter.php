@@ -89,8 +89,6 @@ class routingFilter implements iFilter
             if (DEBUG_MODE) {
                 throw $e;
             }
-
-            $router->route(systemConfig::$uri404);
         }
 
         $filter_chain->next();

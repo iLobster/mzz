@@ -113,10 +113,9 @@ class stdToolkit extends toolkit
     /**
      * Returns view object
      *
-     * @param string $backend template engine name
      * @return view
      */
-    public function getView($backend = 'smarty')
+    public function getView()
     {
         if (empty($this->view)) {
             fileLoader::load('template/view');
@@ -221,7 +220,7 @@ class stdToolkit extends toolkit
 
     /**
      * Return requested module
-     * 
+     *
      * @param string $moduleName
      * @return simpleModule
      */

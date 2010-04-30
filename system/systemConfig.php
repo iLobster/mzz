@@ -66,7 +66,14 @@ class systemConfig
      * @var string
      */
     public static $appVersion;
+
+    /**
+     * Array with enabled modules
+     *
+     * @var array
+     */
     public static $enabledModules = array();
+
     /**
      * Path to the app
      *
@@ -131,11 +138,11 @@ class systemConfig
     public static $defaultSkin = 1;
 
     /**
-     * Request URI to 404 page
+     * Main driver for templates. Used for main.tpl, header.tpl and other main templates
      *
      * @var string
      */
-    public static $uri404 = 'page/404';
+    public static $mainTemplateDriver = 'smarty';
 
     /**
      * Name of session storage driver

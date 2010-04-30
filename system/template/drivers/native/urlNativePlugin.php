@@ -23,9 +23,8 @@
  */
 class urlNativePlugin extends aNativePlugin
 {
-    public function run($route = null, $module = null, $action = null, $lang = null, array $params = array(), $appendGet = false)
+    public function run($route = null, array $params = array(), $appendGet = false)
     {
-
         $_params = array();
 
         if ($route === true) {
@@ -34,22 +33,10 @@ class urlNativePlugin extends aNativePlugin
             $_params['route'] = $route;
         }
 
-        if (!empty($module)) {
-            $_params['module'] = $module;
-        }
-
-        if (!empty($action)) {
-            $_params['action'] = $action;
-        }
-
-        if (!empty($lang)) {
-            $_params['lang'] = $lang;
-        }
-
         $_params['appendGet'] = $appendGet;
 
         $_params = array_merge($params, $_params);
-        
+
         return $this->view->plugin('url', $_params);
     }
 }

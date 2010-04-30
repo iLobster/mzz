@@ -29,7 +29,13 @@ class nativeTemplate extends aTemplate {
      */
     protected $plugins = array();
     protected $wrapStack = array();
-    
+
+    public function __construct(view $view)
+    {
+        parent::__construct($view);
+        $this->assign_by_ref('__form', new form());
+    }
+
     /**
      * Render template
      *
@@ -45,7 +51,7 @@ class nativeTemplate extends aTemplate {
         unset($__data__);
 
         ob_start();
-        
+
         require $__filePath__;
         return ob_get_clean();
     }
@@ -85,7 +91,7 @@ class nativeTemplate extends aTemplate {
     }
 
     /**
-     * 
+     *
      * @param string|null $tpl
      * @param string $placeholder
      */
@@ -123,6 +129,27 @@ class nativeTemplate extends aTemplate {
     public function assign_by_ref($variable, &$value)
     {
         $this->view->assign_by_ref($variable, $value);
+    }
+
+    public function truncate_string($string, $length = 80, $etc = '...', $break_words = false, $middle = false)
+    {
+        if ($length == 0) {
+            return '';
+        }
+
+        if (mzz_strlen($string) > $length) {
+            $length -= min($length, mzz_strlen($etc));
+            if (!$break_words && !$middle) {
+                $string = preg_replace('/\s+?(\S+)?$/u', '', mzz_substr($string, 0, $length + 1));
+            }
+            if (!$middle) {
+                return mzz_substr($string, 0, $length) . $etc;
+            } else {
+                return mzz_substr($string, 0, $length / 2) . $etc . mzz_substr($string, - $length / 2);
+            }
+        } else {
+            return $string;
+        }
     }
 }
 ?>

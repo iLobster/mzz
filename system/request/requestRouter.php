@@ -187,6 +187,7 @@ class requestRouter
             }
         }
 
+        //@todo: не понимаю, что это. Либо давайте удалим, либо напишем, что ни один роут не выстрельнул
         if (!isset($params) || !is_array($params)) {
             fileLoader::load('exceptions/mzzRouteException');
             throw new mzzRouteException(404);

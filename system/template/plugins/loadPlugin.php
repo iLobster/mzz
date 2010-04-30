@@ -28,7 +28,6 @@ class loadPlugin extends aPlugin
 {
     public function run(array $params)
     {
-
         $params = new arrayDataspace($params);
 
         $module = $params['module'];

@@ -289,7 +289,7 @@ class simpleAction
         if ($toolkit->getUser()->isRoot()) {
             return true;
         }
-        
+
         if ($this->object) {
             $can = $this->object->getAcl($this);
 

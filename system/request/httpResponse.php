@@ -251,6 +251,16 @@ class httpResponse
         echo $this->response;
     }
 
+    public function setResponseText($response)
+    {
+        $this->response = $response;
+    }
+
+    public function getResponseText()
+    {
+        return $this->response;
+    }
+
     /**
      * отправление заголовков
      *

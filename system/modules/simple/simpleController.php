@@ -205,7 +205,7 @@ abstract class simpleController
         }
 
         if ($this->getAction()->isJip() && $this->request->isJip()) {
-            $this->view->setActiveTemplate('main.xml.tpl');
+            //$this->view->setActiveTemplate('main.xml.tpl');
             $this->response->setHeader('Content-Type', 'text/xml');
         }
 
@@ -267,7 +267,7 @@ abstract class simpleController
 
     /**
      * Rewrites path for template with tplFile, tplPrefix and tplPath
-     * 
+     *
      * @param string $template
      * @return string
      */

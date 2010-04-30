@@ -38,14 +38,14 @@ class form
         return $this->createField($name, $args[0]);
     }
 
-    public function open($params, $view)
+    public function open($params)
     {
         fileLoader::load('forms/formTag');
         $element = new formTag();
         return $element->toString($params);
     }
 
-    public function password($params, $view)
+    public function password($params)
     {
         $params['type'] = 'password';
         return $this->createField('text', $params);
