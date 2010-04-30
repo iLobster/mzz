@@ -86,7 +86,7 @@ class contentFilter implements iFilter
                     //@todo: выбрать шаблонизатор для админки
                     case 'active.admin.tpl':
                         $view->assign('content', $output);
-                        $output = $view->render('admin/main/admin.tpl', 'smarty');
+                        $output = $view->render('admin/main/admin.tpl', systemConfig::$mainTemplateDriver);
                         break;
 
                     default:
