@@ -30,8 +30,11 @@ class captchaViewController extends simpleController
         if ($captcha_id && strlen($captcha_id) == 32) {
             $session = $this->toolkit->getSession();
 
+            //@todo: сделать возможность переопределения фонта в приложении
+            $path_to_font = systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'modules/captcha/font.ttf';
+
             $captcha = new captcha;
-            $image = $captcha->getImage(120, 40, 4, dirname(__FILE__) . DIRECTORY_SEPARATOR . 'font.ttf');
+            $image = $captcha->getImage(120, 40, 4, $path_to_font);
             $string = $captcha->getCode();
 
             $captcha_key = 'mzz_captcha';
