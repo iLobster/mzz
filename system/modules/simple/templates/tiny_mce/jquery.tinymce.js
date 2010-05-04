@@ -3,9 +3,9 @@
     b.fn.tinymce=function(j){
         var p=this,g,k,h,m,i,l="",n="";
         if(!p.length){
-            return
-        }
-        if(!j){
+            return p
+            }
+            if(!j){
             return tinyMCE.get(p[0].id)
             }
             function o(){
@@ -48,7 +48,7 @@
     if(m!=-1){
         l=g.substring(m+1)
         }
-        c.tinyMCEPreInit={
+        c.tinyMCEPreInit=c.tinyMCEPreInit||{
         base:h,
         suffix:n,
         query:l
@@ -86,7 +86,10 @@ b.ajax({
     success:function(){
         tinymce.dom.Event.domLoaded=1;
         d=2;
-        o();
+        if(j.script_loaded){
+            j.script_loaded()
+            }
+            o();
         b.each(a,function(q,r){
             r()
             })
@@ -99,6 +102,7 @@ b.ajax({
         o()
         }
     }
+return p
 };
 
 b.extend(b.expr[":"],{
@@ -153,22 +157,23 @@ function h(m){
 
 b.each(["text","html","val"],function(n,l){
     var o=j[l]=b.fn[l],m=(l==="text");
-    b.fn[l]=function(r){
+    b.fn[l]=function(s){
         var p=this;
         if(!g(p)){
-            return o.call(p,r)
+            return o.apply(p,arguments)
             }
-            if(r!==e){
-            k.call(p.filter(":tinymce"),r);
-            o.call(p.not(":tinymce"),r);
+            if(s!==e){
+            k.call(p.filter(":tinymce"),s);
+            o.apply(p.not(":tinymce"),arguments);
             return p
             }else{
-            var q="";
-            (m?p:p.eq(0)).each(function(t,u){
-                var s=h(u);
-                q+=s?(m?s.getContent().replace(/<(?:"[^"]*"|'[^']*'|[^'">])*>/g,""):s.getContent()):o.call(b(u),r)
+            var r="";
+            var q=arguments;
+            (m?p:p.eq(0)).each(function(u,v){
+                var t=h(v);
+                r+=t?(m?t.getContent().replace(/<(?:"[^"]*"|'[^']*'|[^'">])*>/g,""):t.getContent()):o.apply(b(v),q)
                 });
-            return q
+            return r
             }
         }
 });
@@ -177,14 +182,14 @@ b.each(["append","prepend"],function(n,m){
     b.fn[m]=function(q){
         var p=this;
         if(!g(p)){
-            return o.call(p,q)
+            return o.apply(p,arguments)
             }
             if(q!==e){
             p.filter(":tinymce").each(function(s,t){
                 var r=h(t);
                 r&&r.setContent(l?q+r.getContent():r.getContent()+q)
                 });
-            o.call(p.not(":tinymce"),q);
+            o.apply(p.not(":tinymce"),arguments);
             return p
             }
         }
