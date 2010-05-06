@@ -48,7 +48,10 @@ class contentFilter implements iFilter
         $tpl_path = systemConfig::$pathToApplication . '/templates';
         $tpl_name = 'act' . DIRECTORY_SEPARATOR . $module_name . DIRECTORY_SEPARATOR . $action_name . '.tpl';
         if (file_exists($tpl_path . DIRECTORY_SEPARATOR . $tpl_name)) {
-            return $view->render('templates' . DIRECTORY_SEPARATOR . $tpl_name, systemConfig::$mainTemplateDriver);
+            $output = $view->render($tpl_name, systemConfig::$mainTemplateDriver);
+            $response->append($output);
+
+            $filter_chain->next();
         }
 
         try {

@@ -57,6 +57,7 @@ class smartyTemplate extends Smarty implements iTemplate
      * @var unknown_type
      */
     protected $withMain = true;
+
     public function __construct(view $view)
     {
 
