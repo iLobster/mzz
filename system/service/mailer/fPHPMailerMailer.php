@@ -37,6 +37,11 @@ class fPHPMailerMailer extends abstractMailer
         $this->phpmailer = $phpmailer;
     }
 
+    public function addAttachment($path, $name = '')
+    {
+        $this->phpmailer->AddAttachment($path, $name);
+    }
+    
     public function send()
     {
         $this->phpmailer->From     = $this->getFrom();
