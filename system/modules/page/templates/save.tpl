@@ -10,7 +10,7 @@ fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
     toggleEditor = function(id) {
         if (!(tinyMCE) || tinyMCE.getInstanceById(id) == null) {
             $('#' + id).tinymce({
-                script_url: SITE_PATH + '/js/tiny_mce/tiny_mce_jquery.js',
+                script_url: SITE_PATH + '/js/tiny_mce/tiny_mce.js',
                 theme : "advanced",
                 skin : 'o2k7',
                 skin_variant : "",
