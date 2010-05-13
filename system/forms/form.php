@@ -71,7 +71,7 @@ class form
         return $this->hidden($hiddenParams, $view) . $image;
     }
 
-    public function file($params, $view)
+    public function file($params)
     {
         $params['type'] = 'file';
         return $this->createField('text', $params);

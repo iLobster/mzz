@@ -186,7 +186,7 @@ class relation
         } elseif ($info['relation'] == 'many-to-many') {
             $infoRel = $this->manyToMany();
             $infoRel = $infoRel[$field];
-            
+
             if (!isset($info['local_key'])) {
                 throw new mzzRuntimeException('local_key not specified');
             }
@@ -263,7 +263,7 @@ class relation
             $map = $val['mapper']->map();
             $accessor = $map[$val['local_key']]['accessor'];
 
-            $criteria = new criteria($val['reference']);
+            $criteria = new criteria($val['mapper']->db()->getTablePrefix() . $val['reference']);
             $criteria->where($val['ref_local_key'], $object->$accessor());
             $delete = new simpleDelete($criteria);
             $val['mapper']->db()->query($delete->toString());
