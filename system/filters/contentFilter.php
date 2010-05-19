@@ -39,10 +39,12 @@ class contentFilter implements iFilter
 
         $view->assign('toolkit', $toolkit);
 
-        $request->setRequestedParams($params);
-
         $module_name = $request->getModule();
         $action_name = $request->getAction();
+
+        $request->setModule($module_name);
+        $request->setAction($action_name);
+        $request->setRequestedParams($params);
 
         //нам еще нужны эти активные шаблоны?
         $tpl_path = systemConfig::$pathToApplication . '/templates';
