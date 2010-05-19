@@ -425,7 +425,7 @@ class httpRequest implements iRequest
     public function setModule($module)
     {
         if ($this->requestedModule === false) {
-            $this->requestedModule = $module;
+            $this->setRequestedModule($module);
         }
         $this->module = $module;
     }
@@ -449,7 +449,7 @@ class httpRequest implements iRequest
     public function setAction($action)
     {
         if ($this->requestedAction === false) {
-            $this->requestedAction = $action;
+            $this->setRequestedAction($action);
         }
         $this->action = $action;
     }
@@ -493,6 +493,17 @@ class httpRequest implements iRequest
     public function getRequestedAction()
     {
         return $this->requestedAction;
+    }
+
+    /**
+     * Устанавливает первоначально запрошенный модуль (once)
+     *
+     */
+    public function setRequestedAction($action)
+    {
+        if ($this->requestedAction === false) {
+            $this->requestedAction = $action;
+        }
     }
 
     /**

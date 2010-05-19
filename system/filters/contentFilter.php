@@ -42,8 +42,6 @@ class contentFilter implements iFilter
         $module_name = $request->getModule();
         $action_name = $request->getAction();
 
-        $request->setModule($module_name);
-        $request->setAction($action_name);
         $request->setRequestedParams($params);
 
         //нам еще нужны эти активные шаблоны?
