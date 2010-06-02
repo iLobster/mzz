@@ -126,6 +126,8 @@ class simpleSelect extends simpleSqlGenerator
         foreach ($this->criteria->getOrderByFields() as $key => $val) {
             if ($val instanceof sqlFunction) {
                 $order = $val->toString($this);
+            } elseif ($val instanceof criterion) {
+                $order = $val->generate($this);
             } else {
                 $order = $this->quoteField($val);
 

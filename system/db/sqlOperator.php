@@ -116,13 +116,11 @@ class sqlOperator
      */
     private function cast($arg)
     {
-        if (is_numeric($arg)) {
-            $arg = (int)$arg;
-        } elseif ($arg instanceof sqlOperator) {
+        if ($arg instanceof sqlOperator) {
             $arg = $this->setPriority($arg->toString($this->simpleSelect));
         } elseif($arg instanceof sqlFunction) {
             $arg = $arg->toString($this->simpleSelect);
-        } else {
+        } else if (!is_numeric($arg)) {
             $arg = $this->simpleSelect->quoteField($arg);
         }
 
