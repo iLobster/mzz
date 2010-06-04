@@ -113,6 +113,10 @@ class urlPlugin extends aPlugin
             $url = htmlspecialchars($url);
         }
 
+        if (isset($params['combine_slashes']) && $params['combine_slashes']) {
+            $url = preg_replace('#(?<!:)//+#','/',$url);
+        }
+
         return $url;
     }
 }

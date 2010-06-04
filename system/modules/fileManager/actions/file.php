@@ -4,10 +4,9 @@
 return array(
     'admin' => array(
         'controller' => 'admin',
-        'icon' => 'fm.gif',
+        'icon' => 'sprite:sys/folder',
         'role' => array('moderator'),
         'title' => 'Файловый менеджер',
-        'icon' => 'sprite:sys/folder',
         'admin' => true
     ),
     'get' => array(
