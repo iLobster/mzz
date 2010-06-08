@@ -450,6 +450,7 @@ div.mzz-jip-window .mzz-jip-right {
     width: 100%;
     margin-top: -5px;
 
+    border-radius: 2px;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     -khtml-border-radius: 2px;
@@ -490,6 +491,7 @@ div.mzz-jip-window .mzz-jip-right {
     text-align:center;
     width: auto;
 
+    border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     -khtml-border-radius: 3px;
