@@ -112,6 +112,8 @@ class httpRequest implements iRequest
      * @var string
      */
     protected $requestedParams = null;
+    
+    protected $forwarded = null;
 
     /**
      * Конструктор.
@@ -483,6 +485,16 @@ class httpRequest implements iRequest
         if ($this->requestedModule === false) {
             $this->requestedModule = $module;
         }
+    }
+
+    public function getForwardedTo()
+    {
+        return $this->forwarded;
+    }
+
+    public function setForwardedTo($module, $action)
+    {
+        $this->forwarded = array('module' => $module, 'action' => $action);
     }
 
     /**

@@ -66,6 +66,12 @@ class contentFilter implements iFilter
 
             $output = loadDispatcher::dispatch($module_name, $action_name, $params);
 
+            // if the action has forwarded to another action, we should get a new active template.
+            if ($forwarded = $request->getForwardedTo()) {
+                $module = $toolkit->getModule($forwarded['module']);
+                $active_template = $module->getAction($forwarded['action'])->getActiveTemplate();
+            }
+
             if ($view->withMain()) {
                 //@todo: перенесли это сюда из simpleController:208
                 if ($action->isJip() && $request->isJip()) {

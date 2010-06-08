@@ -126,10 +126,13 @@ abstract class simpleController
      * @param string $actionName имя экшна
      * @return mixed результат работы контроллера
      */
-    protected function forward($moduleName, $actionName)
+    protected function forward($moduleName, $actionName, $hidden_redirect = true)
     {
         $module = $this->toolkit->getModule($moduleName);
         $action = $module->getAction($actionName);
+        if ($hidden_redirect == false) {
+            $this->request->setForwardedTo($moduleName, $actionName);
+        }
         return $action->run();
     }
 
