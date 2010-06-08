@@ -9,6 +9,7 @@
         _title: null,
         _wrapper: null,
         _content: null,
+        _footer: null,
 
         _hidden: true,
         
@@ -27,6 +28,7 @@
             this._dom.append($('<div class="mzz-jip-topLeft"></div><div class="mzz-jip-top"></div><div class="mzz-jip-topRight"></div><div class="mzz-jip-left"></div><div class="mzz-jip-right"></div><div class="mzz-jip-bottomLeft"></div><div class="mzz-jip-bottom"></div><div class="mzz-jip-bottomRight"></div><img alt="window gradient" src="' + SITE_PATH + '/images/jip/window-bg.png" class="mzz-jip-gradient" />'));
             this._title = $('<span />').appendTo($('<div class="mzz-jip-title" style="" />').appendTo(this._dom));
             $('<a href="" class="mzz-jip-close">x</a>').bind('click', function(e){e.preventDefault();e.stopImmediatePropagation();t._parent.close();}).appendTo(this._dom);
+            this._footer= $('<div class="mzz-jip-footer">haba</div>').appendTo(this._dom);
             this._wrapper = $('<div class="mzz-jip-wrapper" />').appendTo(this._dom);
             this._content = $('<div class="mzz-jip-content" style="" />').appendTo(this._wrapper);
 
@@ -82,7 +84,7 @@
 
                 t._wrapper.css('overflow', (nHeight != cHeight) ? 'auto' : 'hidden');
 
-                t._dom.css({'top': (wHeight - nHeight - 40)/2});
+                t._dom.css({'top': (wHeight - nHeight - 80)/2});
 
             }, 1);
 
@@ -108,7 +110,6 @@
         },
 
         status: function(status, append) {
-            return '';
             if (this._footer.length > 0) {
                 if($.isUndefined(status)) {
                     return this._footer;

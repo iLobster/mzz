@@ -229,74 +229,73 @@ div.mzz-jip-window img.mzz-jip-gradient {
     z-index: 0;
 }
 
-div.mzz-jip-window .mzz-jip-topLeft,    div.mzz-jip-window .mzz-jip-topRight,
-div.mzz-jip-window .mzz-jip-bottomLeft, div.mzz-jip-window .mzz-jip-bottomRight {
-    width: 40px;
-    height: 40px;
+div.mzz-jip-window .mzz-jip-topLeft,    div.mzz-jip-window .mzz-jip-topRight {
+    width: 30px;
+    height: 30px;
+    top: -15px;
 }
 
-div.mzz-jip-window .mzz-jip-topLeft, div.mzz-jip-window .mzz-jip-topRight {
-    top: -20px;
+div.mzz-jip-window .mzz-jip-bottomLeft, div.mzz-jip-window .mzz-jip-bottomRight {
+    width: 30px;
+    height: 50px;
+    bottom: -25px;
 }
 
 div.mzz-jip-window .mzz-jip-topLeft {
-    background-position: 0px -100px;
-    left: -20px;
+    background-position: -10px -100px;
+    left: -15px;
 }
 
 div.mzz-jip-window .mzz-jip-topRight {
     background-position: 0px -180px;
-    right: -20px;
-}
-
-div.mzz-jip-window .mzz-jip-bottomLeft, div.mzz-jip-window .mzz-jip-bottomRight {
-    bottom: -20px;
+    right: -15px;
 }
 
 div.mzz-jip-window .mzz-jip-bottomLeft {
-    background-position: -0px -140px;
-    left: -20px;
+    background-position: -10px -132px;
+    left: -15px;
 }
 
 div.mzz-jip-window .mzz-jip-bottomRight {
-    background-position: 0px -220px;
-    right: -20px;
+    background-position: 0px -212px;
+    right: -15px;
 }
 
 div.mzz-jip-window .mzz-jip-top, div.mzz-jip-window .mzz-jip-bottom {
-    height: 20px;
-    left: 20px;
-    right: 20px;
+    left: 15px;
+    right: 15px;
 }
 
 div.mzz-jip-window .mzz-jip-top {
     background-position: 0px -55px;
-    top: -20px;
+    top: -15px;
+    height: 30px;
 }
 
 div.mzz-jip-window .mzz-jip-bottom {
-    background-position: 0px -85px;
-    bottom: -20px;
+    background-position: 0px -90px;
+    bottom: -25px;
+    height: 50px;
 }
 
 div.mzz-jip-window .mzz-jip-left, div.mzz-jip-window .mzz-jip-right {
-    bottom: 20px;
-    top: 20px;
-    width: 20px;
+    bottom: 25px;
+    top: 15px;
+    width: 16px;
 }
 
 div.mzz-jip-window .mzz-jip-left {
-    background-position: -50px 0px;
-    left: -20px;
+    background-position: -49px 0px;
+    left: -16px;
 }
 
 div.mzz-jip-window .mzz-jip-right {
-    background-position: -80px 0px;
-    right: -20px;
+    background-position: -67px 0px;
+    right: -16px;
 }
 
 .mzz-jip-wrapper {
-    margin: 40px 5px 5px 5px;
+    margin: 40px 5px 35px 5px;
     min-height: 70px;
     padding: 1px;
     position: relative;
@@ -319,6 +318,38 @@ div.mzz-jip-window .mzz-jip-right {
     color: #2C4865;
     margin-left: 10px;
     text-shadow: 0 1px 0 rgba(250, 250, 250, 0.5);
+}
+
+.mzz-jip-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right:0;
+    line-height: 15px;
+    padding: 5px 0px 0px 5px;
+    background: transparent url('../images/jip/shadows-x.png') repeat-x -0px -139px scroll;
+}
+
+.mzz-jip-footer, .mzz-jip-footer span {
+    color: #888888;
+    font-size: 11px;
+}
+
+.mzz-jip-footer:hover, .mzz-jip-footer:hover span {
+    color: #000000;
+}
+
+.mzz-jip-footer .refresh {
+    background: transparent url('../images/jip/common.png') no-repeat scroll -17px -66px;
+    vertical-align:bottom;
+    width: 15px;
+    height: 15px;
+    cursor:pointer;
+}
+
+.mzz-jip-footer .refresh:hover {
+    background-position: -17px -81px
+
 }
 
 .mzz-jip-content {

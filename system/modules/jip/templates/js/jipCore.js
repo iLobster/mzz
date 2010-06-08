@@ -64,7 +64,10 @@
                 this.tinyMCEIds[this.currentWindow] = [];
                 this.window = new MZZ.jipWindow(this);
                 this.window.bind('beforeshow onshowe show beforehide onhide hide kill', this.windowEvents);
-                this.setStatus('<strong>Window url:</strong> ' + url);
+                var t = this;
+                var refresh = $('<img height="16" width="16" alt="" src="' + SITE_PATH + '/images/spacer.gif" class="refresh" />').bind('click', function() {t.refresh()});
+                var status = $('<span />').append(refresh).append(' ' + url);
+                this.setStatus(status);
                 $(document).keypress(this.eventKey);
             } else {
                 //????
@@ -91,7 +94,13 @@
         },
 
         refresh: function() {
+            var stack = this.stack[this.currentWindow];
+            var prevUrl = stack.pop();
+            if (prevUrl != undefined) {
+                this.open(prevUrl);
+            }
 
+            return false;
         },
 
         close: function(windows) {
