@@ -73,19 +73,26 @@
             var t = this;
             setTimeout(function(){
             var wHeight = t.__window.height();
-                var cHeight = t._content.outerHeight() + 15;
+                var cHeight = t._content.outerHeight();
+ 
+                if (cHeight < 70) {
+                    cHeight = 70;
+                }
+                //cHeight+=10;
+
                 var nHeight = cHeight;
 
-                if ((wHeight - 85 - cHeight) < 0) {
-                    nHeight = wHeight - 85;
+                
+                if ((wHeight - 90 - cHeight) < 0) {
+                    nHeight = wHeight - 90;
                 }
 
-                t._wrapper.height(nHeight);
+                //t._wrapper.height(nHeight);
 
-                t._wrapper.css('overflow', (nHeight != cHeight) ? 'auto' : 'hidden');
+                //t._wrapper.css('overflow', (nHeight != cHeight) ? 'auto' : 'hidden');
 
-                t._dom.css({'top': (wHeight - nHeight - 80)/2});
-
+                t._dom.css({'top': (wHeight - nHeight - 80)/2, 'height': nHeight + 80}); //(wHeight - nHeight - 80)/2});
+                console.log(cHeight, wHeight, nHeight, t._dom.height());
             }, 1);
 
         },

@@ -295,11 +295,14 @@ div.mzz-jip-window .mzz-jip-right {
 }
 
 .mzz-jip-wrapper {
-    margin: 40px 5px 35px 5px;
-    min-height: 70px;
-    padding: 1px;
-    position: relative;
-    overflow: hidden
+    background-color: #ffffff;
+    bottom:19px;
+    left:0;
+    overflow:auto;
+    padding:5px;
+    position:absolute;
+    right:0;
+    top:34px;
 }
 
 .mzz-jip-title {
@@ -353,8 +356,6 @@ div.mzz-jip-window .mzz-jip-right {
 }
 
 .mzz-jip-content {
-    margin-right: 5px;
-    padding-right: 5px;
     font-size: 13px;
     color: #000000;
 }
@@ -447,7 +448,7 @@ div.mzz-jip-window .mzz-jip-right {
     border-width: 1px;
     color: #817c7c;
     padding: 3px;
-    width: 100%;
+    width: 95%;
     margin-top: -5px;
 
     border-radius: 2px;

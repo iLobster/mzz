@@ -101,7 +101,7 @@ fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
         {form->caption name="page[content]" value="Содержимое"}
     </div>
     <div class="text">
-        {form->textarea name="page[content]" value=$page->getContent() rows="20" style="width: 100%;" id="contentArea" cols="50"}
+        {form->textarea name="page[content]" value=$page->getContent() rows="20" style="width: 90%;" id="contentArea" cols="50"}
         <span class="caption error">{$validator->getFieldError('page[content]')}</span>
     </div>
 </div>
