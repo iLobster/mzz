@@ -340,6 +340,24 @@ class i18n
         }
 
         $locale = new fLocale($lang);
+        
+        if ($format == 'relative_minute') {
+            $minutes = ceil((time() - $date) / 60);
+
+            if ($minutes <= 1) {
+                $seconds = time() - $date;
+
+                if ($seconds <= 1) {
+                    return self::getMessage('right_now', 'i18n');
+                }
+
+                return self::getMessage('seconds_ago', 'i18n', null, $seconds);
+            } elseif ($minutes < 60) {
+                return self::getMessage('minutes_ago', 'i18n', null, $minutes);
+            }
+
+            $format = 'relative_hour';
+        }
 
         if ($format == 'relative_hour') {
             $hours = ceil((time() - $date) / 3600);
