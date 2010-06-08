@@ -41,16 +41,29 @@ class entity implements serializable
         $this->methodsMap = $this->generateMethodsMap($mapper->map());
     }
 
+    /**
+     * @return simpleModule
+     */
     public function module()
     {
         return $this->mapper->getModule();
     }
 
+    /**
+     * Imports data to the entity
+     *
+     * @param array $data
+     */
     public function import($data)
     {
         $this->data = $data;
     }
 
+    /**
+     * Merge $data with data in entity
+     *
+     * @param array $data
+     */
     public function merge($data)
     {
         $map = $this->mapper->map();
@@ -61,11 +74,21 @@ class entity implements serializable
         }
     }
 
+    /**
+     * Returns data from entity
+     *
+     * @return array
+     */
     public function export()
     {
         return $this->data;
     }
 
+    /**
+     * Returns changed data from entity
+     *
+     * @return unknown
+     */
     public function exportChanged()
     {
         return $this->dataChanged;
@@ -163,6 +186,12 @@ class entity implements serializable
         return $methodsMap;
     }
 
+    /**
+     * Returns an internal state of the entity
+     *
+     * @param int[enum] $state
+     * @return int
+     */
     public function state($state = null)
     {
         if (!is_null($state)) {
@@ -178,6 +207,10 @@ class entity implements serializable
         return $this->state;
     }
 
+    /**
+     * @param string $actionName
+     * @return bool
+     */
     public function canRun($actionName)
     {
         $action = systemToolkit::getInstance()->getModule($this->module())->getAction($actionName);

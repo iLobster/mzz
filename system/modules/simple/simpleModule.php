@@ -244,7 +244,7 @@ abstract class simpleModule
      *
      * @param string $actionName
      * @throws mzzUnknownModuleActionException
-     * @return object
+     * @return simpleAction
      */
     public function getAction($actionName)
     {
@@ -331,7 +331,6 @@ abstract class simpleModule
 
     /**
      * Returns module's config object
-     *
      *
      * @return simpleConfig
      */
