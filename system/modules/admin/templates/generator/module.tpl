@@ -22,5 +22,21 @@
 class {{$name}}Module extends simpleModule
 {
     protected $classes = array();
+
+	protected $roles = array();
+
+	protected $version = '0.0.1';
+
+	protected $icon = null;
+
+	/**
+     * Returns array of requirements or empty array if all ok
+     *
+     * @return array
+     */
+    public function checkRequirements()
+    {
+        return array();
+    }
 }
 ?>
