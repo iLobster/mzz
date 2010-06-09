@@ -25,6 +25,11 @@ fileLoader::load('template/plugins/aPlugin');
  */
 class iconPlugin extends aPlugin
 {
+    public function  __construct(view $view) {
+        parent::__construct($view);
+        $this->view->plugin('add', array('file' => 'icons.sys.css'));
+    }
+
     public function run(array $params)
     {
         if (!isset($params['sprite']) || empty($params['sprite'])) {
@@ -37,7 +42,10 @@ class iconPlugin extends aPlugin
 
         if (strpos($sprite, 'sprite:') === 0) {
             $sprite = explode('/', substr($sprite, 7));
-            $this->view->plugin('add', array('file' => (isset($sprite[2]) ? $sprite[2] . '/' : '' ) . 'icons.' . $sprite[0] . '.css'));
+
+            if ($sprite[0] !== 'sys') {
+                $this->view->plugin('add', array('file' => (isset($sprite[2]) ? $sprite[2] . '/' : '' ) . 'icons.' . $sprite[0] . '.css'));
+            }
 
             if (count($sprite) >= 2) {
                 if ($jip) {
