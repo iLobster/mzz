@@ -78,21 +78,18 @@
                 if (cHeight < 70) {
                     cHeight = 70;
                 }
-                //cHeight+=10;
 
+                cHeight+= (window.opera) ? 15 : 10;
+                
                 var nHeight = cHeight;
 
                 
-                if ((wHeight - 90 - cHeight) < 0) {
-                    nHeight = wHeight - 90;
+                if ((wHeight - 75 - cHeight) < 0) {
+                    nHeight = wHeight - 75;
                 }
 
-                //t._wrapper.height(nHeight);
-
-                //t._wrapper.css('overflow', (nHeight != cHeight) ? 'auto' : 'hidden');
-
-                t._dom.css({'top': (wHeight - nHeight - 80)/2, 'height': nHeight + 80}); //(wHeight - nHeight - 80)/2});
-                console.log(cHeight, wHeight, nHeight, t._dom.height());
+                t._dom.css({'top': (wHeight - nHeight - 63)/2, 'height': nHeight + 63}); //(wHeight - nHeight - 80)/2});
+                t._wrapper.css({'height': nHeight});
             }, 1);
 
         },

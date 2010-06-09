@@ -296,13 +296,14 @@ div.mzz-jip-window .mzz-jip-right {
 
 .mzz-jip-wrapper {
     background-color: #ffffff;
-    bottom:19px;
-    left:0;
-    overflow:auto;
-    padding:5px;
-    position:absolute;
-    right:0;
-    top:34px;
+    position: absolute;
+    top: 34px;
+    /*bottom: 19px;*/
+    left: 0;
+    overflow: auto;
+    padding: 5px;
+    right: 0;
+    /* border: 1px solid red;*/
 }
 
 .mzz-jip-title {
