@@ -288,14 +288,14 @@ abstract class mapper
         return $this->observers[$name];
     }
 
-    public function plugins($name)
+    public function plugins($name, array $options = array(), $newName = null)
     {
         $name .= 'Plugin';
         if (!class_exists($name)) {
             fileLoader::load('orm/plugins/' . $name);
         }
 
-        $this->attach(new $name());
+        $this->attach(new $name($options), $newName);
     }
 
     public function isAttached($name)
