@@ -42,7 +42,7 @@ class entity implements serializable
     }
 
     /**
-     * @return simpleModule
+     * @return string - module name
      */
     public function module()
     {

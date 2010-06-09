@@ -57,15 +57,6 @@ abstract class mapper
 
     public function __construct()
     {
-        foreach ($this->map as $key => $value) {
-            if (isset($value['options'])) {
-                if (in_array('pk', $value['options'])) {
-                    $this->pk = $key;
-                    break;
-                }
-            }
-        }
-
         if (is_null($this->db_alias)) {
             $this->db_alias = fDB::DEFAULT_CONFIG_NAME;
         }
@@ -74,13 +65,14 @@ abstract class mapper
             $this->class = $this->table;
         }
 
-
         systemToolkit::getInstance()->addMapperToStack($this->class, $this);
-        $this->relations = new relation($this);
 
         if (is_null($this->table_prefix)) {
             $this->table_prefix = $this->db()->getTablePrefix();
         }
+        
+        // Initialize mapper with map
+        $this->map($this->map);
     }
 
     /**
@@ -407,6 +399,19 @@ abstract class mapper
         if (!is_null($map)) {
             $old = $this->map;
             $this->map = $map;
+            
+            // Initialize mapper with new map
+            foreach ($this->map as $key => $value) {
+                if (isset($value['options'])) {
+                    if (in_array('pk', $value['options'])) {
+                        $this->pk = $key;
+                        break;
+                    }
+                }
+            }
+            
+            $this->relations = new relation($this);
+            
             return $old;
         }
 
