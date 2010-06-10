@@ -295,15 +295,12 @@ div.mzz-jip-window .mzz-jip-right {
 }
 
 .mzz-jip-wrapper {
+    margin: 34px 0px 20px 0px;
+    min-height: 70px;
+    padding: 1px;
+    position: relative;
+    overflow: hidden;
     background-color: #ffffff;
-    position: absolute;
-    top: 34px;
-    /*bottom: 19px;*/
-    left: 0;
-    overflow: auto;
-    padding: 5px;
-    right: 0;
-    /* border: 1px solid red;*/
 }
 
 .mzz-jip-title {
@@ -359,6 +356,7 @@ div.mzz-jip-window .mzz-jip-right {
 .mzz-jip-content {
     font-size: 13px;
     color: #000000;
+    padding: 0px 5px;
 }
 
 /**

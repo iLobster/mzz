@@ -83,13 +83,13 @@
                 
                 var nHeight = cHeight;
 
-                
-                if ((wHeight - 75 - cHeight) < 0) {
-                    nHeight = wHeight - 75;
+                if ((wHeight - 67 - cHeight) < 0) {
+                    nHeight = wHeight - 67;
                 }
 
-                t._dom.css({'top': (wHeight - nHeight - 63)/2, 'height': nHeight + 63}); //(wHeight - nHeight - 80)/2});
-                t._wrapper.css({'height': nHeight});
+                t._wrapper.height(nHeight);
+                t._wrapper.css('overflow', (nHeight != cHeight) ? 'auto' : 'hidden');
+                t._dom.css({'top': (wHeight - nHeight - 57)/2});
             }, 1);
 
         },
