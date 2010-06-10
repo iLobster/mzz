@@ -18,7 +18,7 @@
  * Style for content-locker
  */
 .mzz-content-locker {
-    background: #000; /* url('../images/jip/locker.gif');*/
+    background: #000;
     position: fixed;
     top: 0;
     left: 0;
@@ -46,7 +46,7 @@ img.jip {
 }
 
 div.mzz-jip-menu {
-    background: #ffffff; /*transparent url('../images/jip/menu-bg.png') repeat top left scroll;*/
+    background: #ffffff;
     display: none;
     left: 658px;
     margin-left: 1px;
@@ -97,7 +97,7 @@ div.mzz-jip-menu .mzz-jip-top, div.mzz-jip-menu .mzz-jip-bottom {
 }
 
 div.mzz-jip-menu .mzz-jip-top {
-    height: 17px;
+    height: 25px;
     top: -20px;
 }
 

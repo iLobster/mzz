@@ -141,7 +141,7 @@ ul.menuTree ul {
 }
 
 .menuHandler {
-    background: transparent url(../../images/jip/handle.png) repeat top center;
+    background: transparent url(../../images/menu/handle.png) repeat top center;
     width: 9px;
     height: 20px;
     float: left;
