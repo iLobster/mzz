@@ -41,9 +41,17 @@ class userFilter implements iFilter
 
         if (is_null($user_id)) {
             $userAuthMapper = $toolkit->getMapper('user', 'userAuth');
-            $hash = $request->getString(userAuthMapper::AUTH_COOKIE_NAME, SC_COOKIE);
-            $ip = $request->getServer('REMOTE_ADDR');
-            $userAuth = $userAuthMapper->getAuth($hash, $ip);
+            $auth_hash = $request->getString(userAuthMapper::AUTH_COOKIE_NAME, SC_COOKIE);
+
+            $userAuth = null;
+            if ($auth_hash) {
+                $ip = $request->getServer('REMOTE_ADDR');
+                $userAuth = $userAuthMapper->getAuth($auth_hash, $ip);
+
+                if (is_null($userAuth)) {
+                    $response->setCookie(userAuthMapper::AUTH_COOKIE_NAME, '', -1);
+                }
+            }
 
             // если пользователь сохранил авторизацию, тогда восстанавливаем её
             if (!is_null($userAuth)) {
