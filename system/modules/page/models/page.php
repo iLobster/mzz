@@ -19,7 +19,7 @@
  * @subpackage page
  * @version 0.1.4
  */
-class page extends entity implements iACL
+class page extends entity
 {
     public function getFullPath()
     {
@@ -27,9 +27,6 @@ class page extends entity implements iACL
         return substr($path, strpos($path, '/') + 1);
     }
 
-    public function getAcl($action)
-    {
-    }
 }
 
 ?>

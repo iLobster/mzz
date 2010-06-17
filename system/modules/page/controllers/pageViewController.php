@@ -28,12 +28,12 @@ class pageViewController extends simpleController
         if (!$name) {
             $name = $this->request->getString('id');
         }
-        $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
+        $pageMapper = $this->toolkit->getMapper('page', 'page');
 
-        $page = $pageFolderMapper->searchChild($name);
+        $page = $pageMapper->searchByName($name);
 
         if (empty($page)) {
-            return $this->forward404($pageFolderMapper);
+            return $this->forward404($pageMapper);
         }
 
         $this->view->assign('page', $page);

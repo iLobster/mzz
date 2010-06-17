@@ -23,7 +23,7 @@ fileLoader::load('modules/i18n/plugins/i18nPlugin');
  * @subpackage page
  * @version 0.2.1
  */
-class pageMapper extends mapper implements iACLMapper
+class pageMapper extends mapper
 {
     /**
      * Имя класса DataObject
@@ -127,38 +127,6 @@ class pageMapper extends mapper implements iACLMapper
         $criteria = new criteria();
         $criteria->where('name', $name)->where('folder_id', $folder_id);
         return $this->searchOneByCriteria($criteria);
-    }
-
-    public function convertArgsToObj(array $args)
-    {
-        if (isset($args['id'])) {
-            $page = $this->searchByKey($args['id']);
-        } elseif (isset($args['name']) && strpos($args['name'], '/') !== false) {
-            $toolkit = systemToolkit::getInstance();
-            $pageFolderMapper = $toolkit->getMapper('page', 'pageFolder');
-
-            $page_name = substr($args['name'], strrpos($args['name'], '/') + 1);
-            $path = substr($args['name'], 0, strrpos($args['name'], '/'));
-
-            $pageFolder = $pageFolderMapper->searchByPath($path);
-
-            if (empty($pageFolder)) {
-                throw new mzzDONotFoundException();
-            }
-
-            $page = $this->searchByNameInFolder($page_name, $pageFolder->getId());
-        }
-
-        if (!isset($page)) {
-            $name = isset($args['name']) ? $args['name'] : $args['id'];
-            $page = $this->searchByName($name);
-        }
-
-        if ($page) {
-            return $page;
-        }
-
-        throw new mzzDONotFoundException();
     }
 }
 

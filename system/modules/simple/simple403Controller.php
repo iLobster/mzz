@@ -21,7 +21,7 @@
  */
 class simple403Controller extends simpleController
 {
-    public function getView()
+    protected function getView()
     {
         $this->response->setStatus(403);
 
