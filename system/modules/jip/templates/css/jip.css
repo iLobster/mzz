@@ -151,6 +151,15 @@ div.mzz-jip-menu a {
     padding: 0 10px;
 }
 
+div.mzz-jip-menu a.withlang {
+    background: url("../images/jip/common.png") no-repeat scroll right -99px transparent;
+    padding-right: 16px;
+}
+
+div.mzz-jip-menu li.active a.withlang {
+    background-position: right -116px;
+}
+
 div.mzz-jip-menu a img.mzz-icon {
     vertical-align: top;
     margin-right: 10px;
