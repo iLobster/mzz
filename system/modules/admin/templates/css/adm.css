@@ -364,18 +364,18 @@ body {
     width: 100%;
 }
 
-#adminPage table thead .center th,
-#adminPage table tbody .center td {
+#adminPage table .center,
+#adminPage table .center * {
     text-align: center;
 }
 
-#adminPage table thead th.left,
-#adminPage table tbody td.left {
+#adminPage table .left,
+#adminPage table .left * {
     text-align: left;
 }
 
-#adminPage table thead th.right,
-#adminPage table tbody td.right {
+#adminPage table .right,
+#adminPage table .right * {
     text-align: right;
 }
 
