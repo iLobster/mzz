@@ -16,7 +16,7 @@
                 var mRow = $('<table id="module-' + name + '" class="toolbar admin" cellspacing="0" />')
                              .append($('<thead />')
                              .append($('<tr class="first" />')
-                             .append($('<th class="first name" />').append('<img src="' + SITE_PATH + '/images/exp_minus.png" onclick="devToolbar.toggleModule(\'' + name + '\', this);" width="16" height="16" alt="expand/close classes list" title="expand/collapse classes" style="cursor: pointer" />').append(name + ' <sup style="color: #CCCCCC">disabled</sup>'))
+                             .append($('<th class="first name" />').append('<img src="' + SITE_PATH + '/images/exp_minus.png" class="expandClose" onclick="devToolbar.toggleModule(\'' + name + '\', this);" width="16" height="16" alt="expand/close classes list" title="expand/collapse classes" style="cursor: pointer" />').append(name + ' <sup style="color: #CCCCCC">disabled</sup>'))
                              .append($('<th class="last right" />').append(this.convertLinks(links)))))
                              .append('<tbody id="module-' + name + '-classes"><tr class="row last empty"><td class="first" colspan="2">--- классов нет ---</td></tr></tbody>');
 
