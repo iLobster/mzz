@@ -25,12 +25,26 @@ class adminDevToolbarController extends simpleController
     {
         $adminMapper = $this->toolkit->getMapper('admin', 'admin');
 
-        $modules = $adminMapper->getModules();
+        $mods = $adminMapper->getModules();
 
         $hiddenClasses = array_flip(explode(',', $this->request->getString('mzz-devToolbarH', SC_COOKIE)));
 
-        $this->view->assign('modules', $modules);
         $this->view->assign('hiddenClasses', $hiddenClasses);
+
+        $modules = array('app' => array(), 'sys' => array());
+        
+        foreach ($mods as $module) {
+           if ($module->isSystem()) {
+               $modules['sys'][$module->getName()] = $module;
+           } else {
+                $modules['app'][$module->getName()] = $module;
+           }
+        }
+
+        ksort($modules['sys']);
+        ksort($modules['app']);
+
+         $this->view->assign('modules',  $modules);
         return $this->render('admin/devToolbar.tpl');
     }
 }

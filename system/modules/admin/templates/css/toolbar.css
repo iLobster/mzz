@@ -1,9 +1,16 @@
+div.toolbarBlockWrap {
+    width: 50%;
+     float: left;
+}
+
 div.toolbarBlock {
-    float: left;
-    width: 30%;
     margin: 10px;
 }
 
+div.toolbarBlock img.expandClose {
+     cursor: pointer;
+     vertical-align: middle;
+}
 #aclObjects .first {
     width: 50px;
     text-align: center;

@@ -5,7 +5,7 @@
     devToolbar = {
         addModule: function(name, links)
         {
-            var modules = $('#modulesAndClasses');
+            var modules = $('#modulesApp');
 
             if (modules.length > 0) {
                 var elms = modules.find('table');
@@ -17,17 +17,16 @@
                              .append($('<thead />')
                              .append($('<tr class="first" />')
                              .append($('<th class="first name" />').append('<img src="' + SITE_PATH + '/images/exp_minus.png" onclick="devToolbar.toggleModule(\'' + name + '\', this);" width="16" height="16" alt="expand/close classes list" title="expand/collapse classes" style="cursor: pointer" />').append(name))
-                             .append($('<th class="actions last" />').append(this.convertLinks(links)))))
-                             .append('<tbody id="module-' + name + '-classes"><tr class="row last empty"><td class="first">--- классов нет ---</td><td class="last"></td></tr></tbody>');
+                             .append($('<th class="last right" />').append(this.convertLinks(links)))))
+                             .append('<tbody id="module-' + name + '-classes"><tr class="row last empty"><td class="first" colspan="2">--- классов нет ---</td></tr></tbody>');
 
                 if (neighbour) {
                     mRow.insertBefore(neighbour);
                 } else {
                     mRow.appendTo(modules);
                 }
-
             } else {
-                console.log('devToolbar::addModule #modulesAndClasses not found');
+                console.log('devToolbar::addModule #modulesApp not found');
             }
         },
 
@@ -41,7 +40,7 @@
 
                 var cRow = $('<tr id="class-' + name + '" class="" />')
                             .append('<td class="first name">' + name + '</td>')
-                            .append($('<td class="last actions" />').append(this.convertLinks(links)));
+                            .append($('<td class="last right" />').append(this.convertLinks(links)));
 
                 if (neighbour) {
                     cRow.insertBefore(neighbour);
@@ -77,7 +76,7 @@
 
         convertLinks: function(links, target) {
            $.each(links, function(e) {
-               links[e] = '<a href="' + this.url + '" class="mzz-jip-link" title="' + this.alt + '"><span class="mzz-icon mzz-icon-' + this.ico + '">' + ((this.over) ? '<span class="mzz-bullet mzz-bullet-' + this.over + '">'  : '') + ((this.over) ? '</span>' : '') + '</span></a>';
+               links[e] = '<a href="' + this.url + '" class="mzz-jip-link" title="' + this.alt + '"><img height="16" width="16" alt="" class="mzz-icon mzz-icon-admin mzz-icon-admin-' + this.ico + '" src="/images/spacer.gif"></a>';
            });
            return $(links.join("\n"));
         },
