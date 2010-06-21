@@ -28,11 +28,6 @@ table.toolbar {
     margin-bottom: 5px;
 }
 
-table.toolbar .actions {
-    text-align: right;
-    line-height: 0px;
-}
-
 table.toolbar .empty {
     text-align: center;
     font-size: 0.9em;
