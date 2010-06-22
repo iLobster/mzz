@@ -214,8 +214,7 @@ class simpleConfig
     protected function merge()
     {
         $defaults = $this->getDefaults();
-        $keys = $this->data;
-        foreach ($keys as $key) {
+        foreach (array_keys($this->data) as $key) {
             if (!isset($defaults[$key])) {
                 unset($this->data[$key]);
             }
