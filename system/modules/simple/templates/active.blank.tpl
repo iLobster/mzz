@@ -1,1 +1,0 @@
-{load module=$module action=$action}

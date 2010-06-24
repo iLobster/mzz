@@ -41,7 +41,7 @@ class contentFilter implements iFilter
 
         $module_name = $request->getModule();
         $action_name = $request->getAction();
-
+        
         $request->setRequestedParams($params);
 
         //нам еще нужны эти активные шаблоны?
@@ -99,7 +99,7 @@ class contentFilter implements iFilter
                         break;
 
                     default:
-                        $driver_active_template = 'template/drivers/' . systemConfig::$mainTemplateDriver . '/templates/' . $active_template;
+                        $driver_active_template = $active_template;
                         $view->assign('content', $output);
                         $output = $view->render($driver_active_template, systemConfig::$mainTemplateDriver);
                         break;
