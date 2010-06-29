@@ -126,7 +126,7 @@ class view
 
     /**
      * Runs plugin
-     * 
+     *
      * @param string $name plugin name
      * @param array $params to pass
      * @return mixed whatever plugin returns
@@ -149,7 +149,19 @@ class view
 
     public function getVariable($variable)
     {
-        return (isset($this->vars[$variable])) ? $this->vars[$variable] : null;
+        if ($bracket = strpos($variable, '[')) {
+            $indexName = substr($variable, $bracket);
+            $name = substr($variable, 0, $bracket);
+            if (array_key_exists($name, $this->vars)) {
+                $result = $this->vars[$name];
+            } else {
+                return null;
+            }
+
+            return arrayDataspace::extractFromArray($indexName, $result);
+        }
+
+        return (array_key_exists($variable, $this->vars)) ? $this->vars[$variable] : null;
     }
 
     public function &export()
