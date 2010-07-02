@@ -441,7 +441,7 @@ class requestRoute implements iRoute
 
         $url = $prepend . implode('', $url);
 
-        return trim($url, $this->part_delimiter);
+        return trim($url, $this->part_delimiter) . ($break == 1 && $this->withLang ? $this->part_delimiter : '');
     }
 
     protected function assemblePrepends($values)
