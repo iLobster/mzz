@@ -166,7 +166,7 @@ class core
 
     protected function check()
     {
-        if (!file_exists(systemConfig::$pathToTemp . '/checked') || filemtime(systemConfig::$pathToTemp . '/checked') <= filemtime(systemConfig::$pathToSystem . '/check.php')) {
+        if (!file_exists(systemConfig::$pathToTemp . '/checked')) {
             $allModules = glob(systemConfig::$pathToSystem . '/modules/*');
             $appModules = glob(systemConfig::$pathToApplication . '/modules/*');
 

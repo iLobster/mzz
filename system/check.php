@@ -80,9 +80,7 @@ if (!is_writable(systemConfig::$pathToTemp . '/sessions')) {
     $errors[] = 'Directory "' . systemConfig::$pathToTemp . '/sessions" <font color="red"><b>is not writable</b></font>';
 }
 
-if (empty($errors)) {
-    file_put_contents(systemConfig::$pathToTemp . '/checked', 'превед!');
-} else {
+if (!empty($errors)) {
     exit('<span style="font-size: 120%; font-weight: bold;">mzz не может быть запущен по причине:</span><br />' . implode('<br />', $errors));
 }
 
