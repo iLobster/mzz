@@ -181,6 +181,8 @@ class externalApplication extends core
 
         return $etag;
     }
+
+    protected function check(){}
 }
 
 $application = new externalApplication();

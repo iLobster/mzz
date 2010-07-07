@@ -1,4 +1,5 @@
 <?php
+
 /**
  * $URL$
  *
@@ -23,6 +24,7 @@
  */
 class core
 {
+
     /**
      * Тулкит
      *
@@ -44,6 +46,8 @@ class core
 
             $this->composeToolkit();
             fileLoader::load('i18n/charset/utf8Wrapper');
+
+            $this->check();
 
             $this->handle();
         } catch (Exception $e) {
@@ -78,6 +82,7 @@ class core
      */
     protected function preprocess()
     {
+
     }
 
     /**
@@ -158,6 +163,42 @@ class core
         $filter_chain->registerFilter(new contentFilter());
         return $filter_chain;
     }
-}
 
+    protected function check()
+    {
+        if (!file_exists(systemConfig::$pathToTemp . '/checked') || filemtime(systemConfig::$pathToTemp . '/checked') <= filemtime(systemConfig::$pathToSystem . '/check.php')) {
+            $allModules = glob(systemConfig::$pathToSystem . '/modules/*');
+            $appModules = glob(systemConfig::$pathToApplication . '/modules/*');
+
+            if (is_array($appModules)) {
+                $allModules = array_merge($allModules, $appModules);
+            }
+
+            $modules = array();
+            $errors = array();
+            foreach ($allModules as $modulePath) {
+                $module = substr(strrchr($modulePath, '/'), 1);
+                if (!in_array($module, array(
+                            'i18n',
+                            'jip',
+                            'pager',
+                            'simple',
+                            'timer'))) {
+                    $module = $this->toolkit->getModule($module);
+
+                    if ($module && $module->isEnabled()) {
+                        $errors = array_merge($errors, $module->checkRequirements());
+                    }
+                }
+            }
+
+            if (empty($errors)) {
+                file_put_contents(systemConfig::$pathToTemp . '/checked', 'превед!');
+            } else {
+                exit('<span style="font-size: 120%; font-weight: bold;">mzz не может быть запущен по причине:</span><br />' . implode('<br />', $errors));
+            }
+        }
+    }
+
+}
 ?>
