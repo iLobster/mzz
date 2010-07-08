@@ -166,7 +166,10 @@ class systemConfig
     {
         self::$pathToSystem = dirname(__FILE__);
         self::$pathToApplication = realpath(self::$pathToApplication);
-
+        self::$pathToWebRoot = realpath(self::$pathToWebRoot);
+        self::$pathToTemp = realpath(self::$pathToTemp);
+        self::$pathToConfigs = realpath(self::$pathToConfigs);
+        
         if (!isset(self::$cache['fast'])) {
             self::$cache['fast'] = array(
                 'backend' => 'file',

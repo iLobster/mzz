@@ -37,7 +37,7 @@ class adminConfigController extends simpleController
                 return jipTools::refresh();
             }
 
-            $data = $config->export();
+            $data = $config->exportRaw();
             
             $url = new url('adminModule');
             $url->add('name', $module_name);
