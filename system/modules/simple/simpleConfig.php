@@ -319,7 +319,7 @@ class simpleConfig
      */
     public function replace($data)
     {
-        return (is_scalar($data)) ? $str_replace($this->search, $this->replace, $data) : $data;
+        return (is_scalar($data)) ? str_replace($this->search, $this->replace, $data) : $data;
     }
 
 }
