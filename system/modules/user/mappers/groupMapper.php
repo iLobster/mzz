@@ -66,9 +66,9 @@ class groupMapper extends mapper
             'accessor' => 'getIsDefault',
             'mutator' => 'setIsDefault'));
 
-    public function __construct()
+    public function __construct($module)
     {
-        parent::__construct();
+        parent::__construct($module);
         $this->plugins('jip');
     }
 

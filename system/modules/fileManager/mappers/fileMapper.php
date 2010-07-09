@@ -90,9 +90,9 @@ class fileMapper extends mapper
         )
     );
 
-    public function __construct()
+    public function __construct($module)
     {
-        parent::__construct();
+        parent::__construct($module);
         $this->plugins('fileExtra');
         $this->plugins('jip');
     }

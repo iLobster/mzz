@@ -82,9 +82,9 @@ class pageMapper extends mapper
             'accessor' => 'isDescriptionReset',
             'mutator' => 'setDescriptionReset'));
 
-    public function __construct()
+    public function __construct($module)
     {
-        parent::__construct();
+        parent::__construct($module);
         $this->plugins('i18n');
         $this->plugins('jip');
     }

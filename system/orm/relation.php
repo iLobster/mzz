@@ -24,9 +24,11 @@ class relation
     private $map;
     private $table;
     private $relations;
+    private $mapper;
 
     public function __construct($mapper)
     {
+        $this->mapper = $mapper;
         $this->table = $mapper->table();
         $this->map = $mapper->map();
 
@@ -47,9 +49,9 @@ class relation
             //$changed = true;
         }
 
-        /*if ($changed) {
-            $mapper->map($this->map);
-        }*/
+        /* if ($changed) {
+          $mapper->map($this->map);
+          } */
     }
 
     public function oneToOne()
@@ -151,8 +153,7 @@ class relation
         }
 
         list ($module, $do) = explode('/', $mapperName);
-
-        return systemToolkit::getInstance()->getMapper($module, $do);
+        return ($module === $this->mapper->getModule() && $do === $this->mapper->getClass()) ? $this->mapper : systemToolkit::getInstance()->getMapper($module, $do);
     }
 
     public function load($field, $data, $mapper)
@@ -269,6 +270,6 @@ class relation
             $val['mapper']->db()->query($delete->toString());
         }
     }
-}
 
+}
 ?>

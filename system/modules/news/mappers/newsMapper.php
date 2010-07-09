@@ -92,9 +92,9 @@ class newsMapper extends mapper
         ),
     );
 
-    public function __construct()
+    public function __construct($module)
     {
-        parent::__construct();
+        parent::__construct($module);
         $this->plugins('jip');
         $this->plugins('i18n');
         $this->plugins('comments');

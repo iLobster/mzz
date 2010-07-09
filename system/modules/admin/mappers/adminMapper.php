@@ -23,12 +23,13 @@ fileLoader::load('admin/models/admin');
  */
 class adminMapper extends mapper
 {
+
     public function getModules()
     {
         $toolkit = systemToolkit::getInstance();
 
-        $allModules = glob(systemConfig::$pathToSystem . '/modules/*');
-        $appModules = glob(systemConfig::$pathToApplication . '/modules/*');
+        $allModules = glob(systemConfig::$pathToSystem . '/modules/*', GLOB_ONLYDIR);
+        $appModules = glob(systemConfig::$pathToApplication . '/modules/*', GLOB_ONLYDIR);
 
         if (is_array($appModules)) {
             $allModules = array_merge($allModules, $appModules);
@@ -39,17 +40,17 @@ class adminMapper extends mapper
             $module = substr(strrchr($module, '/'), 1);
             // @todo: remove it and make specified modules as regular (with foobarModule class)
             if (!in_array($module, array(
-                'i18n',
-                'jip',
-                'pager',
-                'simple',
-                'timer'))) {
+                        'i18n',
+                        'jip',
+                        'pager',
+                        'simple',
+                        'timer'))) {
                 $modules[$module] = $toolkit->getModule($module);
             }
         }
 
         return $modules;
     }
-}
 
+}
 ?>

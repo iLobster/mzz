@@ -53,9 +53,9 @@ class pageFolderMapper extends mapper
         ),
     );
 
-    public function __construct()
+    public function __construct($module)
     {
-        parent::__construct();
+        parent::__construct($module);
         $this->attach(new tree_mpPlugin(array('path_name' => 'name')), 'tree');
         $this->plugins('jip');
     }

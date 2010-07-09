@@ -79,9 +79,9 @@ class userRoleMapper extends mapper
 
     protected $roles_group = array();
 
-    public function __construct($user = null)
+    public function __construct($module, $user = null)
     {
-        parent::__construct();
+        parent::__construct($module);
 
         if (is_null($user)) {
             $user = systemToolkit::getInstance()->getUser();

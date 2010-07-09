@@ -55,8 +55,15 @@ abstract class mapper
     protected $table;
     protected $table_prefix = null;
 
-    public function __construct()
+    /**
+     * Constructor
+     *
+     * @param string $module name
+     */
+    public function __construct($module)
     {
+        $this->setModule($module);
+        
         if (is_null($this->db_alias)) {
             $this->db_alias = fDB::DEFAULT_CONFIG_NAME;
         }

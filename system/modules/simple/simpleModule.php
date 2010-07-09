@@ -133,10 +133,7 @@ abstract class simpleModule
                 $mapperName = $projectMapperName;
             } catch (mzzIoException $e) {}
 
-            $mapperClass = new $mapperName();
-            //@todo: вероятно, это лучше передавать через конструктор
-            $mapperClass->setModule($this->getName());
-            $this->mappers[$className] = $mapperClass;
+            $this->mappers[$className] = new $mapperName($this->getName());
         }
 
         return $this->mappers[$className];

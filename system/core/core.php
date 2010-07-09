@@ -164,11 +164,15 @@ class core
         return $filter_chain;
     }
 
+    /**
+     *  Check for module requirements
+     *
+     */
     protected function check()
     {
         if (!file_exists(systemConfig::$pathToTemp . '/checked')) {
-            $allModules = glob(systemConfig::$pathToSystem . '/modules/*');
-            $appModules = glob(systemConfig::$pathToApplication . '/modules/*');
+            $allModules = glob(systemConfig::$pathToSystem . '/modules/*', GLOB_ONLYDIR);
+            $appModules = glob(systemConfig::$pathToApplication . '/modules/*', GLOB_ONLYDIR);
 
             if (is_array($appModules)) {
                 $allModules = array_merge($allModules, $appModules);
