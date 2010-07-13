@@ -333,6 +333,8 @@ abstract class simpleModule
      */
     public function getConfig()
     {
+        throw new mzzRuntimeException('deprecated, use stdToolkit::getConfig($module_name)');
+        
         if (!$this->config) {
             $this->config = new simpleConfig($this->getName(), $this->getVersion());
         }

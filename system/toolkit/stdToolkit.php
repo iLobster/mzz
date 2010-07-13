@@ -30,7 +30,7 @@ class stdToolkit extends toolkit
     private $response;
     private $session;
     private $router;
-    private $config;
+    private $configs;
     private $timer;
     private $user;
     private $objectIdGenerator;
@@ -435,7 +435,10 @@ class stdToolkit extends toolkit
      * @return simpleConfig
      */
     public function getConfig($moduleName) {
-        return $this->getModule($moduleName)->getConfig();
+        if (!isset($this->configs[$moduleName])) {
+            $this->configs[$moduleName] = new simpleConfig($moduleName);
+        }
+        return $this->configs[$moduleName];
     }
 }
 ?>

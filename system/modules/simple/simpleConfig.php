@@ -16,7 +16,6 @@ class simpleConfig
 {
 
     protected $moduleName = null;
-    protected $moduleVersion = null;
     protected $configFile = false;
     protected $defaultFile = false;
     protected $data = array();
@@ -32,10 +31,9 @@ class simpleConfig
      * 
      * @param string $config file name
      */
-    public function __construct($moduleName, $moduleVersion)
+    public function __construct($moduleName)
     {
         $this->moduleName = $moduleName;
-        $this->moduleVersion = $moduleVersion;
         $this->configFile = systemConfig::$pathToConfigs . DIRECTORY_SEPARATOR . $this->moduleName . '.php';
         $this->defaultFile = fileLoader::resolve($this->moduleName . '/defaultConfig');
         $this->replace = array(systemConfig::$pathToApplication, systemConfig::$pathToWebRoot, systemConfig::$pathToTemp, systemConfig::$pathToConfigs, SITE_PATH, SYSTEM_PATH, DIRECTORY_SEPARATOR);
@@ -49,10 +47,6 @@ class simpleConfig
      */
     public function set($key, $val)
     {
-        if ($key == '__version__') {
-            throw new mzzInvalidParameterException("restricted key name '__version__'");
-        }
-
         if (!is_scalar($key)) {
             throw new mzzInvalidParameterException("Key is not scalar", $key);
         }
@@ -202,7 +196,6 @@ class simpleConfig
             if ((is_file($this->configFile) && is_writable($this->configFile)) ||
                     (!file_exists($this->configFile) && is_writable(systemConfig::$pathToTemp))) {
                 $data = $this->data;
-                $data['__version__'] = $this->moduleVersion;
                 file_put_contents($this->configFile, "<?php \n return " . var_export($data, true) . ";\n ?>");
                 $this->isChanged = false;
                 return true;
@@ -225,11 +218,9 @@ class simpleConfig
 
                     $this->data = $data;
 
-                    if (!isset($data['__version__']) || !version_compare($data['__version__'], $this->moduleVersion, '==')) {
+                    if (filemtime($this->defaultFile) > filemtime($this->configFile)) {
                         $this->merge();
                     }
-
-                    unset($this->data['__version__']);
 
                     $this->isLoaded = true;
                     $this->isChanged = false;
