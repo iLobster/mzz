@@ -63,7 +63,7 @@ abstract class mapper
     public function __construct($module)
     {
         $this->setModule($module);
-        
+
         if (is_null($this->db_alias)) {
             $this->db_alias = fDB::DEFAULT_CONFIG_NAME;
         }
@@ -77,7 +77,7 @@ abstract class mapper
         if (is_null($this->table_prefix)) {
             $this->table_prefix = $this->db()->getTablePrefix();
         }
-        
+
         // Initialize mapper with map
         $this->map($this->map);
     }
@@ -406,7 +406,7 @@ abstract class mapper
         if (!is_null($map)) {
             $old = $this->map;
             $this->map = $map;
-            
+
             // Initialize mapper with new map
             foreach ($this->map as $key => $value) {
                 if (isset($value['options'])) {
@@ -416,9 +416,9 @@ abstract class mapper
                     }
                 }
             }
-            
+
             $this->relations = new relation($this);
-            
+
             return $old;
         }
 

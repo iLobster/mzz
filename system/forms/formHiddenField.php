@@ -29,6 +29,12 @@ class formHiddenField extends formElement
 
     public function render($attributes = array(), $value = null)
     {
+        $clearValue = (isset($attributes['restore']) && $attributes['restore'] == false);
+
+        if (isset($attributes['name']) && !$clearValue && !self::isFreeze($attributes)) {
+            $attributes['value'] = $value;
+        }
+
         return $this->renderTag('input', $attributes);
     }
 }
