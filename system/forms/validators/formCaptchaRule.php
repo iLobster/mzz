@@ -30,7 +30,6 @@ class formCaptchaRule extends formAbstractRule
             $session = $toolkit->getSession();
 
             $captchas = $session->get('mzz_captcha', array());
-
             if (isset($captchas[$captcha_id])) {
                 $captchaValue = $captchas[$captcha_id];
                 unset($captchas[$captcha_id]);

@@ -25,6 +25,11 @@ class captchaViewController extends simpleController
 {
     public function getView()
     {
+        if (isset($_GET['dump'])) {
+            var_dump($_SESSION);
+            exit;
+        }
+
         $captcha_id = $this->request->getString('rand', SC_GET);
 
         if ($captcha_id && strlen($captcha_id) == 32) {
