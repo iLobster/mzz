@@ -100,7 +100,7 @@ class url
 
         $path = $this->route->assemble($params, $encodeUrl);
         if ($encodeUrl) {
-            $path = str_replace('%2F', '/', urlencode($path)); 
+            $path = str_replace('%2F', '/', urlencode($path));
         }
 
         if (sizeof($this->getParams)) {

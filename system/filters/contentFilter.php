@@ -41,7 +41,7 @@ class contentFilter implements iFilter
 
         $module_name = $request->getModule();
         $action_name = $request->getAction();
-        
+
         $request->setRequestedParams($params);
 
         //нам еще нужны эти активные шаблоны?
@@ -52,6 +52,7 @@ class contentFilter implements iFilter
             $response->append($output);
 
             $filter_chain->next();
+            return;
         }
 
         try {
