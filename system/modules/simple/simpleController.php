@@ -195,24 +195,26 @@ abstract class simpleController
      */
     public function run()
     {
-        $confirm = $this->getAction()->getConfirm();
-        $confirmCode = $this->request->getString('_confirm', SC_GET);
-        $session = $this->toolkit->getSession();
-
-        if (!empty($confirm) && (empty($confirmCode) || $confirmCode != $session->get('confirm_code'))) {
-            $view = $this->getConfirmView($confirm);
+        if ($this->getAction()) {
+            $confirm = $this->getAction()->getConfirm();
+            $confirmCode = $this->request->getString('_confirm', SC_GET);
+            $session = $this->toolkit->getSession();
+    
+            if (!empty($confirm) && (empty($confirmCode) || $confirmCode != $session->get('confirm_code'))) {
+                $view = $this->getConfirmView($confirm);
+            }
+            
+            if ($this->getAction()->isJip() && $this->request->isJip()) {
+                //$this->view->setActiveTemplate('main.xml.tpl');
+                $this->response->setHeader('Content-Type', 'text/xml');
+            }
         }
 
-        if (empty($view)) {
-            $view = $this->getView();
+        if (!empty($view)) {
+            return $view;
         }
 
-        if ($this->getAction()->isJip() && $this->request->isJip()) {
-            //$this->view->setActiveTemplate('main.xml.tpl');
-            $this->response->setHeader('Content-Type', 'text/xml');
-        }
-
-        return $view;
+        return $this->getView();
     }
 
     /**
