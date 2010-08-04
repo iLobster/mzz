@@ -248,7 +248,7 @@ class Smarty_Internal_TemplateBase {
 
         $val = $this->smarty->getVariable($variable);
 
-        if ($val) {
+        if ($val !== null) {
             return new Smarty_Variable($val);
         }
         
