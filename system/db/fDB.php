@@ -64,18 +64,27 @@ class fDB
 
             $dbType = strtolower(substr($dsn, 0, strpos($dsn, ':')));
 
-            //@todo: хак для php5.3, в котором забыли положить PDO::MYSQL_ATTR_INIT_COMMAND
-            $version_compare = version_compare(PHP_VERSION, '5.3.0');
-            if ($version_compare !== 0 && $charset && $dbType == 'mysql') {
-                $options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES `' . $charset . '`';
+            $init_query = null;
+
+            if (isset($options['init_query'])) {
+                $init_query = $options['init_query'];
+                unset($options['init_query']);
+            }
+
+            if ($dbType == 'mysql') {
+                //@todo: хак для php5.3, в котором забыли положить PDO::MYSQL_ATTR_INIT_COMMAND
+                $version_compare = version_compare(PHP_VERSION, '5.3.0');
+                if ($init_query && $version_compare !== 0) {
+                    $options[PDO::MYSQL_ATTR_INIT_COMMAND] = $init_query;
+                    $init_query = null;
+                }
             }
 
             self::$instances[$alias] = new $driver($dsn, $username, $password, $options);
             self::$instances[$alias]->setTablePrefix($tablePrefix);
 
-            //@todo: хак для php5.3, в котором забыли положить PDO::MYSQL_ATTR_INIT_COMMAND
-            if ($version_compare === 0 && $charset && $dbType == 'mysql') {
-                self::$instances[$alias]->query('SET NAMES `' . $charset . '`');
+            if ($init_query) {
+                self::$instances[$alias]->query($init_query);
             }
 
             if (in_array($dbType, array('mssql', 'dblib'))) {

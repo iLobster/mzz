@@ -112,7 +112,7 @@ class httpRequest implements iRequest
      * @var string
      */
     protected $requestedParams = null;
-    
+
     protected $forwarded = null;
 
     /**

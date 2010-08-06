@@ -264,26 +264,28 @@ abstract class mapper
             $object = $this->searchByKey($object);
         }
 
-        $this->notify('preDelete', $object);
+        if ($object) {
+            $this->notify('preDelete', $object);
 
-        $criteria = new criteria($this->table());
-        $accessor = $this->map[$this->pk]['accessor'];
-        $criteria->where($this->pk, $object->$accessor());
+            $criteria = new criteria($this->table());
+            $accessor = $this->map[$this->pk]['accessor'];
+            $criteria->where($this->pk, $object->$accessor());
 
-        if (!$this->notify('preSqlDelete', $criteria)) {
-            $this->relations->delete($object);
+            if (!$this->notify('preSqlDelete', $criteria)) {
+                $this->relations->delete($object);
 
-            $delete = new simpleDelete($criteria);
-            $this->db()->query($delete->toString());
+                $delete = new simpleDelete($criteria);
+                $this->db()->query($delete->toString());
 
-            $tmp = array(
-                $this->pk() => null);
-            $object->merge($tmp);
+                $tmp = array(
+                    $this->pk() => null);
+                $object->merge($tmp);
+            }
+
+            $object->state(entity::STATE_NEW);
+
+            $this->notify('postDelete', $object);
         }
-
-        $object->state(entity::STATE_NEW);
-
-        $this->notify('postDelete', $object);
     }
 
     public function plugin($name)

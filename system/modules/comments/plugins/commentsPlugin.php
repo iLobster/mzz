@@ -31,7 +31,7 @@ class commentsPlugin extends observer
     }
     */
 
-    public function preDelete(entity $object)
+    public function preDelete($object)
     {
         $toolkit = systemToolkit::getInstance();
         $commentsFolderMapper = $toolkit->getMapper('comments', 'commentsFolder');
