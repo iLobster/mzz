@@ -188,15 +188,12 @@ img.mzz-window-button {
     visibility: hidden;
 }
 
-.mzz-jip-window * {
-    font-family: Arial,sans-serif;
+.mzz-jip-window {
+	font-family: Arial,sans-serif;
     color: #000000;
     font-size: 13px;
     font-weight: normal;
     text-transform: none;
-}
-
-.mzz-jip-window {
     position: fixed;
     left: 50%;
     margin-left: -375px;
