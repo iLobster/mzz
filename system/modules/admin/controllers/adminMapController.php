@@ -58,7 +58,6 @@ class adminMapController extends simpleController
 
         $this->filterFakeFields($delete);
         $this->filterRelatedFields($delete, $mapper);
-        $this->filterFakeFields($map);
 
         $add = $adminGeneratorMapper->mapFieldsFormatter($add);
 
