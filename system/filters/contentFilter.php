@@ -109,13 +109,10 @@ class contentFilter implements iFilter
 
             //$output = $this->runActiveTemplate($request, $toolkit, $view);
         } catch (mzzException $e) {
-            if (DEBUG_MODE) {
-                throw $e;
-            }
-
-            fileLoader::load('simple/simple404Controller');
-            $controller = new simple404Controller();
-            $output = $controller->run();
+            //@moved to external handler for simple rewriting
+            fileLoader::load('simple/contentFilterExceptionHandler');
+            $handler = new contentFilterExceptionHandler();
+            $output = $handler->handle($e);
         }
 
         $response->append($output);
