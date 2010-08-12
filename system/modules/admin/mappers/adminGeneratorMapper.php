@@ -427,7 +427,7 @@ class adminGeneratorMapper extends mapper
         foreach ($this->db()->getAll('SHOW COLUMNS FROM `' . $table . '`') as $field) {
             $key = $field['Field'];
 
-            if (preg_match('/^([^(]+)(?:\((\d+)\)\s?(.*))?$/', $field['Type'], $matches)) {
+            if (preg_match('/^([^(]+)(?:\(([^)]+)\)\s?(.*))?$/', $field['Type'], $matches)) {
                 $result[$key] = array(
                     'accessor' => '',
                     'mutator' => '',
