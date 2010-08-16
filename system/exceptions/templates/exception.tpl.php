@@ -75,7 +75,7 @@ function _showAllTrace() {
     if ($debug_mode) {
     ?>
         <p class="exceptionMessage">
-           <strong><?php echo $exception->getName(); ?>:<br />
+           <strong><?php echo (method_exists($exception, 'getName')) ? $exception->getName() : '<i>Unknown name</i>'; ?>:<br />
                 <?php
                 if ($exception->getCode() != 0) {
                     echo "[Code: " . $exception->getCode() . "] ";
