@@ -62,6 +62,17 @@ var Cookie = {
         return typeof object == "undefined";
     };
 
+    // Tries to execute a number of functions. Returns immediately the return value of the
+    // first non-failed function without executing successive functions, or null.
+    $.Try = function(){
+        for (var i = 0, l = arguments.length; i < l; i++){
+            try {
+                return arguments[i]();
+            } catch(e){}
+        }
+        return null;
+    };
+
     Array.prototype.remove = function(from, to) {
       var rest = this.slice((to || from) + 1 || this.length);
       this.length = from < 0 ? this.length + from : from;
@@ -86,46 +97,87 @@ var Cookie = {
             });
         }
     }
-    
-    MZZ.browser = DUI.Class.create({
 
-      init: function() {
-            this.msie = false;
-            this.ie6 = false;
-            this.ie7 = false;
-            this.ie8 = false;
-            this.opera = false;
-            this.webkit = false;
-            this.konqueror = false;
-            this.chrome = false;
-            this.safari = false;
-            this.gecko = false;
-            this.ff = false;
+    // Browser detection, taken from mootools # http://mootools.net/docs/core/Core/Browser
 
-            this.userAgent = navigator.userAgent.toLowerCase();
+    MZZ.Browser = {
+        Engine: {name: 'unknown', version: 0},
 
-            if (false /*@cc_on || @_jscript_version < 5.7 @*/) {
-                this.msie = this.ie6 = true;
-            } else if (false /*@cc_on || @_jscript_version == 5.7 @*/) {
-                this.msie = this.ie7 = true;
-            } else if (false /*@cc_on || @_jscript_version > 5.7 @*/) {
-                this.msie = this.ie8 = true;
-            } else if (!!window.opera) {
-                this.opera = true;
-            } else if (document.childNodes && ( !document.all || navigator.accentColorName ) && !navigator.taintEnabled) {
-                this.webkit = true;
-                this.konqueror = (navigator.vendor == 'KDE');
-                this.chrome = /chrome/.test( this.userAgent );
-                this.safari = !this.chrome && /safari/.test( this.userAgent );
-            } else if (navigator.product == 'Gecko' && !navigator.savePreferences) {
-                this.gecko = true;
-                this.ff = /firefox/.test( this.userAgent );
+        Platform: {name: (window.orientation != undefined) ? 'ipod' : (navigator.platform.match(/mac|win|linux/i) || ['other'])[0].toLowerCase()},
+
+        Features: {xpath: !!(document.evaluate), air: !!(window.runtime), query: !!(document.querySelector)},
+
+        Engines: {
+
+            presto: function(){
+                return (!window.opera) ? false : ((arguments.callee.caller) ? 960 : ((document.getElementsByClassName) ? 950 : 925));
+            },
+
+            trident: function(){
+                return (!window.ActiveXObject) ? false : ((window.XMLHttpRequest) ? ((document.querySelectorAll) ? 6 : 5) : 4);
+            },
+
+            webkit: function(){
+                return (navigator.taintEnabled) ? false : ((MZZ.Browser.Features.xpath) ? ((MZZ.Browser.Features.query) ? 525 : 420) : 419);
+            },
+
+            gecko: function(){
+                return (!document.getBoxObjectFor && window.mozInnerScreenX == null) ? false : ((document.getElementsByClassName) ? 19 : 18);
             }
-      }
 
-    });
+        },
 
-    MZZ.browser = new MZZ.browser;
+        Plugins: {},
+
+        _detect: function(){
+
+            for (var engine in this.Engines){
+                var version = this.Engines[engine]();
+                if (version){
+                    this.Engine = {
+                        name: engine,
+                        version: version
+                    };
+                    this.Engine[engine] = this.Engine[engine + version] = true;
+                    break;
+                }
+            }
+
+            return {
+                name: engine,
+                version: version
+            };
+
+        }
+    };
+
+    MZZ.Browser.Platform[MZZ.Browser.Platform.name] = true;
+    MZZ.Browser._detect();
+
+    MZZ.Browser.Request = function(){
+        return $.Try(function(){
+            return new XMLHttpRequest();
+        }, function(){
+            return new ActiveXObject('MSXML2.XMLHTTP');
+        }, function(){
+            return new ActiveXObject('Microsoft.XMLHTTP');
+        });
+    };
+
+    MZZ.Browser.Features.xhr = !!(MZZ.Browser.Request());
+
+    MZZ.Browser.Plugins.Flash = (function(){
+        var version = ($.Try(function(){
+            return navigator.plugins['Shockwave Flash'].description;
+        }, function(){
+            return new ActiveXObject('ShockwaveFlash.ShockwaveFlash').GetVariable('$version');
+        }) || '0 r0').match(/\d+/g);
+        return {
+            version: parseInt(version[0] || 0 + '.' + version[1], 10) || 0,
+            build: parseInt(version[2], 10) || 0
+            };
+    })();
+
 })(jQuery);
 
 /* IE && Opera`s console.log fix */
