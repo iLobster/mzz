@@ -38,6 +38,11 @@
             return this.eh.one(eType, eData, eObject);
         },
 
+        unbind: function(eType, eObject)
+        {
+            return this.eh.unbind(eType, eObject);
+        },
+
         triggerHandler: function(eType, eParams) {
             return this.eh.triggerHandler(eType, eParams);
         },
@@ -57,12 +62,13 @@
 
                 if (this.currentWindow > 0) {
                     this.hideSelects(this.currentWindow - 1);
-                    this.window.zIndex(900);
                     this.windows[this.currentWindow - 1] = this.window;
                 }
+
                 this.stack[this.currentWindow] = [];
                 this.tinyMCEIds[this.currentWindow] = [];
                 this.window = new MZZ.jipWindow(this);
+                this.window.zIndex(this.getLastzIndex()+2);
                 this.window.bind('beforeshow onshowe show beforehide onhide hide kill', this.windowEvents);
                 var t = this;
                 var refresh = $('<img height="16" width="16" alt="" src="' + SITE_PATH + '/images/spacer.gif" class="refresh" />').bind('click', function() {t.refresh()});
@@ -154,7 +160,9 @@
                 } else {
                     this.window.kill();
                     this.window = this.windows[--this.currentWindow];
-                    this.window.zIndex(902);
+                    //this.window.zIndex(902);
+                    this.locker.css( 'z-index', this.window.zIndex()-1);
+                    this.lockContent();
                     this.showSelects(this.currentWindow);
                 }
             }
@@ -213,7 +221,7 @@
                 }
 
                 var win = $(window);
-                this.locker.css({'height': win.height()});
+                this.locker.css({'height': win.height(), 'z-index': this.window.zIndex()-1});
                 if (this.locker.css('display') != 'block') {
                     win.bind('resize', this.lockerResize);
                     this.hideSelects();
@@ -411,6 +419,16 @@
         getId: function()
         {
             return this.id + '_window_' + this.currentWindow;
+        },
+
+        getLastzIndex: function()
+        {
+                  var last = Math.max.apply(null,$.map($('body > *'), function(e,n){
+                   if($(e).css('position')=='absolute')
+                        return parseInt($(e).css('z-index'))||1 ;
+                   }));
+
+                   return (last < 10000) ? 10000 : last;
         }
     });
 
