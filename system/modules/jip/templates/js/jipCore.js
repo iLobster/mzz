@@ -115,7 +115,7 @@
                     return false;
                 }
 
-                if (MZZ.browser.msie) {
+                if (MZZ.Browser.trident) {
                     this.window.content().find('select').addClass('mzz-ie-visibility');
                 }
 
@@ -243,7 +243,7 @@
         },
 
         hideSelects: function(id) {
-            if (MZZ.browser.msie) {
+            if (MZZ.Browser.trident) {
                 if ($.isUndefined(id)) {
                     id = false;
                 }
@@ -266,7 +266,7 @@
         },
 
         showSelects: function(id) {
-            if (MZZ.browser.msie) {
+            if (MZZ.Browser.trident) {
                 if ($.isUndefined(id)) {
                     id = false;
                 }
