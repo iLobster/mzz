@@ -39,8 +39,30 @@ fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
                 apply_source_formatting : true,
                 add_unload_trigger : false,
                 add_form_submit_trigger: false,
+                relative_urls : false,
+                remove_script_host: true,
+                file_browser_callback: function (field_name, url, type, win) {
+                    tinyMCE.activeEditor.windowManager.open({
+                        file : '/fileBrowser/browse?tiny_mce=true',
+                        title : 'mzz file browser',
+                        width : 700,
+                        height : 458,
+                        resizable : "yes",
+                        inline : "yes",
+                        close_previous : "no"
+                    }, {
+                        window : win,
+                        input : field_name,
+                        url: url,
+                        type: type,
+                        jipw: jipWindow,
+                    });
+                    return false;
+                },
                 oninit : function(){jipWindow.resize()}
             });
+
+
 
             jipWindow.addTinyMCEId(id);
             $('#' + id + '_editorStatus').text('Выключить WYSIWYG-редактор');

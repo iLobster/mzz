@@ -1,7 +1,4 @@
 {* main="admin/main/adminHeader.tpl" placeholder="content" *}
-{add file="jquery.js"}
-{add file="dui.js"}
-{add file="jquery.ex.js"}
 {add file="jip.css"}
 {add file="fileLoader.js"}
 {add file="jip/jipCore.js"}

@@ -1,3 +1,4 @@
+// REQUIRE:jquery.ex.js
 /**
  * jipMenu
  *

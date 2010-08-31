@@ -1,9 +1,5 @@
 {if $jip}
 {strip}
-{add file="jquery.js"}
-{add file="dui.js"}
-{add file="jquery.ex.js"}
-
 {add file="jip.css"}
 {add file="icons.sys.css"}
 {add file="icons.flags.css"}

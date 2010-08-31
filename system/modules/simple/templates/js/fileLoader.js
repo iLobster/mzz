@@ -1,3 +1,4 @@
+// REQUIRE:jquery.ex.js
 /**
  * CSS and Javascript loader
  *

@@ -1,3 +1,4 @@
+// REQUIRE:jquery.ex.js;jquery-ui/ui.core.js;jquery-ui/ui.widget.js
 /* 
  * todo пофиксить баг определения sortable когда нет handler'а
  * добавить поддержу disable, добавить event'ов (start, stop, drag)?

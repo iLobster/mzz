@@ -1,3 +1,4 @@
+// REQUIRE:jquery.ex.js
 var comments;
 (function($) {
     comments = {

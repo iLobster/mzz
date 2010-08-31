@@ -1,3 +1,4 @@
+// REQUIRE:jquery.js
 /**
 * DUI: The Digg User Interface Library
 *

@@ -1,10 +1,4 @@
 {add file="menu/menuTree.css"}
-{add file="jquery.js"}
-{add file="jquery-ui/ui.core.js"}
-{add file="jquery-ui/ui.widget.js"}
-{add file="dui.js"}
-{add file="jquery.ex.js"}
-{add file="menu/mzz_ns.js"}
 {add file="menu/jmenu.js"}
 {include file="admin/title.tpl" title="Список меню {$folder->getJip()}"}
 <div class="menuHelp">

@@ -1,5 +1,5 @@
 {add file="admin/toolbar.css"}
-{add file="admin/devToolbar.js" require="jquery.js,dui.js,jquery.ex.js"}
+{add file="admin/devToolbar.js"}
 
 {include file="admin/title.tpl" title="devToolBar"}
 <div class="toolbarBlockWrap">
