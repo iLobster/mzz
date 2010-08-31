@@ -41,25 +41,25 @@ if (extension_loaded('gd') && !function_exists('imagecreatetruecolor')) {
 }
 
 if (!is_readable(systemConfig::$pathToTemp)) {
-    if (!mkdir(systemConfig::$pathToTemp, 0664, true)) {
+    if (!mkdir(systemConfig::$pathToTemp, 0775, true)) {
         $errors[] = 'Directory "' . systemConfig::$pathToTemp . '" <font color="red"><b>is not readable</b></font>';
     }
 }
 
 if (!is_readable(systemConfig::$pathToTemp . '/templates_c')) {
-    if (!mkdir(systemConfig::$pathToTemp . '/templates_c', 0664, true)) {
+    if (!mkdir(systemConfig::$pathToTemp . '/templates_c', 0775, true)) {
         $errors[] = 'Directory "' . systemConfig::$pathToTemp . '/templates_c" <font color="red"><b>is not readable</b></font>';
     }
 }
 
 if (!is_readable(systemConfig::$pathToTemp . '/cache')) {
-    if (!mkdir(systemConfig::$pathToTemp . '/cache', 0664, true)) {
+    if (!mkdir(systemConfig::$pathToTemp . '/cache', 0775, true)) {
         $errors[] = 'Directory "' . systemConfig::$pathToTemp . '/cache" <font color="red"><b>is not readable</b></font>';
     }
 }
 
 if (!is_readable(systemConfig::$pathToTemp . '/sessions')) {
-    if (!mkdir(systemConfig::$pathToTemp . '/sessions', 0664, true)) {
+    if (!mkdir(systemConfig::$pathToTemp . '/sessions', 0775, true)) {
         $errors[] = 'Directory "' . systemConfig::$pathToTemp . '/sessions" <font color="red"><b>is not readable</b></font>';
     }
 }
