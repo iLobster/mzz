@@ -106,7 +106,7 @@ class addPlugin extends aPlugin
 
             // ищем - подключали ли мы уже данный файл
             if (isset($this->media[$res][$filename]) && $this->media[$res][$filename]['tpl'] == $tpl) {
-                return null;
+                continue;
             }
 
             $join = (bool) $join;
