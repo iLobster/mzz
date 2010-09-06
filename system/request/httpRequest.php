@@ -221,6 +221,7 @@ class httpRequest implements iRequest
     protected function readScope($name, $scope = SC_PATH, $type = 'mixed', $default = null)
     {
         $result = null;
+        $type = mzz_strtolower($type);
 
         if ($bracket = strpos($name, '[')) {
             $indexName = substr($name, $bracket);
@@ -272,6 +273,9 @@ class httpRequest implements iRequest
 
         if ($type == 'numeric') {
             return 0 + $value;
+        }
+        if (($type == 'boolean' || $type == 'bool') && mzz_strtolower($value) == 'false') {
+            return false;
         }
         if (!is_null($value) && gettype($value) != $type) {
             settype($value, $type);
