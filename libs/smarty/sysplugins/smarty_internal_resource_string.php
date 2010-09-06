@@ -22,9 +22,6 @@ class Smarty_Internal_Resource_String {
     public $compiler_class = 'Smarty_Internal_SmartyTemplateCompiler';
     public $template_lexer_class = 'Smarty_Internal_Templatelexer';
     public $template_parser_class = 'Smarty_Internal_Templateparser';
-    // properties
-    public $usesCompiler = true;
-    public $isEvaluated = true;
 
     /**
     * Return flag if template source is existing
@@ -71,6 +68,28 @@ class Smarty_Internal_Resource_String {
     { 
         // return template string
         $_template->template_source = $_template->resource_name;
+        return true;
+    } 
+
+    /**
+    * Return flag that this resource uses the compiler
+    * 
+    * @return boolean true
+    */
+    public function usesCompiler()
+    { 
+        // resource string is template, needs compiler
+        return true;
+    } 
+
+    /**
+    * Return flag that this resource is evaluated
+    * 
+    * @return boolean true
+    */
+    public function isEvaluated()
+    { 
+        // compiled template is evaluated instead of saved to disk
         return true;
     } 
 

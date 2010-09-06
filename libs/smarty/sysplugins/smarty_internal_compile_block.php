@@ -1,61 +1,58 @@
 <?php
 /**
- * Smarty Internal Plugin Compile Block
- * 
- * Compiles the {block}{/block} tags
- * 
- * @package Smarty
- * @subpackage Compiler
- * @author Uwe Tews 
- */
+* Smarty Internal Plugin Compile Block
+* 
+* Compiles the {block}{/block} tags
+* 
+* @package Smarty
+* @subpackage Compiler
+* @author Uwe Tews 
+*/
 /**
- * Smarty Internal Plugin Compile Block Class
- */
+* Smarty Internal Plugin Compile Block Class
+*/
 class Smarty_Internal_Compile_Block extends Smarty_Internal_CompileBase {
     /**
-     * Compiles code for the {block} tag
-     * 
-     * @param array $args array with attributes from parser
-     * @param object $compiler compiler object
-     * @return boolean true
-     */
+    * Compiles code for the {block} tag
+    * 
+    * @param array $args array with attributes from parser
+    * @param object $compiler compiler object
+    * @return boolean true
+    */
     public function compile($args, $compiler)
     {
         $this->compiler = $compiler;
         $this->required_attributes = array('name');
-        $this->optional_attributes = array('assign', 'nocache'); 
+        $this->optional_attributes = array('assign'); 
         // check and get attributes
         $_attr = $this->_get_attributes($args);
-        $save = array($_attr, $compiler->parser->current_buffer, $this->compiler->nocache);
+        $save = array($_attr, $compiler->template->extracted_compiled_code, $compiler->template->extract_code);
         $this->_open_tag('block', $save);
-        if (isset($_attr['nocache'])) {
-            if ($_attr['nocache'] == 'true') {
-                $compiler->nocache = true;
-            } 
-        } 
-
-        $compiler->parser->current_buffer = new _smarty_template_buffer($compiler->parser);
-        $compiler->has_code = false;
+        $compiler->template->extract_code = true;
+        $compiler->template->extracted_compiled_code = '';
+        $compiler->template->has_code = false;
         return true;
     } 
 } 
 
 /**
- * Smarty Internal Plugin Compile BlockClose Class
- */
+* Smarty Internal Plugin Compile BlockClose Class
+*/
 class Smarty_Internal_Compile_Blockclose extends Smarty_Internal_CompileBase {
     /**
-     * Compiles code for the {/block} tag
-     * 
-     * @param array $args array with attributes from parser
-     * @param object $compiler compiler object
-     * @return string compiled code
-     */
+    * Compiles code for the {/block} tag
+    * 
+    * @param array $args array with attributes from parser
+    * @param object $compiler compiler object
+    * @return string compiled code
+    */
     public function compile($args, $compiler)
     {
         $this->compiler = $compiler;
         $this->smarty = $compiler->smarty;
         $this->compiler->has_code = true; 
+        // turn off block code extraction
+        $compiler->template->extract_code = false; 
         // check and get attributes
         $this->optional_attributes = array('name');
         $_attr = $this->_get_attributes($args);
@@ -66,45 +63,27 @@ class Smarty_Internal_Compile_Blockclose extends Smarty_Internal_CompileBase {
         } 
         $_name = trim($saved_data[0]['name'], "\"'");
         if (isset($this->smarty->block_data[$_name])) {
-            $_tpl = $this->smarty->createTemplate('string:' . $this->smarty->block_data[$_name]['source'], null, null, $compiler->template);
-            $_tpl->properties['nocache_hash'] = $compiler->template->properties['nocache_hash'];
-            $_tpl->template_filepath = $this->smarty->block_data[$_name]['file'];
-            if ($compiler->nocache) {
-                $_tpl->forceNocache = 2;
-            } else {
-                $_tpl->forceNocache = 1;
-            } 
-            $_tpl->suppressHeader = true;
-            $_tpl->suppressFileDependency = true;
-            if (strpos($this->smarty->block_data[$_name]['source'], '%%%%SMARTY_PARENT%%%%') !== false) {
-                $_output = str_replace('%%%%SMARTY_PARENT%%%%', $compiler->parser->current_buffer->to_smarty_php(), $_tpl->getCompiledTemplate());
+            if (strpos($this->smarty->block_data[$_name]['compiled'], '%%%%SMARTY_PARENT%%%%') !== false) {
+                $_output = str_replace('%%%%SMARTY_PARENT%%%%', $compiler->template->extracted_compiled_code, $this->smarty->block_data[$_name]['compiled']);
             } elseif ($this->smarty->block_data[$_name]['mode'] == 'prepend') {
-                $_output = $_tpl->getCompiledTemplate() . $compiler->parser->current_buffer->to_smarty_php();
+                $_output = $this->smarty->block_data[$_name]['compiled'] . $compiler->template->extracted_compiled_code;
             } elseif ($this->smarty->block_data[$_name]['mode'] == 'append') {
-                $_output = $compiler->parser->current_buffer->to_smarty_php() . $_tpl->getCompiledTemplate();
+                $_output = $compiler->template->extracted_compiled_code . $this->smarty->block_data[$_name]['compiled'];
             } elseif (!empty($this->smarty->block_data[$_name])) {
-                $_output = $_tpl->getCompiledTemplate();
+                $_output = $this->smarty->block_data[$_name]['compiled'];
             } 
-            $compiler->template->properties['file_dependency'] = array_merge($compiler->template->properties['file_dependency'], $_tpl->properties['file_dependency']);
-            $compiler->template->properties['function'] = array_merge($compiler->template->properties['function'], $_tpl->properties['function']);
-            if ($_tpl->has_nocache_code) {
-                $compiler->template->has_nocache_code = true;
-            } 
-            foreach($_tpl->required_plugins as $code => $tmp1) {
-                foreach($tmp1 as $name => $tmp) {
-                    foreach($tmp as $type => $data) {
-                        $compiler->template->required_plugins[$code][$name][$type] = $data;
-                    } 
-                } 
-            } 
-            unset($_tpl);
         } else {
-            $_output = $compiler->parser->current_buffer->to_smarty_php();
+            $_output = $compiler->template->extracted_compiled_code;
         } 
-        $compiler->parser->current_buffer = $saved_data[1];
-        $compiler->nocache = $saved_data[2]; 
-        // $_output content has already nocache code processed
-        $compiler->suppressNocacheProcessing = true;
+        $compiler->template->extracted_compiled_code = $saved_data[1];
+        $compiler->template->extract_code = $saved_data[2]; 
+        // check for includes in block tags
+        preg_match('/(\<\?php \$_smarty_tpl-\>decodeProperties\(\')(.*)(\'.*\?\>)/', $_output, $matches);
+        $_output = preg_replace(array('/(\<\?php \$_smarty_tpl-\>decodeProperties\(\')(.*)(\'.*\?\>.*\n)/', '/(\<\?php if\(\!defined\(\'SMARTY_DIR\'\)\))(.*)(\?\>.*\n)/'), '', $_output); 
+        if (isset($matches[2])) {
+            $prop = unserialize($matches[2]);
+            $compiler->template->properties['file_dependency'] = array_merge($compiler->template->properties['file_dependency'], $prop['file_dependency']);
+        } 
         return $_output;
     } 
 } 

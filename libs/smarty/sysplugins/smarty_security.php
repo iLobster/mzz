@@ -45,15 +45,6 @@ class Smarty_Security {
 
 
     /**
-    * This is an array of trusted static classes.
-    *
-    * If empty access to all static classes is allowed.
-    * If set to 'none' none is allowed.
-    * @var array 
-    */
-    public $static_classes = array();
-
-    /**
     * This is an array of trusted PHP functions.
     *
     * If empty all functions are allowed.
@@ -84,10 +75,6 @@ class Smarty_Security {
     + flag if constants can be accessed from template
     */
     public $allow_constants = true;
-    /**
-    + flag if super globals can be accessed from template
-    */
-    public $allow_super_globals = true;
     /**
     + flag if {php} tag can be executed
     */
