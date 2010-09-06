@@ -62,7 +62,7 @@ class pluginI18nTest extends unitTestCase
 
     public function setUp()
     {
-        $this->mapper = new ormSimpleI18nMapper();
+        $this->mapper = new ormSimpleI18nMapper(null);
         $this->mapper->attach(new i18nPlugin(array(
             'title')));
 

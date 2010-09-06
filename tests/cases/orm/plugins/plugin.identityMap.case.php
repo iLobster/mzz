@@ -31,7 +31,7 @@ class identityMapPluginTest extends unitTestCase
     {
         $this->fixture();
 
-        $this->mapper = new ormSimpleMapper();
+        $this->mapper = new ormSimpleMapper(null);
         $this->mapper->plugins('identityMap');
     }
 

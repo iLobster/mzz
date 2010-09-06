@@ -28,12 +28,12 @@ define('MZZ_USER_GUEST_ID', 1);
 require_once(SYSTEM_PATH . '/systemConfig.php');
 
 systemConfig::$db['default']['driver'] = 'pdo';
-systemConfig::$db['default']['dsn']  = "mysql:host=localhost;dbname=mzz_test";
+systemConfig::$db['default']['dsn']  = "mysql:host=127.0.0.1;dbname=mzz_test";
 systemConfig::$db['default']['user'] = "root";
 systemConfig::$db['default']['password'] = "";
 systemConfig::$db['default']['charset'] = "utf8";
 
-systemConfig::$db['another']['dsn']  = "mysql:host=localhost;dbname=mzz_test";
+systemConfig::$db['another']['dsn']  = "mysql:host=127.0.0.1;dbname=mzz_test";
 
 systemConfig::$cache['default']['backend'] = 'memory';
 systemConfig::$cache['long']['backend'] = 'memory';

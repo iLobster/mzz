@@ -69,7 +69,7 @@ class mapperManyToManyRelationsTest extends unitTestCase
 
     public function setUp()
     {
-        $this->mapper = new leftMapper();
+        $this->mapper = new leftMapper(null);
     }
 
     public function tearDown()
@@ -134,7 +134,7 @@ class mapperManyToManyRelationsTest extends unitTestCase
         $this->assertEqual($collection->count(), 2);
         $this->assertNull($collection->get(1));
 
-        $rightMapper = new rightMapper();
+        $rightMapper = new rightMapper(null);
         $fourth = $rightMapper->searchByKey(4);
 
         $this->assertEqual($fourth->getId(), 4);

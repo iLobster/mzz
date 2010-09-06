@@ -10,7 +10,7 @@ class cacheFileTest extends unitTestCase
 
     public function __construct()
     {
-        $this->path = dirname(__FILE__) . '/tmp';
+        $this->path = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'tmp';
         $this->clearDir();
     }
 
@@ -31,7 +31,7 @@ class cacheFileTest extends unitTestCase
 
     private function clearDir()
     {
-        foreach (glob($this->path . '/*') as $file) {
+        foreach (glob($this->path . DIRECTORY_SEPARATOR) as $file) {
             unlink($file);
         }
     }

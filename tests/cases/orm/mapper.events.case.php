@@ -78,7 +78,7 @@ class mapperEventsTest extends unitTestCase
 
     public function setUp()
     {
-        $this->mapper = new ormSimpleMapper();
+        $this->mapper = new ormSimpleMapper(null);
     }
 
     public function tearDown()

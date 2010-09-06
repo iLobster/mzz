@@ -46,9 +46,9 @@ class ormSimpleChildAlMapper extends mapper
             'accessor' => 'getBar',
             'mutator' => 'setBar'));
 
-    public function __construct()
+    public function __construct($module)
     {
-        parent::__construct();
+        parent::__construct($module);
 
         $this->attach(new tree_alPlugin(array(
             'path_name' => 'foo',
@@ -129,7 +129,7 @@ class pluginTreeALTest extends unitTestCase
     public function setUp()
     {
         $this->fixture();
-        $this->mapper = new ormSimpleMapper();
+        $this->mapper = new ormSimpleMapper(null);
         $observer = new tree_alPlugin(array(
             'path_name' => 'foo',
             'postfix' => 'tree_al'));
@@ -369,7 +369,7 @@ class pluginTreeALTest extends unitTestCase
 
     public function testFewRelatedNodes()
     {
-        $mapper = new parentTreeTestAlMapper();
+        $mapper = new parentTreeTestAlMapper(null);
         $parentObject = $mapper->searchByKey(6);
 
         $object = $parentObject->getRelated();

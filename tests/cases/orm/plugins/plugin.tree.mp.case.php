@@ -45,9 +45,9 @@ class ormSimpleChildMapper extends mapper
             'accessor' => 'getBar',
             'mutator' => 'setBar'));
 
-    public function __construct()
+    public function __construct($module)
     {
-        parent::__construct();
+        parent::__construct($module);
 
         $this->attach(new tree_mpPlugin(array(
             'path_name' => 'foo')));
@@ -106,7 +106,7 @@ class pluginTreeMPTest extends unitTestCase
     public function setUp()
     {
         $this->fixture();
-        $this->mapper = new ormSimpleMapper();
+        $this->mapper = new ormSimpleMapper(null);
         $observer = new tree_mpPlugin(array(
             'path_name' => 'foo'));
         $this->mapper->attach($observer, 'tree_mp');
@@ -359,7 +359,7 @@ class pluginTreeMPTest extends unitTestCase
 
     public function testFewRelatedNodes()
     {
-        $mapper = new parentTreeTestMapper();
+        $mapper = new parentTreeTestMapper(null);
         $parentObject = $mapper->searchByKey(6);
 
         $object = $parentObject->getRelated();

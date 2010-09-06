@@ -29,7 +29,7 @@ class entityTest extends unitTestCase
 
     public function setUp()
     {
-        $mapper = new stubMapper();
+        $mapper = new stubMapper(null);
         $this->entity = new entity($mapper);
     }
 
@@ -95,7 +95,7 @@ class entityTest extends unitTestCase
 
     public function testRO()
     {
-        $mapper = new stubMapperRO();
+        $mapper = new stubMapperRO(null);
         $entity = new entity($mapper);
 
         try {
