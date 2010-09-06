@@ -47,7 +47,7 @@ systemConfig::$pathToApplication = realpath($application_path);
 systemConfig::$pathToWebRoot = systemConfig::$pathToApplication . '/www';
 systemConfig::$pathToTests = realpath(dirname(__FILE__) . '/..');
 systemConfig::$pathToTemp = systemConfig::$pathToTests . '/tmp';
-systemConfig::$pathToConf = systemConfig::$pathToTests . '/configs';
+systemConfig::$pathToConfigs = systemConfig::$pathToTests . '/configs';
 systemConfig::init();
 
 ?>

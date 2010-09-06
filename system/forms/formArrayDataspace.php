@@ -43,7 +43,7 @@ class formArrayDataspace extends arrayDataspace
         }
     }
 
-    public function export()
+    public function &export()
     {
         $tmp = $this->data;
         unset($tmp['_validators']);

@@ -58,9 +58,9 @@ class testsHtmlRunner implements iFilter
         $test->run(new framyHtmlReporter('utf-8'));
 
         $toolkit = systemToolkit::getInstance();
-        $smarty = $toolkit->getSmarty();
-        $application_template_dir = $smarty->template_dir;
-        $smarty->template_dir = systemConfig::$pathToTests . '/templates';
+        $smarty = $toolkit->getView();
+       // $application_template_dir = $smarty->template_dir;
+      //  $smarty->template_dir = systemConfig::$pathToTests . '/templates';
 
         echo '<br />';
         if (count($files)) {
@@ -119,7 +119,7 @@ class testsHtmlRunner implements iFilter
         $result = ob_get_contents();
         ob_end_clean();
         $response->append($result);
-        $smarty->template_dir = $application_template_dir;
+    //    $smarty->template_dir = $application_template_dir;
         $filter_chain->next();
     }
 }

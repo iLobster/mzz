@@ -14,7 +14,7 @@
     background-image: url(../images/icons.sysInactive.png) !important;
 }
 
-.mzz-jip-menu li:hover .mzz-icon-sys, a:hover .mzz-icon-sys
+li:hover .mzz-icon-sys, a:hover .mzz-icon-sys
 {
     background-image: url(../images/icons.sysActive.png);
 }
