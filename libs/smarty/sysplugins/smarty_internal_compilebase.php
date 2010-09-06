@@ -8,12 +8,6 @@
 * @author Uwe Tews 
 */
 
-/*
-interface TagCompilerInterface {
-    public function compile($args, $compiler);
-}
-*/ 
-
 /**
 * This class does extend all internal compile plugins
 */
@@ -101,7 +95,7 @@ abstract class Smarty_Internal_CompileBase
             return;
         } 
         // wrong nesting of tags
-        $this->compiler->trigger_template_error("unexpected closing tag");
+        $this->compiler->trigger_template_error("unexpected closing tag",$this->compiler->lex->taglineno);
         return;
     } 
 } 
