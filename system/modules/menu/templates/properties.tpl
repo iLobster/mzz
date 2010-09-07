@@ -6,7 +6,7 @@
     {strip}
     routeMap['{$routeName}'] = new Array(
     {foreach from=$parts item="part" name="partsIteration"}
-    {assign var="partName" value=$part.name}
+    {$partName=$part.name}
     {ldelim}name: '{$partName}', isVar: '{$part.isVar}', regex: '{$part.regex}', value: '{$part.value}'{rdelim}{if !$smarty.foreach.partsIteration.last}, {/if}
     {/foreach}
     );
@@ -85,7 +85,7 @@
             <table id="routeParams" cellpadding="2" cellspacing="0">
             {if $current|default:false}
                 {foreach from=$routesParts[$current] item="part"}
-                {assign var="partName" value=$part.name}
+                {$partName=$part.name}
                 <tr>
                     <td>{$partName}:</td>
                     <td>
@@ -105,17 +105,17 @@
         {form->select name="routeActive[]" options=$routesSelect emptyFirst=true onkeyup="this.onchange();" value=null id="activeRouteSelect" style="display: none" disabled="disabled"}</td>
     </tr>
 
-    {assign lastActiveRouteNumber=0}
-    {assign activeRoutes=$item->getActiveRoutes()}
+    {$lastActiveRouteNumber=0}
+    {$activeRoutes=$item->getActiveRoutes()}
     {foreach from=$activeRoutes item="activeRoute" key="key"}
-    {assign current=$activeRoute.route}
+    {$current=$activeRoute.route}
     <tr class="activeRoute">
         <td></td>
         <td>{form->select name="routeActive[]" options=$routesSelect emptyFirst=true onchange="javascript: getRoute(this.value, 'activeParts[$lastActiveRouteNumber]', 'routeActiveParams');" onkeyup="this.onchange();" value=$current|default:null}
         (<a href="#" onclick="return removeActiveRoute(this) && false;">удалить</a>) и его параметры:
             <table id="routeActiveParams" cellpadding="2" cellspacing="0">
             {foreach from=$routesParts[$current] item="part"}
-                {assign var="partName" value=$part.name}
+                {$partName=$part.name}
                 <tr>
                     <td>{$partName}:</td>
                     <td>
@@ -126,7 +126,7 @@
             </table>
         </td>
     </tr>
-    {assign var="lastActiveRouteNumber" value=$lastActiveRouteNumber+1}
+    {$lastActiveRouteNumber=$lastActiveRouteNumber+1}
     {/foreach}
     <script type="text/javascript"> var lastActiveRouteNumber = {$lastActiveRouteNumber};</script>
     {/if}

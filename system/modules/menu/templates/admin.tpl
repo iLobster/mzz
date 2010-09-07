@@ -39,7 +39,7 @@
                     <div class="menuActions">{$menuItem->getJip('menu/jip.tpl')}</div>
                 </div>
 
-            {strip}{assign var="lastLevel" value=$menuItem->getTreeLevel()}
+            {strip}{$lastLevel=$menuItem->getTreeLevel()}
             {if $smarty.foreach.menuItemIteration.last}
                 {math equation="x - y" x=$lastLevel y=1 assign="levelDown"}
                 {"</li></ul>"|@str_repeat:$levelDown}</li>
