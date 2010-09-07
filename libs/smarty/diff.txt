@@ -1,0 +1,54 @@
+diff  sysplugins/smarty_internal_data.php sysplugins/smarty_internal_data.php
+30a31,48
+>             $keys = array_keys($tpl_var);
+>             foreach ($keys as $key) {
+>                 if (isset($this->tpl_vars[$key])) {
+>                     unset($this->tpl_vars[$key]);
+>                 }
+>             }
+>         } else {
+>             if (isset($this->tpl_vars[$tpl_var])) {
+>                 unset($this->tpl_vars[$tpl_var]);
+>             }
+>         }
+> 
+>         $this->smarty->assign($tpl_var, $value);
+> 
+>         return;
+> 
+>         /* old smartyes assign */
+>         if (is_array($tpl_var)) {
+65a84,91
+>             if (isset($this->tpl_vars[$tpl_var])) {
+>                 unset($this->tpl_vars[$tpl_var]);
+>             }
+>             $this->smarty->assign_by_ref($tpl_var, $value);
+> 
+>             return;
+> 
+>             /* old smartyes assign */
+288c314,321
+<         } 
+---
+>         }
+> 
+>         $val = $this->smarty->getVariable($variable);
+> 
+>         if ($val !== null) {
+>             return new Smarty_Variable($val);
+>         }
+> 
+diff  sysplugins/smarty_internal_template.php sysplugins/smarty_internal_template.php
+198c198
+<         ($this->compiled_filepath = !$this->resource_object->isEvaluated ? $this->resource_object->getCompiledFilepath($this) : false) :
+---
+>         ($this->compiled_filepath = !$this->isEvaluated() ? $this->addLangToFilepath($this->resource_object->getCompiledFilepath($this)) : false) :
+201a202,209
+>     protected function addLangToFilepath($file)
+>     {
+>         if (empty($this->lang) && systemConfig::$i18n) {
+>             $this->lang = systemToolkit::getInstance()->getLocale()->getName();
+>         }
+> 
+>         return $file . '-' . $this->lang . '.php';
+>     }
