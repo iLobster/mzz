@@ -195,10 +195,18 @@ class Smarty_Internal_Template extends Smarty_Internal_Data {
     public function getCompiledFilepath ()
     {
         return $this->compiled_filepath === null ?
-        ($this->compiled_filepath = !$this->resource_object->isEvaluated ? $this->resource_object->getCompiledFilepath($this) : false) :
+        ($this->compiled_filepath = !$this->isEvaluated() ? $this->addLangToFilepath($this->resource_object->getCompiledFilepath($this)) : false) :
         $this->compiled_filepath;
     } 
 
+    protected function addLangToFilepath($file)
+    {
+        if (empty($this->lang) && systemConfig::$i18n) {
+            $this->lang = systemToolkit::getInstance()->getLocale()->getName();
+        }
+
+        return $file . '-' . $this->lang . '.php';
+    }
     /**
      * Returns the timpestamp of the compiled template
      * 

@@ -108,7 +108,14 @@ class Smarty_Internal_TemplateCompilerBase {
         // $args contains the attributes parsed and compiled by the lexer/parser
         // assume that tag does compile into code, but creates no HTML output
         $this->has_code = true;
-        $this->has_output = false; 
+        $this->has_output = false;
+        if (is_array($args)) {
+            foreach ($args as $key => $arg) {
+                if ((strlen($trimmed = trim($arg, '"\'')) === strlen($arg) - 2) && i18n::isName($trimmed)) {
+                    $args[$key] = '"' . smarty_prefilter_i18n('{' . $trimmed . '}', $this->smarty) . '"';
+                }
+            }
+        }
         // compile the smarty tag (required compile classes to compile the tag are autoloaded)
         if (($_output = $this->callTagCompiler($tag, $args)) === false) {
             if (isset($this->smarty->template_functions[$tag])) {
