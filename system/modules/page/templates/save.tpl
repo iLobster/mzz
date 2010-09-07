@@ -43,19 +43,19 @@ fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
                 remove_script_host: true,
                 file_browser_callback: function (field_name, url, type, win) {
                     tinyMCE.activeEditor.windowManager.open({
-                        file : '/fileBrowser/browse?tiny_mce=true',
-                        title : 'mzz file browser',
-                        width : 700,
-                        height : 458,
-                        resizable : "yes",
-                        inline : "yes",
-                        close_previous : "no"
+                        'file' : '/fileBrowser/browse?tiny_mce=true',
+                        'title' : 'mzz file browser',
+                        'width' : 700,
+                        'height' : 458,
+                        'resizable' : "yes",
+                        'inline' : "yes",
+                        'close_previous' : "no"
                     }, {
-                        window : win,
-                        input : field_name,
-                        url: url,
-                        type: type,
-                        jipw: jipWindow,
+                        'window' : win,
+                        'input' : field_name,
+                        'url': url,
+                        'type': type,
+                        'jip': jipWindow,
                     });
                     return false;
                 },

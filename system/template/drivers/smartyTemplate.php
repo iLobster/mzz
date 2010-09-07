@@ -83,16 +83,16 @@ class smartyTemplate extends Smarty implements iTemplate
         $this->assign('SITE_PATH', rtrim(SITE_PATH, '/'));
 
 
-        $this->register_modifier('filesize', 'smarty_modifier_filesize');
+        $this->register->modifier('filesize', 'smarty_modifier_filesize');
 
-        $this->register_object('form', new form());
+        $this->register->templateObject('form', new form());
 
 
-        $this->register_object('fblock', $fblock = blockHelper::getInstance());
+        $this->register->templateObject('fblock', $fblock = blockHelper::getInstance());
         $this->assign('fblock', $fblock);
 
 
-        $this->register_prefilter('smarty_prefilter_i18n');
+        $this->register->preFilter('smarty_prefilter_i18n');
     }
 
     public function render($template)

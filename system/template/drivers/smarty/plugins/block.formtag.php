@@ -26,7 +26,7 @@
  */
 function smarty_block_formtag($params, $content, $smarty)
 {
-    return $smarty->get_registered_object('form')->open($params, $smarty) . $content . '</form>';
+    return $smarty->getRegisteredObject('form')->open($params, $smarty) . $content . '</form>';
 }
 
 ?>

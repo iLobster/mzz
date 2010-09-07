@@ -26,7 +26,7 @@
  */
 function smarty_function_form($params, $smarty)
 {
-    return $smarty->get_registered_object('form')->open($params, $smarty);
+    return $smarty->getRegisteredObject('form')->open($params, $smarty);
 }
 
 ?>
