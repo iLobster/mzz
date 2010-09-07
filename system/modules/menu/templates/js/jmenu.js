@@ -40,7 +40,7 @@
 
         toggle: function(id) {
             //todo : переключение на "другое" меню после фикса добавления меню
-            $().find('.menuContent:visible').hide();
+            $('body').find('.menuContent:visible').hide();
             var content = $('#menuContent_' + id);
             content.show();
             var link = $('#menuLink_' + id);
