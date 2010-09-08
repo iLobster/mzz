@@ -2,8 +2,8 @@
 {if $isEdit}Редактирование страницы "{$page->getName()|h}"{else}Создание страницы{/if}
 </div>
 
-{literal}<script type="text/javascript">
-
+<script type="text/javascript">
+{literal}
 fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
 
 (function($) {
@@ -46,10 +46,11 @@ fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
                         'file' : '/fileBrowser/browse?tiny_mce=true',
                         'title' : 'mzz file browser',
                         'width' : 700,
-                        'height' : 458,
+                        'height' : 480,
                         'resizable' : "yes",
                         'inline' : "yes",
-                        'close_previous' : "no"
+                        'close_previous' : "no",
+                         'popup_css' : false
                     }, {
                         'window' : win,
                         'input' : field_name,
@@ -74,8 +75,9 @@ fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
         }
     }
 })(jQuery);
+{/literal}
+</script>
 
-</script>{/literal}
 {form action=$form_action method="post" onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return jipWindow.sendForm(this);"}
 <div class="field">
     <div class="label">
