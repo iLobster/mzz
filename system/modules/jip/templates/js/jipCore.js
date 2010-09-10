@@ -1,4 +1,4 @@
-// REQUIRE:jquery.ex.js;jip/fileLoader.js;jip/jipWindow.js
+// REQUIRE:jquery.ex.js;fileLoader.js;jip/jipWindow.js
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
