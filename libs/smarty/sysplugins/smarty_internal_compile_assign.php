@@ -23,8 +23,8 @@ class Smarty_Internal_Compile_Assign extends Smarty_Internal_CompileBase {
     public function compile($args, $compiler)
     {
         $this->compiler = $compiler;
-        $this->required_attributes = array('var', 'value');
-        $this->optional_attributes = array('scope', 'nocache', 'smarty_internal_index');
+        $this->required_attributes = array();
+        $this->optional_attributes = array('_any');
 
         $_nocache = 'null';
         $_scope = 'null'; 
@@ -40,6 +40,12 @@ class Smarty_Internal_Compile_Assign extends Smarty_Internal_CompileBase {
         // check and get attributes
         $_attr = $this->_get_attributes($args);
 
+        if (!isset($_attr['var'])) {
+            $_attr['var'] = '"' . key($_attr) . '"';
+            $_attr['value'] = current($_attr);
+            unset($_attr[key($_attr)]);
+        }
+        
         if (isset($_attr['scope'])) {
             if ($_attr['scope'] == '\'parent\'') {
                 $_scope = SMARTY_PARENT_SCOPE;
