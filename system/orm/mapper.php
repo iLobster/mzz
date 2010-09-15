@@ -516,7 +516,7 @@ abstract class mapper
         return array_diff(array_keys($mapper->map()), $dont_select);
     }
 
-    private function parseRow($row)
+    final protected function parseRow($row)
     {
         $tmp = array();
         foreach ($row as $key => $val) {
