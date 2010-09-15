@@ -443,7 +443,7 @@ abstract class mapper
      * @param criteria $criteria
      * @return fPdoStatement
      */
-    private function searchByCriteria(criteria $searchCriteria)
+    final protected function searchByCriteria(criteria $searchCriteria)
     {
         $criteria = new criteria();
 
