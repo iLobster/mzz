@@ -12,7 +12,12 @@
  * @version $Id$
  */
 
-require_once systemConfig::$pathToSystem . '/cache/cache.php';
+$cacheClassPath = systemConfig::$pathToApplication . '/cache/cache.php';
+if (!is_file($cacheClassPath)) {
+    $cacheClassPath = systemConfig::$pathToSystem . '/cache/cache.php';
+}
+
+require_once $cacheClassPath;
 
 /**
  * cachingResolver: кэширующий резолвер
