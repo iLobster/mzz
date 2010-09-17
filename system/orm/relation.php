@@ -29,7 +29,7 @@ class relation
     public function __construct($mapper)
     {
         $this->mapper = $mapper;
-        $this->table = $mapper->table();
+        $this->table = $mapper->table(false);
         $this->map = $mapper->map();
 
         $this->markOneToBack($mapper);
