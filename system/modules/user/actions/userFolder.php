@@ -13,7 +13,8 @@ return array(
     ),
     'register' => array(
         'controller' => 'register',
-        'title' => 'Регистрация'
+        'title' => 'Регистрация',
+        'main' => 'deny',   //must be commented by programmer if allowed
     ),
     'login' => array(
         'controller' => 'login'
