@@ -52,6 +52,7 @@
  *   electric      | if true (default) then given fields/date areas are updated for each move; otherwise they're updated only on close
  *   step          | configures the step of the years in drop-down boxes; default: 2
  *   position      | configures the calendar absolute position; default: null
+ *   zIndex        | configures z-index of the calendar (bobr)
  *   cache         | if "true" (but default: "false") it will reuse the same calendar object, where possible
  *   showOthers    | if "true" (but default: "false") it will show days from other months too
  *
@@ -89,6 +90,7 @@ Calendar.setup = function (params) {
 	param_default("cache",          false);
 	param_default("showOthers",     false);
 	param_default("multiple",       null);
+	param_default("zIndex",         11000);
 
 	var tmp = ["inputField", "displayArea", "button"];
 	for (var i in tmp) {
@@ -192,6 +194,10 @@ Calendar.setup = function (params) {
 			cal.showAtElement(params.button || params.displayArea || params.inputField, params.align);
 		else
 			cal.showAt(params.position[0], params.position[1]);
+		if (params.zIndex) {
+			cal.element.style.zIndex = params.zIndex;
+		}
+		
 		return false;
 	};
 

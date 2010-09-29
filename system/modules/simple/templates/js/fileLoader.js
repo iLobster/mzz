@@ -105,11 +105,11 @@
 
             var link = $('<link rel="stylesheet" type="text/css" media="all" href="' + url + '"></link>')[0];
 
-			if (MZZ.browser.msie) {
+			if (jQuery.browser.msie) {
 				link.onreadystatechange = function ()	{
                     /loaded|complete/.test(link.readyState) && self._loaded('css', url, callback);
 				};
-            } else if (MZZ.browser.opera) {
+            } else if (jQuery.browser.opera) {
 				link.onload = function() {
                     self._loaded('css', url, callback);
                 };
