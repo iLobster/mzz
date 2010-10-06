@@ -16,7 +16,7 @@
 
 /**
  * Style for content-locker
- */
+*/
 .mzz-content-locker {
     background: #000;
     position: fixed;
@@ -29,7 +29,7 @@
 
 /**
  * Styles for jip-menu
- */
+*/
 
 img.jip {
     cursor: pointer;
@@ -171,8 +171,8 @@ div.mzz-jip-menu-lang a img.mzz-icon {
 }
 
 /**
- * Style for mzz-window holder (not only jipWindow) @see window.js
- */
+ * Style for mzz-window holder (not only jipWindow)
+*/
 .mzz-window-holder {
     display: none;
 }
@@ -183,13 +183,14 @@ img.mzz-window-button {
 
 /**
  * Jip-window styles
- */
+*/
 .mzz-ie-visibility { /* pseudo-class for ie 'hidden' selects */
-    visibility: hidden;
+                     visibility: hidden;
 }
 
+
 .mzz-jip-window {
-	font-family: Arial,sans-serif;
+    font-family: Arial,sans-serif;
     color: #000000;
     font-size: 13px;
     font-weight: normal;
@@ -200,6 +201,18 @@ img.mzz-window-button {
     width: 750px;
     z-index: 902;
     display: none;
+
+    border: 1px solid #595a5b;
+    outline: 0;
+    /** css3 **/
+    border-radius: 5px;
+    box-shadow: 0 0 10px #111111;
+    -moz-border-radius: 5px;
+    -moz-box-shadow: 0 0 10px #111111;
+    -webkit-border-radius: 5px;
+    -webkit-box-shadow: 0 0 10px #111111;
+    -khtml-border-radius: 5px;
+    -khtml-box-shadow: 0 0 10px #111111;
 }
 
 .mzz-jip-window a {
@@ -234,87 +247,29 @@ div.mzz-jip-window img.mzz-jip-gradient {
     z-index: 0;
 }
 
-div.mzz-jip-window .mzz-jip-topLeft,    div.mzz-jip-window .mzz-jip-topRight {
-    width: 30px;
-    height: 30px;
-    top: -15px;
-}
-
-div.mzz-jip-window .mzz-jip-bottomLeft, div.mzz-jip-window .mzz-jip-bottomRight {
-    width: 30px;
-    height: 50px;
-    bottom: -25px;
-}
-
-div.mzz-jip-window .mzz-jip-topLeft {
-    background-position: -10px -100px;
-    left: -15px;
-}
-
-div.mzz-jip-window .mzz-jip-topRight {
-    background-position: 0px -180px;
-    right: -15px;
-}
-
-div.mzz-jip-window .mzz-jip-bottomLeft {
-    background-position: -10px -132px;
-    left: -15px;
-}
-
-div.mzz-jip-window .mzz-jip-bottomRight {
-    background-position: 0px -212px;
-    right: -15px;
-}
-
-div.mzz-jip-window .mzz-jip-top, div.mzz-jip-window .mzz-jip-bottom {
-    left: 15px;
-    right: 15px;
-}
-
-div.mzz-jip-window .mzz-jip-top {
-    background-position: 0px -55px;
-    top: -15px;
-    height: 30px;
-}
-
-div.mzz-jip-window .mzz-jip-bottom {
-    background-position: 0px -90px;
-    bottom: -25px;
-    height: 50px;
-}
-
-div.mzz-jip-window .mzz-jip-left, div.mzz-jip-window .mzz-jip-right {
-    bottom: 25px;
-    top: 15px;
-    width: 16px;
-}
-
-div.mzz-jip-window .mzz-jip-left {
-    background-position: -49px 0px;
-    left: -16px;
-}
-
-div.mzz-jip-window .mzz-jip-right {
-    background-position: -67px 0px;
-    right: -16px;
-}
-
 .mzz-jip-wrapper {
-    margin: 34px 0px 20px 0px;
+    /*margin: 34px 0px 20px 0px;*/
     min-height: 70px;
     padding: 1px;
     position: relative;
     overflow: hidden;
     background-color: #ffffff;
+    border-bottom: 1px solid #b8b8b8;
 }
 
 .mzz-jip-title {
-    background: transparent url('../images/jip/common.png') repeat-x 0px -32px scroll;
+    background: #b2cee6;
+    border: 1px solid #b2cee6;
+    border-top-color: #c8e7ff;
+    border-bottom-color: #829ab3;
+    line-height:34px;
     height: 34px;
-    left:0;
-    position:absolute;
-    right:0;
-    top:0;
+    overflow: hidden;
+    /** css3 **/
+    border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+    -khtml-border-radius: 5px 5px 0 0;
 }
 
 .mzz-jip-title span {
@@ -327,13 +282,16 @@ div.mzz-jip-window .mzz-jip-right {
 }
 
 .mzz-jip-footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right:0;
-    line-height: 15px;
-    padding: 5px 0px 0px 5px;
-    background: transparent url('../images/jip/shadows-x.png') repeat-x -0px -139px scroll;
+    padding-left: 10px;
+    background: #ebecf0;
+    border-top: 1px solid #f7f8f9;
+    overflow: hidden;
+
+    /** css3 **/
+    border-radius:  0 0 5px 5px;
+    -moz-border-radius:  0 0 5px 5px;
+    -webkit-border-radius:  0 0 5px 5px;
+    -khtml-border-radius:  0 0 5px 5px;
 }
 
 .mzz-jip-footer, .mzz-jip-footer span {
@@ -359,14 +317,13 @@ div.mzz-jip-window .mzz-jip-right {
 }
 
 .mzz-jip-content {
-    font-size: 13px;
-    color: #000000;
-    padding: 0px 5px;
+    background: #ffffff;
+    padding: 0 5px;
 }
 
 /**
  * Style for jipWindow forms
- */
+*/
 
 .mzz-jip-window form {
     margin: 0px;

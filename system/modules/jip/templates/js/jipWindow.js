@@ -26,12 +26,11 @@
             this._onWindowResize = function(){t.resize();};
             this._dom = $('<div />');
             this._dom.attr({'id': this._parent.id + '_window_' + this._parent.currentWindow, 'class': 'mzz-jip-window'});
-            this._dom.append($('<div class="mzz-jip-topLeft"></div><div class="mzz-jip-top"></div><div class="mzz-jip-topRight"></div><div class="mzz-jip-left"></div><div class="mzz-jip-right"></div><div class="mzz-jip-bottomLeft"></div><div class="mzz-jip-bottom"></div><div class="mzz-jip-bottomRight"></div><img alt="window gradient" src="' + SITE_PATH + '/images/jip/window-bg.png" class="mzz-jip-gradient" />'));
-            this._title = $('<span />').appendTo($('<div class="mzz-jip-title" style="" />').appendTo(this._dom));
+            this._title = $('<span />').appendTo($('<div class="mzz-jip-title" />').appendTo(this._dom));
             $('<a href="" class="mzz-jip-close">x</a>').bind('click', function(e){e.preventDefault();e.stopImmediatePropagation();t._parent.close();}).appendTo(this._dom);
-            this._footer= $('<div class="mzz-jip-footer">haba</div>').appendTo(this._dom);
             this._wrapper = $('<div class="mzz-jip-wrapper" />').appendTo(this._dom);
-            this._content = $('<div class="mzz-jip-content" style="" />').appendTo(this._wrapper);
+            this._content = $('<div class="mzz-jip-content" />').appendTo(this._wrapper);
+                        this._footer= $('<div class="mzz-jip-footer" />').appendTo(this._dom);
 
             this._dom.appendTo(this.__body);
         },
@@ -75,7 +74,7 @@
             setTimeout(function(){
             var wHeight = t.__window.height();
                 var cHeight = t._content.outerHeight();
- 
+                console.log(cHeight,wHeight);
                 if (cHeight < 70) {
                     cHeight = 70;
                 }
@@ -84,8 +83,8 @@
                 
                 var nHeight = cHeight;
 
-                if ((wHeight - 67 - cHeight) < 0) {
-                    nHeight = wHeight - 67;
+                if ((wHeight - 57 - cHeight) < 0) {
+                    nHeight = wHeight - 57;
                 }
 
                 t._wrapper.height(nHeight);
