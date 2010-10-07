@@ -282,7 +282,7 @@ div.mzz-jip-window img.mzz-jip-gradient {
 }
 
 .mzz-jip-footer {
-    padding-left: 10px;
+    padding: 1px 3px;
     background: #ebecf0;
     border-top: 1px solid #f7f8f9;
     overflow: hidden;
@@ -306,7 +306,7 @@ div.mzz-jip-window img.mzz-jip-gradient {
 .mzz-jip-footer .refresh {
     background: transparent url('../images/jip/common.png') no-repeat scroll -17px -66px;
     vertical-align:bottom;
-    width: 15px;
+    width: 14px;
     height: 15px;
     cursor:pointer;
 }
