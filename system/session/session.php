@@ -170,6 +170,9 @@ class session
      */
     public function exists($name)
     {
+        if (!isset($_SESSION)) {
+            return false;
+        }
         $matches = $this->explodeName($name);
 
         if (sizeof($matches['keys'])) {
