@@ -123,7 +123,7 @@
                 var jipMenuDiv = $('<div id="' + id + '" class="mzz-jip-menu">' +
                                    '<div class="mzz-jip-topLeft"></div><div class="mzz-jip-top"></div><div class="mzz-jip-topRight"></div>' +
                                    '<div class="mzz-jip-left"></div><div class="mzz-jip-right"></div>' +
-                                   '<div class="mzz-jip-bottomLeft"></div><div class="mzz-jip-bottom"></div><div class="mzz-jip-bottomRight"></div></div>')
+                                   '<div class="mzz-jip-bottomLeft"></div><div class="mzz-jip-bottom"></div><div class="mzz-jip-bottomRight"></div></div>').css({'z-index': MZZ.tools.lastzIndex() + 1})
                                .appendTo($('body')).hover(function() {jipMenu.mouseIn();},function() {jipMenu.mouseOut();});
 
                 var jipMenuUl = $('<ul />').appendTo(jipMenuDiv);
@@ -182,7 +182,7 @@
                 var jipMenuDiv = $('<div id="' + id + '" class="mzz-jip-menu mzz-jip-menu-lang">' +
                                    '<div class="mzz-jip-topLeft"></div><div class="mzz-jip-top"></div><div class="mzz-jip-topRight"></div>' +
                                    '<div class="mzz-jip-left"></div><div class="mzz-jip-right"></div>' +
-                                   '<div class="mzz-jip-bottomLeft"></div><div class="mzz-jip-bottom"></div><div class="mzz-jip-bottomRight"></div></div>')
+                                   '<div class="mzz-jip-bottomLeft"></div><div class="mzz-jip-bottom"></div><div class="mzz-jip-bottomRight"></div></div>').css({'z-index': MZZ.tools.lastzIndex() + 1})
                                .appendTo($('body')).hover(function() {jipMenu.mouseInLang();},function() {jipMenu.mouseOutLang();});
 
                 var jipMenuUl = $('<ul />').appendTo(jipMenuDiv).addClass('mzz-jip-menu mzz-jip-menu-lang');

@@ -69,7 +69,7 @@
                 this.stack[this.currentWindow] = [];
                 this.tinyMCEIds[this.currentWindow] = [];
                 this.window = new MZZ.jipWindow(this);
-                this.window.zIndex(this.getLastzIndex()+2);
+                this.window.zIndex(MZZ.tools.lastzIndex()+2);
                 this.window.bind('beforeshow onshowe show beforehide onhide hide kill', this.windowEvents);
                 var t = this;
                 var refresh = $('<img height="16" width="16" alt="" src="' + SITE_PATH + '/images/spacer.gif" class="refresh" />').bind('click', function() {t.refresh()});
@@ -428,16 +428,6 @@
         getId: function()
         {
             return this.id + '_window_' + this.currentWindow;
-        },
-
-        getLastzIndex: function()
-        {
-                  var last = Math.max.apply(null,$.map($('body > *'), function(e,n){
-                   if($(e).css('position')=='absolute')
-                        return parseInt($(e).css('z-index'))||1 ;
-                   }));
-
-                   return (last < 10000) ? 10000 : last;
         }
     });
 

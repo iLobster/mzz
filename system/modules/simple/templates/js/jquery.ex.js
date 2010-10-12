@@ -98,16 +98,16 @@ var Cookie = {
             });
         },
 
-        maxZ: function(baseZ, context) {
-            var baseZ = baseZ || 0;
-            var context = context || 'body > *';
-            var maxZ = Math.max.apply(null,$.map($(context), function(e,n){
+        lastzIndex: function(selector, minz) {
+            var minz = minz || 10000;
+            var selector = selector || 'body > *';
+            var z = Math.max.apply(null,$.map($(selector), function(e,n){
                 if($(e).css('position')=='absolute') {
                     return parseInt($(e).css('z-index'))||1 ;
                 }
             }));
 
-            return (maxZ < baseZ) ? baseZ : maxZ;
+            return (z < minz) ? minz : z;
         }
     }
 
