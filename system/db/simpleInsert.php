@@ -29,7 +29,7 @@ class simpleInsert extends simpleSQLGenerator
      *
      * @var criteria
      */
-    private $criteria;
+    protected $criteria;
 
     /**
      * Конструктор
@@ -57,7 +57,7 @@ class simpleInsert extends simpleSQLGenerator
         return 'INSERT INTO ' . $table . ' (' . $fieldsString . ') VALUES ' . $valuesString;
     }
 
-    private function getFieldsString($fields)
+    protected function getFieldsString($fields)
     {
         if (!sizeof($fields)) {
             throw new mzzRuntimeException('Fields array expects at least one item');
@@ -70,7 +70,7 @@ class simpleInsert extends simpleSQLGenerator
         return substr($fieldsString, 0, -2);
     }
 
-    private function getValuesString($values)
+    protected function getValuesString($values)
     {
         $valuesString = '';
         foreach ($values as $data) {
@@ -83,7 +83,7 @@ class simpleInsert extends simpleSQLGenerator
         return substr($valuesString, 0, -2);
     }
 
-    private function validateArgs($data, $ext)
+    protected function validateArgs($data, $ext)
     {
         $fieldsCount = sizeof($data);
         foreach ($ext as $values) {
