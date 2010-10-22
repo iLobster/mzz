@@ -78,17 +78,17 @@ fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
 {/literal}
 </script>
 
-{form action=$form_action method="post" onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return jipWindow.sendForm(this);"}
-<div class="field">
+{form action=$form_action method="post" jip=true onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return jipWindow.sendForm(this);"}
+<div class="field{$validator->isFieldRequired('page[name]', ' required')}{$validator->isFieldError('page[name]', ' error')}">
     <div class="label">
         {form->caption name="page[name]" value="Идентификатор"}
     </div>
     <div class="text">
-        {form->text name="page[name]" value=$page->getName() size="60"}{$validator->getFieldError('page[name]')}
-        <span class="caption error"></span>
+        {form->text name="page[name]" value=$page->getName() size="60"}
+        <span class="caption error">{$validator->getFieldError('page[name]')}</span>
     </div>
 </div>
-<div class="field">
+<div class="field{$validator->isFieldRequired('page[title]', ' required')}{$validator->isFieldError('page[title]', ' error')}">
     <div class="label">
         {form->caption name="page[title]" value="Название"}
     </div>
@@ -97,7 +97,7 @@ fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
         <span class="caption error"></span>
     </div>
 </div>
-<div class="field">
+<div class="field{$validator->isFieldRequired('page[keywords]', ' required')}{$validator->isFieldError('page[keywords]', ' error')}">
     <div class="label">
         {form->caption name="page[keywords]" value="Ключевые слова"}
     </div>
@@ -106,7 +106,7 @@ fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
         <span class="caption error"></span>
     </div>
 </div>
-<div class="field">
+<div class="field{$validator->isFieldRequired('page[description]', ' required')}{$validator->isFieldError('page[description]', ' error')}">
     <div class="label">
         {form->caption name="page[description]" value="Описание"}
     </div>
@@ -120,7 +120,7 @@ fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
         <span class="caption"><a href="javascript: toggleEditor('contentArea');" id="contentArea_editorStatus" style="text-decoration: none; border-bottom: 1px dashed #aaa;">Включить WYSIWYG-редактор</a></span>
     </div>
 </div>
-<div class="field">
+<div class="field{$validator->isFieldRequired('page[content]', ' required')}{$validator->isFieldError('page[content]', ' error')}">
     <div class="label">
         {form->caption name="page[content]" value="Содержимое"}
     </div>

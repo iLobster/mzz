@@ -38,7 +38,7 @@
         <tr class="center">
             <td><img src="{$SITE_PATH}/images/page/page.gif" alt="" /></td>
             {*<td class="left">{if $current_page->getTitle()}<a href="{url route="pageActions" name=$current_page->getFullPath()}">{$current_page->getTitle()|htmlspecialchars}</a>{else}<span style="color: #848484;">&lt;Не указано&gt;</span>{/if}</td>*}
-            <td class="left"><a href="{url route="pageActions" name=$current_page->getFullPath()}">{$current_page->getName()|htmlspecialchars}</a></td>
+            <td class="left"><a href="{url route="pageActions" name=$current_page->getName()}">{$current_page->getName()|htmlspecialchars}</a></td>
             <td>{if $current_page->getCompiled()}{_ simple/yes}{else}{_ simple/no}{/if}</td>
             <td>{if $current_page->getAllowComment()}{_ simple/yes}{else}{_ simple/no}{/if}</td>
             <td class="last">{$current_page->getJip()}</td>
