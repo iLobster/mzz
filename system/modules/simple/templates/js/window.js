@@ -1,373 +1,321 @@
-/**
- *  MZZ.window: helper class for jipWindow
- */
 (function ($){
+    $.widget("ui.mzzWindow", {
+        // default options
+        options: {
+            layout: '<div class="mzz-window-header" /><div class="mzz-window-content" /><div class="mzz-window-footer" />',
+            autoOpen: false,
+            closeOnEscape: false,
+            focusLast: true,
+            id: null,
+            idPrefix: null,
+            idPostfix: null,
+            base_class: '',
+            draggable: true,
+            resizable: true,
+            handles: 'se',
+            top: 0,
+            left: 0,
+            width: 300,
+            height: 'auto',
+            minWidth: 150,
+            minHeight: 150,
+            maxWidth: false,
+            maxHeight: false,
+            title: '&nbsp;',
+            status: '&nbsp;'
+        },
 
-    MZZ.window = DUI.Class.create({
+        _dom: null,
+        _window: null,
+        _header: null,
+        _content: null,
+        _footer: null,
+        _overlay: null,
+        _original: null,
+        _isOpen: false,
 
-        //default opts for window
-                                 //default layout;
-        defaults: {'layout':     $('<div class="mzz-window-title" /><div class="mzz-window-content" /><div class="mzz-window-footer" />'),
-                   'style':      'default', //style of the window
-                   'baseClass':  false,     //base css-class, that will be appended to the 'holder'
-                   'zIndex':     902,       //default window zIndex
-                   'visible':    true,      //visible of newly created window
-                   'drag':       false,     //is draggable window
-                                            //opts for draggable, see jQuery.UI doc @ http://jqueryui.com/demos/draggable/
-                   'dragOpts':   {'handle':      '.mzz-window-drag',
-                                  'containment': 'document',
-                                  'delay':       250,
-                                  'opacity':     null},
-
-                   'resize':     false,     //is resizable window
-                                            //opts for resizable, see jQuery.UI doc @ http://jqueryui.com/demos/resizable/
-                   'resizeOpts': {'alsoResize': false,
-                                  'handles':    'se',
-                                  'minHeight':   150,
-                                  'minWidth':    650},
-
-                   'onKill':     {'animation':   false,    //fadeOut, animate or hide
-                                  'speed':       'normal', //fast, normal, slow or number in ms
-                                  'params':      null,     //params for animation method
-                                  'easing':      null}},   //see jQuery doc @ http://docs.jquery.com/Effects/animate
-
-        /**
-         * @constructor
-         * @param {Object} params for the newly created window:
-         *                        - id {String} of the window
-         *                        ... all other see this.defaults;
-         */
-        init: function(params) {
+        _create: function() {
             var t = this;
-            if ($.isUndefined(params.id)) {
-                console.log('MZZ.window::init() HALT! "id" not set, class instantinated with params = ', params);
+
+            var onKeyDown = function(event) {
+                if (t.options.closeOnEscape && event.keyCode &&
+                    event.keyCode === $.ui.keyCode.ESCAPE) {
+
+                    t.close(event);
+                    event.preventDefault();
+                }
+            };
+
+            var onMouseDown = function(e) {
+                t.moveToTop(e);
+            };
+
+            var onFocusIn = function(e) {
+                $('body > .mzz-window-active').focusout();
+                t._dom.addClass('mzz-window-active');
+                // if (MZZ.Browser.Engine.presto && e.type !== 'focus') { t._dom.focus() }
+                t._trigger('focus', e);
+            };
+
+            var onFocusOut= function(e) {
+                t._dom.removeClass('mzz-window-active');
+                t._trigger('blur', e);
+            };
+
+
+            this.options.id = ((this.options.idPrefix) ? this.options.idPrefix + '_' : '') + 'mzzWindow' + ((this.options.idPostfix) ? '_' + this.options.idPostfix : '') + '_' + MZZ.tools.getId();
+            this._dom = $('<div />').hide()
+                                                    .appendTo($('body'))
+                                                    .attr('id', this.options.id)
+                                                    .attr('tabIndex', -1)
+                                                   .addClass('mzz-window ' + this.options.base_class)
+                                                   .css({'position': 'absolute',
+                                                             'z-index': MZZ.tools.maxZ() + 2,
+                                                             'top': this.options.top,
+                                                             'left': this.options.left,
+                                                             'width': this.options.width})
+                                                   .append($(this.options.layout))
+                                                   .mousedown(onMouseDown)
+                                                   .keydown(onKeyDown)
+                                                   .focusin(onFocusIn)
+                                                   .focusout(onFocusOut);
+
+            if (MZZ.Browser.Engine.presto) {
+                this._dom.focus(onFocusIn).blur(onFocusOut);
+            }
+
+            this._original = $('<div id="' + this.options.id + '_original" class="mzz-window-orignal-holder">place holder</div>').insertAfter(this.element);
+
+            this._content = this._dom.find('.mzz-window-content').append(this.element);
+            this._header = $('<span />').html(this.options.title);
+            this._dom.find('.mzz-window-header').append(this._header);
+            this._footer = $('<span />').html(this.options.status);
+            this._dom.find('.mzz-window-footer').append(this._footer);
+            if (this.options.draggable && $.fn.draggable) {
+                this._makeDraggable();
+            }
+
+            if (t.options.resizable && $.fn.resizable) {
+                    this._makeResizable();
+            }
+
+             if (this.options.autoOpen) {
+                this.open();
+            }
+        },
+
+        _makeDraggable: function() {
+            var t = this,
+            doc = $(document),
+            heightBeforeDrag;
+
+            function filteredUi(ui) {
+                return {
+                    position: ui.position,
+                    offset: ui.offset
+                };
+            }
+
+            t._dom.draggable({
+                cancel: '.mzz-window-content, .mzz-window-header span',
+                handle: '.mzz-window-header',
+                containment: 'document',
+                start: function(event, ui) {
+                    heightBeforeDrag = t.options.height === "auto" ? "auto" : $(this).height();
+                   t._dom.height(t._dom.height()).addClass("mzz-window-dragging");
+                    t._trigger('dragStart', event, filteredUi(ui));
+                },
+                drag: function(event, ui) {
+                    t._trigger('drag', event, filteredUi(ui));
+                },
+                stop: function(event, ui) {
+                    t.options.position = [ui.position.left - doc.scrollLeft(),
+                        ui.position.top - doc.scrollTop()];
+                    t._dom.removeClass("mzz-window-dragging").height(heightBeforeDrag);
+                    t._trigger('dragStop', event, filteredUi(ui));
+                }
+            });
+        },
+
+        _makeResizable: function(handles) {
+            handles = (handles === undefined ? this.options.resizable : handles);
+            var t = this,
+            position = this._dom.css('position'),
+            resizeHandles = (typeof handles === 'string' ? handles: 'n,e,s,w,se,sw,ne,nw'), heightDiff;
+
+            function filteredUi(ui) {
+                return {
+                    originalPosition: ui.originalPosition,
+                    originalSize: ui.originalSize,
+                    position: ui.position,
+                    size: ui.size
+                };
+            }
+
+            this._dom.resizable({
+                cancel: '.mzz-window-content',
+                containment: 'document',
+                alsoResize: this._content,
+                maxWidth: this.options.maxWidth,
+                maxHeight: this.options.maxHeight,
+                minWidth: this.options.minWidth,
+                minHeight: this.minHeight(),
+                handles: resizeHandles,
+
+                start: function(event, ui) {
+                    t._dom.addClass("mzz-window-resizing");
+                    heightDiff = t._dom.height() - t._content.height();
+                    t._trigger('resizeStart', event, filteredUi(ui));
+                },
+
+                resize: function(event, ui) {
+                    t._trigger('resize', event, filteredUi(ui));
+                },
+
+                stop: function(event, ui) {
+                    t._dom.removeClass("mzz-window-resizing");
+                    t.options.height = t._dom.height();
+                    t.options.width = t._dom.width();
+                    t._content.height(t._dom.height() - heightDiff); //fixing fucking jQuery.ui bug, when its continuing resizing 'alsoResize' element
+                    t._trigger('resizeStop', event, filteredUi(ui));
+                }
+            })
+            .css('position', position)
+            .find('.ui-resizable-se').addClass('ui-icon ui-icon-grip-diagonal-se');
+        },
+
+        destroy: function() {
+            this.element.insertAfter(this._original);
+            this._original.remove();
+            this._dom.remove();
+            $.Widget.prototype.destroy.apply( this, arguments );
+        },
+
+        moveToTop: function(event) {
+            var maxZ = MZZ.tools.maxZ();
+            if (maxZ != parseInt(this._dom.css('z-index'))) {
+                this._dom.css('z-index', maxZ + 2);
+            }
+
+            if(!this._dom.hasClass('mzz-window-active')){
+                this._dom.focusin().focus();
+            }
+
+            return this;
+        },
+
+        minHeight: function() {
+                if (this.options.height === 'auto') {
+                      return   this.options.minHeight;
+                } else {
+                       return Math.min(this.options.minHeight, this.options.height);
+                }
+        },
+
+        open: function(options) {
+            var showOptions = options || this.options.show;
+            if (this._isOpen || false === this._trigger('beforeOpen')) {
                 return;
             }
-            
-            this._onClose = null; 
-            this._params = $.extend(true, {}, this.defaults, params);
-            this._em = new MZZ.eventManager(['dragstart', 'drag', 'dragstop', 'resizestart', 'resize', 'resizestop']);
-            
-            this._holder = $('<div class="mzz-window-holder" />');
-            this._holder.attr('id', this._params.id);
-            this._holder.append(this._params.layout);
-            
-            if (this._params.baseClass) {
-                this._holder.addClass(this._params.baseClass);
+
+            this._dom.show(showOptions);
+            this.moveToTop();
+
+            if (this.options.modal) {
+                    this._dom.bind('keypress.mzz-window', function(event) {
+                            if (event.keyCode !== $.ui.keyCode.TAB) {
+                                    return;
+                            }
+
+                            var tabbables = $(':tabbable', this),
+                                    first = tabbables.filter(':first'),
+                                    last  = tabbables.filter(':last');
+
+                            if (event.target === last[0] && !event.shiftKey) {
+                                    first.focus(1);
+                                    return false;
+                            } else if (event.target === first[0] && event.shiftKey) {
+                                    last.focus(1);
+                                    return false;
+                            }
+                    });
             }
-            
-            this._content = this._holder.find('.mzz-window-content:first');
-            this._title   = this._holder.find('.mzz-window-title:first');
-            this._icon    = this._holder.find('.mzz-window-icon:first');
-            this._buttons = this._holder.find('.mzz-window-buttons:first');
-            this._status  = this._holder.find('.mzz-window-status:last');
 
-            this._holder.appendTo($('body'));
+           this._trigger('open');
+           this._isOpen = true;
+           return self;
+        },
 
-            if (this._params.drag && $.isFunction($.fn.draggable)) {
-                if (this._params.dragOpts.handle) {
-                    this._params.dragOpts.handle = this._holder.find(this._params.dragOpts.handle);
-                }
+        close: function(event) {
+            var t = this;
+            if (false === this._trigger('beforeClose', event)) {
+                return;
+            }
 
-                if (MZZ.browser.msie) {
-                    this._params.dragOpts.opacity = null;  //fix for IE opacity problems
-                }
+            this._dom.unbind('keypress.mzz-window');
 
-                this._params.dragOpts.start = function(event, ui) {t._em.fire('dragstart', null, event, ui);}
-                this._params.dragOpts.drag = function(event, ui) {t._em.fire('drag', null, event, ui);}
-                this._params.dragOpts.stop = function(event, ui) {t._em.fire('dragstop', null, event, ui);}
-
-                this._holder.draggable(this._params.dragOpts);
-                this._holder.css('position', '');         //for some reasons jQuery sets position: relative
+            if (this.options.hide) {
+                    this._dom.hide(this.options.hide, function() {
+                            this._trigger('close', event);
+                    });
             } else {
-                this._params.drag = false;
+                    this._dom.hide();
+                    this._trigger('close', event);
             }
 
+            this._isOpen = false;
 
-            if (this._params.resize && $.isFunction($.fn.resizable)) {
-                if (this._params.resizeOpts.alsoResize) {
-                    this._params.resizeOpts.alsoResize = this._holder.find(this._params.resizeOpts.alsoResize);
-                }
-
-                this._params.resizeOpts.start = function(event, ui) {t._em.fire('resizestart', null, event, ui);}
-                this._params.resizeOpts.drag = function(event, ui) {t._em.fire('resize', null, event, ui);}
-                this._params.resizeOpts.stop = function(event, ui) {t._em.fire('resizestop', null, event, ui);}
-
-                this._holder.resizable(this._params.resizeOpts);
-            } else {
-                this._params.resize = false;
-            }
-            
-            if (this._params.visible) {
-                this.show();
-            }
-
-        },
-        
-        /**
-         * Call for the window's brutal death :)
-         */
-        kill: function() {
-            console.log('Oh my God!!!, someone brutally killed the window [' + this._holder.attr('id') + ']... Rest in bits');
-            
-            if (this._params.resize) {
-                this._holder.resizable('destroy');
-            }
-            
-            if (this._params.drag) {
-                this._holder.draggable('destroy');
-            }
-
-            this._content = null;
-            this._title   = null;
-            this._icon    = null;
-            this._buttons = null;
-            this._status  = null;
-            
-            if (this._params.onKill) {
-                var call = function(){$(this).remove()};
-                if (this._params.onKill.animation == 'fadeOut') {
-                    this._holder.fadeOut(this._params.onKill.speed, call);
-                } else if (this._params.onKill.animation == 'animate') {
-                    this._holder.animate(this._params.onKill.params, this._params.onKill.speed, this._params.onKill.easing, call);
-                } else if (this._params.onKill.animation == 'hide') {
-                    this._holder.hide(this._params.onKill.speed, call)
-                } else {
-                    this._holder.css({'display': 'block'});
-                    this._holder.remove();
-                }
-            }
+            //if (this.options.focusLast) {
+            //    this._showLast();
+            //}
         },
 
-        autoSize: function(auto) {
-            auto = auto || false;
-        },
-
-        /**
-         * get/set window Title
-         * @param {Mixed} title - text/html to set Title or undefined to get Title object
-         * @param {Boolean} append - to exists Title
-         * @return null or jQuery(title)
-         */
-        title: function(title, append) {
-            if (this._title.length > 0) {
+        title: function(title) {
+            if (this._header.length > 0) {
                 if($.isUndefined(title)) {
-                    return this._title;
+                    return this._header;
                 }
 
-                append = append || false;
-                if (append) {
-                    title = this._title.html() + title;
-                }
-
-                this._title.html(title);
-                return this;
+                this._header.html(title);
             }
-
-            return false;
         },
 
-        /**
-         * get/set window Content
-         * @param {Mixed} content - text/html to set Content or undefined to get Content object
-         * @param {Boolean} append - to exists Content
-         * @return null or jQuery(content)
-         */
-        content: function(content, append) {
-            if (this._content.length > 0) {
+        content: function(content) {
+            if (this.element.length > 0) {
                 if($.isUndefined(content)) {
-                    return this._content;
+                    return this.element;
                 }
 
-                append = append || false;
-                if (append) {
-                    content = this._content.html() + content;
-                }
-
-                this._content.html(content);
-                return this;
+                this.element.html(content);
+              //  this.resize();
             }
-
-            return false;
         },
 
-        /**
-         * get/set window Status
-         * @param {Mixed} status - text/html to set Status or undefined to get Status object
-         * @param {Boolean} append - to exists Status
-         * @return null or jQuery(status)
-         */
-        status: function(status, append) {
-            if (this._status.length > 0) {
+        status: function(status) {
+            if (this._footer.length > 0) {
                 if($.isUndefined(status)) {
-                    return this._status;
+                    return this._footer;
                 }
 
-                append = append || false;
-                if (append) {
-                    status = this._status.html() + status;
+                this._footer.html(status);
+            }
+        },
+
+        _showLast: function() {
+                var last, maxZ = 0;
+                $.each( $('body > .mzz-window:visible'),
+                function(i,e) {
+                        var e = $(e);
+                        var z = parseInt(e.css('z-index'));
+                        if (z > maxZ) {
+                            maxZ =z;
+                            last = e;
+                        }
+                });
+
+                if (last) {
+                    last.focusin().focus();
                 }
-
-                this._status.html(status);
-                return this;
-            }
-
-            return false;
-        },
-
-        /**
-         * get/set window Style
-         * @param {String} style - css-style name or empty to get current
-         * @return {String}
-         */
-        style: function(style) {
-            if ($.isUndefined(style) || !style) {
-                return this._params.style;
-            }
-
-            var oldStyle = this._params.style;
-
-            if (style != oldStyle) {
-                if (oldStyle != 'default') {
-                    this._holder.removeClass(oldStyle);
-                }
-
-                if (style != 'default') {
-                    this._holder.addClass(style);
-                }
-
-                this._params.style = style;
-            }
-
-            return oldStyle;
-        },
-
-        /**
-         * get/set zIndex of window
-         * @param {Integer} zIndex or empty to get current
-         * @return {Integer}
-         */
-        zIndex: function(zIndex) {
-            if (!$.isNumber(zIndex)) {
-                return this._params.zIndex;
-            }
-
-            var oldIndex = this._params.zIndex;
-            this._holder.css('z-index', zIndex);
-            this._params.zIndex = zIndex;
-
-            return oldIndex;
-        },
-
-        /**
-         * get/set Top of window
-         * @paran {Integer} to set or empty to get current Top value
-         * @return {Integer}
-         */
-        top: function(top) {
-            if ($.isNumber(top)) {
-                this._holder.css('top', top);
-            } else {
-                return this._holder.position().top;
-            }
-        },
-
-        /**
-         * get/set Left of window
-         * @paran {Integer} to set or empty to get current Left value
-         * @return {Integer}
-         */
-        left: function(left) {
-            if ($.isNumber(left)) {
-                this._holder.css('left', left);
-            } else {
-                return this._holder.position().left;
-            }
-        },
-
-        /**
-         * get window position
-         * @return {Hash}
-         */
-        position: function() {
-            return this._holder.position();
-        },
-
-        /**
-         * Show window
-         */
-        show: function() {
-            this._params.visible = true;
-            this._holder.css({
-                'display': 'block'
-            });
-        },
-
-        /**
-         * Hide window
-         */
-        hide: function() {
-            this._params.visible = false;
-            this._holder.css({
-                'display': 'none'
-            });
-        },
-
-        /**
-         * Toggle window
-         * @return {Boolean} - true on show, false on hide
-         */
-        toogle: function() {
-            if (this._holder.css('display') == 'none') {
-                this.show();
-                return true;
-            }
-
-            this.hide();
-            return false;
-        },
-
-        /**
-         *
-         */
-        addButton: function(type, src, style, func) {
-            if (this._buttons.length > 0) {
-                var img = $('<img />').attr({'src': src, 'title': type}).addClass('mzz-window-button ' + style);
-
-                if ($.isFunction(func)) {
-                    img.bind('click', func);
-                } else if (type == 'close') {
-                    img.bind('click', this, this.onClose);
-                }
-
-                img.appendTo(this._buttons);
-            }
-
-        },
-
-        /**
-         * 
-         */
-        onClose: function(param) {
-            if ($.isFunction(param)) {
-                this._onClose = param;
-            } else {
-                var window = param.data;
-                
-                if ($.isFunction(window._onClose)) {
-                    window._onClose();
-                }
-
-                window.kill();
-            }
-        },
-
-        bind: function(event, callback) {
-            return this._em.bind(event, callback);
-        },
-
-        undind: function(event, callback) {
-            return this._em.unbind(event, callback);
         }
     });
 })(jQuery);
