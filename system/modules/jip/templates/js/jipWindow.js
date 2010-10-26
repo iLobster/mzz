@@ -74,7 +74,6 @@
             setTimeout(function(){
             var wHeight = t.__window.height();
                 var cHeight = t._content.outerHeight();
-                console.log(cHeight,wHeight);
                 if (cHeight < 70) {
                     cHeight = 70;
                 }

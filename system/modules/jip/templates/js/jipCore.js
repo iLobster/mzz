@@ -111,6 +111,7 @@
         },
 
         close: function(windows) {
+            console.log('close');
             if (this.window) {
                 if (this.triggerHandler('beforeclose', [this]) === false){
                     return false;
@@ -177,7 +178,7 @@
 
             params.push({name: 'jip', value: '1'});
 
-            this.clean();
+            this.setLoadingMsg();
             this.request(url, method, params);
 
             return false;
@@ -366,6 +367,24 @@
         clean: function()
         {
             if (this.window) {
+
+                if (tinyMCE) {
+                    for (var i = 0, l = this.tinyMCEIds[this.currentWindow].length; i < l; i++) {
+                        tinyMCE.execCommand('mceRemoveControl', false, this.tinyMCEIds[this.currentWindow][i]);
+                    }
+                }
+
+                this.tinyMCEIds[this.currentWindow] = [];
+                
+                this.setTitle('');
+                this.window.show().content('');
+            }
+        },
+
+        setLoadingMsg: function()
+        {
+            if (this.window) {
+                this.clean();
                 this.setTitle('loading...');
                 this.window.show().content('<div id="jipLoad"><img src="' + SITE_PATH + '/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[JIP_LANG].loading + '<br /><a href="javascript: void(jipWindow.close());">' + MZZ.jipI18n[JIP_LANG].cancel + '</a></div>');
             }
@@ -374,6 +393,7 @@
         setRefreshMsg: function()
         {
             if (this.window) {
+                this.clean();
                 this.setTitle('Refresh');
                 this.window.show().content('<div id="jipLoad"><img src="' + SITE_PATH + '/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[JIP_LANG].refresh + '</div>');
             }
