@@ -31,6 +31,12 @@ mvc.MVC
         creating.Создание
         members.Базовые методы и свойства
         service.Служебные
+orm.ORM
+    overview.Обзор
+    mapper.Мапперы
+    map.Схема объекта
+    hooks.Хуки
+    plugins.Плагины
 packages.Стандартные пакеты
     toolkit.Toolkit
     cache.Cache

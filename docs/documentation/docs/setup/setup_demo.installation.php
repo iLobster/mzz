@@ -1,11 +1,5 @@
 <ul>
     <li>
-        Распакуйте архив в директорию с вашими веб-приложениями
-        <<code bash>>
-            tar -xvzf <archive>.tar.gz -C /home/user
-        <</code>>
-    </li>
-    <li>
         Настройте ваш веб-сервер таким образом, чтобы корень вебсайта указывал на директорию www demo-приложения. Пример конфигурационной директивы для apache:
         <<code apache>>
             DocumentRoot /home/user/demo/www
@@ -23,6 +17,7 @@ chmod 755 -R /home/user/demo/tmp
         <<code bash>>
             mysql -u user -ppassword < /home/user/demo/db/demo.sql
         <</code>>
+        <<alert>>В процессе импорта удалятся существующие БД с именами "mzz". Для использования другого имени базы данных отредактируйте в /db/mzz.sql<</alert>>
     </li>
     <li>
         Укажите в файле config.php абсолютный путь до системных библиотек framy. Например:

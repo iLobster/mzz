@@ -281,6 +281,14 @@ div.code_border {
   width: auto;
 }
 
+.alert {
+  margin: 10px 0px;
+  border-left: 3px solid #DB9CAB;
+  background: #FBE6F3 url('./images/alert_background.gif') 8px 8px no-repeat;
+  padding: 10px 24px;
+  width: auto;
+}
+
 div.example {
   margin: 10px 0px;
   background-color: #F4FAFB;

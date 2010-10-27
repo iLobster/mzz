@@ -97,12 +97,14 @@ $documentation = new documentation('ru.txt');
 $menu = $documentation->getChapters();
 
 function render($id, $num = null) {
-    $path = 'docs/' . $id . '.php';
+    //$path = 'docs/' . $id . '.php';
+    $path = getPath($id);
     if(!file_exists($path)) {
         exit;
     }
 
     $note = "\r\n<p class=\"note\">";
+    $alert = "\r\n<p class=\"alert\">";
     $end = "\r\n</p>\r\n";
     $example = "\r\n<div class=\"example\">";
     $end_example = "\r\n</div>\r\n";
@@ -114,6 +116,7 @@ function render($id, $num = null) {
     $content = str_replace(array("<<pre>>", "<</pre>>"), array("<!-- code start here -->\n<div class=\"code\"><div class=\"code_border\">\n<pre>\n", "\n</pre>\n</div></div>\n<!-- code end here -->\n"), $content);
 
     $content = str_replace(array('<<note>>', '<</note>>'), array($note, $end), $content);
+    $content = str_replace(array('<<alert>>', '<</alert>>'), array($alert, $end), $content);
     $content = str_replace(array('<<example>>', '<</example>>'), array($example, $end_example), $content);
 
     // обрисовка дерева
@@ -165,13 +168,20 @@ function highlightInlineCode($type, $code) {
 
 
 function checkFile($num) {
-    if(!file_exists('docs/' . $num . '.php') || filesize('docs/' . $num . '.php') < 6) {
-        touch('docs/' . $num . '.php');
+    $file = getPath($num);
+    if(!file_exists($file) || filesize($file) < 6) {
+        touch($file);
         return '<strong>?</strong>';
     } else {
         return '';
     }
 }
+
+function getPath($id) {
+        list($folder, $file) = explode('.', $id, 2);
+        return 'docs/' . $folder . '/' . $file . '.php';
+}
+
 
 function getPaths($array, $path = '', $num = '') {
     $values = array();

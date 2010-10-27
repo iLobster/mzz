@@ -1,0 +1,1 @@
+<p>Исходные коды demo-приложения доступны в <a href="http://trac.mzz.ru/browser/apps/demo">репозитории</a></p>
