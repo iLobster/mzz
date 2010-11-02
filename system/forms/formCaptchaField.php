@@ -31,7 +31,7 @@ class formCaptchaField extends formElement
         $view->assign('captcha_id', $captcha_id);
         $view->assign('attributes', $attributes);
 
-        return $view->render('captcha/' . $tplPrefix . 'captcha.tpl', systemConfig::$mainTemplateDriver);
+        return $view->render('captcha/' . $tplPrefix . 'captcha.tpl', systemConfig::$defaultTemplateDriver);
     }
 }
 

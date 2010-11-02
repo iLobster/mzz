@@ -128,7 +128,7 @@ class timer
         $this->finish();
 
         if (is_null($backend)) {
-            $backend = systemConfig::$mainTemplateDriver;
+            $backend = systemConfig::$defaultTemplateDriver;
         }
 
         $toolkit = systemToolkit::getInstance();

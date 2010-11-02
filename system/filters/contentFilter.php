@@ -48,7 +48,7 @@ class contentFilter implements iFilter
         $tpl_path = systemConfig::$pathToApplication . '/templates';
         $tpl_name = 'act' . DIRECTORY_SEPARATOR . $module_name . DIRECTORY_SEPARATOR . $action_name . '.tpl';
         if (file_exists($tpl_path . DIRECTORY_SEPARATOR . $tpl_name)) {
-            $output = $view->render($tpl_name, systemConfig::$mainTemplateDriver);
+            $output = $view->render($tpl_name, systemConfig::$defaultTemplateDriver);
             $response->append($output);
 
             $filter_chain->next();
@@ -82,12 +82,12 @@ class contentFilter implements iFilter
                 switch ($active_template) {
                     case 'active.main.tpl':
                         $view->assign('content', $output);
-                        $output = $view->render('templates/main.tpl', systemConfig::$mainTemplateDriver);
+                        $output = $view->render('templates/main.tpl', systemConfig::INTERNAL_TEMPLATE_DRIVER);
                         break;
 
                     case 'active.headeronly.tpl':
                         $view->assign('content', $output);
-                        $output = $view->render('templates/header.tpl', systemConfig::$mainTemplateDriver);
+                        $output = $view->render('templates/header.tpl', systemConfig::INTERNAL_TEMPLATE_DRIVER);
                         break;
 
                     case 'active.blank.tpl':
@@ -96,13 +96,20 @@ class contentFilter implements iFilter
                     //@todo: выбрать шаблонизатор для админки
                     case 'active.admin.tpl':
                         $view->assign('content', $output);
-                        $output = $view->render('admin/main/admin.tpl', systemConfig::$mainTemplateDriver);
+                        $output = $view->render('admin/main/admin.tpl', systemConfig::INTERNAL_TEMPLATE_DRIVER);
                         break;
 
                     default:
-                        $driver_active_template = $active_template;
+                        if ( ($pos = strpos($active_template, '://')) !== false) {
+                            $active_template_file = substr($active_template, $pos + 3);
+                            $active_template_driver = substr($active_template, 0, $pos);
+                        } else {
+                            $active_template_file = $active_template;
+                            $active_template_driver = systemConfig::$defaultTemplateDriver;
+                        }
+
                         $view->assign('content', $output);
-                        $output = $view->render($driver_active_template, systemConfig::$mainTemplateDriver);
+                        $output = $view->render($active_template_file, $active_template_driver);
                         break;
                 }
             }
@@ -129,7 +136,7 @@ class contentFilter implements iFilter
         $tpl_path = systemConfig::$pathToApplication . '/templates';
         $tpl_name = 'act' . DIRECTORY_SEPARATOR . $module_name . DIRECTORY_SEPARATOR . $action_name . '.tpl';
         if (file_exists($tpl_path . DIRECTORY_SEPARATOR . $tpl_name)) {
-            return $view->render('templates' . DIRECTORY_SEPARATOR . $tpl_name, systemConfig::$mainTemplateDriver);
+            return $view->render('templates' . DIRECTORY_SEPARATOR . $tpl_name, systemConfig::$defaultTemplateDriver);
         }
 
         $module = $toolkit->getModule($module_name);
@@ -141,12 +148,12 @@ class contentFilter implements iFilter
             throw new mzzNoActionException('Direct access to this action is deny');
         }
 
-        $driver_active_template = 'template/drivers/' . systemConfig::$mainTemplateDriver . '/templates/' . $active_template;
+        $driver_active_template = 'template/drivers/' . systemConfig::$defaultTemplateDriver . '/templates/' . $active_template;
 
         $view->assign('module', $module_name);
         $view->assign('action', $action_name);
 
-        return $view->render($driver_active_template, systemConfig::$mainTemplateDriver);
+        return $view->render($driver_active_template, systemConfig::$defaultTemplateDriver);
     }
     */
 }

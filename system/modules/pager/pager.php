@@ -343,7 +343,7 @@ class pager
     public function toString($tpl = 'pager/pager.tpl', $backend = null)
     {
         if (is_null($backend)) {
-            $backend = systemConfig::$mainTemplateDriver;
+            $backend = systemConfig::$defaultTemplateDriver;
         }
 
         $toolkit = systemToolkit::getInstance();
