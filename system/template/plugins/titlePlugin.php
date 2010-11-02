@@ -65,7 +65,7 @@ class titlePlugin extends aPlugin
             if (isset($params['start']) && !empty($title)) {
                 $title = $params['start'] . $title;
             }
-            return $title;
+            return htmlspecialchars($title);
         }
     }
 }
