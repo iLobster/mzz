@@ -169,11 +169,16 @@ class userMapper extends mapper
         }
     }
 
-    protected function preUpdate(& $data)
+    protected function preUpdate(& $object)
     {
-        if (is_array($data)) {
+        if ($object instanceof entity) {
+            $data = $object->exportChanged();
             if (isset($data['password'])) {
-                $data['password'] = $this->cryptPassword($data['password']);
+                $object->setPassword($this->cryptPassword($data['password']));
+                $userAuthMapper = systemToolkit::getInstance()->getMapper('user', 'userAuth');
+                foreach($userAuthMapper->searchAllByField('user_id', $object->getId()) as $auth) {
+                    $userAuthMapper->delete($auth);
+                }
             }
         }
     }
