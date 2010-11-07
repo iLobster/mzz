@@ -1,54 +1,67 @@
 diff  sysplugins/smarty_internal_data.php sysplugins/smarty_internal_data.php
-30a31,48
->             $keys = array_keys($tpl_var);
->             foreach ($keys as $key) {
->                 if (isset($this->tpl_vars[$key])) {
->                     unset($this->tpl_vars[$key]);
->                 }
->             }
->         } else {
->             if (isset($this->tpl_vars[$tpl_var])) {
->                 unset($this->tpl_vars[$tpl_var]);
->             }
->         }
-> 
->         $this->smarty->assign($tpl_var, $value);
-> 
->         return;
-> 
->         /* old smartyes assign */
->         if (is_array($tpl_var)) {
-65a84,91
->             if (isset($this->tpl_vars[$tpl_var])) {
->                 unset($this->tpl_vars[$tpl_var]);
->             }
->             $this->smarty->assign_by_ref($tpl_var, $value);
-> 
->             return;
-> 
->             /* old smartyes assign */
-288c314,321
-<         } 
+31,48d30
+<             $keys = array_keys($tpl_var);
+<             foreach ($keys as $key) {
+<                 if (isset($this->tpl_vars[$key])) {
+<                     unset($this->tpl_vars[$key]);
+<                 }
+<             }
+<         } else {
+<             if (isset($this->tpl_vars[$tpl_var])) {
+<                 unset($this->tpl_vars[$tpl_var]);
+<             }
+<         }
+< 
+<         $this->smarty->assign($tpl_var, $value);
+< 
+<         return;
+< 
+<         /* old smartyes assign */
+<         if (is_array($tpl_var)) {
+84,91d65
+<             if (isset($this->tpl_vars[$tpl_var])) {
+<                 unset($this->tpl_vars[$tpl_var]);
+<             }
+<             $this->smarty->assign_by_ref($tpl_var, $value);
+< 
+<             return;
+< 
+<             /* old smartyes assign */
+314,321c288
+<         }
+< 
+<         $val = $this->smarty->getVariable($variable);
+< 
+<         if ($val !== null) {
+<             return new Smarty_Variable($val);
+<         }
+< 
 ---
->         }
-> 
->         $val = $this->smarty->getVariable($variable);
-> 
->         if ($val !== null) {
->             return new Smarty_Variable($val);
->         }
-> 
+>         } 
 diff  sysplugins/smarty_internal_template.php sysplugins/smarty_internal_template.php
-198c198
-<         ($this->compiled_filepath = !$this->resource_object->isEvaluated ? $this->resource_object->getCompiledFilepath($this) : false) :
+205c205
+<         ($this->compiled_filepath = ! $this->resource_object->isEvaluated ? $this->addLangToFilepath($this->resource_object->getCompiledFilepath($this)) : false) :
 ---
->         ($this->compiled_filepath = !$this->isEvaluated() ? $this->addLangToFilepath($this->resource_object->getCompiledFilepath($this)) : false) :
-201a202,209
->     protected function addLangToFilepath($file)
->     {
->         if (empty($this->lang) && systemConfig::$i18n) {
->             $this->lang = systemToolkit::getInstance()->getLocale()->getName();
->         }
-> 
->         return $file . '-' . $this->lang . '.php';
->     }
+>         ($this->compiled_filepath = !$this->resource_object->isEvaluated ? $this->resource_object->getCompiledFilepath($this) : false) :
+209,216d208
+<     protected function addLangToFilepath($file)
+<     {
+<         if (empty($this->lang) && systemConfig::$i18n) {
+<             $this->lang = systemToolkit::getInstance()->getLocale()->getName();
+<         }
+< 
+<         return $file . '-' . $this->lang . '.php';
+<     }
+diff  sysplugins/smarty_internal_templatecompilerbase.php sysplugins/smarty_internal_templatecompilerbase.php
+112,120c112
+<         $this->has_output = false;
+<         if (is_array($args)) {
+<             foreach ($args as $key => $arg) {
+<                //@todo: sometimes $arg is not scalar???
+<                 if (is_scalar($arg) && (strlen($trimmed = trim($arg, '"\'')) === strlen($arg) - 2) && i18n::isName($trimmed)) {
+<                     $args[$key] = '"' . smarty_prefilter_i18n('{' . $trimmed . '}', $this->smarty) . '"';
+<                 }
+<             }
+<         }
+---
+>         $this->has_output = false; 

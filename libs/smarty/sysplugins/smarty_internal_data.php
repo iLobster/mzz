@@ -320,7 +320,7 @@ class Smarty_Internal_Data {
         }
 
         if ($this->smarty->error_unassigned && $error_enable) {
-            throw new Exception('Undefined Smarty variable "' . $variable . '"');
+            throw new SmartyException('Undefined Smarty variable "' . $variable . '"');
         } else {
             return new Undefined_Smarty_Variable;
         } 
@@ -343,7 +343,7 @@ class Smarty_Internal_Data {
             $_ptr = $_ptr->parent;
         } 
         if ($this->smarty->error_unassigned) {
-            throw new Exception('Undefined config variable "' . $variable . '"');
+            throw new SmartyException('Undefined config variable "' . $variable . '"');
         } else {
             return '';
         } 
@@ -365,8 +365,8 @@ class Smarty_Internal_Data {
             return $_result;
         } 
 
-        if ($this->smarty->$error_unassigned) {
-            throw new Exception('Undefined stream variable "' . $variable . '"');
+        if ($this->smarty->error_unassigned) {
+            throw new SmartyException('Undefined stream variable "' . $variable . '"');
         } else {
             return '';
         } 
@@ -440,7 +440,7 @@ class Smarty_Data extends Smarty_Internal_Data {
                 $this->tpl_vars[$_key] = new Smarty_variable($_val);
             } 
         } elseif ($_parent != null) {
-            throw new Exception("Wrong type for template variables");
+            throw new SmartyException("Wrong type for template variables");
         } 
     } 
 } 
