@@ -12,6 +12,8 @@
  * @version $Id$
  */
 
+fileLoader::load('user/pam/pam');
+
 /**
  * userLoginController: контроллер для метода login модуля user
  *
@@ -21,23 +23,22 @@
  */
 class userLoginController extends simpleController
 {
+
     protected function getView()
     {
         $user = $this->toolkit->getUser();
         $backURL = $this->request->getString('url', SC_POST);
         $tplPath = $this->request->getString('tplPath');
+        $pamProvider = $this->request->getString('pam');
+
         if (!$user->isLoggedIn()) {
             $validator = new formValidator();
-            $validator->rule('required', 'login', 'Login field is required');
-            $validator->rule('required', 'password', 'Password field is required');
+            $pam = pam::factory($pamProvider);
+
+            $pam->validate($validator);
 
             if (!$this->request->getBoolean('onlyForm') && $validator->validate()) {
-                $login = $this->request->getString('login', SC_POST);
-                $password = $this->request->getString('password', SC_POST);
-
-                $userMapper = $this->toolkit->getMapper('user', 'user');
-
-                $user = $userMapper->searchByLoginAndPassword($login, $password);
+                $user = $pam->login();
 
                 if (!$user || !$user->isConfirmed()) {
                     $validator->setError('login', 'Wrong login or password');
@@ -67,7 +68,7 @@ class userLoginController extends simpleController
         }
 
         $this->view->assign('user', $user);
-        return  ($tplPath) ? $this->view->render($tplPath . 'alreadyLogin.tpl') : $this->render('user/alreadyLogin.tpl');
+        return ($tplPath) ? $this->view->render($tplPath . 'alreadyLogin.tpl') : $this->render('user/alreadyLogin.tpl');
     }
 
     protected function rememberUser($user)
@@ -79,6 +80,7 @@ class userLoginController extends simpleController
 
         $this->response->setCookie(userAuthMapper::AUTH_COOKIE_NAME, $userAuth->getHash(), time() + 10 * 365 * 86400, '/');
     }
+
 }
 
 ?>

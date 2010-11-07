@@ -41,5 +41,18 @@ class userModule extends simpleModule
     {
         return true;
     }
+
+    public function getRoutes()
+    {
+        return array(
+            array(
+                'userLogin' => new requestRoute('user/:pam/:action', array(
+                    'module' => 'user',
+                    'action' => 'login',
+                    'pam' => 'simple'), array(
+                    'pam' => '.*?',
+                    'action' => '(?:login)'))),
+            array());
+    }
 }
 ?>
