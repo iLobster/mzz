@@ -51,15 +51,22 @@ class metaPlugin extends aPlugin
             if (!empty($params['reset'])) {
                 $this->metas[$type] = array();
             }
-            $this->metas[$type][] = htmlspecialchars($params[$type]);
+            $this->metas[$type][] = $params[$type];
         } elseif (isset($params['show']) && in_array($params['show'], array_keys($this->metas))) {
-            $default = (isset($params['default'])) ? htmlspecialchars($params['default']) : null;
             $result = join(', ', $this->metas[$params['show']]);
             if (empty($result)) {
-                return $default;
+                 $result = (isset($params['default'])) ? $params['default'] : '';
             }
 
-            return $result;
+            if (isset($params['prepend'])) {
+                $result = $params['prepend'] . ((!empty($result)) ? ', ' . $result : '');
+            }
+
+            if (isset($params['append'])) {
+                $result = ((!empty($result)) ? $result . ', ' : '') . $params['append'];
+            }
+
+            return htmlspecialchars($result);
         }
     }
 }
