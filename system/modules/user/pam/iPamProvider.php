@@ -32,13 +32,14 @@ interface iPamProvider
     /**
      * Method for cleaning out after logout
      */
-    public function logout(User $user = null);
+    public function logout(user $user = null);
 
     /**
      * Adds validation rules and does some hidden magic.
-     * Actually no validation goes here and exceptions should not be thrown here
+     *
+     * @return boolean - true on success
      */
-    public function validate(Validator &$validator);
+    public function validate(validator &$validator);
 
     /**
      * Implements redirection after login.

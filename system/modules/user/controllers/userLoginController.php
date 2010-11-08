@@ -35,9 +35,7 @@ class userLoginController extends simpleController
             $validator = new formValidator();
             $pam = pam::factory($pamProvider);
 
-            $pam->validate($validator);
-
-            if (!$this->request->getBoolean('onlyForm') && $validator->validate()) {
+            if ($pam->validate($validator)) {
                 $user = $pam->login();
 
                 if (!$user || !$user->isConfirmed()) {

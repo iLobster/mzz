@@ -83,12 +83,12 @@ class pam
         return $this->provider->login();
     }
 
-    public function logout(User $user = null)
+    public function logout(user $user = null)
     {
         return $this->provider->logout($user);
     }
 
-    public function validate(Validator &$validator)
+    public function validate(validator &$validator)
     {
         return $this->provider->validate($validator);
     }

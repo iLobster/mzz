@@ -31,15 +31,17 @@ class simplePamProvider extends aPamProvider
         return $user;
     }
 
-    public function logout(User $user = null)
+    public function logout(user $user = null)
     {
         
     }
 
-    public function validate(Validator &$validator)
+    public function validate(validator &$validator)
     {
         $validator->rule('required', 'login', 'Login field is required');
         $validator->rule('required', 'password', 'Password field is required');
+        
+        return $validator->validate();
     }
 
 }

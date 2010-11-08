@@ -32,6 +32,6 @@ abstract class aPamProvider implements iPamProvider
         $this->response = $this->toolkit->getResponse();
     }
 
-    public function validate(Validator &$validator){}
+    public function validate(validator &$validator){}
 }
 ?>

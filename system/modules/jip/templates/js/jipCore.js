@@ -82,7 +82,7 @@
 
             if (this.window) {
                 this.lockContent();
-                this.clean();
+                this.setLoadingMsg();
                 this.request(url, method, params);
 
                 if(url.match(/[&\?]_confirm=/) == null && redirect !== true) {
@@ -386,7 +386,7 @@
             if (this.window) {
                 this.clean();
                 this.setTitle('loading...');
-                this.window.show().content('<div id="jipLoad"><img src="' + SITE_PATH + '/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[JIP_LANG].loading + '<br /><a href="javascript: void(jipWindow.close());">' + MZZ.jipI18n[JIP_LANG].cancel + '</a></div>');
+                this.window.show().content('<div id="jipLoad"><img src="' + SITE_PATH + '/images/jip/loader.gif" width="220" height="19" /><br />' + MZZ.jipI18n[JIP_LANG].loading + '<br /><a href="javascript: void(jipWindow.close());">' + MZZ.jipI18n[JIP_LANG].cancel + '</a></div>');
             }
         },
 
@@ -395,7 +395,7 @@
             if (this.window) {
                 this.clean();
                 this.setTitle('Refresh');
-                this.window.show().content('<div id="jipLoad"><img src="' + SITE_PATH + '/images/jip/status_car.gif" width="38" height="16" /><br />' + MZZ.jipI18n[JIP_LANG].refresh + '</div>');
+                this.window.show().content('<div id="jipLoad"><img src="' + SITE_PATH + '/images/jip/loader.gif" width="220" height="19" /><br />' + MZZ.jipI18n[JIP_LANG].refresh + '</div>');
             }
         },
 
