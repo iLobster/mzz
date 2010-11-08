@@ -47,7 +47,11 @@ class cacheFile extends cacheBackend
     public function __construct(Array $params)
     {
         if (!isset($params['path']) || !is_dir($params['path'])) {
-            throw new mzzRuntimeException('A valid cache directory must be specified for cacheFile');
+            $exception_message = 'A valid cache directory must be specified for cacheFile';
+
+            //mzzRuntimeException может быть не подключен на этом этапе
+            $exception = class_exists('mzzRuntimeException') ? new mzzRuntimeException($exception_message) : new Exception($exception_message);
+            throw $exception;
         }
 
         $this->path = $params['path'];
