@@ -79,12 +79,23 @@ abstract class simpleModule
      */
     protected $paths = array();
 
+    /**
+     * Default template Driver for module
+     *
+     * @var string
+     */
+    protected $templateDriver = null;
+
     public function __construct()
     {
         $this->paths = array(
             'sys' => systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $this->getName(),
             'app' => systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $this->getName()
         );
+
+        if (empty($this->templateDriver)) {
+            $this->templateDriver = systemConfig::$defaultTemplateDriver;
+        }
     }
 
     /**
@@ -342,5 +353,14 @@ abstract class simpleModule
         return $this->config;
     }
 
+    /**
+     * Returns default template driver for module
+     * 
+     * @return string
+     */
+    public function getTemplateDriver()
+    {
+        return $this->templateDriver;
+    }
 }
 ?>

@@ -77,11 +77,12 @@ abstract class simpleController
      * @var view
      */
     protected $view = null;
+
     /**
      *
      * @var string
      */
-    protected $backend  = 'smarty';
+    protected $backend  = null;
     /**
      * Конструктор
      *
@@ -95,6 +96,10 @@ abstract class simpleController
         $this->action = $action;
 
         $this->lang_id = $this->request->getInteger('lang_id', SC_GET);
+
+        if (empty($this->backend)) {
+            $this->backend = $this->toolkit->getModule($action->getModuleName())->getTemplateDriver();
+        }
     }
 
     /**
