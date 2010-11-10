@@ -82,12 +82,12 @@ class contentFilter implements iFilter
                 switch ($active_template) {
                     case 'active.main.tpl':
                         $view->assign('content', $output);
-                        $output = $view->render('templates/main.tpl', systemConfig::INTERNAL_TEMPLATE_DRIVER);
+                        $output = $view->render('templates/main.tpl', systemConfig::$internalTemplateDriver);
                         break;
 
                     case 'active.headeronly.tpl':
                         $view->assign('content', $output);
-                        $output = $view->render('templates/header.tpl', systemConfig::INTERNAL_TEMPLATE_DRIVER);
+                        $output = $view->render('templates/header.tpl', systemConfig::$internalTemplateDriver);
                         break;
 
                     case 'active.blank.tpl':
@@ -96,7 +96,7 @@ class contentFilter implements iFilter
                     //@todo: выбрать шаблонизатор для админки
                     case 'active.admin.tpl':
                         $view->assign('content', $output);
-                        $output = $view->render('admin/main/admin.tpl', systemConfig::INTERNAL_TEMPLATE_DRIVER);
+                        $output = $view->render('admin/main/admin.tpl', systemConfig::$internalTemplateDriver);
                         break;
 
                     default:

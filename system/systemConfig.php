@@ -142,7 +142,7 @@ class systemConfig
      *
      * @var string
      */
-    const INTERNAL_TEMPLATE_DRIVER = 'smarty';
+    public static $internalTemplateDriver = 'smarty';
 
     /**
      * Default driver for templates. Used for main.tpl, header.tpl and other main templates
@@ -176,7 +176,7 @@ class systemConfig
         self::$pathToWebRoot = realpath(self::$pathToWebRoot);
         self::$pathToTemp = realpath(self::$pathToTemp);
         self::$pathToConfigs = realpath(self::$pathToConfigs);
-        
+
         if (!isset(self::$cache['fast'])) {
             self::$cache['fast'] = array(
                 'backend' => 'file',
