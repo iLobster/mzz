@@ -97,7 +97,7 @@ abstract class simpleController
 
         $this->lang_id = $this->request->getInteger('lang_id', SC_GET);
 
-        if (empty($this->backend)) {
+        if (empty($this->backend) && $action) {
             $this->backend = $this->toolkit->getModule($action->getModuleName())->getTemplateDriver();
         }
     }
@@ -204,11 +204,11 @@ abstract class simpleController
             $confirm = $this->getAction()->getConfirm();
             $confirmCode = $this->request->getString('_confirm', SC_GET);
             $session = $this->toolkit->getSession();
-    
+
             if (!empty($confirm) && (empty($confirmCode) || $confirmCode != $session->get('confirm_code'))) {
                 $view = $this->getConfirmView($confirm);
             }
-            
+
             if ($this->getAction()->isJip() && $this->request->isJip()) {
                 //$this->view->setActiveTemplate('main.xml.tpl');
                 $this->response->setHeader('Content-Type', 'text/xml');
