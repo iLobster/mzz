@@ -144,25 +144,24 @@ abstract class simpleController
     protected function forward404($mapper = null)
     {
         if ($mapper instanceof mapper) {
-            $module = $this->toolkit->getModule($mapper->getModule());
-            $action = $module->getAction($mapper->getClass() . '404');
-            if ($action) {
+            try {
+                $module = $this->toolkit->getModule($mapper->getModule());
+                $action = $module->getAction($mapper->getClass() . '404');
                 return $action->run();
-            }
+            } catch (mzzUnknownModuleActionException $e) {}
         }
 
         return $this->forward('errorPages', 'error404');
-
     }
 
     public function forward403($mapper = null)
     {
         if ($mapper instanceof mapper) {
-            $module = $this->toolkit->getModule($mapper->getModule());
-            $action = $module->getAction($mapper->getClass() . '403');
-            if ($action) {
+            try {
+                $module = $this->toolkit->getModule($mapper->getModule());
+                $action = $module->getAction($mapper->getClass() . '403');
                 return $action->run();
-            }
+            } catch (mzzUnknownModuleActionException $e) {}
         }
 
         return $this->forward('errorPages', 'error403');
