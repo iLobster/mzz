@@ -1,4 +1,5 @@
 <?php
+
 /**
  * $URL$
  *
@@ -21,22 +22,12 @@
  */
 class userModule extends simpleModule
 {
-    protected $icon = "sprite:sys/user";
-    protected $classes = array(
-        'user',
-        'userFolder',
-        'userGroup',
-        'group',
-        'groupFolder',
-        'userAuth',
-        'userOnline',
-        'userRole'
-    );
 
+    protected $icon = "sprite:sys/user";
+    protected $classes = array('user', 'userFolder', 'userGroup', 'group', 'groupFolder', 'userAuth', 'userOnline', 'userRole', 'pamFacebook');
     protected $roles = array(
         'moderator',
         'user');
-    
     protected $isSystem = true;
 
     public function getRoutes()
@@ -49,10 +40,11 @@ class userModule extends simpleModule
                     'pam' => 'simple'), array(
                     'pam' => '.*?',
                     'action' => '(?:login)')),
-                 'userActions' => new requestRoute('user/:action', array(
+                'userActions' => new requestRoute('user/:action', array(
                     'module' => 'user'),
-                    array('action' => '(?:exit|register|list|groupsList|online|edit)'))),
+                        array('action' => '(?:exit|register|list|groupsList|online|edit)'))),
             array());
     }
+
 }
 ?>

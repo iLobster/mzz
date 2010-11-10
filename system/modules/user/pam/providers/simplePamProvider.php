@@ -28,6 +28,15 @@ class simplePamProvider extends aPamProvider
         $password = $this->request->getString('password', SC_POST);
         $userMapper = $this->toolkit->getMapper('user', 'user');
         $user = $userMapper->searchByLoginAndPassword($login, $password);
+
+        if ($user && $user->isConfirmed()) {
+            if ($this->request->getBoolean('save', SC_POST)) {
+                pam::rememberUser($user, 'simple');
+            }
+        } else {
+            $user = null;
+        }
+
         return $user;
     }
 
@@ -40,8 +49,13 @@ class simplePamProvider extends aPamProvider
     {
         $validator->rule('required', 'login', 'Login field is required');
         $validator->rule('required', 'password', 'Password field is required');
-        
+
         return $validator->validate();
+    }
+
+    public function checkAuth(user $user)
+    {
+        return ($user &&  $user->isConfirmed());
     }
 
 }

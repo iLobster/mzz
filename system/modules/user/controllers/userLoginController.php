@@ -39,14 +39,13 @@ class userLoginController extends simpleController
             if ($pam->validate($validator)) {
                 $user = $pam->login();
 
-                if (!$user || !$user->isConfirmed()) {
+                if (!$user) {
                     $validator->setError('login', 'Wrong login or password');
+                    $this->toolkit->getSession()->set('user_pam', null);
                 } else {
                     $this->toolkit->setUser($user);
-                    if ($this->request->getBoolean('save', SC_POST)) {
-                        $this->rememberUser($user);
-                    }
-
+                    $this->toolkit->getSession()->set('user_pam', $pamProvider);
+                    
                     if (!$backURL) {
                         $url = new url('default');
                         $backURL = $url->get();
@@ -70,15 +69,7 @@ class userLoginController extends simpleController
         return ($tplPath) ? $this->view->render($tplPath . 'alreadyLogin.tpl') : $this->render('user/alreadyLogin.tpl');
     }
 
-    protected function rememberUser($user)
-    {
-        $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth');
-        $hash = $this->request->getString(userAuthMapper::AUTH_COOKIE_NAME, SC_COOKIE);
-        $ip = $this->request->getServer('REMOTE_ADDR');
-        $userAuth = $userAuthMapper->saveAuth($user, $hash, $ip);
 
-        $this->response->setCookie(userAuthMapper::AUTH_COOKIE_NAME, $userAuth->getHash(), time() + 10 * 365 * 86400, '/');
-    }
 
 }
 

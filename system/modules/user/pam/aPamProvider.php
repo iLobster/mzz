@@ -33,5 +33,7 @@ abstract class aPamProvider implements iPamProvider
     }
 
     public function validate(validator &$validator){}
+
+   public function checkAuth(){}
 }
 ?>

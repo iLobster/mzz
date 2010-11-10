@@ -60,6 +60,10 @@ class userAuthMapper extends mapper
             'mutator' => 'setHash',
             'options' => array('once')
         ),
+ /*       'pam' => array(
+            'accessor' => 'getPam',
+            'mutator' => 'setPam',
+        ),*/
         'ip' => array(
             'accessor' => 'getIp',
             'mutator' => 'setIp',
@@ -94,7 +98,7 @@ class userAuthMapper extends mapper
         return $auth;
     }
 
-    public function saveAuth($user, $hash, $ip)
+    public function saveAuth($user, $hash, $ip) //, $pam)
     {
         $userAuth = $this->getAuth($hash, $ip);
 
@@ -106,6 +110,7 @@ class userAuthMapper extends mapper
             $userAuth = $this->create();
             $userAuth->setIp($ip);
             $userAuth->setUser($user);
+            //$userAuth->setPam($pam);
             $this->save($userAuth);
         }
 
