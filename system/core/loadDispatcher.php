@@ -1,4 +1,5 @@
 <?php
+
 /**
  * $URL$
  *
@@ -23,6 +24,7 @@
  */
 class loadDispatcher
 {
+
     /**
      * Request
      *
@@ -79,8 +81,9 @@ class loadDispatcher
             if ($action->canRun()) {
                 $view = $action->run();
             } else {
-                $errorAction = $module->getAction($action->getClassName() . '403');
-                if (!$errorAction) {
+                try {
+                    $errorAction = $module->getAction($action->getClassName() . '403');
+                } catch (mzzUnknownModuleActionException $e) {
                     $errorModule = $toolkit->getModule('errorPages');
                     $errorAction = $errorModule->getAction('error403');
                 }
@@ -102,5 +105,4 @@ class loadDispatcher
         }
     }
 }
-
 ?>
