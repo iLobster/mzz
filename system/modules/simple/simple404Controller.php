@@ -23,6 +23,8 @@ class simple404Controller extends simpleController
 {
     protected function getView()
     {
+        throw new mzzException("deprecated, use module errorPages");
+        
         $this->response->setStatus(404);
 
         $template = 'simple/404.tpl';

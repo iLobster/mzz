@@ -1,4 +1,5 @@
 <?php
+
 /**
  * $URL$
  *
@@ -15,7 +16,6 @@
 /**
  * Handles exceptions in contentFilter
  */
-
 class contentFilterExceptionHandler
 {
 
@@ -31,11 +31,10 @@ class contentFilterExceptionHandler
             throw $exception;
         }
 
-        fileLoader::load('simple/simple404Controller');
-        $controller = new simple404Controller();
-        return $controller->run();
+        $errorModule = systemToolkit::getInstance()->getModule('errorPages');
+        $errorAction = $errorModule->getAction('error404');
+        return $errorAction->run();
     }
 
 }
-
 ?>

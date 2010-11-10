@@ -79,9 +79,12 @@ class loadDispatcher
             if ($action->canRun()) {
                 $view = $action->run();
             } else {
-                fileLoader::load('simple/simple403Controller');
-                $controller = new simple403Controller($action);
-                $view = $controller->run();
+                $errorAction = $module->getAction($action->getClassName() . '403');
+                if (!$errorAction) {
+                    $errorModule = $toolkit->getModule('errorPages');
+                    $errorAction = $errorModule->getAction('error403');
+                }
+                $view = $errorAction->run();
             }
 
             $request->restore();
@@ -90,9 +93,9 @@ class loadDispatcher
             return $view;
         } else {
             if (!DEBUG_MODE) {
-                fileLoader::load('simple/simple404Controller');
-                $controller = new simple404Controller();
-                return $controller->run();
+                $errorModule = $toolkit->getModule('errorPages');
+                $errorAction = $errorModule->getAction('error404');
+                return $errorAction->run();
             } else {
                 throw new mzzRuntimeException('Module "' . $module->getName() . '" is not enabled. Check systemConfig::$enabledModules in config.php');
             }

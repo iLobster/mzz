@@ -144,45 +144,28 @@ abstract class simpleController
     protected function forward404($mapper = null)
     {
         if ($mapper instanceof mapper) {
-            $class = $mapper->getClass() . '404Controller';
-            $module = $mapper->getModule();
-        } else {
-            $module = $class = '';
-        }
-
-        try {
-            fileLoader::load($module . '/controllers/' . $class);
-        } catch (mzzIoException $e) {
-            $class = 'simple404Controller';
-            if (!class_exists($class)) {
-                fileLoader::load('simple/' . $class);
+            $module = $this->toolkit->getModule($mapper->getModule());
+            $action = $module->getAction($mapper->getClass() . '404');
+            if ($action) {
+                return $action->run();
             }
         }
 
-        $controller = new $class($this->getAction());
-        return $controller->run();
+        return $this->forward('errorPages', 'error404');
+
     }
 
     public function forward403($mapper = null)
     {
         if ($mapper instanceof mapper) {
-            $class = $mapper->getClass() . '403Controller';
-            $module = $mapper->getModule();
-        } else {
-            $module = $class = '';
-        }
-
-        try {
-            fileLoader::load($module . '/controllers/' . $class);
-        } catch (mzzIoException $e) {
-            $class = 'simple403Controller';
-            if (!class_exists($class)) {
-                fileLoader::load('simple/' . $class);
+            $module = $this->toolkit->getModule($mapper->getModule());
+            $action = $module->getAction($mapper->getClass() . '403');
+            if ($action) {
+                return $action->run();
             }
         }
 
-        $controller = new $class($this->getAction());
-        return $controller->run();
+        return $this->forward('errorPages', 'error403');
     }
 
     /**

@@ -52,6 +52,13 @@ class pam
         }
 
         if (!isset(self::$instances[$provider])) {
+
+            $providers = explode(',', systemToolkit::getInstance()->getConfig('user')->get('pamProviders'));
+
+           if (empty($providers) || !in_array($provider, $providers)) {
+                 throw new mzzUnknownPamProviderException($provider);
+           }
+
             $className = $provider . 'PamProvider';
             try {
                 $notFound = false;
@@ -60,7 +67,7 @@ class pam
                     $notFound = !class_exists($className);
                 }
             } catch (mzzIoException $e) {
-                var_dump('user' . DIRECTORY_SEPARATOR . 'pam' . DIRECTORY_SEPARATOR . 'providers' . DIRECTORY_SEPARATOR . $className);
+                //var_dump('user' . DIRECTORY_SEPARATOR . 'pam' . DIRECTORY_SEPARATOR . 'providers' . DIRECTORY_SEPARATOR . $className);
                 $notFound = true;
             }
 

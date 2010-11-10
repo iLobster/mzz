@@ -57,6 +57,11 @@ abstract class simpleModule
      */
     protected $mappers = array();
 
+    /**
+     * Module's icon for using at admin panel
+     * 
+     * @var string
+     */
     protected $icon = null;
 
     /**
@@ -72,6 +77,7 @@ abstract class simpleModule
      * @var simpleConfig
      */
     protected $config = null;
+
     /**
      * Array of the paths where we will look for module files
      *
@@ -85,6 +91,13 @@ abstract class simpleModule
      * @var string
      */
     protected $templateDriver = null;
+
+    /**
+     * Defines whether module is system
+     * 
+     * @var boolean
+     */
+    protected $isSystem = false;
 
     public function __construct()
     {
@@ -304,7 +317,7 @@ abstract class simpleModule
      */
     public function isSystem()
     {
-        return false;
+        return $this->isSystem;
     }
 
     /**

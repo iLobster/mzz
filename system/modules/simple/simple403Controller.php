@@ -23,6 +23,8 @@ class simple403Controller extends simpleController
 {
     protected function getView()
     {
+        throw new mzzException("deprecated, use module errorPages");
+        
         $this->response->setStatus(403);
 
         try {

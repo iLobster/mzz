@@ -37,10 +37,7 @@ class userModule extends simpleModule
         'moderator',
         'user');
     
-    public function isSystem()
-    {
-        return true;
-    }
+    protected $isSystem = true;
 
     public function getRoutes()
     {

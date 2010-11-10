@@ -21,9 +21,8 @@
  */
 class pagerModule extends simpleModule
 {
-    public function isSystem()
-    {
-        return true;
-    }
+
+    protected $isSystem = true;
+
 }
 ?>

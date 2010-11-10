@@ -114,13 +114,14 @@ return array(
         'controller' => 'dashboard',
         'dashboard' => true,
         'main' => 'deny'),
-    '403' => array(
-        'controller' => '403'
-    ),
     'config' => array(
         'controller' => 'config',
         'role' => array('moderator'),
         'main' => 'active.blank.tpl',
     ),
+    'admin403' => array(
+        'controller' => '403',
+        'main' => 'deny',
+    )
 );
 ?>

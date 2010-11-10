@@ -21,6 +21,7 @@
  */
 class captchaModule extends simpleModule
 {
+
     protected $classes = array(
         'captcha');
 
@@ -34,9 +35,7 @@ class captchaModule extends simpleModule
                     'action' => 'view'))));
     }
 
-    public function isSystem()
-    {
-        return true;
-    }
+    protected $isSystem = true;
+
 }
 ?>

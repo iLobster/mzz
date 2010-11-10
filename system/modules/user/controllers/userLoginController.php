@@ -29,10 +29,11 @@ class userLoginController extends simpleController
         $user = $this->toolkit->getUser();
         $backURL = $this->request->getString('url', SC_POST);
         $tplPath = $this->request->getString('tplPath');
-        $pamProvider = $this->request->getString('pam');
 
         if (!$user->isLoggedIn()) {
             $validator = new formValidator();
+            $pamProvider = $this->request->getString('pam');
+
             $pam = pam::factory($pamProvider);
 
             if ($pam->validate($validator)) {
