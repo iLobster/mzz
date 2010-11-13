@@ -12,10 +12,11 @@
  * @package system
  * @subpackage filters
  * @version $Id$
-*/
+ */
+fileLoader::load('user/pam/pam');
 
 /**
- * userFilter: фильтр для инициализации текущего пользователя
+ * userFilter: filter for getting current user
  *
  * @package system
  * @subpackage filters
@@ -23,11 +24,12 @@
  */
 class userFilter implements iFilter
 {
+
     /**
-     * запуск фильтра на исполнение
+     * runs filter
      *
-     * @param filterChain $filter_chain объект, содержащий цепочку фильтров
-     * @param httpResponse $response объект, содержащий информацию, выводимую клиенту в браузер
+     * @param filterChain $filter_chain
+     * @param httpResponse $response
      * @param iRequest $request
      */
     public function run(filterChain $filter_chain, $response, iRequest $request)
@@ -53,23 +55,40 @@ class userFilter implements iFilter
                 }
             }
 
-            // если пользователь сохранил авторизацию, тогда восстанавливаем её
+            // if user stored Auth, then restore it
             if (!is_null($userAuth)) {
                 $user = $userAuth->getUser();
+                $valideAuth = false;
+                if ($user &&  $user->getHash() === $userAuth->getUserHash() && $user->isConfirmed()) {
+                    try {
+                        $pam = pam::factory($userAuth->getPam);
+                        if ($pam->checkAuth($user)) {
+                            $valideAuth = true;
+                        }
+                    } catch (mzzUnknownPamProviderException $e) {}
+                }
+
+                if (!$valideAuth) {
+                    $user = null;
+                    $userAuthMapper->delete($userAuth);
+                }
             }
 
             if ($user) {
                 $userMapper->updateLastLoginTime($user);
             }
-
         } else {
             $user = $userMapper->searchByKey($user_id);
+            $user_hash = $toolkit->getSession()->get('user_hash');
+            if (!$user || $user->getHash() !== $user_hash || !$user->isConfirmed()) {
+                $user = null;
+            }
         }
 
         $toolkit->setUser($user);
 
         $filter_chain->next();
     }
-}
 
+}
 ?>

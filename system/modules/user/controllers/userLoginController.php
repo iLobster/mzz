@@ -40,11 +40,10 @@ class userLoginController extends simpleController
                 $user = $pam->login();
 
                 if (!$user) {
+                    var_dump($user);
                     $validator->setError('login', 'Wrong login or password');
-                    $this->toolkit->getSession()->set('user_pam', null);
                 } else {
                     $this->toolkit->setUser($user);
-                    $this->toolkit->getSession()->set('user_pam', $pamProvider);
                     
                     if (!$backURL) {
                         $url = new url('default');

@@ -80,14 +80,14 @@ class pam
         return self::$instances[$provider];
     }
 
-    public static function rememberUser($user, $pamProvider)
+    public static function rememberUser(user $user, $pamProvider)
     {
         $toolkit = systemToolkit::getInstance();
         $request = $toolkit->getRequest();
         $userAuthMapper = $toolkit->getMapper('user', 'userAuth');
         $hash = $request->getString(userAuthMapper::AUTH_COOKIE_NAME, SC_COOKIE);
         $ip = $request->getServer('REMOTE_ADDR');
-        $userAuth = $userAuthMapper->saveAuth($user, $hash, $ip); //, $pamProvider);
+        $userAuth = $userAuthMapper->saveAuth($user, $hash, $ip, $pamProvider);
 
         $toolkit->getResponse()->setCookie(userAuthMapper::AUTH_COOKIE_NAME, $userAuth->getHash(), time() + 10 * 365 * 86400, '/');
     }

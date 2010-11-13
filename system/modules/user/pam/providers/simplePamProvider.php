@@ -40,10 +40,7 @@ class simplePamProvider extends aPamProvider
         return $user;
     }
 
-    public function logout(user $user = null)
-    {
-        
-    }
+    public function logout(user $user = null) {}
 
     public function validate(validator &$validator)
     {
@@ -55,7 +52,7 @@ class simplePamProvider extends aPamProvider
 
     public function checkAuth(user $user)
     {
-        return ($user &&  $user->isConfirmed());
+        return ($user->getId() !== MZZ_USER_GUEST_ID &&  $user->isConfirmed());
     }
 
 }

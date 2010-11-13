@@ -1,4 +1,5 @@
 <?php
+
 /**
  * $URL: svn://svn.mzz.ru/mzz/trunk/system/modules/user/controllers/userLoginController.php $
  *
@@ -11,8 +12,8 @@
  * @link http://www.mzz.ru
  * @version $Id: userLoginController.php 4202 2010-04-12 13:48:43Z desperado $
  */
-
 fileLoader::load('user/libs/facebook');
+
 /**
  * facebookPamProvider: for default login method
  *
@@ -26,23 +27,35 @@ class facebookPamProvider extends aPamProvider
     protected $facebook = null;
     protected $facebookAppID = null;
     protected $facebookSecret = null;
+    protected $facebookPerms = '';
 
-    public function  __construct()
+    public function __construct()
     {
         parent::__construct();
         $config = $this->toolkit->getConfig('user');
         $this->facebookAppID = $config->get('facebook_AppID');
         $this->facebookSecret = $config->get('facebook_Secret');
+        $perms = $config->get('facebook_Perms');
+
+        if (empty($this->facebookAppID) || empty($this->facebookSecret)) {
+            throw new mzzInvalidParameterException('check facebookAppID and facebookSecret params');
+        }
+
+
         $this->facebook = new Facebook(array('appId' => $this->facebookAppID, 'secret' => $this->facebookSecret, 'cookie' => true));
     }
 
     public function login()
     {
-        $user = $this->getUser();
-        if ($user &&  $user->isConfirmed()) {
+        $user = null;
+        if ($this->facebook->getSession()) { //session found!
+            $user = $this->getUser();
+            if ($user && $user->isConfirmed()) { //we got a user inside database
                 pam::rememberUser($user, 'facebook');
-        } else {
-            $user = null;
+            } else { //no user found, need registration
+                var_dump($this->facebook->getUser());
+                die();
+            }
         }
 
         return $user;
@@ -50,21 +63,52 @@ class facebookPamProvider extends aPamProvider
 
     public function logout(user $user = null)
     {
-        $this->request->setParam('save', true);
+        $backUrl = $this->request->getString('url', SC_GET);
+        if (!$backUrl) {
+            $url = new url('default');
+            $backUrl = $url->get();
+        }
+
+        $logoutUrl = $this->facebook->getLogoutUrl(array('next' => $backUrl));
+        $this->response->redirect($logoutUrl);
     }
 
+    /**
+     * If no facebook session's found, than redirects to facebook login page.
+     *
+     * @param validator $validator
+     * @return boolean
+     */
     public function validate(validator &$validator)
     {
-	$uid = $this->facebook->getUser();
-	return !empty($uid);
+        if ($this->facebook->getSession()) {
+            try {
+                $me = $this->facebook->api('/me');
+                return true;
+            } catch (Exception $e) {
+                $this->facebook->setSession();
+            }
+        }
+
+        $loginUrl = $this->facebook->getLoginUrl(array('rec_perms' => $this->facebookPerms, 'fbconnect' => 1));
+        $this->response->redirect($loginUrl);
     }
 
     public function checkAuth(user $user)
     {
-	$facebookUser = $this->getUser();
-   //     var_dump($this->facebook->getUser()); die();
-        if ($facebookUser && $user) {
-        return ($facebookUser->getId() == $user->getId());
+        if ($user && $this->facebook->getSession()) {
+            try {
+                $me = $this->facebook->api('/me');
+            } catch (Exception $e) {
+                $this->facebook->setSession(); //clearing session
+                return false;
+            }
+            if ($this->facebook->getSession()) {
+                $facebookUser = $this->getUser();
+                if ($facebookUser) {
+                    return ($facebookUser->getId() === $user->getId());
+                }
+            }
         }
         return false;
     }
@@ -72,11 +116,12 @@ class facebookPamProvider extends aPamProvider
     protected function getUser()
     {
         $user = null;
-        
+
         $module = $this->toolkit->getModule('user');
         $mapper = $module->getMapper('pamFacebook');
 
         $rel = $mapper->searchByKey($this->facebook->getUser());
+
         if ($rel) {
             $user = $rel->getUser();
         }

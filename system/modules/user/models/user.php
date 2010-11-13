@@ -55,6 +55,11 @@ class user extends entity
     {
         return in_array(MZZ_ROOT_GID, $this->getGroups()->keys());
     }
+
+    public function getHash()
+    {
+        return md5($this->getLogin() . $this->getPassword() . $this->getEmail());
+    }
 }
 
 ?>

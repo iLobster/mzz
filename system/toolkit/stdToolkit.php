@@ -198,6 +198,7 @@ class stdToolkit extends toolkit
         }
 
         $this->getSession()->set('user_id', $user->getId());
+        $this->getSession()->set('user_hash', ($user->getId() !=  MZZ_USER_GUEST_ID) ? $user->getHash() : null);
         $this->user = $user;
     }
 
