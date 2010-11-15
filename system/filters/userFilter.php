@@ -61,7 +61,7 @@ class userFilter implements iFilter
                 $valideAuth = false;
                 if ($user &&  $user->getHash() === $userAuth->getUserHash() && $user->isConfirmed()) {
                     try {
-                        $pam = pam::factory($userAuth->getPam);
+                        $pam = pam::factory($userAuth->getPam());
                         if ($pam->checkAuth($user)) {
                             $valideAuth = true;
                         }
