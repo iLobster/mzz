@@ -47,6 +47,8 @@ class stdToolkit extends toolkit
      */
     private $mapperStack = array();
     private $modules = array();
+    private $mmCache = array('modules' => array(), 'mappers' => array());
+    private $mmCacheChanged = false;
     /**#@-*/
 
     /**
@@ -65,6 +67,11 @@ class stdToolkit extends toolkit
     {
         parent::__construct();
         $this->toolkit = systemToolkit::getInstance();
+        $cache = $this->getCache('long');
+        $cache->get('appModuleMapper_cache', $this->mmCache);
+        if (!is_array($this->mmCache) || !isset($this->mmCache['modules']) ||  !isset($this->mmCache['mappers'])) {
+            $this->mmCache = array('modules' => array(), 'mappers' => array());
+        }
     }
 
     /**
@@ -235,12 +242,15 @@ class stdToolkit extends toolkit
                 throw new mzzModuleNotFoundException($moduleName);
             }
 
-            //@todo: прикрутить сюда кэширование, чтобы не тыкаться в ФС каждый раз!
-            $appModuleClassName = simpleModule::OVERRIDE_PREFIX . ucfirst($moduleName) . 'Module';
-            try {
-                fileLoader::load($moduleName . '/' . $appModuleClassName);
-                $moduleClassName = $appModuleClassName;
-            } catch (mzzIoException $e) {}
+            if (!$this->getAppModuleCache($moduleName)) {
+                $appModuleClassName = simpleModule::OVERRIDE_PREFIX . ucfirst($moduleName) . 'Module';
+                try {
+                    fileLoader::load($moduleName . '/' . $appModuleClassName);
+                    $moduleClassName = $appModuleClassName;
+                } catch (mzzIoException $e) {
+                    $this->addAppModuleToCache($moduleName);
+                }
+            }
 
             $this->modules[$moduleName] = new $moduleClassName();
         }
@@ -434,6 +444,47 @@ class stdToolkit extends toolkit
             $this->configs[$moduleName] = new simpleConfig($moduleName);
         }
         return $this->configs[$moduleName];
+    }
+
+    public function addAppModuleToCache($moduleName)
+    {
+        if (!isset($this->mmCache['modules'][$moduleName])) {
+            $this->mmCacheChanged = true;
+            $this->mmCache['modules'][$moduleName] = true;
+        }
+    }
+
+    public function addAppMapperToCache($moduleName, $mapperName)
+    {
+        if (!isset($this->mmCache['mappers'][$moduleName][$mapperName])) {
+            $this->mmCacheChanged = true;
+            if (!isset($this->mmCache['mappers'][$moduleName]) || !is_array($this->mmCache['mappers'][$moduleName])) {
+                $this->mmCache['mappers'][$moduleName] = array();
+            }
+            $this->mmCache['mappers'][$mapperName] = true;
+        }
+    }
+
+    public function getAppModuleCache($moduleName) {
+        return isset($this->mmCache['modules'][$moduleName]);
+    }
+
+    public function getAppMapperCache($moduleName, $mapperName) {
+        return isset($this->mmCache['mappers'][$moduleName][$mapperName]);
+    }
+
+    protected function saveMMCache()
+    {
+        if ($this->mmCacheChanged) {
+            $cache = $this->getCache('long');
+            $cache->set('appModuleMapper_cache', $this->mmCache);
+            $this->mmCacheChanged = false;
+        }
+    }
+
+    public function __destruct()
+    {
+        $this->saveMMCache();
     }
 }
 ?>

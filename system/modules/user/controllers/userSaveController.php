@@ -69,24 +69,6 @@ class userSaveController extends simpleController
                 }
 
                 $userMapper->save($editedUser);
-            } elseif ($this->toolkit->getUser()->getId() === $editedUser->getId()) {
-                // if we edited current user, we should store new hash in session and userAuth if needed
-                $newHash = $editedUser->getHash();
-                $this->toolkit->getSession()->set('user_hash', $newHash);
-
-                $authHash = $this->request->getString(userAuthMapper::AUTH_COOKIE_NAME, SC_COOKIE);
-                if ($authHash) {
-                    $ip = $this->request->getServer('REMOTE_ADDR');
-                    $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth');
-                    $userAuth = $userAuthMapper->getAuth($authHash, $ip);
-                    if (is_null($userAuth)) {
-                        $this->response->setCookie(userAuthMapper::AUTH_COOKIE_NAME, '', -1);
-                    } else {
-                        $userAuth->setUserHash($newHash);
-                        $userAuthMapper->save($userAuth);
-                    }
-                }
-                
             }
 
             return jipTools::redirect();

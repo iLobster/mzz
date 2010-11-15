@@ -158,12 +158,15 @@ abstract class simpleModule
                     fileLoader::load($this->getName() . '/mappers/' . $mapperName);
                 }
 
-                //@todo: прикрутить сюда кэширование, чтобы не тыкаться в ФС каждый раз!
-                $projectMapperName = self::OVERRIDE_PREFIX . ucfirst($mapperName);
-                try {
-                    fileLoader::load($this->getName() . '/mappers/' . $projectMapperName);
-                    $mapperName = $projectMapperName;
-                } catch (mzzIoException $e) {}
+                if (!$this->toolkit->getAppMapperCache($this->getName(), $mapperName)) {
+                    $projectMapperName = self::OVERRIDE_PREFIX . ucfirst($mapperName);
+                    try {
+                        fileLoader::load($this->getName() . '/mappers/' . $projectMapperName);
+                        $mapperName = $projectMapperName;
+                    } catch (mzzIoException $e) {
+                        $this->toolkit->addAppMapperToCache($this->getName(), $mapperName);
+                    }
+                }
 
                 $this->mappers[$className] = new $mapperName($this->getName());
             }

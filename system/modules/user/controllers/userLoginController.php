@@ -40,7 +40,6 @@ class userLoginController extends simpleController
                 $user = $pam->login();
 
                 if (!$user) {
-                    var_dump($user);
                     $validator->setError('login', 'Wrong login or password');
                 } else {
                     $this->toolkit->setUser($user);

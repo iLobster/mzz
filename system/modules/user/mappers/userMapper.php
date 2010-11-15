@@ -171,13 +171,41 @@ class userMapper extends mapper
 
     protected function preUpdate(& $object)
     {
-        if ($object instanceof entity) {
+        if ($object instanceof user) {
             $data = $object->exportChanged();
             if (isset($data['password'])) {
                 $object->setPassword($this->cryptPassword($data['password']));
-                $userAuthMapper = systemToolkit::getInstance()->getMapper('user', 'userAuth');
-                foreach($userAuthMapper->searchAllByField('user_id', $object->getId()) as $auth) {
-                    $userAuthMapper->delete($auth);
+            }
+        }
+    }
+
+    protected function postUpdate(& $object)
+    {
+        if ($object instanceof user) {
+            $toolkit = systemToolkit::getInstance();
+            if ($toolkit->getUser()->getId() === $object->getId()) {
+                $oldHash = $toolkit->getSession()->get('user_hash');
+                $newHash = $object->getHash();
+
+                if ($oldHash !== $newHash) {
+                    $toolkit->getSession()->set('user_hash', $newHash);
+                }
+                $request = $toolkit->getRequest();
+                $response = $toolkit->getResponse();
+
+                $userAuthMapper = $toolkit->getMapper('user', 'userAuth');
+
+                $authHash = $request->getString(userAuthMapper::AUTH_COOKIE_NAME, SC_COOKIE);
+                if ($authHash) {
+                    $ip = $request->getServer('REMOTE_ADDR');
+                    $userAuthMapper = $toolkit->getMapper('user', 'userAuth');
+                    $userAuth = $userAuthMapper->getAuth($authHash, $ip);
+                    if (is_null($userAuth)) {
+                        $response->setCookie(userAuthMapper::AUTH_COOKIE_NAME, '', -1);
+                    } else {
+                        $userAuth->setUserHash($newHash);
+                        $userAuthMapper->save($userAuth);
+                    }
                 }
             }
         }
