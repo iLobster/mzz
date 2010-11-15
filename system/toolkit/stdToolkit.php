@@ -258,14 +258,7 @@ class stdToolkit extends toolkit
      */
     public function getMapper($module, $do)
     {
-        $mapper = $this->getMapperFromStack($do);
-
-        if (!$mapper) {
-            $module = $this->getModule($module);
-            return $module->getMapper($do);
-        }
-        $this->createMapperStack();
-        return $mapper;
+        return $this->getModule($module)->getMapper($do);
     }
 
     /**

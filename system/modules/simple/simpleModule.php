@@ -99,8 +99,12 @@ abstract class simpleModule
      */
     protected $isSystem = false;
 
+    protected $toolkit;
+    
     public function __construct()
     {
+        $this->toolkit = systemToolkit::getInstance();
+
         $this->paths = array(
             'sys' => systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $this->getName(),
             'app' => systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $this->getName()
@@ -109,6 +113,7 @@ abstract class simpleModule
         if (empty($this->templateDriver)) {
             $this->templateDriver = systemConfig::$defaultTemplateDriver;
         }
+
     }
 
     /**
@@ -140,27 +145,34 @@ abstract class simpleModule
      */
     public function getMapper($className)
     {
-        if (!in_array($className, $this->getClasses())) {
-            throw new mzzUndefinedModuleClassException($this->getName(), $className);
-        }
+        $mapper = $this->toolkit->getMapperFromStack($className);
 
-        if (!isset($this->mappers[$className])) {
-            $mapperName = $className . 'Mapper';
-            if (!class_exists($mapperName)) {
-                fileLoader::load($this->getName() . '/mappers/' . $mapperName);
+        if (!$mapper) {
+            if (!in_array($className, $this->getClasses())) {
+                throw new mzzUndefinedModuleClassException($this->getName(), $className);
             }
 
-            //@todo: прикрутить сюда кэширование, чтобы не тыкаться в ФС каждый раз!
-            $projectMapperName = self::OVERRIDE_PREFIX . ucfirst($mapperName);
-            try {
-                fileLoader::load($this->getName() . '/mappers/' . $projectMapperName);
-                $mapperName = $projectMapperName;
-            } catch (mzzIoException $e) {}
+            if (!isset($this->mappers[$className])) {
+                $mapperName = $className . 'Mapper';
+                if (!class_exists($mapperName)) {
+                    fileLoader::load($this->getName() . '/mappers/' . $mapperName);
+                }
 
-            $this->mappers[$className] = new $mapperName($this->getName());
+                //@todo: прикрутить сюда кэширование, чтобы не тыкаться в ФС каждый раз!
+                $projectMapperName = self::OVERRIDE_PREFIX . ucfirst($mapperName);
+                try {
+                    fileLoader::load($this->getName() . '/mappers/' . $projectMapperName);
+                    $mapperName = $projectMapperName;
+                } catch (mzzIoException $e) {}
+
+                $this->mappers[$className] = new $mapperName($this->getName());
+            }
+
+            return $this->mappers[$className];
         }
 
-        return $this->mappers[$className];
+        $this->toolkit->createMapperStack();
+        return $mapper;
     }
 
     /**
@@ -348,22 +360,6 @@ abstract class simpleModule
     public function checkRequirements()
     {
         return array();
-    }
-
-    /**
-     * Returns module's config object
-     *
-     * @return simpleConfig
-     */
-    public function getConfig()
-    {
-        throw new mzzRuntimeException('deprecated, use stdToolkit::getConfig($module_name)');
-
-        if (!$this->config) {
-            $this->config = new simpleConfig($this->getName(), $this->getVersion());
-        }
-
-        return $this->config;
     }
 
     /**

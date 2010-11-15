@@ -36,13 +36,9 @@ class userModule extends simpleModule
             array(
                 'userLogin' => new requestRoute('user/:pam/:action', array(
                     'module' => 'user',
-                    'action' => 'login',
                     'pam' => 'simple'), array(
                     'pam' => '.*?',
-                    'action' => '(?:login)')),
-                'userActions' => new requestRoute('user/:action', array(
-                    'module' => 'user'),
-                        array('action' => '(?:exit|register|list|groupsList|online|edit)'))),
+                    'action' => '(?:login|logout)'))),
             array());
     }
 
