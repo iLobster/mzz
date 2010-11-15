@@ -6,13 +6,13 @@
     {rdelim}, {$timeout});
     </script>
     <p style="text-align: center; font-weight: bold; color: green; font-size: 120%;">{_ saving_changes}</p>
-{elseif $do eq 'refresh'}
+{elseif $do eq 'redirect'}
     <script type="text/javascript">
         jipWindow.refreshAfterClose({if $url === true}true{else}"{$url}"{/if});
     </script>
-{elseif $do eq 'redirect'}
+{elseif $do eq 'refresh'}
     <script type="text/javascript">
-    {if !empty($url)}
+    {if !empty($url) && $url !== true}
         if (window.location == '{$url}')
             var targetURL = new String(window.location).replace('#' + window.location.hash, '');
         else

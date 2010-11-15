@@ -111,7 +111,6 @@
         },
 
         close: function(windows) {
-            console.log('close');
             if (this.window) {
                 if (this.triggerHandler('beforeclose', [this]) === false){
                     return false;
@@ -401,7 +400,7 @@
 
         refreshAfterClose: function(url)
         {
-            url = url || true;
+            url = url || false;
             if (url === true) {
                 this.redirectAfterClose = true;
             } else {

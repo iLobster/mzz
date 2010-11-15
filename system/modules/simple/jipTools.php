@@ -33,7 +33,7 @@ class jipTools
      * @param integer $timeout любые действия выполняются по истечению указаного количества миллисекунд
      * @return string HTML код
      */
-    static public function closeWindow($howMany = 1, $url = false, $timeout = 1500)
+    static public function close($howMany = 1, $url = false, $timeout = 1500)
     {
         $view = systemToolkit::getInstance()->getView('smarty');
         $view->assign('url', $url);
@@ -43,22 +43,26 @@ class jipTools
         return $view->render('simple/jipTools.tpl');
     }
 
-    static public function setRefreshAfterClose($url = true)
-    {
-        $view = systemToolkit::getInstance()->getView('smarty');
-        $view->assign('url', $url);
-        $view->assign('do', 'refresh');
-        return $view->render('simple/jipTools.tpl');
-    }
-
     /**
-     * Обновление окна браузера (deprecated: use self::refresh()) или перенаправление на другой URL
+     * @deprecated use jipTools::close();
+     */
+    static public function closeWindow($howMany = 1, $url = false, $timeout = 1500)
+    {
+        return self::close($howMany, $url, $timeout);
+    }
+    
+    /**
+     * Обновление окна браузера или перенаправление на другой URL
      *
      * @param string $url URL, на который будет отправлен пользователь. По умолчанию используется текущий URL браузера
      * @return string HTML код
      */
     static public function redirect($url = null)
     {
+        if (empty($url)) {
+            return self::refresh();
+        }
+        
         $view = systemToolkit::getInstance()->getView('smarty');
         $view->assign('url', $url);
         $view->assign('do', 'redirect');
@@ -73,8 +77,8 @@ class jipTools
     static public function refresh()
     {
         $view = systemToolkit::getInstance()->getView('smarty');
-        $view->assign('url', null);
-        $view->assign('do', 'redirect');
+        $view->assign('url', true);
+        $view->assign('do', 'refresh');
         return $view->render('simple/jipTools.tpl');
     }
 
