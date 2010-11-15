@@ -1,7 +1,8 @@
 {foreach from=$jip item=jipItem key="name" name=jipItems}
     {if $jipItem.lang}
         {strip}
-        <a href="{$jipItem.url}" title="{$jipItem.title}" onclick="if (jipMenu) jipMenu.show(this, '{$jipMenuId}_itemEdit', [
+        <a href="{$jipItem.url}" title="{$jipItem.title}" onclick="if (jipMenu) jipMenu.show(this, '{$jipId}_itemEdit', [
+            
             {foreach name="langs" from=$toolkit->getLocale()->searchAll() item="lang"}
                 [
                 {assign var="langName" value=$lang->getName()}
