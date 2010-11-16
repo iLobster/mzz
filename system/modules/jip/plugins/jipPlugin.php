@@ -42,7 +42,7 @@ class jipPlugin extends observer
                     $item['title'] = $actionObject->getTitle();
                     $item['url'] = $this->buildUrlForJip($object, $objectId, $actionObject);
                     $item['id'] = $jip_id . '_' . $actionObject->getControllerName();
-                    $item['lang'] = $actionObject->isLang();
+                    $item['lang'] = ($actionObject->isLang() && systemConfig::$i18nEnable);
                     $item['icon'] = $actionObject->getIcon();
 
                     $target = $actionObject->getData('jip_target');
