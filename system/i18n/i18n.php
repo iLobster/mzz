@@ -333,70 +333,74 @@ class i18n
         return $name;
     }
 
-    public static function date($date, $format = 'short_date_time', $lang = null)
+    public static function date($date, $format = 'short_date_time', $lang = null, $rawFormat = false)
     {
         if (empty($lang)) {
             $lang = systemToolkit::getInstance()->getLocale()->getName();
         }
 
         $locale = new fLocale($lang);
-        
-        if ($format == 'relative_minute') {
-            $minutes = ceil((time() - $date) / 60);
 
-            if ($minutes <= 1) {
-                $seconds = time() - $date;
-
-                if ($seconds <= 1) {
-                    return self::getMessage('right_now', 'i18n');
-                }
-
-                return self::getMessage('seconds_ago', 'i18n', null, $seconds);
-            } elseif ($minutes < 60) {
-                return self::getMessage('minutes_ago', 'i18n', null, $minutes);
-            }
-
-            $format = 'relative_hour';
-        }
-
-        if ($format == 'relative_hour') {
-            $hours = ceil((time() - $date) / 3600);
-
-            if ($hours <= 1) {
+        if (!$rawFormat) {
+            if ($format == 'relative_minute') {
                 $minutes = ceil((time() - $date) / 60);
 
-                if ($minutes <= 5) {
-                    return self::getMessage('right_now', 'i18n');
+                if ($minutes <= 1) {
+                    $seconds = time() - $date;
+
+                    if ($seconds <= 1) {
+                        return self::getMessage('right_now', 'i18n');
+                    }
+
+                    return self::getMessage('seconds_ago', 'i18n', null, $seconds);
+                } elseif ($minutes < 60) {
+                    return self::getMessage('minutes_ago', 'i18n', null, $minutes);
                 }
 
-                return self::getMessage('minutes_ago', 'i18n', null, $minutes);
-            } elseif ($hours < 24) {
-                return self::getMessage('hours_ago', 'i18n', null, $hours);
+                $format = 'relative_hour';
             }
 
-            $format = 'relative_day';
-        }
+            if ($format == 'relative_hour') {
+                $hours = ceil((time() - $date) / 3600);
 
-        if ($format == 'relative_day') {
-            if ($date >= strtotime('today')) {
-                return self::getMessage('today', 'i18n');
-            } elseif ($date >= strtotime('yesterday')) {
-                return self::getMessage('yesterday', 'i18n');
-            } elseif ($date >= strtotime('-2 days 00:00')) {
-                return self::getMessage('before_yesterday', 'i18n');
-            } elseif ($date >= strtotime('-10 days 00:00')) {
-                $days = ceil((strtotime('today') - strtotime(date('d-m-Y', $date))) / 86400);
-                return self::getMessage('days_ago', 'i18n', null, $days);
+                if ($hours <= 1) {
+                    $minutes = ceil((time() - $date) / 60);
+
+                    if ($minutes <= 5) {
+                        return self::getMessage('right_now', 'i18n');
+                    }
+
+                    return self::getMessage('minutes_ago', 'i18n', null, $minutes);
+                } elseif ($hours < 24) {
+                    return self::getMessage('hours_ago', 'i18n', null, $hours);
+                }
+
+                $format = 'relative_day';
             }
 
-            $format = 'short_date_short_time';
+            if ($format == 'relative_day') {
+                if ($date >= strtotime('today')) {
+                    return self::getMessage('today', 'i18n');
+                } elseif ($date >= strtotime('yesterday')) {
+                    return self::getMessage('yesterday', 'i18n');
+                } elseif ($date >= strtotime('-2 days 00:00')) {
+                    return self::getMessage('before_yesterday', 'i18n');
+                } elseif ($date >= strtotime('-10 days 00:00')) {
+                    $days = ceil((strtotime('today') - strtotime(date('d-m-Y', $date))) / 86400);
+                    return self::getMessage('days_ago', 'i18n', null, $days);
+                }
+
+                $format = 'short_date_short_time';
+            }
+            
+            $format = $locale->getDateTimeFormatDirectly($format);
         }
 
         $tz = systemToolkit::getInstance()->getUserPreferences()->getTimezone();
-
+        
         $date += $tz * 3600 - date('Z') + date('I') * 3600;
 
-        $formatted_time = strftime($locale->getDateTimeFormatDirectly($format), $date);
+        $formatted_time = strftime($format, $date);
 
         // если убогая винда, которая не умеет utf8 в strftime - то конвертим принудительно
         if (PHP_OS == 'WINNT') {
@@ -404,7 +408,6 @@ class i18n
         }
 
         $formatted_time = str_replace($locale->getLongMonthNames(), $locale->getLongMonthNamesDecline(), $formatted_time);
-
         return $formatted_time;
     }
 }

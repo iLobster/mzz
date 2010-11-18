@@ -24,7 +24,7 @@
  * @subpackage template
  * @version 0.2
  */
-function smarty_modifier_date_i18n($date, $format = 'short_date_time')
+function smarty_modifier_date_i18n($date, $format = 'short_date_time', $rawFormat = false)
 {
     if (!is_numeric($date)) {
         $timestamp = strtotime($date);
@@ -33,7 +33,7 @@ function smarty_modifier_date_i18n($date, $format = 'short_date_time')
         }
     }
 
-    return i18n::date($date, $format);
+    return i18n::date($date, $format, null, $rawFormat);
 }
 
 ?>
