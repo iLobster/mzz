@@ -259,11 +259,10 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает необходимый маппер
+     * Return requested Mapper for DO of Module, shorthand for systemToolkit::getModule($module)->getMapper($do)
      *
-     * @param string $module имя модуля
-     * @param string $do имя доменного объекта
-     * @deprecated use toolkit->getModule($module)->getMapper($do);
+     * @param string $module name
+     * @param string $do name
      * @return mapper
      */
     public function getMapper($module, $do)
@@ -272,7 +271,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Возвращает объект для работы с кэшем
+     * Return cach object
      *
      * @return cache
      */
@@ -283,7 +282,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Получение валидатора
+     * Return validator
      *
      * @return formValidator
      * @deprecated
@@ -295,7 +294,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Установка валидатора
+     * Set validator
      *
      * @param formValidator $value
      * @deprecated
@@ -307,7 +306,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Устанавливает объект Request
+     * Set Request object
      *
      * @param iRequest $request
      * @return iRequest
@@ -320,7 +319,7 @@ class stdToolkit extends toolkit
     }
 
     /**
-     * Устанавливает объект i18n
+     * Set new i18n object and return old one
      *
      * @param i18n $i18n
      * @return i18n
@@ -332,6 +331,11 @@ class stdToolkit extends toolkit
         return $tmp;
     }
 
+    /**
+     * Return i18n object or new i18n if nothing set
+     *
+     * @return i18n
+     */
     public function getI18n()
     {
         if ($this->i18n) {
@@ -446,6 +450,10 @@ class stdToolkit extends toolkit
         return $this->configs[$moduleName];
     }
 
+    /**
+     *
+     * @param string $moduleName
+     */
     public function addAppModuleToCache($moduleName)
     {
         if (!isset($this->mmCache['modules'][$moduleName])) {
@@ -454,6 +462,11 @@ class stdToolkit extends toolkit
         }
     }
 
+    /**
+     *
+     * @param string $moduleName
+     * @param string $mapperName
+     */
     public function addAppMapperToCache($moduleName, $mapperName)
     {
         if (!isset($this->mmCache['mappers'][$moduleName][$mapperName])) {
@@ -465,14 +478,28 @@ class stdToolkit extends toolkit
         }
     }
 
+    /**
+     *
+     * @param string $moduleName
+     * @return boolean
+     */
     public function getAppModuleCache($moduleName) {
         return isset($this->mmCache['modules'][$moduleName]);
     }
 
+    /**
+     *
+     * @param string $moduleName
+     * @param string $mapperName
+     * @return boolean
+     */
     public function getAppMapperCache($moduleName, $mapperName) {
         return isset($this->mmCache['mappers'][$moduleName][$mapperName]);
     }
 
+    /**
+     * Save list of not found Modules and Mappers in app path
+     */
     protected function saveMMCache()
     {
         if ($this->mmCacheChanged) {
@@ -482,6 +509,9 @@ class stdToolkit extends toolkit
         }
     }
 
+    /**
+     * Destructor
+     */
     public function __destruct()
     {
         $this->saveMMCache();

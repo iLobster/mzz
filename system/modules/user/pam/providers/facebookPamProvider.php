@@ -61,16 +61,9 @@ class facebookPamProvider extends aPamProvider
         return $user;
     }
 
-    public function logout(user $user = null)
+    public function logout(user $user = null, & $backUrl = null)
     {
-        $backUrl = $this->request->getString('url', SC_GET);
-        if (!$backUrl) {
-            $url = new url('default');
-            $backUrl = $url->get();
-        }
-
-        $logoutUrl = $this->facebook->getLogoutUrl(array('next' => $backUrl));
-        $this->response->redirect($logoutUrl);
+        $backUrl = $this->facebook->getLogoutUrl(array('next' => $backUrl));
     }
 
     /**

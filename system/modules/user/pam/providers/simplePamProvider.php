@@ -40,8 +40,6 @@ class simplePamProvider extends aPamProvider
         return $user;
     }
 
-    public function logout(user $user = null) {}
-
     public function validate(validator &$validator)
     {
         $validator->rule('required', 'login', 'Login field is required');

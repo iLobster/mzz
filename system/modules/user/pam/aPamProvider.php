@@ -34,6 +34,8 @@ abstract class aPamProvider implements iPamProvider
 
     public function validate(validator &$validator){}
 
-   public function checkAuth(){}
+    public function  logout(user $user = null, & $backUrl = null) {}
+    
+   public function delete(user $user){}
 }
 ?>

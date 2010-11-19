@@ -67,12 +67,11 @@ class pam
                     $notFound = !class_exists($className);
                 }
             } catch (mzzIoException $e) {
-                //var_dump('user' . DIRECTORY_SEPARATOR . 'pam' . DIRECTORY_SEPARATOR . 'providers' . DIRECTORY_SEPARATOR . $className);
                 $notFound = true;
             }
 
             if ($notFound) {
-                throw new mzzRuntimeException($className);
+                throw new mzzUnknownPamProviderException($className);
             }
             self::$instances[$provider] = new pam(new $className());
         }
@@ -102,9 +101,9 @@ class pam
         return $this->provider->login();
     }
 
-    public function logout(user $user = null)
+    public function logout(user $user = null, & $backUrl = null)
     {
-        return $this->provider->logout($user);
+        return $this->provider->logout($user, $backUrl);
     }
 
     public function validate(validator &$validator)

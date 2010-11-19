@@ -28,19 +28,33 @@ class userExitController extends simpleController
         $userMapper = $this->toolkit->getMapper('user', 'user');
         $userMapper->updateLastLoginTime($user);
 
-        $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth');
-        $userAuthMapper->clear($this->request->getString('auth', SC_COOKIE));
-        $userAuthMapper->clearExpired(strtotime('-1 month'));
-
-        $this->response->setCookie(userAuthMapper::AUTH_COOKIE_NAME, '', 0, '/');
-
-        $this->toolkit->setUser($userMapper->getGuest());
-
         $backUrl = $this->request->getString('url', SC_GET);
         if (!$backUrl) {
             $url = new url('default');
             $backUrl = $url->get();
         }
+        
+        $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth');
+        $authHash = $this->request->getString(userAuthMapper::AUTH_COOKIE_NAME, SC_COOKIE);
+
+        if ($authHash) {
+            $ip = $this->request->getServer('REMOTE_ADDR');
+            $userAuth = $userAuthMapper->getAuth($authHash, $ip);
+            if ($userAuth) {
+                try {
+                    $pam = pam::factory($userAuth->getPam());
+                    $pam->logout($user, $backUrl);
+                } catch (mzzUnknownPamProviderException $e) {}
+
+                $userAuthMapper->delete($userAuth);
+            }
+
+            $this->response->setCookie(userAuthMapper::AUTH_COOKIE_NAME, '', 0, '/');
+        }
+
+        $userAuthMapper->clearExpired(strtotime('-1 month'));
+
+        $this->toolkit->setUser($userMapper->getGuest());
 
         $this->redirect($backUrl);
     }

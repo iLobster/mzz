@@ -62,9 +62,7 @@ class userFilter implements iFilter
                 if ($user &&  $user->getHash() === $userAuth->getUserHash() && $user->isConfirmed()) {
                     try {
                         $pam = pam::factory($userAuth->getPam());
-                        if ($pam->checkAuth($user)) {
-                            $valideAuth = true;
-                        }
+                        $valideAuth = $pam->checkAuth($user);
                     } catch (mzzUnknownPamProviderException $e) {}
                 }
 

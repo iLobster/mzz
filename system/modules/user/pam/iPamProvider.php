@@ -25,25 +25,35 @@ interface iPamProvider
     /**
      * Method for login in user
      *
-     * @return User/null - user object on success or null
+     * @return user|null - user object on success or null
      */
     public function login();
 
     /**
-     * Method for cleaning out after logout
+     * Clean out some stuff after user logout
+     *
+     * You may mangle on $backUrl if need in some redirections, but you should not redirect inside
      */
-    public function logout(user $user = null);
+    public function logout(user $user = null, & $backUrl = null);
 
     /**
-     * Adds validation rules and does some hidden magic.
+     * Add validation rules and do some hidden magic.
      *
      * @return boolean - true on success
      */
     public function validate(validator &$validator);
 
     /**
-     * Implements redirection after login.
+     * Validate stored userAuth, basicle used in userFilter
+     * 
+     * @return boolean - true on success
      */
-    //public function redirect($backURL);
+    public function checkAuth(user $user);
+
+    /**
+     * Delete user stuff
+     *
+     */
+    public function delete(user $user);
 }
 ?>
