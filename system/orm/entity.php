@@ -32,6 +32,7 @@ class entity implements serializable
     protected $methodsMap = array();
 
     protected $data = array();
+    protected $dataLoaded = array();
     protected $dataChanged = array();
     protected $state = self::STATE_NEW;
 
@@ -106,7 +107,7 @@ class entity implements serializable
 
         $map = $this->mapper->map();
         if (!empty($map[$field]['relation'])) {
-            if ($map[$field]['relation'] == 'one' && (!isset($map[$field]['join_type']) || ($map[$field]['join_type'] == 'left')) && is_null($this->data[$field])) {
+            if ($map[$field]['relation'] == 'one' && (!isset($map[$field]['join_type']) || ($map[$field]['join_type'] == 'left')) && is_null($this->data[$field]) && !$this->mapper->hasOption($field, 'fake') && in_array($field, $this->dataLoaded)) {
                 return false;
             }
             return true;
@@ -129,6 +130,7 @@ class entity implements serializable
                         return $result;
                     }
                     $this->data[$field] = $result;
+                    $this->dataLoaded[] = $field;
                 }
 
                 return $this->data[$field];
@@ -198,6 +200,7 @@ class entity implements serializable
             // if object became clean or new - reset the dataChanged array
             if ($state != self::STATE_DIRTY) {
                 $this->dataChanged = array();
+                $this->dataLoaded = array();
             }
 
             $old = $this->state;
@@ -227,6 +230,7 @@ class entity implements serializable
         return array(
             'data',
             'dataChanged',
+            'dataLoaded',
             'state');
     }
 
