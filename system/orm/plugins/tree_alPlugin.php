@@ -318,7 +318,7 @@ class tree_alPlugin extends observer
                 $object->getTreeId()));
 
             $sql = "UPDATE `" . $this->table() . "`
-                     SET `path` = CONCAT(" . $this->mapper->db()->quote($new . '/') . ", SUBSTRING(`path`, " . (strlen($oldPath) + 2) . "))
+                     SET `path` = CONCAT(" . $this->mapper->db()->quote($new . '/') . ", SUBSTRING(`path`, " . (mzz_strlen($oldPath) + 2) . "))
                       WHERE `id` IN (" . implode(', ', $ids) . ")";
 
             $this->mapper->db()->query($sql);
@@ -336,7 +336,7 @@ class tree_alPlugin extends observer
             $object->getTreeId()));
 
         $sql = "UPDATE `" . $this->table() . "`
-                     SET `level` = `level` + " . $levelDelta . ", `path` = CONCAT(" . $this->mapper->db()->quote($parentTreePath) . ", SUBSTRING(`path`, " . ($object->getTreeLevel() > 1 ? strlen($object->getTreeParent()->getTreePath()) + 1 : 1) . "))
+                     SET `level` = `level` + " . $levelDelta . ", `path` = CONCAT(" . $this->mapper->db()->quote($parentTreePath) . ", SUBSTRING(`path`, " . ($object->getTreeLevel() > 1 ? mzz_strlen($object->getTreeParent()->getTreePath()) + 1 : 1) . "))
                       WHERE `id` IN (" . implode(', ', $ids) . ")";
 
         $this->mapper->db()->query($sql);

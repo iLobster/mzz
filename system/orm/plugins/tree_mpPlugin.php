@@ -326,7 +326,7 @@ class tree_mpPlugin extends observer
             $levelDelta = $newLevel - $object->getTreeLevel();
 
             $sql = "UPDATE `" . $this->table() . "`
-                     SET `level` = `level` + " . $levelDelta . ", `spath` = CONCAT(" . $this->mapper->db()->quote($this->parent->getTreeSPath()) . ", SUBSTRING(`spath`, " . (strlen($object->getTreeParent()->getTreeSPath()) + 1) . ")), `path` = CONCAT(" . $this->mapper->db()->quote($this->parent->getTreePath()) . ", SUBSTRING(`path`, " . (strlen($object->getTreeParent()->getTreePath()) + 1) . "))
+                     SET `level` = `level` + " . $levelDelta . ", `spath` = CONCAT(" . $this->mapper->db()->quote($this->parent->getTreeSPath()) . ", SUBSTRING(`spath`, " . (mzz_strlen($object->getTreeParent()->getTreeSPath()) + 1) . ")), `path` = CONCAT(" . $this->mapper->db()->quote($this->parent->getTreePath()) . ", SUBSTRING(`path`, " . (mzz_strlen($object->getTreeParent()->getTreePath()) + 1) . "))
                       WHERE `spath` LIKE " . $this->mapper->db()->quote($object->getTreeSPath() . '%') . "";
 
             $this->mapper->db()->query($sql);
@@ -347,7 +347,7 @@ class tree_mpPlugin extends observer
             $new .= $object->{$this->options['path_name_accessor']}() . '/';
 
             $sql = "UPDATE `" . $this->table() . "`
-                     SET `path` = CONCAT(" . $this->mapper->db()->quote($new) . ", SUBSTRING(`path`, " . (strlen($object->getTreePath()) + 2) . "))
+                     SET `path` = CONCAT(" . $this->mapper->db()->quote($new) . ", SUBSTRING(`path`, " . (mzz_strlen($object->getTreePath()) + 2) . "))
                       WHERE `spath` LIKE " . $this->mapper->db()->quote($object->getTreeSPath() . '%') . "";
 
             $this->mapper->db()->query($sql);
