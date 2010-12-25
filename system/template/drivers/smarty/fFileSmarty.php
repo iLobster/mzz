@@ -50,7 +50,7 @@ class fFileSmarty implements IfSmarty
      */
     public function fetch($resource, $cache_id = null, $compile_id = null, $parent = null)
     {
-        // Для определения активного шаблоного достаточно прочитать первые 256 байтов из шаблона
+        // Для определения активного шаблоного достаточно прочитать первую строку из шаблона
         //$fileName = $this->getTemplateDir() . DIRECTORY_SEPARATOR . $resource[1];
         $resource['resource_name'] = $resource[1];
         $resource['resource_base_path'] = $this->smarty->template_dir;
@@ -61,7 +61,7 @@ class fFileSmarty implements IfSmarty
             throw new mzzRuntimeException("Шаблон <em>'" . $fileName . "'</em> отсутствует.");
         }
         $template = new SplFileObject($fileName, 'r');
-        $template = $template->fgets(256);
+        $template = $template->fgets();
 
         $result = $this->smarty->fetchPassive($resource[1], $cache_id, $compile_id, $parent);
 
