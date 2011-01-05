@@ -325,11 +325,11 @@ class requestRouteTest extends unitTestCase
         $route_second->setHasLang(true); // shouldn't add lang to that route
         $this->assertEqual(
             $route_second->assemble(array('action' => 'view',  'id' => '5')),
-            'en/somepath/5/test'
+            'en/somepath/5/test/'
         );
         $this->assertEqual(
             $route_second->assemble(array('action' => 'view',  'id' => '5', 'lang' => 'ru')),
-            'ru/somepath/5/test'
+            'ru/somepath/5/test/'
         );
     }
 

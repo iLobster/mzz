@@ -11,7 +11,8 @@ class identityMap
      */
     private $mapper;
 
-    public function __construct(mapper $mapper)
+    // @todo type hinting
+    public function __construct(/*mapper*/ $mapper)
     {
         $this->mapper = $mapper;
     }

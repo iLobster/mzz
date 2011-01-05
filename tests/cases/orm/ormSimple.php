@@ -22,6 +22,22 @@ class ormSimpleMapper extends mapper
             'mutator' => 'setRelated'));
 }
 
+class ormRelatedMapper extends mapper
+{
+    protected $module = 'test';
+    protected $table = 'ormRelated';
+
+    protected $map = array(
+        'id' => array(
+            'accessor' => 'getId',
+            'mutator' => 'setId',
+            'options' => array(
+                'pk')),
+        'baz' => array(
+            'accessor' => 'getBaz',
+            'mutator' => 'setBaz'));
+}
+
 class ormSimpleSortingMapper extends mapper
 {
     protected $table = 'ormSimple';

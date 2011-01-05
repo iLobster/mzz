@@ -36,7 +36,8 @@ class entity implements serializable
     protected $dataChanged = array();
     protected $state = self::STATE_NEW;
 
-    public function __construct(mapper $mapper)
+    // @todo type hinting
+    public function __construct(/*mapper*/ $mapper)
     {
         $this->mapper = $mapper;
         $this->methodsMap = $this->generateMethodsMap($mapper->map());

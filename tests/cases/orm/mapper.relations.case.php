@@ -24,7 +24,7 @@ class ormSimpleMapperWithRelationMapper extends mapper
             'mutator' => 'setRelated',
             'relation' => 'one',
             'foreign_key' => 'id',
-            'mapper' => 'test/ormSimpleRelated'
+            'mapper' => 'test/ormRelated'
         ),
     );
 }
@@ -168,7 +168,6 @@ class mapperRelationsTest extends unitTestCase
     public function __construct()
     {
         $this->db = fDB::factory();
-        $this->cleardb();
 
         $this->fixture = array(
             1 => array(
@@ -206,6 +205,7 @@ class mapperRelationsTest extends unitTestCase
 
     public function setUp()
     {
+        $this->cleardb();
         $this->mapper = new ormSimpleMapperWithRelationMapper(null);
     }
 

@@ -32,7 +32,7 @@ class cacheFileTest extends unitTestCase
     private function clearDir()
     {
         foreach (glob($this->path . DIRECTORY_SEPARATOR) as $file) {
-            unlink($file);
+            @unlink($file);
         }
     }
 
