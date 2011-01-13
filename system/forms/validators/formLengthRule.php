@@ -41,7 +41,7 @@ class formLengthRule extends formAbstractRule
             return $length >= $this->params[0] && $length <= $this->params[1];
         }
 
-        throw new mzzRuntimeException('Отствуют необходимые аргументы');
+        throw new mzzRuntimeException('Отсутсвуют необходимые аргументы');
     }
 }
 

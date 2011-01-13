@@ -14,7 +14,7 @@
 
 /**
  * formImagesizeRule: валидатор размеров (ширина/высота) загружаемых изображений
- * Имеет два параметра, maxWidth и maxHeight, которые могут быть заданы как вместе, так и один из них.
+ * Принимает 4 параметра, maxWidth и maxHeight, minWidth и minHeight,  которые могут быть заданы как вместе, так и один из них.
  *
  * @package system
  * @subpackage forms
@@ -22,18 +22,30 @@
  */
 class formImagesizeRule extends formAbstractRule
 {
-    public function validate()
+    public function notExists()
     {
-        if (isset($_FILES[$this->name])) {
+        $this->validation = false;
+    }
+
+    protected function _validate($value, $name = null)
+    {
+        if (isset($_FILES[$name])) {
             try {
-                $size = getimagesize($_FILES[$this->name]['tmp_name']);
+                $size = getimagesize($_FILES[$name]['tmp_name']);
             } catch (phpErrorException $e) {
                 return false;
             }
+
             if (isset($this->params['maxWidth']) && $size[0] > $this->params['maxWidth']) {
                 return false;
             }
+            if (isset($this->params['minWidth']) && $size[0] < $this->params['minWidth']) {
+                return false;
+            }
             if (isset($this->params['maxHeight']) && $size[1] > $this->params['maxHeight']) {
+                return false;
+            }
+            if (isset($this->params['minHeight']) && $size[1] < $this->params['minHeight']) {
                 return false;
             }
             return true;
