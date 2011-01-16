@@ -53,17 +53,18 @@ class metaPlugin extends aPlugin
             }
             $this->metas[$type][] = $params[$type];
         } elseif (isset($params['show']) && in_array($params['show'], array_keys($this->metas))) {
-            $result = join(', ', $this->metas[$params['show']]);
+            $separator = isset($params['keywords']) ? ', ' : ' ';
+            $result = join($separator, $this->metas[$params['show']]);
             if (empty($result)) {
                  $result = (isset($params['default'])) ? $params['default'] : '';
             }
 
             if (isset($params['prepend'])) {
-                $result = $params['prepend'] . ((!empty($result)) ? ', ' . $result : '');
+                $result = $params['prepend'] . ((!empty($result)) ? $separator . $result : '');
             }
 
             if (isset($params['append'])) {
-                $result = ((!empty($result)) ? $result . ', ' : '') . $params['append'];
+                $result = ((!empty($result)) ? $result . $separator : '') . $params['append'];
             }
 
             return htmlspecialchars($result);
