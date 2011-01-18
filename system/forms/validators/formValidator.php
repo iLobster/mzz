@@ -104,6 +104,7 @@ class formValidator extends validator
 
     private function rules()
     {
+
         if (!$this->csrf) {
             return $this->rules;
         }
@@ -113,13 +114,16 @@ class formValidator extends validator
         $csrf = $this->loadValidator('csrf');
         $csrf->setData($this->data);
 
-        return $this->rules + array(
+        $csrf_rules = array(
             array(
                 'name' => '_csrf_token',
                 'validator' => $required),
             array(
                 'name' => '_csrf_token',
                 'validator' => $csrf));
+
+        return array_merge($this->rules, $csrf_rules);
+
     }
 
     private function getValue($name, & $value)
