@@ -17,7 +17,7 @@
         <div class="news_text">{$current_news->getAnnotation()|h}</div>
     {/foreach}
 
-    {if $pager->getPagesTotal() > 0}
+    {if $pager->getPagesTotal() > 1}
         <div class="pages">{$pager->toString()}</div>
     {/if}
 </div>
