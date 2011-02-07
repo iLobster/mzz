@@ -23,6 +23,7 @@ class formValidatorTest extends UnitTestCase
     {
         $this->request->save();
         $this->validator = new formValidator();
+        $this->validator->disableCSRF();
     }
 
     public function tearDown()
@@ -64,6 +65,7 @@ class formValidatorTest extends UnitTestCase
         $this->request->refresh();
 
         $validator = new formValidator();
+        $validator->disableCSRF();
         $validator->rule('required', 'data');
         $validator->rule('required', 'array[nested]');
         $this->assertTrue($validator->validate());
