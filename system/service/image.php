@@ -63,6 +63,16 @@ class image
         }
     }
 
+    public function width()
+    {
+        return $this->width;
+    }
+
+    public function height()
+    {
+        return $this->height;
+    }
+
     public function resize($width, $height)
     {
         if (!in_array($this->type, array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG))) {
