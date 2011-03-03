@@ -13,11 +13,16 @@ class fmImageFile extends fmSimpleFile
         $this->thumbnails_relative_path = $config->get('thumbnails_relative_path');
     }
 
+    public function explode($name)
+    {
+        return $name[0] . '/' . $name[1] . '/' . $name[2] . '/' . $name[3] . '/' . substr($name, 4);
+    }
+
     public function getThumbnail($width = 80, $height = 60)
     {
         $ext = $this->file->getExt();
         if (in_array($ext, array('jpg', 'jpeg', 'png', 'gif'))) {
-            $thumb_basename = $this->getHash();
+            $thumb_basename = $this->explode($this->getHash());
             $thumb_filename = $thumb_basename . '_' . $width . 'x' . $height . '.' . $this->file->getExt();
             $thumb_filepath = $this->thumbnails_full_path . DIRECTORY_SEPARATOR . $thumb_filename;
 
@@ -27,6 +32,12 @@ class fmImageFile extends fmSimpleFile
                 fileLoader::load('service/image');
                 $image = new image($filepath);
                 $image->resize($width, $height);
+
+                $thumb_filepath_dir = dirname($thumb_filepath);
+                if (!is_dir($thumb_filepath_dir)) {
+                    mkdir($thumb_filepath_dir, 0777, true);
+                }
+
                 $image->save($thumb_filepath);
             }
         }
