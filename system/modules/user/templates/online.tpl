@@ -12,9 +12,9 @@
             </tr>
             {foreach from=$users item=user name="online"}
                 <tr>
-                    <td>{$user->getUser()->getLogin()}{if $user->fakeField('cnt') > 1} ({$user->fakeField('cnt')}){/if}</td>
+                    <td>{$user->getUser()->getLogin()}</td>
                     <td><a href="{$user->getUrl()}">{$user->getUrl()}</a></td>
-                    <td>{$user->getLastActivity()}</td>
+                    <td>{$user->getLastActivity()|date_format:"%d/%m/%Y %H:%M"}</td>
                     <td>{$user->getIp()}</td>
                 </tr>
             {/foreach}

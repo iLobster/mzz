@@ -52,6 +52,10 @@ class userOnlineMapper extends mapper
         'user_id' => array(
             'accessor' => 'getUser',
             'mutator' => 'setUser',
+            'type' => 'int',
+            'relation' => 'one',
+            'foreign_key' => 'id',
+            'mapper' => 'user/user',
             'options' => array(
                 'pk',
                 'once')),

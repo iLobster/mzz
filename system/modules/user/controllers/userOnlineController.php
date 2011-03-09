@@ -27,11 +27,13 @@ class userOnlineController extends simpleController
         $userOnlineMapper = $this->toolkit->getMapper('user', 'userOnline');
         $criteria = new criteria();
         $criteria->orderByDesc('last_activity');
-        $users = $userOnlineMapper->searchAll($criteria);
+        $users = $userOnlineMapper->searchAll($criteria)->toArray();
 
         $guests = 0;
         $total = 0;
+
         foreach ($users as $key => $user) {
+
             if (!$user->getUser()->isLoggedIn()) {
                 $guests++;
                 unset($users[$key]);
