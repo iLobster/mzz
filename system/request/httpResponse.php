@@ -164,7 +164,8 @@ class httpResponse
      */
     public function setCookie($name, $value = '', $expire = 0, $path = SITE_PATH, $domain = COOKIE_DOMAIN, $secure = false, $httponly = false)
     {
-        $this->cookies[$name] = array(
+        $this->cookies[] = array(
+        'name' => $name,
         'value' => $value,
         'expire' => $expire,
         'path' => $path ? $path : '/',
@@ -300,11 +301,11 @@ class httpResponse
             return;
         }
 
-        foreach ($cookies as $name => $values) {
+        foreach ($cookies as $values) {
             if(version_compare(phpversion(), '5.2', 'ge')) {
-                setcookie($name, $values['value'], $values['expire'], $values['path'], $values['domain'], $values['secure'], $values['httponly']);
+                setcookie($values['name'], $values['value'], $values['expire'], $values['path'], $values['domain'], $values['secure'], $values['httponly']);
             } else {
-                setcookie($name, $values['value'], $values['expire'], $values['path'], $values['domain'], $values['secure']);
+                setcookie($values['name'], $values['value'], $values['expire'], $values['path'], $values['domain'], $values['secure']);
             }
         }
     }
