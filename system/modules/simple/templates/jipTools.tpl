@@ -1,8 +1,8 @@
 {if $do eq 'close'}
     <script type="text/javascript">
     window.setTimeout(function() {ldelim}
-        jipWindow.close({$howMany});
         jipWindow.refreshAfterClose({if $url === true}true{else}"{$url}"{/if});
+        jipWindow.close({$howMany});
     {rdelim}, {$timeout});
     </script>
     <p style="text-align: center; font-weight: bold; color: green; font-size: 120%;">{_ saving_changes}</p>
