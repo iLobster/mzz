@@ -1,1 +1,1 @@
-<div class="jipTitle">{$title}</div>
+<div class="jipTitle" style="display: none">{$title}</div>
