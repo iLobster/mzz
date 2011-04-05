@@ -23,39 +23,46 @@ class userExitController extends simpleController
 {
     protected function getView()
     {
-        $user = $this->toolkit->getUser();
-
-        $userMapper = $this->toolkit->getMapper('user', 'user');
-        $userMapper->updateLastLoginTime($user);
-
         $backUrl = $this->request->getString('url', SC_GET);
         if (!$backUrl) {
             $url = new url('default');
             $backUrl = $url->get();
         }
         
-        $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth');
-        $authHash = $this->request->getString(userAuthMapper::AUTH_COOKIE_NAME, SC_COOKIE);
-
-        if ($authHash) {
-            $ip = $this->request->getServer('REMOTE_ADDR');
-            $userAuth = $userAuthMapper->getAuth($authHash, $ip);
-            if ($userAuth) {
-                try {
-                    $pam = pam::factory($userAuth->getPam());
-                    $pam->logout($user, $backUrl);
-                } catch (mzzUnknownPamProviderException $e) {}
-
-                $userAuthMapper->delete($userAuth);
+        $validator = new formValidator();
+        $validator->submit('csrf');
+        $validator->disableCSRF();
+        $validator->rule('csrf', 'csrf');
+        
+        if ($validator->validate()) {
+            $user = $this->toolkit->getUser();
+    
+            $userMapper = $this->toolkit->getMapper('user', 'user');
+            $userMapper->updateLastLoginTime($user);
+    
+            $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth');
+            $authHash = $this->request->getString(userAuthMapper::AUTH_COOKIE_NAME, SC_COOKIE);
+    
+            if ($authHash) {
+                $ip = $this->request->getServer('REMOTE_ADDR');
+                $userAuth = $userAuthMapper->getAuth($authHash, $ip);
+                if ($userAuth) {
+                    try {
+                        $pam = pam::factory($userAuth->getPam());
+                        $pam->logout($user, $backUrl);
+                    } catch (mzzUnknownPamProviderException $e) {}
+    
+                    $userAuthMapper->delete($userAuth);
+                }
+    
+                $this->response->setCookie(userAuthMapper::AUTH_COOKIE_NAME, '', 0, '/');
             }
-
-            $this->response->setCookie(userAuthMapper::AUTH_COOKIE_NAME, '', 0, '/');
+    
+            $userAuthMapper->clearExpired(strtotime('-1 month'));
+    
+            $this->toolkit->setUser($userMapper->getGuest());
         }
-
-        $userAuthMapper->clearExpired(strtotime('-1 month'));
-
-        $this->toolkit->setUser($userMapper->getGuest());
-
+        
         $this->redirect($backUrl);
     }
 }
