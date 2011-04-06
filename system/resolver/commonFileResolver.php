@@ -44,6 +44,8 @@ class commonFileResolver extends partialFileResolver
         if (substr($request, 0, 5) === 'libs/') {
             return '../' . $request . '.php';
         }
+        
+        return $request;
     }
 }
 
