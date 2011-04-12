@@ -24,6 +24,14 @@
                         frm.bind('submit', function (e){fileUpload.sendForm(name, e);});
 
                         this._forms[name] = {form: frm, callback: cb};
+                        
+                        // Create iframe for our form
+                        var iframe = $('#' + name + '_fileUpload');
+	                    if (iframe.length) {
+	                        iframe.remove();
+	                    }
+	                    iframe = $('<iframe name="' + name + '_fileUpload" id="' + name + '_fileUpload" style="border: 0; width: 0; height: 0; display: none" src="about:blank"></iframe>');
+	                    this._forms[name].form.before(iframe);
                     } else {
                         console.log('fileUpload::create() form "' + name + '" not found');
                     }
@@ -40,17 +48,9 @@
                         e.preventDefault();
                         return;
                     }
-
+                    
+                    // Bind 'load' event only on submit to prevent unwanted triggering
                     var iframe = $('#' + name + '_fileUpload');
-
-                    if (iframe.length) {
-                        iframe.remove();
-                    }
-
-                    iframe = $('<iframe name="' + name + '_fileUpload" id="' + name + '_fileUpload" style="border: 0; width: 0; height: 0; display: none" src="about:blank"></iframe>');
-
-                    this._forms[name].form.before(iframe);
-
                     iframe.bind('load', function(){fileUpload.loadFrame(name, this);});
                 }
             },
