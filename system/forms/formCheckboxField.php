@@ -65,7 +65,7 @@ class formCheckboxField extends formElement
             $value = $values[0];
         }
 
-        $attributes['checked'] = !empty($attributes['checked']) || ($isNoValue && isset($attributes['checked']) && $attributes['checked'] != false);
+        $attributes['checked'] = !empty($attributes['checked']) || ($value == $values[1]) || ($isNoValue && isset($attributes['checked']) && $attributes['checked'] != false);
 
         if (isset($attributes['label'])) {
             $attributes['text'] = $attributes['label'];
