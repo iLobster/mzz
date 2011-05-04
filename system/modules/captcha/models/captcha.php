@@ -92,7 +92,7 @@ class captcha
         }
 
         //частоты
-        $freqX_1 = mt_rand(7000, 1000) / 1000000;
+        $freqX_1 = mt_rand(7000, 10000) / 1000000;
         $freqY_1 = mt_rand(7000, 100000) / 1000000;
         $freqX_2 = mt_rand(7000, 100000) / 10000000;
         $freqY_2 = mt_rand(7000, 100000) / 10000000;
@@ -102,8 +102,8 @@ class captcha
         $phaseY_1 = mt_rand(0, 314159) / 10000;
         $phaseY_2 = mt_rand(0, 314159) / 1000;
         // амплитуды
-        $amplitudesX = mt_rand(400, 300) / 100;
-        $amplitudesY = mt_rand(400, 300) / 100;
+        $amplitudesX = mt_rand(300, 400) / 100;
+        $amplitudesY = mt_rand(300, 400) / 100;
 
         for ($x = 0; $x < $width; $x++) {
             for ($y = 0; $y < $height; $y++) {
