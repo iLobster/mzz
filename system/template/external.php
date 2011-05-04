@@ -46,7 +46,7 @@ class externalApplication extends core
 
                 if (isset($mimes[$type])) {
                     header('Content-Type: ' . $mimes[$type]);
-                    $source = $this->generateSource($files, $request->getHeaders());
+                    $source = $this->generateSource($files, $request->getHeaders(), array_keys($mimes));
                 }
 
                 echo $source;
@@ -92,7 +92,7 @@ class externalApplication extends core
         fileLoader::load('toolkit/init');
     }
 
-    private function generateSource(Array $files, $headers)
+    private function generateSource(Array $files, $headers, $allowed_exts = array())
     {
         $fileNameReplacePatterns = array(
             '..' => '');
@@ -110,6 +110,9 @@ class externalApplication extends core
             if ($filePath === false) {
                 $filePath = fileLoader::resolve('simple/' . $file);
             }
+
+            if (!in_array(substr($filePath, strrpos($filePath, '.') + 1), $allowed_exts))
+                continue;
 
             if (is_readable($filePath)) {
                 $currentFileTime = filemtime($filePath);
