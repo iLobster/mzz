@@ -484,6 +484,7 @@ abstract class mapper
 
     public function addOrderBy(criteria $criteria)
     {
+        $order = array();
         $orderBy = array();
         foreach ($this->map() as $key => $val) {
             if (isset($val['orderBy'])) {
@@ -492,14 +493,15 @@ abstract class mapper
                     $direction = strtolower($val['orderByDirection']);
                 }
 
+                $order[$key] = (int)$val['orderBy'];
                 $orderBy[$key] = array('key' => $key, 'direction' => $direction);
             }
         }
 
-        ksort($orderBy);
+        asort($order);
 
-        foreach ($orderBy as $val) {
-            $val['direction'] == 'asc' ? $criteria->orderByAsc($val['key']) : $criteria->orderByDesc($val['key']);;
+        foreach ($order as $key => $val) {
+            $orderBy[$key]['direction'] == 'asc' ? $criteria->orderByAsc($key) : $criteria->orderByDesc($key);
         }
     }
 
