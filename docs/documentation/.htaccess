@@ -2,7 +2,6 @@ AddDefaultCharset UTF-8
 DirectoryIndex doc.php
 RewriteEngine on
 Options +FollowSymlinks -Indexes -Includes -MultiViews
-RewriteBase /docs
 RewriteRule index.html doc.php [L]
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteRule ([a-zA-Z0-9._-]+)\.html doc.php?cat=$1 [L]

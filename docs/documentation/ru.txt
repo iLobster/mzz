@@ -4,12 +4,12 @@ intro.Введение
 setup.Установка и настройка
     sources.Исходный код
     system_requirements.Системные требования
-    setup_framy.Установка Framy на сервер
+    setup_MZZ.Установка MZZ на сервер
     setup_demo.Установка и конфигурирование demo-приложения
         download.Скачивание
         installation.Установка
 structure.Структура
-    framy.Framy
+    MZZ.MZZ
     application.Приложение
         overview.Обзор
         config.Конфигурационный файл
@@ -50,11 +50,11 @@ modules.Готовые модули
     comments.Комментарии
         overview.Обзор
         plugin.commentsPlugin
-extending.Расширение framy
+extending.Расширение MZZ
     system.Системные файлы
     modules.Расширение модулей
         mappers.Mappers
-getting_start.Создание проекта на framy
+getting_start.Создание проекта на MZZ
     intro.Введение
     mvc.Архитектура MVC
         model.Model

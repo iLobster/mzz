@@ -1,7 +1,7 @@
 <p>
-Скачайте dummy (пустой) проект с <a href="http://www.framy.ru/download/">Download</a> и распакайте его в любую директорию, которая доступна веб-серверу.
+Скачайте dummy (пустой) проект с <a href="http://www.MZZ.ru/download/">Download</a> и распакайте его в любую директорию, которая доступна веб-серверу.
 </p>
-<p>Структура типичного веб приложения на framy выглядит следующим образом:</p>
+<p>Структура типичного веб приложения на MZZ выглядит следующим образом:</p>
 <table class="beauty">
     <tr>
         <th>Имя файла</th>
@@ -69,7 +69,7 @@
     </tr>
 </table>
 
-<p>Мы установили сам фреймворк в директорию <code>/home/framy</code>, приложение будет установлено в <code>/home/framy/app</code>, веб-сервер настроен на директорию - <code>/home/framy/app/www</code>. Адрес нашего проекта будет <code>http://framy.blog/</code>.
+<p>Мы установили сам фреймворк в директорию <code>/home/MZZ</code>, приложение будет установлено в <code>/home/MZZ/app</code>, веб-сервер настроен на директорию - <code>/home/MZZ/app/www</code>. Адрес нашего проекта будет <code>http://MZZ.blog/</code>.
 </p>
 
 <p>При необходимости, если фреймворк установлен в отличной от нашего примера директории, в файле <code>config.php</code> можно изменить путь к фреймворку.</p>
@@ -86,8 +86,8 @@ define('DEBUG_MODE', true);
     Если вы устанавливаете приложение на Unix-сервере, возможно, понадобится установить права для записи в <code>tmp</code> директорию.
     <p>
         <code>
-            chown &lt;user&gt;:&lt;group&gt; -R /home/framy/app/tmp<br />
-            chmod 755 -R /home/framy/app/tmp
+            chown &lt;user&gt;:&lt;group&gt; -R /home/MZZ/app/tmp<br />
+            chmod 755 -R /home/MZZ/app/tmp
         </code>
     </p>
     Уточните у вашего системного администратора какие права необходимы чтобы разрешить веб-серверу запись в директорию.
@@ -96,24 +96,24 @@ define('DEBUG_MODE', true);
 == configuring_database.Конфигурация базы данных
 <p>Откроем <code>db/mzz_dummy.sql</code> и изменим имя базы данных.</p>
 <<code mysql>>
-/*!40000 DROP DATABASE IF EXISTS `framy_blog`*/;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `framy_blog` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `framy_blog`;
+/*!40000 DROP DATABASE IF EXISTS `MZZ_blog`*/;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `MZZ_blog` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `MZZ_blog`;
 <</code>>
 
 <p>Импортируем измененный дамп dummy-базы в MySQL:</p>
 <<code bash>>
-   mysql -u user -ppassword < /home/framy/app/db/mzz_dummy.sql
+   mysql -u user -ppassword < /home/MZZ/app/db/mzz_dummy.sql
 <</code>>
 
 <p>И изменим настройки базы данных все в том же <code>config.php</code>.</p>
 <<code php>>
-systemConfig::$db['default']['dsn']  = 'mysql:host=localhost;dbname=framy_blog';
+systemConfig::$db['default']['dsn']  = 'mysql:host=localhost;dbname=MZZ_blog';
 systemConfig::$db['default']['user'] = 'root';
 systemConfig::$db['default']['password'] = '';
 <</code>>
 
-<p>Если все было сделано правильно и dummy приложение установлено, по адресу http://framy.blog/ мы увидим некоторый hello текст.</p>
+<p>Если все было сделано правильно и dummy приложение установлено, по адресу http://MZZ.blog/ мы увидим некоторый hello текст.</p>
 <<code text>>
 Hello, world!
 Привет, мир!

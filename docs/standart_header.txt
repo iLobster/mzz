@@ -1,12 +1,12 @@
 /**
  * $URL$
  *
- * Copyright (c) Framy
- * Website: http://www.framy.ru
+ * Copyright (c) MZZ
+ * Website: http://www.MZZ.ru
  *
  * This program is free software and released under
  * the GNU Lesser General Public License (See /docs/LGPL.txt).
  *
- * @link http://www.framy.ru
+ * @link http://www.MZZ.ru
  * @version $Id$
  */

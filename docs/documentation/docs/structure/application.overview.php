@@ -1,6 +1,6 @@
 <p>Структура типичного приложения:</p>
 <ul class="filesTree">
-    <li class="folder-open-last"><span class="text">framy_app/</span>
+    <li class="folder-open-last"><span class="text">MZZ_app/</span>
         <ul>
             <li class="line"> </li>
             <li class="folder-close"><span class="text">db/ — <i>дампы базы данных приложения</i></span></li>

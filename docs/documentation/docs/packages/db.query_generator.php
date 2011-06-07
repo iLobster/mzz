@@ -1,4 +1,4 @@
-<p>Для генерации SQL-запросов в <code>framy</code> предназначен специальный класс <code>simpleSelect</code>. <code>SimpleSelect</code> собирает запрос из составных частей, которыми являются объекты классов criteria. Интерфейс у <code>simpleSelect</code> предельно простой: конструктор, принимающий объект класса <code>criteria</code> и метод <code>simpleSelect::toString()</code>, возвращающий сгенерированный запрос.</p>
+<p>Для генерации SQL-запросов в <code>MZZ</code> предназначен специальный класс <code>simpleSelect</code>. <code>SimpleSelect</code> собирает запрос из составных частей, которыми являются объекты классов criteria. Интерфейс у <code>simpleSelect</code> предельно простой: конструктор, принимающий объект класса <code>criteria</code> и метод <code>simpleSelect::toString()</code>, возвращающий сгенерированный запрос.</p>
 <p>Рассмотрим пример генерации простейшего запроса:</p>
 
 <<code php>>

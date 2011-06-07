@@ -20,11 +20,11 @@ chmod 755 -R /home/user/demo/tmp
         <<alert>>В процессе импорта удалятся существующие БД с именами "mzz". Для использования другого имени базы данных отредактируйте в /db/mzz.sql<</alert>>
     </li>
     <li>
-        Укажите в файле config.php абсолютный путь до системных библиотек framy. Например:
+        Укажите в файле config.php абсолютный путь до системных библиотек MZZ. Например:
         <<code php>>
-            define('SYSTEM_PATH', realpath(dirname(__FILE__) . '/../framy/system/'));
+            define('SYSTEM_PATH', realpath(dirname(__FILE__) . '/../MZZ/system/'));
         <</code>>
-        В приведённом примере framy располагается по адресу: <code>/home/user/framy</code>
+        В приведённом примере MZZ располагается по адресу: <code>/home/user/MZZ</code>
     </li>
 </ul>
 

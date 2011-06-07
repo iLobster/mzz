@@ -1,6 +1,6 @@
 <p>Структура фреймворка:</p>
 <ul class="filesTree">
-    <li class="folder-open-last"><span class="text">framy/</span>
+    <li class="folder-open-last"><span class="text">MZZ/</span>
         <ul>
             <li class="line"> </li>
             <li class="folder-close"><span class="text">docs/ — <i>документация</i></span></li>
