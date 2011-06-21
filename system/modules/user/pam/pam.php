@@ -25,7 +25,7 @@ fileLoader::load('user/pam/aPamProvider');
 class pam
 {
     const DEFAULT_PROVIDER = 'simple';
-    
+
     /**
      * Cache backends instances
      *
@@ -96,9 +96,9 @@ class pam
         $this->provider = $provider;
     }
 
-    public function login()
+    public function handleLoginAction()
     {
-        return $this->provider->login();
+        return $this->provider->handleLoginAction();
     }
 
     public function logout(user $user = null, & $backUrl = null)
@@ -106,14 +106,8 @@ class pam
         return $this->provider->logout($user, $backUrl);
     }
 
-    public function validate(validator &$validator)
-    {
-        return $this->provider->validate($validator);
-    }
-
     public function checkAuth(user $user)
     {
         return $this->provider->checkAuth($user);
     }
 }
-?>

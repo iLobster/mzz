@@ -81,13 +81,19 @@ class loadDispatcher
             if ($action->canRun()) {
                 $view = $action->run();
             } else {
+                $errorModule = $toolkit->getModule('errorPages');
+                $errorAction = $errorModule->getAction('error403');
+
+                $view = $errorAction->run($action);
+
+                /*
                 try {
                     $errorAction = $module->getAction($action->getClassName() . '403');
                 } catch (mzzUnknownModuleActionException $e) {
                     $errorModule = $toolkit->getModule('errorPages');
                     $errorAction = $errorModule->getAction('error403');
                 }
-                $view = $errorAction->run();
+                */
             }
 
             $request->restore();

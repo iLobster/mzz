@@ -21,10 +21,25 @@
  */
 class errorPages403Controller extends simpleController
 {
+    public function run(simpleAction $forAction)
+    {
+        $module = $forAction->getModuleName();
+        $class = $forAction->getClassName();
+        $controller = $class . '403Controller';
+
+        try {
+            fileLoader::load($module . '/controllers/' . $controller);
+            $controller = new $controller($action);
+
+            return $controller->run();
+        } catch (mzzIoException $e) {
+            return $this->getView();
+        }
+    }
+
     protected function getView()
     {
         $this->response->setStatus(403);
-
         return $this->render('errorPages/403.tpl');
     }
 }

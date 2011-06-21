@@ -13,6 +13,7 @@
  * @subpackage filters
  * @version $Id$
  */
+
 fileLoader::load('user/pam/pam');
 
 /**
@@ -24,7 +25,6 @@ fileLoader::load('user/pam/pam');
  */
 class userFilter implements iFilter
 {
-
     /**
      * runs filter
      *
@@ -59,7 +59,7 @@ class userFilter implements iFilter
             if (!is_null($userAuth)) {
                 $user = $userAuth->getUser();
                 $valideAuth = false;
-                if ($user &&  $user->getHash() === $userAuth->getUserHash() && $user->isConfirmed()) {
+                if ($user && $user->getHash() === $userAuth->getUserHash() && $user->isConfirmed()) {
                     try {
                         $pam = pam::factory($userAuth->getPam());
                         $valideAuth = $pam->checkAuth($user);
@@ -87,6 +87,5 @@ class userFilter implements iFilter
 
         $filter_chain->next();
     }
-
 }
 ?>

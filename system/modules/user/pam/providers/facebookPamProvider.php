@@ -35,12 +35,11 @@ class facebookPamProvider extends aPamProvider
         $config = $this->toolkit->getConfig('user');
         $this->facebookAppID = $config->get('facebook_AppID');
         $this->facebookSecret = $config->get('facebook_Secret');
-        $perms = $config->get('facebook_Perms');
+        $this->facebookPerms = $config->get('facebook_Perms');
 
         if (empty($this->facebookAppID) || empty($this->facebookSecret)) {
             throw new mzzInvalidParameterException('check facebookAppID and facebookSecret params');
         }
-
 
         $this->facebook = new Facebook(array('appId' => $this->facebookAppID, 'secret' => $this->facebookSecret, 'cookie' => true));
     }

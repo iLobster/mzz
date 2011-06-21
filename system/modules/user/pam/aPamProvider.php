@@ -22,20 +22,21 @@
 abstract class aPamProvider implements iPamProvider
 {
     protected $toolkit;
+    protected $view;
     protected $request;
     protected $response;
 
     public function __construct()
     {
         $this->toolkit = systemToolkit::getInstance();
+        $this->view = $this->toolkit->getView();
         $this->request = $this->toolkit->getRequest();
         $this->response = $this->toolkit->getResponse();
     }
 
-    public function validate(validator &$validator){}
+    //public function validate(validator &$validator){}
 
-    public function  logout(user $user = null, & $backUrl = null) {}
-    
-   public function delete(user $user){}
+    public function logout(user $user = null, & $backUrl = null) {}
+
+    public function delete(user $user){}
 }
-?>
