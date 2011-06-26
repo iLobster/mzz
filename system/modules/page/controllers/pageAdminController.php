@@ -34,23 +34,31 @@ class pageAdminController extends simpleController
         }
 
         $pageFolder = $pageFolderMapper->searchByPath($path);
-        if ($pageFolder) {
-            $breadCrumbs = $pageFolder->getTreeParentBranch();
-            
-            $locale = new fLocale(systemConfig::$i18n);
-            $old_lang = $pageMapper->detach('i18n');
-            $pages = $pageMapper->searchByFolder($pageFolder->getId());
-            $pageMapper->plugins('i18n');
-
-            $pager = $this->setPager($pageMapper);
-            $this->view->assign('section_name', $this->request->getString('section_name'));
-            $this->view->assign('pages', $pages);
-            $this->view->assign('breadCrumbs', $breadCrumbs);
-            $this->view->assign('pageFolder', $pageFolder);
-            return $this->render('page/admin.tpl');
+        if (!$pageFolder) {
+            if ($path == 'root') {
+                $pageFolder = $pageFolderMapper->create();
+                $pageFolder->setName('root');
+                $pageFolder->setTitle('root');
+                $pageFolderMapper->save($pageFolder);
+            } else {
+                return $this->forward404($pageFolderMapper);
+            }
         }
+        
+        $breadCrumbs = $pageFolder->getTreeParentBranch();
+        
+        $locale = new fLocale(systemConfig::$i18n);
+        $old_lang = $pageMapper->detach('i18n');
+        $pages = $pageMapper->searchByFolder($pageFolder->getId());
+        $pageMapper->plugins('i18n');
 
-        return $this->forward404($pageFolderMapper);
+        $pager = $this->setPager($pageMapper);
+        $this->view->assign('section_name', $this->request->getString('section_name'));
+        $this->view->assign('pages', $pages);
+        $this->view->assign('breadCrumbs', $breadCrumbs);
+        $this->view->assign('pageFolder', $pageFolder);
+        
+        return $this->render('page/admin.tpl');
     }
 }
 
