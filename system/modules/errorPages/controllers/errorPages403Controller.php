@@ -29,7 +29,7 @@ class errorPages403Controller extends simpleController
 
         try {
             fileLoader::load($module . '/controllers/' . $controller);
-            $controller = new $controller($action);
+            $controller = new $controller($forAction);
 
             return $controller->run();
         } catch (mzzIoException $e) {
