@@ -96,9 +96,14 @@ class pam
         $this->provider = $provider;
     }
 
-    public function handleLoginAction()
+    public function validate(validator $validator)
     {
-        return $this->provider->handleLoginAction();
+        return $this->provider->validate($validator);
+    }
+
+    public function login()
+    {
+        return $this->provider->login();
     }
 
     public function logout(user $user = null, & $backUrl = null)

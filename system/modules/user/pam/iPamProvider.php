@@ -22,14 +22,12 @@
 interface iPamProvider
 {
 
-    public function handleLoginAction();
-
     /**
      * Method for login in user
      *
      * @return user|null - user object on success or null
      */
-    //public function login();
+    public function login();
 
     /**
      * Clean out some stuff after user logout
@@ -43,7 +41,7 @@ interface iPamProvider
      *
      * @return boolean - true on success
      */
-    //public function validate(validator &$validator);
+    public function validate(validator &$validator);
 
     /**
      * Validate stored userAuth, basicle used in userFilter
