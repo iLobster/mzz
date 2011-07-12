@@ -138,7 +138,7 @@ abstract class simpleController
         if ($hidden_redirect == false) {
             $this->request->setForwardedTo($moduleName, $actionName);
         }
-        return $action->run();
+        return $action->run($this->getAction());
     }
 
     protected function forward404($mapper = null)
