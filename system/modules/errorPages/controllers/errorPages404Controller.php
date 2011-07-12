@@ -21,10 +21,29 @@
  */
 class errorPages404Controller extends simpleController
 {
+    public function run(simpleAction $forAction = null)
+    {
+        if (!is_null($forAction)) {
+            $module = $forAction->getModuleName();
+            $class = $forAction->getClassName();
+            $controller = $class . '404Controller';
+
+            try {
+                fileLoader::load($module . '/controllers/' . $controller);
+                $controller = new $controller($forAction);
+
+                return $controller->run();
+            } catch (mzzIoException $e) {
+                return $this->getView();
+            }
+        }
+
+        return $this->getView();
+    }
+
     protected function getView()
     {
         $this->response->setStatus(404);
-
         return $this->render('errorPages/404.tpl');
     }
 }

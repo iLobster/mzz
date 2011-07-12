@@ -26,7 +26,7 @@ class errorPagesAction extends simpleAction
      *
      * @return string
      */
-    public function run(simpleAction $forAction)
+    public function run(simpleAction $forAction = null)
     {
         $controller = $this->getController();
         return $controller->run($forAction);
