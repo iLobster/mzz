@@ -114,12 +114,7 @@ class abstractContentFilter
             }
 
             //$output = $this->runActiveTemplate($request, $toolkit, $view);
-        } catch (mzzException $e) {
-            //@moved to external handler for simple rewriting
-            //fileLoader::load('simple/contentFilterExceptionHandler');
-            //$handler = new contentFilterExceptionHandler();
-            //$output = $handler->handle($e);
-
+        } catch (mzzNoActionException $e) {
             if (!isset($action)) {
                 $action = null;
             }
