@@ -44,8 +44,8 @@ class errorPagesModule extends simpleModule
             fileLoader::load('errorPages/errorPagesAction');
 
             $actions = array();
-            $actions['error404'] = new errorPagesAction('error404', $this->getName(), 'errorPage', '404', array('main' => 'deny'));
-            $actions['error403'] = new errorPagesAction('error403', $this->getName(), 'errorPage', '403', array('main' => 'deny'));
+            $actions['error404'] = new errorPagesAction('error404', $this->getName(), 'errorPages', '404', array('main' => 'deny'));
+            $actions['error403'] = new errorPagesAction('error403', $this->getName(), 'errorPages', '403', array('main' => 'deny'));
 
             $this->actions = $actions;
         }

@@ -123,6 +123,9 @@ class abstractContentFilter
             $errorAction = $errorModule->getAction('error404');
 
             $output = $errorAction->run($action);
+        } catch (mzzException $e) {
+            //@todo: сделать тут errorPages::error500? или отдать на съедение в errorDispatcher?
+            throw $e;
         }
 
         // Do some changes in output
