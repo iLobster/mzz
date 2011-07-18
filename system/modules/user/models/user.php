@@ -24,9 +24,8 @@ fileLoader::load('service/skin');
 class user extends entity
 {
     /**
-     * Проверяет является ли пользователь авторизированным
-     * Пользователь считается таковым, если у него установлен
-     * id больше 0 и он не равен значению константы MZZ_USER_GUEST_ID
+     * Return true if user is authorized (not guest). Method is used
+     * for checking _current_ user.
      *
      * @return boolean
      */
@@ -59,6 +58,23 @@ class user extends entity
     public function getHash()
     {
         return md5($this->getLogin() . $this->getPassword() . $this->getEmail());
+    }
+    
+    /**
+     * Return true if user is in specified group
+     *
+     * @param string $group_name
+     * @return bool
+     */
+    public function hasGroup($group_name)
+    {
+        foreach($this->getGroups() as $group) {
+            if ($group->getName() == $group_name) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 }
 
