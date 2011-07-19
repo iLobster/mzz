@@ -38,7 +38,7 @@
                     cache = cache || true;
                 }
 
-                if (cache && ( $('script[src=' + url + ']').length > 0 || $.inArray(url, this.scripts) >= 0) ) {
+                if (cache && ( $('script[src="' + url + '"]').length > 0 || $.inArray(url, this.scripts) >= 0) ) {
                     this._loaded('js', url, cb_end, 0);
                 } else {
                     this.queue.push({'url': url, 'start': cb_start, 'end': cb_end, 'cache': cache});
@@ -52,7 +52,7 @@
             if (this.queue.length > 0 && this.loading == false) {
                 var self = this;
                 var elm = this.queue.shift();
-                if (elm.cache && ( $('script[src=' + elm.url + ']').length > 0 || $.inArray(elm.url, this.scripts) >= 0) ) {
+                if (elm.cache && ( $('script[src="' + elm.url + '"]').length > 0 || $.inArray(elm.url, this.scripts) >= 0) ) {
                     this._loaded('js', elm.url, elm.start, 0);
                     this._check();
                 } else {
@@ -98,7 +98,7 @@
          *
          */
         loadCSS: function(url, callback) {
-            if ($('link[type="text/css"][href=' + url + ']').length > 0) {
+            if ($('link[type="text/css"][href="' + url + '"]').length > 0) {
                 return;
             }
             var self = this;
