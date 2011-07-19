@@ -382,6 +382,10 @@ class criteria
             $this->distinct = $distinct;
         }
 
+        if ($useIndex = $criteria->getUseIndex()) {
+            $this->useIndex = $useIndex;
+        }
+
         $base = $this->getTable();
         $outer = $criteria->getTable();
         if (!is_scalar($outer['table']) && !is_null($outer['table'])) {
