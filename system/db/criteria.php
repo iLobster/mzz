@@ -734,6 +734,7 @@ class criteria
     public function useIndex($index)
     {
         $this->useIndex[] = $index;
+        return $this;
     }
 
     public function getUseIndex()
