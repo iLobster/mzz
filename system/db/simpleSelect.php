@@ -147,10 +147,13 @@ class simpleSelect extends simpleSqlGenerator
             $havingClause[] = $val->generate($this, $this->criteria->getTable());
         }
 
+        $useIndex = $this->criteria->getUseIndex();
+
         $qry = 'SELECT ' .
         ($this->criteria->getDistinct() ? 'DISTINCT ' : '') .
         ($selectClause ? implode(', ', $selectClause) : '*') .
         (($table) ? ' FROM ' . $table : '') .
+        ($useIndex ? ' USE INDEX (' . implode(', ', $useIndex) . ')' : '') .
         ($joinClause ? implode($joinClause) : '') .
         ($whereClause ? ' WHERE ' . implode(' AND ', $whereClause) : '') .
         ($groupByClause ? ' GROUP BY ' . implode(', ', $groupByClause) : '') .

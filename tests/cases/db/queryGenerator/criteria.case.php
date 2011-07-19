@@ -141,6 +141,14 @@ class criteriaTest extends unitTestCase
         $this->criteria->where($criterion);
         $this->assertEqual($this->criteria->getCriterion('foo_2_3'), $criterion);
     }
+
+    public function testUseIndex()
+    {
+        $criteria = new criteria('table');
+        $criteria->where('a', 1)->useIndex('foo');
+
+        $this->assertEqual($criteria->debug(true), 'SELECT * FROM `table` USE INDEX (foo) WHERE `table`.`a` = 1');
+    }
 }
 
 ?>

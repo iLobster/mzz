@@ -209,6 +209,8 @@ class criteria
      */
     private $selectFieldsAliases = array();
 
+    protected $useIndex = array();
+
     /**
      * Число записей для выборки
      *
@@ -727,6 +729,21 @@ class criteria
     public function distinct($value = true)
     {
         $this->distinct = (bool)$value;
+    }
+
+    public function useIndex($index)
+    {
+        $this->useIndex[] = $index;
+    }
+
+    public function getUseIndex()
+    {
+        return $this->useIndex;
+    }
+
+    public function clearUseIndex()
+    {
+        $this->useIndex = array();
     }
 
     /**
