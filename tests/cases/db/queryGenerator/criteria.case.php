@@ -149,6 +149,17 @@ class criteriaTest extends unitTestCase
 
         $this->assertEqual($criteria->debug(true), 'SELECT * FROM `table` USE INDEX (foo) WHERE `table`.`a` = 1');
     }
+
+    public function testSelectOptions()
+    {
+        $criteria = new criteria('table');
+        $criteria->where('a', 1)->selectOption('SQL_CALC_FOUND_ROWS')->selectOption('SQL_NO_CACHE');
+
+        $this->assertEqual($criteria->debug(true), 'SELECT SQL_CALC_FOUND_ROWS SQL_NO_CACHE * FROM `table` WHERE `table`.`a` = 1');
+
+        $criteria->clearSelectOptions();
+        $this->assertEqual($criteria->debug(true), 'SELECT * FROM `table` WHERE `table`.`a` = 1');
+    }
 }
 
 ?>

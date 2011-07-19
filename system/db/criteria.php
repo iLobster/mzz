@@ -211,6 +211,8 @@ class criteria
 
     protected $useIndex = array();
 
+    protected $selectOptions = array();
+
     /**
      * Число записей для выборки
      *
@@ -384,6 +386,10 @@ class criteria
 
         if ($useIndex = $criteria->getUseIndex()) {
             $this->useIndex = $useIndex;
+        }
+
+        if ($selectOptions = $criteria->getSelectOptions()) {
+            $this->selectOptions = $selectOptions;
         }
 
         $base = $this->getTable();
@@ -718,6 +724,7 @@ class criteria
     /**
      * Получение значения флага distinct
      *
+     * @todo: перенести в selectOptions
      * @return boolean
      */
     public function getDistinct()
@@ -729,6 +736,7 @@ class criteria
      * Установка значения флага distinct
      *
      * @param boolean $value
+     * @todo: перенести в selectOptions
      */
     public function distinct($value = true)
     {
@@ -749,6 +757,24 @@ class criteria
     public function clearUseIndex()
     {
         $this->useIndex = array();
+        return $this;
+    }
+
+    public function selectOption($options)
+    {
+        $this->selectOptions[] = $options;
+        return $this;
+    }
+
+    public function getSelectOptions()
+    {
+        return $this->selectOptions;
+    }
+
+    public function clearSelectOptions()
+    {
+        $this->selectOptions = array();
+        return $this;
     }
 
     /**

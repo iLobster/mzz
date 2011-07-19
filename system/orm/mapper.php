@@ -464,7 +464,10 @@ abstract class mapper
 
         //echo '<pre>'; var_dump($select->toString()); echo '</pre>';
 
-        return $this->db()->query($select->toString());
+        $stmt = $this->db()->query($select->toString());
+        $this->notify('postSqlSelect', $stmt);
+
+        return $stmt;
     }
 
     public function addSelectFields(criteria $criteria, $mapper = null, $alias = null)

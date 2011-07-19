@@ -83,6 +83,10 @@ class observer
     {
     }
 
+    public function postSqlSelect(fPdoStatement $stmt)
+    {
+    }
+
     public function processRow(& $row)
     {
     }

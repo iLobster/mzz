@@ -148,8 +148,10 @@ class simpleSelect extends simpleSqlGenerator
         }
 
         $useIndex = $this->criteria->getUseIndex();
+        $selectOptions = $this->criteria->getSelectOptions();
 
         $qry = 'SELECT ' .
+        ($selectOptions ? implode(' ', $selectOptions) . ' ' : '') .
         ($this->criteria->getDistinct() ? 'DISTINCT ' : '') .
         ($selectClause ? implode(', ', $selectClause) : '*') .
         (($table) ? ' FROM ' . $table : '') .
