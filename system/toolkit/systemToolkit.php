@@ -40,7 +40,7 @@ class systemToolkit
     /**
      * Singleton
      *
-     * @return object
+     * @return stdToolkit - for autocomplete, actually it's systemToolkit
      */
     public static function getInstance()
     {
