@@ -101,14 +101,18 @@ class entity implements serializable
         if ($this->data[$field] instanceof lazy) {
             return true;
         }
-
+ 
         if (is_object($this->data[$field])) {
             return false;
         }
-
+ 
+        if (in_array($field, $this->dataLoaded)) {
+            return false;
+        }
+ 
         $map = $this->mapper->map();
         if (!empty($map[$field]['relation'])) {
-            if ($map[$field]['relation'] == 'one' && (!isset($map[$field]['join_type']) || ($map[$field]['join_type'] == 'left')) && is_null($this->data[$field]) && !$this->mapper->hasOption($field, 'fake') && in_array($field, $this->dataLoaded)) {
+            if ($map[$field]['relation'] == 'one' && (!isset($map[$field]['join_type']) || ($map[$field]['join_type'] == 'left')) && is_null($this->data[$field])){
                 return false;
             }
             return true;
