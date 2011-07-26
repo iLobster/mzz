@@ -114,6 +114,11 @@ class abstractContentFilter
             }
 
             //$output = $this->runActiveTemplate($request, $toolkit, $view);
+        } catch (mzzModuleNotFoundException $e) {
+            $errorModule = $toolkit->getModule('errorPages');
+            $errorAction = $errorModule->getAction('error404');
+
+            $output = $errorAction->run();
         } catch (mzzNoActionException $e) {
             if (!isset($action)) {
                 $action = null;
