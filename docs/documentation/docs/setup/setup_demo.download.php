@@ -1,1 +1,4 @@
-<p>Исходные коды demo-приложения доступны в <a href="http://trac.mzz.ru/browser/apps/demo">репозитории</a></p>
+<p>Исходные коды demo-приложения могут быть получены из SVN-репозитория: </p>
+<<code bash>>
+svn checkout svn://svn.mzz.ru/mzz/apps/demo/trunk
+<</code>>

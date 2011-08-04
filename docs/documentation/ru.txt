@@ -4,12 +4,13 @@ intro.Введение
 setup.Установка и настройка
     sources.Исходный код
     system_requirements.Системные требования
-    setup_MZZ.Установка MZZ на сервер
+    setup_mzz.Установка MZZ на сервер
     setup_demo.Установка и конфигурирование demo-приложения
         download.Скачивание
         installation.Установка
+    setup_dummy.Установка и конфигурирование dummy-приложения
 structure.Структура
-    MZZ.MZZ
+    mzz.MZZ
     application.Приложение
         overview.Обзор
         config.Конфигурационный файл
@@ -22,6 +23,9 @@ structure.Структура
         i18n.i18n
         mappers_and_model.Mappers и model
         templates.Templates
+    running.Процесс запуска приложения
+    	overview.Обзор
+    	routes.Роуты
 mvc.MVC
     model.Model
     view.View
@@ -37,6 +41,16 @@ orm.ORM
     map.Схема объекта
     hooks.Хуки
     plugins.Плагины
+templates.Шаблонизатор
+	overview.Обзор
+	helpers.Помощники видов или хелперы
+request.Внешние данные и валидация форм
+	overview.Обзор
+	validators.Валидаторы
+acl.ACL и система прав
+	overview.Обзор
+i18n.Локализация модулей и приложений
+	overview.Обзор
 packages.Стандартные пакеты
     toolkit.Toolkit
     cache.Cache
@@ -44,9 +58,13 @@ packages.Стандартные пакеты
         configuring.Конфигурирование
         usage.Использование
     db.Db
+    	fdb.Объект соединения с БД
         query_generator.Генератор запросов
         criteria.Criteria
 modules.Готовые модули
+	page.Страницы
+	menu.Меню
+	fileManager.Файловый менеджер
     comments.Комментарии
         overview.Обзор
         plugin.commentsPlugin

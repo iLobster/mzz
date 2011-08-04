@@ -16,9 +16,9 @@
                     <li class="folder-close-last"><span class="text">filters/ — <i>фильтры (todo: ссылка на описание процесса запуска приложения)</i></span></li>
                     <li class="folder-close-last"><span class="text">forms/ — <i>form-генераторы, валидаторы (todo: ссылка на генерацию и валидацию форм)</i></span></li>
                     <li class="folder-close-last"><span class="text">i18n/ — <i>локализация</i></span></li>
-                    <li class="folder-close-last"><span class="text">modules/ — <i>модули приложения</i></span></li>
-                    <li class="folder-close-last"><span class="text">orm/ — <i>классы ORM</i></span></li>
-                    <li class="folder-close-last"><span class="text">request/ — <i>классы какие-то</i></span></li>
+                    <li class="folder-close-last"><span class="text">modules/ — <i>системные и стандартные модули</i></span></li>
+                    <li class="folder-close-last"><span class="text">orm/ — <i>классы ORM (<a href="orm.html">подробнее</a>)</i></span></li>
+                    <li class="folder-close-last"><span class="text">request/ — <i>классы запросов, ответов и разбора роутов (todo: ссылка на генерацию и валидацию форм)</i></span></li>
                     <li class="folder-close-last"><span class="text">resolver/ — <i>резолверы (todo: ссылка на разделы описания резолверов и их фич)</i></span></li>
                     <li class="folder-close-last"><span class="text">routes/ — <i>роуты (todo: ссылка на разделы описания роутеров)</i></span></li>
                     <li class="folder-close-last"><span class="text">service/ — <i>различные сервисные классы</i></span></li>

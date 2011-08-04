@@ -131,22 +131,22 @@ a {
 }
 
 h2 {
-	padding-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 h3 {
-	padding-top: 15px;
-	padding-bottom: 10px;
+	margin-top: 15px;
+	margin-bottom: 10px;
 }
 
 h4 {
-	padding-top: 15px;
-	padding-bottom: 5px;
+	margin-top: 15px;
+	margin-bottom: 5px;
 	font-size: 1em;
 }
 
 p {
-	padding: 1em 0;
+	margin: 1em 0;
 }
 
 dl#fullContent a {
@@ -278,8 +278,8 @@ div.code_border {
 .note {
 	margin: 10px 0px;
 	border-left: 3px solid #F1ECC5;
-	background: #FAF9E4 url('./images/note_background.gif') 8px 8px no-repeat;
-	padding: 10px 24px;
+	background: #FAF9E4;
+	padding: 10px 12px;
 	width: auto;
 }
 

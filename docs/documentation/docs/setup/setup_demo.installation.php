@@ -26,6 +26,14 @@ chmod 755 -R /home/user/demo/tmp
         <</code>>
         В приведённом примере MZZ располагается по адресу: <code>/home/user/MZZ</code>
     </li>
+    <li>
+        Измените в файле config.php параметры подключения к БД demo-приложения, если необходимо. Например:
+        <<code php>>
+systemConfig::$db['default']['dsn']  = 'mysql:host=localhost;dbname=mzz';
+systemConfig::$db['default']['user'] = 'root';
+systemConfig::$db['default']['password'] = '';
+        <</code>>
+    </li>
 </ul>
 
-<p>Готово! Теперь demo-приложение доступно по адресу, указанному в настройке виртуального-хоста!</p>
+<p>Готово! Теперь demo-приложение доступно по адресу, указанному в настройке виртуального хоста!</p>
