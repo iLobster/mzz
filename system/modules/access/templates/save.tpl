@@ -1,8 +1,8 @@
-{include file='jipTitle.tpl' title='Редактирование ролей'}
+{include file='jipTitle.tpl' title="Редактирование ролей{if $group} для группы '{$group->getName()|h}'{/if}"}
 
 {form action=$form_action method="post" jip=true}
     <table border="0" width="99%" cellpadding="4" cellspacing="1" class="systemTable">
-        {if not empty($groups)}
+        {if !empty($groups)}
             <tr>
                 <td colspan="2">
                     Выберите группу: {form->select name=group_id options=$groups valueMethod=getName keyMethod=getId emptyFirst=""}

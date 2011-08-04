@@ -11,7 +11,7 @@
 
     <tr>
         <td><a class="jsLink" href="#" onclick="return selectAll(this);">Все</a></td>
-        <td style="width: 100%;"><strong>Действие</strong></td>
+        <td style="width: 100%;"><strong>Роль</strong></td>
     </tr>
 {foreach from=$roles item=role}
     <tr>
