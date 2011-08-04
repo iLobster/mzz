@@ -56,7 +56,7 @@ class iconPlugin extends aPlugin
             }
         } else {
             if ($jip) {
-                return "'" . SITE_PATH . $sprite . "'";
+                return (strpos($sprite, '://') ? '' : SITE_PATH) . $sprite;
             } else {
                 '<img src="' . SITE_PATH . $sprite . '" width="16" height="16" alt="." />';
             }
