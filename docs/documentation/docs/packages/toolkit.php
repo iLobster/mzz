@@ -2,7 +2,7 @@
 <<code php>>
 $toolkit = systemToolkit::getInstance();
 <</code>>
-<p>Также в контроллерах <code>toolkit</code> уже доступен с помощью свойства <code>toolkit</code>. Пример получения текущего пользователя:</p>
+<p>Также в контроллерах <code>toolkit</code> уже доступен через свойство <code>toolkit</code>. Пример получения текущего пользователя:</p>
 <<code php>>
 $this->toolkit->getUser();
 <</code>>

@@ -10,8 +10,8 @@ html, body {
 	font-size: 95%;
 }
 
-ul {
-	padding-left: 2em;
+ul, ol {
+	padding-left: 3em;
 }
 
 .red, .green, .blue, .orange {

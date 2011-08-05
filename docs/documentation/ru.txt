@@ -25,6 +25,7 @@ structure.Структура
         templates.Templates
     running.Процесс запуска приложения
     	overview.Обзор
+    	process.Порядок выполнения кода
     	routes.Маршрутизация запросов (Routing)
 mvc.MVC
     model.Model
