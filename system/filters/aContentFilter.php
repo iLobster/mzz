@@ -29,7 +29,7 @@ class abstractContentFilter
      *
      * @param string $output
      */
-    protected  function afterRenderPage(&$output)
+    protected function afterRenderPage(&$output)
     {
 
     }

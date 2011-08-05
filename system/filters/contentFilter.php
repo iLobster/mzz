@@ -23,7 +23,7 @@ fileLoader::load('filters/aContentFilter');
  * @subpackage filters
  * @version 0.2.10
  */
-class contentFilter extends abstractContentFilter  implements iFilter
+class contentFilter extends abstractContentFilter implements iFilter
 {
     /**
      * запуск фильтра на исполнение
@@ -34,39 +34,8 @@ class contentFilter extends abstractContentFilter  implements iFilter
      */
     public function run(filterChain $filter_chain, $response, iRequest $request)
     {
-        $params = $request->getParams();
-        $toolkit = systemToolkit::getInstance();
-        $module_name = $request->getModule();
-        $action_name = $request->getAction();
-        $request->setRequestedParams($params);
-        $cache = $toolkit->getCache();
-        $user = $toolkit->getUser();
-
-        // Example how show cached content in news module for guests
-        // Dont forget flush cache after changes in page content!
-        $cached_actions = array('view');
-        $show_from_cache = !$user->isLoggedIn() && $module_name == 'news' && in_array($action_name, $cached_actions);
-
-        if ($show_from_cache) {
-            $page = (int)$request->getInteger('page', SC_GET);
-            $cache_params = array($module_name, $action_name);
-            $cache_params = array_merge($cache_params, $params);
-            $cache_params[] = $page;
-            $identifier = implode('-', $cache_params);
-
-            // guests use content from cache
-            if (!$cache->get($identifier, $output)) {
-                // do render if cache is empty
-                $output = $this->renderPage($response, $request);
-                // do not cache 404 page
-                if (!mzz_strpos($page, '404 Not Found')) {
-                    $cache->set($identifier, $output);
-                }
-            }
-        } else {
-            $output = $this->renderPage($response, $request);
-        }
-
+        // You can return cached content here, if necessary, instead rendering it again
+        $output = $this->renderPage($response, $request);
 
         $response->append($output);
         $filter_chain->next();
@@ -77,7 +46,7 @@ class contentFilter extends abstractContentFilter  implements iFilter
      *
      * @param string $output
      */
-    protected  function afterRenderPage(&$output)
+    protected function afterRenderPage(&$output)
     {
 
     }
