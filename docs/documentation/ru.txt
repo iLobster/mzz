@@ -21,11 +21,11 @@ structure.Структура
         actions.Actions
         controllers.Controllers
         i18n.i18n
-        mappers_and_model.Mappers и model
+        mappers_and_models.Mappers и models
         templates.Templates
     running.Процесс запуска приложения
     	overview.Обзор
-    	routes.Роуты
+    	routes.Маршрутизация запросов (Routing)
 mvc.MVC
     model.Model
     view.View

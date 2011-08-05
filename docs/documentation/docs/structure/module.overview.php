@@ -7,7 +7,7 @@
             <li class="folder-close"><span class="text">controllers/</span></li>
             <li class="folder-close"><span class="text">i18n/</span></li>
             <li class="folder-close"><span class="text">mappers/</span></li>
-            <li class="folder-close"><span class="text">model/</span></li>
+            <li class="folder-close"><span class="text">models/</span></li>
             <li class="folder-close"><span class="text">templates/</span></li>
             <li class="doc-last"><span class="text">newsModule.php</span></li>
         </ul>
