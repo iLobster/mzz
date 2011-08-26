@@ -454,7 +454,7 @@ class criteria
      * Установка поля по которому будет производиться сортировка выборки. Направление ASC
      *
      * @param string $field имя поля
-     * @param boolean $alias
+     * @param boolean $alias нужно ли дописывать алиас
      * @return criteria текущий объект
      */
     public function orderByAsc($field, $alias = true)
@@ -467,7 +467,7 @@ class criteria
      * Установка поля по которому будет производиться сортировка выборки. Направление DESC
      *
      * @param string $field имя поля
-     * @param boolean $alias
+     * @param boolean $alias нужно ли дописывать алиас
      * @return criteria текущий объект
      */
     public function orderByDesc($field, $alias = true)
@@ -611,7 +611,7 @@ class criteria
     /**
      * Метод добавления полей для выборки
      *
-     * @param string $field имя поля
+     * @param string|sqlOperator $field имя поля
      * @param string $alias алиас, который будет присвоен выбираемому полю
      * @return criteria текущий объект
      */

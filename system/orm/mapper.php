@@ -525,9 +525,11 @@ abstract class mapper
     {
         $tmp = array();
         foreach ($row as $key => $val) {
-            $exploded = explode(self::TABLE_KEY_DELIMITER, $key);
-            list ($class, $field) = $exploded;
-            $tmp[$class][$field] = $val;
+            $exploded = explode(self::TABLE_KEY_DELIMITER, $key, 2);
+            if (count($exploded) < 2) {
+                continue;
+            }
+            $tmp[$exploded[0]][$exploded[1]] = $val;
         }
 
         $this->relations->retrieve($tmp);
