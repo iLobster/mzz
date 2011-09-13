@@ -113,26 +113,33 @@ class abstractContentFilter
                 }
             }
 
-            //$output = $this->runActiveTemplate($request, $toolkit, $view);
-        } catch (mzzModuleNotFoundException $e) {
-            $errorModule = $toolkit->getModule('errorPages');
-            $errorAction = $errorModule->getAction('error404');
-
-            $output = $errorAction->run();
-        } catch (mzzNoActionException $e) {
-            if (!isset($action)) {
-                $action = null;
+        } catch (Exception $e) {
+            $error404Action = $toolkit->getModule('errorPages')->getAction('error404');
+            
+            if (!DEBUG_MODE) {
+                switch (get_class($e)) {
+                    case 'mzzModuleNotFoundException':
+                    case 'mzzUnknownModuleActionException':
+                    case 'mzzDONotFoundException':
+                        $output = $error404Action->run();
+                        break;
+                        
+                    case 'mzzNoActionException':
+                        if (!isset($action)) {
+                            $action = null;
+                        }
+                        
+                        $output = $error404Action->run($action);
+                        break;
+                    
+                    default:
+                        throw $e;
+                }
+            } else {
+                throw $e;
             }
-
-            $errorModule = $toolkit->getModule('errorPages');
-            $errorAction = $errorModule->getAction('error404');
-
-            $output = $errorAction->run($action);
-        } catch (mzzException $e) {
-            //@todo: сделать тут errorPages::error500? или отдать на съедение в errorDispatcher?
-            throw $e;
         }
-
+        
         // Do some changes in output
         $this->afterRenderPage($output);
 
