@@ -77,8 +77,6 @@ class adminSaveClassController extends simpleController
             $validator->rule('callback', 'name', i18n::getMessage('class.error.unique', 'admin'), array(array($this, 'checkUniqueClassName'), $adminMapper, $isEdit ? $data['className'] : ''));
             $validator->rule('regex', 'name', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
             $validator->rule('in', 'dest', i18n::getMessage('module.error.wrong_dest', 'admin'), array_keys($dests));
-
-            $validator->rule('required', 'table', i18n::getMessage('class.error.table_required', 'admin'));
             $validator->rule('regex', 'table', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-')) , '#^[a-z0-9_-]+$#i');
         }
 
@@ -92,8 +90,6 @@ class adminSaveClassController extends simpleController
                     $adminGeneratorMapper->createClass($module, $name, $table, $dests[$dest]);
                 } catch (Exception $e) {
                     return $e->getMessage();
-                    //$controller = new messageController($this->getAction(), $e->getMessage(), messageController::WARNING);
-                    //return $controller->run();
                 }
 
                 $this->view->assign('name', $name);

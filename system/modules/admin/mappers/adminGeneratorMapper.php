@@ -103,12 +103,15 @@ class adminGeneratorMapper extends mapper
 
         $fileGenerator->create($doFileName, $doContents);
 
-        try {
-            $schema = $this->getTableSchema($table);
-            $map = $this->mapFieldsFormatter($schema);
-            $map_str = $this->generateMapString($map);
-        } catch (PDOException $e) {
-            $map_str = 'array()';
+        $map_str = 'array()';
+        if ($table) {
+            try {
+                $schema = $this->getTableSchema($table);
+                $map = $this->mapFieldsFormatter($schema);
+                $map_str = $this->generateMapString($map);
+            } catch (PDOException $e) {
+                $map_str = 'array()';
+            }
         }
 
         $view->assign('map', $map_str);
