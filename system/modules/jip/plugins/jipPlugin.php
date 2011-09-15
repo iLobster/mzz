@@ -22,16 +22,16 @@ class jipPlugin extends observer
         $class = is_null($class) ? get_class($object) : $class;
 
         $map = $this->mapper->map();
-        if (!isset($map[$this->getByField()])) {
-            throw new mzzInvalidParameterException('Invalid byField value for jip plugin');
+        if (isset($map[$this->getByField()])) {
+            $objectId = $object->$map[$this->getByField()]['accessor']();
+        } else {
+            $objectId = null;
         }
-
-        $objectId = $object->$map[$this->getByField()]['accessor']();
 
         $module = systemToolkit::getInstance()->getModule($object->module());
         $actions = $module->getClassActions($class);
 
-        $jip_id = $object->module() . '_' . $class . '_' . $objectId;
+        $jip_id = $object->module() . '_' . $class . ($objectId ? '_' . $objectId : '');
         $jip = new jip($jip_id, $tpl);
 
         foreach ($actions as $actionName => $actionObject) {
