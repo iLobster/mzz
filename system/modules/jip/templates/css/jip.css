@@ -403,12 +403,12 @@ div.mzz-jip-window img.mzz-jip-gradient {
 }
 
 .mzz-jip-window form textarea,
-.mzz-jip-window form input[type=text],
-.mzz-jip-window form input[type=password] {
+.mzz-jip-window form input[type="text"],
+.mzz-jip-window form input[type="password"] {
     border-color: #8d8e8d #e0e1e0 #e0e1e0 #8d8e8d;
     border-style:solid;
     border-width: 1px;
-    color: #817c7c;
+    color: #555;
     padding: 3px;
     width: 95%;
     margin-top: -5px;
@@ -420,22 +420,22 @@ div.mzz-jip-window img.mzz-jip-gradient {
 }
 
 .mzz-jip-window form .required textarea,
-.mzz-jip-window form .required input[type=text],
-.mzz-jip-window form .required input[type=password] {
+.mzz-jip-window form .required input[type="text"],
+.mzz-jip-window form .required input[type="password"] {
     border-color: #f5dc63 #f6e9e9 #f6e9e9 #f5dc63;
     background-color: #ffffcf;
 }
 
 .mzz-jip-window form .error textarea,
-.mzz-jip-window form .error input[type=text],
-.mzz-jip-window form .error input[type=password] {
+.mzz-jip-window form .error input[type="text"],
+.mzz-jip-window form .error input[type="password"] {
     border-color: #FF9F9F #f6e9e9 #f6e9e9 #FF9F9F;
     background-color: #fcecec;
 }
 
 .mzz-jip-window form textarea:focus,
-.mzz-jip-window form input[type=text]:focus
-.mzz-jip-window form input[type=password]:focus {
+.mzz-jip-window form input[type="text"]:focus,
+.mzz-jip-window form input[type="password"]:focus {
     border-left: 1px solid black;
     border-top: 1px solid black;
     color: #000000;
@@ -446,7 +446,7 @@ div.mzz-jip-window img.mzz-jip-gradient {
 .mzz-jip-window form input[type="button"] {
     background: url("../images/jip/bg-button.png") repeat-x scroll 0 0 transparent;
     border:1px solid #c8c7c7;
-    color:#727070;
+    color: #555;
     cursor:default;
     font-size:13px;
     padding:3px 12px;
@@ -463,16 +463,16 @@ div.mzz-jip-window img.mzz-jip-gradient {
 .mzz-jip-window form input[type="reset"]:active,
 .mzz-jip-window form input[type="button"]:active {
     background-position: 0px -48px;
-    border-color: #000000;
-    color: #4c4545;
+    border-color: #555;
+    color: black;
 }
 
 .mzz-jip-window form input[type="submit"]:hover,
 .mzz-jip-window form input[type="reset"]:hover,
 .mzz-jip-window form input[type="button"]:hover {
     background-position: 0px -24px;
-    border-color: #000000;
-    color: #4c4545;
+    border-color: #555;
+    color: black;
 }
 
 .mzz-jip-window form div.buttons {
