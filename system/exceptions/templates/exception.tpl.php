@@ -7,6 +7,7 @@
     background: transparent;
   }
   .exception {
+  	color: black;
     width: 700px;
     border: 1px solid #D6D6D6;
     background-color: #FAFAFA;
