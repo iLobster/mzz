@@ -116,6 +116,21 @@ class timer
     {
         return $this->prepared_finish - $this->prepared_start;
     }
+    
+    public function getMemoryPeak()
+    {
+        return memory_get_peak_usage();
+    }
+    
+    public function getMemoryCurrent()
+    {
+        return memory_get_usage();
+    }
+    
+    public function getMemoryLimit()
+    {
+        return ini_get('memory_limit');
+    }
 
     /**
      * Возвращает выполненый шаблон таймера
