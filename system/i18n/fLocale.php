@@ -373,11 +373,15 @@ class fLocale
 
     /**
      * Получение локализованных имён месяцев
-     *
+     * 
+     * @param integer $number
      * @return array
      */
-    public function getLongMonthNames()
+    public function getLongMonthNames($number = 0)
     {
+        if ($number >= 1 && $number <= 12) {
+            return $this->data['long_month_names'][$number];
+        }
         return $this->data['long_month_names'];
     }
 
