@@ -371,15 +371,29 @@ class fLocale
         return $this->data['http']['content_language'] . '.' . $this->data['charset']['preferred'];
     }
 
+	/**
+     * Получение коротких локализованных имён месяцев, либо конкретного месяца
+     * 
+     * @param integer $number
+     * @return array
+     */
+    public function getShortMonthNames($number = 0)
+    {
+        if (isset($this->data['short_month_names'][$number])) {
+            return $this->data['short_month_names'][$number];
+        }
+        return $this->data['short_month_names'];
+    }
+    
     /**
-     * Получение локализованных имён месяцев
+     * Получение локализованных имён месяцев, либо конкретного месяца
      * 
      * @param integer $number
      * @return array
      */
     public function getLongMonthNames($number = 0)
     {
-        if ($number >= 1 && $number <= 12) {
+        if (isset($this->data['long_month_names'][$number])) {
             return $this->data['long_month_names'][$number];
         }
         return $this->data['long_month_names'];
@@ -393,11 +407,43 @@ class fLocale
      */
     public function getLongMonthNamesDecline($number = 0)
     {
-        if ($number >= 1 && $number <= 12) {
+        if (isset($this->data['long_month_names_decline'][$number])) {
             return $this->data['long_month_names_decline'][$number];
         }
 
         return $this->data['long_month_names_decline'];
+    }
+    
+	/**
+     * Получение коротких локализованных имён дней недели, либо конкретного дня
+     * Внимание! 0 соответствует Воскресенью
+     *
+     * @param integer $number
+     * @return string|array
+     */
+    public function getShortDayNames($number = 0)
+    {
+        if (isset($this->data['short_day_names'][$number])) {
+            return $this->data['short_day_names'][$number];
+        }
+
+        return $this->data['short_day_names'];
+    }
+    
+	/**
+     * Получение локализованных имён дней недели, либо конкретного дня
+     * Внимание! 0 соответствует Воскресенью
+     *
+     * @param integer $number
+     * @return string|array
+     */
+    public function getLongDayNames($number = 0)
+    {
+        if (isset($this->data['long_day_names'][$number])) {
+            return $this->data['long_day_names'][$number];
+        }
+
+        return $this->data['long_day_names'];
     }
 
     /**
