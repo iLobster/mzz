@@ -57,6 +57,18 @@ class errorDispatcher
     public function exceptionHandler($exception)
     {
         $this->exception = $exception;
+        $toolkit = systemToolkit::getInstance();
+        
+        // Log exception, if necessary
+        if (systemConfig::$logExceptions) {
+            $message = ($exception->getCode() ? '[Code: ' . $exception->getCode() . '] ' : '')
+                . $this->exception->getMessage()
+                . '. Thrown in ' . $exception->getFile() . ' (Line: ' . $exception->getLine() . ')'
+                . '. User_id: ' . $toolkit->getUser()->getId()
+                . '. URL: ' . $toolkit->getRequest()->getRequestUrl()
+                ;
+            error_log($message);
+        }
         $this->outputException();
     }
 

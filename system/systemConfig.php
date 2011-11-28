@@ -129,6 +129,13 @@ class systemConfig
      * @var boolean
      */
     public static $i18nEnable = false;
+    
+    /**
+     * Enable exceptions logging to web server error_log
+     *
+     * @var boolean
+     */
+    public static $logExceptions = false;
 
     /**
      * id of default skin
