@@ -13,7 +13,16 @@ class identityMapPlugin extends observer
     private $pk;
 
     private $enabled = true;
+    private static $globalDisabling = false;
 
+    /**
+     * Global disable|enable plugin in whole app (for more flexible memory management in large arrays of objects)
+     */
+    public static function globalDisable($disable = true)
+    {
+        self::$globalDisabling = $disable;
+    }
+    
     public function setMapper(mapper $mapper)
     {
         parent::setMapper($mapper);
@@ -28,13 +37,20 @@ class identityMapPlugin extends observer
 
     public function postCreate($object)
     {
+        if (self::$globalDisabling) {
+            return;
+        }
+        
         $key = $object->{$this->accessor}();
-
         $this->identityMap->set($key, $object);
     }
 
     public function preUpdate($object)
     {
+        if (self::$globalDisabling) {
+            return;
+        }
+        
         if ($object instanceof entity) {
             $this->enabled = false;
         }
@@ -42,6 +58,10 @@ class identityMapPlugin extends observer
 
     public function postUpdate($object)
     {
+        if (self::$globalDisabling) {
+            return;
+        }
+        
         if (!$this->enabled) {
             $this->enabled = true;
 
@@ -51,6 +71,10 @@ class identityMapPlugin extends observer
 
     public function preSearchOneByField(& $data)
     {
+        if (self::$globalDisabling) {
+            return;
+        }
+        
         if ($this->enabled && $data[0] == $this->mapper->pk() && $object = $this->identityMap->get($data[1])) {
             $data = $object;
             return true;
@@ -59,6 +83,10 @@ class identityMapPlugin extends observer
 
     public function processRow(& $row)
     {
+        if (self::$globalDisabling) {
+            return;
+        }
+        
         $key = $row[$this->pk];
         if ($this->enabled && $this->identityMap->exists($key) && $object = $this->identityMap->get($key)) {
             $row = $object;
