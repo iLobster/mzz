@@ -161,6 +161,14 @@ class i18nPlugin extends observer
     {
         return $this->mapper->table() . '_' . $this->options['postfix'];
     }
+    
+    public function preDelete(entity $object)
+    {
+        $criteria = new criteria($this->table());
+        $criteria->where('id', $object->{$this->options['foreign_accessor']}());        
+        $delete = new simpleDelete($criteria);
+        $this->mapper->db()->query($delete->toString());
+    }
 }
 
 ?>
