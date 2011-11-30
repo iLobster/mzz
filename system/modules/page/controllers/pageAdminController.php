@@ -26,6 +26,7 @@ class pageAdminController extends simpleController
     {
         $pageFolderMapper = $this->toolkit->getMapper('page', 'pageFolder');
         $pageMapper = $this->toolkit->getMapper('page', 'page');
+        $this->acceptLang($pageMapper);
 
         $path = $this->request->getString('params');
 
@@ -46,13 +47,9 @@ class pageAdminController extends simpleController
         }
         
         $breadCrumbs = $pageFolder->getTreeParentBranch();
-        
-        $locale = new fLocale(systemConfig::$i18n);
-        $old_lang = $pageMapper->detach('i18n');
         $pages = $pageMapper->searchByFolder($pageFolder->getId());
-        $pageMapper->plugins('i18n');
-
         $pager = $this->setPager($pageMapper);
+        
         $this->view->assign('section_name', $this->request->getString('section_name'));
         $this->view->assign('pages', $pages);
         $this->view->assign('breadCrumbs', $breadCrumbs);
