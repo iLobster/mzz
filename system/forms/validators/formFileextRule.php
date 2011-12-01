@@ -28,7 +28,7 @@ class formFileextRule extends formAbstractRule
     
     protected function _validate($value, $name = null)
     {
-        if (!isset($_FILES[$name])) {
+        if (empty($_FILES[$name]['tmp_name']) || !is_uploaded_file($_FILES[$name]['tmp_name'])) {
             return true;
         }
 
