@@ -96,7 +96,7 @@ class adminSaveActionController extends simpleController
             $validator->rule('callback', 'action[crud_class]', i18n::getMessage('action.error.crud_class', 'admin'), array('in_array', $classes));
         }
 
-        $validator->rule('regex', 'action[main]', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-.')), '#^[a-z0-9_\-.]+$#i');
+        $validator->rule('regex', 'action[main]', i18n::getMessage('error.use_chars', 'admin', null, array('a-zA-Z0-9_-./')), '#^[a-z0-9_\-./]+$#i');
         $validator->rule('in', 'dest', i18n::getMessage('module.error.wrong_dest', 'admin'), array_keys($dests));
 
         if ($validator->validate()) {
