@@ -151,7 +151,7 @@
                     }
 
                     if (elm[2] == '') {
-                        $('<img src="' + SITE_PATH + '/images/spacer.gif" alt="." width="16" height="16" />').appendTo(jipMenuItemA);
+                        $('<img src="' + SITE_PATH + '/images/spacer.gif" class="mzz-icon" alt="." width="16" height="16" />').appendTo(jipMenuItemA);
                     } else if (elm[2].substr(0, 7) == "sprite:") {
                         $('<img src="' + SITE_PATH + '/images/spacer.gif" class="' + elm[2].substr(7) + '" width="16" height="16" alt="." />').appendTo(jipMenuItemA);
                     } else {
