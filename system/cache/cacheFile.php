@@ -70,7 +70,10 @@ class cacheFile extends cacheBackend
 
         $cacheFile = $this->getPattern(md5($key), $expire);
 
-        file_put_contents($cacheFile, serialize($value));
+        try {
+            file_put_contents($cacheFile, serialize($value));
+        } catch (Exception $e) {
+        }
 
         return true;
     }
