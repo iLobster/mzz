@@ -61,10 +61,10 @@ class errorDispatcher
         
         // Log exception, if necessary
         if (systemConfig::$logExceptions) {
-            $message = ($exception->getCode() ? '[Code: ' . $exception->getCode() . '] ' : '')
+            $message = ''
+                . ($exception->getCode() ? '[Code: ' . $exception->getCode() . '] ' : '')
                 . $this->exception->getMessage()
                 . '. Thrown in ' . $exception->getFile() . ' (Line: ' . $exception->getLine() . ')'
-                . '. User_id: ' . $toolkit->getUser()->getId()
                 . '. URL: ' . $toolkit->getRequest()->getRequestUrl()
                 ;
             error_log($message);
