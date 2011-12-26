@@ -85,7 +85,7 @@ class fPdo extends PDO
      * Декорирует оригинальный метод выполнения sql запросов
      *
      * @param string $query запрос к БД
-     * @return object
+     * @return fPdoStatement
      */
     public function query($query)
     {
@@ -106,7 +106,7 @@ class fPdo extends PDO
      *
      * @param string $query запрос к БД
      * @param array $driver_options атрибуты для PDOStatement
-     * @return object
+     * @return fPdoStatement
      */
     public function prepare($query, $driver_options = array())
     {
