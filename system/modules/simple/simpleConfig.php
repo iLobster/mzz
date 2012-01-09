@@ -310,6 +310,12 @@ class simpleConfig
      */
     public function replace($data)
     {
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                $data[$key] = $this->replace($value);
+            }
+        }
+        
         return (is_scalar($data)) ? str_replace($this->search, $this->replace, $data) : $data;
     }
 
