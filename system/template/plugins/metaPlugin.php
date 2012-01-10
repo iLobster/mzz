@@ -53,8 +53,8 @@ class metaPlugin extends aPlugin
             }
             $this->metas[$type][] = $params[$type];
         } elseif (isset($params['show']) && in_array($params['show'], array_keys($this->metas))) {
-            $separator = isset($params['keywords']) ? ', ' : ' ';
-            $result = join($separator, $this->metas[$params['show']]);
+            $separator = $params['show'] == 'keywords' ? ', ' : ' ';
+            $result = implode($separator, $this->metas[$params['show']]);
             if (empty($result)) {
                  $result = (isset($params['default'])) ? $params['default'] : '';
             }
