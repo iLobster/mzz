@@ -14,8 +14,6 @@
  * @version $Id$
 */
 
-require_once systemConfig::$pathToSystem . '/cache/iCache.php';
-
 /**
  * cacheApc: драйвер кэширования APC
  *
@@ -23,7 +21,7 @@ require_once systemConfig::$pathToSystem . '/cache/iCache.php';
  * @subpackage cache
  * @version 0.0.1
  */
-class cacheApc implements iCache
+class cacheApc extends cacheBackend
 {
     public function add($key, $value, $expire = null, $params = array())
     {
