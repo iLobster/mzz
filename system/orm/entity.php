@@ -101,15 +101,16 @@ class entity implements serializable
 
     private function isLazy($field)
     {
-        if ($this->data[$field] instanceof lazy) {
+    	if (in_array($field, $this->dataLoaded)) {
+    		return false;
+    	}
+    	
+    	if ($this->data[$field] instanceof lazy
+        	|| $this->mapper->hasOption($field, 'lazy')) {
             return true;
         }
         
         if (!is_null($this->data[$field])) {
-            return false;
-        }
- 
-        if (in_array($field, $this->dataLoaded)) {
             return false;
         }
  
