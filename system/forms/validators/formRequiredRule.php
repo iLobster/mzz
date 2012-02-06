@@ -30,7 +30,7 @@ class formRequiredRule extends formAbstractRule
 
     protected function _validate($value)
     {
-        return $this->validation !== false && $value;
+        return $this->validation !== false;
     }
 }
 

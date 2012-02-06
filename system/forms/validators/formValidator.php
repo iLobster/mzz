@@ -90,7 +90,7 @@ class formValidator extends validator
 
             $this->getValue($rule['name'], $value);
 
-            if (!$value) {
+            if (is_null($value) || $value === '') {
                 $rule['validator']->notExists();
             }
 
