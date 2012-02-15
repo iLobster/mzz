@@ -343,9 +343,9 @@ class i18n
 
         if (!$rawFormat) {
             if ($format == 'relative_minute') {
-                $minutes = ceil((time() - $date) / 60);
+                $minutes = floor((time() - $date) / 60);
 
-                if ($minutes <= 1) {
+                if ($minutes < 1) {
                     $seconds = time() - $date;
 
                     if ($seconds <= 1) {
@@ -361,9 +361,9 @@ class i18n
             }
 
             if ($format == 'relative_hour') {
-                $hours = ceil((time() - $date) / 3600);
+                $hours = floor((time() - $date) / 3600);
 
-                if ($hours <= 1) {
+                if ($hours < 1) {
                     $minutes = ceil((time() - $date) / 60);
 
                     if ($minutes <= 5) {
