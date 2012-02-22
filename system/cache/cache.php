@@ -89,12 +89,25 @@ class cache
         $this->type = $type;
     }
 
+    /**
+     * Add/update value to cache
+     * @param string $key
+     * @param mixed $val
+     * @param [array] $tags - tags
+     * @param [int] $expire - lifetime of cached value in seconds
+     */
     public function set($key, $val, array $tags = array(), $expire = null)
     {
         $data = $this->setTags($val, $tags);
         return $this->backend->set($this->key($key), $data, $expire);
     }
 
+    /**
+     * Returns value from cache by key
+     * @param string $key
+     * @param mixed $result - variable for extracted value
+     * @return bool - true, if value has been finded. It is not a value!
+     */
     public function get($key, & $result = null)
     {
         $data = $this->backend->get($this->key($key));
