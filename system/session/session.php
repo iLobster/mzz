@@ -36,10 +36,28 @@ class session
      */
     public function __construct($storageDriver = null)
     {
-        if(!empty($storageDriver)) {
-            $driver = 'session' . ucfirst($storageDriver) . 'Storage';
-            fileLoader::load('session/' . $driver);
-            $this->storageDriver = new $driver();
+        switch ($storageDriver) {
+            case 'memcache':
+            case 'memcached':
+            case 'mm':
+                break;
+                
+            case null:
+                session_save_path(systemConfig::$pathToTemp . '/sessions');
+                
+            default:
+                $driver = 'session' . ucfirst($storageDriver) . 'Storage';
+                fileLoader::load('session/' . $driver);
+                $this->storageDriver = new $driver();
+                
+                session_set_save_handler(
+                    array($this->storageDriver, 'storageOpen'),
+                    array($this->storageDriver, 'storageClose'),
+                    array($this->storageDriver, 'storageRead'),
+                    array($this->storageDriver, 'storageWrite'),
+                    array($this->storageDriver, 'storageDestroy'),
+                    array($this->storageDriver, 'storageGc')
+                );
         }
     }
 
@@ -49,18 +67,6 @@ class session
      */
     public function start()
     {
-        if($this->storageDriver) {
-            session_set_save_handler(
-            array($this->storageDriver, 'storageOpen'),
-            array($this->storageDriver, 'storageClose'),
-            array($this->storageDriver, 'storageRead'),
-            array($this->storageDriver, 'storageWrite'),
-            array($this->storageDriver, 'storageDestroy'),
-            array($this->storageDriver, 'storageGc'));
-        } else {
-            session_save_path(systemConfig::$pathToTemp . '/sessions');
-        }
-
         session_start();
         $request = systemToolkit::getInstance()->getRequest();
 
