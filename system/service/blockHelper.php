@@ -36,10 +36,14 @@ class blockHelper
         if ($weight === null) {
             $weight = 100;
         }
-
+        
         if (!isset($this->content[$position])) {
             $this->content[$position] = array();
             $this->weights[$position] = array();
+        }
+        
+        if (!$name) {
+            $name = $position . '__' . count($this->content[$position]);
         }
 
         $this->content[$position][$name] = $content;

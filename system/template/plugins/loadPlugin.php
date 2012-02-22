@@ -31,20 +31,21 @@ class loadPlugin extends aPlugin
         $params = new arrayDataspace($params);
 
         $module = $params['module'];
+        $action = $params['action'];
         $block = $params['_block'];
-        $actionName = $params['action'];
+        $blockName = $params['_blockName'];
 
         $blockHelper = blockHelper::getInstance();
-        if ($block && $blockHelper->isHidden($module . '_' . $actionName)) {
+        if ($block && $blockHelper->isHidden($blockName)) {
             // loading this action of this module has been disabled by blockHelper
             return null;
         }
 
-        $view = loadDispatcher::dispatch($module, $actionName, $params['params']);
+        $view = loadDispatcher::dispatch($module, $action, $params['params']);
 
         // отдаём контент в вызывающий шаблон, либо сохраняем его в blockHelper
         if ($block) {
-            $blockHelper->set($module . '_' . $actionName, $block, $view);
+            $blockHelper->set($blockName, $block, $view);
         } else {
             return $view;
         }
