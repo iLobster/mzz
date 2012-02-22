@@ -15,6 +15,8 @@ class validator
     protected $filtered = false;
 
     protected $errors = array();
+    
+    protected $validated = false;
 
     public function __construct($data = null)
     {
@@ -86,6 +88,8 @@ class validator
                 $this->setError($rule['name'], $rule['validator']->getErrorMsg());
             }
         }
+        
+        $this->validated = true;
 
         return $this->isValid();
     }
@@ -137,9 +141,17 @@ class validator
         return $message;
     }
 
+    /**
+     * Return true, if validation is been run and data is valid
+     * @return boolean
+     */
     public function isValid()
     {
-        return !sizeof($this->errors);
+        if ($this->validated) {
+            return !sizeof($this->errors);
+        } else {
+            return false;
+        }
     }
 
     public function export()

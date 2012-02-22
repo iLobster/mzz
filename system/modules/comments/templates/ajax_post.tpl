@@ -1,7 +1,7 @@
 {assign var="commentsFolderId" value=$commentsFolder->getId()}
 {if $hideForm}{assign var="formStyle" value="display: none;"}{else}{assign var="formStyle" value=""}{/if}
 {form id="commentForm_$commentsFolderId" action=$action method="post" style=$formStyle onsubmit="comments.postForm(this); return false;"}
-    {if isset($validator) && !$validator->isValid()}
+    {if isset($validator) && count($validator->getErrors())}
     <dl class="errors">
         <dt>Ошибка добавления комментария:</dt>
         <dd>

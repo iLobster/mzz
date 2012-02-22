@@ -98,6 +98,8 @@ class formValidator extends validator
                 $this->setError($rule['name'], $rule['validator']->getErrorMsg());
             }
         }
+        
+        $this->validated = true;
 
         return $this->isValid();
     }

@@ -1,4 +1,4 @@
-{if !$validator->isValid() or $success eq true}
+{if count($validator->getErrors()) or $success eq true}
 <div id="status">{if $success}1{else}0{/if}</div>
 <div id="messages">
     {foreach from=$messages item=message}

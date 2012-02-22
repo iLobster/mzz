@@ -2,7 +2,7 @@
 <h2>{if !$commentReply}{_ post_comment}{else}{_ reply_comment}{/if}</h2>
 <div class="entry-comments">
     {form action=$action method="post"}
-        {if isset($validator) && !$validator->isValid()}
+        {if isset($validator) && count($validator->getErrors())}
         <dl class="errors">
             <dt>Ошибка добавления комментария:</dt>
             <dd>
