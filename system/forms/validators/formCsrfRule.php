@@ -21,7 +21,7 @@
  */
 class formCsrfRule extends formAbstractRule
 {
-    protected $message = 'csrf verification error';
+    protected $message = 'CSRF verification error. Try again';
 
     protected function _validate($value)
     {
