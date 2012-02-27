@@ -44,6 +44,7 @@ class session
                 
             case null:
                 session_save_path(systemConfig::$pathToTemp . '/sessions');
+                break;
                 
             default:
                 $driver = 'session' . ucfirst($storageDriver) . 'Storage';
