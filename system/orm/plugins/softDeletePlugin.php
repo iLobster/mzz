@@ -18,7 +18,9 @@ class softDeletePlugin extends observer
 
     public function preSqlSelect(criteria $criteria)
     {
-        $criteria->where($this->options['field'], 0);
+    	if (!in_array($this->options['field'], $criteria->keys())) {
+    		$criteria->where($this->options['field'], 0);
+    	}
     }
 }
 
