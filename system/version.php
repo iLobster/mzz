@@ -36,9 +36,6 @@ $revision = 'release';
 if(DEBUG_MODE && file_exists(systemConfig::$pathToSystem . '/../.svn/entries')) {
     $svn_entries = file_get_contents(systemConfig::$pathToSystem . '/../.svn/entries');
 
-    echo $svn_entries;
-    exit;
-
     if (strpos($svn_entries, '<?xml') !== false) {
         preg_match('/revision="(\d+)"/', $svn_entries, $matches);
         $revision = $matches[1];
