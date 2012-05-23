@@ -50,7 +50,7 @@ if(DEBUG_MODE && file_exists(systemConfig::$pathToSystem . '/../.svn/entries')) 
     }
 }
 
-define('MZZ_REVISION', 'release');
+define('MZZ_REVISION', $revision);
 
 // Url
 define('MZZ_URL', 'http://www.mzz.ru');
