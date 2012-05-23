@@ -32,19 +32,25 @@ define('MZZ_VERSION', MZZ_VERSION_MAJOR . '.' . MZZ_VERSION_MINOR . '.' .
                       MZZ_VERSION_MICRO . MZZ_VERSION_STATUS);
 
 // Revision
+$revision = 'release';
 if(DEBUG_MODE && file_exists(systemConfig::$pathToSystem . '/../.svn/entries')) {
     $svn_entries = file_get_contents(systemConfig::$pathToSystem . '/../.svn/entries');
+
+    echo $svn_entries;
+    exit;
+
     if (strpos($svn_entries, '<?xml') !== false) {
         preg_match('/revision="(\d+)"/', $svn_entries, $matches);
         $revision = $matches[1];
     } else {
         $svn_entries = explode("\x0a", $svn_entries, 5);
-        $revision = trim($svn_entries[3]);
+        if (isset($svn_entries[3])) {
+            $revision = trim($svn_entries[3]);
+        }
     }
-    define('MZZ_REVISION', $revision);
-} else {
-    define('MZZ_REVISION', 'release');
 }
+
+define('MZZ_REVISION', 'release');
 
 // Url
 define('MZZ_URL', 'http://www.mzz.ru');
