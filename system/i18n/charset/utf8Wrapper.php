@@ -130,4 +130,12 @@ function mzz_str_split($str, $split_len = 1)
     return $GLOBALS['charsetDriver']->str_split($str, $split_len);
 }
 
+/**
+ * UTF-8 aware alternative to str_split
+ */
+function mzz_substr_replace($string, $replacement, $start, $length = null)
+{
+    return $GLOBALS['charsetDriver']->substr_replace($string, $replacement, $start, $length);
+}
+
 ?>

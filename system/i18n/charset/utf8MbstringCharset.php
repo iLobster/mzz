@@ -70,6 +70,22 @@ class utf8MbstringCharset extends utf8Charset
         }
         return $result;
     }
+
+    public function substr_replace($string, $replacement, $start, $length = null) {
+        $encoding = 'UTF-8';
+
+        if ($length == null) {
+            return mb_substr($string, 0, $start, $encoding) . $replacement;
+        }
+        else {
+            if($length < 0) $length = mb_strlen($string, $encoding) - $start + $length;
+
+            return
+            mb_substr($string, 0, $start, $encoding) .
+            $replacement .
+            mb_substr($string, $start + $length, mb_strlen($string, $encoding), $encoding);
+        }
+    }
 }
 
 ?>

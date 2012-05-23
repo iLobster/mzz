@@ -185,7 +185,7 @@ class cache
 
     private function key($key)
     {
-        return systemConfig::$appName . '_' . systemConfig::$appVersion . '_' . MZZ_VERSION  . '_' . $this->type . '_' . $key;
+        return systemConfig::$appName . '_' . systemConfig::$appVersion . '_' . MZZ_VERSION . '_' . systemConfig::$i18n . '_' . $this->type . '_' . $key;
     }
 
     public static function getBackendClassName($backend)
