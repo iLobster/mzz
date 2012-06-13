@@ -133,14 +133,11 @@ class userAuthMapper extends mapper
 
     public function clearExpired($timestamp)
     {
-        $criteria = new criteria();
+        $criteria = new criteria($this->table());
         $criteria->where('time', $timestamp, criteria::LESS);
 
-        $auths = $this->searchAllByCriteria($criteria);
-
-        foreach ($auths as $auth) {
-            $this->delete($auth);
-        }
+        $query = new simpleDelete($criteria);
+        $this->db()->query($query->toString());
     }
 
     protected function preInsert(& $data)
