@@ -47,7 +47,7 @@ class urlPlugin extends aPlugin
             $params['route'] = null;
         }
 
-        if (isset($params['lang']) || !isset($params['route'])) {
+        if (isset($params['lang']) && !isset($params['route'])) {
             $getUrl = false;
             try {
                 $route = $toolkit->getRouter()->getCurrentRoute();
