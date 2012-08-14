@@ -9,7 +9,9 @@ class i18nPlugin extends observer
     private $forceLangId = false;
 
     protected $options = array(
-        'postfix' => 'lang');
+        'postfix' => 'lang',
+        'return_empty' => false, // returns entity even if translation not found
+    );
 
     protected function updateMap(& $map)
     {
@@ -65,7 +67,7 @@ class i18nPlugin extends observer
     {
         $criterion = new criterion('i18n.id', $this->mapper->table(false) . '.' . $this->options['foreign_key'], criteria::EQUAL, true);
         $criterion->addAnd(new criterion('i18n.lang_id', $this->getLangId()));
-        $criteria->join($this->table(), $criterion, 'i18n', $this->forceLangId ? criteria::JOIN_LEFT : criteria::JOIN_INNER);
+        $criteria->join($this->table(), $criterion, 'i18n', ($this->forceLangId || $this->options['return_empty']) ? criteria::JOIN_LEFT : criteria::JOIN_INNER);
         $this->addSelectFields($criteria);
     }
 
