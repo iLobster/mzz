@@ -34,35 +34,23 @@ class urlPlugin extends aPlugin
             return $request->getRequestUrl();
         }
 
-        $getUrl = false;
         $appendGet = false;
-
         if (isset($params['appendGet'])) {
-            $appendGet = (bool)$params['appendGet'];
+            $appendGet = !empty($params['appendGet']);
             unset($params['appendGet']);
         }
 
         if (!isset($params['route'])) {
-            $getUrl = true;
-            $params['route'] = null;
-        }
-
-        if (isset($params['lang']) && !isset($params['route'])) {
-            $getUrl = false;
             try {
                 $route = $toolkit->getRouter()->getCurrentRoute();
             } catch (mzzNoRouteException $e) {
                 $route = $toolkit->getRouter()->getDefaultRoute();
             }
-            if (!isset($params['lang']) && !isset($params['route'])) {
-                $params = $params + $request->getRequestedParams();
-                $params['action'] = $request->getRequestedAction();
-                $params['module'] = $request->getRequestedModule();
-            } else {
-                $params = $params + $request->getParams();
-                $params['action'] = $request->getAction();
-                $params['module'] = $request->getModule();
-            }
+            
+            $params = $params + $request->getParams();
+            $params['action'] = $request->getAction();
+            $params['module'] = $request->getModule();
+            
             $params['route'] = $route->getName();
         }
 
@@ -107,13 +95,13 @@ class urlPlugin extends aPlugin
             return $finishedUrl;
         }
 
-        $url = $url->get(isset($params['encode']) && $params['encode']);
+        $url = $url->get(!empty($params['encode']));
 
-        if (isset($params['escape']) && $params['escape']) {
+        if (!empty($params['escape'])) {
             $url = htmlspecialchars($url);
         }
 
-        if (isset($params['combine_slashes']) && $params['combine_slashes']) {
+        if (!empty($params['combine_slashes'])) {
             $url = preg_replace('#(?<!:)//+#','/',$url);
         }
 
