@@ -151,7 +151,7 @@ window.onbeforeunload = function(){ return "{_ notice_not_saved}" };
 </div>
 <div class="field buttons">
     <div class="text">
-        {form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена"}
+        {form->submit name="submit" value="Сохранить"} {form->reset jip=true name="reset" value="Отмена" onclick="window.onbeforeunload = null;"}
     </div>
 </div>
 </form>
