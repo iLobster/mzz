@@ -76,9 +76,11 @@ fileLoader.loadJS(SITE_PATH + '/js/tiny_mce/jquery.tinymce.js');
     }
 })(jQuery);
 {/literal}
+
+window.onbeforeunload = function(){ return "{_ notice_not_saved}" };
 </script>
 
-{form action=$form_action method="post" jip=true onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); return jipWindow.sendForm(this);"}
+{form action=$form_action method="post" jip=true onsubmit="if (tinyMCE) tinyMCE.triggerSave(true, true); window.onbeforeunload = null; return jipWindow.sendForm(this);"}
 <div class="field{$validator->isFieldRequired('page[name]', ' required')}{$validator->isFieldError('page[name]', ' error')}">
     <div class="label">
         {form->caption name="page[name]" value="Идентификатор"}
