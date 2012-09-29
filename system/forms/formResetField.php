@@ -32,7 +32,7 @@ class formResetField extends formElement
     public function render($attributes = array(), $value = null)
     {
         if (isset($attributes['jip']) && $attributes['jip']) {
-            $attributes['onclick'] = (empty($attributes['onclick']) ? 'javascript:' : '') . $attributes['onclick'] . ' jipWindow.close();';
+            $attributes['onclick'] = (empty($attributes['onclick']) ? 'javascript:' : $attributes['onclick']) . ' jipWindow.close();';
         }
 
         return $this->renderTag('input', $attributes);
