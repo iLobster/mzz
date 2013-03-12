@@ -187,6 +187,16 @@ abstract class simpleModule
     {
         return $this->classes;
     }
+    
+    /**
+     * Returns module paths
+     *
+     * @return array
+     */
+    public final function getPaths()
+    {
+        return $this->paths;
+    }
 
     /**
      * Returns module roles
