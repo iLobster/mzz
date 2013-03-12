@@ -168,10 +168,12 @@ class smartyTemplate extends Smarty implements iTemplate
     {
         $params = $this->parse($template);
 
+        /*
         if (isset($this->fetchedTemplates[$params['main']])) {
             $error = "Detected recursion. Recursion template: %s. <br> All: <pre>%s</pre>";
             throw new mzzRuntimeException(sprintf($error, $params['main'], print_r($this->fetchedTemplates, true)));
         }
+        */
 
         if (!isset($params['placeholder'])) {
             $error = "Template error. Placeholder is not specified.";
