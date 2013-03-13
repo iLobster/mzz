@@ -61,7 +61,8 @@ class urlPlugin extends aPlugin
         }
 
         if (!empty($params['_csrf'])) {
-            $params['_csrf'] = form::getCSRFToken();
+            unset($params['_csrf']);
+            $params['_' . form::getCSRFFieldName()] = form::getCSRFToken();
         }
 
         $url = new url($params['route']);

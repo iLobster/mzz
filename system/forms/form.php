@@ -23,7 +23,7 @@ fileLoader::load("forms/formElement");
  */
 class form
 {
-    static public $CSRFField = '_csrf_token';
+    static protected $CSRFFieldName = '_csrf_token';
     static protected $xhtml = true;
 
     /**
@@ -97,6 +97,16 @@ class form
         return self::$xhtml;
     }
 
+    /**
+     * Возвращает название поля для CSRF-токена
+     *
+     * @return boolean
+     */
+    static public function getCSRFFieldName()
+    {
+        return self::$CSRFFieldName;
+    }
+    
     /**
      * Генерирует случайный идентификатор для CSRF-проверки формы
      *

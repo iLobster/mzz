@@ -118,10 +118,10 @@ class formValidator extends validator
 
         $csrf_rules = array(
             array(
-                'name' => '_csrf_token',
+                'name' => form::getCSRFFieldName(),
                 'validator' => $required),
             array(
-                'name' => '_csrf_token',
+                'name' => form::getCSRFFieldName(),
                 'validator' => $csrf));
 
         return array_merge($this->rules, $csrf_rules);
