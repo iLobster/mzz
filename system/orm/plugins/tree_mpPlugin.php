@@ -325,8 +325,9 @@ class tree_mpPlugin extends observer
 
             $levelDelta = $newLevel - $object->getTreeLevel();
 
+            //FIXME: АХТУНГ! МАГИЯ! $object->getTreeParent() каким-то чертом возвращает объект lazy. захардкодил load
             $sql = "UPDATE `" . $this->table() . "`
-                     SET `level` = `level` + " . $levelDelta . ", `spath` = CONCAT(" . $this->mapper->db()->quote($this->parent->getTreeSPath()) . ", SUBSTRING(`spath`, " . (mzz_strlen($object->getTreeParent()->getTreeSPath()) + 1) . ")), `path` = CONCAT(" . $this->mapper->db()->quote($this->parent->getTreePath()) . ", SUBSTRING(`path`, " . (mzz_strlen($object->getTreeParent()->getTreePath()) + 1) . "))
+                     SET `level` = `level` + " . $levelDelta . ", `spath` = CONCAT(" . $this->mapper->db()->quote($this->parent->getTreeSPath()) . ", SUBSTRING(`spath`, " . (mzz_strlen($object->getTreeParent()->load()->getTreeSPath()) + 1) . ")), `path` = CONCAT(" . $this->mapper->db()->quote($this->parent->getTreePath()) . ", SUBSTRING(`path`, " . (mzz_strlen($object->getTreeParent()->load()->getTreePath()) + 1) . "))
                       WHERE `spath` LIKE " . $this->mapper->db()->quote($object->getTreeSPath() . '%') . "";
 
             $this->mapper->db()->query($sql);

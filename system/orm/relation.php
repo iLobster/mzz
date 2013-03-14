@@ -262,10 +262,10 @@ class relation
     {
         foreach ($this->manyToMany() as $val) {
             $map = $val['mapper']->map();
-            $accessor = $map[$val['local_key']]['accessor'];
-
+            $accessor = $this->map[$val['local_key']]['accessor'];
+			
             $criteria = new criteria($val['mapper']->db()->getTablePrefix() . $val['reference']);
-            $criteria->where($val['ref_local_key'], $object->$accessor());
+            $criteria->where($val['ref_foreign_key'], $object->$accessor());
             $delete = new simpleDelete($criteria);
             $val['mapper']->db()->query($delete->toString());
         }
