@@ -67,11 +67,11 @@
             }
         },
 
-        showLang: function(parent, lnk, langs) {
+        showLang: function(parent, lnk, langs, target) {
             parent.addClass('active');
             id = parent.attr('id') + '_lang';
             if (!$('#' + id).length) {
-                this.drawLang(id, lnk, langs);
+                this.drawLang(id, lnk, langs, target);
             }
 
             var lang = $('#' + id);
@@ -141,8 +141,8 @@
 
                     if (elm[3]) {
                         jipMenuItemA.addClass('withlang');
-                        jipMenuItemA.bind("mouseenter", [elm[1], langs], function (e) {
-                            jipMenu.showLang($(this).parent(), e.data[0], e.data[1]);
+                        jipMenuItemA.bind("mouseenter", [elm[1], langs, elm[4]], function (e) {
+                            jipMenu.showLang($(this).parent(), e.data[0], e.data[1], e.data[2]);
                         });
                     } else {
                         jipMenuItemA.bind("mouseenter", function () {
@@ -176,7 +176,7 @@
             $(document).keypress(this.eventKey);
         },
 
-        drawLang: function(id, lnk, langs) {
+        drawLang: function(id, lnk, langs, target) {
             if (!$('#' + id).length) {
 
                 var jipMenuDiv = $('<div id="' + id + '" class="mzz-jip-menu mzz-jip-menu-lang">' +
@@ -191,9 +191,7 @@
                     var linkWithLang = lnk + '?lang_id=' + i;
                     var jipMenuItem = $('<li />')
                         .attr({'id': id + '_' + i}).appendTo(jipMenuUl)
-                        .bind('click', linkWithLang, function (e) {
-                            jipMenu.close(); return jipWindow.open(e.data);
-                        });
+                        .bind('click', {link: linkWithLang, target: target}, this.itemClick);
 
                     var jipMenuItemA = $('<a />').attr({href: linkWithLang, title: linkWithLang}).appendTo(jipMenuItem)
                     .append($('<img src="' + SITE_PATH + '/images/spacer.gif" class="mzz-icon mzz-icon-flags mzz-icon-flags-' + elm[0] + '" width="16" height="16" alt="." />'))
