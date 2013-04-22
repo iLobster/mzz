@@ -1,16 +1,16 @@
 .mzz-jip-topLeft,    .mzz-jip-topRight,
 .mzz-jip-bottomLeft, .mzz-jip-bottomRight {
-    background: transparent url('../images/jip/shadows-corners.png') no-repeat top left scroll;
+    background: transparent url('../../images/jip/shadows-corners.png') no-repeat top left scroll;
     position: absolute;
 }
 
 .mzz-jip-top, .mzz-jip-bottom {
-    background: transparent url('../images/jip/shadows-x.png') repeat-x top left scroll;
+    background: transparent url('../../images/jip/shadows-x.png') repeat-x top left scroll;
     position: absolute;
 }
 
 .mzz-jip-left, .mzz-jip-right {
-    background: transparent url('../images/jip/shadows-y.png') repeat-y top left scroll;
+    background: transparent url('../../images/jip/shadows-y.png') repeat-y top left scroll;
     position: absolute;
 }
 
@@ -36,7 +36,7 @@ img.jip {
 }
 
 .jip-button {
-    background: transparent url('../images/jip/common.png') no-repeat 0px -68px scroll;
+    background: transparent url('../../images/jip/common.png') no-repeat 0px -68px scroll;
     width: 18px;
     height: 10px;
 }
@@ -139,7 +139,7 @@ div.mzz-jip-menu li {
 }
 
 div.mzz-jip-menu li:hover, div.mzz-jip-menu li.active {
-    background: transparent url('../images/jip/common.png') repeat-x 0 0 scroll;
+    background: transparent url('../../images/jip/common.png') repeat-x 0 0 scroll;
     color: #ffffff;
 }
 
@@ -152,7 +152,7 @@ div.mzz-jip-menu a {
 }
 
 div.mzz-jip-menu a.withlang {
-    background: url("../images/jip/common.png") no-repeat scroll right -99px transparent;
+    background: url("../../images/jip/common.png") no-repeat scroll right -99px transparent;
     padding-right: 16px;
 }
 
@@ -304,7 +304,7 @@ div.mzz-jip-window img.mzz-jip-gradient {
 }
 
 .mzz-jip-footer .refresh {
-    background: transparent url('../images/jip/common.png') no-repeat scroll -17px -66px;
+    background: transparent url('../../images/jip/common.png') no-repeat scroll -17px -66px;
     vertical-align:bottom;
     width: 14px;
     height: 15px;
@@ -444,7 +444,7 @@ div.mzz-jip-window img.mzz-jip-gradient {
 .mzz-jip-window form input[type="submit"],
 .mzz-jip-window form input[type="reset"],
 .mzz-jip-window form input[type="button"] {
-    background: url("../images/jip/bg-button.png") repeat-x scroll 0 0 transparent;
+    background: url("../../images/jip/bg-button.png") repeat-x scroll 0 0 transparent;
     border:1px solid #c8c7c7;
     color: #555;
     cursor:default;

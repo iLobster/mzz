@@ -1,5 +1,5 @@
 {* main="admin/main/adminHeader.tpl" placeholder="content" *}
-{add file="jip.css"}
+{add file="jip/jip.css"}
 {add file="fileLoader.js"}
 {add file="jip/jipCore.js"}
 {add file="jip/jipMenu.js"}

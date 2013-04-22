@@ -1,6 +1,6 @@
 {if $jip}
 {strip}
-{add file="jip.css"}
+{add file="jip/jip.css"}
 {add file="icons.sys.css"}
 {add file="icons.flags.css"}
 
