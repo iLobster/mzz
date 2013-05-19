@@ -610,6 +610,7 @@ abstract class mapper
             foreach ($oneToMany as $key => $value) {
                 if (isset($data[$key]) && $data[$key] instanceof collection) {
                     $data[$key]->save();
+                    unset($dataChanged[$key]);
                 }
             }
 
@@ -617,6 +618,7 @@ abstract class mapper
             foreach ($manyToMany as $key => $value) {
                 if (isset($data[$key]) && $data[$key] instanceof collection) {
                     $data[$key]->save();
+                    unset($dataChanged[$key]);
                 }
             }
 
