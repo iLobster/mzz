@@ -43,6 +43,14 @@ class criterion
      * @var string
      */
     private $defaultTable;
+    
+    /**
+     * Имя алиаса, которое будет подставлено для текущей инстанции criterion'а. Используется в методе generate
+     *
+     * @see criterion::generate()
+     * @var string
+     */
+    private $defaultAlias;
 
     /**
      * Алиас<br>
@@ -165,14 +173,17 @@ class criterion
     /**
      * Метод, по вызову которого из данных генерируется часть запроса
      *
-     * @param string|array $defaultTable имя таблицы, которое будет подставлено, если алиас не определён
+     * @param string $simpleSelect
+     * @param string [$defaultTable] имя таблицы, которое будет подставлено, если алиас не определён
+     * @param string [$defaultAlias] алиас таблицы, которое будет подставлено, если алиас не определён
      * @return string
      */
-    public function generate($simpleSelect, $defaultTable = '')
+    public function generate($simpleSelect, $defaultTable = '', $defaultAlias = '')
     {
         $this->simpleSelect = $simpleSelect;
 
         $this->defaultTable = $defaultTable;
+        $this->defaultAlias = $defaultAlias;
 
         $result = '';
 
@@ -246,7 +257,7 @@ class criterion
                 if ($val) {
                     $result .= ' ' . $val . ' ';
                 }
-                $result .= '(' . $this->clauses[$key]->generate($simpleSelect, $defaultTable) . ')';
+                $result .= '(' . $this->clauses[$key]->generate($simpleSelect, $defaultTable, $defaultAlias) . ')';
             }
         }
 
@@ -335,12 +346,10 @@ class criterion
         if (!$this->fieldIsFunction) {
             if (!empty($alias)) {
                 return $this->simpleSelect->quoteAlias($alias) . '.';
+            } elseif (!empty($this->defaultAlias)) {
+                return $this->simpleSelect->quoteAlias($this->defaultAlias) . '.';
             } elseif (!empty($this->defaultTable)) {
-                if (is_array($this->defaultTable) && isset($this->defaultTable['alias'])) {
-                    return $this->simpleSelect->quoteAlias($this->defaultTable['alias']) . '.';
-                } else {
-                    return $this->simpleSelect->quoteAlias($this->defaultTable) . '.';
-                }
+                return $this->simpleSelect->quoteAlias($this->defaultTable) . '.';
             }
         }
 

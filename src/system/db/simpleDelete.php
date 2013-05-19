@@ -48,7 +48,7 @@ class simpleDelete extends simpleSQLGenerator
 
         foreach ($this->criteria->keys() as $key) {
             $criterion = $this->criteria->getCriterion($key);
-            $whereClause[]  = $criterion->generate($this, $this->criteria->getTable());
+            $whereClause[]  = $criterion->generate($this, $this->criteria->getTable(), $this->criteria->getAlias());
         }
 
         return 'DELETE FROM ' . $table . ($whereClause ? ' WHERE ' . implode(' AND ', $whereClause) : '');

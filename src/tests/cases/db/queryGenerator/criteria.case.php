@@ -21,7 +21,8 @@ class criteriaTest extends unitTestCase
     {
         $this->criteria->table($table = 'sometable', $alias = 'somealias');
 
-        $this->assertEqual($this->criteria->getTable(), array('table' => $table, 'alias' => $alias));
+        $this->assertEqual($this->criteria->getTable(), $table);
+        $this->assertEqual($this->criteria->getAlias(), $alias);
     }
 
     public function testAddAndRemoveKeys()

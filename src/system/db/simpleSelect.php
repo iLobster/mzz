@@ -105,7 +105,7 @@ class simpleSelect extends simpleSqlGenerator
 
         foreach ($this->criteria->keys() as $key) {
             $criterion = $this->criteria->getCriterion($key);
-            $whereClause[]  = $criterion->generate($this, $this->criteria->getTable());
+            $whereClause[]  = $criterion->generate($this, $this->criteria->getTable(), $this->criteria->getAlias());
         }
 
         $table = $this->criteria->getTable();
@@ -144,7 +144,7 @@ class simpleSelect extends simpleSqlGenerator
         $groupByClause = $this->criteria->getGroupBy();
 
         foreach ($this->criteria->getHaving() as $key => $val) {
-            $havingClause[] = $val->generate($this, $this->criteria->getTable());
+            $havingClause[] = $val->generate($this, $this->criteria->getTable(), $this->criteria->getAlias());
         }
 
         $useIndex = $this->criteria->getUseIndex();

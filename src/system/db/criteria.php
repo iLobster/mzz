@@ -159,6 +159,13 @@ class criteria
      * @var string|array
      */
     private $table;
+    
+    /**
+     * Алиас основной таблицы
+     *
+     * @var string|array
+     */
+    private $alias;
 
     /**
      * Массив в котором хранятся данные об условиях выборки
@@ -255,11 +262,8 @@ class criteria
      */
     public function table($table, $alias = null)
     {
-        if (!empty($alias)) {
-            $this->table = array('table' => $table, 'alias' => $alias);
-        } else {
-            $this->table = $table;
-        }
+        $this->table = $table;
+        $this->alias = $alias;
         return $this;
     }
 
@@ -271,6 +275,16 @@ class criteria
     public function getTable()
     {
         return $this->table;
+    }
+    
+    /**
+     * Получение алиаса основной таблицы
+     *
+     * @return string
+     */
+    public function getAlias()
+    {
+        return $this->alias;
     }
 
     /**
@@ -392,11 +406,9 @@ class criteria
             $this->selectOptions = $selectOptions;
         }
 
-        $base = $this->getTable();
-        $outer = $criteria->getTable();
-        if (!is_scalar($outer['table']) && !is_null($outer['table'])) {
-            $this->table($outer['table'], $base['alias']);
-            //алиас не трогаем
+        //алиас не трогаем
+        if (!is_scalar($criteria->getTable()) && !is_null($criteria->getTable())) {
+            $this->table($criteria->getTable(), $this->alias);
         }
     }
 
