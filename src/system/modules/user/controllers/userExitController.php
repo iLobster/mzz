@@ -30,9 +30,7 @@ class userExitController extends simpleController
         }
         
         $validator = new formValidator();
-        $validator->submit('csrf');
-        $validator->disableCSRF();
-        $validator->rule('csrf', 'csrf');
+        $validator->submit(form::getCSRFFieldName());
         
         if ($validator->validate()) {
             $user = $this->toolkit->getUser();
