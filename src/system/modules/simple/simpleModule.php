@@ -331,6 +331,10 @@ abstract class simpleModule
         return $this->moduleTitle;
     }
 
+    /**
+     * Returns custom routes for this module
+     * @return array  should contain 2 arrays of routes which appends as first and last into the routing flow. Ex. of the array: array('blogs' => new requestRoute('blogs', array('module' => 'blogs', 'action' => 'list'), ...)
+     */
     public function getRoutes()
     {
     }
@@ -383,6 +387,15 @@ abstract class simpleModule
     public function getTemplateDriver()
     {
         return $this->templateDriver;
+    }
+    
+    /**
+     * Will be called before some of the module action run
+     * @param simpleAction $action
+     */
+    public function beforeActionRun($action)
+    {
+        // do something
     }
 }
 ?>

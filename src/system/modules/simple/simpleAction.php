@@ -107,6 +107,7 @@ class simpleAction
     {
         return $this->getName();
     }
+    
     /**
      * Return the module name
      *
@@ -244,6 +245,10 @@ class simpleAction
      */
     public function run()
     {
+        // call module's beforeActionRun method
+        systemToolkit::getInstance()->getModule($this->moduleName)->beforeActionRun($this);
+        
+        // get controller and run action
         $controller = $this->getController();
         return $controller->run();
     }
