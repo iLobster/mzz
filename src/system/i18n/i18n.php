@@ -138,14 +138,14 @@ class i18n
 
             for ($i = 1; $i <= $count; $i++) {
                 if (!$this->isVariable($args[$i - 1], $generatorCallback)) {
-                    $placeholders[] = ':' . $i;
+                    $placeholders[] = '~(?<!\\\\):' . $i . '~';
                 } else {
                     $variables[$i] = substr($args[$i - 1], 1);
                     unset($args[$i - 1]);
                 }
             }
 
-            $phrase = str_replace($placeholders, $args, $phrase);
+            $phrase = str_replace('\\:', ':', preg_replace($placeholders, $args, $phrase));
         } else {
             $placeholderPosition = 0;
             foreach ($args as $value) {
