@@ -42,19 +42,10 @@ class errorDispatcher
      * @param integer $errline номер строки, в которой обнаружена ошибка
      * @throws phpErrorException
      */
-    public function errorHandler($errno = 0, $errstr = '', $errfile = '', $errline = 0)
+    public function errorHandler($errno, $errstr, $errfile, $errline)
     {
-        if(error_reporting() && $errno != E_STRICT) {
+        if (error_reporting() && $errno != E_STRICT) {
             ob_clean();
-            
-            if (!$errno) {
-                $lastError = error_get_last();
-                $errno = $errno ? $errno : $lastError['type'];
-                $errstr = $errstr ? $errstr : $lastError['message'];
-                $errfile = $errfile ? $errfile : $lastError['file'];
-                $errline = $errline ? $errline : $lastError['line'];
-            }
-            
             $this->exceptionHandler(new phpErrorException($errno, $errstr, $errfile, $errline));
         }
     }
@@ -81,6 +72,14 @@ class errorDispatcher
         }
         $this->outputException();
     }
+    
+    public function shutdownHandler()
+    {
+        $lastError = error_get_last();
+        if (!empty($lastError['type'])) {
+            $this->errorHandler($lastError['type'], $lastError['message'], $lastError['file'], $lastError['line']);
+        }
+    }
 
     /**
      * Устанавливает обработчик PHP-ошибок и исключений
@@ -90,8 +89,8 @@ class errorDispatcher
     public static function setDispatcher($dispatcher)
     {
         set_error_handler(array($dispatcher, 'errorHandler'));
-        register_shutdown_function(array($dispatcher, 'errorHandler'));
         set_exception_handler(array($dispatcher, 'exceptionHandler'));
+        register_shutdown_function(array($dispatcher, 'shutdownHandler'));
     }
 
     /**
