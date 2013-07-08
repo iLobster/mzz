@@ -42,10 +42,20 @@ class errorDispatcher
      * @param integer $errline номер строки, в которой обнаружена ошибка
      * @throws phpErrorException
      */
-    public function errorHandler($errno, $errstr, $errfile, $errline)
+    public function errorHandler($errno = 0, $errstr = '', $errfile = '', $errline = 0)
     {
         if(error_reporting() && $errno != E_STRICT) {
-            throw new phpErrorException($errno, $errstr, $errfile, $errline);
+            ob_clean();
+            
+            if (!$errno) {
+                $lastError = error_get_last();
+                $errno = $errno ? $errno : $lastError['type'];
+                $errstr = $errstr ? $errstr : $lastError['message'];
+                $errfile = $errfile ? $errfile : $lastError['file'];
+                $errline = $errline ? $errline : $lastError['line'];
+            }
+            
+            $this->exceptionHandler(new phpErrorException($errno, $errstr, $errfile, $errline));
         }
     }
 
@@ -80,6 +90,7 @@ class errorDispatcher
     public static function setDispatcher($dispatcher)
     {
         set_error_handler(array($dispatcher, 'errorHandler'));
+        register_shutdown_function(array($dispatcher, 'errorHandler'));
         set_exception_handler(array($dispatcher, 'exceptionHandler'));
     }
 
