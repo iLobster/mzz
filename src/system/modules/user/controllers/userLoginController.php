@@ -27,6 +27,7 @@ class userLoginController extends simpleController
     protected function getView()
     {
         $user = $this->toolkit->getUser();
+        $config = $this->toolkit->getConfig('user');
         $backURL = $this->request->getString('url', SC_POST);
         $tplPath = $this->request->getString('tplPath');
 
@@ -41,6 +42,11 @@ class userLoginController extends simpleController
 
                 if (!$user) {
                     $validator->setError('login', 'Wrong login or password');
+                    
+                    // Do a delay to complicate possible brute force
+                    if ($config->get('delayOnFailedLogin')) {
+                        sleep($config->get('delayOnFailedLogin'));
+                    }
                 } else {
                     $this->toolkit->setUser($user);
                     
