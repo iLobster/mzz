@@ -56,7 +56,7 @@ class url
      *
      * @var boolean
      */
-    protected $withAddress = true;
+    protected $withAddress = false;
 
     /**
      * Конструктор.
