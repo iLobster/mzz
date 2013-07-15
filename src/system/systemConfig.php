@@ -171,6 +171,14 @@ class systemConfig
      * @var array
      */
     public static $application = array();
+    
+    /**
+     * Name of the current environment
+     * Name of the environment can be setted by MZZ_ENVIRONMENT CGI param of web server
+     * 
+     * @var string
+     */
+    public static $environment = '';
 
     /**
      * Detects and sets path to the core
@@ -178,6 +186,8 @@ class systemConfig
      */
     public static function init()
     {
+        self::loadEnvironmentConfig();
+        
         self::$pathToSystem = dirname(__FILE__);
         self::$pathToApplication = realpath(self::$pathToApplication);
         self::$pathToWebRoot = realpath(self::$pathToWebRoot);
@@ -216,6 +226,27 @@ class systemConfig
 
         if (!isset(self::$cache['default'])) {
             self::$cache['default'] = self::$cache['fast'];
+        }
+    }
+    
+    /**
+     * Checks for environment variable and load proper config
+     * Name of the environment can be setted by MZZ_ENVIRONMENT CGI param of web server
+     */
+    private static function loadEnvironmentConfig()
+    {
+        // Init environment variable
+        self::$environment = !empty($_ENV['MZZ_ENVIRONMENT']) ? $_ENV['MZZ_ENVIRONMENT'] : self::$environment;
+        self::$environment = !empty($_SERVER['MZZ_ENVIRONMENT']) ? $_SERVER['MZZ_ENVIRONMENT'] : self::$environment;
+        
+        // Load env config
+        if (self::$environment) {
+            self::$pathToApplication = realpath(self::$pathToApplication);
+            
+            $filename = self::$pathToApplication . DIRECTORY_SEPARATOR . 'environments' . DIRECTORY_SEPARATOR . self::$environment . '.php';
+            if (file_exists($filename)) {
+                include $filename;
+            }
         }
     }
 }
