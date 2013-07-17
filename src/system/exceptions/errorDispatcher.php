@@ -71,6 +71,7 @@ class errorDispatcher
             error_log($message);
         }
         $this->outputException();
+        exit;
     }
     
     public function shutdownHandler()
