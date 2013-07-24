@@ -54,12 +54,12 @@ class urlPlugin extends aPlugin
             $params['route'] = $route->getName();
         }
 
-        $onlyPath = false;
-        if (isset($params['onlyPath'])){
-            $onlyPath = true;
-            unset($params['onlyPath']);
+        $fullAddress = false;
+        if (isset($params['fullAddress'])){
+            $fullAddress = !empty($params['fullAddress']);
+            unset($params['fullAddress']);
         }
-
+        
         if (!empty($params['_csrf'])) {
             unset($params['_csrf']);
             $params['_' . form::getCSRFFieldName()] = form::getCSRFToken();
@@ -81,8 +81,8 @@ class urlPlugin extends aPlugin
             $url->add($name, $value, $isGet);
         }
 
-        if ($onlyPath) {
-            $url->disableAddress();
+        if ($fullAddress) {
+            $url->enableAddress();
         }
 
         if (isset($params['lang'])){
