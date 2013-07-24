@@ -115,12 +115,19 @@ class url
     }
 
     /**
-     * Предотвращает добавления полного адреса к генерируемому URL
-     *
+     * Предотвращает добавление полного адреса к генерируемому URL
      */
     public function disableAddress()
     {
         $this->withAddress = false;
+    }
+    
+    /**
+     * Включает добавление полного адреса к генерируемому URL
+     */
+    public function enableAddress()
+    {
+        $this->withAddress = true;
     }
 
     /**
