@@ -23,8 +23,31 @@
  */
 class errorDispatcher
 {
+    protected static $debug_vars = array();
     protected $exception;
 
+    /**
+     * Устанавливает обработчик PHP-ошибок и исключений
+     *
+     * @param errorDispatcher $dispatcher обработчик
+     */
+    public static function setDispatcher($dispatcher)
+    {
+        set_error_handler(array($dispatcher, 'errorHandler'));
+        set_exception_handler(array($dispatcher, 'exceptionHandler'));
+        register_shutdown_function(array($dispatcher, 'shutdownHandler'));
+    }
+    
+    /**
+     * Adds variable for debugging. All of them will be outputted below exception information
+     * @param mixed $var
+     * @param string [$title]  Title will be displayed before output if passed
+     */
+    public static function debug($var, $title = null)
+    {
+        self::$debug_vars[] = array('value' => $var, 'title' => $title);
+    }
+    
     /**
      * Конструктор
      *
@@ -45,7 +68,6 @@ class errorDispatcher
     public function errorHandler($errno, $errstr, $errfile, $errline)
     {
         if (error_reporting() && $errno != E_STRICT) {
-            ob_clean();
             $this->exceptionHandler(new phpErrorException($errno, $errstr, $errfile, $errline));
         }
     }
@@ -80,18 +102,11 @@ class errorDispatcher
         if (!empty($lastError['type'])) {
             $this->errorHandler($lastError['type'], $lastError['message'], $lastError['file'], $lastError['line']);
         }
-    }
-
-    /**
-     * Устанавливает обработчик PHP-ошибок и исключений
-     *
-     * @param errorDispatcher $dispatcher обработчик
-     */
-    public static function setDispatcher($dispatcher)
-    {
-        set_error_handler(array($dispatcher, 'errorHandler'));
-        set_exception_handler(array($dispatcher, 'exceptionHandler'));
-        register_shutdown_function(array($dispatcher, 'shutdownHandler'));
+        
+        if (!empty(self::$debug_vars)) {
+            $debug_vars = &self::$debug_vars;
+            include(dirname(__FILE__) . '/templates/debug.tpl.php');
+        }
     }
 
     /**
@@ -110,6 +125,11 @@ class errorDispatcher
      */
     public function outputException()
     {
+        // Kill all buffered data
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+        
         $debug_mode = DEBUG_MODE;
         $exception = $this->exception;
         $system_info = array(
