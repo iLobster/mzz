@@ -31,7 +31,6 @@ class identityMapPlugin extends observer
     {
         // Flush all identity maps for all mappers
         foreach (systemToolkit::getInstance()->getMapperStack() as $mapper) {
-            echo get_class($mapper);
             if ($mapper->isAttached('identityMap')) {
                 $mapper->plugin('identityMap')->flush();
             }
