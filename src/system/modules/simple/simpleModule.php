@@ -174,7 +174,6 @@ abstract class simpleModule
             return $this->mappers[$className];
         }
 
-        $this->toolkit->createMapperStack();
         return $mapper;
     }
 

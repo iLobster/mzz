@@ -421,20 +421,33 @@ class stdToolkit extends toolkit
         return $this->charsetDriver;
     }
 
-
-    public function createMapperStack()
-    {
-        $this->mapperStack = array();
-    }
-
-    public function addMapperToStack($class, $mapper)
+    /**
+     * Adds mapper to stack
+     * @param string $class
+     * @param mapper $mapper
+     */
+    public function addMapperToStack($class, mapper $mapper)
     {
         $this->mapperStack[$class] = $mapper;
     }
 
+    /**
+     * Returns mapper from stack
+     * @param string $class
+     * @return mapper|null
+     */
     public function getMapperFromStack($class)
     {
         return isset($this->mapperStack[$class]) ? $this->mapperStack[$class] : null;
+    }
+    
+    /**
+     * Returns mapper stack
+     * @return array:
+     */
+    public function getMapperStack()
+    {
+        return $this->mapperStack;
     }
 
     /**

@@ -55,6 +55,15 @@ class identityMap
             $this->mapper->searchByKey($delayed);
         }
     }
+    
+    /**
+     * Flush all saved data
+     */
+    public function flush()
+    {
+        $this->objects = array();
+        $this->delayed = array();
+    }
 }
 
 ?>

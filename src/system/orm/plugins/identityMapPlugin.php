@@ -17,10 +17,30 @@ class identityMapPlugin extends observer
 
     /**
      * Global disable|enable plugin in whole app (for more flexible memory management in large arrays of objects)
+     * @param bool [$disable]
      */
     public static function globalDisable($disable = true)
     {
         self::$globalDisabling = $disable;
+    }
+    
+    /**
+     * Removes all cached data
+     */
+    public static function globalFlush()
+    {
+        // Flush all identity maps for all mappers
+        foreach (systemToolkit::getInstance()->getMapperStack() as $mapper) {
+            echo get_class($mapper);
+            if ($mapper->isAttached('identityMap')) {
+                $mapper->plugin('identityMap')->flush();
+            }
+        }
+        
+        // Call GC collect cycle
+        if (function_exists('gc_collect_cycles')) {
+            gc_collect_cycles();
+        }
     }
     
     public function setMapper(mapper $mapper)
@@ -98,6 +118,16 @@ class identityMapPlugin extends observer
     {
         if ($this->mapper->pk() == $key) {
             $this->identityMap->delay($value);
+        }
+    }
+    
+    /**
+     * Flush all saved data
+     */
+    public function flush()
+    {
+        if ($this->identityMap) {
+            $this->identityMap->flush();
         }
     }
 }
