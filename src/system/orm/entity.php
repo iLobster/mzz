@@ -206,6 +206,7 @@ class entity implements serializable
             // if object became clean or new - reset the dataChanged array
             if ($state != self::STATE_DIRTY) {
                 $this->dataChanged = array();
+                $this->dataLoaded = array();
             }
 
             $old = $this->state;
