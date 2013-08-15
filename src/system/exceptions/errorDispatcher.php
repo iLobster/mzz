@@ -92,7 +92,10 @@ class errorDispatcher
                 ;
             error_log($message);
         }
+        
         $this->outputException();
+        $this->outputDebugVars();
+        
         exit;
     }
     
@@ -103,10 +106,7 @@ class errorDispatcher
             $this->errorHandler($lastError['type'], $lastError['message'], $lastError['file'], $lastError['line']);
         }
         
-        if (!empty(self::$debug_vars)) {
-            $debug_vars = &self::$debug_vars;
-            include(dirname(__FILE__) . '/templates/debug.tpl.php');
-        }
+        $this->outputDebugVars();
     }
 
     /**
@@ -140,6 +140,17 @@ class errorDispatcher
         );
 
         include(dirname(__FILE__) . '/templates/exception.tpl.php');
+    }
+    
+    /**
+     * Outputs debug variables
+     */
+    public function outputDebugVars()
+    {
+        if (!empty(self::$debug_vars)) {
+            $debug_vars = &self::$debug_vars;
+            include(dirname(__FILE__) . '/templates/debug.tpl.php');
+        }
     }
 
 }
