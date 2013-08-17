@@ -80,9 +80,6 @@ class smartyTemplate extends Smarty implements iTemplate
         $this->plugins_dir = array_merge($this->plugins_dir, $oldPluginsDirs);
 
         $this->debugging = DEBUG_MODE;
-        $this->assign('SITE_PATH', rtrim(SITE_PATH, '/'));
-        $this->assign('SITE_LANG', systemToolkit::getInstance()->getLocale()->getName());
-
 
         $this->register->modifier('filesize', 'smarty_modifier_filesize');
 

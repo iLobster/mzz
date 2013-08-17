@@ -10,7 +10,7 @@
     {/if}
     {/foreach}
     {if $external}
-        <script type="text/javascript" src="{$SITE_PATH}/external.php?type=js&amp;files={$external|substr:0:-1}"></script>
+        <script type="text/javascript" src="{$SITE_PATH}/external.php?type=js&amp;files={$external|substr:0:-1}{if $SITE_REVISION}&amp;{$SITE_REVISION}{/if}"></script>
     {/if}
 {/strip}
 {/if}

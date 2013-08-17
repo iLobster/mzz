@@ -178,7 +178,14 @@ class systemConfig
      * 
      * @var string
      */
-    public static $environment = '';
+    public static $environment = null;
+    
+    /**
+     * Name of a version control system used for the project
+     *
+     * @var string  Supported values are: 'git', 'hg', 'svn'
+     */
+    public static $versionControlSystemUsed = null;
 
     /**
      * Detects and sets path to the core

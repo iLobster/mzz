@@ -10,7 +10,7 @@
     {/if}
     {/foreach}
     {if $external}
-        <link rel="stylesheet" type="text/css" href="{$SITE_PATH}/external.php?type=css&amp;files={$external|substr:0:-1}" />
+        <link rel="stylesheet" type="text/css" href="{$SITE_PATH}/external.php?type=css&amp;files={$external|substr:0:-1}{if $SITE_REVISION}&amp;{$SITE_REVISION}{/if}" />
     {/if}
 {/strip}
 {/if}
