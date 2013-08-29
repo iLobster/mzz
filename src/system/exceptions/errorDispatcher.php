@@ -42,10 +42,11 @@ class errorDispatcher
      * Adds variable for debugging. All of them will be outputted below exception information
      * @param mixed $var
      * @param string [$title]  Title will be displayed before output if passed
+     * @param string [$rawOutput]  If TRUE, $var will be printed raw (without var_dump)
      */
-    public static function debug($var, $title = null)
+    public static function debug($var, $title = null, $rawOutput = false)
     {
-        self::$debug_vars[] = array('value' => $var, 'title' => $title);
+        self::$debug_vars[] = array('value' => $var, 'title' => $title, 'rawOutput' => $rawOutput);
     }
     
     /**
@@ -150,6 +151,8 @@ class errorDispatcher
         if (!empty(self::$debug_vars)) {
             $debug_vars = &self::$debug_vars;
             include(dirname(__FILE__) . '/templates/debug.tpl.php');
+            
+            self::$debug_vars = array(); // to prevent second output
         }
     }
 

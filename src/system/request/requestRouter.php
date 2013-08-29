@@ -177,7 +177,7 @@ class requestRouter
      */
     public function route($path)
     {
-        foreach (array_reverse($this->routes) as $route) {
+        foreach ($this->routes as $route) {
             if ($this->prepend) {
                 $route->prepend($this->prepend);
             }

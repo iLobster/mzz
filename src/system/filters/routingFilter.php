@@ -31,11 +31,10 @@ class routingFilter implements iFilter
     public function run(filterChain $filter_chain, $response, iRequest $request)
     {
         $toolkit = systemToolkit::getInstance();
-
         $router = $toolkit->getRouter($request);
-
         $cache = $toolkit->getCache('long');
 
+        // Load routes from modules
         if (!$cache->get('routes', $routes)) {
             $routes = array(
                 'first' => array(),
@@ -47,42 +46,46 @@ class routingFilter implements iFilter
                     $routes['last'] += $moduleRoutes[1];
                 }
             }
-
+        
             $cache->set('routes', $routes);
         }
-
-        $filePath = fileLoader::resolve('routes/default_last');
-
-        if ($filePath === false) {
-            throw new mzzIoException('routes/default_last');
-        } else {
-            require_once $filePath;
-        }
-
-        foreach ($routes['last'] as $name => $route) {
-            $router->addRoute($name, $route);
-        }
-
-        $filePath = fileLoader::resolve('routes/default_first');
-
-        if ($filePath === false) {
-            throw new mzzIoException('routes/default_first');
-        } else {
-            require_once $filePath;
-        }
-
-        foreach ($routes['first'] as $name => $route) {
-            $router->addRoute($name, $route);
-        }
-
+        
+        /// Compose routes
+        // Add application default routes
         $filePath = fileLoader::resolve('routes/default');
-
         if ($filePath === false) {
             throw new mzzIoException('routes/default');
         } else {
             require_once $filePath;
         }
-
+        
+        // Add system default routes with high priority
+        $filePath = fileLoader::resolve('routes/default_first');
+        if ($filePath === false) {
+            throw new mzzIoException('routes/default_first');
+        } else {
+            require_once $filePath;
+        }
+        
+        // Add application modules' routes with high priority
+        foreach ($routes['first'] as $name => $route) {
+            $router->addRoute($name, $route);
+        }
+        
+        // Add system default routes with low priority
+        $filePath = fileLoader::resolve('routes/default_last');
+        if ($filePath === false) {
+            throw new mzzIoException('routes/default_last');
+        } else {
+            require_once $filePath;
+        }
+        
+        // Add application modules' routes with low priority
+        foreach ($routes['last'] as $name => $route) {
+            $router->addRoute($name, $route);
+        }
+        
+        // Try to resolve current path against registered routes
         try {
             $router->route($request->getPath());
         } catch (mzzRuntimeException $e) {

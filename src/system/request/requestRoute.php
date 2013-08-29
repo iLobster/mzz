@@ -241,6 +241,11 @@ class requestRoute implements iRoute
             if (isset($this->values['*'])) {
                 $this->replaceStar();
             }
+            
+            if ($debug) {
+                errorDispatcher::debug('<b>' . $this->getName() . ' matched!</b>', null, true);
+            }
+            
             return $this->values;
         }
 
@@ -492,11 +497,7 @@ class requestRoute implements iRoute
 
     protected function dumpParameters($name, $pattern, $regex, $path)
     {
-        $span = '<span style="background-color: #%s; padding: 0 3px;">%s</span>';
-        printf($span . ', ', 'FCF4DA', $name);
-        printf($span . ', ', 'D9F2FC', $pattern);
-        printf($span . ', ', 'FBDFDA', $regex);
-        printf($span . "<br />\r\n", 'E5FBE2', $path);
+        errorDispatcher::debug("<b>{$name}</b>\n{$pattern}  =>  {$regex}\n{$path}\n", null, true);
     }
 }
 
