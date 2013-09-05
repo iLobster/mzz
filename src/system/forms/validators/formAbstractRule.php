@@ -41,6 +41,11 @@ abstract class formAbstractRule
         //}
 
         if ($message) {
+            // Try to translate with i18n
+            if (i18n::isName($message)) {
+                $message = i18n::getMessage(i18n::extractName($message));
+            }
+            
             $this->message = $message;
         }
     }
