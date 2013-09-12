@@ -66,7 +66,7 @@ class cacheSession extends cacheBackend
             'created' => time(),
             'expire' => $expire);
 
-        $this->session->set($this->getSessionKey($key), $data);
+        $this->session->set($this->getSessionKey($key), serialize($data));
         return true;
     }
 
@@ -100,7 +100,7 @@ class cacheSession extends cacheBackend
     protected function getCacheData($key)
     {
         $sessionKey = $this->getSessionKey($key);
-        $data = $this->session->get($sessionKey);
+        $data = unserialize($this->session->get($sessionKey));
         if (is_array($data) && isset($data['value'], $data['expire'], $data['created'])) {
             return array(
                 'value' => $data['value'],
