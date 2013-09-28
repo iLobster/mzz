@@ -1,3 +1,40 @@
+# Дамп таблицы page_page
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `page_page`;
+
+CREATE TABLE `page_page` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `folder_id` int(11) unsigned DEFAULT NULL,
+  `allow_comment` tinyint(4) DEFAULT '1',
+  `compiled` int(11) DEFAULT NULL,
+  `keywords_reset` tinyint(1) DEFAULT '0',
+  `description_reset` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `name` (`name`(8)),
+  KEY `folder_id` (`folder_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+
+# Дамп таблицы page_page_lang
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `page_page_lang`;
+
+CREATE TABLE `page_page_lang` (
+  `id` int(11) NOT NULL DEFAULT '0',
+  `lang_id` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `content` text NOT NULL,
+  `keywords` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`,`lang_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+
 # Дамп таблицы page_pageFolder
 # ------------------------------------------------------------
 
