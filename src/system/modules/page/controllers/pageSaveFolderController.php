@@ -30,6 +30,7 @@ class pageSaveFolderController extends simpleController
         $isEdit = ($action == 'editFolder');
 
         $folderMapper = $this->toolkit->getMapper('page', 'pageFolder');
+        $this->acceptLang($folderMapper);
         $targetFolder = $folderMapper->searchByPath($path);
 
         if (empty($targetFolder)) {

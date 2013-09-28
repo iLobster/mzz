@@ -24,6 +24,7 @@ return array(
     'editFolder' => array(
         'controller' => 'saveFolder',
         'jip' => '1',
+        'lang' => '1',
         'role' => array(
             'moderator'),
         'icon' => 'sprite:sys/folder-edit',

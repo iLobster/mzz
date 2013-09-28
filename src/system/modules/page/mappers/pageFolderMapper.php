@@ -15,6 +15,7 @@
 fileLoader::load('page/models/pageFolder');
 fileLoader::load('orm/plugins/tree_mpPlugin');
 fileLoader::load('modules/jip/plugins/jipPlugin');
+fileLoader::load('modules/i18n/plugins/i18nPlugin');
 
 /**
  * pageFolderMapper: маппер
@@ -50,12 +51,14 @@ class pageFolderMapper extends mapper
         'title' => array(
             'accessor' => 'getTitle',
             'mutator' => 'setTitle',
+            'options' => array('i18n'),
         ),
     );
 
     public function __construct($module)
     {
         parent::__construct($module);
+        $this->plugins('i18n', array('return_empty' => true));
         $this->attach(new tree_mpPlugin(array('path_name' => 'name')), 'tree');
         $this->plugins('jip');
     }
