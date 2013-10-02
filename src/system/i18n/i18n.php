@@ -57,8 +57,9 @@ class i18n
      * @param string $name идентификатор фразы
      * @param string $module имя модуля
      * @param string $lang язык
-     * @param string|array $args аргументы
-     * @param callback $generatorCallback callback на функцию-генератор кода, в случае когда в числе аргументов есть переменные
+     * @param string|array [$args] аргументы
+     * @param callback [$generatorCallback] callback на функцию-генератор кода, в случае когда в числе аргументов есть переменные
+     * @param string|null [$default]
      * @return string результирующий перевод
      */
     public function translate($name, $module, $lang, $args = '', $generatorCallback = '', $default = null)
@@ -274,20 +275,19 @@ class i18n
      * Перевод фразы
      *
      * @param string $name
-     * @param string $module
-     * @param string $lang
-     * @param string|array $args
-     * @param callback $generatorCalback
-     * @return unknown
+     * @param string [$module]
+     * @param string [$lang]
+     * @param string|array [$args]
+     * @param callback [$generatorCalback]
+     * @param string|null [$default]
+     * @return string
      */
-    public static function getMessage($name, $module = null, $lang = null, $args = array(), $generatorCalback = null)
+    public static function getMessage($name, $module = null, $lang = null, $args = array(), $generatorCalback = null, $default = null)
     {
         static $i18n;
         if (empty($i18n)) {
             $i18n = systemToolkit::getInstance()->getI18n();
         }
-
-        $default = $name;
 
         if (empty($lang)) {
             $lang = systemToolkit::getInstance()->getLocale()->getName();
