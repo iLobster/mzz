@@ -48,7 +48,9 @@ class userMapper extends mapper
             'accessor' => 'getId',
             'mutator' => 'setId',
             'options' => array(
-                'pk')),
+                'pk'),
+            'orderBy' => true,
+            'orderByDirection' => 'asc'),
         'login' => array(
             'accessor' => 'getLogin',
             'mutator' => 'setLogin'),
@@ -99,6 +101,7 @@ class userMapper extends mapper
     {
         parent::__construct($module);
         $this->plugins('jip');
+        $this->plugins('identityMap');
     }
 
     /**

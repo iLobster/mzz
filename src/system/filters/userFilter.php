@@ -14,8 +14,6 @@
  * @version $Id$
  */
 
-fileLoader::load('user/pam/pam');
-
 /**
  * userFilter: filter for getting current user
  *
@@ -59,14 +57,9 @@ class userFilter implements iFilter
             if (!is_null($userAuth)) {
                 $user = $userAuth->getUser();
                 $valideAuth = false;
-                if ($user && $user->getHash() === $userAuth->getUserHash() && $user->isConfirmed()) {
-                    try {
-                        $pam = pam::factory($userAuth->getPam());
-                        $valideAuth = $pam->checkAuth($user);
-                    } catch (mzzUnknownPamProviderException $e) {}
-                }
+                if ($user && $user->getHash() === $userAuth->getUserHash() && $user->isConfirmed() && $user->getId() !== MZZ_USER_GUEST_ID) {
 
-                if (!$valideAuth) {
+                } else {
                     $user = null;
                     $userAuthMapper->delete($userAuth);
                 }

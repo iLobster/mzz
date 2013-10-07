@@ -45,10 +45,6 @@ class userExitController extends simpleController
                 $ip = $this->request->getServer('REMOTE_ADDR');
                 $userAuth = $userAuthMapper->getAuth($authHash, $ip);
                 if ($userAuth) {
-                    try {
-                        $pam = pam::factory($userAuth->getPam());
-                        $pam->logout($user, $backUrl);
-                    } catch (mzzUnknownPamProviderException $e) {}
     
                     $userAuthMapper->delete($userAuth);
                 }

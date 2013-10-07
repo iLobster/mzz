@@ -24,7 +24,7 @@ class userModule extends simpleModule
 {
 
     protected $icon = "sprite:sys/user";
-    protected $classes = array('user', 'userFolder', 'userGroup', 'group', 'groupFolder', 'userAuth', 'userOnline', 'userRole', 'pamFacebook');
+    protected $classes = array('user', 'userFolder', 'userGroup', 'group', 'groupFolder', 'userAuth', 'userOnline', 'userRole');
     protected $roles = array(
         'moderator',
         'user');
@@ -34,10 +34,8 @@ class userModule extends simpleModule
     {
         return array(
             array(
-                'userLogin' => new requestRoute('user/:pam/:action', array(
-                    'module' => 'user',
-                    'pam' => 'simple'), array(
-                    'pam' => '.*?',
+                'userLogin' => new requestRoute('user/:action', array(
+                    'module' => 'user'), array(
                     'action' => '(?:login|logout)'))),
             array());
     }

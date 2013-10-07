@@ -12,8 +12,6 @@
  * @version $Id$
  */
 
-fileLoader::load('user/pam/pam');
-
 /**
  * userLoginController: контроллер для метода login модуля user
  *
@@ -33,12 +31,28 @@ class userLoginController extends simpleController
 
         if (!$user->isLoggedIn()) {
             $validator = new formValidator();
-            $pamProvider = $this->request->getString('pam');
+            $validator->rule('required', 'login', 'Login field is required');
+            $validator->rule('required', 'password', 'Password field is required');
 
-            $pam = pam::factory($pamProvider);
+            if ($validator->validate()) {
 
-            if ($pam->validate($validator)) {
-                $user = $pam->login();
+                $login = $this->request->getString('login', SC_POST);
+                $password = $this->request->getString('password', SC_POST);
+                $userMapper = $this->toolkit->getMapper('user', 'user');
+                $user = $userMapper->searchByLoginAndPassword($login, $password);
+
+                if ($user && $user->isConfirmed()) {
+                    if ($this->request->getBoolean('save', SC_POST)) {
+                        $userAuthMapper = $this->toolkit->getMapper('user', 'userAuth');
+                        $hash = $this->request->getString(userAuthMapper::AUTH_COOKIE_NAME, SC_COOKIE);
+                        $ip = $this->request->getServer('REMOTE_ADDR');
+                        $userAuth = $userAuthMapper->saveAuth($user, $hash, $ip);
+
+                        $this->toolkit->getResponse()->setCookie(userAuthMapper::AUTH_COOKIE_NAME, $userAuth->getHash(), time() + 10 * 365 * 86400, '/');
+                    }
+                } else {
+                    $user = null;
+                }
 
                 if (!$user) {
                     $validator->setError('login', 'Wrong login or password');

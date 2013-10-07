@@ -70,6 +70,7 @@ class groupMapper extends mapper
     {
         parent::__construct($module);
         $this->plugins('jip');
+        $this->plugins('identityMap');
     }
 
     public function searchDefaultGroups()
