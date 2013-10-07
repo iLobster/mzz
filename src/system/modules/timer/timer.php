@@ -141,15 +141,10 @@ class timer
     public function toString($tpl = 'timer/timer.tpl', $backend = null)
     {
         $this->finish();
-
-        if (is_null($backend)) {
-            $backend = systemConfig::$defaultTemplateDriver;
-        }
-
         $toolkit = systemToolkit::getInstance();
         $view = $toolkit->getView();
         $view->assign('timer', $this);
-        return $view->render($tpl, $backend);
+        return $view->render($tpl);
     }
 }
 

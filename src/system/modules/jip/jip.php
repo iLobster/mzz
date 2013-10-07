@@ -138,7 +138,7 @@ class jip implements iJip
      */
     public function getJip()
     {
-        $view = systemToolkit::getInstance()->getView('smarty');
+        $view = systemToolkit::getInstance()->getView();
 
         $view->assign('langs', $this->getLangs());
         $view->assign('jip', $this->jipItems);

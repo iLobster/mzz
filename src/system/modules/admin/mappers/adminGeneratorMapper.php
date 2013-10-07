@@ -32,23 +32,22 @@ class adminGeneratorMapper extends mapper
 
         $toolkit = systemToolkit::getInstance();
         $view = $toolkit->getView();
-        $smarty = $view->getBackend('smarty');
-        
-        $leftDelimeter = $smarty->left_delimiter;
-        $rightDelimeter = $smarty->right_delimiter;
 
-        $smarty->left_delimiter = '{{';
-        $smarty->right_delimiter = '}}';
+        $leftDelimeter = $view->left_delimiter;
+        $rightDelimeter = $view->right_delimiter;
+
+        $view->left_delimiter = '{{';
+        $view->right_delimiter = '}}';
 
         $view->assign('name', $name);
-        $moduleContents = $view->render('admin/generator/module.tpl', 'smarty');
+        $moduleContents = $view->render('admin/generator/module.tpl');
 
         $fileGenerator = new fileGenerator($path . '/' . $name);
         $fileGenerator->create($moduleFileName, $moduleContents);
         $fileGenerator->run();
 
-        $smarty->left_delimiter = $leftDelimeter;
-        $smarty->right_delimiter = $rightDelimeter;
+        $view->left_delimiter = $leftDelimeter;
+        $view->right_delimiter = $rightDelimeter;
 
         return $toolkit->getModule($name);
     }
@@ -86,20 +85,19 @@ class adminGeneratorMapper extends mapper
 
         $toolkit = systemToolkit::getInstance();
         $view = $toolkit->getView();
-        $smarty = $view->getBackend('smarty');
-        
-        $leftDelimeter = $smarty->left_delimiter;
-        $rightDelimeter = $smarty->right_delimiter;
 
-        $smarty->left_delimiter = '{{';
-        $smarty->right_delimiter = '}}';
+        $leftDelimeter = $view->left_delimiter;
+        $rightDelimeter = $view->right_delimiter;
+
+        $view->left_delimiter = '{{';
+        $view->right_delimiter = '}}';
 
         $view->assign('module', $module);
         $view->assign('name', $name);
         $view->assign('table', $table);
 
         $doFileName = $this->generateDOFileName($name);
-        $doContents = $view->render('admin/generator/do.tpl', 'smarty');
+        $doContents = $view->render('admin/generator/do.tpl');
 
         $fileGenerator->create($doFileName, $doContents);
 
@@ -116,7 +114,7 @@ class adminGeneratorMapper extends mapper
 
         $view->assign('map', $map_str);
         $mapperFileName = $this->generateMapperFileName($name);
-        $mapperContents = $view->render('admin/generator/mapper.tpl', 'smarty');
+        $mapperContents = $view->render('admin/generator/mapper.tpl');
         $fileGenerator->create($mapperFileName, $mapperContents);
 
         $actions_string = var_export(array(), true);
@@ -126,11 +124,11 @@ class adminGeneratorMapper extends mapper
 
         $view->assign('actions_string', $actions_string);
         $actionFileName = $this->generateActionFileName($name);
-        $actionContents = $view->render('admin/generator/actions.tpl', 'smarty');
+        $actionContents = $view->render('admin/generator/actions.tpl');
         $fileGenerator->create($actionFileName, $actionContents);
 
-        $smarty->left_delimiter = $leftDelimeter;
-        $smarty->right_delimiter = $rightDelimeter;
+        $view->left_delimiter = $leftDelimeter;
+        $view->right_delimiter = $rightDelimeter;
 
         $classes = $module->getClasses();
         $classes[] = $name;
@@ -216,13 +214,12 @@ class adminGeneratorMapper extends mapper
         if (!$isEdit) {
             $toolkit = systemToolkit::getInstance();
             $view = $toolkit->getView();
-            $smarty = $view->getBackend('smarty');
 
-            $leftDelimeter = $smarty->left_delimiter;
-            $rightDelimeter = $smarty->right_delimiter;
+            $leftDelimeter = $view->left_delimiter;
+            $rightDelimeter = $view->right_delimiter;
 
-            $smarty->left_delimiter = '{{';
-            $smarty->right_delimiter = '}}';
+            $view->left_delimiter = '{{';
+            $view->right_delimiter = '}}';
 
             $view->assign('module', $module);
             $view->assign('name', $class_name);
@@ -246,12 +243,12 @@ class adminGeneratorMapper extends mapper
                     $map = $this->getMapForCRUD($mapper);
                     $view->assign('map', $map);
 
-                    $controllerContents = (!$controllerExists) ? $view->render('admin/generator/controller.view.tpl', 'smarty') : null;
-                    $templateContents = (!$templateExists) ? $view->render('admin/generator/template.view.tpl', 'smarty') : null;
+                    $controllerContents = (!$controllerExists) ? $view->render('admin/generator/controller.view.tpl') : null;
+                    $templateContents = (!$templateExists) ? $view->render('admin/generator/template.view.tpl') : null;
                     break;
 
                 case 'delete':
-                    $controllerContents = (!$controllerExists) ? $view->render('admin/generator/controller.delete.tpl', 'smarty') : null;
+                    $controllerContents = (!$controllerExists) ? $view->render('admin/generator/controller.delete.tpl') : null;
 
                     if (empty($actionData['jip'])) {
                         $actionData['jip'] = true;
@@ -276,8 +273,8 @@ class adminGeneratorMapper extends mapper
                     $map = $this->getMapForCRUD($mapper);
                     $view->assign('map', $map);
 
-                    $controllerContents = (!$controllerExists) ? $view->render('admin/generator/controller.list.tpl', 'smarty') : null;
-                    $templateContents = (!$templateExists) ? $view->render('admin/generator/template.list.tpl', 'smarty') : null;
+                    $controllerContents = (!$controllerExists) ? $view->render('admin/generator/controller.list.tpl') : null;
+                    $templateContents = (!$templateExists) ? $view->render('admin/generator/template.list.tpl') : null;
 
                     break;
 
@@ -288,14 +285,14 @@ class adminGeneratorMapper extends mapper
                     $map = $this->getMapForCRUD($mapper);
                     $view->assign('map', $map);
 
-                    $controllerContents = (!$controllerExists) ? $view->render('admin/generator/controller.save.tpl', 'smarty') : null;
-                    $templateContents = (!$templateExists) ? $view->render('admin/generator/template.save.tpl', 'smarty') : null;
+                    $controllerContents = (!$controllerExists) ? $view->render('admin/generator/controller.save.tpl') : null;
+                    $templateContents = (!$templateExists) ? $view->render('admin/generator/template.save.tpl') : null;
 
                     break;
 
                 default:
-                    $controllerContents = (!$controllerExists) ? $view->render('admin/generator/controller.tpl', 'smarty') : null;
-                    $templateContents = (!$templateExists) ? $view->render('admin/generator/template.tpl', 'smarty') : null;
+                    $controllerContents = (!$controllerExists) ? $view->render('admin/generator/controller.tpl') : null;
+                    $templateContents = (!$templateExists) ? $view->render('admin/generator/template.tpl') : null;
 
                     break;
             }
@@ -303,8 +300,8 @@ class adminGeneratorMapper extends mapper
             if (!$controllerExists) $fileGenerator->create($controllerFileName, $controllerContents);
             if (!$templateExists) $fileGenerator->create($templateFileName, $templateContents);
 
-            $smarty->left_delimiter = $leftDelimeter;
-            $smarty->right_delimiter = $rightDelimeter;
+            $view->left_delimiter = $leftDelimeter;
+            $view->right_delimiter = $rightDelimeter;
         }
 
         $this->addSaveActionsInGenerator($module, $class_name, $actionsArray, $fileGenerator);
@@ -368,17 +365,16 @@ class adminGeneratorMapper extends mapper
 
         $toolkit = systemToolkit::getInstance();
         $view = $toolkit->getView();
-        $smarty = $view->getBackend('smarty');
 
-        $leftDelimeter = $smarty->left_delimiter;
-        $rightDelimeter = $smarty->right_delimiter;
+        $leftDelimeter = $view->left_delimiter;
+        $rightDelimeter = $view->right_delimiter;
 
         $view->assign('module', $module);
         $view->assign('name', $class_name);
         //$view->assign('actionsArray', $actionsArray);
 
-        $smarty->left_delimiter = '{{';
-        $smarty->right_delimiter = '}}';
+        $view->left_delimiter = '{{';
+        $view->right_delimiter = '}}';
 
         $actions_string = var_export($actionsArray, true);
 
@@ -387,10 +383,10 @@ class adminGeneratorMapper extends mapper
 
         $view->assign('actions_string', $actions_string);
 
-        $actionContents = $view->render('admin/generator/actions.tpl', 'smarty');
+        $actionContents = $view->render('admin/generator/actions.tpl');
 
-        $smarty->left_delimiter = $leftDelimeter;
-        $smarty->right_delimiter = $rightDelimeter;
+        $view->left_delimiter = $leftDelimeter;
+        $view->right_delimiter = $rightDelimeter;
 
         $actionFileName = $this->generateActionFileName($class_name);
         $fileGenerator->edit($actionFileName, new fileFullReplaceTransformer($actionContents));

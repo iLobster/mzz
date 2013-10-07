@@ -52,7 +52,7 @@ class formTextField extends formElement
     protected function addAutocomplete(&$attributes)
     {
         static $i = 0;
-        $view = systemToolkit::getInstance()->getView('smarty');
+        $view = systemToolkit::getInstance()->getView();
         $type = substr($attributes['autocomplete'], 0, 1) == '[' ? 'local' : 'ajax';
         $id = isset($attributes['id']) ? $attributes['id'] : '__autocompleter_' . $i++;
         $view->assign('id', $id);

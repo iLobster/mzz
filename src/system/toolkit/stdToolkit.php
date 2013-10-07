@@ -124,23 +124,24 @@ class stdToolkit extends toolkit
      */
     public function getView()
     {
-        if (empty($this->view)) {
+        if (!$this->view) {
             fileLoader::load('template/view');
-            $this->view = view::getInstance();
+            $this->view = new view();
         }
 
         return $this->view;
     }
     /**
-     * Returns simpleView with Smarty backend
+     * Returns view object
      *
-     * @return simpleView
+     * @throws mzzException
+     * @return view
      * @deprecated
      */
     public function getSmarty()
     {
         throw new mzzException("deprecated, use toolkit::getView() instead");
-        return $this->getView('smarty');
+        return $this->getView();
     }
 
     /**

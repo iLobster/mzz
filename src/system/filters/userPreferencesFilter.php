@@ -34,7 +34,7 @@ class userPreferencesFilter implements iFilter
     {
         $toolkit = systemToolkit::getInstance();
         $session = $toolkit->getSession();
-        $view = $toolkit->getView('smarty');
+        $view = $toolkit->getView();
         $me = $toolkit->getUser();
         $preferences = $toolkit->getUserPreferences();
 

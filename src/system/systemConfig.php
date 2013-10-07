@@ -145,20 +145,6 @@ class systemConfig
     public static $defaultSkin = 1;
 
     /**
-     * Internal driver for templates. Used with system main templates
-     *
-     * @var string
-     */
-    public static $internalTemplateDriver = 'smarty';
-
-    /**
-     * Default driver for templates. Used for main.tpl, header.tpl and other main templates
-     *
-     * @var string
-     */
-    public static $defaultTemplateDriver = 'smarty';
-
-    /**
      * Name of session storage driver
      *
      * @var string

@@ -35,7 +35,7 @@ class jipTools
      */
     static public function close($howMany = 1, $url = false, $timeout = 1500)
     {
-        $view = systemToolkit::getInstance()->getView('smarty');
+        $view = systemToolkit::getInstance()->getView();
         $view->assign('url', $url);
         $view->assign('howMany', (int)$howMany);
         $view->assign('timeout', (int)$timeout);
@@ -63,7 +63,7 @@ class jipTools
             return self::refresh();
         }
         
-        $view = systemToolkit::getInstance()->getView('smarty');
+        $view = systemToolkit::getInstance()->getView();
         $view->assign('url', $url);
         $view->assign('do', 'redirect');
         return $view->render('simple/jipTools.tpl');
@@ -76,7 +76,7 @@ class jipTools
      */
     static public function refresh()
     {
-        $view = systemToolkit::getInstance()->getView('smarty');
+        $view = systemToolkit::getInstance()->getView();
         $view->assign('url', true);
         $view->assign('do', 'refresh');
         return $view->render('simple/jipTools.tpl');

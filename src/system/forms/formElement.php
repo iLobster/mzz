@@ -201,8 +201,11 @@ abstract class formElement
 
     protected function getValidator()
     {
-        $view = systemToolkit::getInstance()->getView('smarty');
-        return $view->getVariable('validator');
+        $validator = systemToolkit::getInstance()->getView()->getVariable('validator');
+        if ($validator instanceof Smarty_Variable) {
+            $validator = $validator->value;
+        }
+        return ($validator instanceof validator) ? $validator : null;
     }
 
     /**

@@ -81,12 +81,12 @@ class abstractContentFilter
                 switch ($active_template) {
                     case 'active.main.tpl':
                         $view->assign('content', $output);
-                        $output = $view->render('templates/main.tpl', systemConfig::$internalTemplateDriver);
+                        $output = $view->render('templates/main.tpl');
                         break;
 
                     case 'active.headeronly.tpl':
                         $view->assign('content', $output);
-                        $output = $view->render('templates/header.tpl', systemConfig::$internalTemplateDriver);
+                        $output = $view->render('templates/header.tpl');
                         break;
 
                     case 'active.blank.tpl':
@@ -95,20 +95,14 @@ class abstractContentFilter
                         //@todo: выбрать шаблонизатор для админки
                     case 'active.admin.tpl':
                         $view->assign('content', $output);
-                        $output = $view->render('admin/main/admin.tpl', systemConfig::$internalTemplateDriver);
+                        $output = $view->render('admin/main/admin.tpl');
                         break;
 
                     default:
-                        if ( ($pos = strpos($active_template, '://')) !== false) {
-                            $active_template_file = substr($active_template, $pos + 3);
-                            $active_template_driver = substr($active_template, 0, $pos);
-                        } else {
-                            $active_template_file = $active_template;
-                            $active_template_driver = systemConfig::$defaultTemplateDriver;
-                        }
+                        $active_template_file = $active_template;
 
                         $view->assign('content', $output);
-                        $output = $view->render($active_template_file, $active_template_driver);
+                        $output = $view->render($active_template_file);
                         break;
                 }
             }

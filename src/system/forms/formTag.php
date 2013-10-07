@@ -73,7 +73,7 @@ class formTag extends formElement
 
     protected function addAjaxUpload(&$attributes)
     {
-        $view = systemToolkit::getInstance()->getView('smarty');
+        $view = systemToolkit::getInstance()->getView();
 
         if (empty($attributes['ajaxUpload'])) {
             $attributes['ajaxUpload'] = 'mzz';

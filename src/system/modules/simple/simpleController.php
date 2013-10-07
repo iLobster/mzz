@@ -79,11 +79,6 @@ abstract class simpleController
     protected $view = null;
 
     /**
-     *
-     * @var string
-     */
-    protected $backend  = null;
-    /**
      * Конструктор
      *
      */
@@ -94,12 +89,7 @@ abstract class simpleController
         $this->view = $this->toolkit->getView();
         $this->response = $this->toolkit->getResponse();
         $this->action = $action;
-
         $this->lang_id = $this->request->getInteger('lang_id', SC_GET);
-
-        if (empty($this->backend) && $action) {
-            $this->backend = $this->toolkit->getModule($action->getModuleName())->getTemplateDriver();
-        }
     }
 
     /**
@@ -242,7 +232,7 @@ abstract class simpleController
      */
     protected function render($template)
     {
-        return $this->view->render($this->rewritePath($template), $this->backend);
+        return $this->view->render($this->rewritePath($template));
     }
 
     /**

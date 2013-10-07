@@ -1,15 +1,12 @@
 <?php
 /**
- * $URL$
- *
- * MZZ Content Management System (c) 2005-2009
+ * MZZ Content Management System (c)
  * Website : http://www.mzz.ru
  *
  * This program is free software and released under
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id$
  */
 
 /**
@@ -17,7 +14,6 @@
  *
  * @package system
  * @subpackage template
- * @version 0.1.2
  */
 
 require_once systemConfig::$pathToSystem . '/index.php';

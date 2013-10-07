@@ -1,6 +1,5 @@
 <?php
 /**
- * $URL$
  *
  * MZZ Content Management System (c) 2006
  * Website : http://www.mzz.ru
@@ -9,7 +8,6 @@
  * the GNU/GPL License (See /docs/GPL.txt).
  *
  * @link http://www.mzz.ru
- * @version $Id$
  */
 
 fileLoader::load('simple/simpleAction');
@@ -86,13 +84,6 @@ abstract class simpleModule
     protected $paths = array();
 
     /**
-     * Default template Driver for module
-     *
-     * @var string
-     */
-    protected $templateDriver = null;
-
-    /**
      * Defines whether module is system
      * 
      * @var boolean
@@ -109,11 +100,6 @@ abstract class simpleModule
             'sys' => systemConfig::$pathToSystem . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $this->getName(),
             'app' => systemConfig::$pathToApplication . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $this->getName()
         );
-
-        if (empty($this->templateDriver)) {
-            $this->templateDriver = systemConfig::$defaultTemplateDriver;
-        }
-
     }
 
     /**
@@ -141,6 +127,7 @@ abstract class simpleModule
      * Returns the mapper for the specified class
      *
      * @param string $className
+     * @throws mzzUndefinedModuleClassException
      * @return object
      */
     public function getMapper($className)
@@ -378,23 +365,7 @@ abstract class simpleModule
         return array();
     }
 
-    /**
-     * Returns default template driver for module
-     * 
-     * @return string
-     */
-    public function getTemplateDriver()
-    {
-        return $this->templateDriver;
-    }
-    
-    /**
-     * Will be called before some of the module action run
-     * @param simpleAction $action
-     */
-    public function beforeActionRun($action)
-    {
-        // do something
-    }
+    public function beforeActionRun()
+    {}
 }
 ?>
