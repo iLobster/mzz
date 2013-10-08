@@ -33,6 +33,7 @@ class mzzSmartyCompiler extends Smarty_Internal_SmartyTemplateCompiler
          * end of inject
          */
 
+
         return parent::compileTag($tag, $args, $parameter);
     }
 }
