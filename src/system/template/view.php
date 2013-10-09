@@ -11,6 +11,7 @@
 
 fileLoader::load('libs/smarty/Smarty.class');
 fileLoader::load('template/mzzSmartyCompiler');
+fileLoader::load('template/smarty_internal_compile_private_object_function');
 fileLoader::load('template/mzzSmartyResourceHandlers');
 fileLoader::load('template/plugins/prefilter.i18n');
 fileLoader::load('service/blockHelper');
