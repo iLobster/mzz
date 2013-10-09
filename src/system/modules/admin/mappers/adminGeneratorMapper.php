@@ -203,10 +203,15 @@ class adminGeneratorMapper extends mapper
         $actionFileName = $this->generateActionFileName($class_name);
         $actionFile = $path . '/' . $actionFileName;
 
-        $actionsArray = include $actionFile;
-        if (isset($actionsArray[$action_name]) && is_array($actionsArray[$action_name])) {
-            $actionData = array_merge($actionsArray[$action_name], $actionData);
+        if (is_file($actionFile)) {
+            $actionsArray = include $actionFile;
+            if (isset($actionsArray[$action_name]) && is_array($actionsArray[$action_name])) {
+                $actionData = array_merge($actionsArray[$action_name], $actionData);
+            }
+        } else {
+            $actionsArray = array();
         }
+
         $actionsArray[$action_name] = $actionData;
 
         $fileGenerator = new fileGenerator($path);
@@ -389,7 +394,11 @@ class adminGeneratorMapper extends mapper
         $view->right_delimiter = $rightDelimeter;
 
         $actionFileName = $this->generateActionFileName($class_name);
-        $fileGenerator->edit($actionFileName, new fileFullReplaceTransformer($actionContents));
+        if (is_file($actionFileName)) {
+            $fileGenerator->edit($actionFileName, new fileFullReplaceTransformer($actionContents));
+        } else {
+            $fileGenerator->create($actionFileName, $actionContents);
+        }
     }
 
     /**
