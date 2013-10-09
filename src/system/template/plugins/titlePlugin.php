@@ -57,7 +57,7 @@ class titlePlugin extends aPlugin
                     $title .= $t[0] . $separator;
                 }
             }
-            $title = substr($title, 0, -(strlen($separator)));
+            $title = substr($title, 0, -(strlen($separator))) . '';
 
             if (isset($params['end']) && !empty($title)) {
                 $title .= $params['end'];
@@ -69,6 +69,10 @@ class titlePlugin extends aPlugin
 
             if (isset($params['prepend'])) {
                 $title = $params['prepend'] .  ((isset($params['separator']) && !empty($title)) ? $params['separator'] . $title : '');
+            }
+            
+            if ($title === '' && isset($params['default'])) {
+                $title = $params['default'];
             }
 
             return htmlspecialchars($title);
