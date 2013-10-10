@@ -205,15 +205,10 @@ class adminGeneratorMapper extends mapper
         $actionFileName = $this->generateActionFileName($class_name);
         $actionFile = $path . '/' . $actionFileName;
 
-        if (is_file($actionFile)) {
-            $actionsArray = include $actionFile;
-            if (isset($actionsArray[$action_name]) && is_array($actionsArray[$action_name])) {
-                $actionData = array_merge($actionsArray[$action_name], $actionData);
-            }
-        } else {
-            $actionsArray = array();
+        $actionsArray = include $actionFile;
+        if (isset($actionsArray[$action_name]) && is_array($actionsArray[$action_name])) {
+            $actionData = array_merge($actionsArray[$action_name], $actionData);
         }
-
         $actionsArray[$action_name] = $actionData;
 
         $fileGenerator = new fileGenerator($path);
@@ -398,11 +393,7 @@ class adminGeneratorMapper extends mapper
         $smarty->right_delimiter = $rightDelimeter;
 
         $actionFileName = $this->generateActionFileName($class_name);
-        if (is_file($actionFileName)) {
-            $fileGenerator->edit($actionFileName, new fileFullReplaceTransformer($actionContents));
-        } else {
-            $fileGenerator->create($actionFileName, $actionContents);
-        }
+        $fileGenerator->edit($actionFileName, new fileFullReplaceTransformer($actionContents));
     }
 
     /**
