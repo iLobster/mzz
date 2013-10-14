@@ -121,10 +121,13 @@ class fileGenerator
         file_put_contents($data['name'], $data['transformator']->transform(file_get_contents($data['name'])));
     }
 
-    private function sub($file)
+    public function sub($file)
     {
         return $this->directory . DIRECTORY_SEPARATOR . $file;
     }
-}
 
-?>
+    public function getDirectory()
+    {
+        return $this->directory;
+    }
+}
