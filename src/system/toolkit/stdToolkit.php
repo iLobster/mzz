@@ -77,7 +77,7 @@ class stdToolkit extends toolkit
     /**
      * Возвращает объект Request
      *
-     * @return object
+     * @return httpRequest
      */
     public function getRequest()
     {
@@ -91,7 +91,7 @@ class stdToolkit extends toolkit
     /**
      * Возвращает объект Response
      *
-     * @return object
+     * @return httpResponse
      */
     public function getResponse()
     {

@@ -41,7 +41,7 @@ class i18nPlugin extends observer
         return parent::setMapper($mapper);
     }
 
-    private function getLangId()
+    public function getLangId()
     {
         if (empty($this->langId)) {
             $this->langId = systemToolkit::getInstance()->getLang();
