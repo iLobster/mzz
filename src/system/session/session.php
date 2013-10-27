@@ -40,6 +40,7 @@ class session
             case 'memcache':
             case 'memcached':
             case 'mm':
+                ini_set('session.save_handler', $storageDriver);
                 break;
                 
             case null:
