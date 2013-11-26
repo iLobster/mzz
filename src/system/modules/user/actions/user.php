@@ -2,10 +2,6 @@
 //user actions config
 
 return array(
-    'view' => array(
-        'controller' => 'view',
-        'title' => 'Профиль пользователя'
-    ),
     'edit' => array(
         'controller' => 'save',
         'jip' => '1',
